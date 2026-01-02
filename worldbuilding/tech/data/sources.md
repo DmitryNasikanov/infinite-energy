@@ -1,0 +1,117 @@
+# Библиография
+
+Источники данных для расчётов проекта «Гелиос».
+
+---
+
+## Планетные данные
+
+| Источник | URL | Использование |
+|----------|-----|---------------|
+| NASA Mercury Fact Sheet | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html) | Параметры Меркурия |
+| NASA Mars Fact Sheet | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) | Параметры Марса |
+| NASA Sun Fact Sheet | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) | Солнечная постоянная |
+| Atomic Rockets | [projectrho.com](http://www.projectrho.com/public_html/rocket/) | Delta-v, орбитальная механика |
+
+---
+
+## Реальные космические проекты
+
+### Солнечные паруса
+
+| Проект | Год | Организация | Достижение |
+|--------|-----|-------------|------------|
+| IKAROS | 2010 | JAXA | Первый межпланетный солнечный парус, электрохромное управление |
+| LightSail 2 | 2019 | Planetary Society | Демонстрация управляемого полёта |
+
+**Ссылка:** [JAXA IKAROS](https://global.jaxa.jp/projects/sas/ikaros/)
+
+### Передача энергии из космоса
+
+| Проект | Год | Организация | Достижение |
+|--------|-----|-------------|------------|
+| Caltech SSPP | 2023 | Caltech | Первая успешная передача энергии из космоса на Землю |
+| ESA SOLARIS | 2024+ | ESA | Программа исследований, решение к 2025 |
+| Space Solar | 2030+ | UK | Коммерческая станция 1.7 км |
+| OMEGA | 2050 | Китай | Гигантская орбитальная станция |
+
+**Ссылки:**
+- [Caltech SSPP](https://www.spacesolar.caltech.edu/)
+- [ESA SOLARIS](https://www.esa.int/Enabling_Support/Space_Engineering_Technology/SOLARIS)
+- [Space Solar](https://spacesolar.co.uk/)
+
+### Масс-драйверы
+
+| Источник | Год | Описание |
+|----------|-----|----------|
+| NASA Mass Driver Study | 1992 | Оценка 330-тонной установки |
+| O'Neill Cylinders research | 1970s | Концепция лунного масс-драйвера |
+
+**Ссылка:** [NASA Technical Reports](https://ntrs.nasa.gov/)
+
+---
+
+## Научные статьи
+
+### Оптика и материалы
+
+| Тема | Источник |
+|------|----------|
+| Отражательность алюминия | [PVEducation](https://www.pveducation.org/) |
+| Покрытия MgF₂ | [HAL Science](https://univ-perp.hal.science/hal-03368709/document) |
+| Передача энергии СВЧ | [ScienceDirect](https://www.sciencedirect.com/topics/earth-and-planetary-sciences/power-beaming) |
+| Атмосферные потери | [AFIT Scholar](https://scholar.afit.edu/cgi/viewcontent.cgi?article=3072&context=etd) |
+
+### Полупроводники
+
+| Тема | Источник |
+|------|----------|
+| Мировое производство пластин | [SEMI](https://www.semi.org/) |
+| Стоимость fab | [SemiWiki](https://semiwiki.com/) |
+
+---
+
+## Экономические данные
+
+### Стоимость запусков
+
+| Источник | URL |
+|----------|-----|
+| Space launch market competition | [Wikipedia](https://en.wikipedia.org/wiki/Space_launch_market_competition) |
+| China-in-Space | [china-in-space.com](https://www.china-in-space.com/) |
+| NextSpaceflight | [nextspaceflight.com](https://nextspaceflight.com/) |
+| SpaceTechAsia | [spacetechasia.com](https://www.spacetechasia.com/) |
+
+### Робототехника
+
+| Источник | URL |
+|----------|-----|
+| StandardBots (цены) | [standardbots.com](https://standardbots.com/blog/how-much-do-robots-cost) |
+| Boston Dynamics Spot | [VentureBeat](https://venturebeat.com/ai/boston-dynamics-buy-spot-robot-74500) |
+
+### ИИ и разработка
+
+| Компания | Источник |
+|----------|----------|
+| OpenAI | [DataCenterDynamics](https://www.datacenterdynamics.com/) |
+| DeepMind | [Wikipedia](https://en.wikipedia.org/wiki/Google_DeepMind) |
+| Tesla FSD | Публичные отчёты |
+
+---
+
+## Терраформирование Марса
+
+| Тема | Источник |
+|------|----------|
+| Магнитный щит L1 | NASA Planetary Science Division, 2017 |
+| Потеря атмосферы Марса | MAVEN mission data |
+| Запасы CO₂ и воды | Mars Reconnaissance Orbiter |
+
+---
+
+## Примечания
+
+1. Все цены указаны в USD 2024
+2. Для исторических данных применена поправка на инфляцию
+3. Где возможно, использованы официальные источники (NASA, ESA, JAXA)
+4. Для коммерческих данных — публичные отчёты компаний
