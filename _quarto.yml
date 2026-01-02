@@ -3,80 +3,12 @@ project:
   output-dir: _output
   render:
     - "*.qmd"
-    - "book/"
-    - "science/"
+    - "ru/"
+    - "en/"
     - "!share/"
     - "!venv/"
     - "!worldbuilding/"
     - "!marketing/"
-
-website:
-  title: "Проект Гелиос"
-  navbar:
-    background: dark
-    left:
-      - text: "Главная"
-        href: index.qmd
-      - text: "Книга"
-        href: book/index.qmd
-      - text: "Наука"
-        href: science/index.qmd
-      - text: "Об авторе"
-        href: about.qmd
-
-  sidebar:
-    - id: book
-      title: "Книга"
-      style: "docked"
-      contents:
-        - text: "Оглавление"
-          href: book/index.qmd
-        - section: "Пролог"
-          contents:
-            - book/00-prologue/00-prologue.qmd
-        - section: "Часть I: Манифест в тишине"
-          contents:
-            - book/01-kabinety/01-kabinety.qmd
-            - book/02-shest-dney/02-shest-dney.qmd
-            - book/03-zvyozdy/03-zvyozdy.qmd
-        - section: "Часть II: Резонанс"
-          contents:
-            - book/04-rubilnik/04-rubilnik.qmd
-            - book/05-instruktazh/05-instruktazh.qmd
-            - book/06-soyuzniki/06-soyuzniki.qmd
-            - book/07-vashingtonskaya-stena/07-vashingtonskaya-stena.qmd
-            - book/08-snezhnyj-kom/08-snezhnyj-kom.qmd
-        - section: "Часть III: Восхождение"
-          contents:
-            - book/09-poligon/09-poligon.qmd
-            - book/10-luna/10-luna.qmd
-            - book/11-merkury/11-merkury.qmd
-
-    - id: science
-      title: "Наука"
-      style: "docked"
-      contents:
-        - text: "Обзор"
-          href: science/index.qmd
-        - science/executive-summary.qmd
-        - section: "Технологии"
-          contents:
-            - science/physics.qmd
-            - science/robots.qmd
-            - science/factory.qmd
-        - section: "Расчёты"
-          contents:
-            - science/calculations/energy.qmd
-            - science/calculations/railgun.qmd
-            - science/calculations/scaling.qmd
-            - science/calculations/budget.qmd
-            - science/calculations/roadmap.qmd
-            - science/calculations/mars.qmd
-        - section: "Справочники"
-          contents:
-            - science/glossary.qmd
-            - science/data/constants.qmd
-            - science/data/sources.qmd
 
 format:
   html:
@@ -94,5 +26,3 @@ format:
         p:has(> strong:first-child) { text-indent: 0; }
         p:has(> em:first-child) { text-indent: 0; }
         </style>
-
-lang: ru

@@ -1,0 +1,38 @@
+project:
+  output-dir: _output/en
+
+lang: en
+
+website:
+  title: "Project Helios"
+  navbar:
+    background: dark
+    right:
+      - text: "🇷🇺 RU"
+        href: /
+      - text: "🇬🇧 EN"
+        href: /en/
+    left:
+      - text: "Home"
+        href: en/index.qmd
+      - text: "Book"
+        href: en/book/index.qmd
+      - text: "Science"
+        href: en/science/index.qmd
+      - text: "About"
+        href: en/about.qmd
+
+  sidebar:
+    - id: book
+      title: "Book"
+      style: "docked"
+      contents:
+        - text: "Table of Contents"
+          href: en/book/index.qmd
+
+    - id: science
+      title: "Science"
+      style: "docked"
+      contents:
+        - text: "Overview"
+          href: en/science/index.qmd
