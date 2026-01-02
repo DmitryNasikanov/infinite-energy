@@ -1,0 +1,2846 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>budget – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Поиск не дал результатов",
+    "search-matching-documents-text": "Результаты поиска",
+    "search-copy-link-title": "Скопировать ссылку",
+    "search-hide-matches-text": "Скрыть дополнительные результаты",
+    "search-more-match-text": "дополнительный результат в этом документе",
+    "search-more-matches-text": "дополнительных результата(-ов) в этом документе",
+    "search-clear-button-title": "Очистить",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Отменить",
+    "search-submit-button-title": "Найти",
+    "search-label": "Поиск"
+  }
+}</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Проект Гелиос</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Поиск"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Переключить навигацию" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Главная</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../science/calculations/energy.html">Расчёты</a></li><li class="breadcrumb-item"><a href="../../science/calculations/budget.html">Бюджет проекта Гелиос</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Технологии</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физика и инженерия проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/robots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бестиарий роботов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/factory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Завод «Точка Ноль»</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Расчёты</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/energy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Расчёты энергии: Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/railgun.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Расчёты: Масс-драйверы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проблема масштабирования (“Критика Серёжи”)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/budget.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Бюджет проекта Гелиос</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта проекта Гелиос</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Расчёты: Терраформирование Марса</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/data/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/data/sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Библиография</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#бюджет-проекта-гелиос" id="toc-бюджет-проекта-гелиос" class="nav-link active" data-scroll-target="#бюджет-проекта-гелиос">Бюджет проекта Гелиос</a>
+  <ul class="collapse">
+  <li><a href="#валюта-и-инфляция" id="toc-валюта-и-инфляция" class="nav-link" data-scroll-target="#валюта-и-инфляция">Валюта и инфляция</a></li>
+  <li><a href="#международные-референсы-2024" id="toc-международные-референсы-2024" class="nav-link" data-scroll-target="#международные-референсы-2024">Международные референсы (2024)</a>
+  <ul class="collapse">
+  <li><a href="#стоимость-запусков-кг-на-ноо" id="toc-стоимость-запусков-кг-на-ноо" class="nav-link" data-scroll-target="#стоимость-запусков-кг-на-ноо">Стоимость запусков ($/кг на НОО)</a></li>
+  <li><a href="#стоимость-промышленных-роботов" id="toc-стоимость-промышленных-роботов" class="nav-link" data-scroll-target="#стоимость-промышленных-роботов">Стоимость промышленных роботов</a></li>
+  <li><a href="#стоимость-заводов" id="toc-стоимость-заводов" class="nav-link" data-scroll-target="#стоимость-заводов">Стоимость заводов</a></li>
+  <li><a href="#стоимость-ракет-производство" id="toc-стоимость-ракет-производство" class="nav-link" data-scroll-target="#стоимость-ракет-производство">Стоимость ракет (производство)</a></li>
+  <li><a href="#разработка-ии-референсы-2024" id="toc-разработка-ии-референсы-2024" class="nav-link" data-scroll-target="#разработка-ии-референсы-2024">Разработка ИИ (референсы 2024)</a></li>
+  <li><a href="#строительство-в-китае-референсы" id="toc-строительство-в-китае-референсы" class="nav-link" data-scroll-target="#строительство-в-китае-референсы">Строительство в Китае (референсы)</a></li>
+  </ul></li>
+  <li><a href="#базовые-расчёты-международные-цены" id="toc-базовые-расчёты-международные-цены" class="nav-link" data-scroll-target="#базовые-расчёты-международные-цены">Базовые расчёты (международные цены)</a>
+  <ul class="collapse">
+  <li><a href="#ниокр-без-ии" id="toc-ниокр-без-ии" class="nav-link" data-scroll-target="#ниокр-без-ии">1. НИОКР (без ИИ)</a></li>
+  <li><a href="#разработка-ии-для-роботов" id="toc-разработка-ии-для-роботов" class="nav-link" data-scroll-target="#разработка-ии-для-роботов">2. Разработка ИИ для роботов</a></li>
+  <li><a href="#полигон-на-земле-китай" id="toc-полигон-на-земле-китай" class="nav-link" data-scroll-target="#полигон-на-земле-китай">3. Полигон на Земле (Китай)</a></li>
+  <li><a href="#полигон-на-луне" id="toc-полигон-на-луне" class="nav-link" data-scroll-target="#полигон-на-луне">4. Полигон на Луне</a></li>
+  <li><a href="#производство-лётных-экземпляров" id="toc-производство-лётных-экземпляров" class="nav-link" data-scroll-target="#производство-лётных-экземпляров">5. Производство лётных экземпляров</a></li>
+  <li><a href="#ракетная-программа" id="toc-ракетная-программа" class="nav-link" data-scroll-target="#ракетная-программа">6. Ракетная программа</a></li>
+  <li><a href="#запуски-и-доставка" id="toc-запуски-и-доставка" class="nav-link" data-scroll-target="#запуски-и-доставка">7. Запуски и доставка</a></li>
+  <li><a href="#система-приёма-энергии-laser-pv" id="toc-система-приёма-энергии-laser-pv" class="nav-link" data-scroll-target="#система-приёма-энергии-laser-pv">8. Система приёма энергии (Laser + PV)</a></li>
+  <li><a href="#дополнительные-статьи" id="toc-дополнительные-статьи" class="nav-link" data-scroll-target="#дополнительные-статьи">9. Дополнительные статьи</a></li>
+  </ul></li>
+  <li><a href="#сводка-базовые-оценки" id="toc-сводка-базовые-оценки" class="nav-link" data-scroll-target="#сводка-базовые-оценки">Сводка: базовые оценки</a></li>
+  <li><a href="#структура-по-локациям" id="toc-структура-по-локациям" class="nav-link" data-scroll-target="#структура-по-локациям">Структура по локациям</a>
+  <ul class="collapse">
+  <li><a href="#сводка-уровень-1" id="toc-сводка-уровень-1" class="nav-link" data-scroll-target="#сводка-уровень-1">Сводка (Уровень 1)</a></li>
+  <li><a href="#детализация-уровень-2" id="toc-детализация-уровень-2" class="nav-link" data-scroll-target="#детализация-уровень-2">Детализация (Уровень 2)</a></li>
+  </ul></li>
+  <li><a href="#анализ-какие-статьи-занижены" id="toc-анализ-какие-статьи-занижены" class="nav-link" data-scroll-target="#анализ-какие-статьи-занижены">Анализ: какие статьи занижены?</a>
+  <ul class="collapse">
+  <li><a href="#разработка-ии-было-15-20-млрд-пересмотрено-25-40-млрд" id="toc-разработка-ии-было-15-20-млрд-пересмотрено-25-40-млрд" class="nav-link" data-scroll-target="#разработка-ии-было-15-20-млрд-пересмотрено-25-40-млрд">1. Разработка ИИ (было: $15-20 млрд → пересмотрено: $25-40 млрд)</a></li>
+  <li><a href="#ракетная-программа-было-53-60-млрд-пересмотрено-70-100-млрд" id="toc-ракетная-программа-было-53-60-млрд-пересмотрено-70-100-млрд" class="nav-link" data-scroll-target="#ракетная-программа-было-53-60-млрд-пересмотрено-70-100-млрд">2. Ракетная программа (было: $53-60 млрд → пересмотрено: $70-100 млрд)</a></li>
+  <li><a href="#производство-заводов-было-46-49-млрд-пересмотрено-60-80-млрд" id="toc-производство-заводов-было-46-49-млрд-пересмотрено-60-80-млрд" class="nav-link" data-scroll-target="#производство-заводов-было-46-49-млрд-пересмотрено-60-80-млрд">3. Производство заводов (было: $46-49 млрд → пересмотрено: $60-80 млрд)</a></li>
+  <li><a href="#запуски-55-млрд-2500кг" id="toc-запуски-55-млрд-2500кг" class="nav-link" data-scroll-target="#запуски-55-млрд-2500кг">4. Запуски ($55 млрд = $2,500/кг) ✓</a></li>
+  <li><a href="#сводка-корректировок" id="toc-сводка-корректировок" class="nav-link" data-scroll-target="#сводка-корректировок">Сводка корректировок</a></li>
+  </ul></li>
+  <li><a href="#три-сценария-пересмотренные" id="toc-три-сценария-пересмотренные" class="nav-link" data-scroll-target="#три-сценария-пересмотренные">Три сценария (пересмотренные)</a>
+  <ul class="collapse">
+  <li><a href="#оптимистичный-сценарий-320-млрд" id="toc-оптимистичный-сценарий-320-млрд" class="nav-link" data-scroll-target="#оптимистичный-сценарий-320-млрд">Оптимистичный сценарий (~$320 млрд)</a></li>
+  <li><a href="#базовый-сценарий-500-млрд-или-625-млрд-с-инфляцией" id="toc-базовый-сценарий-500-млрд-или-625-млрд-с-инфляцией" class="nav-link" data-scroll-target="#базовый-сценарий-500-млрд-или-625-млрд-с-инфляцией">Базовый сценарий (~$500 млрд, или ~$625 млрд с инфляцией)</a></li>
+  <li><a href="#консервативный-сценарий-700-млрд-или-875-млрд-с-инфляцией" id="toc-консервативный-сценарий-700-млрд-или-875-млрд-с-инфляцией" class="nav-link" data-scroll-target="#консервативный-сценарий-700-млрд-или-875-млрд-с-инфляцией">Консервативный сценарий (~$700 млрд, или ~$875 млрд с инфляцией)</a></li>
+  </ul></li>
+  <li><a href="#почему-не-триллион" id="toc-почему-не-триллион" class="nav-link" data-scroll-target="#почему-не-триллион">Почему не триллион?</a>
+  <ul class="collapse">
+  <li><a href="#американские-проекты-раздуты-из-за" id="toc-американские-проекты-раздуты-из-за" class="nav-link" data-scroll-target="#американские-проекты-раздуты-из-за">Американские проекты раздуты из-за:</a></li>
+  <li><a href="#примеры-раздувания-бюджетов" id="toc-примеры-раздувания-бюджетов" class="nav-link" data-scroll-target="#примеры-раздувания-бюджетов">Примеры раздувания бюджетов:</a></li>
+  <li><a href="#почему-гелиос-не-так" id="toc-почему-гелиос-не-так" class="nav-link" data-scroll-target="#почему-гелиос-не-так">Почему Гелиос — не так:</a></li>
+  <li><a href="#сравнение-с-реальными-проектами" id="toc-сравнение-с-реальными-проектами" class="nav-link" data-scroll-target="#сравнение-с-реальными-проектами">Сравнение с реальными проектами</a></li>
+  </ul></li>
+  <li><a href="#итоговая-оценка" id="toc-итоговая-оценка" class="nav-link" data-scroll-target="#итоговая-оценка">Итоговая оценка</a>
+  <ul class="collapse">
+  <li><a href="#без-учёта-инфляции-usd-2024" id="toc-без-учёта-инфляции-usd-2024" class="nav-link" data-scroll-target="#без-учёта-инфляции-usd-2024">Без учёта инфляции (USD 2024)</a></li>
+  <li><a href="#с-учётом-инфляции-25-за-10-лет" id="toc-с-учётом-инфляции-25-за-10-лет" class="nav-link" data-scroll-target="#с-учётом-инфляции-25-за-10-лет">С учётом инфляции (+25% за 10 лет)</a></li>
+  </ul></li>
+  <li><a href="#распределение-по-годам-базовый-сценарий" id="toc-распределение-по-годам-базовый-сценарий" class="nav-link" data-scroll-target="#распределение-по-годам-базовый-сценарий">Распределение по годам (базовый сценарий)</a></li>
+  <li><a href="#известные-ограничения" id="toc-известные-ограничения" class="nav-link" data-scroll-target="#известные-ограничения">Известные ограничения</a>
+  <ul class="collapse">
+  <li><a href="#критические-проблемы" id="toc-критические-проблемы" class="nav-link" data-scroll-target="#критические-проблемы">Критические проблемы</a></li>
+  <li><a href="#высокие-проблемы" id="toc-высокие-проблемы" class="nav-link" data-scroll-target="#высокие-проблемы">Высокие проблемы</a></li>
+  <li><a href="#требуют-исследования" id="toc-требуют-исследования" class="nav-link" data-scroll-target="#требуют-исследования">Требуют исследования</a></li>
+  <li><a href="#итоговая-корректировка" id="toc-итоговая-корректировка" class="nav-link" data-scroll-target="#итоговая-корректировка">Итоговая корректировка</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../science/calculations/energy.html">Расчёты</a></li><li class="breadcrumb-item"><a href="../../science/calculations/budget.html">Бюджет проекта Гелиос</a></li></ol></nav></header>
+
+
+
+
+<section id="бюджет-проекта-гелиос" class="level1">
+<h1>Бюджет проекта Гелиос</h1>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<ul>
+<li><strong>Общий бюджет:</strong> $320–700 млрд (с инфляцией $400–875 млрд за 10 лет)</li>
+<li><strong>Стоимость запуска:</strong> $2,500/кг (микс текущих и будущих технологий)</li>
+<li><strong>Стоимость робота:</strong> $200K (космический, автономный, серийный)</li>
+<li><strong>Стоимость завода:</strong> $30M при серии 1000 шт (металлургия, не полупроводники)</li>
+<li><strong>Референсы:</strong> SpaceX, TSMC, OpenAI, Boston Dynamics — реальные рыночные цены</li>
+</ul>
+</blockquote>
+<p>Международный проект — расчёт по средним мировым ценам.</p>
+<hr>
+<section id="валюта-и-инфляция" class="level2">
+<h2 class="anchored" data-anchor-id="валюта-и-инфляция">Валюта и инфляция</h2>
+<p><strong>Все суммы указаны в долларах США 2024 года</strong> (USD 2024).</p>
+<p>Для исторических проектов применена поправка на инфляцию. Для проекта длительностью 10 лет учитываем:</p>
+<ul>
+<li>Средняя инфляция США (2015-2024): ~2.3%/год</li>
+<li>За 10 лет: (1.023)^10 = 1.255 ≈ <strong>+25%</strong></li>
+<li>Это консервативная оценка; реальная инфляция может быть выше</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Номинал 2024</th>
+<th>С инфляцией за 10 лет</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>~$320 млрд</td>
+<td><strong>~$400 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>Базовый</td>
+<td>~$500 млрд</td>
+<td><strong>~$625 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>~$700 млрд</td>
+<td><strong>~$875 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="международные-референсы-2024" class="level2">
+<h2 class="anchored" data-anchor-id="международные-референсы-2024">Международные референсы (2024)</h2>
+<section id="стоимость-запусков-кг-на-ноо" class="level3">
+<h3 class="anchored" data-anchor-id="стоимость-запусков-кг-на-ноо">Стоимость запусков ($/кг на НОО)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Страна</th>
+<th>Носитель</th>
+<th>$/кг</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>США</td>
+<td>SpaceX Falcon 9</td>
+<td>$2,700-5,000</td>
+<td><a href="https://en.wikipedia.org/wiki/Space_launch_market_competition">Wikipedia</a></td>
+</tr>
+<tr class="even">
+<td>Китай</td>
+<td>Long March 5</td>
+<td>$3,000</td>
+<td><a href="https://www.china-in-space.com/p/what-is-the-cost-of-a-long-march">China-in-Space</a></td>
+</tr>
+<tr class="odd">
+<td>Китай</td>
+<td>Long March 8</td>
+<td>$3,550</td>
+<td><a href="https://nextspaceflight.com/rockets/126/">NextSpaceflight</a></td>
+</tr>
+<tr class="even">
+<td>Россия</td>
+<td>Союз-2</td>
+<td>$3,800-5,300</td>
+<td><a href="https://tass.com/science/1024055">TASS</a></td>
+</tr>
+<tr class="odd">
+<td>Индия</td>
+<td>PSLV</td>
+<td>$8,400-15,000</td>
+<td><a href="https://www.spacetechasia.com/isro-launch-vehicle-budgets-and-revenues/">SpaceTechAsia</a></td>
+</tr>
+<tr class="even">
+<td><strong>Будущее</strong></td>
+<td>Starship, Long March 9</td>
+<td>$1,000-1,500</td>
+<td>Прогнозы 2030+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для расчёта:</strong> $2,500/кг (микс текущих и будущих технологий)</p>
+</section>
+<section id="стоимость-промышленных-роботов" class="level3">
+<h3 class="anchored" data-anchor-id="стоимость-промышленных-роботов">Стоимость промышленных роботов</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Тип</th>
+<th>Цена</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Китайские базовые</td>
+<td>$6,000-12,000</td>
+<td><a href="https://www.made-in-china.com/">Made-in-China</a></td>
+</tr>
+<tr class="even">
+<td>Китайские продвинутые</td>
+<td>$20,000-50,000</td>
+<td><a href="https://www.indexbox.io/">IndexBox</a></td>
+</tr>
+<tr class="odd">
+<td>Коллаборативные (UR)</td>
+<td>$25,000-45,000</td>
+<td><a href="https://standardbots.com/blog/how-much-do-robots-cost">StandardBots</a></td>
+</tr>
+<tr class="even">
+<td>Промышленные (ABB, KUKA)</td>
+<td>$50,000-200,000</td>
+<td>StandardBots</td>
+</tr>
+<tr class="odd">
+<td>Boston Dynamics Spot</td>
+<td>$75,000</td>
+<td><a href="https://venturebeat.com/ai/boston-dynamics-buy-spot-robot-74500">VentureBeat</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для расчёта:</strong> $200,000/робот (космический, автономный, серийный)</p>
+</section>
+<section id="стоимость-заводов" class="level3">
+<h3 class="anchored" data-anchor-id="стоимость-заводов">Стоимость заводов</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Тип</th>
+<th>Цена</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Semiconductor fab (США)</td>
+<td>$20-40 млрд</td>
+<td><a href="https://semiwiki.com/">SemiWiki</a></td>
+</tr>
+<tr class="even">
+<td>Semiconductor fab (Тайвань)</td>
+<td>$12-20 млрд</td>
+<td>TSMC</td>
+</tr>
+<tr class="odd">
+<td>Semiconductor fab (Китай)</td>
+<td>$10-15 млрд</td>
+<td>GlobalTimes</td>
+</tr>
+<tr class="even">
+<td>Tesla Gigafactory Shanghai</td>
+<td>~$2 млрд</td>
+<td>Публичные данные</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Завод проекта — НЕ полупроводниковый fab!</strong> Это металлургия + сборка. <strong>Для расчёта:</strong> $30M/завод (при серии 1000 шт)</p>
+</section>
+<section id="стоимость-ракет-производство" class="level3">
+<h3 class="anchored" data-anchor-id="стоимость-ракет-производство">Стоимость ракет (производство)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Носитель</th>
+<th>Цена за штуку</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Starship</td>
+<td>~$100M (оценка)</td>
+<td>SpaceX</td>
+</tr>
+<tr class="even">
+<td>Falcon 9</td>
+<td>~$50M</td>
+<td>SpaceX</td>
+</tr>
+<tr class="odd">
+<td>Long March</td>
+<td>$30-50M</td>
+<td>CASC</td>
+</tr>
+<tr class="even">
+<td>Союз-2</td>
+<td>~$35M</td>
+<td>Роскосмос</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для расчёта:</strong> $50M/ракета (международный парк)</p>
+</section>
+<section id="разработка-ии-референсы-2024" class="level3">
+<h3 class="anchored" data-anchor-id="разработка-ии-референсы-2024">Разработка ИИ (референсы 2024)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компания</th>
+<th>Бюджет/год</th>
+<th>Сотрудников</th>
+<th>Всего потрачено</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenAI</td>
+<td>$7 млрд</td>
+<td>1,500</td>
+<td>~$20+ млрд</td>
+<td><a href="https://www.datacenterdynamics.com/">DCD</a></td>
+</tr>
+<tr class="even">
+<td>DeepMind</td>
+<td>$12 млрд</td>
+<td>~3,000</td>
+<td>~$50+ млрд</td>
+<td><a href="https://en.wikipedia.org/wiki/Google_DeepMind">Wikipedia</a></td>
+</tr>
+<tr class="odd">
+<td>Waymo</td>
+<td>~$2 млрд</td>
+<td>1,500</td>
+<td>$11 млрд за 15 лет</td>
+<td><a href="https://venturebeat.com/">VentureBeat</a></td>
+</tr>
+<tr class="even">
+<td>Tesla FSD</td>
+<td>$10 млрд</td>
+<td>800+</td>
+<td>~$15 млрд за 8 лет</td>
+<td><a href="https://cleantechnica.com/">CleanTechnica</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Зарплаты AI-специалистов:</strong> - OpenAI медиана: $875K/год - Топ-исследователи: $10-20M/год - Международные команды (Китай/Россия): $100-200K/год</p>
+</section>
+<section id="строительство-в-китае-референсы" class="level3">
+<h3 class="anchored" data-anchor-id="строительство-в-китае-референсы">Строительство в Китае (референсы)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Проект</th>
+<th>Стоимость</th>
+<th>Площадь</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BYD Shenzhen Phase 2</td>
+<td>$2.87 млрд</td>
+<td>3.79 млн м²</td>
+<td><a href="https://www.scmp.com/">SCMP</a></td>
+</tr>
+<tr class="even">
+<td>Tesla Gigafactory Shanghai</td>
+<td>~$2 млрд</td>
+<td>860,000 м²</td>
+<td>Публичные данные</td>
+</tr>
+<tr class="odd">
+<td>Средняя цена строительства</td>
+<td>~$580/м²</td>
+<td>—</td>
+<td><a href="https://www.statista.com/">Statista</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="базовые-расчёты-международные-цены" class="level2">
+<h2 class="anchored" data-anchor-id="базовые-расчёты-международные-цены">Базовые расчёты (международные цены)</h2>
+<section id="ниокр-без-ии" class="level3">
+<h3 class="anchored" data-anchor-id="ниокр-без-ии">1. НИОКР (без ИИ)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Оценка</th>
+<th>Обоснование</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ПО управления роем</td>
+<td>1-2 млрд</td>
+<td>Распределённая система</td>
+</tr>
+<tr class="even">
+<td>VR-симуляторы и обучение</td>
+<td>0.5-1 млрд</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Научные исследования</td>
+<td>1-2 млрд</td>
+<td>Материаловедение, термодинамика</td>
+</tr>
+<tr class="even">
+<td><strong>Итого НИОКР</strong></td>
+<td><strong>3-5 млрд</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="разработка-ии-для-роботов" class="level3">
+<h3 class="anchored" data-anchor-id="разработка-ии-для-роботов">2. Разработка ИИ для роботов</h3>
+<p><strong>Почему отдельная статья:</strong> - Автономные роботы в экстремальных условиях (вакуум, радиация, +430°C/-180°C) - Сложнее Waymo: нет GPS, связь с задержкой 5-20 минут до Земли - Непредсказуемые сроки — это frontier AI research</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 32%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Команда (4,000 чел × $150K × 6 лет)</td>
+<td>ML-инженеры, робототехники, разметчики</td>
+<td>3.6 млрд</td>
+</tr>
+<tr class="even">
+<td>Compute (GPU, датацентры)</td>
+<td>$1.5 млрд/год × 6 лет</td>
+<td>9 млрд</td>
+</tr>
+<tr class="odd">
+<td>Прототипы роботов для обучения</td>
+<td>Тысячи единиц для сбора данных</td>
+<td>2 млрд</td>
+</tr>
+<tr class="even">
+<td>Data labeling</td>
+<td>Разметка миллионов сценариев</td>
+<td>1 млрд</td>
+</tr>
+<tr class="odd">
+<td><strong>Итого ИИ</strong></td>
+<td></td>
+<td><strong>15-20 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Риски:</strong> Сроки непредсказуемы. Waymo потратил 15 лет и $11 млрд и всё ещё не достиг полной автономии.</p>
+</section>
+<section id="полигон-на-земле-китай" class="level3">
+<h3 class="anchored" data-anchor-id="полигон-на-земле-китай">3. Полигон на Земле (Китай)</h3>
+<p><strong>Почему Китай:</strong> - Строительство дешевле США в 2-3 раза - Быстрее строят (Tesla Shanghai за 1 год) - Развитая промышленная база и логистика</p>
+<p><strong>Локация:</strong> Провинция Ганьсу — имитация условий Меркурия.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Строительство</td>
+<td>2 млн м² × $580/м²</td>
+<td>1.2 млрд</td>
+</tr>
+<tr class="even">
+<td>Вакуумные камеры</td>
+<td>10 больших камер × $50M</td>
+<td>0.5 млрд</td>
+</tr>
+<tr class="odd">
+<td>Термобарокамеры (-180°C…+430°C)</td>
+<td></td>
+<td>0.3 млрд</td>
+</tr>
+<tr class="even">
+<td>Радиационные симуляторы</td>
+<td></td>
+<td>0.2 млрд</td>
+</tr>
+<tr class="odd">
+<td>Прототипы заводов</td>
+<td>3-5 итераций полного цикла</td>
+<td>2 млрд</td>
+</tr>
+<tr class="even">
+<td>Прототипы роботов</td>
+<td>Тысячи единиц, десятки версий</td>
+<td>1.5 млрд</td>
+</tr>
+<tr class="odd">
+<td>Жильё и инфраструктура</td>
+<td>10,000-15,000 человек</td>
+<td>0.5 млрд</td>
+</tr>
+<tr class="even">
+<td>Персонал</td>
+<td>10,000 × $30K × 4 года</td>
+<td>1.2 млрд</td>
+</tr>
+<tr class="odd">
+<td>Логистика и материалы</td>
+<td></td>
+<td>1 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого полигон Земля</strong></td>
+<td></td>
+<td><strong>8-10 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="полигон-на-луне" class="level3">
+<h3 class="anchored" data-anchor-id="полигон-на-луне">4. Полигон на Луне</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Оценка</th>
+<th>Обоснование</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Доставка 60 т на Луну</td>
+<td>4-6 млрд</td>
+<td>10-20 пусков</td>
+</tr>
+<tr class="even">
+<td>Оборудование полигона</td>
+<td>3-5 млрд</td>
+<td>Завод, роботы, концентраторы</td>
+</tr>
+<tr class="odd">
+<td>Эксплуатация 2 года</td>
+<td>2-4 млрд</td>
+<td>Управление, итерации</td>
+</tr>
+<tr class="even">
+<td><strong>Итого полигон Луна</strong></td>
+<td><strong>9-15 млрд</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="производство-лётных-экземпляров" class="level3">
+<h3 class="anchored" data-anchor-id="производство-лётных-экземпляров">5. Производство лётных экземпляров</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1000 заводов</td>
+<td>1000 × $30M</td>
+<td>30 млрд</td>
+</tr>
+<tr class="even">
+<td>60,000 роботов</td>
+<td>60,000 × $200K</td>
+<td>12 млрд</td>
+</tr>
+<tr class="odd">
+<td>Электроника масс-драйверов</td>
+<td></td>
+<td>2-3 млрд</td>
+</tr>
+<tr class="even">
+<td>Стартовые зеркала</td>
+<td></td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td>Расходники («витамины»)</td>
+<td>4 года работы</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого производство</strong></td>
+<td></td>
+<td><strong>46-49 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ракетная-программа" class="level3">
+<h3 class="anchored" data-anchor-id="ракетная-программа">6. Ракетная программа</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Производство 900 ракет</td>
+<td>900 × $50M</td>
+<td>45 млрд</td>
+</tr>
+<tr class="even">
+<td>Модернизация космодромов</td>
+<td></td>
+<td>5-10 млрд</td>
+</tr>
+<tr class="odd">
+<td>Инфраструктура</td>
+<td></td>
+<td>3-5 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого ракеты</strong></td>
+<td></td>
+<td><strong>53-60 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="запуски-и-доставка" class="level3">
+<h3 class="anchored" data-anchor-id="запуски-и-доставка">7. Запуски и доставка</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>22,000 тонн на Меркурий</td>
+<td>22,000 т × $2,500/кг</td>
+<td>55 млрд</td>
+</tr>
+<tr class="even">
+<td>ЦУП и управление</td>
+<td>4 года работы</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="odd">
+<td><strong>Итого запуски</strong></td>
+<td></td>
+<td><strong>57-59 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="система-приёма-энергии-laser-pv" class="level3">
+<h3 class="anchored" data-anchor-id="система-приёма-энергии-laser-pv">8. Система приёма энергии (Laser + PV)</h3>
+<p><strong>Технология:</strong> Зеркала концентрируют свет → солнечные лазеры → ИК-луч на Землю → специализированные PV-панели.</p>
+<p><strong>Референсы (2024):</strong> - Aetherflux: $50M на демо, запуск 2026 - Один демо-спутник: ~$500M - NTT + MHI: 152W передано на 1 км (мировой рекорд) - Текущая эффективность: ~16%, цель: 30-50%</p>
+<section id="ниокр-технологии-приёма" class="level4">
+<h4 class="anchored" data-anchor-id="ниокр-технологии-приёма">8.1 НИОКР технологии приёма</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 32%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Разработка солнечных лазеров</td>
+<td>Конверсия свет→лазер, КПД 50%+</td>
+<td>2-3 млрд</td>
+</tr>
+<tr class="even">
+<td>Разработка PV-приёмников</td>
+<td>Специализированные под λ лазера</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td>Система наведения/трекинга</td>
+<td>Управление миллионами зеркал</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td>Прототипирование на Земле</td>
+<td>Тесты на полигоне в Китае</td>
+<td>0.5-1 млрд</td>
+</tr>
+<tr class="odd">
+<td>Демонстрация в космосе</td>
+<td>Мини-спутник + приёмник</td>
+<td>0.5-1 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого НИОКР приёмника</strong></td>
+<td></td>
+<td><strong>5-9 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="наземная-инфраструктура" class="level4">
+<h4 class="anchored" data-anchor-id="наземная-инфраструктура">8.2 Наземная инфраструктура</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 32%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Производство PV-приёмников</td>
+<td>Специализированные панели, GWт</td>
+<td>5-8 млрд</td>
+</tr>
+<tr class="even">
+<td>Строительство станций</td>
+<td>100-500 станций по миру</td>
+<td>3-5 млрд</td>
+</tr>
+<tr class="odd">
+<td>Система управления</td>
+<td>Трекинг, распределение</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td>Интеграция с электросетями</td>
+<td>Согласование с операторами</td>
+<td>2-3 млрд</td>
+</tr>
+<tr class="odd">
+<td>Хранение энергии (буфер)</td>
+<td>Для облачности, ночи</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого наземка</strong></td>
+<td></td>
+<td><strong>13-22 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="итого-система-приёма" class="level4">
+<h4 class="anchored" data-anchor-id="итого-система-приёма">8.3 Итого система приёма</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Подстатья</th>
+<th>Минимум</th>
+<th>Максимум</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>НИОКР приёмника</td>
+<td>5</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>Наземная инфраструктура</td>
+<td>13</td>
+<td>22</td>
+</tr>
+<tr class="odd">
+<td><strong>ИТОГО приём энергии</strong></td>
+<td><strong>18</strong></td>
+<td><strong>31</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="дополнительные-статьи" class="level3">
+<h3 class="anchored" data-anchor-id="дополнительные-статьи">9. Дополнительные статьи</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Позиция</th>
+<th>Расчёт</th>
+<th>Оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Система связи (DSN)</td>
+<td>Расширение существующих сетей</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td>Производство топлива</td>
+<td>450,000 т LOX+метан</td>
+<td>5-8 млрд</td>
+</tr>
+<tr class="odd">
+<td>Обучение персонала</td>
+<td>50,000 чел × $50K × 5 лет</td>
+<td>12-15 млрд</td>
+</tr>
+<tr class="even">
+<td>Международная координация</td>
+<td>Юристы, дипломаты</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td>Страхование миссий</td>
+<td></td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого дополнительные</strong></td>
+<td></td>
+<td><strong>22-33 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="сводка-базовые-оценки" class="level2">
+<h2 class="anchored" data-anchor-id="сводка-базовые-оценки">Сводка: базовые оценки</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Категория</th>
+<th>Минимум</th>
+<th>Максимум</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. НИОКР (без ИИ)</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>2. <strong>Разработка ИИ</strong></td>
+<td>15</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>3. <strong>Полигон Земля (Китай)</strong></td>
+<td>8</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>4. Полигон Луна</td>
+<td>9</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>5. Производство (заводы + роботы)</td>
+<td>46</td>
+<td>49</td>
+</tr>
+<tr class="even">
+<td>6. Ракетная программа</td>
+<td>53</td>
+<td>60</td>
+</tr>
+<tr class="odd">
+<td>7. Запуски</td>
+<td>57</td>
+<td>59</td>
+</tr>
+<tr class="even">
+<td>8. Приём энергии</td>
+<td>18</td>
+<td>31</td>
+</tr>
+<tr class="odd">
+<td>9. Дополнительные статьи</td>
+<td>22</td>
+<td>33</td>
+</tr>
+<tr class="even">
+<td><strong>БАЗОВЫЙ ИТОГ</strong></td>
+<td><strong>231</strong></td>
+<td><strong>282</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="структура-по-локациям" class="level2">
+<h2 class="anchored" data-anchor-id="структура-по-локациям">Структура по локациям</h2>
+<p>Группировка по фазам проекта и местам реализации.</p>
+<section id="сводка-уровень-1" class="level3">
+<h3 class="anchored" data-anchor-id="сводка-уровень-1">Сводка (Уровень 1)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Локация</th>
+<th>Мин</th>
+<th>Макс</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Земля (НИОКР, ИИ, полигон)</td>
+<td>39</td>
+<td>52</td>
+<td>17%</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Луна (полигон)</td>
+<td>9</td>
+<td>15</td>
+<td>5%</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Меркурий (производство, ракеты)</td>
+<td>165</td>
+<td>184</td>
+<td>68%</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Приёмник энергии</td>
+<td>18</td>
+<td>31</td>
+<td>10%</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><strong>ИТОГО</strong></td>
+<td><strong>231</strong></td>
+<td><strong>282</strong></td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="детализация-уровень-2" class="level3">
+<h3 class="anchored" data-anchor-id="детализация-уровень-2">Детализация (Уровень 2)</h3>
+<section id="земля-17" class="level4">
+<h4 class="anchored" data-anchor-id="земля-17">1. Земля (~17%)</h4>
+<p>НИОКР, разработка ИИ, испытательный полигон, подготовка кадров.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Подстатья</th>
+<th>Расчёт</th>
+<th>Сумма</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>НИОКР (без ИИ)</strong></td>
+<td></td>
+<td><strong>3-5 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— ПО управления роем</td>
+<td>Распределённая система</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td>— VR-симуляторы</td>
+<td>Обучение операторов</td>
+<td>0.5-1 млрд</td>
+</tr>
+<tr class="even">
+<td>— Научные исследования</td>
+<td>Материаловедение, термодинамика</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td><strong>Разработка ИИ</strong></td>
+<td></td>
+<td><strong>15-20 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— AI-команда</td>
+<td>4,000 чел × $150K × 6 лет</td>
+<td>3.6 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Compute</td>
+<td>$1.5 млрд/год × 6 лет</td>
+<td>9 млрд</td>
+</tr>
+<tr class="even">
+<td>— Прототипы роботов</td>
+<td>Тысячи единиц для обучения</td>
+<td>2 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Data labeling</td>
+<td>Миллионы сценариев</td>
+<td>1 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Полигон Земля (Китай)</strong></td>
+<td></td>
+<td><strong>8-10 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>— Строительство</td>
+<td>2 млн м² × $580/м²</td>
+<td>1.2 млрд</td>
+</tr>
+<tr class="even">
+<td>— Испытательное оборудование</td>
+<td>Камеры, симуляторы</td>
+<td>1 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Прототипы заводов</td>
+<td>3-5 итераций</td>
+<td>2 млрд</td>
+</tr>
+<tr class="even">
+<td>— Прототипы роботов</td>
+<td>Десятки версий</td>
+<td>1.5 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Персонал полигона</td>
+<td>10,000 × $30K × 4 года</td>
+<td>1.2 млрд</td>
+</tr>
+<tr class="even">
+<td>— Жильё и логистика</td>
+<td></td>
+<td>1.5 млрд</td>
+</tr>
+<tr class="odd">
+<td><strong>Подготовка кадров</strong></td>
+<td></td>
+<td><strong>13-17 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— Обучение персонала</td>
+<td>50,000 чел × $50K × 5 лет</td>
+<td>12-15 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Международная координация</td>
+<td>Юристы, дипломаты</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого Земля</strong></td>
+<td></td>
+<td><strong>39-52 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="луна-5" class="level4">
+<h4 class="anchored" data-anchor-id="луна-5">2. Луна (~5%)</h4>
+<p>Валидация технологий в космических условиях.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Подстатья</th>
+<th>Расчёт</th>
+<th>Сумма</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Доставка 60 т на Луну</td>
+<td>10-20 пусков</td>
+<td>4-6 млрд</td>
+</tr>
+<tr class="even">
+<td>Оборудование полигона</td>
+<td>Завод, роботы, концентраторы</td>
+<td>3-5 млрд</td>
+</tr>
+<tr class="odd">
+<td>Эксплуатация 2 года</td>
+<td>Управление, итерации</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого Луна</strong></td>
+<td></td>
+<td><strong>9-15 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="меркурий-68" class="level4">
+<h4 class="anchored" data-anchor-id="меркурий-68">3. Меркурий (~68%)</h4>
+<p>Производство, ракетная программа, запуски.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Подстатья</th>
+<th>Расчёт</th>
+<th>Сумма</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Производство</strong></td>
+<td></td>
+<td><strong>46-49 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— 1000 заводов</td>
+<td>1000 × $30M</td>
+<td>30 млрд</td>
+</tr>
+<tr class="odd">
+<td>— 60,000 роботов</td>
+<td>60,000 × $200K</td>
+<td>12 млрд</td>
+</tr>
+<tr class="even">
+<td>— Электроника масс-драйверов</td>
+<td></td>
+<td>2-3 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Стартовые зеркала</td>
+<td></td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td>— Расходники “витамины”</td>
+<td>4 года работы</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td><strong>Ракетная программа</strong></td>
+<td></td>
+<td><strong>53-60 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— Производство 900 ракет</td>
+<td>900 × $50M</td>
+<td>45 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Модернизация космодромов</td>
+<td>4 площадки</td>
+<td>5-10 млрд</td>
+</tr>
+<tr class="even">
+<td>— Инфраструктура</td>
+<td></td>
+<td>3-5 млрд</td>
+</tr>
+<tr class="odd">
+<td><strong>Запуски и доставка</strong></td>
+<td></td>
+<td><strong>57-59 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— 22,000 т на Меркурий</td>
+<td>22,000 т × $2,500/кг</td>
+<td>55 млрд</td>
+</tr>
+<tr class="odd">
+<td>— ЦУП и управление</td>
+<td>4 года работы</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Обеспечение</strong></td>
+<td></td>
+<td><strong>9-16 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>— Производство топлива</td>
+<td>450,000 т LOX+метан</td>
+<td>5-8 млрд</td>
+</tr>
+<tr class="even">
+<td>— Система связи DSN</td>
+<td>Расширение сетей</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Страхование миссий</td>
+<td></td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого Меркурий</strong></td>
+<td></td>
+<td><strong>165-184 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="приёмник-энергии-10" class="level4">
+<h4 class="anchored" data-anchor-id="приёмник-энергии-10">4. Приёмник энергии (~10%)</h4>
+<p>Наземная инфраструктура для приёма энергии.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Подстатья</th>
+<th>Расчёт</th>
+<th>Сумма</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>НИОКР приёмника</strong></td>
+<td></td>
+<td><strong>5-9 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>— Разработка солнечных лазеров</td>
+<td>КПД 50%+</td>
+<td>2-3 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Разработка PV-приёмников</td>
+<td>Специализированные под λ</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td>— Система наведения</td>
+<td></td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Прототипы и демо</td>
+<td></td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Наземная инфраструктура</strong></td>
+<td></td>
+<td><strong>13-22 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>— PV-приёмники</td>
+<td>Производство GWт</td>
+<td>5-8 млрд</td>
+</tr>
+<tr class="even">
+<td>— Строительство станций</td>
+<td>100-500 шт</td>
+<td>3-5 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Хранение энергии</td>
+<td>Буферы</td>
+<td>2-4 млрд</td>
+</tr>
+<tr class="even">
+<td>— Интеграция с сетями</td>
+<td></td>
+<td>2-3 млрд</td>
+</tr>
+<tr class="odd">
+<td>— Система управления</td>
+<td>Трекинг, распределение</td>
+<td>1-2 млрд</td>
+</tr>
+<tr class="even">
+<td><strong>Итого Приёмник</strong></td>
+<td></td>
+<td><strong>18-31 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+</section>
+<section id="анализ-какие-статьи-занижены" class="level2">
+<h2 class="anchored" data-anchor-id="анализ-какие-статьи-занижены">Анализ: какие статьи занижены?</h2>
+<p>Сравнение с реальными проектами показывает, что некоторые оценки могут быть оптимистичными.</p>
+<section id="разработка-ии-было-15-20-млрд-пересмотрено-25-40-млрд" class="level3">
+<h3 class="anchored" data-anchor-id="разработка-ии-было-15-20-млрд-пересмотрено-25-40-млрд">1. Разработка ИИ (было: $15-20 млрд → пересмотрено: $25-40 млрд)</h3>
+<p><strong>Референсы:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компания</th>
+<th>Потрачено</th>
+<th>Результат</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenAI</td>
+<td>$20+ млрд</td>
+<td>GPT-4, нет AGI</td>
+<td><a href="https://www.datacenterdynamics.com/">DCD</a></td>
+</tr>
+<tr class="even">
+<td>Waymo</td>
+<td>$11 млрд за 15 лет</td>
+<td>Нет полной автономии</td>
+<td><a href="https://venturebeat.com/">VentureBeat</a></td>
+</tr>
+<tr class="odd">
+<td>Tesla FSD</td>
+<td>$15 млрд за 8 лет</td>
+<td>Level 2 автопилот</td>
+<td><a href="https://cleantechnica.com/">CleanTechnica</a></td>
+</tr>
+<tr class="even">
+<td>DeepMind</td>
+<td>$50+ млрд</td>
+<td>Исследования</td>
+<td><a href="https://en.wikipedia.org/wiki/Google_DeepMind">Wikipedia</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Проблема:</strong> Гелиос требует полностью автономных роботов в условиях, где Waymo/Tesla провалились бы: - Вакуум, радиация, +430°C/-180°C - Задержка связи 5-20 минут (нет GPS, нет реального времени) - Непредсказуемый реголит и условия</p>
+<p><strong>Корректировка для базового сценария:</strong> $18 → $30 млрд (+$12 млрд)</p>
+</section>
+<section id="ракетная-программа-было-53-60-млрд-пересмотрено-70-100-млрд" class="level3">
+<h3 class="anchored" data-anchor-id="ракетная-программа-было-53-60-млрд-пересмотрено-70-100-млрд">2. Ракетная программа (было: $53-60 млрд → пересмотрено: $70-100 млрд)</h3>
+<p><strong>Референсы:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Программа</th>
+<th>Стоимость</th>
+<th>Результат</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SLS</td>
+<td>$35 млрд</td>
+<td>1 ракета (одноразовая)</td>
+</tr>
+<tr class="even">
+<td>Starship</td>
+<td>$5-10 млрд</td>
+<td>Разработка (без серийного производства)</td>
+</tr>
+<tr class="odd">
+<td>Long March 9 (план)</td>
+<td>$10-15 млрд</td>
+<td>Китайская сверхтяжёлая</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Если Starship доступен:</strong> $50M/ракета × 900 = $45 млрд — реалистично.</p>
+<p><strong>Если нужна новая ракета (Россия+Китай):</strong> +$20-30 млрд на разработку собственного носителя.</p>
+<p><strong>Корректировка для базового сценария:</strong> $55 → $75 млрд (+$20 млрд)</p>
+</section>
+<section id="производство-заводов-было-46-49-млрд-пересмотрено-60-80-млрд" class="level3">
+<h3 class="anchored" data-anchor-id="производство-заводов-было-46-49-млрд-пересмотрено-60-80-млрд">3. Производство заводов (было: $46-49 млрд → пересмотрено: $60-80 млрд)</h3>
+<p><strong>Референсы:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Завод</th>
+<th>Стоимость</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tesla Gigafactory Shanghai</td>
+<td>~$2 млрд</td>
+</tr>
+<tr class="even">
+<td>Tesla Gigafactory Nevada</td>
+<td>~$5 млрд</td>
+</tr>
+<tr class="odd">
+<td>Semiconductor fab (Тайвань)</td>
+<td>$12-20 млрд</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Контраргумент:</strong> Заводы Гелиоса — простая металлургия, не полупроводники. При серии 1000 шт цена падает.</p>
+<p><strong>Но:</strong> Это <strong>автономные космические заводы на Меркурии</strong>. $30M/шт при серии 1000 — оптимистично.</p>
+<p><strong>Корректировка:</strong> $30M → $50M/завод = $50 млрд (×1.5-2)</p>
+</section>
+<section id="запуски-55-млрд-2500кг" class="level3">
+<h3 class="anchored" data-anchor-id="запуски-55-млрд-2500кг">4. Запуски ($55 млрд = $2,500/кг) ✓</h3>
+<p>Эта оценка реалистична при условии работающего Starship: - SpaceX Falcon 9: $2,700-5,000/кг (сегодня) - Starship (цель): $1,000-1,500/кг - Long March: $3,000/кг</p>
+<p><strong>При развитой инфраструктуре и микс носителей — $2,500/кг достижимо.</strong></p>
+</section>
+<section id="сводка-корректировок" class="level3">
+<h3 class="anchored" data-anchor-id="сводка-корректировок">Сводка корректировок</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Статья</th>
+<th>Было (базовый)</th>
+<th>Стало</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Разработка ИИ</td>
+<td>18</td>
+<td>30</td>
+<td>+12</td>
+</tr>
+<tr class="even">
+<td>Ракетная программа</td>
+<td>55</td>
+<td>75</td>
+<td>+20</td>
+</tr>
+<tr class="odd">
+<td>Производство</td>
+<td>48</td>
+<td>65</td>
+<td>+17</td>
+</tr>
+<tr class="even">
+<td><strong>Итого корректировка</strong></td>
+<td></td>
+<td></td>
+<td><strong>+49</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Это увеличивает базовый сценарий с ~$330 до ~$380 млрд, а с резервом — с ~$410 до ~$500 млрд.</p>
+<hr>
+</section>
+</section>
+<section id="три-сценария-пересмотренные" class="level2">
+<h2 class="anchored" data-anchor-id="три-сценария-пересмотренные">Три сценария (пересмотренные)</h2>
+<section id="оптимистичный-сценарий-320-млрд" class="level3">
+<h3 class="anchored" data-anchor-id="оптимистичный-сценарий-320-млрд">Оптимистичный сценарий (~$320 млрд)</h3>
+<p><strong>Условия:</strong> - Starship работает с 2028, цена $1,000/кг - Китай и Россия берут на себя 50% производства - ИИ достигает нужного уровня за 4-5 лет (не 6-7) - Серийный эффект снижает цены на 30%</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Категория</th>
+<th>Оценка (млрд $)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>НИОКР (без ИИ)</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td><strong>Разработка ИИ</strong></td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td><strong>Полигон Земля</strong></td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>Полигон Луна</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Производство</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>Ракеты</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td>Запуски</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>Приём энергии</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>Дополнительные</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Резерв (+20%)</td>
+<td>35</td>
+</tr>
+<tr class="odd">
+<td><strong>ИТОГО</strong></td>
+<td><strong>~210 млрд</strong></td>
+</tr>
+<tr class="even">
+<td><strong>С запасом ×1.5</strong></td>
+<td><strong>~320 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="базовый-сценарий-500-млрд-или-625-млрд-с-инфляцией" class="level3">
+<h3 class="anchored" data-anchor-id="базовый-сценарий-500-млрд-или-625-млрд-с-инфляцией">Базовый сценарий (~$500 млрд, или ~$625 млрд с инфляцией)</h3>
+<p><strong>Условия:</strong> - Микс носителей (Starship + Long March + Союз) - Международная кооперация работает - ИИ требует 6-7 лет разработки - Умеренные задержки и перерасходы - Учтены корректировки заниженных статей</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Категория</th>
+<th>Оценка (млрд $)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>НИОКР (без ИИ)</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td><strong>Разработка ИИ</strong></td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td><strong>Полигон Земля (Китай)</strong></td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>Полигон Луна</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>Производство</td>
+<td>65</td>
+</tr>
+<tr class="even">
+<td>Ракеты</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td>Запуски</td>
+<td>58</td>
+</tr>
+<tr class="even">
+<td>Приём энергии</td>
+<td>22</td>
+</tr>
+<tr class="odd">
+<td>Дополнительные</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>Резерв (+30%)</td>
+<td>92</td>
+</tr>
+<tr class="odd">
+<td><strong>ИТОГО (USD 2024)</strong></td>
+<td><strong>~400 млрд</strong></td>
+</tr>
+<tr class="even">
+<td><strong>С запасом ×1.25</strong></td>
+<td><strong>~$500 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>С инфляцией +25%</strong></td>
+<td><strong>~$625 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="консервативный-сценарий-700-млрд-или-875-млрд-с-инфляцией" class="level3">
+<h3 class="anchored" data-anchor-id="консервативный-сценарий-700-млрд-или-875-млрд-с-инфляцией">Консервативный сценарий (~$700 млрд, или ~$875 млрд с инфляцией)</h3>
+<p><strong>Условия:</strong> - Starship задерживается до 2032 - ИИ требует 8-10 лет и дополнительных итераций - Политические сложности увеличивают издержки - Технические проблемы требуют доработок - Нужна разработка собственного сверхтяжёлого носителя</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Категория</th>
+<th>Оценка (млрд $)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>НИОКР (без ИИ)</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td><strong>Разработка ИИ</strong></td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td><strong>Полигон Земля</strong></td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>Полигон Луна</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>Производство</td>
+<td>90</td>
+</tr>
+<tr class="even">
+<td>Ракеты</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td>Запуски</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td>Приём энергии</td>
+<td>32</td>
+</tr>
+<tr class="odd">
+<td>Дополнительные</td>
+<td>45</td>
+</tr>
+<tr class="even">
+<td>Резерв (+50%)</td>
+<td>271</td>
+</tr>
+<tr class="odd">
+<td><strong>ИТОГО (USD 2024)</strong></td>
+<td><strong>~715 млрд</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Округлённо</strong></td>
+<td><strong>~$700 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>С инфляцией +25%</strong></td>
+<td><strong>~$875 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="почему-не-триллион" class="level2">
+<h2 class="anchored" data-anchor-id="почему-не-триллион">Почему не триллион?</h2>
+<section id="американские-проекты-раздуты-из-за" class="level3">
+<h3 class="anchored" data-anchor-id="американские-проекты-раздуты-из-за">Американские проекты раздуты из-за:</h3>
+<ol type="1">
+<li><strong>Cost-plus контракты</strong> — подрядчику выгодно тратить больше</li>
+<li><strong>Бюрократия</strong> — согласования, проверки, отчёты</li>
+<li><strong>Монополия подрядчиков</strong> — Boeing, Lockheed без конкуренции</li>
+<li><strong>Юридические издержки</strong> — суды, патенты, страховки</li>
+</ol>
+</section>
+<section id="примеры-раздувания-бюджетов" class="level3">
+<h3 class="anchored" data-anchor-id="примеры-раздувания-бюджетов">Примеры раздувания бюджетов:</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Проект</th>
+<th>Начальный бюджет</th>
+<th>Финальный</th>
+<th>Рост</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>James Webb</td>
+<td>$1 млрд</td>
+<td>$10 млрд</td>
+<td>×10</td>
+</tr>
+<tr class="even">
+<td>SLS</td>
+<td>$9 млрд</td>
+<td>$23+ млрд</td>
+<td>×2.5</td>
+</tr>
+<tr class="odd">
+<td>F-35</td>
+<td>$233 млрд</td>
+<td>$400+ млрд</td>
+<td>×1.7</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="почему-гелиос-не-так" class="level3">
+<h3 class="anchored" data-anchor-id="почему-гелиос-не-так">Почему Гелиос — не так:</h3>
+<ol type="1">
+<li><strong>Международная конкуренция</strong> — Китай, Россия, Индия дешевле</li>
+<li><strong>Серийное производство</strong> — 1000 заводов, 60,000 роботов, эффект масштаба</li>
+<li><strong>Фиксированные контракты</strong> — не cost-plus</li>
+<li><strong>Общая цель</strong> — меньше политических игр</li>
+</ol>
+</section>
+<section id="сравнение-с-реальными-проектами" class="level3">
+<h3 class="anchored" data-anchor-id="сравнение-с-реальными-проектами">Сравнение с реальными проектами</h3>
+<p>Все суммы приведены к USD 2024 (с поправкой на инфляцию для исторических проектов).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Проект</th>
+<th>Номинал</th>
+<th>USD 2024</th>
+<th>Срок</th>
+<th>Результат</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Manhattan</td>
+<td>$1.9 млрд</td>
+<td><strong>~$30 млрд</strong></td>
+<td>3 года</td>
+<td>Ядерное оружие</td>
+<td><a href="https://www.brookings.edu/articles/50-facts-about-u-s-nuclear-weapons-today/">Brookings</a></td>
+</tr>
+<tr class="even">
+<td>Apollo</td>
+<td>$25-28 млрд</td>
+<td><strong>~$280 млрд</strong></td>
+<td>11 лет</td>
+<td>12 человек на Луне</td>
+<td><a href="https://www.planetary.org/space-policy/cost-of-apollo">Planetary Society</a></td>
+</tr>
+<tr class="odd">
+<td>GPS (начало)</td>
+<td>—</td>
+<td><strong>~$12 млрд</strong></td>
+<td>ongoing</td>
+<td>31 спутник</td>
+<td><a href="https://nation.time.com/2012/05/21/how-much-does-gps-cost/">Time</a></td>
+</tr>
+<tr class="even">
+<td>James Webb</td>
+<td>$10 млрд</td>
+<td><strong>~$10 млрд</strong></td>
+<td>24 года</td>
+<td>1 телескоп</td>
+<td><a href="https://www.planetary.org/articles/cost-of-the-jwst">Planetary Society</a></td>
+</tr>
+<tr class="odd">
+<td>SLS (разработка)</td>
+<td>$29-35 млрд</td>
+<td><strong>~$35 млрд</strong></td>
+<td>13+ лет</td>
+<td>1 ракета</td>
+<td><a href="https://www.planetary.org/space-policy/cost-of-sls-and-orion">Planetary Society</a></td>
+</tr>
+<tr class="even">
+<td>МКС</td>
+<td>$100-150 млрд</td>
+<td><strong>~$150-250 млрд</strong></td>
+<td>26 лет</td>
+<td>1 станция</td>
+<td><a href="https://en.wikipedia.org/wiki/International_Space_Station_programme">Wikipedia</a></td>
+</tr>
+<tr class="odd">
+<td>Tiangong</td>
+<td>~$8 млрд</td>
+<td><strong>~$8 млрд</strong></td>
+<td>~10 лет</td>
+<td>1 станция</td>
+<td>Оценка</td>
+</tr>
+<tr class="even">
+<td>Artemis</td>
+<td>$93 млрд</td>
+<td><strong>~$93 млрд</strong> (к 2025)</td>
+<td>14+ лет</td>
+<td>3 полёта</td>
+<td><a href="https://www.space.com/nasa-artemis-moon-program-93-billion-2025">Space.com</a></td>
+</tr>
+<tr class="odd">
+<td>Three Gorges</td>
+<td>¥200 млрд</td>
+<td><strong>~$28-37 млрд</strong></td>
+<td>17 лет</td>
+<td>22.5 ГВт</td>
+<td><a href="https://en.wikipedia.org/wiki/Three_Gorges_Dam">Wikipedia</a></td>
+</tr>
+<tr class="even">
+<td>Starship</td>
+<td>$5-10 млрд</td>
+<td><strong>~$5-10 млрд</strong></td>
+<td>10+ лет</td>
+<td>Ракета</td>
+<td><a href="https://spacenews.com/spacex-investment-in-starship-approaches-5-billion/">SpaceNews</a></td>
+</tr>
+<tr class="odd">
+<td>Tesla Gigafactories</td>
+<td>$15+ млрд</td>
+<td><strong>~$15+ млрд</strong></td>
+<td>~10 лет</td>
+<td>6 заводов</td>
+<td><a href="https://en.wikipedia.org/wiki/Gigafactory">Wikipedia</a></td>
+</tr>
+<tr class="even">
+<td><strong>Гелиос (базовый)</strong></td>
+<td>—</td>
+<td><strong>~$500-625 млрд</strong></td>
+<td><strong>10 лет</strong></td>
+<td><strong>10,000 ТВт</strong></td>
+<td>Наша оценка</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Гелиос стоит примерно как 2× Apollo, но даёт энергию в 4000 раз больше текущего потребления всей планеты. По соотношению цена/результат — самый эффективный проект в истории.</p>
+<hr>
+</section>
+</section>
+<section id="итоговая-оценка" class="level2">
+<h2 class="anchored" data-anchor-id="итоговая-оценка">Итоговая оценка</h2>
+<section id="без-учёта-инфляции-usd-2024" class="level3">
+<h3 class="anchored" data-anchor-id="без-учёта-инфляции-usd-2024">Без учёта инфляции (USD 2024)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Сумма</th>
+<th>Комментарий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>~$320 млрд</td>
+<td>Starship работает, ИИ за 5 лет</td>
+</tr>
+<tr class="even">
+<td><strong>Базовый</strong></td>
+<td><strong>~$500 млрд</strong></td>
+<td>Реалистичный микс, ИИ за 6-7 лет</td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>~$700 млрд</td>
+<td>Задержки, ИИ за 8-10 лет</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="с-учётом-инфляции-25-за-10-лет" class="level3">
+<h3 class="anchored" data-anchor-id="с-учётом-инфляции-25-за-10-лет">С учётом инфляции (+25% за 10 лет)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Номинал 2024</th>
+<th>С инфляцией</th>
+<th>Комментарий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>~$320 млрд</td>
+<td><strong>~$400 млрд</strong></td>
+<td>Всё идёт по плану</td>
+</tr>
+<tr class="even">
+<td><strong>Базовый</strong></td>
+<td><strong>~$500 млрд</strong></td>
+<td><strong>~$625 млрд</strong></td>
+<td>Умеренные задержки</td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>~$700 млрд</td>
+<td><strong>~$875 млрд</strong></td>
+<td>Серьёзные проблемы</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для сравнения:</strong> - Apollo: ~$280 млрд (USD 2024) — 12 человек на Луне - Гелиос (базовый): ~$625 млрд — <strong>энергия для всей планеты навсегда</strong> - Это ~2× Apollo за результат в миллионы раз больше</p>
+<hr>
+</section>
+</section>
+<section id="распределение-по-годам-базовый-сценарий" class="level2">
+<h2 class="anchored" data-anchor-id="распределение-по-годам-базовый-сценарий">Распределение по годам (базовый сценарий)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 41%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Год</th>
+<th>Фаза</th>
+<th>Основные расходы</th>
+<th>Сумма (млрд)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-2</td>
+<td>НИОКР, начало ИИ</td>
+<td>ИИ-команда, проектирование</td>
+<td>35-45</td>
+</tr>
+<tr class="even">
+<td>3-4</td>
+<td>Полигон Земля, ИИ</td>
+<td>Строительство в Китае, обучение моделей</td>
+<td>65-80</td>
+</tr>
+<tr class="odd">
+<td>5-6</td>
+<td>Полигон Луна, производство</td>
+<td>Лунные миссии, серийное производство</td>
+<td>90-110</td>
+</tr>
+<tr class="even">
+<td>7-8</td>
+<td>Меркурий: развёртывание</td>
+<td>Первые экспедиции, масс-драйверы</td>
+<td>110-130</td>
+</tr>
+<tr class="odd">
+<td>9-10</td>
+<td>Меркурий: масштабирование</td>
+<td>Экспансия, приём энергии</td>
+<td>100-120</td>
+</tr>
+<tr class="even">
+<td><strong>Итого (USD 2024)</strong></td>
+<td></td>
+<td></td>
+<td><strong>400-485</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>С инфляцией</strong></td>
+<td></td>
+<td></td>
+<td><strong>~500-625</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="известные-ограничения" class="level2">
+<h2 class="anchored" data-anchor-id="известные-ограничения">Известные ограничения</h2>
+<blockquote class="blockquote">
+<p><strong>Внимание:</strong> Этот раздел описывает проблемы, требующие решения.</p>
+</blockquote>
+<section id="критические-проблемы" class="level3">
+<h3 class="anchored" data-anchor-id="критические-проблемы">Критические проблемы</h3>
+<section id="бюджет-ии-занижен" class="level4">
+<h4 class="anchored" data-anchor-id="бюджет-ии-занижен">1. Бюджет ИИ занижен</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>В расчётах</th>
+<th>Реальная оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Разработка ИИ</td>
+<td>$15–30 млрд</td>
+<td><strong>$50–100 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>Срок разработки</td>
+<td>5–7 лет</td>
+<td><strong>8–12 лет</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Причины:</strong> - Waymo потратил $11 млрд за 15 лет и не достиг полной автономии - Tesla FSD: $15+ млрд за 8 лет — уровень 2 (не полная автономия) - Условия Меркурия сложнее: вакуум, радиация, нет GPS, задержка 670 сек</p>
+<p><strong>Референс:</strong> OpenAI потратил $20+ млрд и не достиг AGI. Автономные роботы в экстремальных условиях — сложнее языковых моделей.</p>
+</section>
+<section id="стоимость-запусков-зависит-от-темпов-развития-носителей" class="level4">
+<h4 class="anchored" data-anchor-id="стоимость-запусков-зависит-от-темпов-развития-носителей">2. Стоимость запусков зависит от темпов развития носителей</h4>
+<p>К 2030 году ожидается появление сверхтяжёлых носителей нового поколения:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Носитель</th>
+<th>Страна</th>
+<th>Грузоподъёмность</th>
+<th>Статус (2025)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Starship</td>
+<td>США</td>
+<td>150–200 т</td>
+<td>Тесты</td>
+</tr>
+<tr class="even">
+<td>Long March 9</td>
+<td>Китай</td>
+<td>150 т</td>
+<td>Разработка</td>
+</tr>
+<tr class="odd">
+<td>Енисей</td>
+<td>Россия</td>
+<td>100 т</td>
+<td>Разработка</td>
+</tr>
+<tr class="even">
+<td>New Glenn</td>
+<td>США</td>
+<td>45 т</td>
+<td>Тесты</td>
+</tr>
+<tr class="odd">
+<td>SHLV</td>
+<td>Индия</td>
+<td>~100 т</td>
+<td>Концепция</td>
+</tr>
+<tr class="even">
+<td>Ariane Next</td>
+<td>ЕС</td>
+<td>~100 т</td>
+<td>Концепция</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Стоимость запуска</th>
+<th>Влияние на бюджет</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Носители достигают $1,000–1,500/кг к 2030</td>
+<td>Базовый сценарий</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Задержка до $2,500–3,500/кг</td>
+<td>Носители на 2–3 года позже</td>
+<td><strong>+$30–50 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Риск:</strong> Базовый сценарий предполагает $2,500/кг. При задержках в развитии сверхтяжёлых носителей бюджет растёт на 10–15%.</p>
+</section>
+</section>
+<section id="высокие-проблемы" class="level3">
+<h3 class="anchored" data-anchor-id="высокие-проблемы">Высокие проблемы</h3>
+<section id="тестирование-и-отладка-недооценены" class="level4">
+<h4 class="anchored" data-anchor-id="тестирование-и-отладка-недооценены">3. Тестирование и отладка недооценены</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Этап</th>
+<th>Текущая оценка</th>
+<th>Реальная оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Прототипы заводов</td>
+<td>3–5 итераций</td>
+<td><strong>10–20 итераций</strong></td>
+</tr>
+<tr class="even">
+<td>Прототипы роботов</td>
+<td>$2 млрд</td>
+<td><strong>$5–10 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>Полигон Луна</td>
+<td>2 года</td>
+<td><strong>3–5 лет</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Причина:</strong> Каждый отказ в космосе стоит месяцы ожидания и миллионы на перезапуск.</p>
+</section>
+<section id="наземная-инфраструктура-приёма" class="level4">
+<h4 class="anchored" data-anchor-id="наземная-инфраструктура-приёма">4. Наземная инфраструктура приёма</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Текущая оценка</th>
+<th>Реальная оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Строительство станций</td>
+<td>$3–5 млрд</td>
+<td><strong>$10–20 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>Согласования (земля, частоты)</td>
+<td>Не учтено</td>
+<td><strong>$2–5 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>Экологические экспертизы</td>
+<td>Не учтено</td>
+<td><strong>$0.5–2 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Причина:</strong> Размещение сотен приёмных станций требует международных согласований, земельных прав, частотного регулирования.</p>
+</section>
+</section>
+<section id="требуют-исследования" class="level3">
+<h3 class="anchored" data-anchor-id="требуют-исследования">Требуют исследования</h3>
+<section id="страховка-миссий" class="level4">
+<h4 class="anchored" data-anchor-id="страховка-миссий">5. Страховка миссий</h4>
+<ul>
+<li>$2–4 млрд — оптимистично для 22,000 тонн груза</li>
+<li>При реальных рисках ставка может быть 5–10% от стоимости груза</li>
+<li><strong>Реально:</strong> $10–20 млрд на страхование</li>
+</ul>
+</section>
+<section id="политические-риски" class="level4">
+<h4 class="anchored" data-anchor-id="политические-риски">6. Политические риски</h4>
+<ul>
+<li>Санкции между странами → разрыв кооперации</li>
+<li>Смена правительств → пересмотр приоритетов</li>
+<li>Конкуренция вместо кооперации → дублирование расходов</li>
+</ul>
+<p><strong>Не поддаётся оценке, но потенциально +50–100% к бюджету.</strong></p>
+</section>
+</section>
+<section id="итоговая-корректировка" class="level3">
+<h3 class="anchored" data-anchor-id="итоговая-корректировка">Итоговая корректировка</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Текущая оценка</th>
+<th>С ограничениями</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>$320 млрд</td>
+<td><strong>$400–450 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>Базовый</td>
+<td>$500 млрд</td>
+<td><strong>$700–800 млрд</strong></td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>$700 млрд</td>
+<td><strong>$1,000–1,200 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Реалистичный бюджет ближе к $700–800 млрд (не $500 млрд), а консервативный может достичь триллиона.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

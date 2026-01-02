@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>rubilnik – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Поиск не дал результатов",
+    "search-matching-documents-text": "Результаты поиска",
+    "search-copy-link-title": "Скопировать ссылку",
+    "search-hide-matches-text": "Скрыть дополнительные результаты",
+    "search-more-match-text": "дополнительный результат в этом документе",
+    "search-more-matches-text": "дополнительных результата(-ов) в этом документе",
+    "search-clear-button-title": "Очистить",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Отменить",
+    "search-submit-button-title": "Найти",
+    "search-label": "Поиск"
+  }
+}</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Проект Гелиос</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Поиск"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Переключить навигацию" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Главная</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../book/index.html" aria-current="page"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../science/index.html"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../book/04-rubilnik/04-rubilnik.html">Часть II: Резонанс</a></li><li class="breadcrumb-item"><a href="../../book/04-rubilnik/04-rubilnik.html">Рубильник</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оглавление</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Пролог</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/00-prologue/00-prologue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ПРОЛОГ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть I: Манифест в тишине</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/01-kabinety/01-kabinety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Высокие кабинеты</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/02-shest-dney/02-shest-dney.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Шесть дней</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/03-zvyozdy/03-zvyozdy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Мальчик, который считал звёзды</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть II: Резонанс</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/04-rubilnik/04-rubilnik.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Рубильник</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/05-instruktazh/05-instruktazh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Инструктаж</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/06-soyuzniki/06-soyuzniki.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Союзники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/07-vashingtonskaya-stena/07-vashingtonskaya-stena.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Вашингтонская стена</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/08-snezhnyj-kom/08-snezhnyj-kom.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Снежный ком</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть III: Восхождение</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/09-poligon/09-poligon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Полигон</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/10-luna/10-luna.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/11-merkury/11-merkury.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Меркурий</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#рубильник" id="toc-рубильник" class="nav-link active" data-scroll-target="#рубильник">Рубильник</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../book/04-rubilnik/04-rubilnik.html">Часть II: Резонанс</a></li><li class="breadcrumb-item"><a href="../../book/04-rubilnik/04-rubilnik.html">Рубильник</a></li></ol></nav></header>
+
+
+
+
+<section id="рубильник" class="level1">
+<h1>Рубильник</h1>
+<p><strong>Москва. Администрация Президента. Три дня спустя.</strong></p>
+<p>Пропуск проверили четырежды — на въезде, у главного входа, перед лифтом и ещё раз у дверей переговорной. Павел привык к бюрократии, но здесь чувствовалась другая порода: не показная строгость, а холодная, отлаженная машина, которая не ошибается и не прощает ошибок.</p>
+<p>Переговорная оказалась неожиданно скромной — длинный стол из тёмного дерева, кожаные кресла, портрет президента на стене. Никакой помпезности, никаких золотых орлов. Рабочее место для людей, которым не нужно никому ничего доказывать.</p>
+<p>Павел был первым. Он выбрал место ближе к углу — привычка из корпоративных времён: видеть всех, не привлекая внимания. Разложил перед собой папку с материалами, хотя знал каждую цифру наизусть. Три ночи без сна дались непросто, но результат того стоил.</p>
+<p>Следующим вошёл Егор Михайлович — кивнул Павлу, сел напротив. Лицо непроницаемое, как всегда. Павел знал его уже семь лет, и за всё это время ни разу не видел, чтобы Кузьмичёв выдал свои эмоции раньше времени.</p>
+<p>Потом появились остальные — по одному, с интервалом в несколько минут, словно по расписанию. Генерал Булатов — грузный, в гражданском костюме, который сидел на нём как седло на корове. Взгляд цепкий, оценивающий; Павел почувствовал, как его просканировали и отложили в папку «потенциальная угроза — низкая». Дронов из Росатома — седой, подтянутый, с выправкой человека, который всю жизнь работает с вещами, способными уничтожить города. Ярцев из Роскосмоса — моложе остальных, энергичный, с быстрыми глазами инженера. Серов, вице-премьер — круглолицый, улыбчивый, но улыбка не достигала глаз.</p>
+<p>Последним вошёл Кондрашов. Павел видел его только на фотографиях — невысокий, сухощавый, с короткими седыми волосами и лицом, которое не запоминается. Человек-тень, человек-функция. В девяностых он недолго возглавлял правительство, затем руководил Росатомом, а оттуда ушёл в Администрацию. Говорили, что именно он курирует все стратегические проекты — те, о которых не пишут в газетах. Кондрашов сел во главе стола, положил перед собой тонкую папку и обвёл всех взглядом — быстрым, точным, как лазерный прицел.</p>
+<p>— Начнём, — сказал он негромко, и в комнате сразу стало тише. — Егор Михайлович, вы координируете работу группы «Вектор». Доложите.</p>
+<p>Кузьмичёв кивнул, не вставая. — Три дня назад группа завершила первичный анализ проекта «Гелиос». Технический аудит, финансовая модель, оценка рисков. — Он повернулся к Павлу. — Павел Андреевич, прошу.</p>
+<p>Павел встал, хотя здесь это было не обязательно — привычка: когда говоришь стоя, голос звучит увереннее. — Коллеги, постараюсь коротко. — Он открыл папку. — Проект «Гелиос» — автоматизированный завод на Меркурии, который работает без участия человека и производит систему орбитальных зеркал для передачи солнечной энергии на Землю. Автор концепции — Валерий Петрович Гончаренко, директор НИИ проблем космоса. Мы проверили его расчёты и провели собственное моделирование. Результат: проект технически реализуем. Физика работает. Сроки — десять-пятнадцать лет до первого промышленного киловатта.</p>
+<p>Он дал словам осесть. — Бюджет. Здесь я буду честен: мы не знаем точно. Никто не знает — проект такого масштаба не имеет прецедентов. Но мы построили модель, и я покажу вам, как она устроена. — Павел достал из папки несколько листов и разложил их веером на столе. — Вот структура расходов. Первая фаза — Земля. НИОКР, разработка искусственного интеллекта, испытательный полигон. Восемьдесят миллиардов долларов, шестнадцать процентов.</p>
+<p>— Полигон где? — уточнил Серов.</p>
+<p>— В Китае. Там дешевле и быстрее. — Павел провёл пальцем по таблице. — Вторая фаза — Луна. Тестовый полигон, отработка технологий в космических условиях. Тридцать миллиардов, шесть процентов. Затем основная часть — Меркурий. Заводы, ракеты, запуски. Триста сорок миллиардов, почти семьдесят процентов. И наконец, наземная инфраструктура для приёма энергии. Пятьдесят миллиардов, десять процентов.</p>
+<p>— Итого? — спросил Кондрашов.</p>
+<p>— В базовом сценарии — от четырёхсот до шестисот миллиардов. — Павел выдержал паузу. — Но это при условии, что всё идёт по плану. А так не бывает.</p>
+<p>Серов присвистнул — тихо, но достаточно, чтобы все услышали. — Полтриллиона. Это два годовых бюджета страны. — Булатов нахмурился, записывая что-то в блокнот. Дронов сцепил руки на груди — поза человека, который прикидывает масштаб задачи. Ярцев переглянулся с Кондрашовым, но тот остался невозмутим.</p>
+<p>— Это шесть процентов от того, что мир тратит на энергию за год, — возразил Павел. — Но позвольте, я закончу про риски. — Он перевернул страницу. — Главная неопределённость — не одна технология, а три. И они должны работать вместе. Первое: сами роботы. Машины, способные работать в вакууме, при температурах от минус ста восьмидесяти до плюс четырёхсот тридцати градусов. Никто никогда не строил такую технику серийно. Второе: искусственный интеллект. Сигнал до Меркурия идёт от четырёх до двадцати минут в одну сторону — управлять с Земли в реальном времени невозможно. Роботы должны сами принимать решения, сами чинить друг друга, сами реагировать на нештатные ситуации. И третье: производство. Завод на другой планете должен работать так, как мы запланировали. Плавить металл солнечным светом, катать прокат, печатать детали, собирать новых роботов. Каждый этап — отдельная инженерная задача. А вместе они должны работать как часы.</p>
+<p>— Порознь каждая из этих задач решаема. Роботов мы умеем строить. ИИ развивается. Заводы работают. Но чтобы всё это сошлось вместе, на другой планете, без людей — такого ещё никто не делал. Поэтому у нас три сценария. Оптимистичный: всё работает, международная кооперация идёт гладко, ИИ достигает нужного уровня за пять лет. Четыреста миллиардов. Базовый: умеренные задержки, доработки, политические сложности. Шестьсот миллиардов. И консервативный — когда всё идёт не так. ИИ требует десять лет вместо шести, технические проблемы на каждом этапе.</p>
+<p>— И сколько в этом случае? — спросил Булатов.</p>
+<p>— Под триллион, — ответил Павел. — Но это в худшем случае. И даже триллион — это не катастрофа. Важно понимать: триллион — это если считать по американским расценкам. А американцы умеют тратить деньги. Программа Apollo обошлась в двести восемьдесят миллиардов в современных ценах — двенадцать человек на Луне. МКС — сто пятьдесят миллиардов за двадцать шесть лет. Одна станция. У них бюрократия, монополия подрядчиков — Боинг и Локхид берут сколько хотят, а государство оплачивает все расходы плюс прибыль.</p>
+<p>Павел сделал паузу, давая цифрам осесть.</p>
+<p>— Но мы — не американцы. Китай строит космические станции в три раза дешевле. Индия запускает марсианские миссии за семьдесят пять миллионов — меньше, чем бюджет голливудского фильма про космос. Мы с Росатомом умеем работать эффективно. Если проект идёт через нас, Китай и Индию — реальная цифра ближе к четырёмстам-шестистам миллиардам. А если подключить КНДР для производства земного прототипа — у них дешёвая рабочая сила, железная дисциплина и неплохие технологии — можно сэкономить ещё процентов двадцать.</p>
+<p>Павел сделал паузу.</p>
+<p>— За эти деньги мы получаем энергию для всей планеты. Навсегда. Не на двадцать лет, не на пятьдесят — навсегда. И дело не только в энергии. Дело в том, что с ней можно сделать.</p>
+<p>Павел перевернул ещё один лист. — Опреснение воды — океаны становятся бесконечным источником пресной воды. Вертикальные фермы — еда растёт в любой точке планеты, круглый год. Переработка мусора — когда энергии достаточно, можно разложить что угодно: пластик, электронику, радиоактивные отходы. И самое главное — связывание углекислого газа. Мы можем обратить климатические изменения вспять, буквально высасывать CO2 из атмосферы.</p>
+<p>Серов медленно покачал головой. — Звучит как утопия.</p>
+<p>— Может, и утопия, — согласился Павел. — Но все эти технологии существуют уже сегодня. Единственное, чего им не хватает, — дешёвой энергии. Мы её дадим. — Он перевернул ещё одну страницу. — И это только Земля. Масс-драйверы на Меркурии — электромагнитные катапульты, которые запускают готовые зеркала на солнечную орбиту без ракетного топлива. Себестоимость вывода — копейки за тонну. Чем больше зеркал в рое, тем больше энергии. — Павел оглядел собравшихся. — Но главное даже не это. Главное — конец дефицита. Сегодня вся мировая экономика — это игра с нулевой суммой. Чтобы кто-то выиграл, кто-то должен проиграть. Отсюда войны, санкции, торговые конфликты. Но когда энергии хватает на всех, когда ресурсы космоса открыты для добычи — игра меняется. Можно думать о развитии, а не о выживании. Можно строить, а не отнимать.</p>
+<p>Тишина затянулась — Булатов подался вперёд, впервые проявив настоящий интерес. — Сколько зеркал в системе?</p>
+<p>Булатов уже задавал этот вопрос Гончаренко, но Павел был готов. — На полной мощности — около ста миллионов. Общая площадь порядка ста тысяч квадратных километров.</p>
+<p>— И каждое можно навести индивидуально? — уточнил генерал.</p>
+<p>— Да. Это необходимо для передачи энергии на приёмники. — Павел видел, к чему клонит Булатов, и выждал.</p>
+<p>Генерал не спешил. Он медленно барабанил пальцами по столу, затем спросил — почти небрежно: — А если навести их не на приёмник?</p>
+<p>Все в комнате понимали, о чём он говорит, но никто не произнёс это вслух. Сто тысяч квадратных километров зеркал — это сфокусированный солнечный свет мощностью в десятки тераватт. Направьте хотя бы часть этой энергии на город — и города не станет. Никаких ракет, никаких боеголовок, никакого предупреждения. Просто луч с неба.</p>
+<p>Тишина затянулась. Павел слышал, как где-то за стеной тикают часы — размеренно, безжалостно. Дронов сцепил пальцы на столе — руки человека, который всю жизнь работал с вещами, способными уничтожить города, и знал цену каждой кнопки. Кондрашов не шевельнулся, но взгляд его стал жёстче — если раньше он оценивал проект, то теперь оценивал людей в комнате. Тех, кому доверяет такое оружие.</p>
+<p>— Мы пятьдесят лет строили мир на простой идее, — сказал Булатов. — Никто не нажмёт кнопку, потому что погибнут все. Взаимное гарантированное уничтожение. Это работало. — Он прошёлся глазами по лицам. — А теперь вы хотите вынести рубильник в космос. Систему, способную обнулить любой сценарий возмездия. Перехватить ракеты на старте — сотней тысяч маленьких зеркал, сфокусированных на каждой боеголовке. Уничтожить пусковые шахты до того, как они откроются. — Булатов покачал головой. — В Пентагоне не идиоты. Они увидят это раньше, чем мы заложим первый камень. И что тогда?</p>
+<p>Кондрашов слушал молча, не меняя выражения лица. — Руслан Ильич прав, — сказал Дронов. — Это не просто энергетический проект. Это смена парадигмы. Кто контролирует такую систему — контролирует планету.</p>
+<p>— Именно поэтому мы не можем делать это в одиночку, — сказал Павел. — Позвольте, я покажу политическую модель. — Кондрашов коротко качнул головой, и Павел достал из папки несколько листов. — Стратегия «Снежный ком». Начинаем с малого круга: страны, которым мы доверяем и которые зависят от нас. Беларусь, КНДР, возможно, Иран. Затем подключаем Индию — им энергия нужна как воздух, у них полтора миллиарда человек и растущая экономика. Когда этот блок сформируется, за ними потянется весь БРИКС. Китай, Бразилия, ЮАР, арабские страны. А когда в проекте будет половина мирового населения, Западу придётся договариваться на наших условиях.</p>
+<p>— Или начнётся война, — сказал Булатов.</p>
+<p>— Поэтому важна последовательность, — сказал Павел. — Сначала малый круг, потом Индия, потом — когда ком наберёт массу — Китай присоединится сам. Они не смогут остаться в стороне от проекта, в котором участвует половина мира.</p>
+<p>Серов нахмурился. — А если Китай захочет возглавить проект?</p>
+<p>— Не захочет, — сказал Павел. — Точнее, захочет, но не сможет. Технологии — наши. Ядерные энергоустановки — Росатом на поколение впереди китайцев. Опыт космических операций — у нас. А производственные мощности — да, у них. Но производство без технологий — это просто завод. Мы будем нужны друг другу.</p>
+<p>Булатов хмыкнул. — А американцы?</p>
+<p>— Американцы будут нервничать в любом случае. Но коалиция, которая начинается с КНДР и Ирана, для них выглядит как клуб неудачников. Они будут смеяться — пока не поймут, что этот ком их уже накрыл.</p>
+<p>Кондрашов поднял руку — едва заметный жест, но все замолчали. Атмосфера изменилась: политические дебаты закончились, началась проверка ресурсов. Он обвёл взглядом присутствующих — быстро, методично, как хирург перед операцией проверяет инструменты. — Игорь Сергеевич, — обратился он к Ярцеву. — Носители?</p>
+<p>Ярцев выпрямился. — Носители — узкое место. «Ангара» берёт двадцать тонн на низкую орбиту, до Меркурия — значительно меньше. Но у нас в работе «Енисей» — сверхтяжёлый носитель. Если получим финансирование, первый пуск через четыре-пять лет. Кроме того, китайцы строят свой «Чанчжэн-9». Вместе — тысяча тонн в год на лунную орбиту. Этого хватит для начала. А если подключатся американцы со своим Starship — это сильно упростит доставку и логистику.</p>
+<p>Кондрашов повернулся к Дронову. — Виктор Алексеевич, Росатом готов?</p>
+<p>Дронов склонил голову. — ТЭМ «Зевс» — транспортно-энергетический модуль мегаваттного класса — в разработке уже пять лет. Первый лётный образец — через три года. Ядерные реакторы для лунной базы — вопрос адаптации существующих проектов. Сложно, но реально.</p>
+<p>Кондрашов обратился к Серову. — Промышленность?</p>
+<p>Серов развёл руками. — Андрей Николаевич, вы же знаете наши возможности. Если будет политическое решение — развернём любые мощности. Вопрос приоритетов и ресурсов.</p>
+<p>Кондрашов молча смотрел на стол перед собой. Все ждали. — Руслан Ильич, — сказал он наконец. — Ваши условия.</p>
+<p>Булатов не удивился — он был готов. — Первое: совместный контроль. Никаких односторонних решений о применении системы в военных целях. Любое перенацеливание — только по согласованию всех участников. — Павел записал. — Второе: физическая защита. Командные центры — на территории всех стран-участников. Коды доступа разделены. Ни одна страна не может активировать систему в одиночку. Да, это замедлит реагирование — но в этом и цель. Система не должна использоваться для первого удара. Только для сдерживания. Третье: открытость. Как только проект заработает, мы объявляем о нём публично. Приглашаем международных наблюдателей. Делаем невозможным тайное использование.</p>
+<p>— Принимается, — сказал Кондрашов. — Что ещё?</p>
+<p>— Четвёртое. — Булатов посмотрел прямо на Кондрашова. — Человек. Гончаренко. Он идеалист. Это хорошо для учёного, но опасно для проекта такого масштаба. Нужен кто-то, кто будет держать его в рамках.</p>
+<p>— У нас есть такой человек, — сказал Кузьмичёв, и Павел почувствовал, как взгляды сошлись на нём.</p>
+<p>Булатов не смотрел на Павла. Он смотрел на Кузьмичёва — долгим, оценивающим взглядом, каким смотрят на карту противника, прежде чем принять решение. Взгляд длился, наверное, секунды три, но Павлу показалось — вечность.</p>
+<p>Потом генерал отвёл глаза и, не меняя выражения лица, достал из внутреннего кармана потёртый кожаный блокнот. Раскрыл, написал что-то — коротко, одно слово. Движение было спокойным, будничным, но Павел, сидевший чуть сбоку, успел заметить: генерал не записал ничего из обсуждения. Он записал что-то другое.</p>
+<p>Что именно — не разобрать. Но почему-то этот момент впечатался в память: как Булатов закрыл блокнот, убрал в карман, и как при этом его лицо оставалось абсолютно непроницаемым.</p>
+<p>Павел потом не раз спрашивал себя, почему генерал записал именно это. Тогда это казалось странностью — одной из многих в тот вечер. Позже — предчувствием.</p>
+<p>Кондрашов молча смотрел на стол перед собой. Секунды растягивались — Павел считал удары сердца, пытаясь понять, какое решение сейчас родится в голове этого человека. Булатов застыл, положив руки на стол. Серов подался назад, но глаз не отрывал от Кондрашова. Даже Кузьмичёв, всегда невозмутимый, слегка подался вперёд.</p>
+<p>Потом Кондрашов произнёс — негромко, но так, что каждое слово отпечаталось в воздухе: — «Снежный ком». Пока придерживаемся этого сценария. Но надо посоветоваться с МИДом и Институтом стратегических исследований — может, найдутся ещё варианты, о которых мы не подумали.</p>
+<p>Павел выдохнул — не заметил, что задержал дыхание. Решение принято. Проект запущен. Точка невозврата пройдена.</p>
+<p>Он повернулся к Кузьмичёву.</p>
+<p>— Егор Михайлович, подготовьте команду. Месяц на детальную проработку. Дорожная карта, риски, точки невозврата. И технически проработанный проект — заводы, роботы, доставка, полёты, первый этап с земной базой и земным макетом. Потом соберёмся снова.</p>
+<p>Кузьмичёв кивнул. — Гончаренко ставим в курс? Он продолжает работать?</p>
+<p>— Разумеется, — сказал Кондрашов. — Расскажите ему сегодня. И объясните, что теперь это не его проект. Это проект государства. — Он встал, и все поднялись вслед за ним. — Вопросы?</p>
+<p>Вопросов не было.</p>
+<p>Павел вышел из здания, когда уже стемнело. Морозный воздух ударил в лицо, обжёг лёгкие — после душной переговорной казалось, что можно дышать снова. Он остановился на ступенях, давая телу прийти в себя. Четыре часа непрерывного напряжения оставили след: руки слегка дрожали, в висках пульсировала тупая боль, во рту пересохло.</p>
+<p>Но при этом — странная лёгкость. Как после экзамена, когда ты выложился полностью и знаешь, что сделал всё, что мог.</p>
+<p>Решение принято. Проект запущен.</p>
+<p>Охранник у входа кивнул ему — вежливо, но без улыбки. Павел спустился по ступенькам к парковке, где его ждала машина. Москва гудела вокруг — машины, огни, спешащие люди. Обычный зимний вечер в столице. Никто из них не знал, что час назад в этом здании было принято решение, которое изменит их жизни.</p>
+<p>— Ну что, Паша? Готов менять мир?</p>
+<p>Егор Михайлович материализовался рядом, как всегда неожиданно — Павел даже не услышал шагов. Кузьмичёв закуривал, прикрывая зажигалку от ветра.</p>
+<p>Павел поднял взгляд на небо. Низкие облака, подсвеченные огнями города, затягивали Москву плотным покрывалом — сквозь них не видно ни одной звезды. А где-то там, за этими облаками, за атмосферой, в чёрной пустоте космоса, будет построено то, что они только что утвердили.</p>
+<p>— Михалыч, я думал, он откажет, — признался Павел. — Слишком масштабно. Слишком рискованно.</p>
+<p>Кузьмичёв усмехнулся. — Андрей Николаевич не боится масштаба. Он боится упущенных возможностей.</p>
+<p>— А «Снежный ком» — неочевидное?</p>
+<p>— «Снежный ком» — это долго. — Кузьмичёв достал сигарету, повертел в пальцах, но не закурил. — КНДР, Иран, потом Индия, потом остальные… Каждый шаг — переговоры, гарантии, проверки. Но зато в конце у нас коалиция, которая никуда не денется. Которая без нас — ничто.</p>
+<p>Павел не сразу ответил. — А если не успеем? Американцы поймут, начнут свою программу…</p>
+<p>— Может, и начнут. — Кузьмичёв наконец убрал сигарету обратно в пачку. — Но это уже не наша забота. Наша забота — чтобы через месяц на столе лежала дорожная карта. Все детали, все расчёты. А дальше — решат люди поумнее нас. — Он похлопал Павла по плечу и пошёл к своей машине.</p>
+<p>Павел сел в свою, но не завёл мотор. Включил обогрев, достал телефон. Пальцы ещё слегка дрожали — адреналин не спешил уходить. Набрал знакомый номер.</p>
+<p>Гончаренко ответил после первого гудка. Даже не дал трубке зазвонеть второй раз — ждал, значит.</p>
+<p>— Валерий Петрович, — Павел сделал вдох, подбирая слова. — Добро получено.</p>
+<p>Пауза. В трубке было тихо — только далёкие шумы института, где Гончаренко наверняка засиделся допоздна. Павел представил, как тот застыл, держа телефон, пытаясь осознать, что это реально. Что его проект — больше не мечта в папке, а государственная программа.</p>
+<p>— Месяц на проработку, — продолжил Павел. — Нужно подготовить материалы для смежных ведомств. Детальные спецификации, чтобы мы могли раздать задачи по всем направлениям. Заводы, роботы, носители, полигон на Земле. Всё, о чём мы говорили — но теперь уже не концепции, а технические задания.</p>
+<p>Снова тишина. Но в ней теперь чувствовалось что-то другое — не растерянность, а сосредоточенность. Гончаренко уже думал, планировал, раскладывал в голове задачи.</p>
+<p>Потом он сказал — спокойно, но так, что Павел услышал в его голосе что-то новое. Не восторг, не триумф. Спокойную, железную решимость человека, который наконец получил шанс воплотить дело своей жизни:</p>
+<p>— Я понял. Начинаем.</p>
+<p>Павел отключился, положил телефон на панель. Завёл мотор. Включил дворники — начал падать снег, лёгкий, почти незаметный. Выехал на Староконюшенный переулок, слился с потоком машин. Москва жила обычным зимним вечером: люди ехали домой с работы, торопились по делам, не зная, что час назад в нескольких километрах от них было принято решение, которое изменит всё.</p>
+<p>Павел вёл машину, думая о том, что впереди — годы работы, бесконечные согласования, технические проблемы, политические игры. Так много может пойти не так.</p>
+<p>Но проект запущен. И остановить его уже невозможно.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

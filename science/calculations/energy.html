@@ -1,0 +1,3037 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>energy – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Поиск не дал результатов",
+    "search-matching-documents-text": "Результаты поиска",
+    "search-copy-link-title": "Скопировать ссылку",
+    "search-hide-matches-text": "Скрыть дополнительные результаты",
+    "search-more-match-text": "дополнительный результат в этом документе",
+    "search-more-matches-text": "дополнительных результата(-ов) в этом документе",
+    "search-clear-button-title": "Очистить",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Отменить",
+    "search-submit-button-title": "Найти",
+    "search-label": "Поиск"
+  }
+}</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Проект Гелиос</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Поиск"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Переключить навигацию" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Главная</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../science/calculations/energy.html">Расчёты</a></li><li class="breadcrumb-item"><a href="../../science/calculations/energy.html">Расчёты энергии: Зеркала Роя</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Технологии</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физика и инженерия проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/robots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бестиарий роботов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/factory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Завод «Точка Ноль»</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Расчёты</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/energy.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Расчёты энергии: Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/railgun.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Расчёты: Масс-драйверы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проблема масштабирования (“Критика Серёжи”)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта Гелиос</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта проекта Гелиос</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/calculations/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Расчёты: Терраформирование Марса</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/data/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../science/data/sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Библиография</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#расчёты-энергии-зеркала-роя" id="toc-расчёты-энергии-зеркала-роя" class="nav-link active" data-scroll-target="#расчёты-энергии-зеркала-роя">Расчёты энергии: Зеркала Роя</a>
+  <ul class="collapse">
+  <li><a href="#исходные-данные" id="toc-исходные-данные" class="nav-link" data-scroll-target="#исходные-данные">Исходные данные</a>
+  <ul class="collapse">
+  <li><a href="#солнечная-энергия-на-меркурии" id="toc-солнечная-энергия-на-меркурии" class="nav-link" data-scroll-target="#солнечная-энергия-на-меркурии">Солнечная энергия на Меркурии</a></li>
+  <li><a href="#характеристики-зеркала" id="toc-характеристики-зеркала" class="nav-link" data-scroll-target="#характеристики-зеркала">Характеристики зеркала</a></li>
+  </ul></li>
+  <li><a href="#энергия-одного-диска" id="toc-энергия-одного-диска" class="nav-link" data-scroll-target="#энергия-одного-диска">Энергия одного диска</a>
+  <ul class="collapse">
+  <li><a href="#расчёт-мощности" id="toc-расчёт-мощности" class="nav-link" data-scroll-target="#расчёт-мощности">Расчёт мощности</a></li>
+  <li><a href="#кпд-отражения" id="toc-кпд-отражения" class="nav-link" data-scroll-target="#кпд-отражения">КПД отражения</a></li>
+  <li><a href="#итого-мощность-одного-диска" id="toc-итого-мощность-одного-диска" class="nav-link" data-scroll-target="#итого-мощность-одного-диска">Итого: мощность одного диска</a></li>
+  </ul></li>
+  <li><a href="#термическая-стойкость-зеркала" id="toc-термическая-стойкость-зеркала" class="nav-link" data-scroll-target="#термическая-стойкость-зеркала">Термическая стойкость зеркала</a>
+  <ul class="collapse">
+  <li><a href="#выдержит-ли-фольга-солнечный-поток" id="toc-выдержит-ли-фольга-солнечный-поток" class="nav-link" data-scroll-target="#выдержит-ли-фольга-солнечный-поток">Выдержит ли фольга солнечный поток?</a></li>
+  </ul></li>
+  <li><a href="#управление-ориентацией-зеркала" id="toc-управление-ориентацией-зеркала" class="nav-link" data-scroll-target="#управление-ориентацией-зеркала">Управление ориентацией зеркала</a>
+  <ul class="collapse">
+  <li><a href="#проблема" id="toc-проблема" class="nav-link" data-scroll-target="#проблема">Проблема</a></li>
+  <li><a href="#решение-электрохромное-покрытие-давление-света" id="toc-решение-электрохромное-покрытие-давление-света" class="nav-link" data-scroll-target="#решение-электрохромное-покрытие-давление-света">Решение: электрохромное покрытие + давление света</a></li>
+  <li><a href="#система-наведения" id="toc-система-наведения" class="nav-link" data-scroll-target="#система-наведения">Система наведения</a></li>
+  </ul></li>
+  <li><a href="#срок-службы-и-деградация" id="toc-срок-службы-и-деградация" class="nav-link" data-scroll-target="#срок-службы-и-деградация">Срок службы и деградация</a>
+  <ul class="collapse">
+  <li><a href="#факторы-деградации" id="toc-факторы-деградации" class="nav-link" data-scroll-target="#факторы-деградации">Факторы деградации</a></li>
+  <li><a href="#оценка-срока-службы" id="toc-оценка-срока-службы" class="nav-link" data-scroll-target="#оценка-срока-службы">Оценка срока службы</a></li>
+  <li><a href="#критерий-замены" id="toc-критерий-замены" class="nav-link" data-scroll-target="#критерий-замены">Критерий замены</a></li>
+  </ul></li>
+  <li><a href="#потери-при-передаче-энергии" id="toc-потери-при-передаче-энергии" class="nav-link" data-scroll-target="#потери-при-передаче-энергии">Потери при передаче энергии</a>
+  <ul class="collapse">
+  <li><a href="#схема-передачи" id="toc-схема-передачи" class="nav-link" data-scroll-target="#схема-передачи">Схема передачи</a></li>
+  <li><a href="#потери-на-каждом-этапе" id="toc-потери-на-каждом-этапе" class="nav-link" data-scroll-target="#потери-на-каждом-этапе">Потери на каждом этапе</a></li>
+  <li><a href="#общий-кпд-системы" id="toc-общий-кпд-системы" class="nav-link" data-scroll-target="#общий-кпд-системы">Общий КПД системы</a></li>
+  </ul></li>
+  <li><a href="#итоговая-энергетическая-модель" id="toc-итоговая-энергетическая-модель" class="nav-link" data-scroll-target="#итоговая-энергетическая-модель">Итоговая энергетическая модель</a>
+  <ul class="collapse">
+  <li><a href="#один-диск-электричество-на-земле" id="toc-один-диск-электричество-на-земле" class="nav-link" data-scroll-target="#один-диск-электричество-на-земле">Один диск → электричество на Земле</a></li>
+  </ul></li>
+  <li><a href="#от-производительности-к-энергии" id="toc-от-производительности-к-энергии" class="nav-link" data-scroll-target="#от-производительности-к-энергии">От производительности к энергии</a>
+  <ul class="collapse">
+  <li><a href="#цель-проекта-1000-масс-драйверов-за-4-года" id="toc-цель-проекта-1000-масс-драйверов-за-4-года" class="nav-link" data-scroll-target="#цель-проекта-1000-масс-драйверов-за-4-года">Цель проекта: 1000 масс-драйверов за 4 года</a></li>
+  <li><a href="#единицы-измерения" id="toc-единицы-измерения" class="nav-link" data-scroll-target="#единицы-измерения">Единицы измерения</a></li>
+  <li><a href="#расчёт-мощности-роя-цель-1000-мд" id="toc-расчёт-мощности-роя-цель-1000-мд" class="nav-link" data-scroll-target="#расчёт-мощности-роя-цель-1000-мд">Расчёт мощности роя (цель: 1000 МД)</a></li>
+  <li><a href="#передача-на-землю" id="toc-передача-на-землю" class="nav-link" data-scroll-target="#передача-на-землю">Передача на Землю</a></li>
+  <li><a href="#расчёт-по-годам-рост-до-цели" id="toc-расчёт-по-годам-рост-до-цели" class="nav-link" data-scroll-target="#расчёт-по-годам-рост-до-цели">Расчёт по годам (рост до цели)</a></li>
+  <li><a href="#сравнение-с-мировым-потреблением" id="toc-сравнение-с-мировым-потреблением" class="nav-link" data-scroll-target="#сравнение-с-мировым-потреблением">Сравнение с мировым потреблением</a></li>
+  </ul></li>
+  <li><a href="#энергетический-баланс-базы" id="toc-энергетический-баланс-базы" class="nav-link" data-scroll-target="#энергетический-баланс-базы">Энергетический баланс базы</a>
+  <ul class="collapse">
+  <li><a href="#базовый-сценарий-1000-масс-драйверов" id="toc-базовый-сценарий-1000-масс-драйверов" class="nav-link" data-scroll-target="#базовый-сценарий-1000-масс-драйверов">Базовый сценарий: 1000 масс-драйверов</a></li>
+  <li><a href="#масс-драйверы" id="toc-масс-драйверы" class="nav-link" data-scroll-target="#масс-драйверы">1. Масс-драйверы</a></li>
+  <li><a href="#производство-зеркал" id="toc-производство-зеркал" class="nav-link" data-scroll-target="#производство-зеркал">2. Производство зеркал</a></li>
+  <li><a href="#добыча-руды" id="toc-добыча-руды" class="nav-link" data-scroll-target="#добыча-руды">3. Добыча руды</a></li>
+  <li><a href="#роботы" id="toc-роботы" class="nav-link" data-scroll-target="#роботы">4. Роботы</a></li>
+  <li><a href="#инфраструктура" id="toc-инфраструктура" class="nav-link" data-scroll-target="#инфраструктура">5. Инфраструктура</a></li>
+  <li><a href="#сводка-потребление-базы-1000-масс-драйверов" id="toc-сводка-потребление-базы-1000-масс-драйверов" class="nav-link" data-scroll-target="#сводка-потребление-базы-1000-масс-драйверов">Сводка: потребление базы (1000 масс-драйверов)</a></li>
+  <li><a href="#энергоснабжение-базы-площадь-панелей-и-концентраторов" id="toc-энергоснабжение-базы-площадь-панелей-и-концентраторов" class="nav-link" data-scroll-target="#энергоснабжение-базы-площадь-панелей-и-концентраторов">Энергоснабжение базы: площадь панелей и концентраторов</a></li>
+  <li><a href="#самоокупаемость-в-эквиваленте-зеркал" id="toc-самоокупаемость-в-эквиваленте-зеркал" class="nav-link" data-scroll-target="#самоокупаемость-в-эквиваленте-зеркал">Самоокупаемость (в эквиваленте зеркал)</a></li>
+  <li><a href="#масштабирование-этапы-роста" id="toc-масштабирование-этапы-роста" class="nav-link" data-scroll-target="#масштабирование-этапы-роста">Масштабирование (этапы роста)</a></li>
+  </ul></li>
+  <li><a href="#экспоненциальный-рост-от-1-завода-до-1000-масс-драйверов" id="toc-экспоненциальный-рост-от-1-завода-до-1000-масс-драйверов" class="nav-link" data-scroll-target="#экспоненциальный-рост-от-1-завода-до-1000-масс-драйверов">Экспоненциальный рост: от 1 завода до 1000 масс-драйверов</a>
+  <ul class="collapse">
+  <li><a href="#энергия-на-меркурии-не-проблема" id="toc-энергия-на-меркурии-не-проблема" class="nav-link" data-scroll-target="#энергия-на-меркурии-не-проблема">Энергия на Меркурии — не проблема</a></li>
+  <li><a href="#зачем-тогда-масс-драйвер" id="toc-зачем-тогда-масс-драйвер" class="nav-link" data-scroll-target="#зачем-тогда-масс-драйвер">Зачем тогда масс-драйвер?</a></li>
+  <li><a href="#энергетические-потребности" id="toc-энергетические-потребности" class="nav-link" data-scroll-target="#энергетические-потребности">Энергетические потребности</a></li>
+  <li><a href="#стратегия-первый-мд-приоритет-1" id="toc-стратегия-первый-мд-приоритет-1" class="nav-link" data-scroll-target="#стратегия-первый-мд-приоритет-1">Стратегия: Первый МД — приоритет №1</a></li>
+  <li><a href="#фаза-0-первый-масс-драйвер-месяцы-0-6" id="toc-фаза-0-первый-масс-драйвер-месяцы-0-6" class="nav-link" data-scroll-target="#фаза-0-первый-масс-драйвер-месяцы-0-6">Фаза 0: Первый масс-драйвер (месяцы 0-6)</a></li>
+  <li><a href="#фаза-1-начало-экспорта-месяцы-6-12" id="toc-фаза-1-начало-экспорта-месяцы-6-12" class="nav-link" data-scroll-target="#фаза-1-начало-экспорта-месяцы-6-12">Фаза 1: Начало экспорта (месяцы 6-12)</a></li>
+  <li><a href="#фаза-2-экспоненциальный-рост-месяцы-6-36" id="toc-фаза-2-экспоненциальный-рост-месяцы-6-36" class="nav-link" data-scroll-target="#фаза-2-экспоненциальный-рост-месяцы-6-36">Фаза 2: Экспоненциальный рост (месяцы 6-36)</a></li>
+  <li><a href="#итог-сроки-обновлённые" id="toc-итог-сроки-обновлённые" class="nav-link" data-scroll-target="#итог-сроки-обновлённые">Итог: сроки (обновлённые)</a></li>
+  <li><a href="#ключевой-инсайт" id="toc-ключевой-инсайт" class="nav-link" data-scroll-target="#ключевой-инсайт">Ключевой инсайт</a></li>
+  <li><a href="#проверка-роботов-для-1000-мд" id="toc-проверка-роботов-для-1000-мд" class="nav-link" data-scroll-target="#проверка-роботов-для-1000-мд">Проверка: роботов для 1000 МД</a></li>
+  </ul></li>
+  <li><a href="#сравнение-луна-vs-меркурий" id="toc-сравнение-луна-vs-меркурий" class="nav-link" data-scroll-target="#сравнение-луна-vs-меркурий">Сравнение: Луна vs Меркурий</a>
+  <ul class="collapse">
+  <li><a href="#зачем-сравнивать" id="toc-зачем-сравнивать" class="nav-link" data-scroll-target="#зачем-сравнивать">Зачем сравнивать?</a></li>
+  <li><a href="#солнечная-энергия" id="toc-солнечная-энергия" class="nav-link" data-scroll-target="#солнечная-энергия">Солнечная энергия</a></li>
+  <li><a href="#передача-на-землю-1" id="toc-передача-на-землю-1" class="nav-link" data-scroll-target="#передача-на-землю-1">Передача на Землю</a></li>
+  <li><a href="#целевые-показатели" id="toc-целевые-показатели" class="nav-link" data-scroll-target="#целевые-показатели">Целевые показатели</a></li>
+  <li><a href="#энергобаланс-базы" id="toc-энергобаланс-базы" class="nav-link" data-scroll-target="#энергобаланс-базы">Энергобаланс базы</a></li>
+  <li><a href="#динамика-роста-по-годам" id="toc-динамика-роста-по-годам" class="nav-link" data-scroll-target="#динамика-роста-по-годам">Динамика роста по годам</a></li>
+  <li><a href="#дополнительные-факторы" id="toc-дополнительные-факторы" class="nav-link" data-scroll-target="#дополнительные-факторы">Дополнительные факторы</a></li>
+  <li><a href="#состав-грунта-и-технологии-добычи-isru" id="toc-состав-грунта-и-технологии-добычи-isru" class="nav-link" data-scroll-target="#состав-грунта-и-технологии-добычи-isru">Состав грунта и технологии добычи (ISRU)</a></li>
+  <li><a href="#вывод" id="toc-вывод" class="nav-link" data-scroll-target="#вывод">Вывод</a></li>
+  </ul></li>
+  <li><a href="#куда-направлять-зеркала-с-луны" id="toc-куда-направлять-зеркала-с-луны" class="nav-link" data-scroll-target="#куда-направлять-зеркала-с-луны">Куда направлять зеркала с Луны?</a>
+  <ul class="collapse">
+  <li><a href="#варианты-орбит" id="toc-варианты-орбит" class="nav-link" data-scroll-target="#варианты-орбит">Варианты орбит</a></li>
+  <li><a href="#оптимальный-выбор-точка-лагранжа-l1" id="toc-оптимальный-выбор-точка-лагранжа-l1" class="nav-link" data-scroll-target="#оптимальный-выбор-точка-лагранжа-l1">Оптимальный выбор: точка Лагранжа L1</a></li>
+  </ul></li>
+  <li><a href="#риски-космического-мусора" id="toc-риски-космического-мусора" class="nav-link" data-scroll-target="#риски-космического-мусора">Риски космического мусора</a>
+  <ul class="collapse">
+  <li><a href="#текущая-ситуация-в-околоземном-пространстве-2025" id="toc-текущая-ситуация-в-околоземном-пространстве-2025" class="nav-link" data-scroll-target="#текущая-ситуация-в-околоземном-пространстве-2025">Текущая ситуация в околоземном пространстве (2025)</a></li>
+  <li><a href="#синдром-кесслера" id="toc-синдром-кесслера" class="nav-link" data-scroll-target="#синдром-кесслера">Синдром Кесслера</a></li>
+  <li><a href="#сравнение-рисков-по-сценариям" id="toc-сравнение-рисков-по-сценариям" class="nav-link" data-scroll-target="#сравнение-рисков-по-сценариям">Сравнение рисков по сценариям</a></li>
+  <li><a href="#ключевой-вывод" id="toc-ключевой-вывод" class="nav-link" data-scroll-target="#ключевой-вывод">Ключевой вывод</a></li>
+  </ul></li>
+  <li><a href="#внутренние-риски-роя-столкновения-между-зеркалами" id="toc-внутренние-риски-роя-столкновения-между-зеркалами" class="nav-link" data-scroll-target="#внутренние-риски-роя-столкновения-между-зеркалами">Внутренние риски роя (столкновения между зеркалами)</a>
+  <ul class="collapse">
+  <li><a href="#млн-зеркал-на-l1" id="toc-млн-зеркал-на-l1" class="nav-link" data-scroll-target="#млн-зеркал-на-l1">120 млн зеркал на L1</a></li>
+  <li><a href="#млн-зеркал-у-меркурия" id="toc-млн-зеркал-у-меркурия" class="nav-link" data-scroll-target="#млн-зеркал-у-меркурия">120 млн зеркал у Меркурия</a></li>
+  </ul></li>
+  <li><a href="#двухэтапная-стратегия" id="toc-двухэтапная-стратегия" class="nav-link" data-scroll-target="#двухэтапная-стратегия">Двухэтапная стратегия</a>
+  <ul class="collapse">
+  <li><a href="#этап-1-луна-l1-годы-1-4" id="toc-этап-1-луна-l1-годы-1-4" class="nav-link" data-scroll-target="#этап-1-луна-l1-годы-1-4">Этап 1: Луна → L1 (годы 1-4)</a></li>
+  <li><a href="#этап-2-меркурий-годы-5" id="toc-этап-2-меркурий-годы-5" class="nav-link" data-scroll-target="#этап-2-меркурий-годы-5">Этап 2: Меркурий (годы 5+)</a></li>
+  <li><a href="#итог" id="toc-итог" class="nav-link" data-scroll-target="#итог">Итог</a></li>
+  </ul></li>
+  <li><a href="#достаточно-ли-луны-для-энергетической-империи" id="toc-достаточно-ли-луны-для-энергетической-империи" class="nav-link" data-scroll-target="#достаточно-ли-луны-для-энергетической-империи">Достаточно ли Луны для “энергетической империи”?</a>
+  <ul class="collapse">
+  <li><a href="#энергия-и-время" id="toc-энергия-и-время" class="nav-link" data-scroll-target="#энергия-и-время">Энергия и время</a></li>
+  <li><a href="#шкала-кардашёва" id="toc-шкала-кардашёва" class="nav-link" data-scroll-target="#шкала-кардашёва">Шкала Кардашёва</a></li>
+  <li><a href="#физические-пределы-луны" id="toc-физические-пределы-луны" class="nav-link" data-scroll-target="#физические-пределы-луны">Физические пределы Луны</a></li>
+  <li><a href="#для-чего-хватит-луны" id="toc-для-чего-хватит-луны" class="nav-link" data-scroll-target="#для-чего-хватит-луны">Для чего хватит Луны?</a></li>
+  <li><a href="#масштабирование" id="toc-масштабирование" class="nav-link" data-scroll-target="#масштабирование">Масштабирование</a></li>
+  <li><a href="#финальный-вердикт" id="toc-финальный-вердикт" class="nav-link" data-scroll-target="#финальный-вердикт">Финальный вердикт</a></li>
+  </ul></li>
+  <li><a href="#луна-как-трамплин-к-меркурию" id="toc-луна-как-трамплин-к-меркурию" class="nav-link" data-scroll-target="#луна-как-трамплин-к-меркурию">Луна как трамплин к Меркурию</a>
+  <ul class="collapse">
+  <li><a href="#каскадный-эффект" id="toc-каскадный-эффект" class="nav-link" data-scroll-target="#каскадный-эффект">Каскадный эффект</a></li>
+  <li><a href="#сравнение-сценариев" id="toc-сравнение-сценариев" class="nav-link" data-scroll-target="#сравнение-сценариев">Сравнение сценариев</a></li>
+  <li><a href="#что-даёт-лунная-энергия" id="toc-что-даёт-лунная-энергия" class="nav-link" data-scroll-target="#что-даёт-лунная-энергия">Что даёт лунная энергия</a></li>
+  <li><a href="#обновлённая-стратегия" id="toc-обновлённая-стратегия" class="nav-link" data-scroll-target="#обновлённая-стратегия">Обновлённая стратегия</a></li>
+  <li><a href="#вывод-1" id="toc-вывод-1" class="nav-link" data-scroll-target="#вывод-1">Вывод</a></li>
+  </ul></li>
+  <li><a href="#известные-ограничения" id="toc-известные-ограничения" class="nav-link" data-scroll-target="#известные-ограничения">Известные ограничения</a>
+  <ul class="collapse">
+  <li><a href="#критические-проблемы" id="toc-критические-проблемы" class="nav-link" data-scroll-target="#критические-проблемы">Критические проблемы</a></li>
+  <li><a href="#высокие-проблемы" id="toc-высокие-проблемы" class="nav-link" data-scroll-target="#высокие-проблемы">Высокие проблемы</a></li>
+  <li><a href="#требуют-исследования" id="toc-требуют-исследования" class="nav-link" data-scroll-target="#требуют-исследования">Требуют исследования</a></li>
+  </ul></li>
+  <li><a href="#источники" id="toc-источники" class="nav-link" data-scroll-target="#источники">Источники</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../science/calculations/energy.html">Расчёты</a></li><li class="breadcrumb-item"><a href="../../science/calculations/energy.html">Расчёты энергии: Зеркала Роя</a></li></ol></nav></header>
+
+
+
+
+<section id="расчёты-энергии-зеркала-роя" class="level1">
+<h1>Расчёты энергии: Зеркала Роя</h1>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<ul>
+<li><strong>Мощность одного зеркала (100×100 м):</strong> 82 МВт отражённой энергии при КПД 90%</li>
+<li><strong>Парадокс температуры:</strong> зеркало будет холодным (−8°C), не горячим — 95% энергии отражается</li>
+<li><strong>Управление ориентацией:</strong> электрохромное покрытие + давление света, без топлива (референс: IKAROS)</li>
+<li><strong>Срок службы:</strong> 10–15 лет, замена при падении КПД ниже 70%</li>
+<li><strong>Общий КПД энергомоста:</strong> ~22% (от зеркала до электросети на Земле)</li>
+</ul>
+</blockquote>
+<hr>
+<section id="исходные-данные" class="level2">
+<h2 class="anchored" data-anchor-id="исходные-данные">Исходные данные</h2>
+<section id="солнечная-энергия-на-меркурии" class="level3">
+<h3 class="anchored" data-anchor-id="солнечная-энергия-на-меркурии">Солнечная энергия на Меркурии</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Солнечная постоянная (среднее)</td>
+<td><strong>9 082 W/m²</strong></td>
+<td><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html">NASA Mercury Fact Sheet</a></td>
+</tr>
+<tr class="even">
+<td>В перигелии (ближе к Солнцу)</td>
+<td>~14 500 W/m²</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>В афелии (дальше)</td>
+<td>~6 300 W/m²</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Для сравнения: Земля</td>
+<td>1 361 W/m²</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Коэффициент к Земле</strong></td>
+<td><strong>6.7×</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="характеристики-зеркала" class="level3">
+<h3 class="anchored" data-anchor-id="характеристики-зеркала">Характеристики зеркала</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Размер диска</td>
+<td>100 × 100 м</td>
+</tr>
+<tr class="even">
+<td>Площадь</td>
+<td>10 000 м²</td>
+</tr>
+<tr class="odd">
+<td>Материал</td>
+<td>Алюминиевая фольга 4 мкм</td>
+</tr>
+<tr class="even">
+<td>Масса фольги</td>
+<td>~110 кг (плотность Al 2.7 г/см³)</td>
+</tr>
+<tr class="odd">
+<td>Электроника</td>
+<td>~50 г (чип управления)</td>
+</tr>
+<tr class="even">
+<td><strong>Общая масса</strong></td>
+<td><strong>~110-150 кг</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="энергия-одного-диска" class="level2">
+<h2 class="anchored" data-anchor-id="энергия-одного-диска">Энергия одного диска</h2>
+<section id="расчёт-мощности" class="level3">
+<h3 class="anchored" data-anchor-id="расчёт-мощности">Расчёт мощности</h3>
+<pre><code>Площадь: 10 000 м²
+Солнечная постоянная (среднее): 9 082 W/m²
+
+Падающая энергия = 10 000 × 9 082 = 90.8 МВт</code></pre>
+</section>
+<section id="кпд-отражения" class="level3">
+<h3 class="anchored" data-anchor-id="кпд-отражения">КПД отражения</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>КПД</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Отражение алюминия</td>
+<td>90%</td>
+<td><a href="https://www.pveducation.org/">PVEducation</a></td>
+</tr>
+<tr class="even">
+<td>С покрытием (MgF2)</td>
+<td>95-96%</td>
+<td><a href="https://univ-perp.hal.science/hal-03368709/document">HAL Science</a></td>
+</tr>
+<tr class="odd">
+<td>Реалистичная оценка</td>
+<td><strong>88-92%</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="итого-мощность-одного-диска" class="level3">
+<h3 class="anchored" data-anchor-id="итого-мощность-одного-диска">Итого: мощность одного диска</h3>
+<pre><code>Падающая энергия: 90.8 МВт
+КПД отражения: 90%
+
+Отражённая энергия = 90.8 × 0.90 = 81.7 МВт</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Мощность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный (КПД 95%)</td>
+<td><strong>86 МВт</strong></td>
+</tr>
+<tr class="even">
+<td>Реалистичный (КПД 90%)</td>
+<td><strong>82 МВт</strong></td>
+</tr>
+<tr class="odd">
+<td>Консервативный (КПД 85%)</td>
+<td><strong>77 МВт</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="термическая-стойкость-зеркала" class="level2">
+<h2 class="anchored" data-anchor-id="термическая-стойкость-зеркала">Термическая стойкость зеркала</h2>
+<section id="выдержит-ли-фольга-солнечный-поток" class="level3">
+<h3 class="anchored" data-anchor-id="выдержит-ли-фольга-солнечный-поток">Выдержит ли фольга солнечный поток?</h3>
+<p><strong>Условия на орбите Меркурия:</strong> - Солнечный поток: 9 кВт/м² (в 6.7 раза больше Земли)</p>
+<p><strong>Тепловой баланс:</strong></p>
+<p>Зеркало поглощает только то, что не отражает:</p>
+<pre><code>Отражательность: 95%
+Поглощение: 5%
+Поглощённая мощность: 9000 × 0.05 = 450 Вт/м²</code></pre>
+<p>Равновесная температура определяется балансом поглощения и излучения:</p>
+<pre><code>P_absorbed = ε × σ × T⁴ × 2 (обе стороны излучают)
+
+где:
+- ε = излучательная способность (0.8 для тыльной стороны с чёрным покрытием)
+- σ = 5.67×10⁻⁸ Вт/(м²·К⁴) — постоянная Стефана-Больцмана
+
+T⁴ = 450 / (0.8 × 5.67×10⁻⁸ × 2)
+T⁴ = 4.96×10⁹
+T = 265 K = **-8°C**</code></pre>
+<p><strong>Парадоксальный вывод:</strong> зеркало будет холодным, не горячим!</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Температура плавления алюминия</td>
+<td>660°C</td>
+</tr>
+<tr class="even">
+<td>Расчётная температура зеркала</td>
+<td><strong>-8°C</strong></td>
+</tr>
+<tr class="odd">
+<td>Запас</td>
+<td><strong>668°C</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ключевой принцип:</strong> высокая отражательность фронтальной стороны (95%) + высокая излучательность тыльной (0.8) = эффективное охлаждение.</p>
+<hr>
+</section>
+</section>
+<section id="управление-ориентацией-зеркала" class="level2">
+<h2 class="anchored" data-anchor-id="управление-ориентацией-зеркала">Управление ориентацией зеркала</h2>
+<section id="проблема" class="level3">
+<h3 class="anchored" data-anchor-id="проблема">Проблема</h3>
+<p>Зеркало должно точно направлять отражённый свет на цель (ретранслятор или приёмник). Как управлять углом без топлива?</p>
+</section>
+<section id="решение-электрохромное-покрытие-давление-света" class="level3">
+<h3 class="anchored" data-anchor-id="решение-электрохромное-покрытие-давление-света">Решение: электрохромное покрытие + давление света</h3>
+<p><strong>Принцип:</strong> - Зеркало — это солнечный парус - Свет давит на поверхность (давление света ≈ 60 мкПа на орбите Меркурия) - Если одна часть поверхности отражает лучше другой — возникает крутящий момент</p>
+<p><strong>Электрохромика:</strong> - Тонкий слой материала (WO₃, оксид вольфрама) меняет отражательность при подаче напряжения - Подали ток на левый край → он потемнел → поглотил больше света → давление справа стало больше → зеркало повернулось - Никаких двигателей, никакого топлива - Энергия: микроватты от встроенной солнечной батареи на раме</p>
+<p><strong>Точность:</strong> - Давление света: ~60 мкПа - Площадь: 10,000 м² - Сила: ~0.6 Н - При плече 50 м: момент ~30 Н·м - Для зеркала массой 150 кг этого достаточно для точного позиционирования</p>
+</section>
+<section id="система-наведения" class="level3">
+<h3 class="anchored" data-anchor-id="система-наведения">Система наведения</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Звёздный датчик</td>
+<td>Определение собственной ориентации</td>
+</tr>
+<tr class="even">
+<td>Радиомаяки</td>
+<td>Позиционирование относительно других зеркал</td>
+</tr>
+<tr class="odd">
+<td>Бортовой процессор</td>
+<td>Расчёт требуемого угла</td>
+</tr>
+<tr class="even">
+<td>Электрохромные зоны</td>
+<td>Исполнительный механизм</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Автономность:</strong> Каждое зеркало само рассчитывает угол наведения по геометрии (угол падения = угол отражения). Центр управления только задаёт цель: “твоя мишень — ретранслятор #4527”.</p>
+<hr>
+</section>
+</section>
+<section id="срок-службы-и-деградация" class="level2">
+<h2 class="anchored" data-anchor-id="срок-службы-и-деградация">Срок службы и деградация</h2>
+<section id="факторы-деградации" class="level3">
+<h3 class="anchored" data-anchor-id="факторы-деградации">Факторы деградации</h3>
+<ol type="1">
+<li><strong>Микрометеориты</strong>
+<ul>
+<li>JWST: 1-2 удара/месяц на 25 м² зеркало</li>
+<li>Масштабируя на 10 000 м²: ~400-800 ударов/месяц</li>
+<li>Но большинство ударов микроскопические (&lt; 1 мкм кратер)</li>
+<li>Критические удары (&gt; 1 мм): редки</li>
+</ul></li>
+<li><strong>Солнечная радиация</strong>
+<ul>
+<li>Деградация покрытия: 0.5-2% в год</li>
+<li>На Меркурии радиация выше → ускоренная деградация</li>
+<li>Оценка: <strong>2-5% потери КПД в год</strong></li>
+</ul></li>
+<li><strong>Солнечный ветер</strong>
+<ul>
+<li>Эрозия поверхности</li>
+<li>На Меркурии сильнее из-за близости к Солнцу</li>
+</ul></li>
+</ol>
+</section>
+<section id="оценка-срока-службы" class="level3">
+<h3 class="anchored" data-anchor-id="оценка-срока-службы">Оценка срока службы</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Срок службы</th>
+<th>Потеря КПД/год</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>20 лет</td>
+<td>2%</td>
+</tr>
+<tr class="even">
+<td>Реалистичный</td>
+<td><strong>10-15 лет</strong></td>
+<td>3-5%</td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>5-7 лет</td>
+<td>5-10%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="критерий-замены" class="level3">
+<h3 class="anchored" data-anchor-id="критерий-замены">Критерий замены</h3>
+<p>Зеркало заменяется когда: - КПД падает ниже 70% (~30% деградация) - Физическое разрушение от крупного удара</p>
+<hr>
+</section>
+</section>
+<section id="потери-при-передаче-энергии" class="level2">
+<h2 class="anchored" data-anchor-id="потери-при-передаче-энергии">Потери при передаче энергии</h2>
+<section id="схема-передачи" class="level3">
+<h3 class="anchored" data-anchor-id="схема-передачи">Схема передачи</h3>
+<pre><code>Зеркала → Концентратор → Лазер → Приёмник (орбита) → Лазер → Земля</code></pre>
+</section>
+<section id="потери-на-каждом-этапе" class="level3">
+<h3 class="anchored" data-anchor-id="потери-на-каждом-этапе">Потери на каждом этапе</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Этап</th>
+<th>КПД</th>
+<th>Потери</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Отражение зеркал</td>
+<td>90%</td>
+<td>10%</td>
+<td>См. выше</td>
+</tr>
+<tr class="even">
+<td>Концентрация на передатчик</td>
+<td>95%</td>
+<td>5%</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Преобразование свет→лазер</td>
+<td>60%</td>
+<td>40%</td>
+<td><a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/power-beaming">ScienceDirect</a></td>
+</tr>
+<tr class="even">
+<td>Передача в вакууме</td>
+<td>99%</td>
+<td>1%</td>
+<td>Минимальные потери</td>
+</tr>
+<tr class="odd">
+<td>Ретрансляция (орбита Земли)</td>
+<td>95%</td>
+<td>5%</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Прохождение атмосферы</td>
+<td>95%</td>
+<td>5%</td>
+<td><a href="https://scholar.afit.edu/cgi/viewcontent.cgi?article=3072&amp;context=etd">AFIT Scholar</a></td>
+</tr>
+<tr class="odd">
+<td>Приёмник на Земле (PV)</td>
+<td>50%</td>
+<td>50%</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="общий-кпд-системы" class="level3">
+<h3 class="anchored" data-anchor-id="общий-кпд-системы">Общий КПД системы</h3>
+<pre><code>0.90 × 0.95 × 0.60 × 0.99 × 0.95 × 0.95 × 0.50 = 0.23 = 23%</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Общий КПД</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>30-35%</td>
+</tr>
+<tr class="even">
+<td><strong>Реалистичный</strong></td>
+<td><strong>20-25%</strong></td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>15-20%</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="итоговая-энергетическая-модель" class="level2">
+<h2 class="anchored" data-anchor-id="итоговая-энергетическая-модель">Итоговая энергетическая модель</h2>
+<section id="один-диск-электричество-на-земле" class="level3">
+<h3 class="anchored" data-anchor-id="один-диск-электричество-на-земле">Один диск → электричество на Земле</h3>
+<pre><code>Солнечная энергия на диск: 90.8 МВт
+Общий КПД передачи: 23%
+
+Электричество на Земле = 90.8 × 0.23 = 20.9 МВт ≈ 21 МВт</code></pre>
+<hr>
+</section>
+</section>
+<section id="от-производительности-к-энергии" class="level2">
+<h2 class="anchored" data-anchor-id="от-производительности-к-энергии">От производительности к энергии</h2>
+<section id="цель-проекта-1000-масс-драйверов-за-4-года" class="level3">
+<h3 class="anchored" data-anchor-id="цель-проекта-1000-масс-драйверов-за-4-года">Цель проекта: 1000 масс-драйверов за 4 года</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 масс-драйвер</td>
+<td>600 зеркал/день</td>
+</tr>
+<tr class="even">
+<td>1000 масс-драйверов</td>
+<td>600 000 зеркал/день</td>
+</tr>
+<tr class="odd">
+<td>Зеркал за 4 года работы</td>
+<td>~300 млн</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="единицы-измерения" class="level3">
+<h3 class="anchored" data-anchor-id="единицы-измерения">Единицы измерения</h3>
+<p><strong>Важно:</strong> Мировое потребление бывает разным:</p>
+<pre><code>Мировое потребление ЭЛЕКТРИЧЕСТВА 2024: ~20 000 ТВт·ч/год
+= 20 000 ÷ 8760 часов = 2.3 ТВт средней мощности
+
+Мировое ПОЛНОЕ потребление энергии 2024: ~180 000 ТВт·ч/год
+= 180 000 ÷ 8760 часов = ~20 ТВт средней мощности</code></pre>
+<p><strong>В этом документе используем полное потребление: ~20 ТВт</strong> (включает транспорт, отопление, промышленность).</p>
+</section>
+<section id="расчёт-мощности-роя-цель-1000-мд" class="level3">
+<h3 class="anchored" data-anchor-id="расчёт-мощности-роя-цель-1000-мд">Расчёт мощности роя (цель: 1000 МД)</h3>
+<pre><code>1 зеркало отражает: 82 МВт
+300 млн зеркал = 300 × 10⁶ × 82 × 10⁶ Вт
+= 24.6 × 10¹⁵ Вт = 24.6 ПВт ≈ 25 ПВт
+
+Это больше, чем нужно. Целевая мощность: 10 ПВт.</code></pre>
+</section>
+<section id="передача-на-землю" class="level3">
+<h3 class="anchored" data-anchor-id="передача-на-землю">Передача на Землю</h3>
+<pre><code>Отражённая мощность: 10 ПВт (цель)
+КПД передачи: 20% (консервативно)
+На приёмниках Земли: 10 × 0.20 = 2 ПВт = 2000 ТВт
+
+Мировое полное потребление: 20 ТВт
+2000 ТВт / 20 ТВт = 100× мирового потребления</code></pre>
+</section>
+<section id="расчёт-по-годам-рост-до-цели" class="level3">
+<h3 class="anchored" data-anchor-id="расчёт-по-годам-рост-до-цели">Расчёт по годам (рост до цели)</h3>
+<p>Рост масс-драйверов (из главы): - Месяц 6: 1 МД - Месяц 18 (год 1.5): 10 МД - Месяц 36 (год 3): 100 МД - Месяц 48 (год 4): <strong>1000 МД (цель)</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 21%">
+<col style="width: 22%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Год</th>
+<th>МД (конец года)</th>
+<th>Зеркал накоплено</th>
+<th>Отражённая мощность</th>
+<th>На Земле (КПД 20%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>2</td>
+<td>~200 000</td>
+<td>16 ТВт</td>
+<td><strong>3 ТВт</strong></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>10</td>
+<td>~2 млн</td>
+<td>200 ТВт</td>
+<td><strong>40 ТВт</strong></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>100</td>
+<td>~20 млн</td>
+<td>1.6 ПВт</td>
+<td><strong>320 ТВт</strong></td>
+</tr>
+<tr class="even">
+<td><strong>4 (цель)</strong></td>
+<td><strong>1000</strong></td>
+<td><strong>~120 млн</strong></td>
+<td><strong>10 ПВт</strong></td>
+<td><strong>2 ПВт</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="сравнение-с-мировым-потреблением" class="level3">
+<h3 class="anchored" data-anchor-id="сравнение-с-мировым-потреблением">Сравнение с мировым потреблением</h3>
+<pre><code>Мировое полное потребление: 20 ТВт
+
+Год 1:  3 ТВт на Земле = 0.15× мира (15%)
+Год 2:  40 ТВт на Земле = 2× мира
+Год 3:  320 ТВт на Земле = 16× мира
+Год 4:  2000 ТВт на Земле = 100× мира</code></pre>
+<p><strong>Вывод:</strong> К концу второго года энергия на приёмниках вдвое превышает мировое потребление. К четвёртому году — в 100 раз.</p>
+<hr>
+</section>
+</section>
+<section id="энергетический-баланс-базы" class="level2">
+<h2 class="anchored" data-anchor-id="энергетический-баланс-базы">Энергетический баланс базы</h2>
+<section id="базовый-сценарий-1000-масс-драйверов" class="level3">
+<h3 class="anchored" data-anchor-id="базовый-сценарий-1000-масс-драйверов">Базовый сценарий: 1000 масс-драйверов</h3>
+<hr>
+</section>
+<section id="масс-драйверы" class="level3">
+<h3 class="anchored" data-anchor-id="масс-драйверы">1. Масс-драйверы</h3>
+<pre><code>1 масс-драйвер: 40 МВт (средняя мощность)
+1000 масс-драйверов: 40 ГВт</code></pre>
+<hr>
+</section>
+<section id="производство-зеркал" class="level3">
+<h3 class="anchored" data-anchor-id="производство-зеркал">2. Производство зеркал</h3>
+<p><strong>Производительность:</strong></p>
+<pre><code>1000 масс-драйверов × 600 зеркал/день = 600 000 зеркал/день
+600 000 × 150 кг = 90 000 тонн алюминия/день = 3 750 т/час</code></pre>
+<p><strong>Плавка алюминия:</strong></p>
+<pre><code>Электролиз алюминия: ~15 кВт·ч/кг (земные данные)
+3 750 000 кг/час × 15 кВт·ч/кг = 56 250 МВт = 56 ГВт</code></pre>
+<p><strong>Прокатка фольги 4 мкм:</strong></p>
+<pre><code>~0.5 кВт·ч/кг
+3 750 000 кг/час × 0.5 = 1 875 МВт ≈ 2 ГВт</code></pre>
+<p><strong>Сборка и упаковка:</strong></p>
+<pre><code>~0.1 кВт·ч/кг
+3 750 000 × 0.1 = 375 МВт ≈ 0.4 ГВт</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Этап</th>
+<th>Потребление</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Плавка алюминия</td>
+<td>56 ГВт</td>
+</tr>
+<tr class="even">
+<td>Прокатка фольги</td>
+<td>2 ГВт</td>
+</tr>
+<tr class="odd">
+<td>Сборка и упаковка</td>
+<td>0.4 ГВт</td>
+</tr>
+<tr class="even">
+<td><strong>Итого производство</strong></td>
+<td><strong>58.4 ГВт</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="добыча-руды" class="level3">
+<h3 class="anchored" data-anchor-id="добыча-руды">3. Добыча руды</h3>
+<pre><code>Для 90 000 т алюминия нужно ~270 000 т руды (выход ~33%)
+270 000 т/день ÷ 24 = 11 250 т/час
+
+Дробление и транспортировка: ~7 кВт·ч/т
+11 250 × 7 = 79 МВт ≈ 0.1 ГВт</code></pre>
+<hr>
+</section>
+<section id="роботы" class="level3">
+<h3 class="anchored" data-anchor-id="роботы">4. Роботы</h3>
+<pre><code>58 роботов на 1 масс-драйвер × 1000 = 58 000 роботов
+
+Средняя мощность по типам:
+- Крот (добытчик, 500 кг): ~80 кВт
+- Транспортёр: ~40 кВт
+- Манипулятор: ~15 кВт
+- Диагностический: ~5 кВт
+
+Средневзвешенное: ~30 кВт/робот
+58 000 × 30 кВт = 1 740 МВт ≈ 1.7 ГВт</code></pre>
+<hr>
+</section>
+<section id="инфраструктура" class="level3">
+<h3 class="anchored" data-anchor-id="инфраструктура">5. Инфраструктура</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Статья</th>
+<th>Потребление</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Охлаждение (радиаторы, насосы)</td>
+<td>5 ГВт</td>
+</tr>
+<tr class="even">
+<td>Освещение и связь</td>
+<td>0.5 ГВт</td>
+</tr>
+<tr class="odd">
+<td>Управление и вычисления</td>
+<td>1 ГВт</td>
+</tr>
+<tr class="even">
+<td>Резерв и пиковые нагрузки</td>
+<td>5 ГВт</td>
+</tr>
+<tr class="odd">
+<td><strong>Итого инфраструктура</strong></td>
+<td><strong>11.5 ГВт</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="сводка-потребление-базы-1000-масс-драйверов" class="level3">
+<h3 class="anchored" data-anchor-id="сводка-потребление-базы-1000-масс-драйверов">Сводка: потребление базы (1000 масс-драйверов)</h3>
+<p><strong>ВАЖНО:</strong> Энергия на Меркурии делится на два потока: - <strong>Термальная</strong> — прямой концентрированный солнечный свет (для плавки) - <strong>Электрическая</strong> — через PV-панели (для всего остального)</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Статья</th>
+<th>Тип</th>
+<th>Мощность</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Плавка алюминия (солнечная печь)</td>
+<td>Термо</td>
+<td>56 ГВт</td>
+<td>50%</td>
+</tr>
+<tr class="even">
+<td>Масс-драйверы (1000 шт)</td>
+<td>Электро</td>
+<td>40 ГВт</td>
+<td>36%</td>
+</tr>
+<tr class="odd">
+<td>Прокатка + сборка</td>
+<td>Электро</td>
+<td>2.4 ГВт</td>
+<td>2%</td>
+</tr>
+<tr class="even">
+<td>Роботы (58 000 шт)</td>
+<td>Электро</td>
+<td>1.7 ГВт</td>
+<td>1.5%</td>
+</tr>
+<tr class="odd">
+<td>Добыча руды</td>
+<td>Электро</td>
+<td>0.1 ГВт</td>
+<td>0.1%</td>
+</tr>
+<tr class="even">
+<td>Инфраструктура</td>
+<td>Электро</td>
+<td>11.5 ГВт</td>
+<td>10%</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Итог по типу</th>
+<th>Мощность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Термальная</strong></td>
+<td><strong>56 ГВт</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Электрическая</strong></td>
+<td><strong>56 ГВт</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Всего</strong></td>
+<td><strong>112 ГВт</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>С запасом 30%:</strong> - Термо: 73 ГВт - Электро: 73 ГВт - <strong>Итого: ~145 ГВт</strong></p>
+<p>Запас (30%) учитывает: - Пиковые нагрузки при одновременных запусках - Неравномерность производственного цикла - Потери в распределительной сети</p>
+<hr>
+</section>
+<section id="энергоснабжение-базы-площадь-панелей-и-концентраторов" class="level3">
+<h3 class="anchored" data-anchor-id="энергоснабжение-базы-площадь-панелей-и-концентраторов">Энергоснабжение базы: площадь панелей и концентраторов</h3>
+<p><strong>База НЕ использует зеркала Роя</strong> для питания — она работает на местных источниках: - Солнечные концентраторы (термо) — для плавки - PV-панели (электро) — для всего остального</p>
+<p><strong>1. Термальные концентраторы (для плавки алюминия):</strong></p>
+<pre><code>Потребность: 73 ГВт (с запасом)
+Солнечный поток: 9 кВт/м²
+КПД концентратора: 85%
+
+Площадь = 73 000 МВт / (9 кВт/м² × 0.85)
+        = 73 000 000 / 7.65 = 9.5 млн м²
+        = 950 га ≈ 10 км²</code></pre>
+<p><strong>2. PV-панели (для электричества):</strong></p>
+<pre><code>Потребность: 73 ГВт (с запасом)
+Солнечный поток: 9 кВт/м²
+КПД PV-панелей: 18%
+
+Площадь = 73 000 МВт / (9 кВт/м² × 0.18)
+        = 73 000 000 / 1.62 = 45 млн м²
+        = 4 500 га ≈ 45 км²</code></pre>
+<p><strong>Итого площадь энергетики (1000 МД):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Тип</th>
+<th>Площадь</th>
+<th>Эквивалент</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Концентраторы</td>
+<td>10 км²</td>
+<td>Квадрат 3×3 км</td>
+</tr>
+<tr class="even">
+<td>PV-панели</td>
+<td>45 км²</td>
+<td>Квадрат 7×7 км</td>
+</tr>
+<tr class="odd">
+<td><strong>Всего</strong></td>
+<td><strong>55 км²</strong></td>
+<td>~0.07% площади Меркурия</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="самоокупаемость-в-эквиваленте-зеркал" class="level3">
+<h3 class="anchored" data-anchor-id="самоокупаемость-в-эквиваленте-зеркал">Самоокупаемость (в эквиваленте зеркал)</h3>
+<p>Для сравнения: сколько зеркал Роя эквивалентны энергопотреблению базы?</p>
+<pre><code>Электрическая часть: 73 ГВт
+1 зеркало → через PV: 82 МВт × 0.18 = 15 МВт
+
+Эквивалент: 73 000 / 15 ≈ 5 000 зеркал
+
+Это производство 1000 МД за:
+5000 / 600000 = 0.8% суток = ~12 минут</code></pre>
+<p><strong>Вывод:</strong> База производит энергетический эквивалент своего потребления за ~12 минут работы.</p>
+<hr>
+</section>
+<section id="масштабирование-этапы-роста" class="level3">
+<h3 class="anchored" data-anchor-id="масштабирование-этапы-роста">Масштабирование (этапы роста)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Масс-драйверов</th>
+<th>Термо</th>
+<th>Электро</th>
+<th>С запасом 30%</th>
+<th>Площадь PV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10</td>
+<td>0.6 ГВт</td>
+<td>0.6 ГВт</td>
+<td>1.5 ГВт</td>
+<td>0.5 км²</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>5.6 ГВт</td>
+<td>5.6 ГВт</td>
+<td>15 ГВт</td>
+<td>4.5 км²</td>
+</tr>
+<tr class="odd">
+<td><strong>1 000 (цель)</strong></td>
+<td><strong>56 ГВт</strong></td>
+<td><strong>56 ГВт</strong></td>
+<td><strong>145 ГВт</strong></td>
+<td><strong>55 км²</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Площадь энергетики масштабируется линейно с количеством масс-драйверов.</p>
+<hr>
+<hr>
+</section>
+</section>
+<section id="экспоненциальный-рост-от-1-завода-до-1000-масс-драйверов" class="level2">
+<h2 class="anchored" data-anchor-id="экспоненциальный-рост-от-1-завода-до-1000-масс-драйверов">Экспоненциальный рост: от 1 завода до 1000 масс-драйверов</h2>
+<section id="энергия-на-меркурии-не-проблема" class="level3">
+<h3 class="anchored" data-anchor-id="энергия-на-меркурии-не-проблема">Энергия на Меркурии — не проблема</h3>
+<pre><code>Солнечный поток: 9 кВт/м² (6.7× Земли)
+"Пики вечного света": солнце 24/7
+Зеркала-концентраторы: делаем из местного алюминия</code></pre>
+<p><strong>Энергия для локальных нужд базы не ограничена.</strong></p>
+<hr>
+</section>
+<section id="зачем-тогда-масс-драйвер" class="level3">
+<h3 class="anchored" data-anchor-id="зачем-тогда-масс-драйвер">Зачем тогда масс-драйвер?</h3>
+<p>МД нужен не для энергии базы, а для:</p>
+<ol type="1">
+<li><strong>Запуск зеркал в космос</strong> — формирование Роя Дайсона</li>
+<li><strong>Передача энергии на Землю</strong> — экономическое обоснование проекта</li>
+<li><strong>Экспорт</strong> — без МД проект не приносит пользы Земле</li>
+</ol>
+<p><strong>Вывод:</strong> Первый МД — это не про энергию базы, а про начало “экспорта”.</p>
+<hr>
+</section>
+<section id="энергетические-потребности" class="level3">
+<h3 class="anchored" data-anchor-id="энергетические-потребности">Энергетические потребности</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Объект</th>
+<th>Потребление</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 завод</td>
+<td>5 МВт</td>
+<td>Местные концентраторы</td>
+</tr>
+<tr class="even">
+<td>10 заводов</td>
+<td>50 МВт</td>
+<td>Местные концентраторы</td>
+</tr>
+<tr class="odd">
+<td>100 заводов</td>
+<td>500 МВт</td>
+<td>Местные концентраторы</td>
+</tr>
+<tr class="even">
+<td>1 масс-драйвер</td>
+<td>40 МВт</td>
+<td>Местные концентраторы</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Производство концентраторов:</strong></p>
+<pre><code>Алюминий на Меркурии: есть
+Производство фольги: завод умеет
+1 м² концентратора → 2.7 кВт (при КПД 30%)
+
+Для 500 МВт нужно: 185 000 м² = 18.5 га
+Масса алюминия: ~10 тонн (тонкая фольга)</code></pre>
+<p>Это производство 1 завода за несколько дней. <strong>Энергия не ограничение.</strong></p>
+<hr>
+</section>
+<section id="стратегия-первый-мд-приоритет-1" class="level3">
+<h3 class="anchored" data-anchor-id="стратегия-первый-мд-приоритет-1">Стратегия: Первый МД — приоритет №1</h3>
+<p><strong>Манифест первой экспедиции (обновлённый):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 28%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Груз</th>
+<th>Масса</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Завод (модули)</td>
+<td>35 т</td>
+<td>Производство роботов</td>
+</tr>
+<tr class="even">
+<td>Роботы Gen-1</td>
+<td>15 т</td>
+<td>Монтаж</td>
+</tr>
+<tr class="odd">
+<td>Стартовые зеркала (концентраторы)</td>
+<td>1 т</td>
+<td>Первые 30 МВт до местного производства</td>
+</tr>
+<tr class="even">
+<td>Компоненты МД</td>
+<td>20 т</td>
+<td>Ускоренная сборка</td>
+</tr>
+<tr class="odd">
+<td>Расходники</td>
+<td>4 т</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>ИТОГО</strong></td>
+<td><strong>75 т</strong></td>
+<td>1 рейс Starship</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Примечание:</strong> Стартовые зеркала нужны только на первые дни, пока завод не начнёт производить собственные концентраторы из местного алюминия.</p>
+<hr>
+</section>
+<section id="фаза-0-первый-масс-драйвер-месяцы-0-6" class="level3">
+<h3 class="anchored" data-anchor-id="фаза-0-первый-масс-драйвер-месяцы-0-6">Фаза 0: Первый масс-драйвер (месяцы 0-6)</h3>
+<p><strong>Параллельные потоки:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Месяц</th>
+<th>Завод</th>
+<th>Масс-драйвер</th>
+<th>Энергия</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Сборка (7 дней)</td>
+<td>Площадка</td>
+<td>Стартовые + местные</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Первые роботы + концентраторы</td>
+<td>Рытьё тоннеля</td>
+<td>Наращиваем</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>+15 роботов</td>
+<td>Рытьё</td>
+<td>Местные (50+ МВт)</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>+15 роботов</td>
+<td>Каркас</td>
+<td>Местные (100+ МВт)</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>+15 роботов</td>
+<td>Рельсы</td>
+<td>Местные</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>+15 роботов</td>
+<td>Катушки</td>
+<td>Местные</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td><strong>60 роботов</strong></td>
+<td><strong>МД готов!</strong></td>
+<td>Неограниченно</td>
+</tr>
+</tbody>
+</table>
+<p><strong>К концу месяца 6:</strong> - 1 завод - 1 масс-драйвер - 60 роботов - Начинаем запускать зеркала в космос!</p>
+<hr>
+</section>
+<section id="фаза-1-начало-экспорта-месяцы-6-12" class="level3">
+<h3 class="anchored" data-anchor-id="фаза-1-начало-экспорта-месяцы-6-12">Фаза 1: Начало экспорта (месяцы 6-12)</h3>
+<pre><code>МД запускает 600 зеркал/день в космос
+За месяц: 18 000 зеркал в Рое
+За 6 месяцев: 108 000 зеркал
+
+Энергия, передаваемая на Землю:
+108 000 × 82 МВт × 0.23 (КПД передачи) = 2 ТВт
+
+Для сравнения: мировое потребление = 2.3 ТВт</code></pre>
+<p><strong>Уже через год — почти всё мировое потребление!</strong></p>
+<hr>
+</section>
+<section id="фаза-2-экспоненциальный-рост-месяцы-6-36" class="level3">
+<h3 class="anchored" data-anchor-id="фаза-2-экспоненциальный-рост-месяцы-6-36">Фаза 2: Экспоненциальный рост (месяцы 6-36)</h3>
+<p><strong>Теперь энергия не ограничение.</strong> Ограничение — производство роботов.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Месяц</th>
+<th>Заводов</th>
+<th>Роботов всего</th>
+<th>МД строится</th>
+<th>МД готово</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6</td>
+<td>1</td>
+<td>60</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>4</td>
+<td>180</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td>12</td>
+<td>400</td>
+<td>8</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>30</td>
+<td>900</td>
+<td>18</td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>80</td>
+<td>2 000</td>
+<td>40</td>
+<td>70</td>
+</tr>
+<tr class="even">
+<td>36</td>
+<td>200</td>
+<td>5 000</td>
+<td>100</td>
+<td>170</td>
+</tr>
+<tr class="odd">
+<td>42</td>
+<td>500</td>
+<td>12 000</td>
+<td>240</td>
+<td>410</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td>1 000</td>
+<td>25 000</td>
+<td>500</td>
+<td><strong>910</strong></td>
+</tr>
+<tr class="odd">
+<td>50</td>
+<td>1 200</td>
+<td>30 000</td>
+<td>600</td>
+<td><strong>1 100</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="итог-сроки-обновлённые" class="level3">
+<h3 class="anchored" data-anchor-id="итог-сроки-обновлённые">Итог: сроки (обновлённые)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Веха</th>
+<th>Срок</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Первый завод</td>
+<td>День 7</td>
+<td>С Земли</td>
+</tr>
+<tr class="even">
+<td><strong>Первый масс-драйвер</strong></td>
+<td><strong>Месяц 6</strong></td>
+<td>Приоритет!</td>
+</tr>
+<tr class="odd">
+<td>Энергонезависимость</td>
+<td>Месяц 7</td>
+<td>Зеркала дают энергию</td>
+</tr>
+<tr class="even">
+<td>10 МД</td>
+<td>Месяц 18</td>
+<td>1.5 года</td>
+</tr>
+<tr class="odd">
+<td>100 МД</td>
+<td>Месяц 36</td>
+<td>3 года</td>
+</tr>
+<tr class="even">
+<td><strong>1000 МД</strong></td>
+<td><strong>Месяц 48-50</strong></td>
+<td><strong>4 года</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Приоритет на первый МД сокращает срок с 8 до <strong>4 лет</strong>.</p>
+<hr>
+</section>
+<section id="ключевой-инсайт" class="level3">
+<h3 class="anchored" data-anchor-id="ключевой-инсайт">Ключевой инсайт</h3>
+<p><strong>Что ограничивает рост:</strong> - Энергия: НЕ ограничение (местные концентраторы) - Материалы: НЕ ограничение (Меркурий богат) - <strong>Производство роботов: ГЛАВНОЕ ограничение</strong></p>
+<p><strong>Первый МД — это начало “экспорта”:</strong> - До него: база работает на себя (самовоспроизведение) - После него: начинаем передавать энергию на Землю</p>
+<p>Чем раньше первый МД → тем раньше проект начнёт приносить пользу.</p>
+<hr>
+</section>
+<section id="проверка-роботов-для-1000-мд" class="level3">
+<h3 class="anchored" data-anchor-id="проверка-роботов-для-1000-мд">Проверка: роботов для 1000 МД</h3>
+<pre><code>1000 масс-драйверов × 58 роботов = 58 000 роботов
+К месяцу 50: ~30 000 роботов накоплено
+
+Дефицит: 28 000 роботов
+1000 заводов × 15 роб/мес = 15 000 роботов/месяц
+Закроем дефицит за 2 месяца
+
+Итого: ~52 месяца = 4.3 года</code></pre>
+<hr>
+</section>
+</section>
+<section id="сравнение-луна-vs-меркурий" class="level2">
+<h2 class="anchored" data-anchor-id="сравнение-луна-vs-меркурий">Сравнение: Луна vs Меркурий</h2>
+<section id="зачем-сравнивать" class="level3">
+<h3 class="anchored" data-anchor-id="зачем-сравнивать">Зачем сравнивать?</h3>
+<p>Луна — очевидный первый кандидат: ближе, понятнее, уже есть программы (Artemis). Но подходит ли она для Роя Дайсона?</p>
+<hr>
+</section>
+<section id="солнечная-энергия" class="level3">
+<h3 class="anchored" data-anchor-id="солнечная-энергия">Солнечная энергия</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Луна</th>
+<th>Меркурий</th>
+<th>Разница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Расстояние до Солнца</td>
+<td>1 а.е.</td>
+<td>0.39 а.е.</td>
+<td>2.6×</td>
+</tr>
+<tr class="even">
+<td>Солнечная постоянная</td>
+<td>1,361 Вт/м²</td>
+<td>9,082 Вт/м²</td>
+<td><strong>6.7×</strong></td>
+</tr>
+<tr class="odd">
+<td>Энергия на 1 зеркало</td>
+<td>13.6 МВт</td>
+<td>90.8 МВт</td>
+<td>6.7×</td>
+</tr>
+<tr class="even">
+<td>Отражённая (КПД 90%)</td>
+<td><strong>12.2 МВт</strong></td>
+<td><strong>82 МВт</strong></td>
+<td>6.7×</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Физика:</strong> Солнечный поток падает как квадрат расстояния. Меркурий в 2.6× ближе к Солнцу → получает 6.7× больше энергии.</p>
+<hr>
+</section>
+<section id="передача-на-землю-1" class="level3">
+<h3 class="anchored" data-anchor-id="передача-на-землю-1">Передача на Землю</h3>
+<p><strong>От Меркурия:</strong></p>
+<pre><code>Зеркала → Концентратор → Лазер → Ретранслятор → Лазер → Земля
+КПД: 0.90 × 0.95 × 0.60 × 0.99 × 0.95 × 0.95 × 0.50 = 23%</code></pre>
+<p><strong>От Луны (упрощённая цепочка):</strong></p>
+<pre><code>Зеркала → Концентратор → Лазер → Земля (напрямую)
+КПД: 0.90 × 0.95 × 0.60 × 0.98 × 0.95 × 0.50 = 24%</code></pre>
+<p>Луна ближе, но основные потери — в преобразованиях (свет→лазер, лазер→электричество), а не в расстоянии.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Источник</th>
+<th>Отражённая</th>
+<th>КПД передачи</th>
+<th>На Земле</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Луна</td>
+<td>12.2 МВт</td>
+<td>24%</td>
+<td><strong>2.9 МВт</strong></td>
+</tr>
+<tr class="even">
+<td>Меркурий</td>
+<td>82 МВт</td>
+<td>23%</td>
+<td><strong>19 МВт</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Разница</strong></td>
+<td>6.7×</td>
+<td>~одинаковый</td>
+<td><strong>6.5×</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="целевые-показатели" class="level3">
+<h3 class="anchored" data-anchor-id="целевые-показатели">Целевые показатели</h3>
+<p><strong>Вариант А: Такое же количество зеркал (120 млн за 4 года)</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Луна</th>
+<th>Меркурий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Зеркал</td>
+<td>120 млн</td>
+<td>120 млн</td>
+</tr>
+<tr class="even">
+<td>Отражённая мощность</td>
+<td>1.5 ПВт</td>
+<td>10 ПВт</td>
+</tr>
+<tr class="odd">
+<td>На Земле</td>
+<td>350 ТВт</td>
+<td>2,000 ТВт</td>
+</tr>
+<tr class="even">
+<td>vs мир (20 ТВт)</td>
+<td><strong>17×</strong></td>
+<td><strong>100×</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вариант Б: Такая же мощность на Земле (2 ПВт)</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Луна</th>
+<th>Меркурий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Нужно зеркал</td>
+<td>~700 млн</td>
+<td>~120 млн</td>
+</tr>
+<tr class="even">
+<td>Масса зеркал</td>
+<td>105 млн т</td>
+<td>18 млн т</td>
+</tr>
+<tr class="odd">
+<td>Производство</td>
+<td><strong>6× дольше</strong></td>
+<td>базовый</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="энергобаланс-базы" class="level3">
+<h3 class="anchored" data-anchor-id="энергобаланс-базы">Энергобаланс базы</h3>
+<p><strong>Примечание:</strong> База питается от местных PV-панелей (КПД 18%), не от зеркал Роя.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Луна</th>
+<th>Меркурий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Потребление базы (электро + термо)</td>
+<td>145 ГВт</td>
+<td>145 ГВт</td>
+</tr>
+<tr class="even">
+<td>Солнечный поток</td>
+<td>1.4 кВт/м²</td>
+<td>9 кВт/м²</td>
+</tr>
+<tr class="odd">
+<td>Площадь PV (КПД 18%)</td>
+<td>580 км²</td>
+<td>90 км²</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для сравнения — эквивалент в зеркалах Роя:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Луна</th>
+<th>Меркурий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 зеркало → через PV 18%</td>
+<td>2.2 МВт</td>
+<td>15 МВт</td>
+</tr>
+<tr class="even">
+<td>Эквивалент потребления</td>
+<td>~66 000</td>
+<td>~10 000</td>
+</tr>
+<tr class="odd">
+<td>Время производства (1000 МД)</td>
+<td>~2.6 часа</td>
+<td>~24 мин</td>
+</tr>
+</tbody>
+</table>
+<p>На обеих площадках база быстро становится энергонезависимой.</p>
+<hr>
+</section>
+<section id="динамика-роста-по-годам" class="level3">
+<h3 class="anchored" data-anchor-id="динамика-роста-по-годам">Динамика роста по годам</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Год</th>
+<th>Луна (на Земле)</th>
+<th>Меркурий (на Земле)</th>
+<th>Отношение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>0.5 ТВт</td>
+<td>3 ТВт</td>
+<td>6×</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>6 ТВт</td>
+<td>40 ТВт</td>
+<td>6.7×</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>58 ТВт</td>
+<td>320 ТВт</td>
+<td>5.5×</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>350 ТВт</td>
+<td>2,000 ТВт</td>
+<td>5.7×</td>
+</tr>
+</tbody>
+</table>
+<p>Относительно мирового потребления (20 ТВт): - <strong>Год 2:</strong> Луна = 30% мира, Меркурий = 2× мира - <strong>Год 4:</strong> Луна = 17× мира, Меркурий = 100× мира</p>
+<hr>
+</section>
+<section id="дополнительные-факторы" class="level3">
+<h3 class="anchored" data-anchor-id="дополнительные-факторы">Дополнительные факторы</h3>
+<p><strong>Преимущества Луны:</strong> - Ближе к Земле (3 дня vs 3-6 месяцев) - Меньше затраты на доставку - Отработка технологий - Существующие программы (Artemis)</p>
+<p><strong>Недостатки Луны:</strong> - <strong>6.7× меньше энергии</strong> — главный минус - Лунная ночь (14 дней) — нужны “пики вечного света” на полюсах - Ограниченный потенциал масштабирования</p>
+<hr>
+</section>
+<section id="состав-грунта-и-технологии-добычи-isru" class="level3">
+<h3 class="anchored" data-anchor-id="состав-грунта-и-технологии-добычи-isru">Состав грунта и технологии добычи (ISRU)</h3>
+<p><strong>Лунный реголит:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Содержание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SiO₂</td>
+<td>40-48%</td>
+</tr>
+<tr class="even">
+<td><strong>Al₂O₃</strong></td>
+<td><strong>12-28%</strong> (высокое в хайлендах)</td>
+</tr>
+<tr class="odd">
+<td>FeO</td>
+<td>5-18%</td>
+</tr>
+<tr class="even">
+<td>MgO</td>
+<td>5-10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Поверхность Меркурия (данные MESSENGER):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Относительно Луны</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Al/Si</td>
+<td><strong>Ниже</strong></td>
+</tr>
+<tr class="even">
+<td>Mg/Si</td>
+<td><strong>Выше</strong></td>
+</tr>
+<tr class="odd">
+<td>Сера</td>
+<td><strong>10× больше</strong></td>
+</tr>
+<tr class="even">
+<td>Железо</td>
+<td>Ниже</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Парадокс:</strong> Луна богаче алюминием, чем Меркурий!</p>
+<p>Причина: на Луне был глобальный магматический океан → лёгкий плагиоклаз (богатый Al) всплыл и образовал кору. Меркурий формировался иначе — его поверхность ближе к энстатитовым хондритам (богатым Mg).</p>
+<p><strong>Решение для зеркал:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Вариант</th>
+<th>На Луне</th>
+<th>На Меркурии</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Чистый алюминий</td>
+<td>✓ Оптимально</td>
+<td>Дефицит</td>
+</tr>
+<tr class="even">
+<td>Al-Mg сплав</td>
+<td>✓</td>
+<td>✓ Оптимально</td>
+</tr>
+<tr class="odd">
+<td>Mg с Al-покрытием</td>
+<td>Возможно</td>
+<td>✓ Оптимально</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Технологии добычи:</strong> Электролиз расплава работает на обоих телах. Разница в исходном сырье, не в процессе.</p>
+<p><strong>Вывод по материалам:</strong> На Меркурии оптимальнее использовать магний как основу с тонким алюминиевым покрытием. Технологии ISRU переносимы, но требуют адаптации к доступным ресурсам.</p>
+<hr>
+</section>
+<section id="вывод" class="level3">
+<h3 class="anchored" data-anchor-id="вывод">Вывод</h3>
+<p>Рой с Луны <strong>работает</strong> и к 4-му году даёт 17× мирового потребления — это уже революция.</p>
+<p>Но для <strong>цивилизации II типа</strong> (использование всей энергии звезды) Луна — промежуточный шаг. Меркурий даёт 6× больше энергии при тех же затратах.</p>
+<p><strong>Рекомендация:</strong> Луна как тестовая площадка → Меркурий как финальная цель.</p>
+<hr>
+</section>
+</section>
+<section id="куда-направлять-зеркала-с-луны" class="level2">
+<h2 class="anchored" data-anchor-id="куда-направлять-зеркала-с-луны">Куда направлять зеркала с Луны?</h2>
+<section id="варианты-орбит" class="level3">
+<h3 class="anchored" data-anchor-id="варианты-орбит">Варианты орбит</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 26%">
+<col style="width: 21%">
+<col style="width: 17%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Орбита</th>
+<th>Расстояние от Земли</th>
+<th>Солнечный поток</th>
+<th>Риск для LEO</th>
+<th>Передача энергии</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Earth-Sun L1</strong></td>
+<td>1.5 млн км</td>
+<td>1,361 Вт/м²</td>
+<td><strong>Нулевой</strong></td>
+<td>Прямая, стабильная</td>
+</tr>
+<tr class="even">
+<td>Гелиоцентрическая</td>
+<td>Переменное</td>
+<td>До 9,000+</td>
+<td>Нулевой</td>
+<td>Сложная</td>
+</tr>
+<tr class="odd">
+<td>Околоземная (LEO)</td>
+<td>~400 км</td>
+<td>1,361 Вт/м²</td>
+<td><strong>КРИТИЧЕСКИЙ</strong></td>
+<td>Прямая, но затенение</td>
+</tr>
+<tr class="even">
+<td>Окололунная</td>
+<td>~384,000 км</td>
+<td>1,361 Вт/м²</td>
+<td>Низкий</td>
+<td>Затенение Землёй</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="оптимальный-выбор-точка-лагранжа-l1" class="level3">
+<h3 class="anchored" data-anchor-id="оптимальный-выбор-точка-лагранжа-l1">Оптимальный выбор: точка Лагранжа L1</h3>
+<p><strong>Почему L1:</strong> - <strong>Нулевой риск для LEO</strong> — 1.5 млн км от спутников Земли - Стабильное положение (точка Лагранжа между Землёй и Солнцем) - Постоянное освещение (нет затенений) - Прямой луч на Землю в любое время - Проверенная локация (SOHO, DSCOVR работают там годами)</p>
+<p><strong>Минус:</strong> Солнечный поток = земной (1,361 Вт/м²), в 6.7× меньше, чем у Меркурия.</p>
+<hr>
+</section>
+</section>
+<section id="риски-космического-мусора" class="level2">
+<h2 class="anchored" data-anchor-id="риски-космического-мусора">Риски космического мусора</h2>
+<section id="текущая-ситуация-в-околоземном-пространстве-2025" class="level3">
+<h3 class="anchored" data-anchor-id="текущая-ситуация-в-околоземном-пространстве-2025">Текущая ситуация в околоземном пространстве (2025)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Активных спутников</td>
+<td>~11,800 (из них 7,135 Starlink)</td>
+</tr>
+<tr class="even">
+<td>Отслеживаемого мусора</td>
+<td>36,000 объектов</td>
+</tr>
+<tr class="odd">
+<td>Неотслеживаемый мусор</td>
+<td>Миллионы (1мм-10см)</td>
+</tr>
+<tr class="even">
+<td>Вероятность крупного столкновения</td>
+<td><strong>~10% в год</strong></td>
+</tr>
+<tr class="odd">
+<td>CRASH Clock</td>
+<td><strong>2.8 дня</strong> до катастрофы при потере связи</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="синдром-кесслера" class="level3">
+<h3 class="anchored" data-anchor-id="синдром-кесслера">Синдром Кесслера</h3>
+<blockquote class="blockquote">
+<p>“Мы ещё не там, но приближаемся очень быстро. Спор только о том, будет ли это через 5, 10 или 20 лет.”</p>
+</blockquote>
+<p><strong>Актуальные факты:</strong> - 2024: китайская ракета Long March 6A распалась на 700+ фрагментов - Starlink выполняет ~50,000 манёвров уклонения за 4 года - Прогноз на 2028: ~1 млн манёвров за 6 месяцев</p>
+</section>
+<section id="сравнение-рисков-по-сценариям" class="level3">
+<h3 class="anchored" data-anchor-id="сравнение-рисков-по-сценариям">Сравнение рисков по сценариям</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 26%">
+<col style="width: 24%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Фактор</th>
+<th>Луна → L1</th>
+<th>Меркурий</th>
+<th>Луна → LEO</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Риск для спутников Земли</td>
+<td><strong>Нулевой</strong></td>
+<td><strong>Нулевой</strong></td>
+<td><strong>КАТАСТРОФА</strong></td>
+</tr>
+<tr class="even">
+<td>Расстояние до LEO</td>
+<td>1.5 млн км</td>
+<td>77-222 млн км</td>
+<td>0 км</td>
+</tr>
+<tr class="odd">
+<td>Столкновения в зоне размещения</td>
+<td>Минимальные</td>
+<td>Минимальные</td>
+<td>Каскадные</td>
+</tr>
+<tr class="even">
+<td>Последствия отказа зеркала</td>
+<td>Дрейф прочь</td>
+<td>Дрейф</td>
+<td>Синдром Кесслера</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ключевой-вывод" class="level3">
+<h3 class="anchored" data-anchor-id="ключевой-вывод">Ключевой вывод</h3>
+<p><strong>Риск определяется НЕ местом производства, а КУДА направляются зеркала:</strong></p>
+<ul>
+<li>✅ <strong>Луна → L1:</strong> Безопасно (1.5 млн км от Земли)</li>
+<li>✅ <strong>Меркурий → гелиоцентр.:</strong> Безопасно (77+ млн км)</li>
+<li>❌ <strong>Луна → LEO:</strong> Категорически нельзя</li>
+</ul>
+<p><strong>Между сценариями Луна→L1 и Меркурий риски одинаково низкие.</strong></p>
+<hr>
+</section>
+</section>
+<section id="внутренние-риски-роя-столкновения-между-зеркалами" class="level2">
+<h2 class="anchored" data-anchor-id="внутренние-риски-роя-столкновения-между-зеркалами">Внутренние риски роя (столкновения между зеркалами)</h2>
+<section id="млн-зеркал-на-l1" class="level3">
+<h3 class="anchored" data-anchor-id="млн-зеркал-на-l1">120 млн зеркал на L1</h3>
+<pre><code>Стабильная зона L1: ~1,000,000 км³
+При 120 млн зеркал: 1 зеркало на ~8 км³
+Среднее расстояние между зеркалами: ~2 км</code></pre>
+<p><strong>Риск внутренних столкновений:</strong> Низкий при координации. Отказавшие зеркала дрейфуют прочь от L1 (не накапливаются).</p>
+</section>
+<section id="млн-зеркал-у-меркурия" class="level3">
+<h3 class="anchored" data-anchor-id="млн-зеркал-у-меркурия">120 млн зеркал у Меркурия</h3>
+<pre><code>Орбитальный тор вокруг Солнца
+Объём значительно больше
+Среднее расстояние: &gt;10 км</code></pre>
+<p><strong>Риск:</strong> Ещё ниже (больше пространства для манёвра).</p>
+<hr>
+</section>
+</section>
+<section id="двухэтапная-стратегия" class="level2">
+<h2 class="anchored" data-anchor-id="двухэтапная-стратегия">Двухэтапная стратегия</h2>
+<section id="этап-1-луна-l1-годы-1-4" class="level3">
+<h3 class="anchored" data-anchor-id="этап-1-луна-l1-годы-1-4">Этап 1: Луна → L1 (годы 1-4)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Энергия за 4 года</td>
+<td>350 ТВт (17× мира)</td>
+</tr>
+<tr class="even">
+<td>Риск для LEO</td>
+<td>Нулевой</td>
+</tr>
+<tr class="odd">
+<td>Логистика</td>
+<td>Проще (3 дня до Луны)</td>
+</tr>
+<tr class="even">
+<td>Материалы</td>
+<td>Алюминий доступен (12-28%)</td>
+</tr>
+<tr class="odd">
+<td>Цель</td>
+<td>Отработка технологий, первая прибыль</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="этап-2-меркурий-годы-5" class="level3">
+<h3 class="anchored" data-anchor-id="этап-2-меркурий-годы-5">Этап 2: Меркурий (годы 5+)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Энергия</td>
+<td>2+ ПВт (100× мира и более)</td>
+</tr>
+<tr class="even">
+<td>Риск для LEO</td>
+<td>Нулевой</td>
+</tr>
+<tr class="odd">
+<td>Логистика</td>
+<td>Сложнее (3-6 месяцев)</td>
+</tr>
+<tr class="even">
+<td>Материалы</td>
+<td>Нужны Mg-сплавы</td>
+</tr>
+<tr class="odd">
+<td>Цель</td>
+<td>Цивилизация II типа</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="итог" class="level3">
+<h3 class="anchored" data-anchor-id="итог">Итог</h3>
+<p><strong>Луна — не альтернатива Меркурию, а первый шаг.</strong></p>
+<p>17× мирового потребления с Луны — это уже революция. Но для неограниченного масштабирования нужен Меркурий.</p>
+<hr>
+</section>
+</section>
+<section id="достаточно-ли-луны-для-энергетической-империи" class="level2">
+<h2 class="anchored" data-anchor-id="достаточно-ли-луны-для-энергетической-империи">Достаточно ли Луны для “энергетической империи”?</h2>
+<section id="энергия-и-время" class="level3">
+<h3 class="anchored" data-anchor-id="энергия-и-время">Энергия и время</h3>
+<p><strong>При росте потребления 2% в год (<a href="https://www.eia.gov/todayinenergy/detail.php?id=49876">EIA прогноз</a>):</strong></p>
+<pre><code>Сейчас:   20 ТВт
+Год 50:   54 ТВт
+Год 100:  145 ТВт
+Год 150:  390 ТВт ← превышает лунный потенциал (350 ТВт)</code></pre>
+<p><strong>Вывод:</strong> 350 ТВт с Луны хватит на <strong>~140-150 лет</strong> экономического роста.</p>
+</section>
+<section id="шкала-кардашёва" class="level3">
+<h3 class="anchored" data-anchor-id="шкала-кардашёва">Шкала Кардашёва</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Уровень</th>
+<th>Мощность</th>
+<th>Статус</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.73</td>
+<td>20 ТВт</td>
+<td>Человечество сейчас</td>
+</tr>
+<tr class="even">
+<td><strong>0.85</strong></td>
+<td><strong>350 ТВт</strong></td>
+<td><strong>Луна (наш проект)</strong></td>
+</tr>
+<tr class="odd">
+<td>0.93</td>
+<td>2,000 ТВт</td>
+<td>Меркурий</td>
+</tr>
+<tr class="even">
+<td>1.0</td>
+<td>10,000 ТВт</td>
+<td>Type I (вся энергия планеты)</td>
+</tr>
+<tr class="odd">
+<td>2.0</td>
+<td>4×10^26 Вт</td>
+<td>Type II (вся энергия звезды)</td>
+</tr>
+</tbody>
+</table>
+<p>Даже с Меркурием мы не достигаем Type I. Для Type I нужно в 5× больше, чем даёт Меркурий!</p>
+</section>
+<section id="физические-пределы-луны" class="level3">
+<h3 class="anchored" data-anchor-id="физические-пределы-луны">Физические пределы Луны</h3>
+<p><strong>Поверхность и ресурсы — не ограничение:</strong> - Площадь: 38 млн км² (1000 МД занимают 0.03%) - Алюминий: хватит на триллионы зеркал</p>
+<p><strong>Реальное ограничение — пространство на L1:</strong></p>
+<pre><code>Стабильная зона L1: ~1,000,000 км³
+При 120 млн зеркал: 1 на 8 км³ (плотно)
+При 1 млрд зеркал: 1 на 1 км³ (предел)
+Максимум: ~1-10 млрд зеркал = 3-30 ПВт</code></pre>
+</section>
+<section id="для-чего-хватит-луны" class="level3">
+<h3 class="anchored" data-anchor-id="для-чего-хватит-луны">Для чего хватит Луны?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Задача</th>
+<th>Энергия</th>
+<th>Хватит?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Электрификация всего транспорта</td>
+<td>50 ТВт</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Опреснение для всей планеты</td>
+<td>10 ТВт</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>Синтетическое топливо</td>
+<td>30 ТВт</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Вертикальные фермы</td>
+<td>20 ТВт</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>150 лет роста</td>
+<td>400 ТВт</td>
+<td>⚠️ На пределе</td>
+</tr>
+<tr class="even">
+<td>Терраформирование Марса</td>
+<td>~10^18 Вт</td>
+<td>❌</td>
+</tr>
+<tr class="odd">
+<td>Орбитальные хабитаты (млрд людей)</td>
+<td>~100 ПВт</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="масштабирование" class="level3">
+<h3 class="anchored" data-anchor-id="масштабирование">Масштабирование</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Масс-драйверов</th>
+<th>Зеркал</th>
+<th>Мощность</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1,000</td>
+<td>120 млн</td>
+<td>350 ТВт</td>
+<td>Базовый план</td>
+</tr>
+<tr class="even">
+<td>10,000</td>
+<td>1.2 млрд</td>
+<td>3.5 ПВт</td>
+<td>L1 заполнен</td>
+</tr>
+<tr class="odd">
+<td>100,000</td>
+<td>12 млрд</td>
+<td>35 ПВт</td>
+<td>Нужны другие орбиты</td>
+</tr>
+</tbody>
+</table>
+<p>При выходе за L1 → гелиоцентрические орбиты → теряем преимущество близости → проще сразу Меркурий.</p>
+</section>
+<section id="финальный-вердикт" class="level3">
+<h3 class="anchored" data-anchor-id="финальный-вердикт">Финальный вердикт</h3>
+<p><strong>Для “энергетической империи” на Земле — Луны достаточно.</strong></p>
+<p>350 ТВт (17× мира) решает: - ✅ Энергетический кризис навсегда - ✅ Климатическую проблему - ✅ Дефицит воды и еды - ✅ 150 лет экономического роста</p>
+<p><strong>Меркурий нужен только если цель:</strong> - Терраформирование планет - Орбитальные хабитаты на миллиарды людей - Межзвёздная экспансия - Type I+ цивилизация</p>
+<p><strong>Луна — это победа. Меркурий — это амбиция.</strong></p>
+<hr>
+</section>
+</section>
+<section id="луна-как-трамплин-к-меркурию" class="level2">
+<h2 class="anchored" data-anchor-id="луна-как-трамплин-к-меркурию">Луна как трамплин к Меркурию</h2>
+<section id="каскадный-эффект" class="level3">
+<h3 class="anchored" data-anchor-id="каскадный-эффект">Каскадный эффект</h3>
+<pre><code>Луна (350 ТВт)
+    ↓
+Неограниченное производство на Земле
+    ↓
+10,000+ ракет/год → Меркурий
+    ↓
+Меркурий (2000+ ТВт)
+    ↓
+Type I+ цивилизация</code></pre>
+</section>
+<section id="сравнение-сценариев" class="level3">
+<h3 class="anchored" data-anchor-id="сравнение-сценариев">Сравнение сценариев</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Меркурий БЕЗ Луны</th>
+<th>Меркурий ПОСЛЕ Луны</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Энергия для подготовки</td>
+<td>20 ТВт (дефицит)</td>
+<td>350 ТВт (избыток)</td>
+</tr>
+<tr class="even">
+<td>Время подготовки</td>
+<td>10-20 лет</td>
+<td>2-3 года</td>
+</tr>
+<tr class="odd">
+<td>Стоимость</td>
+<td>$1-10 трлн</td>
+<td>Почти бесплатно</td>
+</tr>
+<tr class="even">
+<td>Риск провала</td>
+<td>Высокий</td>
+<td>Минимальный</td>
+</tr>
+<tr class="odd">
+<td>Размер экспедиции</td>
+<td>Минимальный</td>
+<td>Массивный</td>
+</tr>
+<tr class="even">
+<td>Технологии</td>
+<td>Нужно разрабатывать</td>
+<td>Уже отработаны на Луне</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="что-даёт-лунная-энергия" class="level3">
+<h3 class="anchored" data-anchor-id="что-даёт-лунная-энергия">Что даёт лунная энергия</h3>
+<p><strong>Производство на Земле:</strong> - Сейчас: ~70 млн т алюминия/год (ограничение — энергия) - С Луной: 500+ млн т/год (энергия не ограничение)</p>
+<p><strong>Ракеты:</strong> - SpaceX сейчас: ~100 пусков/год - С Луной: энергия для 10,000+ пусков/год</p>
+<p><strong>Роботы:</strong> - Лунные заводы копируются на Меркурий - Технологии ISRU отработаны - Риск = минимальный</p>
+<p><strong>Энергия в пути:</strong> - Лунный рой может “подсвечивать” корабли к Меркурию - Меньше топлива → больше полезной нагрузки - Ионные двигатели на солнечной тяге</p>
+</section>
+<section id="обновлённая-стратегия" class="level3">
+<h3 class="anchored" data-anchor-id="обновлённая-стратегия">Обновлённая стратегия</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Этап</th>
+<th>Годы</th>
+<th>Результат</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Луна</strong></td>
+<td>1-4</td>
+<td>350 ТВт + отработка технологий</td>
+</tr>
+<tr class="even">
+<td><strong>Подготовка</strong></td>
+<td>4-5</td>
+<td>10,000 ракет, 100,000 роботов</td>
+</tr>
+<tr class="odd">
+<td><strong>Меркурий</strong></td>
+<td>5-8</td>
+<td>2000+ ТВт</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="вывод-1" class="level3">
+<h3 class="anchored" data-anchor-id="вывод-1">Вывод</h3>
+<p><strong>Луна — не просто первый шаг, а необходимое условие.</strong></p>
+<ul>
+<li>Без Луны → Меркурий стоит триллионы и занимает десятилетия</li>
+<li>С Луной → Меркурий становится тривиальной инженерной задачей</li>
+</ul>
+<p><strong>Формула успеха:</strong></p>
+<pre><code>Луна = Решение энергетического кризиса Земли
+Луна → Меркурий = Цивилизация Type I+</code></pre>
+<hr>
+</section>
+</section>
+<section id="известные-ограничения" class="level2">
+<h2 class="anchored" data-anchor-id="известные-ограничения">Известные ограничения</h2>
+<blockquote class="blockquote">
+<p><strong>Внимание:</strong> Этот раздел описывает проблемы, требующие решения.</p>
+</blockquote>
+<section id="критические-проблемы" class="level3">
+<h3 class="anchored" data-anchor-id="критические-проблемы">Критические проблемы</h3>
+<section id="кпд-энергомоста-завышен" class="level4">
+<h4 class="anchored" data-anchor-id="кпд-энергомоста-завышен">1. КПД энергомоста завышен</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Этап</th>
+<th>В расчётах</th>
+<th>Реальная оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Общий КПД</td>
+<td>22–23%</td>
+<td><strong>10–15%</strong></td>
+</tr>
+<tr class="even">
+<td>Преобразование свет→лазер</td>
+<td>60%</td>
+<td>40–50%</td>
+</tr>
+<tr class="odd">
+<td>Приёмник на Земле (PV)</td>
+<td>50%</td>
+<td>35–45%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Причины расхождения:</strong> - Оптимистичные лабораторные данные - Не учтена деградация оборудования - Погодные условия на Земле (облачность, атмосфера)</p>
+<p><strong>Последствия:</strong> Реальная мощность на Земле = 1–1.5 ПВт вместо 2 ПВт (при 120 млн зеркал).</p>
+</section>
+</section>
+<section id="высокие-проблемы" class="level3">
+<h3 class="anchored" data-anchor-id="высокие-проблемы">Высокие проблемы</h3>
+<section id="деградация-зеркал-занижена" class="level4">
+<h4 class="anchored" data-anchor-id="деградация-зеркал-занижена">2. Деградация зеркал занижена</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>В расчётах</th>
+<th>Реальная оценка</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Срок службы</td>
+<td>10–15 лет</td>
+<td><strong>5–8 лет</strong></td>
+</tr>
+<tr class="even">
+<td>Потери КПД/год</td>
+<td>2–5%</td>
+<td>5–10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Причины:</strong> - Солнечный ветер на орбите Меркурия в 10× сильнее земного - Микрометеориты (JWST-данные масштабированы некорректно — площадь не линейна риску) - Электростатическая деградация покрытия</p>
+</section>
+<section id="тепловое-расширение-зеркала" class="level4">
+<h4 class="anchored" data-anchor-id="тепловое-расширение-зеркала">3. Тепловое расширение зеркала</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Размер зеркала</td>
+<td>100 × 100 м</td>
+</tr>
+<tr class="even">
+<td>ΔT при вращении</td>
+<td>до 58 K (−8°C освещённая сторона, −50°C тень)</td>
+</tr>
+<tr class="odd">
+<td>Коэффициент расширения Al</td>
+<td>23×10⁻⁶ K⁻¹</td>
+</tr>
+<tr class="even">
+<td>Смещение края</td>
+<td><strong>~13 см</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Проблема:</strong> Тепловые деформации нарушают плоскостность и точность наведения.</p>
+<p><strong>Решение:</strong> Композитные каркасы с низким КТР (углепластик), но это импорт.</p>
+</section>
+</section>
+<section id="требуют-исследования" class="level3">
+<h3 class="anchored" data-anchor-id="требуют-исследования">Требуют исследования</h3>
+<section id="электрохромика-в-космосе" class="level4">
+<h4 class="anchored" data-anchor-id="электрохромика-в-космосе">4. Электрохромика в космосе</h4>
+<ul>
+<li>Деградация WO₃ под УФ-излучением — нет долгосрочных данных</li>
+<li>IKAROS работал 3 года, нужны данные за 10+ лет</li>
+<li>При отказе электрохромики → зеркало теряет управление</li>
+</ul>
+</section>
+<section id="координация-триллиона-зеркал-решено" class="level4">
+<h4 class="anchored" data-anchor-id="координация-триллиона-зеркал-решено">5. Координация триллиона зеркал ✅ Решено</h4>
+<p><strong>Проблема:</strong> Для глобальной фазированной решётки нужна синхронизация с точностью ~10⁻¹⁶ сек при задержке сигнала 670 сек — это невозможно.</p>
+<p><strong>Решение: Локальные кластеры</strong></p>
+<p>Вместо глобальной когерентности используем <strong>группы из 1000-10000 зеркал</strong>, синхронизированные внутри кластера:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Глобальная решётка</th>
+<th>Локальный кластер</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>База D</td>
+<td>10⁶ км</td>
+<td><strong>100 км</strong></td>
+</tr>
+<tr class="even">
+<td>Задержка связи</td>
+<td>670 сек</td>
+<td><strong>0.3 мс</strong></td>
+</tr>
+<tr class="odd">
+<td>Синхронизация</td>
+<td>Невозможна</td>
+<td>✅ Реализуема</td>
+</tr>
+<tr class="even">
+<td>Расширение луча на 100 млн км</td>
+<td>~1 м</td>
+<td><strong>~1 км</strong></td>
+</tr>
+<tr class="odd">
+<td>Размер приёмника</td>
+<td>Нереалистичный</td>
+<td><strong>1-10 км</strong> (орбитальная станция)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Физика дифракции:</strong></p>
+<pre><code>θ ≈ λ / D  (угол расхождения луча)
+
+D = 100 м (одно зеркало) → расширение 1000 км — нереалистично
+D = 100 км (кластер)     → расширение 1 км — реалистично</code></pre>
+<p><strong>Архитектура:</strong> - Каждый кластер = независимый источник - Каждый кластер светит на свой участок приёмника - Приёмник на орбите Земли: 1-10 км в диаметре - Это размер крупной орбитальной станции — технически достижимо</p>
+</section>
+<section id="погода-на-земле" class="level4">
+<h4 class="anchored" data-anchor-id="погода-на-земле">6. Погода на Земле</h4>
+<p>КПД приёмника сильно зависит от атмосферных условий: - Облачность → потери до 80% - Аэрозоли → потери 5–15% - Угол падения (широта) → потери 10–30%</p>
+<p><strong>Требует:</strong> Сеть приёмников в пустынях (Сахара, Атакама, Австралия).</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="источники" class="level2">
+<h2 class="anchored" data-anchor-id="источники">Источники</h2>
+<ul>
+<li><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html">NASA Mercury Fact Sheet</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Solar_mirror">Solar Mirror - Wikipedia</a></li>
+<li><a href="https://science.nasa.gov/blogs/webb/2022/11/15/nasa-webb-micrometeoroid-mitigation-update/">NASA Webb Micrometeoroid Mitigation</a></li>
+<li><a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/power-beaming">Power Beaming - ScienceDirect</a></li>
+<li><a href="https://scholar.afit.edu/cgi/viewcontent.cgi?article=3072&amp;context=etd">AFIT: Minimizing Losses in Space Laser Power Beaming</a></li>
+<li><a href="https://science.nasa.gov/photojournal/major-element-composition-of-mercury-surface-materials/">NASA MESSENGER: Major-element Composition of Mercury</a></li>
+<li><a href="https://pubs.geoscienceworld.org/msa/elements/article-abstract/15/1/33/568750/The-Surface-Composition-of-Mercury">The Surface Composition of Mercury - Elements</a></li>
+<li><a href="https://www.britannica.com/place/Mercury-planet/Surface-composition">Britannica: Mercury Surface Composition</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576522006579">System analysis of ISRU production plant - ScienceDirect</a></li>
+<li><a href="https://www.esa.int/Space_Safety/Space_Debris/ESA_Space_Environment_Report_2025">ESA Space Environment Report 2025</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Kessler_syndrome">Kessler Syndrome - Wikipedia</a></li>
+<li><a href="https://aerospaceamerica.aiaa.org/features/understanding-the-misunderstood-kessler-syndrome/">Understanding Kessler Syndrome - Aerospace America</a></li>
+<li><a href="https://thedebrief.org/the-kessler-syndrome-crisis-in-space-intensifies-as-thousands-of-satellites-crowd-earth-orbit/">The Kessler Syndrome Crisis - The Debrief</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>shest-dney – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Поиск не дал результатов",
+    "search-matching-documents-text": "Результаты поиска",
+    "search-copy-link-title": "Скопировать ссылку",
+    "search-hide-matches-text": "Скрыть дополнительные результаты",
+    "search-more-match-text": "дополнительный результат в этом документе",
+    "search-more-matches-text": "дополнительных результата(-ов) в этом документе",
+    "search-clear-button-title": "Очистить",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Отменить",
+    "search-submit-button-title": "Найти",
+    "search-label": "Поиск"
+  }
+}</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Проект Гелиос</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Поиск"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Переключить навигацию" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Главная</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../book/index.html" aria-current="page"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../science/index.html"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../book/01-kabinety/01-kabinety.html">Часть I: Манифест в тишине</a></li><li class="breadcrumb-item"><a href="../../book/02-shest-dney/02-shest-dney.html">Шесть дней</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Переключить боковую панель навигации" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оглавление</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Пролог</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/00-prologue/00-prologue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ПРОЛОГ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть I: Манифест в тишине</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/01-kabinety/01-kabinety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Высокие кабинеты</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/02-shest-dney/02-shest-dney.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Шесть дней</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/03-zvyozdy/03-zvyozdy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Мальчик, который считал звёзды</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть II: Резонанс</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/04-rubilnik/04-rubilnik.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рубильник</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/05-instruktazh/05-instruktazh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Инструктаж</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/06-soyuzniki/06-soyuzniki.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Союзники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/07-vashingtonskaya-stena/07-vashingtonskaya-stena.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Вашингтонская стена</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/08-snezhnyj-kom/08-snezhnyj-kom.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Снежный ком</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть III: Восхождение</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Переключить раздел">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/09-poligon/09-poligon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Полигон</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/10-luna/10-luna.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../book/11-merkury/11-merkury.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Меркурий</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#шесть-дней" id="toc-шесть-дней" class="nav-link active" data-scroll-target="#шесть-дней">Шесть дней</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../book/01-kabinety/01-kabinety.html">Часть I: Манифест в тишине</a></li><li class="breadcrumb-item"><a href="../../book/02-shest-dney/02-shest-dney.html">Шесть дней</a></li></ol></nav></header>
+
+
+
+
+<section id="шесть-дней" class="level1">
+<h1>Шесть дней</h1>
+<p><strong>Москва. Вечер того же дня.</strong></p>
+<p>«Отдай в Вектор. Даю неделю.»</p>
+<p>Фраза крутилась в голове, пока Валерий поворачивал ключ в замке. Старый, тяжёлый, механический — не брелок с чипом, не биометрия. Надежда и тревога — странная смесь, от которой сводило желудок всю дорогу домой. Впервые за десять лет кто-то сказал не «нет», а «проверим». Это почти «да». Это почти шанс.</p>
+<p>Замок скрипнул, как всегда, и дверь открылась. В квартире пахло кофе и бумагой. Старые книги, стеллажи до потолка, письменный стол у окна. За окном — Москва, тихая, серая, уставшая. Февраль 2026-го не располагал к оптимизму.</p>
+<p>Виктор сидел за столом, уткнувшись в планшет. Он работал неподалёку и часто заходил проведать отца.</p>
+<p>— Как прошло? — спросил он, не поднимая головы.</p>
+<p>Валерий повесил пальто, прошёл на кухню, налил себе воды. Выпил медленно, глядя в окно. — Как обычно. Слушали. Кивали. Обещали подумать.</p>
+<p>Виктор наконец посмотрел на отца. Усталое лицо, седые волосы, глаза — ещё живые, но уже с налётом чего-то, чему Виктор не хотел давать имени. Сколько раз он видел его таким? Десять? Двадцать? Каждый раз после очередного совещания, которое ничего не меняло.</p>
+<p>— Отец. — Виктор отложил планшет. — Тебе шестьдесят пять. Ты уже можешь позволить себе остановиться.</p>
+<p>Валерий хмыкнул. — И что делать? Рыбачить? Внуков ждать?</p>
+<p>— Почему бы и нет?</p>
+<p>— Потому что времени нет.</p>
+<p>Виктор вздохнул. Эти разговоры он слышал с детства. Когда-то он и сам верил — поступил на физтех, мечтал о космосе, хотел работать с отцом. А потом понял: никто не даст денег на безумные проекты. Люди хотят результат сегодня, а не через тридцать лет. Он ушёл в IT, стал программистом. Хорошая зарплата, удалёнка, никаких иллюзий. А отец всё гнался за чем-то, что существовало только в его голове и на его слайдах.</p>
+<p>— Какую версию ты им сегодня показывал? — Виктор сам не понял, зачем спросил. — То же самое, что на той неделе?</p>
+<p>Валерий замер. Посмотрел на сына внимательно, будто пытался понять, всерьёз ли тот. Потом кивнул, прошёл к столу.</p>
+<p>— Чайник поставь, — бросил он через плечо. — Есть о чём поговорить.</p>
+<p>Виктор пошёл на кухню. За окном загудела сирена скорой — далеко, где-то на Садовом. Чайник зашумел. Он достал две кружки, насыпал заварку. Руки делали привычное, а голова думала о том, что завтра совещание с корейцами, что дедлайн по проекту горит, что он опять не выспится.</p>
+<p>Когда он вернулся с чаем, отец сидел у стола, но экран ноутбука был выключен.</p>
+<p>— Без слайдов сегодня, — сказал Валерий, принимая кружку. — Ты и так всё это видел сто раз. Просто послушай.</p>
+<p>Виктор сел напротив. За окном начал падать снег — крупный, медленный, как в детстве.</p>
+<p>— Ты знаешь, сколько электростанций на Земле? — спросил Валерий.</p>
+<p>— Понятия не имею.</p>
+<p>— Около шестидесяти тысяч. Угольные, газовые, атомные, гидро. Все вместе они дают нам свет, тепло, интернет, заводы, больницы. Всё, что мы называем цивилизацией. — Валерий отхлебнул чай. — И всего этого не хватит.</p>
+<p>Виктор поднял бровь. — Не хватит на что?</p>
+<p>— На будущее. — Валерий смотрел в окно, на падающий снег. — Мы растём. Каждое поколение потребляет больше, чем предыдущее. Не потому что мы жадные — потому что это и есть развитие. Больше людей, больше технологий, больше возможностей. И всё это требует мощности.</p>
+<p>— Ну так строим ещё электростанции.</p>
+<p>— Строим. Но Земля конечна.</p>
+<p>Валерий взял со стола карандаш, перевернул салфетку. Нарисовал две линии: одна — кривая, уходящая вверх. Другая — горизонтальная черта.</p>
+<p>— Вот это — рост потребления. Экспонента. А это — потолок. Всё, что Земля может дать. — Он ткнул карандашом в точку пересечения. — Здесь они встречаются. С текущим ростом потребления — у нас в запасе лет пятьдесят, максимум. И то если будем строить электростанции как сумасшедшие.</p>
+<p>Виктор посмотрел на рисунок. Грубо, но наглядно.</p>
+<p>— Подожди. — Он взял карандаш из рук отца. — Если проблема в площади — почему не вывести панели на орбиту? Зачем тащиться до Меркурия?</p>
+<p>Валерий улыбнулся — не устало, а с интересом.</p>
+<p>— Хороший вопрос. Орбитальные станции — это моя молодость, я их двадцать лет проектировал. — Валерий загнул палец. — Проблема первая: масса. Каждый килограмм на орбиту стоит десятки тысяч долларов. Чтобы собрать станцию на петаватт, нужно вывести миллионы тонн. Это триллионы долларов только на запуски. — Второй палец. — Проблема вторая: ресурс. Панели деградируют, микрометеориты дырявят конструкции. На орбите нечем чинить — каждую запчасть вези с Земли. — Третий палец. — И главное: орбита не безгранична. Там уже полно мусора — обломки спутников, ступени ракет. Каждый запуск добавляет ещё. Если начнём строить в таких масштабах, через двадцать лет потеряем возможность использовать орбиту вообще. А на Меркурии есть сырьё. Железо, кремний, кислород в оксидах. Мы везём только мозги — электронику. Всё остальное строим на месте.</p>
+<p>— А термояд? — спросил Виктор. — ИТЭР вроде скоро запустят.</p>
+<p>Валерий покачал головой. — ИТЭР строят с девяностых. Первую плазму обещают уже тридцать лет. Но давай допустим, что завтра термояд заработает. Что мы получим?</p>
+<p>— Чистую энергию, — пожал плечами Виктор. — Без углекислого газа, без радиоактивных отходов.</p>
+<p>— Верно. Но подумай, как он работает. Мы берём водород, нагреваем до ста миллионов градусов, ядра сливаются в гелий, выделяется энергия. Эта энергия греет воду, вода крутит турбину, турбина даёт электричество. А дальше?</p>
+<p>Виктор задумался. — Электричество уходит в сеть. Питает города, заводы…</p>
+<p>— И превращается в тепло. — Валерий щёлкнул пальцами. — Каждый ватт, который мы потребляем, в конце концов становится теплом. Лампочка греет комнату. Компьютер греет воздух. Завод греет округу. Это физика. Первый закон термодинамики.</p>
+<p>Валерий взял салфетку, написал несколько цифр.</p>
+<p>— Сейчас человечество потребляет 20 тераватт. Земля получает от Солнца 170 петаватт — в десять тысяч раз больше. Наше тепло теряется в шуме. Но если вырасти в тысячу раз, как нужно для нормального развития… 20 петаватт. Это уже сравнимо с тем дисбалансом, который создаёт парниковый эффект.</p>
+<p>Виктор посмотрел на цифры. — То есть неважно, насколько чистый источник. Хоть термояд, хоть антиматерия. Если мы производим энергию на Земле — мы её греем.</p>
+<p>— Именно.</p>
+<p>— Подожди. — Виктор нахмурился. — А какая разница, откуда энергия? Из термояда или из космоса лазером? Всё равно мы её преобразуем, крутим турбины, греем воздух. КПД не сто процентов.</p>
+<p>Валерий кивнул. — Правильный вопрос. Разница вот в чём: термояд привязывает нас к Земле. Рой — нет. Мы можем передавать энергию куда угодно: на орбитальные заводы, на корабли, на лунные базы. Производство уходит в космос. Земля перестаёт быть единственной площадкой. — Он помолчал. — И ещё. С Роем мы можем закрыть угольные станции за годы. Энергия приходит сверху, ректенны ставятся где угодно. А термояд — это очередная мегастройка. Десятки лет на каждый реактор. Мы не успеем.</p>
+<p>Математика сходилась. Неприятно, но сходилась.</p>
+<p>Виктор отпил чай. Он слышал это раньше. Много раз. Но сейчас, в тишине февральского вечера, слова отца звучали иначе. Не как мечта сумасшедшего. Как инженерная задача.</p>
+<p>— Кстати, про энергию, — сказал вдруг Валерий. — Ваши дата-центры сейчас жрут больше электричества, чем целые страны. Видел статистику — одни только нейросети потребляют как вся Австрия. И это только начало.</p>
+<p>— И что?</p>
+<p>— А то, что вам тоже скоро не хватит. — Валерий помолчал. — Я только что говорил комитету про симуляции, про обучение роботов в виртуальных средах. Звучало убедительно. Но мне нужно знать, что я не наврал. Ты же в этом разбираешься — как оно на самом деле?</p>
+<p>Виктор поднял бровь. Отец редко признавал, что чего-то не понимает.</p>
+<p>— Симуляторы типа «Айзек», «Муджоко». — Он пожал плечами. — Ускорение на видеокартах. Можно запустить тысячи копий робота одновременно, каждая в своём виртуальном мире. Три часа симуляции — сто дней реального опыта.</p>
+<p>— То есть мы можем натренировать их здесь, на Земле, прежде чем отправить?</p>
+<p>— В теории — да. — Виктор помолчал. — Но есть проблема. Разрыв между симуляцией и реальностью. Симуляция никогда не совпадает с реальностью идеально. Трение другое, освещение другое, пыль ведёт себя иначе. Робот, который идеально работает в виртуальном мире, может споткнуться на первом же камне.</p>
+<p>— И как это решают?</p>
+<p>— Рандомизация условий. Делаешь симуляцию нарочито неточной — случайные параметры, шум, искажения. Робот учится справляться с хаосом. Если он выживает в тысяче разных кривых миров — есть шанс, что выживет и в реальном.</p>
+<p>Валерий кивнул с интересом. Он не понимал деталей, но идею уловил. Хаос как учитель. Это ему нравилось.</p>
+<p>— Значит, можно, — сказал он задумчиво. — Натренировать здесь, отправить туда. И они справятся.</p>
+<p>Виктор пожал плечами. — В теории. Если хватит вычислительных мощностей. И если Меркурий не преподнесёт сюрпризов, которых нет ни в одной симуляции. — Валерий улыбнулся. Наконец-то сын говорил о проекте не как о чужой блажи, а как об инженерной задаче со своими рисками.</p>
+<p>За стеной у соседей заплакал ребёнок. Виктор машинально глянул на часы — почти десять.</p>
+<p>— Отец, — сказал он тихо. — Откуда это всё? Почему ты веришь в это так… — он поискал слово, — …яростно?</p>
+<p>Валерий замолчал. Поставил кружку на стол. Долго смотрел в окно, на снег, на огни города.</p>
+<p>— В восемьдесят шестом мне было двадцать пять, — начал он наконец. Голос стал тише. — Я только закончил аспирантуру. Работал в НИИ, занимался межпланетными станциями. Марс, Венера, всё такое. А потом грянул Чернобыль.</p>
+<p>Виктор знал эту историю. Частично. Отец не любил о ней говорить.</p>
+<p>— Меня отправили в эвакуационные лагеря. Считать дозы, консультировать по радиационной безопасности. Я был физик, разбирался в этом.</p>
+<p>Валерий провёл рукой по лицу.</p>
+<p>— Знаешь, что я запомнил? Запах йода. Всем давали йодид калия, и в воздухе стоял этот больничный запах. И щелчки дозиметра. Подносишь к куртке — тикает быстрее. К сапогам — ещё быстрее. Люди не понимали, что это значит. Спрашивали, можно ли постирать одежду. Спортзал школы в Иванкове. Матрасы на полу, сотни людей. Одна женщина всё ходила ко мне, спрашивала, можно ли вернуться за кошкой. Я не знал, что ей ответить.</p>
+<p>Валерий повернулся к сыну. Глаза загорелись.</p>
+<p>— И я подумал тогда: мы строим реакторы, чтобы дать людям свет и тепло. Но если что-то идёт не так — земля отравлена на века. Люди не могут вернуться домой. Никогда. — Он сжал кулак. — Мне нужен был источник, где худший сценарий — это сломанное железо. Не радиация. Не зона отчуждения. Просто — починить и работать дальше.</p>
+<p>— А если лазерный луч промахнётся? — спросил Виктор.</p>
+<p>— Луч никогда не идёт напрямую на Землю, — ответил Валерий. — Ретрансляторы, орбитальные станции. Если что-то ломается — энергия уходит в пустоту. Не в город, не в океан. В космос. — Он развёл руками. — Чернобыль случился из-за ошибки. Человеческой ошибки. А здесь ошибка ничего не разрушит. Чтобы навредить — нужен злой умысел. Это уже не инженерная проблема. Это политика, безопасность. Другой разговор.</p>
+<p>— Военные именно этого и боятся, — заметил Виктор.</p>
+<p>— Знаю. — Валерий кивнул. — Но я инженер. Я могу построить систему, где случайность безопасна. А от злого умысла… от него и ядерные ракеты не защищают. Просто все договорились их не запускать.</p>
+<p>Виктор смотрел на отца. Впервые за много лет он видел не упрямого старика с безумной идеей. Он видел инженера, который сорок лет искал систему, где авария — это просто поломка, а не катастрофа.</p>
+<p>— Я понимаю, — сказал Виктор тихо. — Но отец… даже если физика сойдётся. Кто даст на это деньги? Это же не один бюджет. Это десять. Двадцать. И кому будет принадлежать эта штука? Одной стране? Консорциуму? ООН?</p>
+<p>Валерий кивнул. — Правильные вопросы. У меня нет на них ответов. Пока нет.</p>
+<p>— А без ответов — это мечта. Красивая, но мечта.</p>
+<p>— Возможно. — Валерий посмотрел сыну в глаза. — Но мечта с расчётами — это уже проект. А проект можно защитить.</p>
+<p>Тишина повисла между ними. Снег за окном шёл всё гуще. Где-то внизу хлопнула дверь подъезда.</p>
+<p>— Что они сказали сегодня? — спросил наконец Виктор. — На совещании.</p>
+<p>— Булатов боится, что это станет оружием. Семёнов сомневается в саморепликации. Минфин… ты же понимаешь, куда сейчас идёт бюджет. — Валерий сделал паузу. — Но один человек из администрации заинтересовался. Взял материалы, отдаст в «Вектор» на проверку.</p>
+<p>— Официально?</p>
+<p>— Официально — ничего не было. Просто оставил папку на столе.</p>
+<p>Виктор встал, подошёл к окну. Внизу светились окна домов, ползли машины, горели фонари. Миллионы огней. Миллионы людей, которые включали свет, не задумываясь, откуда он берётся.</p>
+<p>— Смотри, — начал Валерий, — вот мы прилетаем на Меркурий, ставим первый купол…</p>
+<p>— Нет-нет-нет. — Виктор покачал головой. — Я это уже сто раз слышал. Суть понял. — Он отвернулся от окна. — На сегодня хватит, отец. Удачи с «Вектором». — Валерий не стал спорить. Виктор вышел, тихо прикрыв дверь. Шаги в коридоре, щелчок замка.</p>
+<p>Валерий остался один. Снег за окном шёл всё гуще. Он посмотрел на часы — почти одиннадцать. «Даю неделю». Шесть дней, если точнее. Он прошёл в кабинет, включил только настольную лампу. Старый зелёный абажур выхватил из темноты рабочий стол: три монитора, серверная стойка под столом и макет Меркурия — серый, изрытый кратерами шар.</p>
+<p>— Ну что, друг, — тихо сказал он шару. — Пора тебя разбирать.</p>
+<p>Он сел, авторизовался в системе по биометрии. Экраны вспыхнули, загружая защищённый контур. Здесь, в цифровом виде, хранились результаты полугода работы — вечера, выходные, всё свободное время его группы в НИИ. Тысячи чертежей, терабайты симуляций, сметы, логистические таблицы. Он думал об этом сорок лет — с Чернобыля. Но только сейчас технологии наконец делали эту идею реальной. Проект «Гелиос» был не мечтой — он был расчётом.</p>
+<p>Он знал, что такое «Вектор». Аналитический центр при Совбезе. Там сидели не чиновники, а «цепные псы» от науки — молодые, злые олимпиадники по физике и математике, которым платили огромные деньги за то, чтобы они находили ошибки в госпрограммах. Они не будут слушать про «судьбу цивилизации». Они возьмут калькулятор и спросят: «А какой у вас коэффициент теплового расширения на стыке молибдена и стали при дельте в 600 градусов?». Если он не даст им безупречный инженерный план, они разорвут проект в клочья к среде.</p>
+<p>Валерий пододвинул чистый лист бумаги и взял ручку. Ему нужно было выстроить линию обороны. Структурировать хаос.</p>
+<p>Он написал в центре листа: <strong>ПЛАН ВТОРЖЕНИЯ</strong>.</p>
+<ol type="1">
+<li>ДОСТАВКА: Орбитальный поезд (Земля → Венера → Меркурий).</li>
+<li>РАЗВЕРТЫВАНИЕ: База «Ноль». Энергия и Среда.</li>
+<li>ПРОИЗВОДСТВО: Масштабирование роботов (Экспонента).</li>
+<li>ЗАПУСК РОЯ: Электромагнитная артиллерия и развертывание зеркал.</li>
+<li>МОСТ: Фазированная решётка → Орбитальный Хаб Земли → Ректенны.</li>
+</ol>
+<p>Валерий поставил галочку напротив первого пункта.</p>
+<p>Логистика была, пожалуй, единственной протоптанной тропой во всём этом безумии. Здесь «Вектор» не подкопается. Скептики любят кричать, что Меркурий — это terra incognita, но это ложь. Мы там были. Зонды «Маринер-10», MESSENGER, BepiColombo — они уже проложили маршрут.</p>
+<p>Мы знаем гравитационные колодцы. Мы знаем манёвры. Чтобы добраться туда, не нужна фантастика. Нужна классическая небесная механика. Тяжёлые ракеты выводят груз на орбиту Земли, там мы собираем «поезд», разгонный блок толкает его к Венере, а гравитация делает остальное. Транспорт — это просто вопрос керосина и математики. Это решено.</p>
+<p>Валерий открыл сводную таблицу первой экспедиции. Купол, башни, печи, первые роботы, запас электроники — сто двадцать тонн. В таблице уже были варианты доставки: «Ангара-А5» — пять запусков, Falcon Heavy — два, Starship — один. Он перепроверил цифры. Всё сходилось. Единицы запусков. Не десятки, не сотни. При международном консорциуме — вполне подъёмная задача.</p>
+<p>Он перевёл взгляд на последние два пункта списка: «Запуск Роя» и «Мост». Это была цель, ради которой всё затевалось. Грандиозный финал, меняющий цивилизацию: тысячи масс-драйверов, выстреливающие зеркала, и лазерные каскады, несущие гигаватты энергии. Но он прекрасно понимал, что именно эти разделы станут красной тряпкой для аналитиков. Они вцепятся в проблемы навигации миллионов зеркал и теплового расхождения луча, и будут правы — это пока самая зыбкая часть плана.</p>
+<p>Он решительно перечеркнул пункты 4 и 5 жирным крестом. Бумага чуть порвалась под нажимом ручки. Затем он обвёл кружком пункты 2 и 3. Развёртывание и Производство.</p>
+<p>— Вот где главный бой, — пробормотал он себе под нос. — Остальное подождёт.</p>
+<p>Рой и Мост — финал. Красивый, грандиозный, но пока теоретический. А база — это фундамент. Без фундамента не будет ничего.</p>
+<p>Он отложил ручку, взял красный маркер и обвёл в настенном календаре дату через неделю. Затем повернулся к клавиатуре. Пора проверить, держит ли этот фундамент удар.</p>
+<p>Следующие два часа Валерий перебирал чертежи и симуляции. Надувной купол из кевлара — внутри азот под давлением 0.1 атмосферы. Этого хватает: смазка не испаряется, металлы не свариваются, есть конвекция. Маленькая Земля посреди ада. На развёртывание — три дня.</p>
+<p>Завод делится на две зоны. Снаружи — грязная: дробление, плавка, электролиз. Всё, что не боится вакуума и перепадов температур. Внутри купола — чистая: литьё, прокат, сборка. Жидкий металл проходит через стену по электромагнитному каналу — сам металл служит пробкой, не выпуская газ наружу.</p>
+<p>Энергия? Солнечная постоянная на Меркурии — до девяти киловатт на квадратный метр. В шесть с половиной раз больше, чем на Земле. Складные башни с зеркалами и фотоэлементами ставятся на пики кратера, где солнце никогда не заходит. Четыре башни — пять мегаватт. На установку — два дня.</p>
+<p>К шестому дню после посадки — первая плавка.</p>
+<p>Валерий глянул на часы. Час ночи. Он встал, размял шею, сделал себе чай. Вернулся к экрану.</p>
+<p>Главный вопрос «Вектора» будет не про купол и не про энергию. Это очевидные вещи, любой инженер разберётся. Они спросят про саморепликацию. И вопрос будет с подвохом.</p>
+<p>«Каждое поколение роботов собирается предыдущим. Кто контролирует качество? На Земле есть ОТК, стандарты, инспекторы. А там? Через десять поколений у вас будут кривые роботы, собранные кривыми роботами».</p>
+<p>Валерий усмехнулся. Хороший вопрос. И у него был ответ.</p>
+<p>Они называли это «Стратегией Витаминов» — по аналогии с организмом, который берёт из пищи только микроэлементы. Робот-шахтёр «Крот» весит 500 килограммов. Из них 497 — рама, траки, ковш. Сталь, титан, алюминий. Грубое железо. Его можно лить с допуском в миллиметр, и робот будет работать. А процессор, сенсоры, сервоприводы — три килограмма. Вот это — точность. И это мы везём с Земли. Каждый рейс.</p>
+<p>Роботы не реплицируют мозги. Они реплицируют только тела. Кривой робот с земным мозгом — всё равно работает. А если совсем кривой — мозг это увидит и отбракует.</p>
+<p>Коэффициент мультипликации: 1:160. На каждый килограмм груза с Земли — сто шестьдесят килограммов готовой техники.</p>
+<p>Роботы — не андроиды. Суровая функциональная спецтехника: «Крот» на гусеницах роет грунт, «Краб» на колёсах таскает модули, «Кентавр» с двумя руками собирает, а «Рука» — стационарный манипулятор на конвейере — штампует, сваривает, закручивает. Никакого творчества — только рефлексы и нейросеть, натренированная на миллионах симуляций.</p>
+<p>Ещё час ушёл на проверку логистических таблиц. Валерий прогнал симуляцию масштабирования трижды, меняя начальные условия. Один робот за сорок восемь часов. Удвоение производства каждые четыре месяца — консервативно, с учётом строительства новых линий. Двадцать восемь удвоений до двухсот миллионов. Около десяти лет от первой посадки до полного Роя. Он откинулся в кресле. Цифры сходились. Каждый раз.</p>
+<p>Смартфон на столе завибрировал. Валерий вздрогнул. Три часа ночи. Звонить в такое время могли только по одному поводу. На экране высветилось: «Вектор. Приёмная».</p>
+<p>— Валерий Петрович? — Голос был молодой, деловитый. — Надеюсь, проектная документация хранится только на защищённых серверах института?</p>
+<p>— Разумеется, — ответил Валерий. — Всё в закрытом контуре.</p>
+<p>— Отлично. Завтра в девять ноль-ноль. Пропуск будет на проходной.</p>
+<p>Связь оборвалась.</p>
+<p>Валерий положил телефон и посмотрел на календарь, где красным маркером была обведена дата.</p>
+<p>— Вот вам и шесть дней, — усмехнулся он в темноту.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
