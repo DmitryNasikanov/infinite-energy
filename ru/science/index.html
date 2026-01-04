@@ -220,6 +220,12 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../ru/science/calculations/carbon-extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Добыча углерода</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../ru/science/calculations/hydraulics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Гидравлика и жидкости</span></a>
   </div>
@@ -387,25 +393,27 @@ p:has(> em:first-child) { text-indent: 0; }
   <li><a href="#быстрый-старт" id="toc-быстрый-старт" class="nav-link" data-scroll-target="#быстрый-старт">Быстрый старт</a>
   <ul class="collapse">
   <li><a href="#проект-за-5-минут" id="toc-проект-за-5-минут" class="nav-link" data-scroll-target="#проект-за-5-минут">Проект за 5 минут</a></li>
+  <li><a href="#сравнение-с-другими-проектами" id="toc-сравнение-с-другими-проектами" class="nav-link" data-scroll-target="#сравнение-с-другими-проектами">Сравнение с другими проектами</a></li>
   </ul></li>
-  <li><a href="#технологии" id="toc-технологии" class="nav-link" data-scroll-target="#технологии">Технологии</a>
+  <li><a href="#детальные-темы" id="toc-детальные-темы" class="nav-link" data-scroll-target="#детальные-темы">Детальные темы</a>
   <ul class="collapse">
-  <li><a href="#физика-проекта" id="toc-физика-проекта" class="nav-link" data-scroll-target="#физика-проекта">Физика проекта</a></li>
-  <li><a href="#бестиарий-роботов" id="toc-бестиарий-роботов" class="nav-link" data-scroll-target="#бестиарий-роботов">Бестиарий роботов</a></li>
-  <li><a href="#завод-точка-ноль" id="toc-завод-точка-ноль" class="nav-link" data-scroll-target="#завод-точка-ноль">Завод “Точка Ноль”</a></li>
+  <li><a href="#зеркала-роя" id="toc-зеркала-роя" class="nav-link" data-scroll-target="#зеркала-роя">Зеркала Роя</a></li>
+  <li><a href="#хаб-станции" id="toc-хаб-станции" class="nav-link" data-scroll-target="#хаб-станции">Хаб-станции</a></li>
+  <li><a href="#доставка-энергии" id="toc-доставка-энергии" class="nav-link" data-scroll-target="#доставка-энергии">Доставка энергии</a></li>
+  <li><a href="#производство" id="toc-производство" class="nav-link" data-scroll-target="#производство">Производство</a></li>
   </ul></li>
   <li><a href="#расчёты" id="toc-расчёты" class="nav-link" data-scroll-target="#расчёты">Расчёты</a>
   <ul class="collapse">
-  <li><a href="#энергетика" id="toc-энергетика" class="nav-link" data-scroll-target="#энергетика">Энергетика</a></li>
-  <li><a href="#рельсотрон" id="toc-рельсотрон" class="nav-link" data-scroll-target="#рельсотрон">Рельсотрон</a></li>
-  <li><a href="#масштабирование" id="toc-масштабирование" class="nav-link" data-scroll-target="#масштабирование">Масштабирование</a></li>
+  <li><a href="#энергетика-производства" id="toc-энергетика-производства" class="nav-link" data-scroll-target="#энергетика-производства">Энергетика производства</a></li>
+  <li><a href="#переработка-реголита" id="toc-переработка-реголита" class="nav-link" data-scroll-target="#переработка-реголита">Переработка реголита</a></li>
+  <li><a href="#добыча-углерода" id="toc-добыча-углерода" class="nav-link" data-scroll-target="#добыча-углерода">Добыча углерода</a></li>
   <li><a href="#бюджет" id="toc-бюджет" class="nav-link" data-scroll-target="#бюджет">Бюджет</a></li>
   <li><a href="#roadmap" id="toc-roadmap" class="nav-link" data-scroll-target="#roadmap">Roadmap</a></li>
   <li><a href="#марс" id="toc-марс" class="nav-link" data-scroll-target="#марс">Марс</a></li>
-  <li><a href="#риски-и-ограничения" id="toc-риски-и-ограничения" class="nav-link" data-scroll-target="#риски-и-ограничения">Риски и ограничения</a></li>
   </ul></li>
   <li><a href="#справочники" id="toc-справочники" class="nav-link" data-scroll-target="#справочники">Справочники</a>
   <ul class="collapse">
+  <li><a href="#риски-и-ограничения" id="toc-риски-и-ограничения" class="nav-link" data-scroll-target="#риски-и-ограничения">Риски и ограничения</a></li>
   <li><a href="#глоссарий" id="toc-глоссарий" class="nav-link" data-scroll-target="#глоссарий">Глоссарий</a></li>
   <li><a href="#физические-константы" id="toc-физические-константы" class="nav-link" data-scroll-target="#физические-константы">Физические константы</a></li>
   <li><a href="#библиография" id="toc-библиография" class="nav-link" data-scroll-target="#библиография">Библиография</a></li>
@@ -457,35 +465,43 @@ p:has(> em:first-child) { text-indent: 0; }
 <h3 class="anchored" data-anchor-id="проект-за-5-минут"><a href="../../ru/science/executive-summary.html">Проект за 5 минут</a></h3>
 <p>Краткое изложение идеи, технологий и бюджета проекта «Гелиос».</p>
 </section>
+<section id="сравнение-с-другими-проектами" class="level3">
+<h3 class="anchored" data-anchor-id="сравнение-с-другими-проектами"><a href="../../ru/science/comparison.html">Сравнение с другими проектами</a></h3>
+<p>Почему Рой Дайсона, а не термоядерный реактор или солнечные панели на Земле.</p>
 </section>
-<section id="технологии" class="level2">
-<h2 class="anchored" data-anchor-id="технологии">Технологии</h2>
-<section id="физика-проекта" class="level3">
-<h3 class="anchored" data-anchor-id="физика-проекта"><a href="../../ru/science/physics.html">Физика проекта</a></h3>
-<p>Зеркала Роя, энергомост, солнечные паруса. Как собрать рукотворное солнце на орбите Меркурия и передать энергию на Землю.</p>
 </section>
-<section id="бестиарий-роботов" class="level3">
-<h3 class="anchored" data-anchor-id="бестиарий-роботов"><a href="../../ru/science/robots.html">Бестиарий роботов</a></h3>
-<p>Пауки, Крабы, Кентавры, Кроты — автономные системы, которые строят инфраструктуру проекта без участия человека.</p>
+<section id="детальные-темы" class="level2">
+<h2 class="anchored" data-anchor-id="детальные-темы">Детальные темы</h2>
+<section id="зеркала-роя" class="level3">
+<h3 class="anchored" data-anchor-id="зеркала-роя"><a href="../../ru/science/mirrors.html">Зеркала Роя</a></h3>
+<p>Конструкция солнечных зеркал, их производство и развёртывание в космосе.</p>
 </section>
-<section id="завод-точка-ноль" class="level3">
-<h3 class="anchored" data-anchor-id="завод-точка-ноль"><a href="../../ru/science/factory.html">Завод “Точка Ноль”</a></h3>
-<p>Полностью автоматизированный завод на Меркурии. От добычи руды до готовых зеркал — без единого человека.</p>
+<section id="хаб-станции" class="level3">
+<h3 class="anchored" data-anchor-id="хаб-станции"><a href="../../ru/science/hub.html">Хаб-станции</a></h3>
+<p>Орбитальные станции для сборки и управления Роем.</p>
+</section>
+<section id="доставка-энергии" class="level3">
+<h3 class="anchored" data-anchor-id="доставка-энергии"><a href="../../ru/science/delivery.html">Доставка энергии</a></h3>
+<p>Энергомост: как передать петаватты с Меркурия на Землю.</p>
+</section>
+<section id="производство" class="level3">
+<h3 class="anchored" data-anchor-id="производство"><a href="../../ru/science/production.html">Производство</a></h3>
+<p>Заводы на Меркурии и Луне. Саморепликация, роботы, масс-драйверы.</p>
 </section>
 </section>
 <section id="расчёты" class="level2">
 <h2 class="anchored" data-anchor-id="расчёты">Расчёты</h2>
-<section id="энергетика" class="level3">
-<h3 class="anchored" data-anchor-id="энергетика"><a href="../../ru/science/calculations/energy.html">Энергетика</a></h3>
-<p>Сколько энергии можно собрать? Расчёты мощности рукотворного солнца.</p>
+<section id="энергетика-производства" class="level3">
+<h3 class="anchored" data-anchor-id="энергетика-производства"><a href="../../ru/science/calculations/energy-production.html">Энергетика производства</a></h3>
+<p>Солнечные панели, Power Towers, энергобаланс завода.</p>
 </section>
-<section id="рельсотрон" class="level3">
-<h3 class="anchored" data-anchor-id="рельсотрон"><a href="../../ru/science/calculations/railgun.html">Рельсотрон</a></h3>
-<p>Физика масс-драйвера. Как запускать грузы с поверхности Меркурия.</p>
+<section id="переработка-реголита" class="level3">
+<h3 class="anchored" data-anchor-id="переработка-реголита"><a href="../../ru/science/calculations/regolith-processing.html">Переработка реголита</a></h3>
+<p>От руды до алюминия и железа. MRE-электролиз, дробление, плавка.</p>
 </section>
-<section id="масштабирование" class="level3">
-<h3 class="anchored" data-anchor-id="масштабирование"><a href="../../ru/science/calculations/scaling.html">Масштабирование</a></h3>
-<p>От прототипа к полномасштабному проекту. Экспоненциальный рост.</p>
+<section id="добыча-углерода" class="level3">
+<h3 class="anchored" data-anchor-id="добыча-углерода"><a href="../../ru/science/calculations/carbon-extraction.html">Добыча углерода</a></h3>
+<p>LRM-зоны (тёмные пятна), комплексы Карбон, графит для анодов.</p>
 </section>
 <section id="бюджет" class="level3">
 <h3 class="anchored" data-anchor-id="бюджет"><a href="../../ru/science/calculations/budget.html">Бюджет</a></h3>
@@ -499,13 +515,13 @@ p:has(> em:first-child) { text-indent: 0; }
 <h3 class="anchored" data-anchor-id="марс"><a href="../../ru/science/calculations/mars.html">Марс</a></h3>
 <p>Почему Марс — не приоритет. Сравнение с терраформированием.</p>
 </section>
+</section>
+<section id="справочники" class="level2">
+<h2 class="anchored" data-anchor-id="справочники">Справочники</h2>
 <section id="риски-и-ограничения" class="level3">
 <h3 class="anchored" data-anchor-id="риски-и-ограничения"><a href="../../ru/science/risks.html">Риски и ограничения</a></h3>
 <p>Честный анализ технических проблем, ресурсных ограничений и неопределённостей проекта.</p>
 </section>
-</section>
-<section id="справочники" class="level2">
-<h2 class="anchored" data-anchor-id="справочники">Справочники</h2>
 <section id="глоссарий" class="level3">
 <h3 class="anchored" data-anchor-id="глоссарий"><a href="../../ru/science/glossary.html">Глоссарий</a></h3>
 <p>Термины проекта: Рой Дайсона, энергомост, витамины, саморепликация.</p>
