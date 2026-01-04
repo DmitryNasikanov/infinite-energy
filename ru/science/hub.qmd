@@ -50,6 +50,8 @@ flowchart LR
     end
     B --> E["Непрерывная передача на Землю"]
     D --> E
+
+    style cycle fill:#F5F5F5,stroke:#616161,color:#212121
 ```
 
 Станции на обоих лимбах обеспечивают непрерывную работу в течение всего лунного месяца.
@@ -174,14 +176,17 @@ Rectenna — это массив диполей, преобразующих ми
 ```{mermaid}
 flowchart TB
     subgraph rectenna["RECTENNA (100+ км²)"]
-        subgraph center["Центр: 230 Вт/м² — Запретная зона"]
-            A["Автоматика, нет людей"]
-        end
         subgraph periphery["Периферия: <50 Вт/м² — Техперсонал"]
-            center
+            subgraph center["Центр: 230 Вт/м² — Запретная зона"]
+                A["Автоматика, нет людей"]
+            end
         end
     end
     B["Граница: <10 Вт/м² — Безопасно для всех"]
+
+    style rectenna fill:#E8F5E9,stroke:#4CAF50,color:#1B5E20
+    style periphery fill:#FFF3E0,stroke:#FF9800,color:#E65100
+    style center fill:#FFEBEE,stroke:#F44336,color:#B71C1C
 ```
 
 **Птицы и самолёты:** NASA подтвердила безопасность при <230 Вт/м². Система автоматически отключается при входе объектов в луч.
