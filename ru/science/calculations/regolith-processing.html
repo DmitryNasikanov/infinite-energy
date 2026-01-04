@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Переработка реголита – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Проект Гелиос</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Главная</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../"> 
+<span class="menu-text">RU</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../en/"> 
+<span class="menu-text">EN</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../ru/science/calculations/energy-production.html">Производство: детали</a></li><li class="breadcrumb-item"><a href="../../../ru/science/calculations/regolith-processing.html">Переработка реголита</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Производство: детали</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/energy-production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Энергетика производства</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/regolith-processing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Переработка реголита</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/hydraulics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Гидравлика и жидкости</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство накопителей</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/energy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Энергобаланс</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/mercury.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Меркурий</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Терраформирование Марса</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/data/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/data/sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Библиография</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Архив (миграция)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физика и инженерия проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/robots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бестиарий роботов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/factory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Завод «Точка Ноль»</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/factory-interior.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Внутреннее устройство фабрики</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/energy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Расчёты энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/railgun.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масс-драйверы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/calculations/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование производства</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#приёмка-и-дробление" id="toc-приёмка-и-дробление" class="nav-link active" data-scroll-target="#приёмка-и-дробление">Приёмка и дробление</a>
+  <ul class="collapse">
+  <li><a href="#виброгрохот-vibrating-grizzly-feeder" id="toc-виброгрохот-vibrating-grizzly-feeder" class="nav-link" data-scroll-target="#виброгрохот-vibrating-grizzly-feeder">Виброгрохот (Vibrating Grizzly Feeder)</a></li>
+  <li><a href="#щековая-дробилка-jaw-crusher" id="toc-щековая-дробилка-jaw-crusher" class="nav-link" data-scroll-target="#щековая-дробилка-jaw-crusher">Щековая дробилка (Jaw Crusher)</a></li>
+  <li><a href="#виброжелоб-транспорт" id="toc-виброжелоб-транспорт" class="nav-link" data-scroll-target="#виброжелоб-транспорт">Виброжелоб (Транспорт)</a></li>
+  <li><a href="#сводная-таблица-материалов-секция-приёмка-и-дробление" id="toc-сводная-таблица-материалов-секция-приёмка-и-дробление" class="nav-link" data-scroll-target="#сводная-таблица-материалов-секция-приёмка-и-дробление">Сводная таблица материалов (секция «Приёмка и дробление»)</a></li>
+  </ul></li>
+  <li><a href="#плавка-и-разделение" id="toc-плавка-и-разделение" class="nav-link" data-scroll-target="#плавка-и-разделение">Плавка и разделение</a>
+  <ul class="collapse">
+  <li><a href="#полный-технологический-цикл" id="toc-полный-технологический-цикл" class="nav-link" data-scroll-target="#полный-технологический-цикл">Полный технологический цикл</a></li>
+  <li><a href="#солнечная-печь-solar-furnace" id="toc-солнечная-печь-solar-furnace" class="nav-link" data-scroll-target="#солнечная-печь-solar-furnace">Солнечная печь (Solar Furnace)</a></li>
+  <li><a href="#электролиз-расплава-mre-cell" id="toc-электролиз-расплава-mre-cell" class="nav-link" data-scroll-target="#электролиз-расплава-mre-cell">Электролиз расплава (MRE Cell)</a></li>
+  <li><a href="#разделение-продуктов" id="toc-разделение-продуктов" class="nav-link" data-scroll-target="#разделение-продуктов">Разделение продуктов</a></li>
+  <li><a href="#линия-титана" id="toc-линия-титана" class="nav-link" data-scroll-target="#линия-титана">Линия титана</a></li>
+  </ul></li>
+  <li><a href="#транзит-через-стену" id="toc-транзит-через-стену" class="nav-link" data-scroll-target="#транзит-через-стену">Транзит через стену</a>
+  <ul class="collapse">
+  <li><a href="#электромагнитный-ввод-с-активной-изоляцией" id="toc-электромагнитный-ввод-с-активной-изоляцией" class="nav-link" data-scroll-target="#электромагнитный-ввод-с-активной-изоляцией">Электромагнитный ввод с активной изоляцией</a></li>
+  <li><a href="#u-образный-гидрозатвор-сифон" id="toc-u-образный-гидрозатвор-сифон" class="nav-link" data-scroll-target="#u-образный-гидрозатвор-сифон">U-образный гидрозатвор (Сифон)</a></li>
+  </ul></li>
+  <li><a href="#разливочный-узел" id="toc-разливочный-узел" class="nav-link" data-scroll-target="#разливочный-узел">Разливочный узел</a>
+  <ul class="collapse">
+  <li><a href="#промковш-тандиш" id="toc-промковш-тандиш" class="nav-link" data-scroll-target="#промковш-тандиш">Промковш (Тандиш)</a></li>
+  </ul></li>
+  <li><a href="#источники-и-ссылки" id="toc-источники-и-ссылки" class="nav-link" data-scroll-target="#источники-и-ссылки">Источники и ссылки</a>
+  <ul class="collapse">
+  <li><a href="#поведение-пыли-в-вакууме" id="toc-поведение-пыли-в-вакууме" class="nav-link" data-scroll-target="#поведение-пыли-в-вакууме">Поведение пыли в вакууме</a></li>
+  <li><a href="#вибрационное-оборудование" id="toc-вибрационное-оборудование" class="nav-link" data-scroll-target="#вибрационное-оборудование">Вибрационное оборудование</a></li>
+  <li><a href="#материалы" id="toc-материалы" class="nav-link" data-scroll-target="#материалы">Материалы</a></li>
+  <li><a href="#теплопередача-в-вакууме" id="toc-теплопередача-в-вакууме" class="nav-link" data-scroll-target="#теплопередача-в-вакууме">Теплопередача в вакууме</a></li>
+  </ul></li>
+  <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../ru/science/calculations/energy-production.html">Производство: детали</a></li><li class="breadcrumb-item"><a href="../../../ru/science/calculations/regolith-processing.html">Переработка реголита</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Переработка реголита</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>Полный цикл переработки сырья: от реголита до готовых материалов.</em></p>
+<hr>
+<section id="приёмка-и-дробление" class="level2">
+<h2 class="anchored" data-anchor-id="приёмка-и-дробление">Приёмка и дробление</h2>
+<p><em>Грязная зона — ВАКУУМ.</em></p>
+<p><strong>Критическое условие:</strong> Все процессы полностью независимы от атмосферы.</p>
+<section id="виброгрохот-vibrating-grizzly-feeder" class="level3">
+<h3 class="anchored" data-anchor-id="виброгрохот-vibrating-grizzly-feeder">Виброгрохот (Vibrating Grizzly Feeder)</h3>
+<p>Робот «Крот» сваливает грунт на наклонную решётку.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Решение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Привод</td>
+<td style="text-align: left;">Дебалансные моторы (инерция)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пыль</td>
+<td style="text-align: left;">Не висит облаком — падает камнем вниз (баллистика). Фильтры не нужны</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Охлаждение</td>
+<td style="text-align: left;">Кондуктивное (через металл рамы)</td>
+</tr>
+</tbody>
+</table>
+<section id="почему-пыль-не-висит-в-вакууме" class="level4">
+<h4 class="anchored" data-anchor-id="почему-пыль-не-висит-в-вакууме">Почему пыль не висит в вакууме?</h4>
+<p>На Земле мелкие частицы «висят» в воздухе из-за аэродинамического сопротивления — молекулы воздуха тормозят падение. В вакууме воздуха нет, поэтому:</p>
+<ul>
+<li>Все частицы (от валунов до микронной пыли) падают с одинаковым ускорением</li>
+<li>На Меркурии g = 3.7 м/с² — частица пролетает 1 метр за ~0.7 секунды</li>
+<li>Траектория — чистая парабола (баллистика), как у брошенного камня</li>
+<li>Пыль не образует облаков — она просто падает</li>
+</ul>
+<p><strong>Следствие:</strong> Фильтры и системы пылеподавления не нужны. Это радикально упрощает оборудование.</p>
+<blockquote class="blockquote">
+<p><strong>Аналогия:</strong> Эксперименты Apollo показали, что лунная пыль ведёт себя как песок — сыпется и оседает мгновенно.</p>
+</blockquote>
+</section>
+<section id="дебалансные-моторы" class="level4">
+<h4 class="anchored" data-anchor-id="дебалансные-моторы">Дебалансные моторы</h4>
+<p>Простейший способ создать вибрацию — закрепить эксцентричный груз на валу электродвигателя.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Электромотор</td>
+<td style="text-align: left;">Обычный асинхронный, ~3000 об/мин</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Эксцентрик</td>
+<td style="text-align: left;">Несимметричный груз на валу</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Центробежная сила</td>
+<td style="text-align: left;">F = m·ω²·r — создаёт вибрацию</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Принцип:</strong> При вращении центр масс эксцентрика смещён от оси → возникает центробежная сила → корпус мотора «трясётся». Два мотора, вращающихся в противоположные стороны, создают направленную вибрацию.</p>
+<p><strong>Преимущества:</strong> - Нет изнашиваемых частей кроме подшипников - Работает в вакууме без модификаций - Амплитуда регулируется изменением массы эксцентрика</p>
+<blockquote class="blockquote">
+<p><strong>Земные аналоги:</strong> Вибраторы Martin Engineering, VIBCO — используются в горной промышленности десятилетиями.</p>
+</blockquote>
+</section>
+<section id="конструкция-асинхронного-электродвигателя" class="level4">
+<h4 class="anchored" data-anchor-id="конструкция-асинхронного-электродвигателя">Конструкция асинхронного электродвигателя</h4>
+<p>Асинхронный мотор — рабочая лошадка промышленности. На Меркурии конструкция адаптирована под местные материалы и вакуум.</p>
+<p><strong>Статор (неподвижная часть):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Корпус</td>
+<td style="text-align: left;">Алюминиевый сплав</td>
+<td style="text-align: left;">Местный Al</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Магнитопровод</td>
+<td style="text-align: left;">Электротехническая сталь (Fe + 3% Si)</td>
+<td style="text-align: left;">Местный Fe + Si</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Обмотка</td>
+<td style="text-align: left;"><strong>Алюминиевая</strong> проволока</td>
+<td style="text-align: left;">Местный Al</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Изоляция</td>
+<td style="text-align: left;">Каптон / стекловолокно</td>
+<td style="text-align: left;">Импорт</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ротор (вращающаяся часть):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Вал</td>
+<td style="text-align: left;">Сталь</td>
+<td style="text-align: left;">Местный Fe</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Магнитопровод</td>
+<td style="text-align: left;">Электротехническая сталь (Fe + 3% Si)</td>
+<td style="text-align: left;">Местный Fe + Si</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Беличья клетка</td>
+<td style="text-align: left;">Алюминий (стержни + кольца)</td>
+<td style="text-align: left;">Местный Al</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Подшипники для вакуума:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Тип</th>
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Преимущество</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Керамические</td>
+<td style="text-align: left;">Si₃N₄ (нитрид кремния)</td>
+<td style="text-align: left;">Не требуют смазки — идеально для вакуума</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Стальные с покрытием</td>
+<td style="text-align: left;">Сталь + MoS₂ (сухая смазка)</td>
+<td style="text-align: left;">Дешевле, но ограниченный ресурс</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Почему алюминий вместо меди?</strong></p>
+<p>На Земле обмотки делают из меди — она имеет лучшую проводимость. Но меди на Меркурии нет (по данным MESSENGER — Cu отсутствует в коре). Алюминий имеет 60% проводимости меди, поэтому обмотки толще, а мотор на 20–30% тяжелее. Это приемлемая плата за полную локализацию производства.</p>
+<p><strong>Вентилятор:</strong> Не нужен. В вакууме нет конвекции — охлаждение только кондуктивное.</p>
+</section>
+<section id="расчёт-материалов-для-типичного-мотора-5-квт" class="level4">
+<h4 class="anchored" data-anchor-id="расчёт-материалов-для-типичного-мотора-5-квт">Расчёт материалов для типичного мотора (5 кВт)</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Масса</th>
+<th style="text-align: left;">Материал</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Корпус статора</td>
+<td style="text-align: left;">~15 кг</td>
+<td style="text-align: left;">Al</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пакет статора (магнитопровод)</td>
+<td style="text-align: left;">~25 кг</td>
+<td style="text-align: left;">Fe (97%) + Si (3%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Обмотка статора</td>
+<td style="text-align: left;">~8 кг</td>
+<td style="text-align: left;">Al</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Вал</td>
+<td style="text-align: left;">~5 кг</td>
+<td style="text-align: left;">Fe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ротор (магнитопровод)</td>
+<td style="text-align: left;">~10 кг</td>
+<td style="text-align: left;">Fe (97%) + Si (3%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Беличья клетка (стержни + кольца)</td>
+<td style="text-align: left;">~3 кг</td>
+<td style="text-align: left;">Al</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Подшипники (2 шт)</td>
+<td style="text-align: left;">~1 кг</td>
+<td style="text-align: left;">Керамика Si₃N₄</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Эксцентрик (для вибратора)</td>
+<td style="text-align: left;">~10 кг</td>
+<td style="text-align: left;">Fe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>ИТОГО</strong></td>
+<td style="text-align: left;"><strong>~77 кг</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Разбивка по материалам (1 мотор):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Масса</th>
+<th style="text-align: left;">Доля</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Железо (Fe)</td>
+<td style="text-align: left;">~50 кг</td>
+<td style="text-align: left;">65%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Алюминий (Al)</td>
+<td style="text-align: left;">~26 кг</td>
+<td style="text-align: left;">34%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Керамика / импорт</td>
+<td style="text-align: left;">~1 кг</td>
+<td style="text-align: left;">1%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Производительность завода:</strong> При выпуске 18 т железа и 42 т алюминия в день, завод может производить ~350 моторов/день — многократный избыток.</p>
+</section>
+<section id="кондуктивное-охлаждение" class="level4">
+<h4 class="anchored" data-anchor-id="кондуктивное-охлаждение">Кондуктивное охлаждение</h4>
+<p>В вакууме нет воздуха → нет конвекции. Тепло уходит только двумя путями:</p>
+<ol type="1">
+<li><strong>Излучение</strong> — радиаторы «светят» в космос</li>
+<li><strong>Теплопроводность</strong> — тепло течёт через контакт твёрдых тел</li>
+</ol>
+<p>Для грохота используется второй способ:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Элемент</th>
+<th style="text-align: left;">Температура</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Мотор (работа)</td>
+<td style="text-align: left;">+80…+150°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Рама (массивная)</td>
+<td style="text-align: left;">Промежуточная</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Грунт дна кратера</td>
+<td style="text-align: left;">−150°C (вечная тень)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Тепловой поток:</strong> Мотор → болты → рама → опоры → грунт. Холодный грунт работает как бесконечный теплоотвод.</p>
+<p><strong>Альтернатива:</strong> Радиаторные панели, излучающие в сторону космоса (3 K). Но для механического оборудования кондукция проще.</p>
+</section>
+</section>
+<section id="щековая-дробилка-jaw-crusher" class="level3">
+<h3 class="anchored" data-anchor-id="щековая-дробилка-jaw-crusher">Щековая дробилка (Jaw Crusher)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Принцип</td>
+<td style="text-align: left;">Механическое сжатие плит</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Материал</td>
+<td style="text-align: left;">Марганцовистая сталь (Hadfield)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Плюс вакуума</td>
+<td style="text-align: left;">Нет коррозии — ресурс выше</td>
+</tr>
+</tbody>
+</table>
+<section id="марганцовистая-сталь-hadfield-steel" class="level4">
+<h4 class="anchored" data-anchor-id="марганцовистая-сталь-hadfield-steel">Марганцовистая сталь (Hadfield Steel)</h4>
+<p><strong>Сталь Гадфильда</strong> — уникальный сплав, изобретённый в 1882 году. Состав:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Элемент</th>
+<th style="text-align: left;">Содержание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Марганец (Mn)</td>
+<td style="text-align: left;">11–14%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Углерод (C)</td>
+<td style="text-align: left;">1.0–1.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Железо (Fe)</td>
+<td style="text-align: left;">Остальное</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Уникальное свойство:</strong> При ударе поверхность <strong>упрочняется</strong> (эффект наклёпа). Чем сильнее удар — тем твёрже становится поверхность. Внутри материал остаётся вязким.</p>
+<p><strong>Почему идеальна для дробилок:</strong> - Плиты работают под постоянными ударами → поверхность сама себя упрочняет - Не хрупкая — не раскалывается при пиковых нагрузках - Используется в земных дробилках, ковшах экскаваторов, железнодорожных стрелках</p>
+</section>
+<section id="источник-марганца-на-меркурии" class="level4">
+<h4 class="anchored" data-anchor-id="источник-марганца-на-меркурии">Источник марганца на Меркурии</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Содержание Mn в коре</td>
+<td style="text-align: left;">~0.1% (по данным MESSENGER)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Потребность на 1 дробилку</td>
+<td style="text-align: left;">~50 кг Mn (плиты ~500 кг, 10% Mn)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Доступно из 600 т/день реголита</td>
+<td style="text-align: left;">~600 кг Mn/день</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Марганца хватает с избытком. Извлечение — побочный продукт электролиза MRE (марганец концентрируется в шлаке вместе с алюминием).</p>
+<p><strong>Альтернатива для первого завода:</strong> Плиты везём с Земли (~500 кг) — расходник, меняется раз в год.</p>
+</section>
+</section>
+<section id="виброжелоб-транспорт" class="level3">
+<h3 class="anchored" data-anchor-id="виброжелоб-транспорт">Виброжелоб (Транспорт)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Привод</td>
+<td style="text-align: left;">Электромагнит</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Принцип</td>
+<td style="text-align: left;">Лоток мелко дрожит (50 Гц), грунт «течёт»</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Плюс</td>
+<td style="text-align: left;">Нет подшипников и трущихся частей</td>
+</tr>
+</tbody>
+</table>
+<section id="принцип-работы-электромагнитного-вибратора" class="level4">
+<h4 class="anchored" data-anchor-id="принцип-работы-электромагнитного-вибратора">Принцип работы электромагнитного вибратора</h4>
+<p>Электромагнит — это катушка с железным сердечником. При подаче тока создаётся магнитное поле, притягивающее якорь.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Катушка (обмотка)</td>
+<td style="text-align: left;">Медная проволока, создаёт магнитное поле</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Сердечник</td>
+<td style="text-align: left;">Железо, усиливает поле</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Якорь</td>
+<td style="text-align: left;">Железная пластина, притягивается к сердечнику</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пружины</td>
+<td style="text-align: left;">Возвращают лоток в исходное положение</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Цикл работы (переменный ток 50 Гц):</strong></p>
+<ol type="1">
+<li>Ток в катушке → магнит притягивает якорь → лоток смещается</li>
+<li>Ток = 0 → пружины возвращают лоток</li>
+<li>Ток меняет знак → снова притяжение (магнит работает на |I|)</li>
+<li>Результат: 100 колебаний/сек (частота удваивается)</li>
+</ol>
+<p><strong>Почему материал «течёт»:</strong> - При движении лотка вверх-вперёд частицы подбрасываются - При движении вниз-назад лоток уходит из-под частиц - Частицы приземляются чуть дальше → микро-прыжки суммируются в поток</p>
+</section>
+<section id="конструкция-для-меркурия" class="level4">
+<h4 class="anchored" data-anchor-id="конструкция-для-меркурия">Конструкция для Меркурия</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Элемент</th>
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Лоток</td>
+<td style="text-align: left;">Нержавеющая сталь</td>
+<td style="text-align: left;">Местное производство (Fe + Cr)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Катушка</td>
+<td style="text-align: left;">Алюминиевая проволока</td>
+<td style="text-align: left;">Местный Al (медь дефицитна)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Сердечник</td>
+<td style="text-align: left;">Железо</td>
+<td style="text-align: left;">Местное производство</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пружины</td>
+<td style="text-align: left;">Сталь</td>
+<td style="text-align: left;">Местное производство</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Преимущества в вакууме:</strong> - Нет износа от трения (отсутствие атмосферы = нет окисления) - Нет подшипников — ничего не смазывать - Простое управление — регулировка напряжения меняет амплитуду</p>
+<blockquote class="blockquote">
+<p><strong>Земные аналоги:</strong> Eriez, Syntron electromagnetic feeders — стандарт в пищевой, фармацевтической и горной промышленности с 1950-х годов.</p>
+</blockquote>
+</section>
+</section>
+<section id="сводная-таблица-материалов-секция-приёмка-и-дробление" class="level3">
+<h3 class="anchored" data-anchor-id="сводная-таблица-материалов-секция-приёмка-и-дробление">Сводная таблица материалов (секция «Приёмка и дробление»)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Оборудование</th>
+<th style="text-align: left;">Масса</th>
+<th style="text-align: left;">Fe</th>
+<th style="text-align: left;">Al</th>
+<th style="text-align: left;">Импорт</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Виброгрохот (2 мотора + рама + решётка)</td>
+<td style="text-align: left;">~850 кг</td>
+<td style="text-align: left;">650 кг</td>
+<td style="text-align: left;">180 кг</td>
+<td style="text-align: left;">20 кг</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Щековая дробилка (мотор + рама + плиты)</td>
+<td style="text-align: left;">~2700 кг</td>
+<td style="text-align: left;">2400 кг</td>
+<td style="text-align: left;">250 кг</td>
+<td style="text-align: left;">50 кг</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Виброжелоб (лоток + электромагнит + пружины)</td>
+<td style="text-align: left;">~170 кг</td>
+<td style="text-align: left;">100 кг</td>
+<td style="text-align: left;">60 кг</td>
+<td style="text-align: left;">10 кг</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ИТОГО секция</strong></td>
+<td style="text-align: left;"><strong>~3720 кг</strong></td>
+<td style="text-align: left;"><strong>3150 кг</strong></td>
+<td style="text-align: left;"><strong>490 кг</strong></td>
+<td style="text-align: left;"><strong>80 кг</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Распределение:</strong> - Железо: <strong>85%</strong> (местное производство) - Алюминий: <strong>13%</strong> (местное производство) - Импорт: <strong>2%</strong> (изоляция, керамика подшипников, электроника)</p>
+<p><strong>Вывод:</strong> Секция приёмки и дробления почти полностью (~98%) обеспечивается местными материалами. Импорт минимален — в основном изоляционные материалы и керамические подшипники.</p>
+<hr>
+</section>
+</section>
+<section id="плавка-и-разделение" class="level2">
+<h2 class="anchored" data-anchor-id="плавка-и-разделение">Плавка и разделение</h2>
+<p><em>Горячая зона — ВАКУУМ.</em></p>
+<p>Химический реактор стоит на открытом грунте. Вакуум работает как идеальная термоизоляция.</p>
+<section id="полный-технологический-цикл" class="level3">
+<h3 class="anchored" data-anchor-id="полный-технологический-цикл">Полный технологический цикл</h3>
+<p>Процесс разделяется на <strong>два параллельных потока</strong> после магнитной сепарации:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    subgraph ДОБЫЧА["ДОБЫЧА (вакуум)"]
+        R[/"Реголит&lt;br/&gt;600 т/день"/] --&gt; VG["Виброгрохот"] --&gt; JC["Дробилка&lt;br/&gt;&lt;10 мм"]
+    end
+
+    subgraph ОБОГАЩЕНИЕ["ОБОГАЩЕНИЕ (вакуум)"]
+        JC --&gt; MS["Магнитная сепарация&lt;br/&gt;0.5-1.5 Тл | 50 кВт"]
+        MS --&gt;|"5-6%&lt;br/&gt;магнитная"| MF["Ильменит + Троилит&lt;br/&gt;33 т/день"]
+        MS --&gt;|"94%&lt;br/&gt;немагнитная"| NMF["Силикаты&lt;br/&gt;564 т/день"]
+    end
+
+    subgraph Ti_LINE["ЛИНИЯ ТИТАНА (вакуум)"]
+        MF --&gt; TS["Возгонка серы&lt;br/&gt;450°C | 200 кВт"]
+        TS --&gt;|"S↗"| S_out[/"Сера&lt;br/&gt;→ NaS батареи"/]
+        TS --&gt; OX["Окислительный обжиг&lt;br/&gt;900°C + O₂ | 300 кВт"]
+        OX --&gt; SEP2["Магнитная сепарация&lt;br/&gt;1-2 Тл | 30 кВт"]
+        SEP2 --&gt;|"Fe₂O₃"| Fe_back["Железо&lt;br/&gt;→ рафинирование"]
+        SEP2 --&gt;|"TiO₂"| TiO2[/"0.6 т TiO₂/день&lt;br/&gt;→ электрохромика"/]
+    end
+
+    subgraph MRE_CELL["MRE (вакуум)"]
+        NMF --&gt; SF["Солнечная печь&lt;br/&gt;1500°C | 10 МВт"]
+        SF --&gt; EL["Электролиз MRE&lt;br/&gt;500 кВт"]
+        EL --&gt;|"O₂↗ анод"| O2[/"Кислород&lt;br/&gt;→ хранение"/]
+        EL --&gt;|"Fe/Si↓ дно"| FeSi["Ферросилиций"]
+        EL --&gt;|"Al/Mg↑ верх"| AlMg["Шлак"]
+    end
+
+    subgraph РАФИНИРОВАНИЕ["РАФИНИРОВАНИЕ"]
+        FeSi --&gt; RAF["Продувка Ar"]
+        Fe_back --&gt; RAF
+        RAF --&gt; MHD["МГД-ввод&lt;br/&gt;в купол"]
+        AlMg --&gt; SKIM["Скиммер"] --&gt; AlF["Печь Al/Mg&lt;br/&gt;1200°C | 150 кВт"]
+        AlF --&gt;|"Mg↗ 1091°C"| Mg[/"Магний&lt;br/&gt;→ сплавы"/]
+        AlF --&gt; Al[/"Алюминий&lt;br/&gt;42 т/день"/]
+    end
+
+    subgraph ФОРМОВКА["ФОРМОВКА (внутри купола)"]
+        MHD --&gt; TUN["Промковш"] --&gt; MNLZ["МНЛЗ"] --&gt; ROLL["Прокат"]
+        Al --&gt; FOIL["Прокат фольги&lt;br/&gt;4 мкм"]
+    end
+
+    subgraph ПРОДУКЦИЯ["ПРОДУКЦИЯ"]
+        ROLL --&gt; ROBOT[/"Детали роботов"/]
+        FOIL --&gt; MIRROR[/"ЗЕРКАЛО"/]
+        TiO2 --&gt; MIRROR
+    end
+
+    style ДОБЫЧА fill:#e8d4a8
+    style ОБОГАЩЕНИЕ fill:#d4e8a8
+    style Ti_LINE fill:#a8d4e8
+    style MRE_CELL fill:#e8a8d4
+    style РАФИНИРОВАНИЕ fill:#d4a8e8
+    style ФОРМОВКА fill:#a8e8d4
+    style ПРОДУКЦИЯ fill:#e8e8a8
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="солнечная-печь-solar-furnace" class="level3">
+<h3 class="anchored" data-anchor-id="солнечная-печь-solar-furnace">Солнечная печь (Solar Furnace)</h3>
+<p>Мы не греем купол. Мы греем тигель на улице.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Зеркала</td>
+<td style="text-align: left;">Тот же тип пленочных (Каптон + Al), фокус в тигель</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Плюс вакуума</td>
+<td style="text-align: left;">Нет конвекции (теплопотерь через воздух) — вся энергия на плавку</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Плюс вакуума</td>
+<td style="text-align: left;">Нет горения — тигель не окисляется снаружи</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Примечание об электродах:</strong> Аноды MRE расходуются электрохимически — на них выделяется кислород, который реагирует с материалом электрода. Используются инертные аноды (иридий или хром-железо-кобальт сплав). Ресурс — ~6 месяцев, после чего требуется замена (везём с Земли).</p>
+</section>
+<section id="электролиз-расплава-mre-cell" class="level3">
+<h3 class="anchored" data-anchor-id="электролиз-расплава-mre-cell">Электролиз расплава (MRE Cell)</h3>
+<p>В ванну с лавой опускаются электроды.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Продукт</th>
+<th style="text-align: left;">Куда девается</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Кислород</td>
+<td style="text-align: left;">Бурлит на аноде → сжижается → хранится как окислитель</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Сплав (Fe/Si)</td>
+<td style="text-align: left;">Оседает на дно → Рафинирование → МГД-ввод</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Шлак (Al/Mg)</td>
+<td style="text-align: left;">Всплывает коркой → Скиммер → Линия алюминия</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="разделение-продуктов" class="level3">
+<h3 class="anchored" data-anchor-id="разделение-продуктов">Разделение продуктов</h3>
+<p><strong>Скиммер шлака:</strong> Механический съём корки Al/Mg с поверхности расплава.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Решение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Принцип</td>
+<td style="text-align: left;">Молибденовый черпак на рычаге, автоматический цикл</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Материал</td>
+<td style="text-align: left;">Mo (тугоплавкий металл, Tпл=2623°C) — не требует дефицитного углерода</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Накопитель</td>
+<td style="text-align: left;">Керамический ковш-накопитель (опорожняется в печь алюминия)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Рафинирование железа:</strong> Очистка Fe/Si от примесей перед подачей в МГД-канал.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Метод</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Продувка аргоном</td>
+<td style="text-align: left;">Пузырьки газа захватывают неметаллические включения</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Вакуумная дегазация</td>
+<td style="text-align: left;">Удаление растворённых газов (вакуум и так есть)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Результат</td>
+<td style="text-align: left;">Чистый ферросилиций для литья</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Линия алюминия:</strong> Отдельный передел для переработки шлака.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Этап</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Печь</td>
+<td style="text-align: left;">Индукционная, переплавка шлака Al/Mg</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Разделение</td>
+<td style="text-align: left;">Mg кипит при 1091°C → возгоняется → конденсируется отдельно</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Результат</td>
+<td style="text-align: left;">Чистый Al для лёгких конструкций и зеркал</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Дистилляция серы:</strong> Получение серы для NaS-аккумуляторов.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Источник</td>
+<td style="text-align: left;">Сульфиды в реголите (троилит FeS)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Метод</td>
+<td style="text-align: left;">Вакуумная возгонка при 450°C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Конденсатор</td>
+<td style="text-align: left;">Холодная поверхность (тень), сера осаждается жёлтыми кристаллами</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Переплавка</td>
+<td style="text-align: left;">Жидкая сера (&gt;115°C) → в аккумуляторный цех</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="линия-титана" class="level3">
+<h3 class="anchored" data-anchor-id="линия-титана">Линия титана</h3>
+<p>Извлечение TiO₂ для электрохромики зеркал. Титан (&lt;1% в коре Меркурия) находится в <strong>ильмените (FeTiO₃)</strong> — слабомагнитном минерале.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Потребность TiO₂</td>
+<td>1 кг × 600 зеркал = <strong>0.6 т/день</strong></td>
+</tr>
+<tr class="even">
+<td>Доступно (Ti &lt;1%)</td>
+<td>~4.5 т TiO₂ из 270 т реголита</td>
+</tr>
+<tr class="odd">
+<td>Запас</td>
+<td><strong>×7.5</strong> (избыток)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Электрохромика зеркал:</strong></p>
+<p>TiO₂ используется для управления ориентацией зеркала в космосе:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Слой TiO₂</td>
+<td>Изменяет отражательную способность при подаче напряжения</td>
+</tr>
+<tr class="even">
+<td>Эффект</td>
+<td>Неравномерное давление света → крутящий момент</td>
+</tr>
+<tr class="odd">
+<td>Управление</td>
+<td>Наклон зеркала без двигателей и топлива</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Принцип:</strong> Зеркало 100×100 м с электрохромным покрытием. При подаче напряжения на один край отражательная способность снижается → давление света становится неравномерным → зеркало медленно поворачивается. Это позволяет направлять отражённый свет на приёмник без расхода топлива.</p>
+<p><strong>Масса электрохромного слоя:</strong> ~1 кг/зеркало (из 116 кг общей массы).</p>
+<hr>
+</section>
+</section>
+<section id="транзит-через-стену" class="level2">
+<h2 class="anchored" data-anchor-id="транзит-через-стену">Транзит через стену</h2>
+<p><em>Кровеносная система.</em></p>
+<p>Как передать расплав (1500°C) через холодный кратер (−150°C) внутрь завода, не потеряв атмосферу?</p>
+<section id="электромагнитный-ввод-с-активной-изоляцией" class="level3">
+<h3 class="anchored" data-anchor-id="электромагнитный-ввод-с-активной-изоляцией">Электромагнитный ввод с активной изоляцией</h3>
+<p>Труба с жидким металлом проходит сквозь шлюзовую панель купола.</p>
+<p><strong>Физика:</strong> Труба — «сэндвич» (Керамика + Индукторы + ЭВТИ).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">МГД-насос</td>
+<td style="text-align: left;">Магнитное поле толкает металл. Внутри трубы нет подвижных деталей</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробка</td>
+<td style="text-align: left;">Из самого металла — обеспечивает герметичность</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="u-образный-гидрозатвор-сифон" class="level3">
+<h3 class="anchored" data-anchor-id="u-образный-гидрозатвор-сифон">U-образный гидрозатвор (Сифон)</h3>
+<p>Труба делает глубокий изгиб вниз.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Элемент</th>
+<th style="text-align: left;">Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Принцип</td>
+<td style="text-align: left;">В нижней части U-трубы всегда стоит «пробка» из тяжёлого жидкого железа, блокируя выход газа из купола</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Аварийная система</td>
+<td style="text-align: left;">Керамическая заслонка (шибер) автоматически перерубает канал при падении уровня металла</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="разливочный-узел" class="level2">
+<h2 class="anchored" data-anchor-id="разливочный-узел">Разливочный узел</h2>
+<p><em>Буферизация и дозирование — ВНУТРИ КУПОЛА.</em></p>
+<p>Критическая проблема: электролиз работает непрерывно, а литьё — порционно. Нужен буфер.</p>
+<section id="промковш-тандиш" class="level3">
+<h3 class="anchored" data-anchor-id="промковш-тандиш">Промковш (Тандиш)</h3>
+<p>Промежуточная ёмкость между МГД-вводом и кристаллизатором.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ёмкость</td>
+<td style="text-align: left;">2–3 тонны расплава</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Материал</td>
+<td style="text-align: left;">Стальной кожух + огнеупорная футеровка (магнезит)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Подогрев</td>
+<td style="text-align: left;">Индукционный (поддержание температуры 1550°C)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Функция</td>
+<td style="text-align: left;">Буферизация, усреднение состава, всплытие включений</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="источники-и-ссылки" class="level2">
+<h2 class="anchored" data-anchor-id="источники-и-ссылки">Источники и ссылки</h2>
+<section id="поведение-пыли-в-вакууме" class="level3">
+<h3 class="anchored" data-anchor-id="поведение-пыли-в-вакууме">Поведение пыли в вакууме</h3>
+<ul>
+<li><strong>Apollo Lunar Dust Experiments:</strong> Наблюдения астронавтов показали, что лунная пыль оседает мгновенно в отсутствие атмосферы</li>
+<li><strong>NASA Lunar Sourcebook (1991):</strong> Глава о механических свойствах реголита</li>
+</ul>
+</section>
+<section id="вибрационное-оборудование" class="level3">
+<h3 class="anchored" data-anchor-id="вибрационное-оборудование">Вибрационное оборудование</h3>
+<ul>
+<li><strong>Martin Engineering:</strong> Промышленные дебалансные вибраторы (martin-eng.com)</li>
+<li><strong>VIBCO Vibrators:</strong> Каталог вибрационного оборудования для горной промышленности</li>
+<li><strong>Eriez Vibratory Feeders:</strong> Электромагнитные питатели (eriez.com)</li>
+<li><strong>Syntron Material Handling:</strong> Electromagnetic feeders since 1936</li>
+</ul>
+</section>
+<section id="материалы" class="level3">
+<h3 class="anchored" data-anchor-id="материалы">Материалы</h3>
+<ul>
+<li><strong>Hadfield Steel (1882):</strong> Robert Hadfield, патент на марганцовистую сталь</li>
+<li><strong>MESSENGER Mission (2011-2015):</strong> Данные о составе поверхности Меркурия, включая содержание марганца</li>
+</ul>
+</section>
+<section id="теплопередача-в-вакууме" class="level3">
+<h3 class="anchored" data-anchor-id="теплопередача-в-вакууме">Теплопередача в вакууме</h3>
+<ul>
+<li><strong>NASA Thermal Control Handbook:</strong> Методы охлаждения космических аппаратов</li>
+<li><strong>ESA Thermal Analysis:</strong> Кондуктивное и радиационное охлаждение</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="см.-также" class="level2">
+<h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
+<ul>
+<li><a href="../../../ru/science/production.html">Производство</a> — полный цикл завода</li>
+<li><a href="../../../ru/science/calculations/energy-production.html">Энергетика</a> — энергоснабжение завода</li>
+<li><a href="../../../ru/science/calculations/batteries.html">Накопители</a> — NaS батареи из серы</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
