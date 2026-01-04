@@ -240,6 +240,9 @@ p:has(> em:first-child) { text-indent: 0; }
  <span class="menu-text">Саморепликация</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+ <span class="menu-text">ru/science/factory-interior.qmd</span>
+  </li>
       </ul>
   </li>
       </ul>
@@ -355,12 +358,6 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/factory-interior.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Внутреннее устройство фабрики</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/calculations/energy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Расчёты энергии</span></a>
   </div>
@@ -389,7 +386,12 @@ p:has(> em:first-child) { text-indent: 0; }
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#приёмка-и-дробление" id="toc-приёмка-и-дробление" class="nav-link active" data-scroll-target="#приёмка-и-дробление">Приёмка и дробление</a>
+  <li><a href="#обзор-процесса" id="toc-обзор-процесса" class="nav-link active" data-scroll-target="#обзор-процесса">Обзор процесса</a>
+  <ul class="collapse">
+  <li><a href="#технологический-цикл-от-реголита-до-материалов" id="toc-технологический-цикл-от-реголита-до-материалов" class="nav-link" data-scroll-target="#технологический-цикл-от-реголита-до-материалов">Технологический цикл: от реголита до материалов</a></li>
+  <li><a href="#выход-материалов-600-т-реголитадень" id="toc-выход-материалов-600-т-реголитадень" class="nav-link" data-scroll-target="#выход-материалов-600-т-реголитадень">Выход материалов (600 т реголита/день)</a></li>
+  </ul></li>
+  <li><a href="#приёмка-и-дробление" id="toc-приёмка-и-дробление" class="nav-link" data-scroll-target="#приёмка-и-дробление">Приёмка и дробление</a>
   <ul class="collapse">
   <li><a href="#виброгрохот-vibrating-grizzly-feeder" id="toc-виброгрохот-vibrating-grizzly-feeder" class="nav-link" data-scroll-target="#виброгрохот-vibrating-grizzly-feeder">Виброгрохот (Vibrating Grizzly Feeder)</a></li>
   <li><a href="#щековая-дробилка-jaw-crusher" id="toc-щековая-дробилка-jaw-crusher" class="nav-link" data-scroll-target="#щековая-дробилка-jaw-crusher">Щековая дробилка (Jaw Crusher)</a></li>
@@ -398,10 +400,14 @@ p:has(> em:first-child) { text-indent: 0; }
   </ul></li>
   <li><a href="#плавка-и-разделение" id="toc-плавка-и-разделение" class="nav-link" data-scroll-target="#плавка-и-разделение">Плавка и разделение</a>
   <ul class="collapse">
-  <li><a href="#полный-технологический-цикл" id="toc-полный-технологический-цикл" class="nav-link" data-scroll-target="#полный-технологический-цикл">Полный технологический цикл</a></li>
+  <li><a href="#магнитная-сепарация" id="toc-магнитная-сепарация" class="nav-link" data-scroll-target="#магнитная-сепарация">Магнитная сепарация</a></li>
   <li><a href="#солнечная-печь-solar-furnace" id="toc-солнечная-печь-solar-furnace" class="nav-link" data-scroll-target="#солнечная-печь-solar-furnace">Солнечная печь (Solar Furnace)</a></li>
-  <li><a href="#электролиз-расплава-mre-cell" id="toc-электролиз-расплава-mre-cell" class="nav-link" data-scroll-target="#электролиз-расплава-mre-cell">Электролиз расплава (MRE Cell)</a></li>
+  <li><a href="#электролиз-расплава-mre-molten-regolith-electrolysis" id="toc-электролиз-расплава-mre-molten-regolith-electrolysis" class="nav-link" data-scroll-target="#электролиз-расплава-mre-molten-regolith-electrolysis">Электролиз расплава (MRE — Molten Regolith Electrolysis)</a></li>
   <li><a href="#разделение-продуктов" id="toc-разделение-продуктов" class="nav-link" data-scroll-target="#разделение-продуктов">Разделение продуктов</a></li>
+  <li><a href="#извлечение-марганца" id="toc-извлечение-марганца" class="nav-link" data-scroll-target="#извлечение-марганца">Извлечение марганца</a></li>
+  <li><a href="#углерод-опциональный-модуль" id="toc-углерод-опциональный-модуль" class="nav-link" data-scroll-target="#углерод-опциональный-модуль">Углерод (опциональный модуль)</a></li>
+  <li><a href="#переработка-шлака-almgnak" id="toc-переработка-шлака-almgnak" class="nav-link" data-scroll-target="#переработка-шлака-almgnak">Переработка шлака (Al/Mg/Na/K)</a></li>
+  <li><a href="#извлечение-кремния" id="toc-извлечение-кремния" class="nav-link" data-scroll-target="#извлечение-кремния">Извлечение кремния</a></li>
   <li><a href="#линия-титана" id="toc-линия-титана" class="nav-link" data-scroll-target="#линия-титана">Линия титана</a></li>
   </ul></li>
   <li><a href="#транзит-через-стену" id="toc-транзит-через-стену" class="nav-link" data-scroll-target="#транзит-через-стену">Транзит через стену</a>
@@ -448,6 +454,171 @@ p:has(> em:first-child) { text-indent: 0; }
 
 <p><em>Полный цикл переработки сырья: от реголита до готовых материалов.</em></p>
 <hr>
+<section id="обзор-процесса" class="level2">
+<h2 class="anchored" data-anchor-id="обзор-процесса">Обзор процесса</h2>
+<section id="технологический-цикл-от-реголита-до-материалов" class="level3">
+<h3 class="anchored" data-anchor-id="технологический-цикл-от-реголита-до-материалов">Технологический цикл: от реголита до материалов</h3>
+<p>Процесс разделяется на <strong>два параллельных потока</strong> после магнитной сепарации:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    subgraph ДОБЫЧА["ДОБЫЧА (вакуум)"]
+        R[/"Реголит&lt;br/&gt;600 т/день"/] --&gt; VG["Виброгрохот"] --&gt; JC["Дробилка&lt;br/&gt;&lt;10 мм"]
+    end
+
+    subgraph ОБОГАЩЕНИЕ["ОБОГАЩЕНИЕ (вакуум)"]
+        JC --&gt; MS["Магнитная сепарация&lt;br/&gt;0.5-1.5 Тл"]
+        MS --&gt;|"5-6%&lt;br/&gt;магнитная"| MF["Ильменит + Троилит&lt;br/&gt;33 т/день"]
+        MS --&gt;|"94%&lt;br/&gt;немагнитная"| NMF["Силикаты&lt;br/&gt;564 т/день"]
+    end
+
+    subgraph Ti_LINE["ЛИНИЯ ТИТАНА"]
+        MF --&gt; TS["Возгонка серы&lt;br/&gt;450°C"]
+        TS --&gt;|"S↗"| S_out[/"Сера"/]
+        TS --&gt; OX["Окислительный обжиг&lt;br/&gt;900°C"]
+        OX --&gt; SEP2["Магнитная сепарация"]
+        SEP2 --&gt;|"Fe₂O₃"| Fe_back["→ Железо"]
+        SEP2 --&gt;|"TiO₂"| TiO2[/"Диоксид титана"/]
+    end
+
+    subgraph MRE_CELL["ЭЛЕКТРОЛИЗ MRE"]
+        NMF --&gt; SF["Солнечная печь&lt;br/&gt;1500°C"]
+        SF --&gt; EL["Электролиз"]
+        EL --&gt;|"O₂↗"| O2[/"Кислород"/]
+        EL --&gt;|"Fe/Si↓"| FeSi["Ферросилиций"]
+        EL --&gt;|"Al/Mg↑"| AlMg["Шлак"]
+    end
+
+    subgraph ТЯЖЁЛЫЕ["РАЗДЕЛЕНИЕ Fe/Si"]
+        FeSi --&gt; Fe[/"Железо&lt;br/&gt;~10 т/день"/]
+        FeSi --&gt; Si[/"Кремний&lt;br/&gt;~25 т/день"/]
+        Fe_back --&gt; Fe
+    end
+
+    subgraph ДИСТИЛЛЯЦИЯ["ДИСТИЛЛЯЦИЯ ШЛАКА"]
+        AlMg --&gt; IND["Инд. печь&lt;br/&gt;1200°C"]
+        IND --&gt; VAC["Вакуумная&lt;br/&gt;дистилляция"]
+        VAC --&gt;|"759°C↗"| K_out[/"Калий (K)&lt;br/&gt;~3 т/день"/]
+        VAC --&gt;|"883°C↗"| Na_out[/"Натрий (Na)&lt;br/&gt;~20 т/день"/]
+        VAC --&gt;|"1091°C↗"| Mg_out[/"Магний (Mg)&lt;br/&gt;~48 т/день"/]
+        VAC --&gt;|"остаток"| Al_out[/"Алюминий (Al)&lt;br/&gt;42 т/день"/]
+    end
+
+    subgraph КАРБОН["ЛИНИЯ КАРБОН (опционально)"]
+        LRM[/"LRM-реголит&lt;br/&gt;200 т/день"/] --&gt; LRM_SF["MRE-флотация&lt;br/&gt;1500°C"]
+        LRM_SF --&gt;|"C↑"| GRAPHITE[/"Графит&lt;br/&gt;→ полюс"/]
+        LRM_SF --&gt;|"Fe/Al"| LRM_local["→ местное"]
+    end
+
+    style ДОБЫЧА fill:#e8d4a8
+    style ОБОГАЩЕНИЕ fill:#d4e8a8
+    style Ti_LINE fill:#a8d4e8
+    style MRE_CELL fill:#e8a8d4
+    style ТЯЖЁЛЫЕ fill:#d4a8e8
+    style ДИСТИЛЛЯЦИЯ fill:#f0e68c
+    style КАРБОН fill:#98fb98,stroke-dasharray: 5 5
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="выход-материалов-600-т-реголитадень" class="level3">
+<h3 class="anchored" data-anchor-id="выход-материалов-600-т-реголитадень">Выход материалов (600 т реголита/день)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Количество</th>
+<th style="text-align: left;">% реголита</th>
+<th style="text-align: left;">Применение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Кислород (O₂)</td>
+<td style="text-align: left;">~250 т/день</td>
+<td style="text-align: left;">42%</td>
+<td style="text-align: left;">Окислитель, дыхание, химия</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Магний (Mg)</td>
+<td style="text-align: left;">~48 т/день</td>
+<td style="text-align: left;">8%</td>
+<td style="text-align: left;">Лёгкие сплавы (Al-Mg)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Алюминий (Al)</td>
+<td style="text-align: left;">42 т/день</td>
+<td style="text-align: left;">7%</td>
+<td style="text-align: left;">Зеркала, корпуса, обмотки моторов</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Кремний (Si)</td>
+<td style="text-align: left;">~25 т/день</td>
+<td style="text-align: left;">4%*</td>
+<td style="text-align: left;">Солнечные панели, стекло, электроника</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Натрий (Na)</td>
+<td style="text-align: left;">~20 т/день</td>
+<td style="text-align: left;">3.5%</td>
+<td style="text-align: left;">NaS батареи, теплоноситель NaK</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Сера (S)</td>
+<td style="text-align: left;">~18 т/день</td>
+<td style="text-align: left;">3%</td>
+<td style="text-align: left;">NaS батареи</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Железо (Fe)</td>
+<td style="text-align: left;">~10 т/день</td>
+<td style="text-align: left;">1.7%</td>
+<td style="text-align: left;">Рамы роботов, рельсы МД, инструменты</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Марганец (Mn)*</td>
+<td style="text-align: left;">~0.6 т/день</td>
+<td style="text-align: left;">0.1%</td>
+<td style="text-align: left;">В составе Fe-Mn сплава</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Калий (K)</td>
+<td style="text-align: left;">~3 т/день</td>
+<td style="text-align: left;">0.5%</td>
+<td style="text-align: left;">Теплоноситель NaK</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Титан (TiO₂)</td>
+<td style="text-align: left;">~3 т/день</td>
+<td style="text-align: left;">0.5%</td>
+<td style="text-align: left;">Электрохромика зеркал</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Углерод (C)**</td>
+<td style="text-align: left;">~12 т/день</td>
+<td style="text-align: left;">1-3%**</td>
+<td style="text-align: left;">Сталь Гадфильда, смазки, аноды</td>
+</tr>
+</tbody>
+</table>
+<p>*Si: 25% в реголите, но большая часть остаётся в силикатном шлаке. Извлекается ~4% как металл.</p>
+<p>*Mn: извлекается вместе с железом при MRE-электролизе (плотность Mn ≈ Fe). Автоматически легирует сталь.</p>
+<p>**C: содержится в LRM (Low Reflectance Material) — тёмных зонах Меркурия. Добывается из LRM-обогащённого реголита (Peplowski et al., 2016).</p>
+<hr>
+</section>
+</section>
 <section id="приёмка-и-дробление" class="level2">
 <h2 class="anchored" data-anchor-id="приёмка-и-дробление">Приёмка и дробление</h2>
 <p><em>Грязная зона — ВАКУУМ.</em></p>
@@ -561,8 +732,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td style="text-align: left;">Изоляция</td>
-<td style="text-align: left;">Каптон / стекловолокно</td>
-<td style="text-align: left;">Импорт</td>
+<td style="text-align: left;">Стекловолокно / керамика Al₂O₃</td>
+<td style="text-align: left;">Местное (Si + Al + O₂)</td>
 </tr>
 </tbody>
 </table>
@@ -620,11 +791,33 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td style="text-align: left;">Стальные с покрытием</td>
-<td style="text-align: left;">Сталь + MoS₂ (сухая смазка)</td>
+<td style="text-align: left;">Сталь + MoS₂ (сухая смазка, <strong>импорт</strong>)</td>
 <td style="text-align: left;">Дешевле, но ограниченный ресурс</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Зачем керамические подшипники?</strong></p>
+<p>Подшипник — это кольцо с шариками между валом и корпусом. На Земле шарики смазывают маслом, но в вакууме смазка испаряется за часы. Керамика Si₃N₄ (нитрид кремния) имеет низкий коэффициент трения и работает “всухую” — идеально для космоса.</p>
+<p><strong>Производство Si₃N₄ на Меркурии:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Кремний (Si)</td>
+<td style="text-align: left;">25% в реголите — избыток</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Азот (N₂)</td>
+<td style="text-align: left;">Импорт NH₃ → разложение при 400°C → N₂ + H₂</td>
+</tr>
+</tbody>
+</table>
+<p>Синтез: Si + N₂ → Si₃N₄ при ~1400°C в атмосфере азота. После первых рейсов с аммиаком — полная локализация.</p>
 <p><strong>Почему алюминий вместо меди?</strong></p>
 <p>На Земле обмотки делают из меди — она имеет лучшую проводимость. Но меди на Меркурии нет (по данным MESSENGER — Cu отсутствует в коре). Алюминий имеет 60% проводимости меди, поэтому обмотки толще, а мотор на 20–30% тяжелее. Это приемлемая плата за полную локализацию производства.</p>
 <p><strong>Вентилятор:</strong> Не нужен. В вакууме нет конвекции — охлаждение только кондуктивное.</p>
@@ -708,13 +901,13 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">34%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Керамика / импорт</td>
+<td style="text-align: left;">Керамика Si₃N₄</td>
 <td style="text-align: left;">~1 кг</td>
 <td style="text-align: left;">1%</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Производительность завода:</strong> При выпуске 18 т железа и 42 т алюминия в день, завод может производить ~350 моторов/день — многократный избыток.</p>
+<p><strong>Производительность завода:</strong> При выпуске ~10 т железа и 42 т алюминия в день, завод может производить ~200 моторов/день — значительный избыток.</p>
 </section>
 <section id="кондуктивное-охлаждение" class="level4">
 <h4 class="anchored" data-anchor-id="кондуктивное-охлаждение">Кондуктивное охлаждение</h4>
@@ -765,45 +958,21 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">Механическое сжатие плит</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Материал</td>
-<td style="text-align: left;">Марганцовистая сталь (Hadfield)</td>
+<td style="text-align: left;">Материал плит</td>
+<td style="text-align: left;">Низколегированная сталь (Fe-6%Mn)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Плюс вакуума</td>
 <td style="text-align: left;">Нет коррозии — ресурс выше</td>
 </tr>
-</tbody>
-</table>
-<section id="марганцовистая-сталь-hadfield-steel" class="level4">
-<h4 class="anchored" data-anchor-id="марганцовистая-сталь-hadfield-steel">Марганцовистая сталь (Hadfield Steel)</h4>
-<p><strong>Сталь Гадфильда</strong> — уникальный сплав, изобретённый в 1882 году. Состав:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Элемент</th>
-<th style="text-align: left;">Содержание</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Марганец (Mn)</td>
-<td style="text-align: left;">11–14%</td>
-</tr>
 <tr class="even">
-<td style="text-align: left;">Углерод (C)</td>
-<td style="text-align: left;">1.0–1.4%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Железо (Fe)</td>
-<td style="text-align: left;">Остальное</td>
+<td style="text-align: left;">Ресурс плит</td>
+<td style="text-align: left;">~2-3 месяца, затем замена</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Уникальное свойство:</strong> При ударе поверхность <strong>упрочняется</strong> (эффект наклёпа). Чем сильнее удар — тем твёрже становится поверхность. Внутри материал остаётся вязким.</p>
-<p><strong>Почему идеальна для дробилок:</strong> - Плиты работают под постоянными ударами → поверхность сама себя упрочняет - Не хрупкая — не раскалывается при пиковых нагрузках - Используется в земных дробилках, ковшах экскаваторов, железнодорожных стрелках</p>
-</section>
-<section id="источник-марганца-на-меркурии" class="level4">
-<h4 class="anchored" data-anchor-id="источник-марганца-на-меркурии">Источник марганца на Меркурии</h4>
+<section id="марганец-в-железе-меркурия" class="level4">
+<h4 class="anchored" data-anchor-id="марганец-в-железе-меркурия">Марганец в железе Меркурия</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -817,17 +986,44 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">~0.1% (по данным MESSENGER)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Потребность на 1 дробилку</td>
-<td style="text-align: left;">~50 кг Mn (плиты ~500 кг, 10% Mn)</td>
+<td style="text-align: left;">Выход Mn</td>
+<td style="text-align: left;">~600 кг/день (из 600 т реголита)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Доступно из 600 т/день реголита</td>
-<td style="text-align: left;">~600 кг Mn/день</td>
+<td style="text-align: left;">Содержание Mn в железе</td>
+<td style="text-align: left;">~6% (600 кг Mn / 10000 кг Fe)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Вывод:</strong> Марганца хватает с избытком. Извлечение — побочный продукт электролиза MRE (марганец концентрируется в шлаке вместе с алюминием).</p>
-<p><strong>Альтернатива для первого завода:</strong> Плиты везём с Земли (~500 кг) — расходник, меняется раз в год.</p>
+<p><strong>Вывод:</strong> Железо с Меркурия уже содержит ~6% марганца — это <strong>низколегированная сталь</strong> с улучшенными механическими свойствами. Марганец восстанавливается вместе с железом при MRE-электролизе (плотность Mn ≈ Fe), не требует отдельного процесса.</p>
+<p><strong>Расход плит дробилки:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Масса комплекта плит</td>
+<td style="text-align: left;">~400 кг</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Замена</td>
+<td style="text-align: left;">Каждые 2-3 месяца</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Расход</td>
+<td style="text-align: left;">~1.6 т/год</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Доля от производства Fe</td>
+<td style="text-align: left;"><strong>0.04%</strong> (при 3650 т Fe/год)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Плиты из Fe-6%Mn изнашиваются быстрее, чем сталь Гадфильда, но расход настолько мал (0.04% от производства железа), что усложнение металлургии не оправдано.</p>
 </section>
 </section>
 <section id="виброжелоб-транспорт" class="level3">
@@ -867,7 +1063,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Катушка (обмотка)</td>
-<td style="text-align: left;">Медная проволока, создаёт магнитное поле</td>
+<td style="text-align: left;">Алюминиевая проволока, создаёт магнитное поле</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Сердечник</td>
@@ -905,8 +1101,8 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Лоток</td>
-<td style="text-align: left;">Нержавеющая сталь</td>
-<td style="text-align: left;">Местное производство (Fe + Cr)</td>
+<td style="text-align: left;">Сталь</td>
+<td style="text-align: left;">Местное производство (Fe)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Катушка</td>
@@ -947,7 +1143,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <th style="text-align: left;">Масса</th>
 <th style="text-align: left;">Fe</th>
 <th style="text-align: left;">Al</th>
-<th style="text-align: left;">Импорт</th>
+<th style="text-align: left;">Si₃N₄</th>
 </tr>
 </thead>
 <tbody>
@@ -956,33 +1152,33 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">~850 кг</td>
 <td style="text-align: left;">650 кг</td>
 <td style="text-align: left;">180 кг</td>
-<td style="text-align: left;">20 кг</td>
+<td style="text-align: left;">2 кг</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Щековая дробилка (мотор + рама + плиты)</td>
 <td style="text-align: left;">~2700 кг</td>
 <td style="text-align: left;">2400 кг</td>
 <td style="text-align: left;">250 кг</td>
-<td style="text-align: left;">50 кг</td>
+<td style="text-align: left;">2 кг</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Виброжелоб (лоток + электромагнит + пружины)</td>
 <td style="text-align: left;">~170 кг</td>
 <td style="text-align: left;">100 кг</td>
 <td style="text-align: left;">60 кг</td>
-<td style="text-align: left;">10 кг</td>
+<td style="text-align: left;">—</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>ИТОГО секция</strong></td>
 <td style="text-align: left;"><strong>~3720 кг</strong></td>
 <td style="text-align: left;"><strong>3150 кг</strong></td>
 <td style="text-align: left;"><strong>490 кг</strong></td>
-<td style="text-align: left;"><strong>80 кг</strong></td>
+<td style="text-align: left;"><strong>4 кг</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Распределение:</strong> - Железо: <strong>85%</strong> (местное производство) - Алюминий: <strong>13%</strong> (местное производство) - Импорт: <strong>2%</strong> (изоляция, керамика подшипников, электроника)</p>
-<p><strong>Вывод:</strong> Секция приёмки и дробления почти полностью (~98%) обеспечивается местными материалами. Импорт минимален — в основном изоляционные материалы и керамические подшипники.</p>
+<p><strong>Распределение:</strong> - Железо: <strong>85%</strong> (местное производство) - Алюминий: <strong>13%</strong> (местное производство) - Керамика Si₃N₄: <strong>&lt;0.2%</strong> (местное, требует NH₃ для синтеза)</p>
+<p><strong>Вывод:</strong> Секция приёмки и дробления <strong>на 100% обеспечивается местными материалами</strong>. Единственный импорт — аммиак (NH₃) для синтеза азота, необходимого при производстве керамических подшипников. После первых рейсов — полная автономия.</p>
 <hr>
 </section>
 </section>
@@ -990,84 +1186,12 @@ p:has(> em:first-child) { text-indent: 0; }
 <h2 class="anchored" data-anchor-id="плавка-и-разделение">Плавка и разделение</h2>
 <p><em>Горячая зона — ВАКУУМ.</em></p>
 <p>Химический реактор стоит на открытом грунте. Вакуум работает как идеальная термоизоляция.</p>
-<section id="полный-технологический-цикл" class="level3">
-<h3 class="anchored" data-anchor-id="полный-технологический-цикл">Полный технологический цикл</h3>
-<p>Процесс разделяется на <strong>два параллельных потока</strong> после магнитной сепарации:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-    subgraph ДОБЫЧА["ДОБЫЧА (вакуум)"]
-        R[/"Реголит&lt;br/&gt;600 т/день"/] --&gt; VG["Виброгрохот"] --&gt; JC["Дробилка&lt;br/&gt;&lt;10 мм"]
-    end
-
-    subgraph ОБОГАЩЕНИЕ["ОБОГАЩЕНИЕ (вакуум)"]
-        JC --&gt; MS["Магнитная сепарация&lt;br/&gt;0.5-1.5 Тл | 50 кВт"]
-        MS --&gt;|"5-6%&lt;br/&gt;магнитная"| MF["Ильменит + Троилит&lt;br/&gt;33 т/день"]
-        MS --&gt;|"94%&lt;br/&gt;немагнитная"| NMF["Силикаты&lt;br/&gt;564 т/день"]
-    end
-
-    subgraph Ti_LINE["ЛИНИЯ ТИТАНА (вакуум)"]
-        MF --&gt; TS["Возгонка серы&lt;br/&gt;450°C | 200 кВт"]
-        TS --&gt;|"S↗"| S_out[/"Сера&lt;br/&gt;→ NaS батареи"/]
-        TS --&gt; OX["Окислительный обжиг&lt;br/&gt;900°C + O₂ | 300 кВт"]
-        OX --&gt; SEP2["Магнитная сепарация&lt;br/&gt;1-2 Тл | 30 кВт"]
-        SEP2 --&gt;|"Fe₂O₃"| Fe_back["Железо&lt;br/&gt;→ рафинирование"]
-        SEP2 --&gt;|"TiO₂"| TiO2[/"0.6 т TiO₂/день&lt;br/&gt;→ электрохромика"/]
-    end
-
-    subgraph MRE_CELL["MRE (вакуум)"]
-        NMF --&gt; SF["Солнечная печь&lt;br/&gt;1500°C | 10 МВт"]
-        SF --&gt; EL["Электролиз MRE&lt;br/&gt;500 кВт"]
-        EL --&gt;|"O₂↗ анод"| O2[/"Кислород&lt;br/&gt;→ хранение"/]
-        EL --&gt;|"Fe/Si↓ дно"| FeSi["Ферросилиций"]
-        EL --&gt;|"Al/Mg↑ верх"| AlMg["Шлак"]
-    end
-
-    subgraph РАФИНИРОВАНИЕ["РАФИНИРОВАНИЕ"]
-        FeSi --&gt; RAF["Продувка Ar"]
-        Fe_back --&gt; RAF
-        RAF --&gt; MHD["МГД-ввод&lt;br/&gt;в купол"]
-        AlMg --&gt; SKIM["Скиммер"] --&gt; AlF["Печь Al/Mg&lt;br/&gt;1200°C | 150 кВт"]
-        AlF --&gt;|"Mg↗ 1091°C"| Mg[/"Магний&lt;br/&gt;→ сплавы"/]
-        AlF --&gt; Al[/"Алюминий&lt;br/&gt;42 т/день"/]
-    end
-
-    subgraph ФОРМОВКА["ФОРМОВКА (внутри купола)"]
-        MHD --&gt; TUN["Промковш"] --&gt; MNLZ["МНЛЗ"] --&gt; ROLL["Прокат"]
-        Al --&gt; FOIL["Прокат фольги&lt;br/&gt;4 мкм"]
-    end
-
-    subgraph ПРОДУКЦИЯ["ПРОДУКЦИЯ"]
-        ROLL --&gt; ROBOT[/"Детали роботов"/]
-        FOIL --&gt; MIRROR[/"ЗЕРКАЛО"/]
-        TiO2 --&gt; MIRROR
-    end
-
-    style ДОБЫЧА fill:#e8d4a8
-    style ОБОГАЩЕНИЕ fill:#d4e8a8
-    style Ti_LINE fill:#a8d4e8
-    style MRE_CELL fill:#e8a8d4
-    style РАФИНИРОВАНИЕ fill:#d4a8e8
-    style ФОРМОВКА fill:#a8e8d4
-    style ПРОДУКЦИЯ fill:#e8e8a8
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="солнечная-печь-solar-furnace" class="level3">
-<h3 class="anchored" data-anchor-id="солнечная-печь-solar-furnace">Солнечная печь (Solar Furnace)</h3>
-<p>Мы не греем купол. Мы греем тигель на улице.</p>
+<section id="магнитная-сепарация" class="level3">
+<h3 class="anchored" data-anchor-id="магнитная-сепарация">Магнитная сепарация</h3>
+<p><strong>Принцип:</strong> Разделение материалов по магнитным свойствам. Магнитные частицы притягиваются к барабану с магнитами, немагнитные — падают вниз.</p>
+<p><strong>Почему это работает:</strong></p>
+<p>Реголит Меркурия содержит два типа минералов: - <strong>Магнитные</strong> (5-6%): ильменит (FeTiO₃), троилит (FeS) — содержат железо - <strong>Немагнитные</strong> (94%): силикаты — содержат Si, Al, Mg, Ca, O</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Параметр</th>
@@ -1076,46 +1200,165 @@ p:has(> em:first-child) { text-indent: 0; }
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Зеркала</td>
-<td style="text-align: left;">Тот же тип пленочных (Каптон + Al), фокус в тигель</td>
+<td style="text-align: left;">Тип сепаратора</td>
+<td style="text-align: left;">Барабанный с постоянными магнитами</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Плюс вакуума</td>
-<td style="text-align: left;">Нет конвекции (теплопотерь через воздух) — вся энергия на плавку</td>
+<td style="text-align: left;">Напряжённость поля</td>
+<td style="text-align: left;">0.5–1.5 Тл</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Плюс вакуума</td>
-<td style="text-align: left;">Нет горения — тигель не окисляется снаружи</td>
+<td style="text-align: left;">Производительность</td>
+<td style="text-align: left;">600 т/день (25 т/час)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Энергопотребление</td>
+<td style="text-align: left;">~50 кВт</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Примечание об электродах:</strong> Аноды MRE расходуются электрохимически — на них выделяется кислород, который реагирует с материалом электрода. Используются инертные аноды (иридий или хром-железо-кобальт сплав). Ресурс — ~6 месяцев, после чего требуется замена (везём с Земли).</p>
+<p><strong>Конструкция для вакуума:</strong></p>
+<p>Барабан вращается, реголит подаётся сверху через виброжелоб. Магнитные частицы прилипают к барабану и сбрасываются скребком в отдельный бункер. Немагнитная фракция падает в основной поток.</p>
+<ul>
+<li><strong>Подшипники:</strong> Керамические Si₃N₄ (без смазки)</li>
+<li><strong>Привод:</strong> Алюминиевый электромотор (см. выше)</li>
+<li><strong>Магниты:</strong> Электромагниты из местного Fe (обмотка Al) — полная локализация</li>
+</ul>
+<hr>
 </section>
-<section id="электролиз-расплава-mre-cell" class="level3">
-<h3 class="anchored" data-anchor-id="электролиз-расплава-mre-cell">Электролиз расплава (MRE Cell)</h3>
-<p>В ванну с лавой опускаются электроды.</p>
+<section id="солнечная-печь-solar-furnace" class="level3">
+<h3 class="anchored" data-anchor-id="солнечная-печь-solar-furnace">Солнечная печь (Solar Furnace)</h3>
+<p><strong>Принцип:</strong> Концентрация солнечного света зеркалами в одну точку. На Меркурии солнечный поток ~10 кВт/м² — в 7 раз больше, чем на Земле.</p>
+<p><strong>Почему не электрическая печь?</strong></p>
+<p>Электричество на Меркурии драгоценно — его нужно для электролиза, моторов, электроники. Солнечный свет — бесплатный и избыточный. Зеркала фокусируют 10 МВт тепловой энергии напрямую в тигель, минуя преобразование свет→электричество→тепло.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Продукт</th>
-<th style="text-align: left;">Куда девается</th>
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Кислород</td>
-<td style="text-align: left;">Бурлит на аноде → сжижается → хранится как окислитель</td>
+<td style="text-align: left;">Тип</td>
+<td style="text-align: left;">Параболический концентратор</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Сплав (Fe/Si)</td>
-<td style="text-align: left;">Оседает на дно → Рафинирование → МГД-ввод</td>
+<td style="text-align: left;">Площадь зеркал</td>
+<td style="text-align: left;">~1000 м²</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Шлак (Al/Mg)</td>
-<td style="text-align: left;">Всплывает коркой → Скиммер → Линия алюминия</td>
+<td style="text-align: left;">Температура фокуса</td>
+<td style="text-align: left;">1500–2000°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Мощность</td>
+<td style="text-align: left;">~10 МВт (тепловая)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">КПД</td>
+<td style="text-align: left;">~90% (нет конвекции в вакууме)</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Конструкция:</strong></p>
+<p>Массив плоских зеркал (тот же алюминий на подложке) направляет свет на параболический отражатель. Отражатель фокусирует луч в тигель с реголитом. Тигель — керамический (Al₂O₃ или MgO), выдерживает 2000°C.</p>
+<p><strong>Преимущества вакуума:</strong> - Нет конвекции — тепло не уносится воздухом - Нет окисления — тигель не горит снаружи - Нет поглощения в атмосфере — весь свет доходит до цели</p>
+<blockquote class="blockquote">
+<p><strong>Примечание:</strong> Это <strong>наземные</strong> зеркала-концентраторы на поверхности Меркурия, не путать с орбитальным Роем Дайсона. Первый комплект зеркал (~1 т, Каптон) доставляется с Земли, затем производятся локально из алюминия. См. <a href="../../../ru/science/calculations/energy-production.html">Энергетика производства</a>.</p>
+</blockquote>
+<hr>
+</section>
+<section id="электролиз-расплава-mre-molten-regolith-electrolysis" class="level3">
+<h3 class="anchored" data-anchor-id="электролиз-расплава-mre-molten-regolith-electrolysis">Электролиз расплава (MRE — Molten Regolith Electrolysis)</h3>
+<p><strong>Принцип:</strong> Пропускание тока через расплавленный реголит. На катоде выделяются металлы, на аноде — кислород.</p>
+<p><strong>Химия процесса:</strong></p>
+<p>Реголит при 1500°C — это расплавленные оксиды: SiO₂, Al₂O₃, FeO, MgO, CaO. При электролизе:</p>
+<ul>
+<li><strong>Катод (−):</strong> Металлы восстанавливаются
+<ul>
+<li>Fe²⁺ + 2e⁻ → Fe (оседает на дно, плотность 7.8 г/см³)</li>
+<li>Si⁴⁺ + 4e⁻ → Si (смешивается с Fe → ферросилиций)</li>
+<li>Al³⁺ + 3e⁻ → Al (всплывает, плотность 2.7 г/см³)</li>
+<li>Mg²⁺ + 2e⁻ → Mg (всплывает вместе с Al)</li>
+</ul></li>
+<li><strong>Анод (+):</strong> Кислород выделяется
+<ul>
+<li>O²⁻ → ½O₂ + 2e⁻</li>
+</ul></li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Температура</td>
+<td style="text-align: left;">1500°C (поддерживается солнечной печью)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Напряжение</td>
+<td style="text-align: left;">2–4 В</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ток</td>
+<td style="text-align: left;">10 000–50 000 А</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Мощность</td>
+<td style="text-align: left;">~500 кВт (электрическая)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Выход O₂</td>
+<td style="text-align: left;">~40% массы реголита</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Конструкция ячейки:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Элемент</th>
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Тигель</td>
+<td style="text-align: left;">Керамика (Al₂O₃ или MgO)</td>
+<td style="text-align: left;">Выдерживает 2000°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Катод</td>
+<td style="text-align: left;">Молибден (Mo) или вольфрам (W)</td>
+<td style="text-align: left;">Тугоплавкие, не растворяются (<strong>импорт</strong>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Анод</td>
+<td style="text-align: left;">Иридий (Ir)</td>
+<td style="text-align: left;">Инертный к кислороду (<strong>импорт</strong>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Изоляция</td>
+<td style="text-align: left;">Керамика</td>
+<td style="text-align: left;">Электрическая и тепловая</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Разделение продуктов по плотности:</strong></p>
+<p>Расплав самопроизвольно расслаивается: - <strong>Дно:</strong> Ферросилиций (Fe + Si + Mn) — плотность ~6 г/см³ - <strong>Середина:</strong> Силикатный шлак — плотность ~3 г/см³ - <strong>Верх:</strong> Алюминий + магний — плотность ~2.5 г/см³ - <strong>Газ:</strong> Кислород — улетает, собирается</p>
+<p><strong>Порядок восстановления (по энергии Гиббса):</strong> Cr → Mn → Fe → Si → Ti → Al → Mg → Ca. Металлы с низкой энергией (Fe, Mn) восстанавливаются первыми и тонут. Металлы справа (Al, Mg) всплывают в шлак.</p>
+<p><strong>Примечание об анодах:</strong> Аноды расходуются — кислород постепенно окисляет материал. Иридиевые аноды служат ~6 месяцев. Это единственный компонент, который нужно регулярно завозить с Земли (масса ~10 кг/год на ячейку).</p>
+<hr>
 </section>
 <section id="разделение-продуктов" class="level3">
 <h3 class="anchored" data-anchor-id="разделение-продуктов">Разделение продуктов</h3>
@@ -1134,11 +1377,11 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Принцип</td>
-<td style="text-align: left;">Молибденовый черпак на рычаге, автоматический цикл</td>
+<td style="text-align: left;">Тугоплавкий черпак на рычаге, автоматический цикл</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Материал</td>
-<td style="text-align: left;">Mo (тугоплавкий металл, Tпл=2623°C) — не требует дефицитного углерода</td>
+<td style="text-align: left;">Mo или W (<strong>импорт</strong>, Tпл=2623°C / 3422°C) — тугоплавкие металлы</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Накопитель</td>
@@ -1160,7 +1403,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Продувка аргоном</td>
+<td style="text-align: left;">Продувка аргоном (<strong>импорт</strong>)</td>
 <td style="text-align: left;">Пузырьки газа захватывают неметаллические включения</td>
 </tr>
 <tr class="even">
@@ -1173,33 +1416,302 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<p><strong>Линия алюминия:</strong> Отдельный передел для переработки шлака.</p>
+</section>
+<section id="извлечение-марганца" class="level3">
+<h3 class="anchored" data-anchor-id="извлечение-марганца">Извлечение марганца</h3>
+<p><strong>Источник:</strong> MnO в силикатах (0.1% коры по MESSENGER).</p>
+<p><strong>Процесс:</strong> При MRE-электролизе марганец восстанавливается на катоде вместе с железом:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Этап</th>
-<th style="text-align: left;">Описание</th>
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Печь</td>
-<td style="text-align: left;">Индукционная, переплавка шлака Al/Mg</td>
+<td style="text-align: left;">Реакция</td>
+<td style="text-align: left;">MnO + 2e⁻ → Mn (металлический)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Разделение</td>
-<td style="text-align: left;">Mg кипит при 1091°C → возгоняется → конденсируется отдельно</td>
+<td style="text-align: left;">Плотность Mn</td>
+<td style="text-align: left;">7.4 г/см³ (≈ Fe 7.8 г/см³)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Поведение</td>
+<td style="text-align: left;">Тонет вместе с Fe/Si</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Результат</td>
-<td style="text-align: left;">Чистый Al для лёгких конструкций и зеркал</td>
+<td style="text-align: left;">Автоматическое легирование железа</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Выход:</strong> ~600 кг Mn/день из 600 т реголита (0.1%).</p>
+<p><strong>Содержание Mn в железе:</strong> ~6% (600 кг Mn в 10000 кг Fe) — выше, чем в обычной стали. Это <strong>низколегированная сталь</strong> с улучшенными механическими свойствами.</p>
+</section>
+<section id="углерод-опциональный-модуль" class="level3">
+<h3 class="anchored" data-anchor-id="углерод-опциональный-модуль">Углерод (опциональный модуль)</h3>
+<p>Углерод (графит) добывается из LRM-зон (Low Reflectance Material) на экваторе Меркурия. Это <strong>опциональный модуль</strong> — базовый завод работает без него.</p>
+<section id="зависимости-от-углерода-два-варианта" class="level4">
+<h4 class="anchored" data-anchor-id="зависимости-от-углерода-два-варианта">Зависимости от углерода: два варианта</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Без углерода</th>
+<th>С углеродом (LRM)</th>
+<th>Приоритет</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Дробилки</strong></td>
+<td>Fe+6%Mn (местный марганец)</td>
+<td>Сталь Гадфильда (1.4% C)</td>
+<td>Низкий — Mn достаточно</td>
+</tr>
+<tr class="even">
+<td><strong>Аноды MRE</strong></td>
+<td>Иридий (импорт, ~10 кг/год)</td>
+<td>Углеродные аноды (графит)</td>
+<td><strong>Высокий</strong> — экономия иридия</td>
+</tr>
+<tr class="odd">
+<td><strong>Смазки</strong></td>
+<td>Керамика Si₃N₄ (без смазки)</td>
+<td>Графитовая смазка</td>
+<td>Низкий — керамика лучше</td>
+</tr>
+<tr class="even">
+<td><strong>Изоляция обмоток</strong></td>
+<td>Стекловолокно/керамика Al₂O₃</td>
+<td>—</td>
+<td>Не требует C</td>
+</tr>
+<tr class="odd">
+<td><strong>Купола</strong></td>
+<td>Силикатная ткань SiO₂</td>
+<td>—</td>
+<td>Не требует C</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Базовый завод функционирует <strong>без углерода</strong>, используя марганцевые стали, керамические подшипники и иридиевые аноды. Углерод нужен только для замены дорогого иридия при масштабировании.</p>
+</section>
+<section id="что-такое-lrm-тёмные-пятна" class="level4">
+<h4 class="anchored" data-anchor-id="что-такое-lrm-тёмные-пятна">Что такое LRM (тёмные пятна)</h4>
+<p>LRM — древние зоны на поверхности Меркурия с содержанием углерода <strong>1-3%</strong> (кристаллический графит). Сформировались 4.6 млрд лет назад при остывании магматического океана — графит всплыл на поверхность магмы.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Содержание C</td>
+<td>1-3% (до 4% в Rachmaninoff)</td>
+</tr>
+<tr class="even">
+<td>Форма</td>
+<td>Кристаллический графит</td>
+</tr>
+<tr class="odd">
+<td>Локации</td>
+<td>Rachmaninoff (27°N, 58°E), Tolstoj (16°S, 163°W)</td>
+</tr>
+<tr class="even">
+<td>Расстояние до полюса</td>
+<td>2800-5800 км</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="когда-строить-добычу-на-lrm" class="level4">
+<h4 class="anchored" data-anchor-id="когда-строить-добычу-на-lrm">Когда строить добычу на LRM?</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Условие</th>
+<th>Действие</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Базовый завод</td>
+<td>Работает <strong>без углерода</strong> (иридий, керамика)</td>
+</tr>
+<tr class="even">
+<td>Масштабирование (&gt;10 заводов)</td>
+<td>Строить комплекс Карбон для замены иридия</td>
+</tr>
+<tr class="odd">
+<td>Расход иридия критичен</td>
+<td>Углеродные аноды экономят ~10 кг Ir/год на ячейку</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/calculations/carbon-extraction.html">Добыча углерода</a> — комплексы Карбон, мини масс-драйверы, расчёты.</p>
+<hr>
+</section>
+</section>
+<section id="переработка-шлака-almgnak" class="level3">
+<h3 class="anchored" data-anchor-id="переработка-шлака-almgnak">Переработка шлака (Al/Mg/Na/K)</h3>
+<p>Шлак из MRE-ячейки — это смесь лёгких металлов, которые всплыли на поверхность расплава.</p>
+<p><strong>Источник Na и K:</strong> Полевые шпаты — основной минерал реголита (40-60%). При электролизе разлагаются на составляющие:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Минерал</th>
+<th style="text-align: left;">Формула</th>
+<th style="text-align: left;">Даёт</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Альбит</td>
+<td style="text-align: left;">NaAlSi₃O₈</td>
+<td style="text-align: left;">Na + Al + Si + O₂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ортоклаз</td>
+<td style="text-align: left;">KAlSi₃O₈</td>
+<td style="text-align: left;">K + Al + Si + O₂</td>
+</tr>
+</tbody>
+</table>
+<p>Разделение происходит методом <strong>вакуумной дистилляции</strong> — каждый металл кипит при своей температуре.</p>
+<p><strong>Состав шлака (600 т реголита/день):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Металл</th>
+<th style="text-align: left;">Количество</th>
+<th style="text-align: left;">% реголита</th>
+<th style="text-align: left;">Температура кипения</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Магний (Mg)</td>
+<td style="text-align: left;">~48 т/день</td>
+<td style="text-align: left;">8%</td>
+<td style="text-align: left;">1091°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Алюминий (Al)</td>
+<td style="text-align: left;">42 т/день</td>
+<td style="text-align: left;">7%</td>
+<td style="text-align: left;">2519°C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Натрий (Na)</td>
+<td style="text-align: left;">~20 т/день</td>
+<td style="text-align: left;">3.5%</td>
+<td style="text-align: left;">883°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Калий (K)</td>
+<td style="text-align: left;">~3 т/день</td>
+<td style="text-align: left;">0.5%</td>
+<td style="text-align: left;">759°C</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Принцип разделения:</strong></p>
+<p>При нагреве шлака металлы испаряются в порядке температур кипения:</p>
+<ol type="1">
+<li><strong>K (759°C)</strong> — первым испаряется, конденсируется в холодной зоне</li>
+<li><strong>Na (883°C)</strong> — следующий, отдельный конденсатор</li>
+<li><strong>Mg (1091°C)</strong> — испаряется третьим</li>
+<li><strong>Al (2519°C)</strong> — остаётся жидким, не испаряется</li>
+</ol>
+<p><strong>Оборудование:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Индукционная печь</td>
+<td style="text-align: left;">Нагрев шлака до 1200°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Вакуумная камера</td>
+<td style="text-align: left;">Снижает температуры кипения</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Фракционные конденсаторы</td>
+<td style="text-align: left;">Последовательные зоны охлаждения</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Сборники</td>
+<td style="text-align: left;">Керамические ёмкости для каждого металла</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Почему вакуум помогает:</strong></p>
+<p>В вакууме температуры кипения снижаются. При давлении 10⁻³ атм: - Na кипит уже при ~500°C - Mg — при ~700°C - Это экономит энергию и упрощает разделение</p>
+<p><strong>Выход продуктов:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Продукт</th>
+<th style="text-align: left;">Форма</th>
+<th style="text-align: left;">Применение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Алюминий (Al)</td>
+<td style="text-align: left;">Слитки, проволока</td>
+<td style="text-align: left;">Зеркала, корпуса, обмотки моторов</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Магний (Mg)</td>
+<td style="text-align: left;">Слитки</td>
+<td style="text-align: left;">Лёгкие сплавы (Al-Mg)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Натрий (Na)</td>
+<td style="text-align: left;">Запаянные ампулы</td>
+<td style="text-align: left;">Анод NaS-батарей</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Калий (K)</td>
+<td style="text-align: left;">Запаянные ампулы</td>
+<td style="text-align: left;">Теплоноситель NaK</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Сплав NaK</td>
+<td style="text-align: left;">Жидкий металл</td>
+<td style="text-align: left;">Охлаждение электроники</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>NaK-эвтектика:</strong> Сплав 78% K + 22% Na — жидкий при -12°C. Идеальный теплоноситель для космоса: не замерзает, высокая теплопроводность, не требует давления.</p>
+</blockquote>
 <p><strong>Дистилляция серы:</strong> Получение серы для NaS-аккумуляторов.</p>
 <table class="caption-top table">
 <colgroup>
@@ -1231,6 +1743,53 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
+</section>
+<section id="извлечение-кремния" class="level3">
+<h3 class="anchored" data-anchor-id="извлечение-кремния">Извлечение кремния</h3>
+<p><strong>Источник:</strong> Ферросилиций (Fe + Si) — продукт электролиза MRE. Кремний восстанавливается на катоде вместе с железом и оседает на дно ячейки.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Содержание Si в реголите</td>
+<td style="text-align: left;">~20% (в виде SiO₂)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Выход Si</td>
+<td style="text-align: left;">~25 т/день (из 600 т реголита)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Форма продукта</td>
+<td style="text-align: left;">Ферросилиций (~15% Si, ~85% Fe)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Очистка кремния для электроники:</strong></p>
+<p>Для солнечных панелей и микросхем нужен чистый кремний. Два метода:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Метод</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Алюмотермия</td>
+<td style="text-align: left;">3SiO₂ + 4Al → 3Si + 2Al₂O₃ (местные материалы)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Зонная плавка</td>
+<td style="text-align: left;">Очистка до 99.9999% (для электроники)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Стекловолокно:</strong> Для изоляции кремний не нужно очищать — плавим кварцевый песок (SiO₂) напрямую в солнечной печи и вытягиваем волокно.</p>
 </section>
 <section id="линия-титана" class="level3">
 <h3 class="anchored" data-anchor-id="линия-титана">Линия титана</h3>
@@ -1500,7 +2059,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

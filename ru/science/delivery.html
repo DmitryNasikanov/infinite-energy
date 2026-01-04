@@ -240,6 +240,9 @@ p:has(> em:first-child) { text-indent: 0; }
  <span class="menu-text">Саморепликация</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+ <span class="menu-text">ru/science/factory-interior.qmd</span>
+  </li>
       </ul>
   </li>
       </ul>
@@ -351,12 +354,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/factory.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Завод «Точка Ноль»</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/factory-interior.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Внутреннее устройство фабрики</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1273,7 +1270,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

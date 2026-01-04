@@ -240,6 +240,9 @@ p:has(> em:first-child) { text-indent: 0; }
  <span class="menu-text">Саморепликация</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+ <span class="menu-text">ru/science/factory-interior.qmd</span>
+  </li>
       </ul>
   </li>
       </ul>
@@ -351,12 +354,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/factory.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Завод «Точка Ноль»</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/factory-interior.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Внутреннее устройство фабрики</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -490,11 +487,14 @@ p:has(> em:first-child) { text-indent: 0; }
     end
 
     subgraph МЕРКУРИЙ["МЕРКУРИЙ"]
-        M1["Завод «Точка Ноль»"]
+        M1["Завод «Точка Ноль»&lt;br/&gt;(полюс)"]
         M2["1000 заводов"]
         M2a["1000 МД"]
         M3[/"Зеркала&lt;br/&gt;392 000/день"/]
         M4[/"Роботы Gen-2&lt;br/&gt;5000/день"/]
+        MC1["Карбон-С&lt;br/&gt;(Rachmaninoff)"]
+        MC2["Карбон-Ю&lt;br/&gt;(Tolstoj)"]
+        MG[/"Графит&lt;br/&gt;10 т/день"/]
     end
 
     subgraph ЛУНА["ЛУНА"]
@@ -523,6 +523,9 @@ p:has(> em:first-child) { text-indent: 0; }
     L1 --&gt; L4
     L3 --&gt; M2
     L4 --&gt;|микроволны| H1
+    MC1 --&gt;|мини МД| MG
+    MC2 --&gt;|мини МД| MG
+    MG --&gt; M2
 
     style ЗЕМЛЯ fill:#a8d4e8
     style МЕРКУРИЙ fill:#e8d4a8
@@ -814,11 +817,6 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="дефицитные-элементы-витамины-с-земли" class="level4">
 <h4 class="anchored" data-anchor-id="дефицитные-элементы-витамины-с-земли">Дефицитные элементы («Витамины» с Земли)</h4>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Элемент</th>
@@ -829,8 +827,8 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Углерод (C)</td>
-<td style="text-align: left;">Почти отсутствует</td>
-<td style="text-align: left;">Нет пластиков, резины, масел — везём с Земли</td>
+<td style="text-align: left;">1-3% в LRM-зонах</td>
+<td style="text-align: left;">Графит: сталь Гадфильда, смазки, аноды (<a href="https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/">MESSENGER 2016</a>)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Водород (H)</td>
@@ -868,6 +866,60 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="летучие-вещества" class="level4">
 <h4 class="anchored" data-anchor-id="летучие-вещества">Летучие вещества</h4>
 <p><strong>Водяной лёд (H₂O):</strong> Лежит на дне полярных кратеров. Источник водорода (химия) и кислорода (окислитель).</p>
+</section>
+<section id="графитодобывающие-комплексы-карбон" class="level4">
+<h4 class="anchored" data-anchor-id="графитодобывающие-комплексы-карбон">Графитодобывающие комплексы «Карбон»</h4>
+<p>LRM-зоны (с графитом) находятся на экваториальных широтах, а заводы — на полюсах. Решение: два специализированных комплекса.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Комплекс</th>
+<th>Локация</th>
+<th>Доставка на полюс</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Карбон-Север</strong></td>
+<td>Rachmaninoff (27°N)</td>
+<td>Мини МД, ~2800 км</td>
+</tr>
+<tr class="even">
+<td><strong>Карбон-Юг</strong></td>
+<td>Tolstoj (16°S)</td>
+<td>Мини МД, ~5800 км</td>
+</tr>
+</tbody>
+</table>
+<p>Работают посменно (ночь на экваторе ~44 дня). <strong>Подробнее:</strong> <a href="../../ru/science/calculations/regolith-processing.html">Переработка реголита</a></p>
+<p><strong>Импорт vs локализация:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Фаза</th>
+<th>Заводов</th>
+<th>Рекомендация</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-2</td>
+<td>1-10</td>
+<td><strong>Импорт иридия</strong> — проще и дешевле</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>10-100</td>
+<td>Рассмотреть комплекс Карбон</td>
+</tr>
+<tr class="odd">
+<td>4+</td>
+<td>100+</td>
+<td><strong>Строить добычу</strong> на LRM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Базовый завод работает без углерода (марганцевые стали, керамика Si₃N₄, иридиевые аноды). Углерод — оптимизация для масштабирования, а не критическая зависимость.</p>
 <hr>
 </section>
 </section>
@@ -2577,7 +2629,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
