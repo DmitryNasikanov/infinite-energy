@@ -1,0 +1,353 @@
+---
+title: "Номенклатура"
+sidebar: science
+---
+
+Интерактивный браузер базы данных единиц проекта «Гелиос».
+
+<div id="app">
+  <div class="controls">
+    <label for="unit-select">Единица:</label>
+    <select id="unit-select">
+      <option value="">-- Выберите единицу --</option>
+    </select>
+  </div>
+
+  <div id="unit-card" class="card hidden"></div>
+</div>
+
+---
+
+## Статистика базы данных
+
+<div id="stats"></div>
+
+---
+
+## Все единицы по категориям
+
+<div id="units-list"></div>
+
+<style>
+#app {
+  font-family: inherit;
+}
+
+.controls {
+  margin-bottom: 1.5rem;
+}
+
+.controls select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  min-width: 300px;
+}
+
+.card {
+  background: var(--bs-body-bg, #f8f9fa);
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card.hidden {
+  display: none;
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.card .meta {
+  color: var(--bs-secondary, #6c757d);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+
+.badge.assembly { background: #d4edda; color: #155724; }
+.badge.simple { background: #f8d7da; color: #721c24; }
+.badge.critical { background: #f5c6cb; color: #721c24; }
+.badge.high { background: #ffeeba; color: #856404; }
+.badge.medium { background: #bee5eb; color: #0c5460; }
+.badge.low { background: #d6d8db; color: #383d41; }
+
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.card th, .card td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+}
+
+.card th {
+  font-weight: 600;
+}
+
+.link {
+  color: var(--bs-link-color, #0d6efd);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: var(--bs-link-hover-color, #0a58ca);
+}
+
+.section {
+  margin-top: 1rem;
+}
+
+.section h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+#stats table {
+  border-collapse: collapse;
+}
+
+#stats td {
+  padding: 0.25rem 1rem 0.25rem 0;
+}
+
+#units-list h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+#units-list ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+#units-list li {
+  margin-bottom: 0.25rem;
+}
+</style>
+
+<script src="db/data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Индексы для быстрого доступа
+  const planetsById = new Map(DATA.planets.map(p => [p.id, p]));
+  const materialsById = new Map(DATA.materials.map(m => [m.id, m]));
+  const categoriesById = new Map(DATA.categories.map(c => [c.id, c]));
+  const unitsById = new Map(DATA.units.map(u => [u.id, u]));
+
+  // Заполняем селектор
+  const select = document.getElementById('unit-select');
+  DATA.units.forEach(u => {
+    const opt = document.createElement('option');
+    opt.value = u.id;
+    opt.textContent = `${u.id} — ${u.name}`;
+    select.appendChild(opt);
+  });
+
+  // Функция выбора единицы
+  function selectUnit(unitId) {
+    select.value = unitId;
+    renderUnit(unitId);
+  }
+
+  // Рендер карточки единицы
+  function renderUnit(unitId) {
+    const card = document.getElementById('unit-card');
+
+    if (!unitId) {
+      card.classList.add('hidden');
+      card.innerHTML = '';
+      return;
+    }
+
+    const unit = unitsById.get(unitId);
+    if (!unit) {
+      card.classList.add('hidden');
+      return;
+    }
+
+    const category = categoriesById.get(unit.category_id);
+    const planet = planetsById.get(unit.production_planet_id);
+
+    // Материалы единицы (BOM)
+    const bom = DATA.unitMaterials
+      .filter(um => um.unit_id === unitId)
+      .map(um => ({
+        ...um,
+        material: materialsById.get(um.material_id),
+        mass_kg: unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(1) : null
+      }));
+
+    // Компоненты (дочерние юниты)
+    const components = DATA.unitComponents
+      .filter(uc => uc.assembly_id === unitId)
+      .map(uc => ({
+        ...uc,
+        component: unitsById.get(uc.component_id)
+      }));
+
+    // Где используется (родительские сборки)
+    const usedIn = DATA.unitComponents
+      .filter(uc => uc.component_id === unitId)
+      .map(uc => ({
+        ...uc,
+        assembly: unitsById.get(uc.assembly_id)
+      }));
+
+    let html = `
+      <h3>${unit.name}</h3>
+      <div class="meta">
+        <span class="badge ${unit.is_assembly ? 'assembly' : 'simple'}">
+          ${unit.is_assembly ? 'Сборка' : 'Простая единица'}
+        </span>
+        ${category ? `<span>${category.name}</span>` : ''}
+        ${unit.mass_kg ? ` | <strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? ` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+      </div>
+    `;
+
+    if (unit.description) {
+      html += `<p>${unit.description}</p>`;
+    }
+
+    if (planet) {
+      html += `
+        <div class="section">
+          <strong>Производство:</strong> ${planet.name}
+          ${planet.id === 'earth' ? ' (импорт)' : ''}
+        </div>
+      `;
+    }
+
+    // Компоненты
+    if (components.length > 0) {
+      html += `
+        <div class="section">
+          <h4>Компоненты (${components.length}):</h4>
+          <table>
+            <thead><tr><th>Компонент</th><th>Кол-во</th></tr></thead>
+            <tbody>
+              ${components.map(c => `
+                <tr>
+                  <td><span class="link" data-unit="${c.component_id}">${c.component?.name || c.component_id}</span></td>
+                  <td>${c.quantity} шт</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // Используется в
+    if (usedIn.length > 0) {
+      html += `
+        <div class="section">
+          <h4>Используется в (${usedIn.length}):</h4>
+          <table>
+            <thead><tr><th>Сборка</th><th>Кол-во</th></tr></thead>
+            <tbody>
+              ${usedIn.map(u => `
+                <tr>
+                  <td><span class="link" data-unit="${u.assembly_id}">${u.assembly?.name || u.assembly_id}</span></td>
+                  <td>${u.quantity} шт</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // BOM
+    if (bom.length > 0) {
+      html += `
+        <div class="section">
+          <h4>Состав (BOM):</h4>
+          <table>
+            <thead><tr><th>Материал</th><th>%</th><th>кг</th></tr></thead>
+            <tbody>
+              ${bom.map(b => `
+                <tr>
+                  <td>
+                    ${b.material?.symbol ? `<strong>${b.material.symbol}</strong> ` : ''}
+                    ${b.material?.name || b.material_id}
+                    ${b.material?.criticality ? ` <span class="badge ${b.material.criticality}">${b.material.criticality}</span>` : ''}
+                  </td>
+                  <td>${b.fraction_pct}%</td>
+                  <td>${b.mass_kg || '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    card.innerHTML = html;
+    card.classList.remove('hidden');
+
+    // Добавляем обработчики кликов на ссылки
+    card.querySelectorAll('.link[data-unit]').forEach(el => {
+      el.addEventListener('click', () => selectUnit(el.dataset.unit));
+    });
+  }
+
+  // Обработчик селектора
+  select.addEventListener('change', () => renderUnit(select.value));
+
+  // Статистика
+  document.getElementById('stats').innerHTML = `
+    <table>
+      <tr><td>Планеты</td><td><strong>${DATA.planets.length}</strong></td></tr>
+      <tr><td>Материалы</td><td><strong>${DATA.materials.length}</strong></td></tr>
+      <tr><td>Единицы</td><td><strong>${DATA.units.length}</strong></td></tr>
+      <tr><td>Связей материал↔планета</td><td><strong>${DATA.planetMaterials.length}</strong></td></tr>
+      <tr><td>Записей BOM</td><td><strong>${DATA.unitMaterials.length}</strong></td></tr>
+      <tr><td>Связей компонентов</td><td><strong>${DATA.unitComponents.length}</strong></td></tr>
+    </table>
+  `;
+
+  // Список единиц по категориям
+  const byCategory = new Map();
+  DATA.units.forEach(u => {
+    if (!byCategory.has(u.category_id)) byCategory.set(u.category_id, []);
+    byCategory.get(u.category_id).push(u);
+  });
+
+  let listHtml = '';
+  byCategory.forEach((units, catId) => {
+    const cat = categoriesById.get(catId);
+    listHtml += `<h4>${cat?.name || catId}</h4><ul>`;
+    units.forEach(u => {
+      listHtml += `
+        <li>
+          <span class="link" data-unit="${u.id}"><strong>${u.id}</strong> ${u.name}</span>
+          ${u.mass_kg ? ` — ${u.mass_kg.toLocaleString()} кг` : ''}
+          ${u.production_planet_id === 'earth' ? ' <em>(импорт)</em>' : ''}
+        </li>
+      `;
+    });
+    listHtml += '</ul>';
+  });
+  document.getElementById('units-list').innerHTML = listHtml;
+
+  // Обработчики кликов в списке
+  document.getElementById('units-list').querySelectorAll('.link[data-unit]').forEach(el => {
+    el.addEventListener('click', () => selectUnit(el.dataset.unit));
+  });
+});
+</script>
