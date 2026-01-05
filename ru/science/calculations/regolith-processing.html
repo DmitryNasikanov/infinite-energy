@@ -247,8 +247,11 @@ p:has(> em:first-child) { text-indent: 0; }
   </div>
 </li>
           <li class="sidebar-item">
- <span class="menu-text">ru/science/factory-interior.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/factory-interior.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Внутреннее устройство фабрики</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -513,7 +516,7 @@ p:has(> em:first-child) { text-indent: 0; }
         VAC --&gt;|"остаток"| Al_out[/"Алюминий (Al)&lt;br/&gt;42 т/день"/]
     end
 
-    subgraph КАРБОН["ЛИНИЯ КАРБОН (опционально)"]
+    subgraph КАРБОН["ЛИНИЯ КАРБОН (Этап 2, опционально)"]
         LRM[/"LRM-реголит&lt;br/&gt;200 т/день"/] --&gt; LRM_SF["MRE-флотация&lt;br/&gt;1500°C"]
         LRM_SF --&gt;|"C↑"| GRAPHITE[/"Графит&lt;br/&gt;→ полюс"/]
         LRM_SF --&gt;|"Fe/Al"| LRM_local["→ местное"]
@@ -621,7 +624,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </table>
 <p>*Si: 25% в реголите, но большая часть остаётся в силикатном шлаке. Извлекается ~4% как металл.</p>
 <p>*Mn: извлекается вместе с железом при MRE-электролизе (плотность Mn ≈ Fe). Автоматически легирует сталь.</p>
-<p>**C: содержится в LRM (Low Reflectance Material) — тёмных зонах Меркурия. Добывается из LRM-обогащённого реголита (Peplowski et al., 2016).</p>
+<p><strong>C: </strong>Этап 2** (не планируется на начальном этапе). Содержится в LRM — тёмных зонах на экваторе Меркурия. Требует строительства отдельных заводов «Карбон» вблизи LRM-залежей. Подробнее: <a href="../../../ru/science/calculations/carbon-extraction.html">Добыча углерода</a>.</p>
 <hr>
 </section>
 </section>
