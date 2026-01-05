@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS materials (
     name VARCHAR NOT NULL,                     -- Название
     symbol VARCHAR,                            -- Химический символ: 'Al', 'Fe', 'O₂'
     description TEXT,                          -- Назначение и применение
-    criticality VARCHAR                        -- 'critical' / 'high' / 'medium' / 'low'
+    criticality VARCHAR,                       -- 'critical' / 'high' / 'medium' / 'low'
+    sources TEXT                               -- JSON-массив ссылок на источники
 );
 
 -- ============================================
@@ -65,7 +66,8 @@ CREATE TABLE IF NOT EXISTS units (
     power_kw DECIMAL,                          -- Потребляемая мощность, кВт
     parent_id VARCHAR,                         -- Родительская сборка (вложенность)
     is_assembly BOOLEAN,                       -- true = сборка, false = простая единица
-    production_planet_id VARCHAR REFERENCES planets(id)  -- Где производится
+    production_planet_id VARCHAR REFERENCES planets(id),  -- Где производится
+    sources TEXT                               -- JSON-массив ссылок на источники
 );
 
 -- ============================================

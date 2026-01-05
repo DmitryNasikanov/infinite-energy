@@ -5,7 +5,8 @@
     "name": "Металлы",
     "symbol": null,
     "description": "Металлы и сплавы",
-    "criticality": null
+    "criticality": null,
+    "sources": []
   },
   {
     "id": "MAT-NONMETAL",
@@ -13,7 +14,17 @@
     "name": "Неметаллы",
     "symbol": null,
     "description": "Неметаллические элементы и соединения",
-    "criticality": null
+    "criticality": null,
+    "sources": []
+  },
+  {
+    "id": "MAT-COMPOUND",
+    "parent_id": null,
+    "name": "Соединения",
+    "symbol": null,
+    "description": "Сплавы и химические соединения",
+    "criticality": null,
+    "sources": []
   },
   {
     "id": "MAT-AL",
@@ -21,7 +32,12 @@
     "name": "Алюминий",
     "symbol": "Al",
     "description": "Зеркала, корпуса, радиаторы, фольга для куполов",
-    "criticality": "critical"
+    "criticality": "critical",
+    "sources": [
+      "CHALCO — фольга 4.5 мкм",
+      "Novelis — промышленная фольга",
+      "ALCOA — aerospace aluminium"
+    ]
   },
   {
     "id": "MAT-FE",
@@ -29,7 +45,11 @@
     "name": "Железо",
     "symbol": "Fe",
     "description": "Рамы, шасси, конструкции",
-    "criticality": "critical"
+    "criticality": "critical",
+    "sources": [
+      "ArcelorMittal — конструкционная сталь",
+      "POSCO — автоматизированное производство"
+    ]
   },
   {
     "id": "MAT-FE-MN",
@@ -37,7 +57,11 @@
     "name": "Сталь Fe-6%Mn",
     "symbol": null,
     "description": "Прочная сталь без углерода, легированная марганцем",
-    "criticality": "high"
+    "criticality": "high",
+    "sources": [
+      "ASTM A128 — Hadfield steel standard",
+      "Metso Outotec — износостойкие стали"
+    ]
   },
   {
     "id": "MAT-MG",
@@ -45,7 +69,11 @@
     "name": "Магний",
     "symbol": "Mg",
     "description": "Лёгкие сплавы, пиротехника",
-    "criticality": "high"
+    "criticality": "high",
+    "sources": [
+      "US Magnesium — электролизное производство",
+      "Magontec — сплавы"
+    ]
   },
   {
     "id": "MAT-TI",
@@ -53,7 +81,11 @@
     "name": "Титан",
     "symbol": "Ti",
     "description": "Электрохромика зеркал, прочные узлы",
-    "criticality": "medium"
+    "criticality": "medium",
+    "sources": [
+      "VSMPO-AVISMA — титановые сплавы",
+      "ATI — aerospace titanium"
+    ]
   },
   {
     "id": "MAT-NA",
@@ -61,7 +93,11 @@
     "name": "Натрий",
     "symbol": "Na",
     "description": "Батареи NaS (анод)",
-    "criticality": "high"
+    "criticality": "high",
+    "sources": [
+      "Chemours — промышленный натрий",
+      "NGK Insulators — NaS технология"
+    ]
   },
   {
     "id": "MAT-MN",
@@ -69,7 +105,11 @@
     "name": "Марганец",
     "symbol": "Mn",
     "description": "Легирование стали Fe-6%Mn",
-    "criticality": "medium"
+    "criticality": "medium",
+    "sources": [
+      "South32 — добыча марганца",
+      "ERAMET — ферросплавы"
+    ]
   },
   {
     "id": "MAT-IR",
@@ -77,7 +117,11 @@
     "name": "Иридий",
     "symbol": "Ir",
     "description": "Аноды MRE-ячеек (устойчивость к расплаву)",
-    "criticality": "medium"
+    "criticality": "medium",
+    "sources": [
+      "Johnson Matthey — платиновые металлы",
+      "Heraeus — иридиевые аноды"
+    ]
   },
   {
     "id": "MAT-PT",
@@ -85,15 +129,35 @@
     "name": "Платина",
     "symbol": "Pt",
     "description": "Фильеры для волочения стекловолокна",
-    "criticality": "medium"
+    "criticality": "medium",
+    "sources": [
+      "Anglo American Platinum",
+      "Impala Platinum"
+    ]
   },
   {
     "id": "MAT-W",
     "parent_id": "MAT-METAL",
     "name": "Вольфрам",
     "symbol": "W",
-    "description": "Фрезы CNC, инструмент",
-    "criticality": "medium"
+    "description": "Фрезы CNC, фильеры, инструмент",
+    "criticality": "medium",
+    "sources": [
+      "Sandvik — вольфрамовые фрезы",
+      "Kennametal — твёрдые сплавы W-Co"
+    ]
+  },
+  {
+    "id": "MAT-CU",
+    "parent_id": "MAT-METAL",
+    "name": "Медь",
+    "symbol": "Cu",
+    "description": "Обмотки моторов Gen-1, кристаллизаторы МНЛЗ",
+    "criticality": "high",
+    "sources": [
+      "Codelco — электролитическая медь",
+      "Freeport-McMoRan"
+    ]
   },
   {
     "id": "MAT-O2",
@@ -101,7 +165,11 @@
     "name": "Кислород",
     "symbol": "O₂",
     "description": "Главный продукт MRE, побочный продукт",
-    "criticality": "critical"
+    "criticality": "critical",
+    "sources": [
+      "Linde — промышленный кислород",
+      "Air Liquide — криогенное разделение"
+    ]
   },
   {
     "id": "MAT-SI",
@@ -109,7 +177,12 @@
     "name": "Кремний",
     "symbol": "Si",
     "description": "Стекловолокно, электроника, солнечные панели",
-    "criticality": "critical"
+    "criticality": "critical",
+    "sources": [
+      "Wacker Chemie — поликремний",
+      "LONGi — солнечный Si",
+      "Owens Corning — стекловолокно"
+    ]
   },
   {
     "id": "MAT-S",
@@ -117,7 +190,11 @@
     "name": "Сера",
     "symbol": "S",
     "description": "Батареи NaS (катод)",
-    "criticality": "high"
+    "criticality": "high",
+    "sources": [
+      "BASF — промышленная сера",
+      "Claus process — побочный продукт"
+    ]
   },
   {
     "id": "MAT-C",
@@ -125,7 +202,11 @@
     "name": "Углерод/Графит",
     "symbol": "C",
     "description": "Композиты, восстановитель Ti, термозащита",
-    "criticality": "high"
+    "criticality": "high",
+    "sources": [
+      "SGL Carbon — графитовые материалы",
+      "Toray — углеродное волокно"
+    ]
   },
   {
     "id": "MAT-K",
@@ -133,6 +214,121 @@
     "name": "Калий",
     "symbol": "K",
     "description": "Удобрения, химические процессы",
-    "criticality": "low"
+    "criticality": "low",
+    "sources": [
+      "Nutrien — добыча калия",
+      "K+S — хлорид калия"
+    ]
+  },
+  {
+    "id": "MAT-NAK",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Натрий-калий",
+    "symbol": "NaK",
+    "description": "Теплоноситель (-12°C...+785°C)",
+    "criticality": "high",
+    "sources": [
+      "DOE — Sodium Technology Handbook",
+      "ESA Bepi-Colombo — NaK cooling"
+    ]
+  },
+  {
+    "id": "MAT-MOS2",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Дисульфид молибдена",
+    "symbol": "MoS₂",
+    "description": "Смазка для вакуума",
+    "criticality": "medium",
+    "sources": [
+      "Dow Corning — Molykote",
+      "NASA — vacuum lubricants"
+    ]
+  },
+  {
+    "id": "MAT-GAAS",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Арсенид галлия",
+    "symbol": "GaAs",
+    "description": "Высокоэффективные фотоячейки (импорт)",
+    "criticality": "high",
+    "sources": [
+      "Spectrolab — космические GaAs ячейки",
+      "SolAero — multi-junction cells"
+    ]
+  },
+  {
+    "id": "MAT-SI3N4",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Нитрид кремния",
+    "symbol": "Si₃N₄",
+    "description": "Керамические подшипники",
+    "criticality": "medium",
+    "sources": [
+      "CeramTec — Si₃N₄ bearings",
+      "SKF — ceramic hybrid bearings",
+      "NSK — космические подшипники"
+    ]
+  },
+  {
+    "id": "MAT-AL2O3",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Оксид алюминия",
+    "symbol": "Al₂O₃",
+    "description": "Керамика, бета-глинозём для NaS",
+    "criticality": "medium",
+    "sources": [
+      "NGK Insulators — beta-alumina для NaS",
+      "CoorsTek — техническая керамика"
+    ]
+  },
+  {
+    "id": "MAT-TIO2",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Диоксид титана",
+    "symbol": "TiO₂",
+    "description": "Электрохромика зеркал",
+    "criticality": "medium",
+    "sources": [
+      "IKAROS (JAXA 2010) — TiO₂ электрохромика в космосе",
+      "Gentex — автомобильная электрохромика"
+    ]
+  },
+  {
+    "id": "MAT-LI",
+    "parent_id": "MAT-METAL",
+    "name": "Литий",
+    "symbol": "Li",
+    "description": "Li-ion батареи Gen-1 (импорт)",
+    "criticality": "high",
+    "sources": [
+      "Albemarle — литиевые соединения",
+      "CATL — Li-ion батареи",
+      "Panasonic — Tesla cells"
+    ]
+  },
+  {
+    "id": "MAT-KEVLAR",
+    "parent_id": "MAT-NONMETAL",
+    "name": "Кевлар",
+    "symbol": null,
+    "description": "Армирование конструкций Gen-1 (импорт)",
+    "criticality": "medium",
+    "sources": [
+      "DuPont — Kevlar aramid fiber",
+      "Teijin — Twaron"
+    ]
+  },
+  {
+    "id": "MAT-CFRP",
+    "parent_id": "MAT-COMPOUND",
+    "name": "Углепластик",
+    "symbol": "CFRP",
+    "description": "Корпуса Gen-1 (импорт)",
+    "criticality": "medium",
+    "sources": [
+      "Toray — T700/T800 carbon fiber",
+      "Hexcel — aerospace CFRP",
+      "SpaceX Dragon — CFRP capsule"
+    ]
   }
 ]
