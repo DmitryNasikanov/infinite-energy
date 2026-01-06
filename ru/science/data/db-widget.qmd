@@ -1,0 +1,104 @@
+---
+title: "Виджет базы данных"
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Загружаем данные из JSON
+dataScript = FileAttachment("db/data.json").json()
+
+// Материалы доступные на Меркурии
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Словари для быстрого поиска
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Функция для отображения виджета единицы
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // BOM для этой единицы
+  const bom = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryMaterials.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(2) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Расчёт итогов
+  const localPct = bom
+    .filter(b => b.isLocal)
+    .reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom
+    .filter(b => !b.isLocal)
+    .reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  const bomRows = bom.map(b => html`
+    <tr>
+      <td>${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}${b.material?.name || b.material_id}</td>
+      <td>${b.fraction_pct}%</td>
+      <td>${b.massKg || '—'}</td>
+      <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+        ${planet ? html` | Производство: ${planet.name}` : ''}
+      </div>
+      ${bom.length > 0 ? html`
+        <table>
+          <thead>
+            <tr><th>Материал</th><th>%</th><th>кг</th><th>Источник</th></tr>
+          </thead>
+          <tbody>${bomRows}</tbody>
+        </table>
+        <div class="summary">
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+        </div>
+      ` : ''}
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Подробнее →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+## Пример использования
+
+Виджет для **BLDC мотор Al (CMP-011)**:
+
+```{ojs}
+unitWidget("CMP-011")
+```
+
+Виджет для **MRE-ячейка (EQU-002)**:
+
+```{ojs}
+unitWidget("EQU-002")
+```
+
+Виджет для **Робот Gen-2 (PRD-002)**:
+
+```{ojs}
+unitWidget("PRD-002")
+```

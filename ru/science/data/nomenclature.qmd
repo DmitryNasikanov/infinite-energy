@@ -1,0 +1,205 @@
+---
+title: "Номенклатура"
+sidebar: science
+toc: false
+execute:
+  echo: false
+---
+
+Интерактивный браузер базы данных единиц проекта «Гелиос».
+
+```{ojs}
+//| output: false
+
+// Загружаем данные из JSON
+data = FileAttachment("db/data.json").json()
+
+// Словари для быстрого поиска
+materialsById = new Map(data.materials.map(m => [m.id, m]))
+unitsById = new Map(data.units.map(u => [u.id, u]))
+planetsById = new Map(data.planets.map(p => [p.id, p]))
+categoriesById = new Map(data.categories.map(c => [c.id, c]))
+
+// Материалы доступные на Меркурии
+mercuryMaterials = new Set(
+  data.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Группировка юнитов по категориям
+unitsByCategory = {
+  const map = new Map();
+  data.units.forEach(u => {
+    if (!map.has(u.category_id)) map.set(u.category_id, []);
+    map.get(u.category_id).push(u);
+  });
+  return map;
+}
+```
+
+## Выберите единицу
+
+```{ojs}
+viewof selectedUnit = Inputs.select(
+  data.units.map(u => u.id),
+  {
+    label: "Единица:",
+    format: id => {
+      const u = unitsById.get(id);
+      return `${id} — ${u.name}`;
+    }
+  }
+)
+```
+
+```{ojs}
+{
+  const unit = unitsById.get(selectedUnit);
+  if (!unit) return html`<div>Выберите единицу</div>`;
+
+  const category = categoriesById.get(unit.category_id);
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // BOM для этой единицы
+  const bom = data.unitMaterials
+    .filter(um => um.unit_id === selectedUnit)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryMaterials.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(2) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Компоненты (если сборка)
+  const components = data.unitComponents
+    .filter(uc => uc.assembly_id === selectedUnit)
+    .map(uc => ({ ...uc, component: unitsById.get(uc.component_id) }));
+
+  // Где используется
+  const usedIn = data.unitComponents
+    .filter(uc => uc.component_id === selectedUnit)
+    .map(uc => ({ ...uc, assembly: unitsById.get(uc.assembly_id) }));
+
+  // Расчёт итогов
+  const localPct = bom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  return html`
+    <div class="db-widget">
+      <h3>${unit.name}</h3>
+      <div class="meta">
+        <span class="badge ${unit.is_assembly ? 'assembly' : 'simple'}">
+          ${unit.is_assembly ? 'Сборка' : 'Простая единица'}
+        </span>
+        ${category ? html`<span>${category.name}</span>` : ''}
+        ${unit.mass_kg ? html` | <strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+      </div>
+      ${unit.description ? html`<p>${unit.description}</p>` : ''}
+      ${planet ? html`<div class="section"><strong>Производство:</strong> ${planet.name}${planet.id === 'earth' ? ' (импорт)' : ''}</div>` : ''}
+
+      ${components.length > 0 ? html`
+        <div class="section">
+          <h4>Компоненты (${components.length}):</h4>
+          <table>
+            <thead><tr><th>Компонент</th><th>Кол-во</th></tr></thead>
+            <tbody>
+              ${components.map(c => html`
+                <tr>
+                  <td>${c.component?.name || c.component_id}</td>
+                  <td>${c.quantity} шт</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${usedIn.length > 0 ? html`
+        <div class="section">
+          <h4>Используется в (${usedIn.length}):</h4>
+          <table>
+            <thead><tr><th>Сборка</th><th>Кол-во</th></tr></thead>
+            <tbody>
+              ${usedIn.map(u => html`
+                <tr>
+                  <td>${u.assembly?.name || u.assembly_id}</td>
+                  <td>${u.quantity} шт</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${bom.length > 0 ? html`
+        <div class="section">
+          <h4>Состав (BOM):</h4>
+          <table>
+            <thead><tr><th>Материал</th><th>%</th><th>кг</th><th>Источник</th></tr></thead>
+            <tbody>
+              ${bom.map(b => html`
+                <tr>
+                  <td>
+                    ${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}
+                    ${b.material?.name || b.material_id}
+                  </td>
+                  <td>${b.fraction_pct}%</td>
+                  <td>${b.massKg || '—'}</td>
+                  <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+          <div class="summary">
+            Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+```
+
+---
+
+## Статистика базы данных
+
+```{ojs}
+html`
+<table class="stats-table">
+  <tr><td>Планеты</td><td><strong>${data.planets.length}</strong></td></tr>
+  <tr><td>Материалы</td><td><strong>${data.materials.length}</strong></td></tr>
+  <tr><td>Единицы</td><td><strong>${data.units.length}</strong></td></tr>
+  <tr><td>Связей материал↔планета</td><td><strong>${data.planetMaterials.length}</strong></td></tr>
+  <tr><td>Записей BOM</td><td><strong>${data.unitMaterials.length}</strong></td></tr>
+  <tr><td>Связей компонентов</td><td><strong>${data.unitComponents.length}</strong></td></tr>
+</table>
+`
+```
+
+---
+
+## Все единицы по категориям
+
+```{ojs}
+{
+  const sections = [];
+  unitsByCategory.forEach((units, catId) => {
+    const cat = categoriesById.get(catId);
+    const items = units.map(u => html`
+      <li>
+        <strong>${u.id}</strong> ${u.name}
+        ${u.mass_kg ? html` — ${u.mass_kg.toLocaleString()} кг` : ''}
+        ${u.production_planet_id === 'earth' ? html` <em>(импорт)</em>` : ''}
+      </li>
+    `);
+    sections.push(html`
+      <h4>${cat?.name || catId}</h4>
+      <ul>${items}</ul>
+    `);
+  });
+  return html`<div>${sections}</div>`;
+}
+```

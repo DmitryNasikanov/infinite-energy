@@ -402,6 +402,14 @@ document.addEventListener('DOMContentLoaded', function() {{
   document.getElementById('units-list').querySelectorAll('.link[data-unit]').forEach(el => {{
     el.addEventListener('click', () => selectUnit(el.dataset.unit));
   }});
+
+  // Автовыбор юнита из URL: ?unit=XXX
+  const urlParams = new URLSearchParams(window.location.search);
+  const unitFromUrl = urlParams.get('unit');
+  if (unitFromUrl && unitsById.has(unitFromUrl)) {{
+    selectUnit(unitFromUrl);
+    document.getElementById('unit-card').scrollIntoView({{ behavior: 'smooth' }});
+  }}
 }});
 </script>
 
@@ -454,11 +462,11 @@ def main():
     generate_data_js(all_data, data_js_path)
     print(f"  data.js: обновлён")
 
-    # Генерация HTML страницы номенклатуры (в _output)
-    html_output = Path(__file__).parent.parent / "_output" / "ru" / "science" / "data" / "nomenclature.html"
-    html_output.parent.mkdir(parents=True, exist_ok=True)
-    generate_nomenclature_html(all_data, html_output)
-    print(f"  nomenclature.html: сгенерирован")
+    # Генерация data.json для OJS виджетов
+    data_json_path = Path(__file__).parent.parent / "ru" / "science" / "data" / "db" / "data.json"
+    with open(data_json_path, "w", encoding="utf-8") as f:
+        json.dump(all_data, f, ensure_ascii=False, indent=2)
+    print(f"  data.json: обновлён")
 
     print(f"\nГотово! Файлы в: {EXPORT_DIR}")
 
