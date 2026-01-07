@@ -310,19 +310,6 @@
       ]
     },
     {
-      "id": "MAT-SI3N4",
-      "parent_id": "MAT-COMPOUND",
-      "name": "Нитрид кремния",
-      "symbol": "Si₃N₄",
-      "description": "Керамические подшипники",
-      "criticality": "medium",
-      "sources": [
-        "CeramTec — Si₃N₄ bearings",
-        "SKF — ceramic hybrid bearings",
-        "NSK — космические подшипники"
-      ]
-    },
-    {
       "id": "MAT-AL2O3",
       "parent_id": "MAT-COMPOUND",
       "name": "Оксид алюминия",
@@ -332,6 +319,18 @@
       "sources": [
         "NGK Insulators — beta-alumina для NaS",
         "CoorsTek — техническая керамика"
+      ]
+    },
+    {
+      "id": "MAT-MGO",
+      "parent_id": "MAT-COMPOUND",
+      "name": "Оксид магния",
+      "symbol": "MgO",
+      "description": "Тугоплавкая керамика для тиглей (Tпл=2852°C)",
+      "criticality": "medium",
+      "sources": [
+        "Magnesium oxide refractory",
+        "Used in steelmaking furnaces"
       ]
     },
     {
@@ -691,6 +690,51 @@
       "sources": [
         "SMS Group — tundish technology",
         "Vesuvius — refractory systems"
+      ]
+    },
+    {
+      "id": "EQU-031",
+      "category_id": "equipment",
+      "name": "Конденсатор калия",
+      "description": "Фракционная конденсация K при 759°C",
+      "mass_kg": 500.0,
+      "power_kw": 10.0,
+      "parent_id": "FAC-001",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Fractional distillation of metals",
+        "Vacuum metallurgy"
+      ]
+    },
+    {
+      "id": "EQU-032",
+      "category_id": "equipment",
+      "name": "Конденсатор натрия",
+      "description": "Фракционная конденсация Na при 883°C",
+      "mass_kg": 800.0,
+      "power_kw": 15.0,
+      "parent_id": "FAC-001",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Sodium production by Downs process",
+        "Vacuum distillation"
+      ]
+    },
+    {
+      "id": "EQU-033",
+      "category_id": "equipment",
+      "name": "Конденсатор магния",
+      "description": "Фракционная конденсация Mg при 1091°C",
+      "mass_kg": 1500.0,
+      "power_kw": 25.0,
+      "parent_id": "FAC-001",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Pidgeon process — magnesium distillation",
+        "Vacuum metallurgy of Mg"
       ]
     },
     {
@@ -1124,16 +1168,16 @@
     {
       "id": "CMP-013",
       "category_id": "equipment",
-      "name": "Подшипник Si₃N₄",
-      "description": "Керамический подшипник, нитрид кремния",
+      "name": "Подшипник Al₂O₃",
+      "description": "Корундовый подшипник, 100% местное производство",
       "mass_kg": 0.5,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": true,
       "production_planet_id": "mercury",
       "sources": [
-        "CeramTec — ceramic bearings",
-        "SKF — hybrid ceramic bearings"
+        "CoorsTek — alumina bearings",
+        "Morgan Advanced Materials — Al₂O₃ ceramics"
       ]
     },
     {
@@ -1288,7 +1332,7 @@
       ]
     }
   ],
-  "planet_materials": [
+  "planetMaterials": [
     {
       "planet_id": "mercury",
       "material_id": "MAT-O2",
@@ -1483,15 +1527,15 @@
     },
     {
       "planet_id": "mercury",
-      "material_id": "MAT-SI3N4",
+      "material_id": "MAT-AL2O3",
       "concentration_pct": null,
-      "notes": "производится из Si+N₂"
+      "notes": "производится из Al+O₂ (керамика, подшипники)"
     },
     {
       "planet_id": "mercury",
-      "material_id": "MAT-AL2O3",
+      "material_id": "MAT-MGO",
       "concentration_pct": null,
-      "notes": "производится из Al+O₂"
+      "notes": "производится из Mg+O₂"
     },
     {
       "planet_id": "mercury",
@@ -1500,7 +1544,7 @@
       "notes": "производится из Ti+O₂"
     }
   ],
-  "unit_materials": [
+  "unitMaterials": [
     {
       "unit_id": "ROB-011",
       "material_id": "MAT-TI",
@@ -1724,12 +1768,17 @@
     {
       "unit_id": "EQU-005",
       "material_id": "MAT-FE",
-      "fraction_pct": 70.0
+      "fraction_pct": 60.0
     },
     {
       "unit_id": "EQU-005",
       "material_id": "MAT-AL",
-      "fraction_pct": 25.0
+      "fraction_pct": 30.0
+    },
+    {
+      "unit_id": "EQU-005",
+      "material_id": "MAT-AL2O3",
+      "fraction_pct": 5.0
     },
     {
       "unit_id": "EQU-005",
@@ -1739,12 +1788,17 @@
     {
       "unit_id": "EQU-003",
       "material_id": "MAT-AL",
-      "fraction_pct": 80.0
+      "fraction_pct": 70.0
     },
     {
       "unit_id": "EQU-003",
       "material_id": "MAT-FE",
       "fraction_pct": 15.0
+    },
+    {
+      "unit_id": "EQU-003",
+      "material_id": "MAT-MGO",
+      "fraction_pct": 10.0
     },
     {
       "unit_id": "EQU-003",
@@ -2047,6 +2101,66 @@
       "fraction_pct": 10.0
     },
     {
+      "unit_id": "EQU-031",
+      "material_id": "MAT-FE",
+      "fraction_pct": 60.0
+    },
+    {
+      "unit_id": "EQU-031",
+      "material_id": "MAT-MGO",
+      "fraction_pct": 25.0
+    },
+    {
+      "unit_id": "EQU-031",
+      "material_id": "MAT-AL",
+      "fraction_pct": 10.0
+    },
+    {
+      "unit_id": "EQU-031",
+      "material_id": "MAT-SI",
+      "fraction_pct": 5.0
+    },
+    {
+      "unit_id": "EQU-032",
+      "material_id": "MAT-FE",
+      "fraction_pct": 60.0
+    },
+    {
+      "unit_id": "EQU-032",
+      "material_id": "MAT-MGO",
+      "fraction_pct": 25.0
+    },
+    {
+      "unit_id": "EQU-032",
+      "material_id": "MAT-AL",
+      "fraction_pct": 10.0
+    },
+    {
+      "unit_id": "EQU-032",
+      "material_id": "MAT-SI",
+      "fraction_pct": 5.0
+    },
+    {
+      "unit_id": "EQU-033",
+      "material_id": "MAT-FE",
+      "fraction_pct": 55.0
+    },
+    {
+      "unit_id": "EQU-033",
+      "material_id": "MAT-MGO",
+      "fraction_pct": 30.0
+    },
+    {
+      "unit_id": "EQU-033",
+      "material_id": "MAT-AL",
+      "fraction_pct": 10.0
+    },
+    {
+      "unit_id": "EQU-033",
+      "material_id": "MAT-SI",
+      "fraction_pct": 5.0
+    },
+    {
       "unit_id": "CMP-004",
       "material_id": "MAT-CU",
       "fraction_pct": 60.0
@@ -2148,7 +2262,7 @@
     },
     {
       "unit_id": "CMP-013",
-      "material_id": "MAT-SI3N4",
+      "material_id": "MAT-AL2O3",
       "fraction_pct": 95.0
     },
     {
@@ -2302,7 +2416,7 @@
       "fraction_pct": 5.0
     }
   ],
-  "unit_components": [
+  "unitComponents": [
     {
       "assembly_id": "ROB-011",
       "component_id": "CMP-001",
@@ -2507,6 +2621,21 @@
       "assembly_id": "EQU-010",
       "component_id": "CMP-007",
       "quantity": 20
+    },
+    {
+      "assembly_id": "EQU-005",
+      "component_id": "CMP-011",
+      "quantity": 2
+    },
+    {
+      "assembly_id": "EQU-005",
+      "component_id": "CMP-013",
+      "quantity": 4
+    },
+    {
+      "assembly_id": "EQU-005",
+      "component_id": "CMP-014",
+      "quantity": 1
     },
     {
       "assembly_id": "FAC-001",

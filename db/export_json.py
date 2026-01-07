@@ -462,10 +462,19 @@ def main():
     generate_data_js(all_data, data_js_path)
     print(f"  data.js: обновлён")
 
-    # Генерация data.json для OJS виджетов
+    # Генерация data.json для OJS виджетов (с camelCase ключами)
     data_json_path = Path(__file__).parent.parent / "ru" / "science" / "data" / "db" / "data.json"
+    ojs_data = {
+        "planets": all_data["planets"],
+        "materials": all_data["materials"],
+        "categories": all_data["categories"],
+        "units": all_data["units"],
+        "planetMaterials": all_data["planet_materials"],
+        "unitMaterials": all_data["unit_materials"],
+        "unitComponents": all_data["unit_components"],
+    }
     with open(data_json_path, "w", encoding="utf-8") as f:
-        json.dump(all_data, f, ensure_ascii=False, indent=2)
+        json.dump(ojs_data, f, ensure_ascii=False, indent=2)
     print(f"  data.json: обновлён")
 
     print(f"\nГотово! Файлы в: {EXPORT_DIR}")
