@@ -126,10 +126,10 @@ def seed_materials(con):
          json.dumps(["Dow Corning — Molykote", "NASA — vacuum lubricants"])),
         ("MAT-GAAS", "MAT-COMPOUND", "Арсенид галлия", "GaAs", "Высокоэффективные фотоячейки (импорт)", "high",
          json.dumps(["Spectrolab — космические GaAs ячейки", "SolAero — multi-junction cells"])),
-        ("MAT-SI3N4", "MAT-COMPOUND", "Нитрид кремния", "Si₃N₄", "Керамические подшипники", "medium",
-         json.dumps(["CeramTec — Si₃N₄ bearings", "SKF — ceramic hybrid bearings", "NSK — космические подшипники"])),
         ("MAT-AL2O3", "MAT-COMPOUND", "Оксид алюминия", "Al₂O₃", "Керамика, бета-глинозём для NaS", "medium",
          json.dumps(["NGK Insulators — beta-alumina для NaS", "CoorsTek — техническая керамика"])),
+        ("MAT-MGO", "MAT-COMPOUND", "Оксид магния", "MgO", "Тугоплавкая керамика для тиглей (Tпл=2852°C)", "medium",
+         json.dumps(["Magnesium oxide refractory", "Used in steelmaking furnaces"])),
         ("MAT-TIO2", "MAT-COMPOUND", "Диоксид титана", "TiO₂", "Электрохромика зеркал", "medium",
          json.dumps(["IKAROS (JAXA 2010) — TiO₂ электрохромика в космосе", "Gentex — автомобильная электрохромика"])),
         ("MAT-LI", "MAT-METAL", "Литий", "Li", "Li-ion батареи Gen-1 (импорт)", "high",
@@ -191,8 +191,8 @@ def seed_planet_materials(con):
         # Меркурий — дополнительные соединения
         ("mercury", "MAT-NAK", None, "производится из Na+K"),
         ("mercury", "MAT-MOS2", None, "производится (Mo — следы)"),
-        ("mercury", "MAT-SI3N4", None, "производится из Si+N₂"),
-        ("mercury", "MAT-AL2O3", None, "производится из Al+O₂"),
+        ("mercury", "MAT-AL2O3", None, "производится из Al+O₂ (керамика, подшипники)"),
+        ("mercury", "MAT-MGO", None, "производится из Mg+O₂"),
         ("mercury", "MAT-TIO2", None, "производится из Ti+O₂"),
     ]
     con.executemany(
@@ -263,6 +263,16 @@ def seed_units(con):
          json.dumps(["ABB — electromagnetic pumps for metals", "Precimeter — MHD pumps"])),
         ("EQU-023", "equipment", "Промковш (тандиш)", "Разделение Al/Fe расплавов, 2 стопора", 1000, 0, "FAC-001", True, "mercury",
          json.dumps(["SMS Group — tundish technology", "Vesuvius — refractory systems"])),
+
+        # =====================================
+        # ОБОРУДОВАНИЕ — ДИСТИЛЛЯЦИЯ ШЛАКА
+        # =====================================
+        ("EQU-031", "equipment", "Конденсатор калия", "Фракционная конденсация K при 759°C", 500, 10, "FAC-001", True, "mercury",
+         json.dumps(["Fractional distillation of metals", "Vacuum metallurgy"])),
+        ("EQU-032", "equipment", "Конденсатор натрия", "Фракционная конденсация Na при 883°C", 800, 15, "FAC-001", True, "mercury",
+         json.dumps(["Sodium production by Downs process", "Vacuum distillation"])),
+        ("EQU-033", "equipment", "Конденсатор магния", "Фракционная конденсация Mg при 1091°C", 1500, 25, "FAC-001", True, "mercury",
+         json.dumps(["Pidgeon process — magnesium distillation", "Vacuum metallurgy of Mg"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ЛИТЬЁ
@@ -343,8 +353,8 @@ def seed_units(con):
          json.dumps(["ABB — aluminum wound motors", "WEG — Al conductors in motors"])),
         ("CMP-012", "equipment", "NaS батарея 1кВт·ч", "Натрий-серная батарея, 1 кВт·ч", 8, 0, None, True, "mercury",
          json.dumps(["NGK Insulators — NaS batteries", "GE Durathon — Na-based storage"])),
-        ("CMP-013", "equipment", "Подшипник Si₃N₄", "Керамический подшипник, нитрид кремния", 0.5, 0, None, True, "mercury",
-         json.dumps(["CeramTec — ceramic bearings", "SKF — hybrid ceramic bearings"])),
+        ("CMP-013", "equipment", "Подшипник Al₂O₃", "Корундовый подшипник, 100% местное производство", 0.5, 0, None, True, "mercury",
+         json.dumps(["CoorsTek — alumina bearings", "Morgan Advanced Materials — Al₂O₃ ceramics"])),
         ("CMP-014", "equipment", "Редуктор", "Планетарный редуктор, Fe+Al", 3, 0, None, True, "mercury",
          json.dumps(["Harmonic Drive — precision gearboxes", "Nabtesco — planetary gears"])),
 
@@ -461,6 +471,13 @@ def seed_unit_components(con):
 
         # CNC содержит фрезы
         ("EQU-010", "CMP-007", 20),  # 20 фрез
+
+        # =====================================
+        # МАГНИТНЫЙ СЕПАРАТОР EQU-005
+        # =====================================
+        ("EQU-005", "CMP-011", 2),   # 2 мотора Al (барабан + виброжелоб)
+        ("EQU-005", "CMP-013", 4),   # 4 подшипника Al₂O₃
+        ("EQU-005", "CMP-014", 1),   # 1 редуктор
 
         # =====================================
         # ЗАВОД FAC-001 — полное оборудование
@@ -625,8 +642,9 @@ def seed_unit_materials(con):
         # Итого: 100%
 
         # Магнитный сепаратор (500 кг)
-        ("EQU-005", "MAT-FE", 70),      # магнитная система
-        ("EQU-005", "MAT-AL", 25),      # корпус, барабан
+        ("EQU-005", "MAT-FE", 60),      # магнитопровод, рама, скребок
+        ("EQU-005", "MAT-AL", 30),      # корпус, барабан, обмотки электромагнитов
+        ("EQU-005", "MAT-AL2O3", 5),    # подшипники Al₂O₃ (местное производство)
         ("EQU-005", "MAT-SI", 5),       # электроника/датчики
         # Итого: 100%
 
@@ -635,8 +653,9 @@ def seed_unit_materials(con):
         # =====================================
 
         # Солнечная печь (2000 кг)
-        ("EQU-003", "MAT-AL", 80),      # зеркала, каркас
+        ("EQU-003", "MAT-AL", 70),      # зеркала 60%, каркас 10%
         ("EQU-003", "MAT-FE", 15),      # опорная конструкция
+        ("EQU-003", "MAT-MGO", 10),     # тигель MgO (Tпл=2852°C, запас 852°C)
         ("EQU-003", "MAT-SI", 5),       # электроника/привода наведения
         # Итого: 100%
 
@@ -768,6 +787,31 @@ def seed_unit_materials(con):
         # Итого: 100%
 
         # =====================================
+        # ОБОРУДОВАНИЕ — ДИСТИЛЛЯЦИЯ ШЛАКА
+        # =====================================
+
+        # Конденсатор калия (500 кг)
+        ("EQU-031", "MAT-FE", 60),      # корпус, радиатор
+        ("EQU-031", "MAT-MGO", 25),     # футеровка MgO (Tкип K = 759°C)
+        ("EQU-031", "MAT-AL", 10),      # теплообменник
+        ("EQU-031", "MAT-SI", 5),       # датчики/электроника
+        # Итого: 100%
+
+        # Конденсатор натрия (800 кг)
+        ("EQU-032", "MAT-FE", 60),      # корпус, радиатор
+        ("EQU-032", "MAT-MGO", 25),     # футеровка MgO (Tкип Na = 883°C)
+        ("EQU-032", "MAT-AL", 10),      # теплообменник
+        ("EQU-032", "MAT-SI", 5),       # датчики/электроника
+        # Итого: 100%
+
+        # Конденсатор магния (1500 кг)
+        ("EQU-033", "MAT-FE", 55),      # корпус, радиатор
+        ("EQU-033", "MAT-MGO", 30),     # больше футеровки (Tкип Mg = 1091°C)
+        ("EQU-033", "MAT-AL", 10),      # теплообменник
+        ("EQU-033", "MAT-SI", 5),       # датчики/электроника
+        # Итого: 100%
+
+        # =====================================
         # КОМПОНЕНТЫ — ИМПОРТ
         # =====================================
 
@@ -810,8 +854,8 @@ def seed_unit_materials(con):
         ("CMP-012", "MAT-FE", 5),       # контакты, термоизоляция
         # Итого: 100%
 
-        # Подшипник Si₃N₄ (0.5 кг)
-        ("CMP-013", "MAT-SI3N4", 95),   # нитрид кремния
+        # Подшипник Al₂O₃ (0.5 кг)
+        ("CMP-013", "MAT-AL2O3", 95),   # корунд (местное производство)
         ("CMP-013", "MAT-FE", 5),       # обойма, сепаратор
         # Итого: 100%
 
