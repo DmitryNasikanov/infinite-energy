@@ -21,6 +21,14 @@ format:
     code-fold: true
     include-in-header:
       text: |
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-WW2S48BBEP');
+        </script>
         <style>
         .content { max-width: 900px; }
         p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
@@ -28,19 +36,44 @@ format:
         p:has(img), .quarto-figure, .figure { text-indent: 0; }
         p:has(> strong:first-child) { text-indent: 0; }
         p:has(> em:first-child) { text-indent: 0; }
+        /* Минималистичные outline-кнопки */
+        .btn-outline {
+          display: inline-block;
+          padding: 0.8rem 2rem;
+          border: 2px solid #555;
+          border-radius: 8px;
+          color: #555;
+          text-decoration: none;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          background: transparent;
+          text-align: center;
+        }
+        .btn-outline:hover {
+          background: #555;
+          color: #fff;
+          text-decoration: none;
+        }
+        .btn-outline-primary {
+          border-color: #0d6efd;
+          color: #0d6efd;
+        }
+        .btn-outline-primary:hover {
+          background: #0d6efd;
+          color: #fff;
+        }
         </style>
 
 website:
   title: "Проект Гелиос"
   navbar:
     background: dark
+    title: false
     right:
       - text: "RU"
-        href: /
-      - text: "EN"
-        href: /en/
+        href: ru/index.qmd
     left:
-      - text: "Главная"
+      - text: "Проект Гелиос"
         href: ru/index.qmd
       - text: "Книга"
         href: ru/book/index.qmd

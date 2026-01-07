@@ -95,86 +95,58 @@ function unitWidget(unitId) {
 Физическая цепочка агрегатов с ID из базы данных:
 
 ```{mermaid}
-flowchart TB
-    subgraph TOP["1. ДОБЫЧА 600 т/день"]
-        direction LR
-        R[/Реголит/]
-        EQU021[Виброгрохот]
-        EQU004[Дробилка]
-        VJ[Виброжелоб]
-        R --> EQU021
-        EQU021 --> EQU004
-        EQU004 --> VJ
+flowchart LR
+    %% ДОБЫЧА И ПОДГОТОВКА
+    KROT[Крот] -->|сброс| BUN[Бункер]
+    BUN -->|желоб| GR[Виброгрохот]
+    GR -->|желоб| DR[Дробилка]
+    DR -->|желоб| SEP[Магн. сепаратор]
+
+    %% СЕПАРАЦИЯ - разделение на 2 потока
+    SEP -->|36т| MAGN[Магн. фракция]
+    SEP -->|564т| NMAG[Немагн. фракция]
+
+    %% ЛИНИИ ПЕРЕРАБОТКИ
+    subgraph LINES[Линии переработки]
+        direction TB
+
+        subgraph TITANIUM[3b. Титан]
+            SF3[Возгонка 450C]
+            SF3 -->|желоб| TI_OX[Обжиг 900C]
+            TI_OX --> TI_OUT[TiO2 + Сера]
+        end
+
+        subgraph GLASS_LINE[3a. Стекло]
+            SF1[Малая печь 1400C]
+            SF1 -->|расплав| FILT[Pt-фильеры]
+            FILT --> FIBER[Волокно 28т]
+        end
+
+        subgraph MRE_LINE[4. MRE]
+            SF2[Солн. печь 1500C]
+            SF2 -->|расплав| MRE[MRE-ячейка]
+            MRE --> O2[O2 250т]
+            MRE --> FESI[Fe-Si 35т]
+            MRE --> SLAG[Шлак 113т]
+        end
     end
 
-    subgraph SEP["2. СЕПАРАЦИЯ"]
-        direction LR
-        EQU005[Магн. сепаратор]
-        MAGN[/Магн. 36т/]
-        NMAG[/Немагн. 564т/]
-        EQU005 --> MAGN
-        EQU005 --> NMAG
-    end
+    %% Связи от сепарации к печам
+    MAGN -->|желоб| SF3
+    NMAG -->|5%| SF1
+    NMAG -->|95%| SF2
 
-    subgraph FURNACES["3. ПЕЧИ"]
-        SF1[Малая 1400C]
-        SF2[Солнечная 1500C]
-        SF3[Возгонка 450C]
-    end
+    %% ДИСТИЛЛЯЦИЯ
+    SLAG -->|труба| EQU024[Инд. печь]
+    EQU024 --> EQU031[Конд. K]
+    EQU031 --> EQU032[Конд. Na]
+    EQU032 --> EQU033[Конд. Mg]
+    EQU033 --> AL_OUT[Al 42т]
 
-    subgraph GLASS["3a. СТЕКЛО"]
-        FILT[Pt-фильеры]
-        FIBER[/Волокно 28т/]
-        FILT --> FIBER
-    end
-
-    subgraph MRE["4. MRE"]
-        EQU002[MRE-ячейка]
-        O2[/O2 250т/]
-        FESI[/Fe-Si 35т/]
-        SLAG[Шлак 113т]
-        EQU002 --> O2
-        EQU002 --> FESI
-        EQU002 --> SLAG
-    end
-
-    subgraph TI["3b. ТИТАН"]
-        OX[Обжиг 900C]
-        S_OUT[/Сера 18т/]
-        TIO2[/TiO2 3т/]
-        OX --> S_OUT
-        OX --> TIO2
-    end
-
-    subgraph BOTTOM["5. ДИСТИЛЛЯЦИЯ"]
-        direction LR
-        EQU024[Инд. печь]
-        EQU031[Конд. K]
-        EQU032[Конд. Na]
-        EQU033[Конд. Mg]
-        AL_OUT[/Al 42т/]
-        EQU024 --> EQU031
-        EQU031 --> EQU032
-        EQU032 --> EQU033
-        EQU033 --> AL_OUT
-    end
-
-    VJ --> EQU005
-    NMAG --> SF1
-    NMAG --> SF2
-    MAGN --> SF3
-    SF1 --> FILT
-    SF2 --> EQU002
-    SF3 --> OX
-    SLAG --> EQU024
-
-    style TOP fill:#e8d4a8
-    style SEP fill:#d4e8a8
-    style FURNACES fill:#fff3cd
-    style MRE fill:#e8a8d4
-    style BOTTOM fill:#ffeb3b
-    style GLASS fill:#b8e0d2
-    style TI fill:#a8d4e8
+    %% Стили
+    style TITANIUM fill:#a8d4e8
+    style GLASS_LINE fill:#b8e0d2
+    style MRE_LINE fill:#e8a8d4
 ```
 
 ### Выход материалов (600 т реголита/день)
