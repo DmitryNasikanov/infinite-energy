@@ -1196,6 +1196,42 @@
       ]
     },
     {
+      "id": "CMP-020",
+      "category_id": "components",
+      "name": "Барабан Al",
+      "description": "Вращающийся цилиндр ⌀800×1200мм для магнитного сепаратора",
+      "mass_kg": 150.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": []
+    },
+    {
+      "id": "CMP-021",
+      "category_id": "components",
+      "name": "Электромагнит",
+      "description": "0.5-1.5 Тл, обмотка Al, сердечник Fe",
+      "mass_kg": 20.0,
+      "power_kw": 2.0,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": []
+    },
+    {
+      "id": "CMP-022",
+      "category_id": "components",
+      "name": "Скребок ЭМ",
+      "description": "На электромагнитных направляющих, без подшипников",
+      "mass_kg": 30.0,
+      "power_kw": 1.0,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": []
+    },
+    {
       "id": "EQU-012",
       "category_id": "equipment",
       "name": "Электроника сенсоров",
@@ -1208,6 +1244,21 @@
       "sources": [
         "NXP — automotive MCUs",
         "STMicroelectronics — sensor hubs"
+      ]
+    },
+    {
+      "id": "EQU-034",
+      "category_id": "equipment",
+      "name": "Виброжёлоб",
+      "description": "Транспортировка реголита электромагнитной вибрацией",
+      "mass_kg": 100.0,
+      "power_kw": 5.0,
+      "parent_id": "FAC-001",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Eriez — electromagnetic feeders",
+        "Syntron — vibratory feeders"
       ]
     },
     {
@@ -1768,17 +1819,12 @@
     {
       "unit_id": "EQU-005",
       "material_id": "MAT-FE",
-      "fraction_pct": 60.0
+      "fraction_pct": 65.0
     },
     {
       "unit_id": "EQU-005",
       "material_id": "MAT-AL",
       "fraction_pct": 30.0
-    },
-    {
-      "unit_id": "EQU-005",
-      "material_id": "MAT-AL2O3",
-      "fraction_pct": 5.0
     },
     {
       "unit_id": "EQU-005",
@@ -1792,7 +1838,7 @@
     },
     {
       "unit_id": "EQU-003",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 15.0
     },
     {
@@ -2102,7 +2148,7 @@
     },
     {
       "unit_id": "EQU-031",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 60.0
     },
     {
@@ -2142,7 +2188,7 @@
     },
     {
       "unit_id": "EQU-033",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 55.0
     },
     {
@@ -2414,6 +2460,41 @@
       "unit_id": "TRN-002",
       "material_id": "MAT-FE",
       "fraction_pct": 5.0
+    },
+    {
+      "unit_id": "EQU-034",
+      "material_id": "MAT-FE-MN",
+      "fraction_pct": 70.0
+    },
+    {
+      "unit_id": "EQU-034",
+      "material_id": "MAT-AL",
+      "fraction_pct": 30.0
+    },
+    {
+      "unit_id": "CMP-020",
+      "material_id": "MAT-AL",
+      "fraction_pct": 100.0
+    },
+    {
+      "unit_id": "CMP-021",
+      "material_id": "MAT-FE",
+      "fraction_pct": 60.0
+    },
+    {
+      "unit_id": "CMP-021",
+      "material_id": "MAT-AL",
+      "fraction_pct": 40.0
+    },
+    {
+      "unit_id": "CMP-022",
+      "material_id": "MAT-FE-MN",
+      "fraction_pct": 70.0
+    },
+    {
+      "unit_id": "CMP-022",
+      "material_id": "MAT-AL",
+      "fraction_pct": 30.0
     }
   ],
   "unitComponents": [
@@ -2624,13 +2705,28 @@
     },
     {
       "assembly_id": "EQU-005",
-      "component_id": "CMP-011",
-      "quantity": 2
+      "component_id": "CMP-020",
+      "quantity": 1
     },
     {
       "assembly_id": "EQU-005",
-      "component_id": "CMP-013",
-      "quantity": 4
+      "component_id": "CMP-021",
+      "quantity": 8
+    },
+    {
+      "assembly_id": "EQU-005",
+      "component_id": "CMP-022",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-005",
+      "component_id": "EQU-034",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-005",
+      "component_id": "CMP-011",
+      "quantity": 2
     },
     {
       "assembly_id": "EQU-005",
@@ -2792,5 +2888,20 @@
       "component_id": "CMP-001",
       "quantity": 50
     }
+  ],
+  "materialProduction": [
+    {"material_id": "MAT-O2", "planet_id": "mercury", "requires": "MRE"},
+    {"material_id": "MAT-FE", "planet_id": "mercury", "requires": "MRE"},
+    {"material_id": "MAT-FE-MN", "planet_id": "mercury", "requires": "MRE"},
+    {"material_id": "MAT-SI", "planet_id": "mercury", "requires": "MRE + зонная плавка"},
+    {"material_id": "MAT-AL", "planet_id": "mercury", "requires": "дистилляция"},
+    {"material_id": "MAT-MG", "planet_id": "mercury", "requires": "дистилляция"},
+    {"material_id": "MAT-NA", "planet_id": "mercury", "requires": "дистилляция"},
+    {"material_id": "MAT-K", "planet_id": "mercury", "requires": "дистилляция"},
+    {"material_id": "MAT-TIO2", "planet_id": "mercury", "requires": "линия титана"},
+    {"material_id": "MAT-S", "planet_id": "mercury", "requires": "линия титана"},
+    {"material_id": "MAT-SIO2-FIBER", "planet_id": "mercury", "requires": "линия стекла"},
+    {"material_id": "MAT-AL2O3", "planet_id": "mercury", "requires": "MRE"},
+    {"material_id": "MAT-CAO", "planet_id": "mercury", "requires": "MRE"}
   ]
 }
