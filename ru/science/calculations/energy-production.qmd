@@ -1,7 +1,98 @@
 ---
 title: "Энергетика производства"
 sidebar: science
+execute:
+  echo: false
 ---
+
+```{ojs}
+//| output: false
+
+dataScript = FileAttachment("../data/db/data.json").json()
+
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  const bom = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(2) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      return { ...uc, component };
+    });
+
+  const localPct = bom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  const bomRows = bom.map(b => html`
+    <tr>
+      <td>${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}${b.material?.name || b.material_id}</td>
+      <td>${b.fraction_pct}%</td>
+      <td>${b.massKg || '—'}</td>
+      <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+    </tr>
+  `);
+
+  const componentRows = components.map(c => html`
+    <tr>
+      <td>${c.component?.name || c.component_id}</td>
+      <td>${c.quantity}</td>
+      <td>${c.component?.mass_kg ? (c.component.mass_kg * c.quantity).toLocaleString() + ' кг' : '—'}</td>
+      <td>${c.component?.description || '—'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+        ${planet ? html` | Производство: ${planet.name}` : ''}
+      </div>
+      ${components.length > 0 ? html`
+        <table>
+          <thead><tr><th>Компонент</th><th>Кол-во</th><th>Масса</th><th>Описание</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+      ${bom.length > 0 ? html`
+        <table>
+          <thead><tr><th>Материал</th><th>%</th><th>кг</th><th>Источник</th></tr></thead>
+          <tbody>${bomRows}</tbody>
+        </table>
+        <div class="summary">
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+        </div>
+      ` : ''}
+      <div class="link">
+        <a href="../data/nomenclature.html?unit=${unitId}">Подробнее →</a>
+      </div>
+    </div>
+  `;
+}
+```
 
 > **TL;DR**
 >
@@ -138,27 +229,23 @@ sidebar: science
 | 9 | Напыление SiNx | Азот (Земля) + Силан | Антиотражение |
 | 10 | Сборка модуля | Алюминий местный | Стекло не нужно (вакуум) |
 
-### Материальный баланс (на 1000 м² панелей)
+### Материальный баланс
 
-**Местное производство:**
+**Si панель (1 м²):**
 
-| Компонент | Количество | Источник |
-| :--- | :--- | :--- |
-| Кремний (Si) | 2000 кг | Алюмотермия |
-| Алюминий (расход на Si) | 2600 кг | Шлак MRE |
-| Каркас (Al) | 1000 кг | Шлак MRE |
-| Корунд (Al₂O₃) побочный | 2600 кг | → Керамика |
-| **ИТОГО местное** | **~5600 кг** | |
+```{ojs}
+unitWidget("PRD-005")
+```
 
-**Импорт с Земли:**
+**На 1000 м² — детальный расчёт:**
 
-| Компонент | Количество | Примечание |
-| :--- | :--- | :--- |
-| Алмазная проволока | ~5 кг (10 км) | Изнашивается |
-| Фосфор (легирование) | 0.1 кг | Микродозы |
-| Бор (легирование) | 0.1 кг | Микродозы |
-| Азот (антиотражение) | 1 кг | Для SiNx |
-| **ИТОГО импорт** | **~6 кг/1000 м²** | |
+- Кремний: 2000 кг (алюмотермия)
+- Алюминий на Si: 2600 кг (шлак MRE)
+- Каркас Al: 1000 кг
+- Побочно: 2600 кг корунда → керамика
+- **Итого местное:** ~5600 кг
+
+**Импорт (расходники):** ~6 кг/1000 м² — алмазная проволока, P/B легирование, азот
 
 ### На 1 производственный комплекс (35 000 м²)
 
@@ -289,36 +376,22 @@ sidebar: science
 
 ### Материальный баланс куполов
 
-**Купол Точки Ноль (с Земли):**
+**Купол завода (местное производство):**
 
-| Компонент | Масса | Источник |
-| :--- | :--- | :--- |
-| Каптон/Vectran | 3.5 т | Земля |
-| Шлюз, радиаторы | 0.5 т | Земля |
-| **Итого** | **4 т** | |
+```{ojs}
+unitWidget("PRD-003")
+```
 
-**Купол заводов 2–1000 (местное производство):**
+**Детали:**
 
-| Компонент | Масса | Источник |
-| :--- | :--- | :--- |
-| Силикатная ткань | 6.0 т | Меркурий (SiO₂ местный) |
-| Алюминиевая фольга | 0.5 т | Меркурий (шлак MRE) |
-| Алюминиевая сетка (MMOD) | 1.0 т | Меркурий |
-| Шлюз, радиаторы | 0.5 т | Меркурий (сталь, NaK) |
-| **Итого** | **8 т** | **100% местное!** |
+- Силикатная ткань: 6 т (SiO₂ местный)
+- Алюминиевая фольга: 0.5 т (шлак MRE)
+- Алюминиевая сетка (MMOD): 1 т
+- Шлюз, радиаторы: 0.5 т (сталь, NaK)
 
-**Компромисс:** Купол в 2× тяжелее земного, но это **не проблема**:
-- Гравитация 0.38g — тяжесть не критична
-- Материал бесплатный (SiO₂ везде)
-- Не нужна доставка с Земли
+**Сравнение:** Земной купол (Каптон/Vectran) — 4 т. Местный в 2× тяжелее, но это не проблема при 0.38g.
 
-**Импорт с Земли (на всю программу):**
-
-| Расходник | Количество | Примечание |
-| :--- | :--- | :--- |
-| Платиновые фильеры | 100 шт | Изнашиваются через 1000 км волокна |
-| Ткацкие станки (первые) | 5 шт | Потом копируются на месте из стали |
-| **Итого на 1000 заводов** | **~10 тонн** | Вместо 4000 т полимеров! |
+**Импорт (расходники на 1000 куполов):** ~10 т — платиновые фильеры, первые ткацкие станки
 
 ### Энергопотребление производства ткани
 

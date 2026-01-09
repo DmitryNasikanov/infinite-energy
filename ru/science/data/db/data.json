@@ -382,6 +382,31 @@
         "Hexcel — aerospace CFRP",
         "SpaceX Dragon — CFRP capsule"
       ]
+    },
+    {
+      "id": "MAT-SIO2-FIBER",
+      "parent_id": "MAT-COMPOUND",
+      "name": "Силикатное волокно",
+      "symbol": "SiO₂",
+      "description": "Стекловолокно для куполов и изоляции",
+      "criticality": "high",
+      "sources": [
+        "3M Nextel — керамическое волокно",
+        "Saint-Gobain — кварцевое волокно",
+        "Owens Corning — стекловолокно"
+      ]
+    },
+    {
+      "id": "MAT-CAO",
+      "parent_id": "MAT-COMPOUND",
+      "name": "Оксид кальция",
+      "symbol": "CaO",
+      "description": "Негашёная известь, флюс для металлургии",
+      "criticality": "medium",
+      "sources": [
+        "Carmeuse — промышленная известь",
+        "Lhoist — металлургический флюс"
+      ]
     }
   ],
   "categories": [
@@ -404,6 +429,10 @@
     {
       "id": "transport",
       "name": "Транспорт/Контейнеры"
+    },
+    {
+      "id": "components",
+      "name": "Компоненты"
     }
   ],
   "units": [
@@ -1709,7 +1738,7 @@
     {
       "unit_id": "ROB-021",
       "material_id": "MAT-AL",
-      "fraction_pct": 45.0
+      "fraction_pct": 55.0
     },
     {
       "unit_id": "ROB-021",
@@ -1725,11 +1754,6 @@
       "unit_id": "ROB-021",
       "material_id": "MAT-S",
       "fraction_pct": 3.5
-    },
-    {
-      "unit_id": "ROB-021",
-      "material_id": "MAT-CU",
-      "fraction_pct": 10.0
     },
     {
       "unit_id": "ROB-021",
@@ -1913,8 +1937,9 @@
     },
     {
       "unit_id": "EQU-006",
-      "material_id": "MAT-CU",
-      "fraction_pct": 15.0
+      "material_id": "MAT-FE-MN",
+      "fraction_pct": 15.0,
+      "notes": "Стальной кристаллизатор: Tпл стали 1500°C >> Tлитья Al 700°C"
     },
     {
       "unit_id": "EQU-006",
@@ -2354,7 +2379,7 @@
     {
       "unit_id": "PRD-002",
       "material_id": "MAT-AL",
-      "fraction_pct": 15.6
+      "fraction_pct": 17.2
     },
     {
       "unit_id": "PRD-002",
@@ -2370,11 +2395,6 @@
       "unit_id": "PRD-002",
       "material_id": "MAT-SI",
       "fraction_pct": 3.2
-    },
-    {
-      "unit_id": "PRD-002",
-      "material_id": "MAT-CU",
-      "fraction_pct": 1.6
     },
     {
       "unit_id": "PRD-002",
@@ -2424,12 +2444,7 @@
     {
       "unit_id": "PRD-005",
       "material_id": "MAT-AL",
-      "fraction_pct": 45.0
-    },
-    {
-      "unit_id": "PRD-005",
-      "material_id": "MAT-CU",
-      "fraction_pct": 5.0
+      "fraction_pct": 50.0
     },
     {
       "unit_id": "PRD-006",

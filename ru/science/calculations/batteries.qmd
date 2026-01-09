@@ -1,7 +1,98 @@
 ---
 title: "Производство накопителей"
 sidebar: science
+execute:
+  echo: false
 ---
+
+```{ojs}
+//| output: false
+
+dataScript = FileAttachment("../data/db/data.json").json()
+
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  const bom = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(2) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      return { ...uc, component };
+    });
+
+  const localPct = bom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  const bomRows = bom.map(b => html`
+    <tr>
+      <td>${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}${b.material?.name || b.material_id}</td>
+      <td>${b.fraction_pct}%</td>
+      <td>${b.massKg || '—'}</td>
+      <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+    </tr>
+  `);
+
+  const componentRows = components.map(c => html`
+    <tr>
+      <td>${c.component?.name || c.component_id}</td>
+      <td>${c.quantity}</td>
+      <td>${c.component?.mass_kg ? (c.component.mass_kg * c.quantity).toLocaleString() + ' кг' : '—'}</td>
+      <td>${c.component?.description || '—'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+        ${planet ? html` | Производство: ${planet.name}` : ''}
+      </div>
+      ${components.length > 0 ? html`
+        <table>
+          <thead><tr><th>Компонент</th><th>Кол-во</th><th>Масса</th><th>Описание</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+      ${bom.length > 0 ? html`
+        <table>
+          <thead><tr><th>Материал</th><th>%</th><th>кг</th><th>Источник</th></tr></thead>
+          <tbody>${bomRows}</tbody>
+        </table>
+        <div class="summary">
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+        </div>
+      ` : ''}
+      <div class="link">
+        <a href="../data/nomenclature.html?unit=${unitId}">Подробнее →</a>
+      </div>
+    </div>
+  `;
+}
+```
 
 *Аккумуляторный цех.*
 
@@ -31,15 +122,11 @@ sidebar: science
 
 ---
 
-## Расход материалов (на 1 кВтч)
+## Состав батареи (1 кВт·ч)
 
-| Компонент | Масса |
-|-----------|-------|
-| Натрий | ~0.5 кг |
-| Сера | ~0.8 кг |
-| β-Al₂O₃ | ~0.3 кг (импорт) |
-| Корпус (сталь) | ~1.5 кг |
-| **Итого** | **~3 кг/кВтч** |
+```{ojs}
+unitWidget("CMP-012")
+```
 
 ---
 
