@@ -26,40 +26,54 @@ function unitWidget(unitId) {
 
   const planet = planetsById.get(unit.production_planet_id);
 
+  // BOM для материалов
   const bom = dataScript.unitMaterials
     .filter(um => um.unit_id === unitId)
     .map(um => {
       const material = materialsById.get(um.material_id);
       const isLocal = mercuryProduction.has(um.material_id);
       const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
-      return { ...um, material, isLocal, massKg };
+      return { ...um, material, isLocal, massKg, type: 'material' };
     });
 
+  // BOM для компонентов
   const components = dataScript.unitComponents
     .filter(uc => uc.assembly_id === unitId)
     .map(uc => {
       const component = unitsById.get(uc.component_id);
-      return { ...uc, component };
+      const massKg = component?.mass_kg ? (component.mass_kg * uc.quantity).toFixed(2) : null;
+      const fraction_pct = unit.mass_kg && massKg ?
+        (massKg / unit.mass_kg * 100).toFixed(2) : 0;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+
+      return {
+        material_id: uc.component_id,
+        material: { name: component?.name, symbol: null },
+        fraction_pct: parseFloat(fraction_pct),
+        massKg,
+        isLocal,
+        type: 'component',
+        isCritical: !isLocal  // компоненты-импорты считаем критичными
+      };
     });
 
-  const localPct = bom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
-  const importPct = bom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  // Объединяем BOM
+  const fullBom = [...bom, ...components];
 
-  const bomRows = bom.map(b => html`
+  const localPct = fullBom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = fullBom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const hasCriticalImports = fullBom.some(b => b.isCritical);
+
+  const bomRows = fullBom.map(b => html`
     <tr>
-      <td>${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}${b.material?.name || b.material_id}</td>
+      <td>
+        ${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}
+        ${b.material?.name || b.material_id}
+        ${b.isCritical ? html`<strong> (критичный)</strong>` : ''}
+      </td>
       <td>${b.fraction_pct}%</td>
       <td>${b.massKg || '—'} кг</td>
       <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
-    </tr>
-  `);
-
-  const componentRows = components.map(c => html`
-    <tr>
-      <td>${c.component?.name || c.component_id}</td>
-      <td>${c.quantity}</td>
-      <td>${c.component?.mass_kg ? (c.component.mass_kg * c.quantity).toFixed(2) + ' кг' : '—'}</td>
-      <td>${c.component?.description || '—'}</td>
     </tr>
   `);
 
@@ -71,19 +85,15 @@ function unitWidget(unitId) {
         ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
         ${planet ? html` | Производство: ${planet.name}` : ''}
       </div>
-      ${components.length > 0 ? html`
+      ${fullBom.length > 0 ? html`
         <table>
-          <thead><tr><th>Компонент</th><th>Кол-во</th><th>Масса</th><th>Описание</th></tr></thead>
-          <tbody>${componentRows}</tbody>
-        </table>
-      ` : ''}
-      ${bom.length > 0 ? html`
-        <table>
-          <thead><tr><th>Материал</th><th>%</th><th>Масса</th><th>Источник</th></tr></thead>
+          <thead><tr><th>Материал/Компонент</th><th>%</th><th>Масса</th><th>Источник</th></tr></thead>
           <tbody>${bomRows}</tbody>
         </table>
         <div class="summary">
-          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Содержит критичные импортные компоненты</strong>` : ''}
         </div>
       ` : ''}
       <div class="link">
@@ -473,7 +483,7 @@ $$
 | 135° | 33° | 96% |
 | 180° (L1 за Солнцем) | 0° | 100% |
 
-Подробные расчёты: [Геометрия отражения](calculations/geometry.qmd)
+Подробные расчёты: [Геометрия отражения](geometry.qmd)
 
 ### Итоговые метрики
 

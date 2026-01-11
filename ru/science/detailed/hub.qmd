@@ -1,7 +1,117 @@
 ---
 title: "Хаб приёма энергии"
 sidebar: science
+execute:
+  echo: false
 ---
+
+```{ojs}
+//| output: false
+
+// Загружаем данные из JSON
+dataScript = FileAttachment("data/db/data.json").json()
+
+// Материалы доступные на Луне
+moonMaterials = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "moon")
+    .map(mp => mp.material_id)
+)
+
+// Словари для быстрого поиска
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Функция для отображения виджета единицы
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // BOM для материалов
+  const bom = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = moonMaterials.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg, type: 'material' };
+    });
+
+  // BOM для компонентов
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const massKg = component?.mass_kg ? (component.mass_kg * uc.quantity).toFixed(2) : null;
+      const fraction_pct = unit.mass_kg && massKg ?
+        (massKg / unit.mass_kg * 100).toFixed(2) : 0;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+
+      return {
+        material_id: uc.component_id,
+        material: { name: component?.name, symbol: null },
+        fraction_pct: parseFloat(fraction_pct),
+        massKg,
+        isLocal,
+        type: 'component',
+        isCritical: !isLocal  // компоненты-импорты считаем критичными
+      };
+    });
+
+  // Объединяем BOM
+  const fullBom = [...bom, ...components];
+
+  // Расчёт итогов
+  const localPct = fullBom
+    .filter(b => b.isLocal)
+    .reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = fullBom
+    .filter(b => !b.isLocal)
+    .reduce((sum, b) => sum + b.fraction_pct, 0);
+  const hasCriticalImports = fullBom.some(b => b.isCritical);
+
+  const bomRows = fullBom.map(b => html`
+    <tr>
+      <td>
+        ${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}
+        ${b.material?.name || b.material_id}
+        ${b.isCritical ? html`<strong> (критичный)</strong>` : ''}
+      </td>
+      <td>${b.fraction_pct}%</td>
+      <td>${b.massKg ? (b.massKg / 1000).toLocaleString() + ' т' : '—'}</td>
+      <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${(unit.mass_kg / 1000000).toLocaleString()}</strong> тыс. т` : ''}
+        ${unit.power_kw ? html` | <strong>${(unit.power_kw / 1000).toLocaleString()}</strong> МВт` : ''}
+        ${planet ? html` | Производство: ${planet.name}` : ''}
+      </div>
+      ${fullBom.length > 0 ? html`
+        <table>
+          <thead><tr><th>Материал/Компонент</th><th>%</th><th>Масса</th><th>Источник</th></tr></thead>
+          <tbody>${bomRows}</tbody>
+        </table>
+        <div class="summary">
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Содержит критичные импортные компоненты</strong>` : ''}
+        </div>
+      ` : ''}
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Подробнее →</a>
+      </div>
+    </div>
+  `;
+}
+```
 
 > **TL;DR**
 >
@@ -236,6 +346,40 @@ LSP строится из материалов, произведённых на 
 
 ---
 
+## Компоненты системы
+
+Хаб приёма энергии состоит из трёх основных подсистем, работающих как единая инфраструктура:
+
+### Лунные станции LSP
+
+- **Количество**: 20-40 станций на лимбах Луны
+- **Площадь фотовольтаики**: ~10 км² на станцию (итого ~300 км²)
+- **Материалы**: Мультипереходные фотоэлементы из лунного кремния (Si), алюминиевые (Al) каркасы и опоры
+- **Производство**: Местное, из лунного реголита
+
+### Микроволновые передатчики
+
+- **Расположение**: На лунных станциях LSP
+- **Технология**: Клистроны с КПД 90%
+- **Функция**: Преобразование электричества в микроволны для передачи на Землю
+
+### Земные ректенны
+
+- **Количество**: ~100 станций по всему миру
+- **Размер**: ~100 км² каждая (10×10 км), итого ~10,000 км² приёмных площадей
+- **Материалы**: Дипольные массивы из меди (Cu) и алюминия (Al), кремниевые (Si) диоды-выпрямители
+- **Функция**: Приём микроволн и преобразование в постоянный ток (HVDC)
+
+### Состав всей системы
+
+```{ojs}
+unitWidget("HUB-001")
+```
+
+> **Примечание**: Массы и состав приведены для всей инфраструктуры хаба - 30 лунных станций + 100 земных ректенн. Производство ведётся преимущественно на Луне из местного реголита (Si, Al, Fe), медь также может добываться из лунных минералов.
+
+---
+
 ## КПД системы
 
 | Этап | КПД |
@@ -258,14 +402,19 @@ LSP строится из материалов, произведённых на 
 
 ## Распределение энергии
 
-Не вся энергия Роя идёт на Землю:
+Вся энергия Роя сначала принимается на лунных станциях LSP, затем распределяется:
 
-| Назначение | Мощность | % Роя |
-|------------|----------|-------|
-| **Земля** | **1 ПВт** | 5% |
-| Луна | ~0.01 ПВт | 0.05% |
-| Марс | 1-5 ПВт | 5-25% |
-| Резерв | остальное | ~75% |
+| Этап | Получатель | Мощность | % от Роя |
+|------|-----------|----------|----------|
+| **1. Прием** | **Луна (LSP)** | **~20 ПВт** | **100%** |
+| ↳ 2а. Передача | Земля (ректенны) | 1 ПВт | 5% |
+| ↳ 2б. Передача | Марс (будущее) | 1-5 ПВт | 5-25% |
+| ↳ 2в. Локальное | Луна (печи) | ~0.5 ПВт | ~2.5% |
+| ↳ 2г. Буфер | Луна (резерв) | ~13-17 ПВт | ~65-85% |
+
+**Детали использования на Луне:**
+- **Печи:** Плавка реголита в солнечных печах, электролиз MRE, производство материалов
+- **Резерв:** Батареи NaS для сглаживания пиковых нагрузок, будущее расширение производства
 
 > **Почему не всё на Землю?** 1 ПВт = 1000 ТВт — это в 50 раз больше мирового потребления (20 ТВт). Этого достаточно для полной декарбонизации, синтетического топлива и промышленного роста. Для терраформирования Марса энергия направляется напрямую к Марсу (1-5 ПВт), минуя Землю. Остальное — резерв для космической экспансии.
 
