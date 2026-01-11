@@ -1,7 +1,98 @@
 ---
 title: "Зеркала Роя"
 sidebar: science
+execute:
+  echo: false
 ---
+
+```{ojs}
+//| output: false
+
+dataScript = FileAttachment("data/db/data.json").json()
+
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  const bom = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      return { ...uc, component };
+    });
+
+  const localPct = bom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  const bomRows = bom.map(b => html`
+    <tr>
+      <td>${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}${b.material?.name || b.material_id}</td>
+      <td>${b.fraction_pct}%</td>
+      <td>${b.massKg || '—'} кг</td>
+      <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+    </tr>
+  `);
+
+  const componentRows = components.map(c => html`
+    <tr>
+      <td>${c.component?.name || c.component_id}</td>
+      <td>${c.quantity}</td>
+      <td>${c.component?.mass_kg ? (c.component.mass_kg * c.quantity).toFixed(2) + ' кг' : '—'}</td>
+      <td>${c.component?.description || '—'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+        ${planet ? html` | Производство: ${planet.name}` : ''}
+      </div>
+      ${components.length > 0 ? html`
+        <table>
+          <thead><tr><th>Компонент</th><th>Кол-во</th><th>Масса</th><th>Описание</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+      ${bom.length > 0 ? html`
+        <table>
+          <thead><tr><th>Материал</th><th>%</th><th>Масса</th><th>Источник</th></tr></thead>
+          <tbody>${bomRows}</tbody>
+        </table>
+        <div class="summary">
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+        </div>
+      ` : ''}
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Подробнее →</a>
+      </div>
+    </div>
+  `;
+}
+```
 
 Зеркала Роя Дайсона — основной элемент проекта. ~1.1 миллиарда автономных отражателей на орбите вокруг Солнца собирают и перенаправляют солнечную энергию на Землю.
 
@@ -11,17 +102,17 @@ sidebar: science
 
 ### Физические параметры
 
-| Параметр | Значение | Материал |
-|----------|----------|----------|
-| Размер | 100 × 100 м (квадрат) | — |
-| Площадь | 10 000 м² | — |
-| Фольга | 4 мкм | Алюминий |
-| Масса фольги | ~110 кг | — |
-| Грузики (4 шт по углам) | ~3 кг | Железо или базальт |
-| Тросы (4 шт к центру) | ~2 кг | Стальная проволока |
-| Электроника | ~50 г | Кремний |
-| Актуаторы (электрохромика) | ~1 кг | TiO₂ |
-| **Общая масса** | **~116 кг** | — |
+| Параметр | Значение |
+|----------|----------|
+| Размер | 100 × 100 м (квадрат) |
+| Площадь | 10 000 м² |
+| Толщина фольги | 4 мкм |
+
+### Состав материалов
+
+```{ojs}
+unitWidget("PRD-001")
+```
 
 > **Технологическая база (2025):** Промышленное производство алюминиевой фольги толщиной 4.5 мкм уже существует ([Chalco](https://www.chalcoaluminum.com/knowledge/ultra-thin-aluminum-foil-2505-lx/)). Космические паруса [LightSail 2](https://www.planetary.org/articles/what-is-solar-sailing) (4.5 мкм) и [NEA Scout](https://en.wikipedia.org/wiki/Solar_sail) (2.5 мкм) успешно работают на орбите. К 2030-м годам технологии позволят производить ещё более тонкие мембраны.
 
@@ -445,19 +536,11 @@ $$
 
 ### Анализ компонентов
 
-| Компонент | Масса | Источник | Примечание |
-|-----------|-------|----------|------------|
-| Алюминиевая фольга | 110 кг | Меркурий | Алюминий из анортозита |
-| Грузики (4 шт) | 3 кг | Меркурий | Железо или спечённый реголит |
-| Тросы (4 шт) | 2 кг | Меркурий | Стальная проволока |
-| Электрохромика (TiO₂) | ~1 кг | **Меркурий** | [Линия титана](factory.qmd#линия-титана) |
-| Чип управления | ~50 г | **Земля** | Интегрированная система (процессор + датчики) |
+```{ojs}
+unitWidget("PRD-001")
+```
 
-> **Как добывается TiO₂:** Титан (<1% в коре) извлекается из ильменита (FeTiO₃) магнитной сепарацией, затем окислительным обжигом отделяется от железа. Подробности: [Линия титана](factory.qmd#линия-титана).
-
-**Итого:**
-- **~99.9% массы** (~116 кг) — производится на Меркурии
-- **~0.1% массы** (~50 г) — импорт с Земли (чип управления)
+> **Как добывается TiO₂:** Титан (<1% в коре) извлекается из ильменита (FeTiO₃) магнитной сепарацией, затем окислительным обжигом отделяется от железа. Подробности: [Линия титана](calculations/line-titanium.qmd).
 
 ### Цепочка поставок
 

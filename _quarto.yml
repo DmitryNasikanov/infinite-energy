@@ -118,6 +118,14 @@ website:
           href: ru/science/index.qmd
         - ru/science/executive-summary.qmd
         - ru/science/comparison.qmd
+        - section: "Сводные статьи"
+          contents:
+            - ru/science/energy.qmd
+            - ru/science/moon.qmd
+            - ru/science/mercury.qmd
+            - ru/science/calculations/mars.qmd
+            - ru/science/calculations/budget.qmd
+            - ru/science/calculations/roadmap.qmd
         - section: "Детальные темы"
           contents:
             - ru/science/mirrors.qmd
@@ -144,15 +152,28 @@ website:
                 - ru/science/calculations/hydraulics.qmd
                 - ru/science/calculations/batteries.qmd
                 - ru/science/calculations/replication.qmd
-                - ru/science/factory-interior.qmd
-        - section: "Сводные статьи"
-          contents:
-            - ru/science/energy.qmd
-            - ru/science/moon.qmd
-            - ru/science/mercury.qmd
-            - ru/science/calculations/mars.qmd
-            - ru/science/calculations/budget.qmd
-            - ru/science/calculations/roadmap.qmd
+                - section: "Внутреннее устройство фабрики"
+                  contents:
+                    - text: "4. Обзор"
+                      href: ru/science/factory-interior.qmd
+                    - section: "Подготовка материалов"
+                      contents:
+                        - text: "4.1 Линия алюминия"
+                          href: ru/science/calculations/factory-line-aluminum.qmd
+                        - text: "4.2 Линия железа"
+                          href: ru/science/calculations/factory-line-iron.qmd
+                        - text: "4.3 Линия титана (PVD)"
+                          href: ru/science/calculations/factory-line-titanium.qmd
+                        - text: "4.4 Линия силиката"
+                          href: ru/science/calculations/factory-line-silicate.qmd
+                    - section: "Сборка продукции"
+                      contents:
+                        - text: "4.5 Сборка зеркал"
+                          href: ru/science/calculations/factory-assembly-mirrors.qmd
+                        - text: "4.6 Сборка роботов"
+                          href: ru/science/calculations/factory-assembly-robots.qmd
+                        - text: "4.7 Сборка куполов"
+                          href: ru/science/calculations/factory-assembly-domes.qmd
         - section: "Справочники"
           contents:
             - ru/science/risks.qmd

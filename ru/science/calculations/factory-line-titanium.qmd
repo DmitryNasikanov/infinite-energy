@@ -1,0 +1,184 @@
+---
+title: "4.3 Линия титана (PVD-обработка фольги)"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Загружаем данные из JSON
+dataScript = FileAttachment("../data/db/data.json").json()
+
+// Материалы доступные на Меркурии
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Словари для быстрого поиска
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Функция для отображения виджета единицы
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // BOM для этой единицы
+  const bom = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryMaterials.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(2) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Расчёт итогов
+  const localPct = bom
+    .filter(b => b.isLocal)
+    .reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom
+    .filter(b => !b.isLocal)
+    .reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  const bomRows = bom.map(b => html`
+    <tr>
+      <td>${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}${b.material?.name || b.material_id}</td>
+      <td>${b.fraction_pct}%</td>
+      <td>${b.massKg || '—'}</td>
+      <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ местный' : '⚠ импорт'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> кг` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> кВт` : ''}
+        ${planet ? html` | Производство: ${planet.name}` : ''}
+      </div>
+      ${bom.length > 0 ? html`
+        <table>
+          <thead>
+            <tr><th>Материал</th><th>%</th><th>кг</th><th>Источник</th></tr>
+          </thead>
+          <tbody>${bomRows}</tbody>
+        </table>
+        <div class="summary">
+          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> | <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+        </div>
+      ` : ''}
+      <div class="link">
+        <a href="../data/nomenclature.html?unit=${unitId}">Подробнее →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+## Обзор
+
+| Параметр | Значение |
+|----------|----------|
+| Вход | TiO₂ 3 т/день из [линии титана](line-titanium.qmd) + Al-фольга из [линии алюминия](factory-line-aluminum.qmd) |
+| Выход | Фольга с электрохромным покрытием (полуфабрикат для зеркал) |
+| Производительность | ~25 т фольги/день (покрытие ~0.6 т TiO₂) |
+| Технология | Вакуумное напыление (PVD) |
+
+← [Назад к обзору](../factory-interior.qmd)
+
+---
+
+## Поток материалов
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["ВХОДЫ"]
+        TI_LINE["Линия титана<br/>line-titanium"]
+        AL_LINE["Линия алюминия<br/>factory-line-aluminum"]
+        TI_LINE -->|"TiO₂ 3т/день"| PNEUMO["Пневмотранспорт"]
+        AL_LINE -->|"Фольга 50 мкм<br/>25 т/день"| ROLL["Рулоны фольги"]
+    end
+
+    subgraph PVD_ZONE["PVD-ЗОНА (вакуум)"]
+        PNEUMO --> PVD_CHAMBER["PVD-камера<br/>вакуум ~10⁻⁵ Торр"]
+        ROLL --> PVD_CHAMBER
+        PVD_CHAMBER --> COATING["Напыление TiO₂<br/>1-2 мкм"]
+    end
+
+    subgraph QC["КОНТРОЛЬ КАЧЕСТВА"]
+        COATING --> TEST["Тест отражения<br/>± напряжение"]
+        TEST --> PASS["ОТК пройден"]
+    end
+
+    subgraph OUTPUT["ПОЛУФАБРИКАТЫ"]
+        PASS --> FOIL_COATED["Фольга с покрытием<br/>~25 т/день<br/>для зеркал"]
+    end
+
+    style INPUT fill:#f0e68c
+    style PVD_ZONE fill:#e8d4ff
+    style QC fill:#fff3cd
+    style OUTPUT fill:#cce5ff
+```
+
+---
+
+## Детальное описание
+
+### Приём материалов
+
+**TiO₂ (диоксид титана)**:
+Порошок из [линии титана](line-titanium.qmd) транспортируется через пневмотранспорт в бункер PVD-камеры.
+
+**Al-фольга**:
+Рулоны фольги 50 мкм из [линии алюминия](factory-line-aluminum.qmd) подаются в PVD-камеру через систему размотки.
+
+### PVD-камера (Physical Vapor Deposition)
+
+Вакуумная камера для нанесения тонких плёнок TiO₂ на алюминиевую фольгу.
+
+**Параметры**:
+- Вакуум: ~10⁻⁵ Торр
+- Процесс: Испарение TiO₂ → осаждение на фольгу
+- Толщина слоя: 1-2 мкм
+- Масса покрытия: ~1 кг на 116 кг зеркала
+
+**Принцип электрохромики**:
+
+| Состояние | Отражательность | Эффект |
+|-----------|-----------------|--------|
+| Без напряжения | ~95% | Нормальное отражение |
+| С напряжением 2-5В | ~60-80% | Снижение отражения |
+
+**Применение**: Неравномерное давление света создаёт крутящий момент → управление ориентацией зеркала без топлива (подробнее см. [Сборка зеркал](factory-assembly-mirrors.qmd))
+
+### Контроль качества
+
+После напыления проводится тест электрохромных свойств:
+- Измерение отражательности без напряжения
+- Измерение отражательности при ± 2-5В
+- Проверка однородности покрытия
+
+---
+
+## Материальный баланс
+
+| Полуфабрикат | т/день | Назначение |
+|--------------|--------|------------|
+| Фольга с TiO₂ покрытием | ~25 | [Сборка зеркал](factory-assembly-mirrors.qmd) |
+
+---
+
+## См. также
+
+- [Линия титана (переработка)](line-titanium.qmd) - источник TiO₂
+- [Линия алюминия](factory-line-aluminum.qmd) - фольга-подложка
+- [Сборка зеркал](factory-assembly-mirrors.qmd) - использует фольгу с покрытием
