@@ -57,8 +57,8 @@ flowchart LR
         M2["1000 заводов"]
         M2a["Масс-драйверы"]
         M3["Зеркала"]
-        MC["Карбон (кратеры)"]
-        MG["Графит"]
+        MC["Карбон (кратеры)<br/><i>опционально</i>"]
+        MG["Графит<br/><i>опционально</i>"]
     end
 
     subgraph РОЙ["РОЙ"]
@@ -70,12 +70,14 @@ flowchart LR
     M2 --> M2a
     M2a --> M3
     M3 --> R1
-    MC --> MG
-    MG --> M2
+    MC -.-> MG
+    MG -.-> M2
 
     style ЗЕМЛЯ fill:#a8d4e8
     style МЕРКУРИЙ fill:#e8d4a8
     style РОЙ fill:#e8e8a8
+    style MC stroke-dasharray: 5 5
+    style MG stroke-dasharray: 5 5
 ```
 
 ### Фаза 5: Замкнутый энергетический цикл
