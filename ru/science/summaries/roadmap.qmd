@@ -15,7 +15,7 @@ sidebar: science
 
 От первых чертежей до 1000 масс-драйверов на Меркурии.
 
-Детальные расчёты: [Энергия](energy.qmd) | [Масс-драйверы](../detailed/railgun.qmd) | [Бюджет](budget.qmd)
+Детальные расчёты: [Энергия](energy.qmd) | [Масс-драйверы](../detailed/production/railguns/theory.qmd) | [Бюджет](budget.qmd)
 
 ---
 
@@ -136,61 +136,61 @@ flowchart TB
 Ключевая единица проекта — модульный завод для производства роботов и компонентов.
 
 **Структура завода:**
-- 4 производственные линии: [переработка реголита](../detailed/production-details/regolith/overview.qmd), [производство материалов](../detailed/factory/overview.qmd), сборка, энергетика
+- 4 производственные линии: [переработка реголита](../detailed/production/materials/overview.qmd), [производство материалов](../detailed/production/factories/overview.qmd), сборка, энергетика
 - Габариты: 1500 м², высота 8 м
 - Масса: ~35 т (модульная конструкция для транспортировки)
 - Производительность: 15 роботов Gen-2/месяц
 
-> **Подробнее:** [Завод «Точка Ноль»](../detailed/factory/overview.qmd), [Производство и саморепликация](../detailed/production.qmd)
+> **Подробнее:** [Завод «Точка Ноль»](../detailed/production/factories/overview.qmd), [Производство и саморепликация](../detailed/production.qmd)
 
 #### Проектирование линий обработки реголита
 
 **Линия стекловолокна:**
 - MRE электролиз → расплав силикатов → фильеры Pt-Rh → волокно 28 т/день
 - Применение: композитные купола для заводов
-- [Детали: линия стекловолокна](../detailed/production-details/regolith/fiberglass.qmd)
+- [Детали: линия стекловолокна](../detailed/production/materials/silicate-fabric.qmd)
 
 **Линия титана:**
 - Электролиз TiO₂ → PVD напыление → электрохромное покрытие для зеркал
 - Применение: управление ориентацией зеркал без топлива
-- [Детали: линия титана](../detailed/production-details/regolith/titanium.qmd)
+- [Детали: линия титана](../detailed/production/materials/titanium.qmd)
 
 **Непрерывная дистилляция шлаков:**
 - Разделение Al/Mg/Na/K при разных температурах кипения
 - Применение: получение чистых металлов для производства
-- [Детали: дистилляция](../detailed/production-details/regolith/distillation.qmd)
+- [Детали: дистилляция](../detailed/production/materials/distillation.qmd)
 
-> **Подробнее:** [Обзор переработки реголита](../detailed/production-details/regolith/overview.qmd)
+> **Подробнее:** [Обзор переработки реголита](../detailed/production/materials/overview.qmd)
 
 #### Проектирование линий производства материалов
 
 **Линия алюминия:**
 - МНЛЗ для получения фольги 50 мкм → зеркала и концентраторы
-- [Детали: линия алюминия](../detailed/factory/materials/aluminum.qmd)
+- [Детали: линия алюминия](../detailed/production/materials/distillation.qmd)
 
 **Линия железа:**
 - Получение стержней для рам роботов и конструкций МД
-- [Детали: линия железа](../detailed/factory/materials/iron.qmd)
+- [Детали: линия железа](../detailed/production/materials/mre.qmd)
 
 **Линия силиката:**
 - Ткацкий станок + ламинатор → 8-слойный композит для куполов
-- [Детали: линия силиката](../detailed/factory/materials/silicate.qmd)
+- [Детали: линия силиката](../detailed/production/materials/silicate-fabric.qmd)
 
 #### Проектирование линий сборки
 
 **Сборка зеркал:**
 - 360 зеркал/день (116 кг каждое)
 - Фольга Al 4 мкм + электрохромное покрытие TiO₂
-- [Детали: сборка зеркал](../detailed/factory/assembly/mirrors.qmd)
+- [Детали: сборка зеркал](../detailed/mirrors.qmd)
 
 **Сборка роботов Gen-2:**
 - 5 роботов/день (960 кг каждый)
 - 99% местные материалы (Al рамы + Fe узлы), 1% витамины с Земли
-- [Детали: сборка роботов](../detailed/factory/assembly/robots.qmd)
+- [Детали: сборка роботов](../detailed/production/robots/overview.qmd)
 
 **Сборка куполов:**
 - 8-слойный композит (ткань + Al-фольга) для атмосферы заводов
-- [Детали: сборка куполов](../detailed/factory/assembly/domes.qmd)
+- [Детали: сборка куполов](../detailed/production/factories/assembly/domes.qmd)
 
 #### Проектирование линии сборки оборудования завода
 
@@ -200,7 +200,7 @@ flowchart TB
 - MRE-ячейки (электролизеры) — корпус сталь/керамика, аноды иридий (импорт)
 - Солнечные печи — концентраторы Al (местное)
 - Индукционные печи дистилляции — катушки Al+Cu
-- [Детали: переработка реголита](../detailed/production-details/regolith/overview.qmd)
+- [Детали: переработка реголита](../detailed/production/materials/overview.qmd)
 
 **Линия производства материалов:**
 - МНЛЗ-Al, МНЛЗ-Fe (машины непрерывного литья) — каркас Fe, кристаллизаторы Cu (импорт)
@@ -208,9 +208,9 @@ flowchart TB
 - Волочильные станы — фильеры вольфрам (импорт)
 - Ткацкие станки — для силикатной ткани, корпус Al+Fe
 - Ламинаторы — для 8-слойного композита куполов
-- [Детали: линия алюминия](../detailed/factory/materials/aluminum.qmd)
-- [Детали: линия железа](../detailed/factory/materials/iron.qmd)
-- [Детали: линия силиката](../detailed/factory/materials/silicate.qmd)
+- [Детали: линия алюминия](../detailed/production/materials/distillation.qmd)
+- [Детали: линия железа](../detailed/production/materials/mre.qmd)
+- [Детали: линия силиката](../detailed/production/materials/silicate-fabric.qmd)
 
 **Линия сборки:**
 - PVD камеры — для напыления TiO₂ на зеркала, корпус сталь
@@ -231,7 +231,7 @@ flowchart TB
 - Вольфрамовые фильеры и фрезы (~0.1 т/год)
 - Подшипники, приводы, электроника
 
-> **Подробнее:** [Саморепликация завода](../detailed/production-details/replication.qmd)
+> **Подробнее:** [Саморепликация завода](../detailed/production/factories/assembly/replication.qmd)
 
 **Каждый завод производит ~33 т оборудования** для строительства следующего завода, обеспечивая экспоненциальный рост: 1 → 2 → 4 → 16 → 1000 заводов за ~3 года.
 
@@ -248,7 +248,7 @@ flowchart TB
 - Материалы: 99% местные (Al рамы + Fe критические узлы)
 - Критичные импорты: двигатели, сенсоры, платы управления
 
-> **Подробнее:** [Бестиарий роботов](../archive/robots.qmd)
+> **Подробнее:** [Бестиарий роботов](../detailed/production/robots/overview.qmd)
 
 #### Разработка ИИ и систем управления
 
@@ -278,7 +278,7 @@ flowchart TB
 - Катушки: Al + Cu импорт (критичный для проводимости)
 - Электроника управления: импорт с Земли
 
-> **Подробнее:** [Масс-драйвер: расчёты](../detailed/railgun.qmd)
+> **Подробнее:** [Масс-драйвер: расчёты](../detailed/production/railguns/theory.qmd)
 
 **Результат фазы:** Полная документация, симуляции, готовность к прототипированию на Земле.
 
@@ -425,7 +425,7 @@ flowchart TB
 - База данных по износу в вакууме
 - Опыт координации зеркал в космосе
 
-> **Подробнее:** [Масс-драйвер: расчёты](../detailed/railgun.qmd)
+> **Подробнее:** [Масс-драйвер: расчёты](../detailed/production/railguns/theory.qmd)
 
 #### Передача энергии на Землю (первый тест)
 
@@ -670,7 +670,7 @@ flowchart TB
 
 ### Что делаем
 - 56 роботов Gen-1 собирают модули завода
-- Блиц-монтаж за 7 дней (см. [Завод "Точка Ноль"](../detailed/factory/overview.qmd))
+- Блиц-монтаж за 7 дней (см. [Завод "Точка Ноль"](../detailed/production/factories/overview.qmd))
 
 ### Результат
 - **День 7: Завод работает!**
@@ -857,7 +857,7 @@ flowchart TB
 - Медь: для катушек МД (критично для проводимости)
 - Иридий: аноды MRE
 
-> **Подробнее:** [Производство и саморепликация](../detailed/production.qmd), [Завод «Точка Ноль»](../detailed/factory/overview.qmd)
+> **Подробнее:** [Производство и саморепликация](../detailed/production.qmd), [Завод «Точка Ноль»](../detailed/production/factories/overview.qmd)
 
 ---
 
@@ -883,7 +883,7 @@ flowchart TB
 - Масса: ~500 т (рельсы, катушки, конструкции)
 - Энергия для запуска: от местных концентраторов
 
-> **Подробнее:** [Масс-драйвер: расчёты](../detailed/railgun.qmd)
+> **Подробнее:** [Масс-драйвер: расчёты](../detailed/production/railguns/theory.qmd)
 
 ---
 
@@ -914,7 +914,7 @@ flowchart TB
 - Вышедшие из строя зеркала падают на Солнце
 - Не создают космический мусор вокруг Земли
 
-> **Подробнее:** [Зеркала Роя: конструкция](../detailed/mirrors.qmd), [Расчёты энергии](energy.qmd), [Масштабирование](../archive/scaling.qmd)
+> **Подробнее:** [Зеркала Роя: конструкция](../detailed/mirrors.qmd), [Расчёты энергии](energy.qmd), [Масштабирование](../detailed/production/railguns/scaling.qmd)
 
 ---
 
@@ -1139,6 +1139,6 @@ flowchart TB
 ## Ссылки на расчёты
 
 - [Энергетические расчёты](energy.qmd) — зеркала, КПД, потребление базы
-- [Масс-драйверы](../detailed/railgun.qmd) — конструкция, материалы, роботы
-- [Проблема масштабирования](../archive/scaling.qmd) — критика и решения
-- [Завод "Точка Ноль"](../detailed/factory/overview.qmd) — технологическая карта
+- [Масс-драйверы](../detailed/production/railguns/theory.qmd) — конструкция, материалы, роботы
+- [Проблема масштабирования](../detailed/production/railguns/scaling.qmd) — критика и решения
+- [Завод "Точка Ноль"](../detailed/production/factories/overview.qmd) — технологическая карта
