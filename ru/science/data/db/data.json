@@ -1277,6 +1277,36 @@
       "sources": []
     },
     {
+      "id": "CMP-023",
+      "category_id": "components",
+      "name": "Керамическая футеровка",
+      "description": "Труба Al₂O₃ (корунд), выдерживает 1500°C, химически инертна к расплаву",
+      "mass_kg": 30.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Morgan Advanced Materials — Al₂O₃ ceramics",
+        "CoorsTek — high-temperature ceramics"
+      ]
+    },
+    {
+      "id": "CMP-024",
+      "category_id": "components",
+      "name": "ЭВТИ",
+      "description": "Экранно-вакуумная теплоизоляция, ~20 слоёв Al фольги с вакуумом",
+      "mass_kg": 5.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Dunmore — MLI blankets",
+        "Sheldahl — aerospace insulation"
+      ]
+    },
+    {
       "id": "EQU-012",
       "category_id": "equipment",
       "name": "Электроника сенсоров",
@@ -2000,6 +2030,16 @@
       "unit_id": "EQU-022",
       "material_id": "MAT-SI",
       "fraction_pct": 10.0
+    },
+    {
+      "unit_id": "CMP-023",
+      "material_id": "MAT-AL2O3",
+      "fraction_pct": 100.0
+    },
+    {
+      "unit_id": "CMP-024",
+      "material_id": "MAT-AL",
+      "fraction_pct": 100.0
     },
     {
       "unit_id": "EQU-023",
@@ -2892,6 +2932,16 @@
     {
       "assembly_id": "EQU-005",
       "component_id": "CMP-014",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-022",
+      "component_id": "CMP-023",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-022",
+      "component_id": "CMP-024",
       "quantity": 1
     },
     {
