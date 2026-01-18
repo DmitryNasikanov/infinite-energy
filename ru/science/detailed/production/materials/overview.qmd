@@ -71,7 +71,7 @@ function unitWidget(unitId) {
   const fullBom = [...bom, ...components];
 
   const localPct = fullBom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
-  const importPct = fullBom.filter(b => !b.isLocal).reduce((sum, b => sum + b.fraction_pct, 0);
+  const importPct = fullBom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
   const hasCriticalImports = fullBom.some(b => b.isCritical);
 
   const bomRows = fullBom.map(b => html`
