@@ -1307,6 +1307,50 @@
       ]
     },
     {
+      "id": "CMP-025",
+      "category_id": "components",
+      "name": "Стальной кожух промковша",
+      "description": "Внешний корпус тандиша, сталь Fe-6%Mn",
+      "mass_kg": 700.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "SMS Group — tundish shells"
+      ]
+    },
+    {
+      "id": "CMP-026",
+      "category_id": "components",
+      "name": "Огнеупорная футеровка (магнезит)",
+      "description": "Внутренняя облицовка MgO, выдерживает 1800°C",
+      "mass_kg": 250.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Vesuvius — refractory linings",
+        "RHI Magnesita — MgO refractories"
+      ]
+    },
+    {
+      "id": "CMP-027",
+      "category_id": "components",
+      "name": "Индукционный подогреватель",
+      "description": "Поддержание температуры расплава 1550°C",
+      "mass_kg": 50.0,
+      "power_kw": 100.0,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Inductotherm — induction heating",
+        "ABB — tundish heating systems"
+      ]
+    },
+    {
       "id": "EQU-012",
       "category_id": "equipment",
       "name": "Электроника сенсоров",
@@ -2042,19 +2086,49 @@
       "fraction_pct": 100.0
     },
     {
-      "unit_id": "EQU-023",
+      "unit_id": "CMP-025",
       "material_id": "MAT-FE",
-      "fraction_pct": 70.0
+      "fraction_pct": 100.0
+    },
+    {
+      "unit_id": "CMP-026",
+      "material_id": "MAT-MGO",
+      "fraction_pct": 100.0
+    },
+    {
+      "unit_id": "CMP-027",
+      "material_id": "MAT-FE",
+      "fraction_pct": 60.0
+    },
+    {
+      "unit_id": "CMP-027",
+      "material_id": "MAT-AL",
+      "fraction_pct": 30.0
+    },
+    {
+      "unit_id": "CMP-027",
+      "material_id": "MAT-SI",
+      "fraction_pct": 10.0
     },
     {
       "unit_id": "EQU-023",
-      "material_id": "MAT-AL2O3",
+      "material_id": "MAT-FE",
+      "fraction_pct": 73.0
+    },
+    {
+      "unit_id": "EQU-023",
+      "material_id": "MAT-MGO",
       "fraction_pct": 25.0
     },
     {
       "unit_id": "EQU-023",
+      "material_id": "MAT-AL",
+      "fraction_pct": 1.5
+    },
+    {
+      "unit_id": "EQU-023",
       "material_id": "MAT-SI",
-      "fraction_pct": 5.0
+      "fraction_pct": 0.5
     },
     {
       "unit_id": "EQU-006",
@@ -2942,6 +3016,21 @@
     {
       "assembly_id": "EQU-022",
       "component_id": "CMP-024",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-023",
+      "component_id": "CMP-025",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-023",
+      "component_id": "CMP-026",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-023",
+      "component_id": "CMP-027",
       "quantity": 1
     },
     {
