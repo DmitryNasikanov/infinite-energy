@@ -131,51 +131,100 @@ website:
             - ru/science/detailed/mirrors.qmd
             - ru/science/detailed/geometry.qmd
             - ru/science/detailed/hub.qmd
+            - ru/science/detailed/energy.qmd
             - ru/science/detailed/delivery.qmd
             - ru/science/detailed/production.qmd
-            - ru/science/detailed/railgun.qmd
-            - section: "Производство: детали"
+
+            - section: "Производство"
               contents:
-                - ru/science/detailed/production-details/energy-production.qmd
+                - text: "Обзор производства"
+                  href: ru/science/detailed/production/overview.qmd
+
                 - section: "Переработка реголита"
                   contents:
                     - text: "3.1 Обзор"
-                      href: ru/science/detailed/production-details/regolith/overview.qmd
-                    - text: "3.1.1 Стекловолокно"
-                      href: ru/science/detailed/production-details/regolith/fiberglass.qmd
-                    - text: "3.1.2 Электролиз MRE"
-                      href: ru/science/detailed/production-details/regolith/mre.qmd
-                    - text: "3.1.3 Дистилляция"
-                      href: ru/science/detailed/production-details/regolith/distillation.qmd
+                      href: ru/science/detailed/production/materials/overview.qmd
+                    - text: "3.1.1 Электролиз MRE"
+                      href: ru/science/detailed/production/materials/mre.qmd
+                    - text: "3.1.2 Дистилляция шлака"
+                      href: ru/science/detailed/production/materials/distillation.qmd
+                    - text: "3.1.3 Стекловолокно"
+                      href: ru/science/detailed/production/materials/silicate-fabric.qmd
                     - text: "3.1.4 Линия титана"
-                      href: ru/science/detailed/production-details/regolith/titanium.qmd
+                      href: ru/science/detailed/production/materials/titanium.qmd
                     - text: "3.1.5 Углерод (опц.)"
-                      href: ru/science/detailed/production-details/regolith/carbon.qmd
-                - ru/science/detailed/production-details/hydraulics.qmd
-                - ru/science/detailed/production-details/batteries.qmd
-                - ru/science/detailed/production-details/replication.qmd
-                - section: "Внутреннее устройство фабрики"
+                      href: ru/science/detailed/production/materials/carbon.qmd
+                    - text: "3.1.6 Кремний"
+                      href: ru/science/detailed/production/materials/silicon.qmd
+
+                - section: "Производство заводов"
                   contents:
-                    - text: "4. Обзор"
-                      href: ru/science/detailed/factory/overview.qmd
-                    - section: "Подготовка материалов"
+                    - text: "Обзор"
+                      href: ru/science/detailed/production/factories/overview.qmd
+                    - section: "Элементы"
                       contents:
-                        - text: "4.1 Линия алюминия"
-                          href: ru/science/detailed/factory/materials/aluminum.qmd
-                        - text: "4.2 Линия железа"
-                          href: ru/science/detailed/factory/materials/iron.qmd
-                        - text: "4.3 Линия титана (PVD)"
-                          href: ru/science/detailed/factory/materials/titanium.qmd
-                        - text: "4.4 Линия силиката"
-                          href: ru/science/detailed/factory/materials/silicate.qmd
-                    - section: "Сборка продукции"
+                        - text: "Плавка"
+                          href: ru/science/detailed/production/factories/elements/melting.qmd
+                        - text: "Литье (МНЛЗ)"
+                          href: ru/science/detailed/production/factories/elements/casting.qmd
+                        - text: "Прокат"
+                          href: ru/science/detailed/production/factories/elements/rolling.qmd
+                        - text: "3D-печать (WAAM)"
+                          href: ru/science/detailed/production/factories/elements/waam.qmd
+                    - section: "Сборка"
                       contents:
-                        - text: "4.5 Сборка зеркал"
-                          href: ru/science/detailed/factory/assembly/mirrors.qmd
-                        - text: "4.6 Сборка роботов"
-                          href: ru/science/detailed/factory/assembly/robots.qmd
-                        - text: "4.7 Сборка куполов"
-                          href: ru/science/detailed/factory/assembly/domes.qmd
+                        - text: "Купола"
+                          href: ru/science/detailed/production/factories/assembly/domes.qmd
+                        - text: "Оборудование"
+                          href: ru/science/detailed/production/factories/assembly/equipment.qmd
+                        - text: "Саморепликация"
+                          href: ru/science/detailed/production/factories/assembly/replication.qmd
+
+                - section: "Масс-драйверы"
+                  contents:
+                    - text: "Производство МД"
+                      href: ru/science/detailed/production/railguns/overview.qmd
+                    - text: "Теория и КПД"
+                      href: ru/science/detailed/production/railguns/theory.qmd
+                    - text: "Масштабирование"
+                      href: ru/science/detailed/production/railguns/scaling.qmd
+                    - section: "Элементы МД"
+                      contents:
+                        - text: "Рельсы"
+                          href: ru/science/detailed/production/railguns/elements/rails.qmd
+                        - text: "Катушки"
+                          href: ru/science/detailed/production/railguns/elements/coils.qmd
+                        - text: "Каркас"
+                          href: ru/science/detailed/production/railguns/elements/frame.qmd
+                    - section: "Сборка МД"
+                      contents:
+                        - text: "Трек"
+                          href: ru/science/detailed/production/railguns/assembly/track.qmd
+                        - text: "Электроника"
+                          href: ru/science/detailed/production/railguns/assembly/electronics.qmd
+                        - text: "Тестирование"
+                          href: ru/science/detailed/production/railguns/assembly/testing.qmd
+
+                - section: "Производство роботов"
+                  contents:
+                    - text: "Обзор"
+                      href: ru/science/detailed/production/robots/overview.qmd
+                    - section: "Элементы"
+                      contents:
+                        - text: "Рамы"
+                          href: ru/science/detailed/production/robots/elements/frames.qmd
+                        - text: "Батареи (NaS)"
+                          href: ru/science/detailed/production/robots/elements/batteries.qmd
+                        - text: "Актуаторы"
+                          href: ru/science/detailed/production/robots/elements/actuators.qmd
+                    - section: "Сборка роботов"
+                      contents:
+                        - text: "Краб-М"
+                          href: ru/science/detailed/production/robots/assembly/crabs.qmd
+                        - text: "Кентавр-М"
+                          href: ru/science/detailed/production/robots/assembly/centaurs.qmd
+                        - text: "Крот-М"
+                          href: ru/science/detailed/production/robots/assembly/moles.qmd
         - section: "Справочники"
           contents:
             - ru/science/reference/risks.qmd
