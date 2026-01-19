@@ -334,6 +334,18 @@
       ]
     },
     {
+      "id": "MAT-SIC",
+      "parent_id": "MAT-COMPOUND",
+      "name": "Карбид кремния",
+      "symbol": "SiC",
+      "description": "Тугоплавкая керамика Tпл=2730°C, синтез из Si+C методом Ачесона",
+      "criticality": "low",
+      "sources": [
+        "Saint-Gobain — SiC refractories",
+        "Washington Mills — abrasives"
+      ]
+    },
+    {
       "id": "MAT-TIO2",
       "parent_id": "MAT-COMPOUND",
       "name": "Диоксид титана",
@@ -950,6 +962,21 @@
       ]
     },
     {
+      "id": "EQU-030",
+      "category_id": "equipment",
+      "name": "Скиммер шлака",
+      "description": "Механический съём корки Al/Mg, автоцикл 30 мин, черпак SiC",
+      "mass_kg": 70.0,
+      "power_kw": 2.0,
+      "parent_id": "FAC-001",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Industrial slag skimmers",
+        "Acheson process for SiC synthesis"
+      ]
+    },
+    {
       "id": "EQU-001",
       "category_id": "equipment",
       "name": "Масс-драйвер",
@@ -1348,6 +1375,62 @@
       "sources": [
         "Inductotherm — induction heating",
         "ABB — tundish heating systems"
+      ]
+    },
+    {
+      "id": "CMP-028",
+      "category_id": "components",
+      "name": "Черпак SiC",
+      "description": "Тугоплавкий черпак из карбида кремния для контакта с расплавом",
+      "mass_kg": 8.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Saint-Gobain — SiC components"
+      ]
+    },
+    {
+      "id": "CMP-029",
+      "category_id": "components",
+      "name": "Рычаг скиммера",
+      "description": "Штанга из стали Fe-6%Mn для крепления черпака",
+      "mass_kg": 20.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "Industrial manipulators"
+      ]
+    },
+    {
+      "id": "CMP-030",
+      "category_id": "components",
+      "name": "Привод гидравлический",
+      "description": "NaK гидравлика для подъёма/опускания черпака",
+      "mass_kg": 12.0,
+      "power_kw": 2.0,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "NaK hydraulic systems"
+      ]
+    },
+    {
+      "id": "CMP-031",
+      "category_id": "components",
+      "name": "Накопитель керамический",
+      "description": "Приёмный ковш Al₂O₃ для сбора шлака",
+      "mass_kg": 30.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": false,
+      "production_planet_id": "mercury",
+      "sources": [
+        "CoorsTek — alumina containers"
       ]
     },
     {
@@ -2109,6 +2192,41 @@
       "unit_id": "CMP-027",
       "material_id": "MAT-SI",
       "fraction_pct": 10.0
+    },
+    {
+      "unit_id": "CMP-028",
+      "material_id": "MAT-SIC",
+      "fraction_pct": 100.0
+    },
+    {
+      "unit_id": "CMP-029",
+      "material_id": "MAT-FE",
+      "fraction_pct": 100.0
+    },
+    {
+      "unit_id": "CMP-030",
+      "material_id": "MAT-FE",
+      "fraction_pct": 50.0
+    },
+    {
+      "unit_id": "CMP-030",
+      "material_id": "MAT-AL",
+      "fraction_pct": 40.0
+    },
+    {
+      "unit_id": "CMP-030",
+      "material_id": "MAT-NA",
+      "fraction_pct": 5.0
+    },
+    {
+      "unit_id": "CMP-030",
+      "material_id": "MAT-K",
+      "fraction_pct": 5.0
+    },
+    {
+      "unit_id": "CMP-031",
+      "material_id": "MAT-AL2O3",
+      "fraction_pct": 100.0
     },
     {
       "unit_id": "EQU-023",
@@ -3034,6 +3152,26 @@
       "quantity": 1
     },
     {
+      "assembly_id": "EQU-030",
+      "component_id": "CMP-028",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-030",
+      "component_id": "CMP-029",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-030",
+      "component_id": "CMP-030",
+      "quantity": 1
+    },
+    {
+      "assembly_id": "EQU-030",
+      "component_id": "CMP-031",
+      "quantity": 1
+    },
+    {
       "assembly_id": "FAC-001",
       "component_id": "EQU-004",
       "quantity": 3
@@ -3127,6 +3265,11 @@
       "assembly_id": "FAC-001",
       "component_id": "EQU-001",
       "quantity": 1
+    },
+    {
+      "assembly_id": "FAC-001",
+      "component_id": "EQU-030",
+      "quantity": 2
     },
     {
       "assembly_id": "FAC-002",
@@ -3279,6 +3422,11 @@
       "material_id": "MAT-CAO",
       "planet_id": "mercury",
       "requires": "MRE"
+    },
+    {
+      "material_id": "MAT-SIC",
+      "planet_id": "mercury",
+      "requires": "печь Ачесона (Si + C)"
     }
   ]
 }
