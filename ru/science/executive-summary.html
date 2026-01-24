@@ -72,6 +72,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
 <style>
 .content { max-width: 900px; }
 p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
@@ -79,9 +87,36 @@ h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
 p:has(img), .quarto-figure, .figure { text-indent: 0; }
 p:has(> strong:first-child) { text-indent: 0; }
 p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
 </style>
 
 
+<link rel="stylesheet" href="../../ru/science/data/widgets.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -90,11 +125,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Проект Гелиос</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -103,7 +133,7 @@ p:has(> em:first-child) { text-indent: 0; }
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../ru/index.html"> 
-<span class="menu-text">Главная</span></a>
+<span class="menu-text">Проект Гелиос</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../ru/book/index.html"> 
@@ -120,12 +150,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../"> 
+    <a class="nav-link" href="../../ru/index.html"> 
 <span class="menu-text">RU</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../en/"> 
-<span class="menu-text">EN</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -162,16 +188,10 @@ p:has(> em:first-child) { text-indent: 0; }
  <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Почему Меркурий?</span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Детальные темы</span></a>
+ <span class="menu-text">Сводные статьи</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -179,125 +199,37 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/mirrors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Зеркала Роя</span></a>
+  <a href="../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/hub.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/delivery.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/production.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Производство: детали</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/energy-production.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергетика производства</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/regolith-processing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Переработка реголита</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/carbon-extraction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Добыча углерода</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/hydraulics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Гидравлика и жидкости</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/batteries.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство накопителей</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/replication.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Саморепликация</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/factory-interior.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Внутреннее устройство фабрики</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Сводные статьи</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/energy.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Энергобаланс</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/moon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/mercury.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Меркурий</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/mars.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/budget.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Бюджет проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/roadmap.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
   </div>
 </li>
@@ -305,82 +237,413 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Справочники</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/risks.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Геометрия отражения</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Энергосистема Меркурия</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Навигация</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/glossary.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологическая зрелость</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Глоссарий терминов</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/data/constants.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/data/sources.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Библиография</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Архив (миграция)</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/physics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Физика и инженерия проекта</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/robots.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Бестиарий роботов</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/factory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Завод «Точка Ноль»</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Расчёты энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/railgun.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масс-драйверы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/calculations/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование производства</span></a>
+  <a href="../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
   </div>
 </li>
       </ul>
@@ -397,28 +660,28 @@ p:has(> em:first-child) { text-indent: 0; }
   <ul>
   <li><a href="#идея" id="toc-идея" class="nav-link active" data-scroll-target="#идея">Идея</a></li>
   <li><a href="#общая-схема-проекта" id="toc-общая-схема-проекта" class="nav-link" data-scroll-target="#общая-схема-проекта">Общая схема проекта</a></li>
-  <li><a href="#земля-подготовка" id="toc-земля-подготовка" class="nav-link" data-scroll-target="#земля-подготовка">1. Земля: подготовка</a></li>
-  <li><a href="#луна-полигон-и-lsp" id="toc-луна-полигон-и-lsp" class="nav-link" data-scroll-target="#луна-полигон-и-lsp">2. Луна: полигон и LSP</a>
+  <li><a href="#масштаб-и-бюджет" id="toc-масштаб-и-бюджет" class="nav-link" data-scroll-target="#масштаб-и-бюджет">Масштаб и бюджет</a>
   <ul class="collapse">
-  <li><a href="#полигон-годы-4-6" id="toc-полигон-годы-4-6" class="nav-link" data-scroll-target="#полигон-годы-4-6">Полигон (годы 4-6)</a></li>
-  <li><a href="#тестовый-масс-драйвер" id="toc-тестовый-масс-драйвер" class="nav-link" data-scroll-target="#тестовый-масс-драйвер">Тестовый масс-драйвер</a></li>
-  <li><a href="#lsp-станции-lunar-solar-power" id="toc-lsp-станции-lunar-solar-power" class="nav-link" data-scroll-target="#lsp-станции-lunar-solar-power">LSP станции (Lunar Solar Power)</a></li>
+  <li><a href="#масштаб" id="toc-масштаб" class="nav-link" data-scroll-target="#масштаб">Масштаб</a></li>
+  <li><a href="#бюджет-с-lsp-инфраструктурой" id="toc-бюджет-с-lsp-инфраструктурой" class="nav-link" data-scroll-target="#бюджет-с-lsp-инфраструктурой">Бюджет (с LSP инфраструктурой)</a></li>
   </ul></li>
-  <li><a href="#меркурий-производство" id="toc-меркурий-производство" class="nav-link" data-scroll-target="#меркурий-производство">3. Меркурий: производство</a>
+  <li><a href="#технологическая-зрелость" id="toc-технологическая-зрелость" class="nav-link" data-scroll-target="#технологическая-зрелость">Технологическая зрелость</a></li>
+  <li><a href="#земля-подготовка" id="toc-земля-подготовка" class="nav-link" data-scroll-target="#земля-подготовка">Земля: подготовка</a></li>
+  <li><a href="#луна-полигон" id="toc-луна-полигон" class="nav-link" data-scroll-target="#луна-полигон">Луна: полигон</a>
+  <ul class="collapse">
+  <li><a href="#отработка-технологий-годы-4-6" id="toc-отработка-технологий-годы-4-6" class="nav-link" data-scroll-target="#отработка-технологий-годы-4-6">Отработка технологий (годы 4-6)</a></li>
+  <li><a href="#тестовый-масс-драйвер" id="toc-тестовый-масс-драйвер" class="nav-link" data-scroll-target="#тестовый-масс-драйвер">Тестовый масс-драйвер</a></li>
+  </ul></li>
+  <li><a href="#меркурий-производство" id="toc-меркурий-производство" class="nav-link" data-scroll-target="#меркурий-производство">Меркурий: производство</a>
   <ul class="collapse">
   <li><a href="#цепочка-производства" id="toc-цепочка-производства" class="nav-link" data-scroll-target="#цепочка-производства">Цепочка производства</a></li>
   <li><a href="#саморепликация" id="toc-саморепликация" class="nav-link" data-scroll-target="#саморепликация">Саморепликация</a></li>
   </ul></li>
-  <li><a href="#рой-дайсона-сбор-энергии" id="toc-рой-дайсона-сбор-энергии" class="nav-link" data-scroll-target="#рой-дайсона-сбор-энергии">4. Рой Дайсона: сбор энергии</a></li>
-  <li><a href="#lsp-приём-и-передача-энергии" id="toc-lsp-приём-и-передача-энергии" class="nav-link" data-scroll-target="#lsp-приём-и-передача-энергии">5. LSP: приём и передача энергии</a>
+  <li><a href="#рой-дайсона-зеркала" id="toc-рой-дайсона-зеркала" class="nav-link" data-scroll-target="#рой-дайсона-зеркала">Рой Дайсона: зеркала</a></li>
+  <li><a href="#энергия-на-землю-lsp-rectenna" id="toc-энергия-на-землю-lsp-rectenna" class="nav-link" data-scroll-target="#энергия-на-землю-lsp-rectenna">Энергия на Землю: LSP + Rectenna</a>
   <ul class="collapse">
-  <li><a href="#функции" id="toc-функции" class="nav-link" data-scroll-target="#функции">Функции</a></li>
+  <li><a href="#lsp-станции-lunar-solar-power" id="toc-lsp-станции-lunar-solar-power" class="nav-link" data-scroll-target="#lsp-станции-lunar-solar-power">LSP станции (Lunar Solar Power)</a></li>
   <li><a href="#rectenna-на-земле" id="toc-rectenna-на-земле" class="nav-link" data-scroll-target="#rectenna-на-земле">Rectenna на Земле</a></li>
-  </ul></li>
-  <li><a href="#масштаб-и-бюджет" id="toc-масштаб-и-бюджет" class="nav-link" data-scroll-target="#масштаб-и-бюджет">Масштаб и бюджет</a>
-  <ul class="collapse">
-  <li><a href="#масштаб" id="toc-масштаб" class="nav-link" data-scroll-target="#масштаб">Масштаб</a></li>
-  <li><a href="#бюджет-с-орбитальной-инфраструктурой" id="toc-бюджет-с-орбитальной-инфраструктурой" class="nav-link" data-scroll-target="#бюджет-с-орбитальной-инфраструктурой">Бюджет (с орбитальной инфраструктурой)</a></li>
   </ul></li>
   <li><a href="#риски" id="toc-риски" class="nav-link" data-scroll-target="#риски">Риски</a></li>
   <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
@@ -449,7 +712,27 @@ p:has(> em:first-child) { text-indent: 0; }
 
 <section id="идея" class="level2">
 <h2 class="anchored" data-anchor-id="идея">Идея</h2>
-<p>Построить <strong>Рой Дайсона</strong> — ~1.1 миллиарда зеркал вокруг Солнца, производящих <strong>~100 петаватт</strong> отражённой энергии (до ~21 петаватт на Земле; текущие расчёты: <strong>1 ПВт</strong> = 50× мирового потребления, КПД 18%).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Статус документа
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Данный документ — <strong>концептуальный дизайн</strong> (feasibility study). Цель — доказать принципиальную осуществимость проекта и определить критический путь реализации.</p>
+<p>Все приведённые расчёты являются <strong>оценками порядка величин</strong>. Для перехода к реализации потребуется:</p>
+<ul>
+<li>Детальная инженерная проработка каждой подсистемы</li>
+<li>Работа научно-исследовательских институтов и конструкторских бюро</li>
+<li>Прототипирование и натурные испытания</li>
+</ul>
+<p>Именно для этого первые годы проекта (1-4) полностью посвящены <strong>НИОКР</strong> — научно-исследовательским и опытно-конструкторским работам.</p>
+</div>
+</div>
+<p>Построить <strong>Рой Дайсона</strong> — ~1.1 миллиарда зеркал вокруг Солнца, производящих <strong>~100 петаватт</strong> отражённой энергии. Первый этап: <strong>1 ПВт на Земле</strong> (50× мирового потребления). Полный потенциал при масштабировании LSP: до ~21 ПВт (КПД передачи 18%).</p>
 <p><strong>Какие проблемы можно решить:</strong></p>
 <ul>
 <li>🌍 <strong>Глобальное потепление</strong> — замена ископаемого топлива + улавливание CO₂ + орбитальное охлаждение</li>
@@ -459,7 +742,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <li>🔴 <strong>Терраформирование Марса</strong> — магнитный щит для удержания атмосферы + нагрев + производство кислорода</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/physics.html">Физика проекта</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/comparison.html">Почему Меркурий?</a>, <a href="../../ru/science/detailed/production.html">Производство</a>, <a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a></p>
 </blockquote>
 <hr>
 </section>
@@ -512,19 +795,19 @@ p:has(> em:first-child) { text-indent: 0; }
     style РОЙ fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,color:#FF6F00
     style КОСМОС fill:none,stroke:none
 
-    click E1 "calculations/roadmap.html" "Дорожная карта"
-    click E2 "robots.html" "Бестиарий роботов"
-    click E3 "calculations/roadmap.html" "Дорожная карта"
-    click E4 "hub.html" "Хаб приёма энергии"
-    click L1 "calculations/roadmap.html" "Дорожная карта"
-    click L2 "hub.html" "LSP станции"
-    click L4 "calculations/railgun.html" "Масс-драйвер"
-    click M1 "production.html" "Производство и саморепликация"
-    click M2 "production.html" "Производство и саморепликация"
-    click M3 "calculations/railgun.html" "Масс-драйвер"
-    click M4 "mirrors.html" "Зеркала Роя"
-    click R1 "mirrors.html" "Зеркала Роя"
-    click S1 "mirrors.html" "Утилизация зеркал"
+    click E1 "summaries/roadmap.html" "Дорожная карта"
+    click E2 "detailed/production/robots/overview.html" "Бестиарий роботов"
+    click E3 "summaries/roadmap.html" "Дорожная карта"
+    click E4 "detailed/hub.html" "Хаб приёма энергии"
+    click L1 "summaries/roadmap.html" "Дорожная карта"
+    click L2 "detailed/hub.html" "LSP станции"
+    click L4 "detailed/production/railguns/overview.html" "Масс-драйвер"
+    click M1 "detailed/production.html" "Производство и саморепликация"
+    click M2 "detailed/production.html" "Производство и саморепликация"
+    click M3 "detailed/production/railguns/overview.html" "Масс-драйвер"
+    click M4 "detailed/mirrors.html" "Зеркала Роя"
+    click R1 "detailed/mirrors.html" "Зеркала Роя"
+    click S1 "detailed/mirrors.html" "Утилизация зеркал"
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -534,27 +817,148 @@ p:has(> em:first-child) { text-indent: 0; }
 <p><strong>Читать диаграмму:</strong> сверху вниз по времени. Земля → Луна → Меркурий + Рой.</p>
 <hr>
 </section>
-<section id="земля-подготовка" class="level2">
-<h2 class="anchored" data-anchor-id="земля-подготовка">1. Земля: подготовка</h2>
-<p>Всё начинается на Земле.</p>
-<p><strong>НИОКР (годы 1-2):</strong> - Разработка роботов, заводов и систем ИИ - Прототипы зеркал и масс-драйверов - Прототипы заводов и схема саморепликации - Планирование работы на Луне и Меркурии - Разработка лазерных приёмников</p>
-<p><strong>Полигон на Земле (годы 3-6):</strong> - Тестовый завод в условиях, близких к Меркурию (пустыня) - Отработка роботов Gen-1 в экстремальных условиях - Первый масс-драйвер (горизонтальные тесты)</p>
-<p><strong>Производство:</strong> - Роботы Gen-1 для <a href="../../ru/science/delivery.html">доставки</a> на Луну и Меркурий - Электроника — «витамины» для всего проекта</p>
-<p><strong>Ракеты-носители:</strong> - ~900 пусков за 4 года - Грузоподъёмность: ~50 т до Меркурия - Ракетная отрасль развивается органически (спутники, лунные программы)</p>
+<section id="масштаб-и-бюджет" class="level2">
+<h2 class="anchored" data-anchor-id="масштаб-и-бюджет">Масштаб и бюджет</h2>
+<section id="масштаб" class="level3">
+<h3 class="anchored" data-anchor-id="масштаб">Масштаб</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Зеркал</td>
+<td><strong>~1.1 млрд</strong></td>
+</tr>
+<tr class="even">
+<td>Площадь зеркал</td>
+<td>1.1×10¹³ м² (~11 000 км²)</td>
+</tr>
+<tr class="odd">
+<td>Масса Роя</td>
+<td>~128 млн тонн</td>
+</tr>
+<tr class="even">
+<td>Заводов на Меркурии</td>
+<td>~1 650 (1 500 Ф-З + 150 Ф-Р)</td>
+</tr>
+<tr class="odd">
+<td>Масс-драйверов на Меркурии</td>
+<td>~1 000</td>
+</tr>
+<tr class="even">
+<td>Импорт с Земли</td>
+<td>~100 тыс. тонн (за весь проект)</td>
+</tr>
+<tr class="odd">
+<td>Сроки строительства</td>
+<td><strong>~9.5 лет</strong> (деградация учтена)</td>
+</tr>
+<tr class="even">
+<td>Мощность на Земле</td>
+<td><strong>1 ПВт</strong> (первый этап) / до 21 ПВт (полный)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Фазы:</strong> - НИОКР (годы 1-2) - Земной полигон (годы 2-4) - Луна (годы 4-10) - Меркурий (годы 6-18)</p>
+</section>
+<section id="бюджет-с-lsp-инфраструктурой" class="level3">
+<h3 class="anchored" data-anchor-id="бюджет-с-lsp-инфраструктурой">Бюджет (с LSP инфраструктурой)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Бюджет (USD 2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Оптимистичный</td>
+<td>$350-440 млрд</td>
+</tr>
+<tr class="even">
+<td>Базовый</td>
+<td>$570-710 млрд</td>
+</tr>
+<tr class="odd">
+<td>Консервативный</td>
+<td>$750-930 млрд</td>
+</tr>
+</tbody>
+</table>
+<p>Для сравнения: МКС — $150 млрд, Apollo — $280 млрд.</p>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/calculations/roadmap.html">Дорожная карта</a>, <a href="../../ru/science/calculations/budget.html">Бюджет</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/budget.html">Бюджет проекта</a></p>
 </blockquote>
 <hr>
 </section>
-<section id="луна-полигон-и-lsp" class="level2">
-<h2 class="anchored" data-anchor-id="луна-полигон-и-lsp">2. Луна: полигон и LSP</h2>
+</section>
+<section id="технологическая-зрелость" class="level2">
+<h2 class="anchored" data-anchor-id="технологическая-зрелость">Технологическая зрелость</h2>
+<p>Все ключевые технологии проекта уже существуют и демонстрируются:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Технология</th>
+<th>Статус (2025)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Электромагнитный пуск</td>
+<td>Китай: 700 км/ч за 2 сек (Dec 2025)</td>
+</tr>
+<tr class="even">
+<td>Автономные заводы</td>
+<td>FANUC, Xiaomi: 24/7 без людей</td>
+</tr>
+<tr class="odd">
+<td>Роботы-шахтёры</td>
+<td>Rio Tinto: 690+ грузовиков</td>
+</tr>
+<tr class="even">
+<td>MRE электролиз</td>
+<td>NASA TRL 5/6, Blue Origin</td>
+</tr>
+<tr class="odd">
+<td>Передача энергии (СВЧ)</td>
+<td>Caltech: из космоса на Землю (2023)</td>
+</tr>
+<tr class="even">
+<td>Солнечные паруса</td>
+<td>IKAROS: электрохромика в космосе</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Подробнее:</strong> <a href="../../ru/science/reference/trl.html">Технологическая зрелость</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="земля-подготовка" class="level2">
+<h2 class="anchored" data-anchor-id="земля-подготовка">Земля: подготовка</h2>
+<p>Всё начинается на Земле.</p>
+<p><strong>НИОКР (годы 1-2):</strong> - Разработка роботов, заводов и систем ИИ - Прототипы зеркал и масс-драйверов - Прототипы заводов и схема саморепликации - Планирование работы на Луне и Меркурии - Разработка лазерных приёмников</p>
+<p><strong>Полигон на Земле (годы 3-6):</strong> - Тестовый завод в условиях, близких к Меркурию (пустыня) - Отработка роботов Gen-1 в экстремальных условиях - Первый масс-драйвер (горизонтальные тесты)</p>
+<p><strong>Производство:</strong> - Роботы Gen-1 для <a href="../../ru/science/detailed/delivery.html">доставки</a> на Луну и Меркурий - Электроника — «витамины» для всего проекта</p>
+<p><strong>Ракеты-носители:</strong> - ~900 пусков за 4 года - Грузоподъёмность: ~50 т до Меркурия - Ракетная отрасль развивается органически (спутники, лунные программы)</p>
+<blockquote class="blockquote">
+<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a>, <a href="../../ru/science/summaries/budget.html">Бюджет</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="луна-полигон" class="level2">
+<h2 class="anchored" data-anchor-id="луна-полигон">Луна: полигон</h2>
 <p>Луна — ключевой этап между Землёй и Меркурием.</p>
-<section id="полигон-годы-4-6" class="level3">
-<h3 class="anchored" data-anchor-id="полигон-годы-4-6">Полигон (годы 4-6)</h3>
+<section id="отработка-технологий-годы-4-6" class="level3">
+<h3 class="anchored" data-anchor-id="отработка-технологий-годы-4-6">Отработка технологий (годы 4-6)</h3>
 <ul>
-<li>Отработка всех технологий в космосе</li>
 <li>Роботы учатся добывать, плавить, строить</li>
 <li>Ошибки дешевле: связь 1.3 сек (vs 8-20 мин), доставка 3 дня (vs месяцы)</li>
+<li>Опыт переносится на Меркурий</li>
 </ul>
 </section>
 <section id="тестовый-масс-драйвер" class="level3">
@@ -586,25 +990,15 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-</section>
-<section id="lsp-станции-lunar-solar-power" class="level3">
-<h3 class="anchored" data-anchor-id="lsp-станции-lunar-solar-power">LSP станции (Lunar Solar Power)</h3>
-<p>Вместо орбитального Хаба — <strong>станции на поверхности Луны</strong>:</p>
-<ul>
-<li>20-40 станций на восточном и западном лимбах</li>
-<li>Приём света от Роя → PV → микроволны → Земля</li>
-<li>КПД 18% (vs 10% у орбитального Хаба)</li>
-<li>Тепло уходит в грунт — не нужны радиаторы в космосе</li>
-</ul>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/hub.html">Хаб приёма энергии</a>, <a href="../../ru/science/moon.html">Луна</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/moon.html">Луна</a>, <a href="../../ru/science/detailed/production/railguns/theory.html">Масс-драйвер</a></p>
 </blockquote>
 <hr>
 </section>
 </section>
 <section id="меркурий-производство" class="level2">
-<h2 class="anchored" data-anchor-id="меркурий-производство">3. Меркурий: производство</h2>
-<p>Основной завод проекта. <a href="../../ru/science/comparison.html">Почему Меркурий, а не Луна?</a></p>
+<h2 class="anchored" data-anchor-id="меркурий-производство">Меркурий: производство</h2>
+<p>Основной завод проекта. <a href="../../ru/science/summaries/comparison.html">Почему Меркурий, а не Луна?</a></p>
 <ul>
 <li><strong>Энергия:</strong> солнечный поток 10 кВт/м² — в 7× больше, чем на Луне</li>
 <li><strong>Ресурсы:</strong> металлическое ядро планеты — богатейшее месторождение железа и алюминия в Солнечной системе</li>
@@ -612,7 +1006,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <li><strong>Утилизация:</strong> вышедшие из строя зеркала падают на Солнце — не создают космический мусор</li>
 </ul>
 <section id="цепочка-производства" class="level3">
-<h3 class="anchored" data-anchor-id="цепочка-производства"><a href="../../ru/science/production.html">Цепочка производства</a></h3>
+<h3 class="anchored" data-anchor-id="цепочка-производства"><a href="../../ru/science/detailed/production.html">Цепочка производства</a></h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -644,27 +1038,30 @@ p:has(> em:first-child) { text-indent: 0; }
 <li><strong>Энергия:</strong> 168 МВт (3 рейса панелей GaAs) — bootstrap без ожидания Роя</li>
 <li><strong>Критический путь:</strong> Первый МД (~1 месяц) → первые зеркала → масштабирование</li>
 </ul>
-<p>За <strong>~9.5 лет:</strong> 1 завод → 1 000 заводов → 1.1 млрд работающих зеркал (деградация уже учтена)</p>
+<p>За <strong>~9.5 лет:</strong> 1 завод → ~1 650 заводов (1 500 Ф-З + 150 Ф-Р) → 1.1 млрд работающих зеркал (деградация уже учтена)</p>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/factory.html">Завод “Точка Ноль”</a>, <a href="../../ru/science/robots.html">Бестиарий роботов</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/detailed/production/factories/overview.html">Завод “Точка Ноль”</a>, <a href="../../ru/science/detailed/production/robots/overview.html">Бестиарий роботов</a></p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="рой-дайсона-сбор-энергии" class="level2">
-<h2 class="anchored" data-anchor-id="рой-дайсона-сбор-энергии">4. Рой Дайсона: сбор энергии</h2>
-<p>~1 миллиард <a href="../../ru/science/mirrors.html">зеркал</a> на гелиоцентрических орбитах.</p>
+<section id="рой-дайсона-зеркала" class="level2">
+<h2 class="anchored" data-anchor-id="рой-дайсона-зеркала">Рой Дайсона: зеркала</h2>
+<p>~1 миллиард <a href="../../ru/science/detailed/mirrors.html">зеркал</a> на гелиоцентрических орбитах.</p>
 <p><strong>Каждое зеркало:</strong> - Размер: 100 × 100 м - Материал: алюминиевая фольга 4 мкм - Масса: ~116 кг - Мощность на Земле: ~19 МВт (при КПД 18%)</p>
-<p><strong>Организация:</strong> - Зеркала объединены в кластеры по 1 000-10 000 штук - Каждый кластер — виртуальная антенна ~100 км - Кластеры фокусируют свет на Станцию-Хаб</p>
-<p><strong>После запуска первых зеркал:</strong> - Часть энергии → <a href="../../ru/science/calculations/energy.html#потери-на-пути-к-земле">Земля</a> (через Хаб) - Часть энергии → Луна (для продолжения строительства) - Часть энергии → Меркурий (для заводов и масс-драйверов)</p>
+<p><strong>Организация:</strong> - Зеркала объединены в кластеры по 1 000-10 000 штук - Каждый кластер — виртуальная антенна ~100 км - Кластеры фокусируют свет на LSP-станции (Луна)</p>
+<p><strong>После запуска первых зеркал:</strong> - Часть энергии → <a href="../../ru/science/summaries/energy.html">Земля</a> (через LSP) - Часть энергии → Луна (для продолжения строительства) - Часть энергии → Меркурий (для заводов и масс-драйверов)</p>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/calculations/energy.html">Расчёты энергии</a>, <a href="../../ru/science/calculations/scaling.html">Масштабирование</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/energy.html">Расчёты энергии</a>, <a href="../../ru/science/detailed/mirrors.html">Зеркала Роя</a></p>
 </blockquote>
 <hr>
 </section>
-<section id="lsp-приём-и-передача-энергии" class="level2">
-<h2 class="anchored" data-anchor-id="lsp-приём-и-передача-энергии">5. LSP: приём и передача энергии</h2>
-<p>Вместо орбитальной станции — <strong>сеть из 20-40 LSP станций на поверхности Луны</strong>.</p>
+<section id="энергия-на-землю-lsp-rectenna" class="level2">
+<h2 class="anchored" data-anchor-id="энергия-на-землю-lsp-rectenna">Энергия на Землю: LSP + Rectenna</h2>
+<p>Последнее звено цепочки: свет Роя → электричество на Земле.</p>
+<section id="lsp-станции-lunar-solar-power" class="level3">
+<h3 class="anchored" data-anchor-id="lsp-станции-lunar-solar-power">LSP станции (Lunar Solar Power)</h3>
+<p><strong>Сеть из 20-40 станций на поверхности Луны</strong> (вместо орбитального хаба):</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -691,13 +1088,13 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<section id="функции" class="level3">
-<h3 class="anchored" data-anchor-id="функции">Функции</h3>
+<p><strong>Как работает:</strong></p>
 <ol type="1">
 <li><strong>Приём</strong> — концентрированный свет от Роя на PV-панели</li>
 <li><strong>Преобразование</strong> — свет → электричество → микроволны</li>
 <li><strong>Передача</strong> — микроволновый луч на rectenna на Земле</li>
 </ol>
+<p><strong>Преимущества LSP:</strong> - Тепло уходит в грунт — не нужны радиаторы в космосе - КПД 18% (vs 10% у орбитального хаба) - Строится из лунных ресурсов</p>
 </section>
 <section id="rectenna-на-земле" class="level3">
 <h3 class="anchored" data-anchor-id="rectenna-на-земле">Rectenna на Земле</h3>
@@ -750,90 +1147,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </table>
 <p>Микроволны проходят через облака — работа в любую погоду.</p>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/hub.html">Хаб приёма энергии</a></p>
-</blockquote>
-<hr>
-</section>
-</section>
-<section id="масштаб-и-бюджет" class="level2">
-<h2 class="anchored" data-anchor-id="масштаб-и-бюджет">Масштаб и бюджет</h2>
-<section id="масштаб" class="level3">
-<h3 class="anchored" data-anchor-id="масштаб">Масштаб</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Зеркал</td>
-<td><strong>~1.1 млрд</strong></td>
-</tr>
-<tr class="even">
-<td>Площадь зеркал</td>
-<td>1.1×10¹³ м² (~11 000 км²)</td>
-</tr>
-<tr class="odd">
-<td>Масса Роя</td>
-<td>~128 млн тонн</td>
-</tr>
-<tr class="even">
-<td>Заводов на Меркурии</td>
-<td>~1 000</td>
-</tr>
-<tr class="odd">
-<td>Масс-драйверов на Меркурии</td>
-<td>~1 100</td>
-</tr>
-<tr class="even">
-<td>Фабрик чипов на Луне</td>
-<td>до 10</td>
-</tr>
-<tr class="odd">
-<td>Импорт с Земли</td>
-<td>~100 тыс. тонн (за весь проект)</td>
-</tr>
-<tr class="even">
-<td>Сроки строительства</td>
-<td><strong>~9.5 лет</strong> (деградация учтена)</td>
-</tr>
-<tr class="odd">
-<td>Мощность на Земле</td>
-<td><strong>~21 петаватт</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Фазы:</strong> - НИОКР (годы 1-2) - Земной полигон (годы 2-4) - Луна + фабрика чипов (годы 4-10) - Меркурий (годы 6-18)</p>
-</section>
-<section id="бюджет-с-орбитальной-инфраструктурой" class="level3">
-<h3 class="anchored" data-anchor-id="бюджет-с-орбитальной-инфраструктурой">Бюджет (с орбитальной инфраструктурой)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Сценарий</th>
-<th>Бюджет (USD 2024)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Оптимистичный</td>
-<td>$350-400 млрд</td>
-</tr>
-<tr class="even">
-<td>Базовый</td>
-<td>$550-650 млрд</td>
-</tr>
-<tr class="odd">
-<td>Консервативный</td>
-<td>$800-1000 млрд</td>
-</tr>
-</tbody>
-</table>
-<p>Для сравнения: МКС — $150 млрд, Apollo — $280 млрд.</p>
-<blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/calculations/budget.html">Бюджет проекта</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/detailed/hub.html">Хаб приёма энергии</a></p>
 </blockquote>
 <hr>
 </section>
@@ -846,25 +1160,24 @@ p:has(> em:first-child) { text-indent: 0; }
 <li><strong>Производство на Меркурии:</strong> саморепликация заводов — сложная автономная система</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/risks.html">Риски и ограничения</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/reference/risks.html">Риски и ограничения</a></p>
 </blockquote>
-<hr>
 <hr>
 </section>
 <section id="см.-также" class="level2">
 <h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
 <ul>
-<li><a href="../../ru/science/physics.html">Физика проекта</a> — детальное описание технологий</li>
-<li><a href="../../ru/science/comparison.html">Почему Меркурий?</a> — сравнение с Марсом и Луной</li>
-<li><a href="../../ru/science/mirrors.html">Зеркала Роя</a> — конструкция и производство зеркал</li>
-<li><a href="../../ru/science/hub.html">Хаб приёма энергии</a> — LSP станции и передача на Землю</li>
-<li><a href="../../ru/science/delivery.html">Доставка</a> — логистика Земля → Луна → Меркурий</li>
-<li><a href="../../ru/science/production.html">Производство</a> — от добычи до готовых компонентов</li>
-<li><a href="../../ru/science/factory.html">Завод «Точка Ноль»</a> — как работает саморепликация</li>
-<li><a href="../../ru/science/robots.html">Бестиарий роботов</a> — кто строит проект</li>
-<li><a href="../../ru/science/calculations/energy.html">Расчёты энергии</a> — энергетика зеркал и энергомоста</li>
-<li><a href="../../ru/science/calculations/roadmap.html">Дорожная карта</a> — хронология проекта</li>
-<li><a href="../../ru/science/glossary.html">Глоссарий</a> — термины</li>
+<li><a href="../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение с Марсом и Луной</li>
+<li><a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a> — хронология проекта</li>
+<li><a href="../../ru/science/detailed/production.html">Производство</a> — полный цикл производства</li>
+<li><a href="../../ru/science/detailed/mirrors.html">Зеркала Роя</a> — конструкция и производство зеркал</li>
+<li><a href="../../ru/science/detailed/hub.html">Хаб приёма энергии</a> — LSP станции и передача на Землю</li>
+<li><a href="../../ru/science/detailed/production/factories/overview.html">Завод «Точка Ноль»</a> — как работает саморепликация</li>
+<li><a href="../../ru/science/detailed/production/robots/overview.html">Бестиарий роботов</a> — кто строит проект</li>
+<li><a href="../../ru/science/detailed/delivery.html">Доставка</a> — логистика Земля → Луна → Меркурий</li>
+<li><a href="../../ru/science/summaries/energy.html">Расчёты энергии</a> — энергетика зеркал и энергомоста</li>
+<li><a href="../../ru/science/summaries/budget.html">Бюджет проекта</a> — экономика проекта</li>
+<li><a href="../../ru/science/reference/glossary.html">Глоссарий</a> — термины</li>
 </ul>
 
 

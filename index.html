@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Project Helios / Проект Гелиос – Проект Гелиос</title>
+<title>Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,6 +68,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
 <style>
 .content { max-width: 900px; }
 p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
@@ -75,9 +83,36 @@ h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
 p:has(img), .quarto-figure, .figure { text-indent: 0; }
 p:has(> strong:first-child) { text-indent: 0; }
 p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
 </style>
 
 
+<link rel="stylesheet" href="ru/science/data/widgets.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -86,11 +121,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Проект Гелиос</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -99,7 +129,7 @@ p:has(> em:first-child) { text-indent: 0; }
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./ru/index.html"> 
-<span class="menu-text">Главная</span></a>
+<span class="menu-text">Проект Гелиос</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./ru/book/index.html"> 
@@ -116,12 +146,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./"> 
+    <a class="nav-link" href="./ru/index.html"> 
 <span class="menu-text">RU</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./en/"> 
-<span class="menu-text">EN</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -131,14 +157,18 @@ p:has(> em:first-child) { text-indent: 0; }
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project Helios / Проект Гелиос</h1>
+<h1 class="title">Проект Гелиос</h1>
 </div>
 
 
@@ -155,22 +185,11 @@ p:has(> em:first-child) { text-indent: 0; }
 </header>
 
 
-<div class="hero-section" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 2rem;">
-<section id="choose-your-language" class="level1">
-<h1>Choose Your Language</h1>
-</section>
-<section id="выберите-язык" class="level1">
-<h1>Выберите язык</h1>
-<div class="cta-buttons" style="display: flex; gap: 2rem; justify-content: center; margin-top: 3rem; flex-wrap: wrap;">
-<p><a href="./ru/index.html" class="btn btn-primary" style="padding: 1.5rem 3rem; font-size: 1.3rem; min-width: 250px;">🇷🇺 Читать на русском</a></p>
-<p><a href="./en/index.html" class="btn btn-secondary" style="padding: 1.5rem 3rem; font-size: 1.3rem; min-width: 250px;">🇬🇧 Read in English</a></p>
-</div>
-</section>
-</div>
+<meta http-equiv="refresh" content="0; url=ru/">
 
 
 
-
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

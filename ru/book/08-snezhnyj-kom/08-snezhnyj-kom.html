@@ -68,6 +68,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
 <style>
 .content { max-width: 900px; }
 p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
@@ -75,9 +83,36 @@ h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
 p:has(img), .quarto-figure, .figure { text-indent: 0; }
 p:has(> strong:first-child) { text-indent: 0; }
 p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
 </style>
 
 
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -86,11 +121,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../index.html">
-    <span class="navbar-title">Проект Гелиос</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -99,7 +129,7 @@ p:has(> em:first-child) { text-indent: 0; }
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">Главная</span></a>
+<span class="menu-text">Проект Гелиос</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../../../ru/book/index.html" aria-current="page"> 
@@ -116,12 +146,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../"> 
+    <a class="nav-link" href="../../../ru/index.html"> 
 <span class="menu-text">RU</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../en/"> 
-<span class="menu-text">EN</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->

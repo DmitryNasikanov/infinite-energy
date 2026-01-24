@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Энергосистема Меркурия – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="module" src="../../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+</style>
+
+
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">RU</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/detailed/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../ru/science/detailed/energy.html">Энергосистема Меркурия</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Энергобаланс</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Терраформирование Марса</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Геометрия отражения</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Энергосистема Меркурия</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Навигация</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологическая зрелость</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Библиография</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#обзор-энергосистемы" id="toc-обзор-энергосистемы" class="nav-link active" data-scroll-target="#обзор-энергосистемы">Обзор энергосистемы</a></li>
+  <li><a href="#раздел-1-энергия-для-производства" id="toc-раздел-1-энергия-для-производства" class="nav-link" data-scroll-target="#раздел-1-энергия-для-производства">Раздел 1: Энергия для производства</a>
+  <ul class="collapse">
+  <li><a href="#физика-меркурия-solar-boost" id="toc-физика-меркурия-solar-boost" class="nav-link" data-scroll-target="#физика-меркурия-solar-boost">Физика Меркурия (Solar Boost)</a></li>
+  <li><a href="#зеркала-концентраторы" id="toc-зеркала-концентраторы" class="nav-link" data-scroll-target="#зеркала-концентраторы">Зеркала-концентраторы</a></li>
+  <li><a href="#гелио-башни-power-towers" id="toc-гелио-башни-power-towers" class="nav-link" data-scroll-target="#гелио-башни-power-towers">Гелио-Башни (Power Towers)</a></li>
+  <li><a href="#криогенная-лэп" id="toc-криогенная-лэп" class="nav-link" data-scroll-target="#криогенная-лэп">Криогенная ЛЭП</a></li>
+  <li><a href="#производство-солнечных-панелей" id="toc-производство-солнечных-панелей" class="nav-link" data-scroll-target="#производство-солнечных-панелей">Производство солнечных панелей</a>
+  <ul class="collapse">
+  <li><a href="#почему-кремний-а-не-gaas" id="toc-почему-кремний-а-не-gaas" class="nav-link" data-scroll-target="#почему-кремний-а-не-gaas">Почему кремний, а не GaAs</a></li>
+  <li><a href="#энергопотребление-1-комплекса" id="toc-энергопотребление-1-комплекса" class="nav-link" data-scroll-target="#энергопотребление-1-комплекса">Энергопотребление 1 комплекса</a></li>
+  <li><a href="#параметры-кремниевых-панелей" id="toc-параметры-кремниевых-панелей" class="nav-link" data-scroll-target="#параметры-кремниевых-панелей">Параметры кремниевых панелей</a></li>
+  <li><a href="#алюмотермическое-восстановление-кремния" id="toc-алюмотермическое-восстановление-кремния" class="nav-link" data-scroll-target="#алюмотермическое-восстановление-кремния">Алюмотермическое восстановление кремния</a></li>
+  <li><a href="#производственная-цепочка" id="toc-производственная-цепочка" class="nav-link" data-scroll-target="#производственная-цепочка">Производственная цепочка</a></li>
+  <li><a href="#материальный-баланс" id="toc-материальный-баланс" class="nav-link" data-scroll-target="#материальный-баланс">Материальный баланс</a></li>
+  <li><a href="#на-1-производственный-комплекс-35-000-м²" id="toc-на-1-производственный-комплекс-35-000-м²" class="nav-link" data-scroll-target="#на-1-производственный-комплекс-35-000-м²">На 1 производственный комплекс (35 000 м²)</a></li>
+  <li><a href="#энергетический-баланс" id="toc-энергетический-баланс" class="nav-link" data-scroll-target="#энергетический-баланс">Энергетический баланс</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#раздел-2-энергия-для-масс-драйверов" id="toc-раздел-2-энергия-для-масс-драйверов" class="nav-link" data-scroll-target="#раздел-2-энергия-для-масс-драйверов">Раздел 2: Энергия для масс-драйверов</a>
+  <ul class="collapse">
+  <li><a href="#энергопотребление-масс-драйверов" id="toc-энергопотребление-масс-драйверов" class="nav-link" data-scroll-target="#энергопотребление-масс-драйверов">Энергопотребление масс-драйверов</a>
+  <ul class="collapse">
+  <li><a href="#на-один-запуск" id="toc-на-один-запуск" class="nav-link" data-scroll-target="#на-один-запуск">На один запуск</a></li>
+  <li><a href="#средняя-мощность-1-масс-драйвер" id="toc-средняя-мощность-1-масс-драйвер" class="nav-link" data-scroll-target="#средняя-мощность-1-масс-драйвер">Средняя мощность (1 масс-драйвер)</a></li>
+  <li><a href="#пиковая-мощность" id="toc-пиковая-мощность" class="nav-link" data-scroll-target="#пиковая-мощность">Пиковая мощность</a></li>
+  </ul></li>
+  <li><a href="#конденсаторные-батареи" id="toc-конденсаторные-батареи" class="nav-link" data-scroll-target="#конденсаторные-батареи">Конденсаторные батареи</a></li>
+  <li><a href="#распределение-мощности-по-катушкам" id="toc-распределение-мощности-по-катушкам" class="nav-link" data-scroll-target="#распределение-мощности-по-катушкам">Распределение мощности по катушкам</a></li>
+  <li><a href="#охлаждение-систем-мд-40-мвт-тепла" id="toc-охлаждение-систем-мд-40-мвт-тепла" class="nav-link" data-scroll-target="#охлаждение-систем-мд-40-мвт-тепла">Охлаждение систем МД (40 МВт тепла)</a>
+  <ul class="collapse">
+  <li><a href="#проблема-тепловыделения" id="toc-проблема-тепловыделения" class="nav-link" data-scroll-target="#проблема-тепловыделения">Проблема тепловыделения</a></li>
+  <li><a href="#решение-nak-охлаждение-радиаторы" id="toc-решение-nak-охлаждение-радиаторы" class="nav-link" data-scroll-target="#решение-nak-охлаждение-радиаторы">Решение: NaK-охлаждение + радиаторы</a></li>
+  <li><a href="#криоалюминий" id="toc-криоалюминий" class="nav-link" data-scroll-target="#криоалюминий">Криоалюминий</a></li>
+  </ul></li>
+  <li><a href="#материальный-баланс-энергетические-компоненты-мд" id="toc-материальный-баланс-энергетические-компоненты-мд" class="nav-link" data-scroll-target="#материальный-баланс-энергетические-компоненты-мд">Материальный баланс (энергетические компоненты МД)</a></li>
+  <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/detailed/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../ru/science/detailed/energy.html">Энергосистема Меркурия</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Энергосистема Меркурия</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell hidden">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="11" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 10;"><span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>dataScript <span class="op">=</span> <span class="fu">FileAttachment</span>(<span class="st">"../data/db/data.json"</span>)<span class="op">.</span><span class="fu">json</span>()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>mercuryProduction <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  dataScript<span class="op">.</span><span class="at">materialProduction</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(mp <span class="kw">=&gt;</span> mp<span class="op">.</span><span class="at">planet_id</span> <span class="op">===</span> <span class="st">"mercury"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(mp <span class="kw">=&gt;</span> mp<span class="op">.</span><span class="at">material_id</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>materialsById <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(dataScript<span class="op">.</span><span class="at">materials</span><span class="op">.</span><span class="fu">map</span>(m <span class="kw">=&gt;</span> [m<span class="op">.</span><span class="at">id</span><span class="op">,</span> m]))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>unitsById <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(dataScript<span class="op">.</span><span class="at">units</span><span class="op">.</span><span class="fu">map</span>(u <span class="kw">=&gt;</span> [u<span class="op">.</span><span class="at">id</span><span class="op">,</span> u]))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>planetsById <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(dataScript<span class="op">.</span><span class="at">planets</span><span class="op">.</span><span class="fu">map</span>(p <span class="kw">=&gt;</span> [p<span class="op">.</span><span class="at">id</span><span class="op">,</span> p]))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Функция для получения материалов компонента</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getComponentMaterials</span>(componentId) {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dataScript<span class="op">.</span><span class="at">unitMaterials</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(um <span class="kw">=&gt;</span> um<span class="op">.</span><span class="at">unit_id</span> <span class="op">===</span> componentId)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(um <span class="kw">=&gt;</span> {</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> material <span class="op">=</span> materialsById<span class="op">.</span><span class="fu">get</span>(um<span class="op">.</span><span class="at">material_id</span>)<span class="op">;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">symbol</span><span class="op">:</span> material<span class="op">?.</span><span class="at">symbol</span><span class="op">,</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">name</span><span class="op">:</span> material<span class="op">?.</span><span class="at">name</span> <span class="op">||</span> um<span class="op">.</span><span class="at">material_id</span><span class="op">,</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fraction_pct</span><span class="op">:</span> um<span class="op">.</span><span class="at">fraction_pct</span><span class="op">,</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">isLocal</span><span class="op">:</span> mercuryProduction<span class="op">.</span><span class="fu">has</span>(um<span class="op">.</span><span class="at">material_id</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">// Функция для отображения виджета единицы</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">unitWidget</span>(unitId) {</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> unit <span class="op">=</span> unitsById<span class="op">.</span><span class="fu">get</span>(unitId)<span class="op">;</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>unit) <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div class="db-widget"&gt;Единица </span><span class="sc">${</span>unitId<span class="sc">}</span><span class="vs"> не найдена&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> planet <span class="op">=</span> planetsById<span class="op">.</span><span class="fu">get</span>(unit<span class="op">.</span><span class="at">production_planet_id</span>)<span class="op">;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Материалы базового юнита</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> materials <span class="op">=</span> dataScript<span class="op">.</span><span class="at">unitMaterials</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(um <span class="kw">=&gt;</span> um<span class="op">.</span><span class="at">unit_id</span> <span class="op">===</span> unitId)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(um <span class="kw">=&gt;</span> {</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> material <span class="op">=</span> materialsById<span class="op">.</span><span class="fu">get</span>(um<span class="op">.</span><span class="at">material_id</span>)<span class="op">;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> isLocal <span class="op">=</span> mercuryProduction<span class="op">.</span><span class="fu">has</span>(um<span class="op">.</span><span class="at">material_id</span>)<span class="op">;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> massKg <span class="op">=</span> unit<span class="op">.</span><span class="at">mass_kg</span> <span class="op">?</span> (unit<span class="op">.</span><span class="at">mass_kg</span> <span class="op">*</span> um<span class="op">.</span><span class="at">fraction_pct</span> <span class="op">/</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>) <span class="op">:</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> { <span class="op">...</span>um<span class="op">,</span> material<span class="op">,</span> isLocal<span class="op">,</span> massKg }<span class="op">;</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Компоненты (подсборки)</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> components <span class="op">=</span> dataScript<span class="op">.</span><span class="at">unitComponents</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(uc <span class="kw">=&gt;</span> uc<span class="op">.</span><span class="at">assembly_id</span> <span class="op">===</span> unitId)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(uc <span class="kw">=&gt;</span> {</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> component <span class="op">=</span> unitsById<span class="op">.</span><span class="fu">get</span>(uc<span class="op">.</span><span class="at">component_id</span>)<span class="op">;</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> totalMassKg <span class="op">=</span> component<span class="op">?.</span><span class="at">mass_kg</span> <span class="op">?</span> (component<span class="op">.</span><span class="at">mass_kg</span> <span class="op">*</span> uc<span class="op">.</span><span class="at">quantity</span>) <span class="op">:</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> isLocal <span class="op">=</span> component<span class="op">?.</span><span class="at">production_planet_id</span> <span class="op">===</span> unit<span class="op">.</span><span class="at">production_planet_id</span><span class="op">;</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> componentMaterials <span class="op">=</span> <span class="fu">getComponentMaterials</span>(uc<span class="op">.</span><span class="at">component_id</span>)<span class="op">;</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>        <span class="dt">id</span><span class="op">:</span> uc<span class="op">.</span><span class="at">component_id</span><span class="op">,</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>        <span class="dt">name</span><span class="op">:</span> component<span class="op">?.</span><span class="at">name</span> <span class="op">||</span> uc<span class="op">.</span><span class="at">component_id</span><span class="op">,</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>        <span class="dt">quantity</span><span class="op">:</span> uc<span class="op">.</span><span class="at">quantity</span><span class="op">,</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>        <span class="dt">massKg</span><span class="op">:</span> totalMassKg<span class="op">,</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>        isLocal<span class="op">,</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>        <span class="dt">materials</span><span class="op">:</span> componentMaterials</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Итого считаем ТОЛЬКО по материалам (не компонентам!)</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> localPct <span class="op">=</span> materials<span class="op">.</span><span class="fu">filter</span>(m <span class="kw">=&gt;</span> m<span class="op">.</span><span class="at">isLocal</span>)<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> m) <span class="kw">=&gt;</span> sum <span class="op">+</span> m<span class="op">.</span><span class="at">fraction_pct</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> importPct <span class="op">=</span> materials<span class="op">.</span><span class="fu">filter</span>(m <span class="kw">=&gt;</span> <span class="op">!</span>m<span class="op">.</span><span class="at">isLocal</span>)<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> m) <span class="kw">=&gt;</span> sum <span class="op">+</span> m<span class="op">.</span><span class="at">fraction_pct</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> hasCriticalImports <span class="op">=</span> components<span class="op">.</span><span class="fu">some</span>(c <span class="kw">=&gt;</span> <span class="op">!</span>c<span class="op">.</span><span class="at">isLocal</span>)<span class="op">;</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Строки таблицы компонентов</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> componentRows <span class="op">=</span> components<span class="op">.</span><span class="fu">map</span>(c <span class="kw">=&gt;</span> <span class="fu">html</span><span class="vs">`</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr class="component-row"&gt;</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;strong&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs">&lt;/strong&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">quantity</span> <span class="op">&gt;</span> <span class="dv">1</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">` ×</span><span class="sc">${</span>c<span class="op">.</span><span class="at">quantity</span><span class="sc">}</span><span class="vs">`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="component-materials"&gt;</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>c<span class="op">.</span><span class="at">materials</span><span class="op">.</span><span class="fu">map</span>(m <span class="kw">=&gt;</span> <span class="fu">html</span><span class="vs">`&lt;span class="</span><span class="sc">${</span>m<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'local'</span> <span class="op">:</span> <span class="st">'import'</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">symbol</span> <span class="op">||</span> m<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>m<span class="op">.</span><span class="at">fraction_pct</span><span class="sc">}</span><span class="vs">%&lt;/span&gt;`</span>)<span class="sc">}</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/td&gt;</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">massKg</span> <span class="op">?</span> c<span class="op">.</span><span class="at">massKg</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>) <span class="op">:</span> <span class="st">'—'</span><span class="sc">}</span><span class="vs"> кг&lt;/td&gt;</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td class="</span><span class="sc">${</span>c<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'local'</span> <span class="op">:</span> <span class="st">'import'</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'✓'</span> <span class="op">:</span> <span class="st">'⚠ импорт'</span><span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span>)<span class="op">;</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Строки таблицы материалов</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> materialRows <span class="op">=</span> materials<span class="op">.</span><span class="fu">map</span>(m <span class="kw">=&gt;</span> <span class="fu">html</span><span class="vs">`</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>m<span class="op">.</span><span class="at">material</span><span class="op">?.</span><span class="at">symbol</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;strong&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">material</span><span class="op">.</span><span class="at">symbol</span><span class="sc">}</span><span class="vs">&lt;/strong&gt; `</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>m<span class="op">.</span><span class="at">material</span><span class="op">?.</span><span class="at">name</span> <span class="op">||</span> m<span class="op">.</span><span class="at">material_id</span><span class="sc">}</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/td&gt;</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">fraction_pct</span><span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">massKg</span> <span class="op">||</span> <span class="st">'—'</span><span class="sc">}</span><span class="vs"> кг&lt;/td&gt;</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td class="</span><span class="sc">${</span>m<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'local'</span> <span class="op">:</span> <span class="st">'import'</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'✓ местный'</span> <span class="op">:</span> <span class="st">'⚠ импорт'</span><span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span>)<span class="op">;</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;div class="db-widget"&gt;</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;h4&gt;</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> &lt;span style="color: #6c757d; font-weight: normal;"&gt;(</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">id</span><span class="sc">}</span><span class="vs">)&lt;/span&gt;&lt;/h4&gt;</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class="meta"&gt;</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>unit<span class="op">.</span><span class="at">mass_kg</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;strong&gt;</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">mass_kg</span><span class="op">.</span><span class="fu">toLocaleString</span>()<span class="sc">}</span><span class="vs">&lt;/strong&gt; кг`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>unit<span class="op">.</span><span class="at">power_kw</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">` | &lt;strong&gt;</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">power_kw</span><span class="op">.</span><span class="fu">toLocaleString</span>()<span class="sc">}</span><span class="vs">&lt;/strong&gt; кВт`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>planet <span class="op">?</span> <span class="fu">html</span><span class="vs">` | Производство: </span><span class="sc">${</span>planet<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs">`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span>components<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="section-header"&gt;Компоненты&lt;/div&gt;</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;table class="components-table"&gt;</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Компонент&lt;/th&gt;&lt;th&gt;Масса&lt;/th&gt;&lt;th&gt;Источник&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;tbody&gt;</span><span class="sc">${</span>componentRows<span class="sc">}</span><span class="vs">&lt;/tbody&gt;</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/table&gt;</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="vs">      `</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span>materials<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`</span></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="section-header"&gt;Материалы&lt;/div&gt;</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;table class="materials-table"&gt;</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Материал&lt;/th&gt;&lt;th&gt;%&lt;/th&gt;&lt;th&gt;Масса&lt;/th&gt;&lt;th&gt;Источник&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;tbody&gt;</span><span class="sc">${</span>materialRows<span class="sc">}</span><span class="vs">&lt;/tbody&gt;</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/table&gt;</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="summary"&gt;</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="vs">          Итого: &lt;span class="local-pct"&gt;</span><span class="sc">${</span>localPct<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">% местное&lt;/span&gt; |</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;span class="import-pct"&gt;</span><span class="sc">${</span>importPct<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">% импорт&lt;/span&gt;</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>hasCriticalImports <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;br/&gt;&lt;strong&gt;⚠ Содержит импортные компоненты&lt;/strong&gt;`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="vs">      `</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class="link"&gt;</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;a href="data/nomenclature.html?unit=</span><span class="sc">${</span>unitId<span class="sc">}</span><span class="vs">"&gt;Подробнее →&lt;/a&gt;</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">;</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<p>Энергосистема Меркурия состоит из двух независимых подсистем:</p>
+<p><strong>Раздел 1: Энергия для производства</strong> - <strong>Solar Boost:</strong> 9-14 кВт/м² (vs 1.3 кВт/м² на Земле) - <strong>Power Towers:</strong> GaAs ячейки с NaK охлаждением - <strong>Крио-ЛЭП:</strong> Алюминий при -150°C — сопротивление в 10× ниже - <strong>Кремниевые панели:</strong> Алюмотермия (100% местное производство)</p>
+<p><strong>Раздел 2: Энергия для масс-драйверов</strong> - <strong>Пиковая мощность:</strong> 400 МВт во время запуска - <strong>Средняя мощность:</strong> 33 МВт на 1 МД (600 запусков/сутки) - <strong>Конденсаторы:</strong> Накопление энергии между запусками - <strong>Охлаждение:</strong> 40 МВт тепла через NaK + радиаторы</p>
+</blockquote>
+<hr>
+<section id="обзор-энергосистемы" class="level2">
+<h2 class="anchored" data-anchor-id="обзор-энергосистемы">Обзор энергосистемы</h2>
+<p>Энергетическая инфраструктура Меркурия решает две принципиально разные задачи:</p>
+<ol type="1">
+<li><strong>Непрерывное энергоснабжение производства</strong> — заводы, печи, конвейеры (50-55 МВт на комплекс)</li>
+<li><strong>Импульсное питание масс-драйверов</strong> — пиковые нагрузки 400 МВт, средние 33 МВт</li>
+</ol>
+<p>Системы разделены, так как имеют разные режимы работы и требования.</p>
+<hr>
+</section>
+<section id="раздел-1-энергия-для-производства" class="level1">
+<h1>Раздел 1: Энергия для производства</h1>
+<p><em>Генерация. Без этого этапа завод — груда металла.</em></p>
+<section id="физика-меркурия-solar-boost" class="level2">
+<h2 class="anchored" data-anchor-id="физика-меркурия-solar-boost">Физика Меркурия (Solar Boost)</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Локация</th>
+<th style="text-align: left;">Солнечный поток</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Орбита Земли</td>
+<td style="text-align: left;">1.3 кВт/м²</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Меркурий</td>
+<td style="text-align: left;">9–14 кВт/м²</td>
+</tr>
+</tbody>
+</table>
+<p>Меркурий получает в <strong>7-11 раз</strong> больше солнечной энергии, чем Земля. Это фундаментальное преимущество для солнечной энергетики.</p>
+<hr>
+</section>
+<section id="зеркала-концентраторы" class="level2">
+<h2 class="anchored" data-anchor-id="зеркала-концентраторы">Зеркала-концентраторы</h2>
+<p>Все зеркала для первой фабрики доставлены с Земли в сложенном виде.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Материал</td>
+<td style="text-align: left;">Сверхлёгкая полимерная плёнка (Каптон) с алюминиевым напылением</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Вес</td>
+<td style="text-align: left;">50 г/м²</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Общий вес комплекта</td>
+<td style="text-align: left;">&lt; 1 тонны</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Конструкция</td>
+<td style="text-align: left;">Разворачиваются на углепластиковых спицах (как зонтики)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Назначение</td>
+<td style="text-align: left;">Выработка тока (на башнях) + плавка металла (в печах)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="гелио-башни-power-towers" class="level2">
+<h2 class="anchored" data-anchor-id="гелио-башни-power-towers">Гелио-Башни (Power Towers)</h2>
+<p>Устанавливаются роботами-альпинистами на «Пиках вечного света» (края кратера).</p>
+<p><strong>Принцип:</strong> Зеркала фокусируют свет на фотоэлементах.</p>
+<p><strong>Фотоячейки:</strong> - Тип: многопереходные на арсениде галлия (GaAs) - Свойства: дорогие, но живучие</p>
+<p><strong>Охлаждение (радиационное):</strong> - В вакууме конвекции нет - Грунт использовать нельзя (изолятор) - Внутри мачты циркулирует жидкий NaK, забирая тепло от раскалённых ячеек - Жидкость течёт на теневую сторону башни в радиатор - Радиатор «светит» в сторону холодного космоса (3K) или тёмного дна кратера (−150°C), сбрасывая тепло излучением</p>
+<hr>
+</section>
+<section id="криогенная-лэп" class="level2">
+<h2 class="anchored" data-anchor-id="криогенная-лэп">Криогенная ЛЭП</h2>
+<p>Энергию нужно спустить с горы (где свет и +400°C) вниз, в кратер (где завод и −150°C).</p>
+<ul>
+<li>Кабель прокладывается по теневой стороне склона</li>
+<li>При −150°C сопротивление алюминия падает в ~10 раз (эффект криорезистивности)</li>
+<li>Потери на передачу: 3-5% вместо 15-20% при комнатной температуре</li>
+<li>Можно использовать кабели меньшего сечения при той же пропускной способности</li>
+</ul>
+<p><strong>Примечание:</strong> Алюминий не является сверхпроводником ни при какой температуре. Но криогенные температуры Меркурия (~120 K в тени) снижают омическое сопротивление достаточно для эффективной передачи энергии на расстояние 1-2 км.</p>
+<hr>
+</section>
+<section id="производство-солнечных-панелей" class="level2">
+<h2 class="anchored" data-anchor-id="производство-солнечных-панелей">Производство солнечных панелей</h2>
+<p><em>Энергетическая независимость. Местное производство фотоэлементов.</em></p>
+<p>Первый завод использует GaAs ячейки с Земли. Но для масштабирования нужно <strong>местное производство</strong> кремниевых панелей.</p>
+<section id="почему-кремний-а-не-gaas" class="level3">
+<h3 class="anchored" data-anchor-id="почему-кремний-а-не-gaas">Почему кремний, а не GaAs</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">GaAs</th>
+<th style="text-align: left;">Кремний</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">КПД</td>
+<td style="text-align: left;">30-40%</td>
+<td style="text-align: left;">18-22%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Сырьё</td>
+<td style="text-align: left;">Галлий + Мышьяк (дефицит)</td>
+<td style="text-align: left;"><strong>20% коры Меркурия</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Производство</td>
+<td style="text-align: left;">Эпитаксия, чистые комнаты</td>
+<td style="text-align: left;">Проще, технологии 90-х</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Вердикт</td>
+<td style="text-align: left;">Первый завод</td>
+<td style="text-align: left;"><strong>Масштабирование</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="энергопотребление-1-комплекса" class="level3">
+<h3 class="anchored" data-anchor-id="энергопотребление-1-комплекса">Энергопотребление 1 комплекса</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Потребитель</th>
+<th style="text-align: left;">Мощность</th>
+<th style="text-align: left;">Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Масс-драйвер (средняя)</td>
+<td style="text-align: left;">33 МВт</td>
+<td style="text-align: left;">600 запусков/день × 4.8 ГДж</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Солнечные печи (плавка)</td>
+<td style="text-align: left;">10 МВт</td>
+<td style="text-align: left;">Концентраторы</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Производство зеркал</td>
+<td style="text-align: left;">5 МВт</td>
+<td style="text-align: left;">Прокатка, сварка, упаковка</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Роботы (~50 шт × 5 кВт)</td>
+<td style="text-align: left;">0.3 МВт</td>
+<td style="text-align: left;">Батарейные</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Системы управления и связь</td>
+<td style="text-align: left;">2 МВт</td>
+<td style="text-align: left;">ИТ-инфраструктура</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ИТОГО</strong></td>
+<td style="text-align: left;"><strong>~50 МВт</strong></td>
+<td style="text-align: left;">С запасом округляем до 55 МВт</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Примечание:</strong> Расчёт по <a href="../../../ru/science/detailed/production/railguns/scaling.html#энергобаланс-комплекса">Масс-драйверам</a>. Значение 55 МВт включает запас 10% на пиковые нагрузки и потери.</p>
+</section>
+<section id="параметры-кремниевых-панелей" class="level3">
+<h3 class="anchored" data-anchor-id="параметры-кремниевых-панелей">Параметры кремниевых панелей</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Солнечный поток на Меркурии</td>
+<td style="text-align: left;">10 кВт/м² (среднее по орбите)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">КПД кремниевых ячеек</td>
+<td style="text-align: left;">18%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Выход с 1 м²</td>
+<td style="text-align: left;">10 × 0.18 = <strong>1.8 кВт/м²</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Площадь на 1 комплекс (55 МВт)</td>
+<td style="text-align: left;"><strong>35 000 м²</strong> (квадрат 187×187 м)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="алюмотермическое-восстановление-кремния" class="level3">
+<h3 class="anchored" data-anchor-id="алюмотермическое-восстановление-кремния">Алюмотермическое восстановление кремния</h3>
+<p><strong>Проблема:</strong> Традиционный метод (SiO₂ + C → Si + CO₂) требует углерода, которого на Меркурии нет.</p>
+<p><strong>Решение:</strong> Алюмотермия — восстановление алюминием.</p>
+<pre><code>3SiO₂ + 4Al → 3Si + 2Al₂O₃</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Преимущество</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Алюминий местный</td>
+<td style="text-align: left;">Из шлака электролиза MRE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Нет импорта углерода</td>
+<td style="text-align: left;">Полная автономия</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Побочный продукт</td>
+<td style="text-align: left;">Al₂O₃ (корунд) → керамика, абразивы</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Стехиометрия:</strong> - На 1 кг кремния: 1.3 кг алюминия - Побочно: 1.3 кг корунда (Al₂O₃)</p>
+</section>
+<section id="производственная-цепочка" class="level3">
+<h3 class="anchored" data-anchor-id="производственная-цепочка">Производственная цепочка</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Этап</th>
+<th style="text-align: left;">Процесс</th>
+<th style="text-align: left;">Материалы</th>
+<th style="text-align: left;">Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Кварцевый песок (SiO₂)</td>
+<td style="text-align: left;">Местный</td>
+<td style="text-align: left;">20% коры Меркурия</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Алюминий</td>
+<td style="text-align: left;">Шлак MRE</td>
+<td style="text-align: left;">Уже производится</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"><strong>Алюмотермия</strong></td>
+<td style="text-align: left;">Местное</td>
+<td style="text-align: left;">Солнечная печь, 2000°C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Зонная плавка</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Очистка до solar grade</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Метод Чохральского</td>
+<td style="text-align: left;">Тигель кварцевый</td>
+<td style="text-align: left;">Слиток ∅150 мм</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Проволочная резка</td>
+<td style="text-align: left;">Алмазная проволока (Земля)</td>
+<td style="text-align: left;">Пластины 200 мкм</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Диффузия P/B</td>
+<td style="text-align: left;">Фосфор + Бор (Земля)</td>
+<td style="text-align: left;">p-n переход</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Трафаретная печать</td>
+<td style="text-align: left;">Алюминий местный</td>
+<td style="text-align: left;">Контакты</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Напыление SiNx</td>
+<td style="text-align: left;">Азот (Земля) + Силан</td>
+<td style="text-align: left;">Антиотражение</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">Сборка модуля</td>
+<td style="text-align: left;">Алюминий местный</td>
+<td style="text-align: left;">Стекло не нужно (вакуум)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="материальный-баланс" class="level3">
+<h3 class="anchored" data-anchor-id="материальный-баланс">Материальный баланс</h3>
+<p><strong>Si панель (1 м²):</strong></p>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="310" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 309;"><span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-005"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<p><strong>На 1000 м² — детальный расчёт:</strong></p>
+<ul>
+<li>Кремний: 2000 кг (алюмотермия)</li>
+<li>Алюминий на Si: 2600 кг (шлак MRE)</li>
+<li>Каркас Al: 1000 кг</li>
+<li>Побочно: 2600 кг корунда → керамика</li>
+<li><strong>Итого местное:</strong> ~5600 кг</li>
+</ul>
+<p><strong>Импорт (расходники):</strong> ~6 кг/1000 м² — алмазная проволока, P/B легирование, азот</p>
+</section>
+<section id="на-1-производственный-комплекс-35-000-м²" class="level3">
+<h3 class="anchored" data-anchor-id="на-1-производственный-комплекс-35-000-м²">На 1 производственный комплекс (35 000 м²)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Импорт с Земли</td>
+<td style="text-align: left;"><strong>~210 кг</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Алюминий местный</td>
+<td style="text-align: left;">~126 тонн</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кремний</td>
+<td style="text-align: left;">~70 тонн</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Корунд (побочный)</td>
+<td style="text-align: left;">~91 тонна → керамика</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Масса готовых панелей</td>
+<td style="text-align: left;"><strong>~120 тонн</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="энергетический-баланс" class="level3">
+<h3 class="anchored" data-anchor-id="энергетический-баланс">Энергетический баланс</h3>
+<p><strong>3 рейса с GaAs панелями — энергетическая независимость с первого дня:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+<th style="text-align: left;">Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Потребление комплекса</td>
+<td style="text-align: left;">55 МВт</td>
+<td style="text-align: left;">Завод + МД + роботы</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GaAs панели (1 рейс)</td>
+<td style="text-align: left;">35 000 м² = 56 МВт</td>
+<td style="text-align: left;">1.75 т</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GaAs панели (2 рейс)</td>
+<td style="text-align: left;">+35 000 м² = +56 МВт</td>
+<td style="text-align: left;">+1.75 т</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GaAs панели (3 рейс)</td>
+<td style="text-align: left;">+35 000 м² = +56 МВт</td>
+<td style="text-align: left;">+1.75 т</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Итого панелей</strong></td>
+<td style="text-align: left;"><strong>105 000 м² = 168 МВт</strong></td>
+<td style="text-align: left;"><strong>5.25 т</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Запас энергии</strong></td>
+<td style="text-align: left;"><strong>113 МВт</strong></td>
+<td style="text-align: left;">3× потребление</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Преимущества 3 рейсов:</strong> - Bootstrap без ожидания энергии с Роя - Возможность работы 2-3 заводов параллельно (или 1 завод + ускоренная добыча) - Резерв на пиковые нагрузки и масштабирование - Снижение критичности «первого зеркала» — можно работать сколь угодно долго на солнечной энергии</p>
+<p><strong>Масса панелей:</strong> 50 г/м² × 105 000 м² = <strong>5.25 т</strong> — это ~8% от общей массы экспедиции.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="раздел-2-энергия-для-масс-драйверов" class="level1">
+<h1>Раздел 2: Энергия для масс-драйверов</h1>
+<p><em>Импульсная энергетика. Высокие пиковые нагрузки при запуске зеркал.</em></p>
+<section id="энергопотребление-масс-драйверов" class="level2">
+<h2 class="anchored" data-anchor-id="энергопотребление-масс-драйверов">Энергопотребление масс-драйверов</h2>
+<section id="на-один-запуск" class="level3">
+<h3 class="anchored" data-anchor-id="на-один-запуск">На один запуск</h3>
+<p>Для запуска зеркала массой 116 кг на скорость 5 км/с требуется:</p>
+<pre><code>Кинетическая энергия: 1.45 ГДж
+С учётом КПД 40%: 3.6 ГДж
+С потерями системы: ~4.8 ГДж на запуск</code></pre>
+</section>
+<section id="средняя-мощность-1-масс-драйвер" class="level3">
+<h3 class="anchored" data-anchor-id="средняя-мощность-1-масс-драйвер">Средняя мощность (1 масс-драйвер)</h3>
+<pre><code>600 запусков/сутки × 4.8 ГДж = 2880 ГДж/сутки
+= 120 ГДж/час
+= 33 МВт (средняя мощность)</code></pre>
+</section>
+<section id="пиковая-мощность" class="level3">
+<h3 class="anchored" data-anchor-id="пиковая-мощность">Пиковая мощность</h3>
+<pre><code>Во время разгона (10 сек): 400 МВт
+Между запусками: накопление в конденсаторах</code></pre>
+<p><strong>Вывод:</strong> Один масс-драйвер потребляет ~33 МВт постоянно. Это эквивалент <strong>~2-3 зеркал</strong> (через PV 18%).</p>
+<hr>
+</section>
+</section>
+<section id="конденсаторные-батареи" class="level2">
+<h2 class="anchored" data-anchor-id="конденсаторные-батареи">Конденсаторные батареи</h2>
+<p><strong>Проблема:</strong> Пиковая мощность 400 МВт за 10 секунд невозможна напрямую от солнечных панелей.</p>
+<p><strong>Решение:</strong> Конденсаторы накапливают энергию между запусками (2-3 минуты) и отдают её импульсом.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Энергия на запуск</td>
+<td style="text-align: left;">4.8 ГДж</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Время разгона</td>
+<td style="text-align: left;">10 сек</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Пиковая мощность</td>
+<td style="text-align: left;">400 МВт</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Время накопления</td>
+<td style="text-align: left;">2-3 минуты между запусками</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Средняя мощность заряда</td>
+<td style="text-align: left;">33 МВт</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Принцип работы:</strong> 1. Солнечные панели непрерывно заряжают конденсаторы (33 МВт) 2. Между запусками проходит 2-3 минуты — достаточно для накопления 4.8 ГДж 3. При запуске конденсаторы мгновенно отдают 400 МВт в катушки МД 4. Цикл повторяется 600 раз в сутки</p>
+<p><strong>Материалы конденсаторов:</strong> - Диэлектрик: местные силикаты + керамика - Обкладки: алюминий (местный) - Масса батареи: ~20 тонн на 1 МД</p>
+<hr>
+</section>
+<section id="распределение-мощности-по-катушкам" class="level2">
+<h2 class="anchored" data-anchor-id="распределение-мощности-по-катушкам">Распределение мощности по катушкам</h2>
+<p>Масс-драйвер имеет несколько сотен катушек вдоль 3-километрового трека. Энергия распределяется последовательно:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Секция</th>
+<th style="text-align: left;">Длина</th>
+<th style="text-align: left;">Катушек</th>
+<th style="text-align: left;">Мощность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Разгон (начало)</td>
+<td style="text-align: left;">0-1 км</td>
+<td style="text-align: left;">~100</td>
+<td style="text-align: left;">150 МВт</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Разгон (середина)</td>
+<td style="text-align: left;">1-2 км</td>
+<td style="text-align: left;">~100</td>
+<td style="text-align: left;">150 МВт</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Финальный разгон</td>
+<td style="text-align: left;">2-3 км</td>
+<td style="text-align: left;">~100</td>
+<td style="text-align: left;">100 МВт</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Управление:</strong> Катушки активируются последовательно по мере прохождения снаряда, создавая «бегущее магнитное поле».</p>
+<hr>
+</section>
+<section id="охлаждение-систем-мд-40-мвт-тепла" class="level2">
+<h2 class="anchored" data-anchor-id="охлаждение-систем-мд-40-мвт-тепла">Охлаждение систем МД (40 МВт тепла)</h2>
+<section id="проблема-тепловыделения" class="level3">
+<h3 class="anchored" data-anchor-id="проблема-тепловыделения">Проблема тепловыделения</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Энергия на запуск</td>
+<td style="text-align: left;">4.7 ГДж</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">КПД</td>
+<td style="text-align: left;">40%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Тепло за выстрел</td>
+<td style="text-align: left;"><strong>2.8 ГДж = 280 МВт за 10 сек</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Интервал между выстрелами</td>
+<td style="text-align: left;">2–3 минуты</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Непрерывное тепловыделение</td>
+<td style="text-align: left;"><strong>~40 МВт</strong> (при 600 выстрелах/сутки)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Последствия перегрева:</strong> - Перегрев катушек → падение КПД → ещё больше тепла - Тепловое расширение рельсов → заклинивание снаряда - Деградация изоляции обмоток</p>
+</section>
+<section id="решение-nak-охлаждение-радиаторы" class="level3">
+<h3 class="anchored" data-anchor-id="решение-nak-охлаждение-радиаторы">Решение: NaK-охлаждение + радиаторы</h3>
+<p><strong>Система охлаждения:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Компонент</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Теплоноситель</td>
+<td style="text-align: left;">Эвтектический сплав NaK (натрий-калий)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Температура плавления</td>
+<td style="text-align: left;">−12°C (жидкий при любых условиях Меркурия)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Циркуляция</td>
+<td style="text-align: left;">Насосы внутри каждой катушки</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Радиаторы</td>
+<td style="text-align: left;">Направлены в теневую сторону Меркурия (−180°C)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Площадь радиаторов</td>
+<td style="text-align: left;">~5000 м² на 1 МД</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Принцип работы:</strong> 1. NaK циркулирует через катушки, забирая тепло 2. Горячий NaK (~200°C) поступает в радиаторы 3. Радиаторы излучают тепло в холодный космос 4. Охлаждённый NaK (~50°C) возвращается к катушкам</p>
+<p><strong>Преимущество криогенных температур:</strong> - Теневая сторона Меркурия: −180°C - Разница температур ΔT = 200 − (−180) = 380°C - Высокая эффективность радиационного охлаждения</p>
+</section>
+<section id="криоалюминий" class="level3">
+<h3 class="anchored" data-anchor-id="криоалюминий">Криоалюминий</h3>
+<p><strong>Проблема:</strong> Меди на Меркурии нет, а алюминий при комнатной температуре имеет в 1.6× худшую проводимость.</p>
+<p><strong>Решение:</strong> Использовать криогенное охлаждение для повышения проводимости алюминия.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Материал</th>
+<th style="text-align: left;">При +20°C</th>
+<th style="text-align: left;">При −180°C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Медь</td>
+<td style="text-align: left;">100%</td>
+<td style="text-align: left;">400%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Алюминий</td>
+<td style="text-align: left;">60%</td>
+<td style="text-align: left;">360%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Выводы:</strong> - При −180°C алюминий почти догоняет медь по проводимости - КПД масс-драйвера восстанавливается с 30% до <strong>35-40%</strong> - Охлаждение решает сразу две задачи: отвод тепла + повышение КПД</p>
+<hr>
+</section>
+</section>
+<section id="материальный-баланс-энергетические-компоненты-мд" class="level2">
+<h2 class="anchored" data-anchor-id="материальный-баланс-энергетические-компоненты-мд">Материальный баланс (энергетические компоненты МД)</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="493" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 492;"><span id="cb7-493"><a href="#cb7-493" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"CMP-103"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<p><strong>Конденсаторная батарея:</strong> - Масса: 20 тонн - Материалы: 60% Si (керамика), 40% Al (обкладки) - Срок службы: 2-3 года (циклы заряд/разряд)</p>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="502" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 501;"><span id="cb8-502"><a href="#cb8-502" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"CMP-104"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<p><strong>Система охлаждения:</strong> - Масса: 75 тонн - Радиаторы Al: 60 т - NaK теплоноситель: 15 т - Насосы и трубопроводы: ~1 т</p>
+<hr>
+</section>
+<section id="см.-также" class="level2">
+<h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
+<ul>
+<li><a href="../../../ru/science/detailed/production/overview.html">Производство</a> — обзор производственной системы</li>
+<li><a href="../../../ru/science/detailed/production/railguns/theory.html">Масс-драйверы: теория</a> — детальные расчёты конструкции МД</li>
+<li><a href="../../../ru/science/detailed/production/materials/overview.html">Переработка реголита</a> — получение Al для проводников</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuZGF0YVNjcmlwdCA9IEZpbGVBdHRhY2htZW50KFwiLi4vZGF0YS9kYi9kYXRhLmpzb25cIikuanNvbigpXG5cbm1lcmN1cnlQcm9kdWN0aW9uID0gbmV3IFNldChcbiAgZGF0YVNjcmlwdC5tYXRlcmlhbFByb2R1Y3Rpb25cbiAgICAuZmlsdGVyKG1wID0+IG1wLnBsYW5ldF9pZCA9PT0gXCJtZXJjdXJ5XCIpXG4gICAgLm1hcChtcCA9PiBtcC5tYXRlcmlhbF9pZClcbilcblxubWF0ZXJpYWxzQnlJZCA9IG5ldyBNYXAoZGF0YVNjcmlwdC5tYXRlcmlhbHMubWFwKG0gPT4gW20uaWQsIG1dKSlcbnVuaXRzQnlJZCA9IG5ldyBNYXAoZGF0YVNjcmlwdC51bml0cy5tYXAodSA9PiBbdS5pZCwgdV0pKVxucGxhbmV0c0J5SWQgPSBuZXcgTWFwKGRhdGFTY3JpcHQucGxhbmV0cy5tYXAocCA9PiBbcC5pZCwgcF0pKVxuXG4vLyDQpNGD0L3QutGG0LjRjyDQtNC70Y8g0L/QvtC70YPRh9C10L3QuNGPINC80LDRgtC10YDQuNCw0LvQvtCyINC60L7QvNC/0L7QvdC10L3RgtCwXG5mdW5jdGlvbiBnZXRDb21wb25lbnRNYXRlcmlhbHMoY29tcG9uZW50SWQpIHtcbiAgcmV0dXJuIGRhdGFTY3JpcHQudW5pdE1hdGVyaWFsc1xuICAgIC5maWx0ZXIodW0gPT4gdW0udW5pdF9pZCA9PT0gY29tcG9uZW50SWQpXG4gICAgLm1hcCh1bSA9PiB7XG4gICAgICBjb25zdCBtYXRlcmlhbCA9IG1hdGVyaWFsc0J5SWQuZ2V0KHVtLm1hdGVyaWFsX2lkKTtcbiAgICAgIHJldHVybiB7XG4gICAgICAgIHN5bWJvbDogbWF0ZXJpYWw/LnN5bWJvbCxcbiAgICAgICAgbmFtZTogbWF0ZXJpYWw/Lm5hbWUgfHwgdW0ubWF0ZXJpYWxfaWQsXG4gICAgICAgIGZyYWN0aW9uX3BjdDogdW0uZnJhY3Rpb25fcGN0LFxuICAgICAgICBpc0xvY2FsOiBtZXJjdXJ5UHJvZHVjdGlvbi5oYXModW0ubWF0ZXJpYWxfaWQpXG4gICAgICB9O1xuICAgIH0pO1xufVxuXG4vLyDQpNGD0L3QutGG0LjRjyDQtNC70Y8g0L7RgtC+0LHRgNCw0LbQtdC90LjRjyDQstC40LTQttC10YLQsCDQtdC00LjQvdC40YbRi1xuZnVuY3Rpb24gdW5pdFdpZGdldCh1bml0SWQpIHtcbiAgY29uc3QgdW5pdCA9IHVuaXRzQnlJZC5nZXQodW5pdElkKTtcbiAgaWYgKCF1bml0KSByZXR1cm4gaHRtbGA8ZGl2IGNsYXNzPVwiZGItd2lkZ2V0XCI+0JXQtNC40L3QuNGG0LAgJHt1bml0SWR9INC90LUg0L3QsNC50LTQtdC90LA8L2Rpdj5gO1xuXG4gIGNvbnN0IHBsYW5ldCA9IHBsYW5ldHNCeUlkLmdldCh1bml0LnByb2R1Y3Rpb25fcGxhbmV0X2lkKTtcblxuICAvLyDQnNCw0YLQtdGA0LjQsNC70Ysg0LHQsNC30L7QstC+0LPQviDRjtC90LjRgtCwXG4gIGNvbnN0IG1hdGVyaWFscyA9IGRhdGFTY3JpcHQudW5pdE1hdGVyaWFsc1xuICAgIC5maWx0ZXIodW0gPT4gdW0udW5pdF9pZCA9PT0gdW5pdElkKVxuICAgIC5tYXAodW0gPT4ge1xuICAgICAgY29uc3QgbWF0ZXJpYWwgPSBtYXRlcmlhbHNCeUlkLmdldCh1bS5tYXRlcmlhbF9pZCk7XG4gICAgICBjb25zdCBpc0xvY2FsID0gbWVyY3VyeVByb2R1Y3Rpb24uaGFzKHVtLm1hdGVyaWFsX2lkKTtcbiAgICAgIGNvbnN0IG1hc3NLZyA9IHVuaXQubWFzc19rZyA/ICh1bml0Lm1hc3Nfa2cgKiB1bS5mcmFjdGlvbl9wY3QgLyAxMDApLnRvRml4ZWQoMCkgOiBudWxsO1xuICAgICAgcmV0dXJuIHsgLi4udW0sIG1hdGVyaWFsLCBpc0xvY2FsLCBtYXNzS2cgfTtcbiAgICB9KTtcblxuICAvLyDQmtC+0LzQv9C+0L3QtdC90YLRiyAo0L/QvtC00YHQsdC+0YDQutC4KVxuICBjb25zdCBjb21wb25lbnRzID0gZGF0YVNjcmlwdC51bml0Q29tcG9uZW50c1xuICAgIC5maWx0ZXIodWMgPT4gdWMuYXNzZW1ibHlfaWQgPT09IHVuaXRJZClcbiAgICAubWFwKHVjID0+IHtcbiAgICAgIGNvbnN0IGNvbXBvbmVudCA9IHVuaXRzQnlJZC5nZXQodWMuY29tcG9uZW50X2lkKTtcbiAgICAgIGNvbnN0IHRvdGFsTWFzc0tnID0gY29tcG9uZW50Py5tYXNzX2tnID8gKGNvbXBvbmVudC5tYXNzX2tnICogdWMucXVhbnRpdHkpIDogbnVsbDtcbiAgICAgIGNvbnN0IGlzTG9jYWwgPSBjb21wb25lbnQ/LnByb2R1Y3Rpb25fcGxhbmV0X2lkID09PSB1bml0LnByb2R1Y3Rpb25fcGxhbmV0X2lkO1xuICAgICAgY29uc3QgY29tcG9uZW50TWF0ZXJpYWxzID0gZ2V0Q29tcG9uZW50TWF0ZXJpYWxzKHVjLmNvbXBvbmVudF9pZCk7XG5cbiAgICAgIHJldHVybiB7XG4gICAgICAgIGlkOiB1Yy5jb21wb25lbnRfaWQsXG4gICAgICAgIG5hbWU6IGNvbXBvbmVudD8ubmFtZSB8fCB1Yy5jb21wb25lbnRfaWQsXG4gICAgICAgIHF1YW50aXR5OiB1Yy5xdWFudGl0eSxcbiAgICAgICAgbWFzc0tnOiB0b3RhbE1hc3NLZyxcbiAgICAgICAgaXNMb2NhbCxcbiAgICAgICAgbWF0ZXJpYWxzOiBjb21wb25lbnRNYXRlcmlhbHNcbiAgICAgIH07XG4gICAgfSk7XG5cbiAgLy8g0JjRgtC+0LPQviDRgdGH0LjRgtCw0LXQvCDQotCe0JvQrNCa0J4g0L/QviDQvNCw0YLQtdGA0LjQsNC70LDQvCAo0L3QtSDQutC+0LzQv9C+0L3QtdC90YLQsNC8ISlcbiAgY29uc3QgbG9jYWxQY3QgPSBtYXRlcmlhbHMuZmlsdGVyKG0gPT4gbS5pc0xvY2FsKS5yZWR1Y2UoKHN1bSwgbSkgPT4gc3VtICsgbS5mcmFjdGlvbl9wY3QsIDApO1xuICBjb25zdCBpbXBvcnRQY3QgPSBtYXRlcmlhbHMuZmlsdGVyKG0gPT4gIW0uaXNMb2NhbCkucmVkdWNlKChzdW0sIG0pID0+IHN1bSArIG0uZnJhY3Rpb25fcGN0LCAwKTtcbiAgY29uc3QgaGFzQ3JpdGljYWxJbXBvcnRzID0gY29tcG9uZW50cy5zb21lKGMgPT4gIWMuaXNMb2NhbCk7XG5cbiAgLy8g0KHRgtGA0L7QutC4INGC0LDQsdC70LjRhtGLINC60L7QvNC/0L7QvdC10L3RgtC+0LJcbiAgY29uc3QgY29tcG9uZW50Um93cyA9IGNvbXBvbmVudHMubWFwKGMgPT4gaHRtbGBcbiAgICA8dHIgY2xhc3M9XCJjb21wb25lbnQtcm93XCI+XG4gICAgICA8dGQ+XG4gICAgICAgIDxzdHJvbmc+JHtjLm5hbWV9PC9zdHJvbmc+JHtjLnF1YW50aXR5ID4gMSA/IGh0bWxgIMOXJHtjLnF1YW50aXR5fWAgOiAnJ31cbiAgICAgICAgPGRpdiBjbGFzcz1cImNvbXBvbmVudC1tYXRlcmlhbHNcIj5cbiAgICAgICAgICAke2MubWF0ZXJpYWxzLm1hcChtID0+IGh0bWxgPHNwYW4gY2xhc3M9XCIke20uaXNMb2NhbCA/ICdsb2NhbCcgOiAnaW1wb3J0J31cIj4ke20uc3ltYm9sIHx8IG0ubmFtZX0gJHttLmZyYWN0aW9uX3BjdH0lPC9zcGFuPmApfVxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvdGQ+XG4gICAgICA8dGQ+JHtjLm1hc3NLZyA/IGMubWFzc0tnLnRvRml4ZWQoMCkgOiAn4oCUJ30g0LrQszwvdGQ+XG4gICAgICA8dGQgY2xhc3M9XCIke2MuaXNMb2NhbCA/ICdsb2NhbCcgOiAnaW1wb3J0J31cIj4ke2MuaXNMb2NhbCA/ICfinJMnIDogJ+KaoCDQuNC80L/QvtGA0YInfTwvdGQ+XG4gICAgPC90cj5cbiAgYCk7XG5cbiAgLy8g0KHRgtGA0L7QutC4INGC0LDQsdC70LjRhtGLINC80LDRgtC10YDQuNCw0LvQvtCyXG4gIGNvbnN0IG1hdGVyaWFsUm93cyA9IG1hdGVyaWFscy5tYXAobSA9PiBodG1sYFxuICAgIDx0cj5cbiAgICAgIDx0ZD5cbiAgICAgICAgJHttLm1hdGVyaWFsPy5zeW1ib2wgPyBodG1sYDxzdHJvbmc+JHttLm1hdGVyaWFsLnN5bWJvbH08L3N0cm9uZz4gYCA6ICcnfVxuICAgICAgICAke20ubWF0ZXJpYWw/Lm5hbWUgfHwgbS5tYXRlcmlhbF9pZH1cbiAgICAgIDwvdGQ+XG4gICAgICA8dGQ+JHttLmZyYWN0aW9uX3BjdH0lPC90ZD5cbiAgICAgIDx0ZD4ke20ubWFzc0tnIHx8ICfigJQnfSDQutCzPC90ZD5cbiAgICAgIDx0ZCBjbGFzcz1cIiR7bS5pc0xvY2FsID8gJ2xvY2FsJyA6ICdpbXBvcnQnfVwiPiR7bS5pc0xvY2FsID8gJ+KckyDQvNC10YHRgtC90YvQuScgOiAn4pqgINC40LzQv9C+0YDRgid9PC90ZD5cbiAgICA8L3RyPlxuICBgKTtcblxuICByZXR1cm4gaHRtbGBcbiAgICA8ZGl2IGNsYXNzPVwiZGItd2lkZ2V0XCI+XG4gICAgICA8aDQ+JHt1bml0Lm5hbWV9IDxzcGFuIHN0eWxlPVwiY29sb3I6ICM2Yzc1N2Q7IGZvbnQtd2VpZ2h0OiBub3JtYWw7XCI+KCR7dW5pdC5pZH0pPC9zcGFuPjwvaDQ+XG4gICAgICA8ZGl2IGNsYXNzPVwibWV0YVwiPlxuICAgICAgICAke3VuaXQubWFzc19rZyA/IGh0bWxgPHN0cm9uZz4ke3VuaXQubWFzc19rZy50b0xvY2FsZVN0cmluZygpfTwvc3Ryb25nPiDQutCzYCA6ICcnfVxuICAgICAgICAke3VuaXQucG93ZXJfa3cgPyBodG1sYCB8IDxzdHJvbmc+JHt1bml0LnBvd2VyX2t3LnRvTG9jYWxlU3RyaW5nKCl9PC9zdHJvbmc+INC60JLRgmAgOiAnJ31cbiAgICAgICAgJHtwbGFuZXQgPyBodG1sYCB8INCf0YDQvtC40LfQstC+0LTRgdGC0LLQvjogJHtwbGFuZXQubmFtZX1gIDogJyd9XG4gICAgICA8L2Rpdj5cblxuICAgICAgJHtjb21wb25lbnRzLmxlbmd0aCA+IDAgPyBodG1sYFxuICAgICAgICA8ZGl2IGNsYXNzPVwic2VjdGlvbi1oZWFkZXJcIj7QmtC+0LzQv9C+0L3QtdC90YLRizwvZGl2PlxuICAgICAgICA8dGFibGUgY2xhc3M9XCJjb21wb25lbnRzLXRhYmxlXCI+XG4gICAgICAgICAgPHRoZWFkPjx0cj48dGg+0JrQvtC80L/QvtC90LXQvdGCPC90aD48dGg+0JzQsNGB0YHQsDwvdGg+PHRoPtCY0YHRgtC+0YfQvdC40Lo8L3RoPjwvdHI+PC90aGVhZD5cbiAgICAgICAgICA8dGJvZHk+JHtjb21wb25lbnRSb3dzfTwvdGJvZHk+XG4gICAgICAgIDwvdGFibGU+XG4gICAgICBgIDogJyd9XG5cbiAgICAgICR7bWF0ZXJpYWxzLmxlbmd0aCA+IDAgPyBodG1sYFxuICAgICAgICA8ZGl2IGNsYXNzPVwic2VjdGlvbi1oZWFkZXJcIj7QnNCw0YLQtdGA0LjQsNC70Ys8L2Rpdj5cbiAgICAgICAgPHRhYmxlIGNsYXNzPVwibWF0ZXJpYWxzLXRhYmxlXCI+XG4gICAgICAgICAgPHRoZWFkPjx0cj48dGg+0JzQsNGC0LXRgNC40LDQuzwvdGg+PHRoPiU8L3RoPjx0aD7QnNCw0YHRgdCwPC90aD48dGg+0JjRgdGC0L7Rh9C90LjQujwvdGg+PC90cj48L3RoZWFkPlxuICAgICAgICAgIDx0Ym9keT4ke21hdGVyaWFsUm93c308L3Rib2R5PlxuICAgICAgICA8L3RhYmxlPlxuICAgICAgICA8ZGl2IGNsYXNzPVwic3VtbWFyeVwiPlxuICAgICAgICAgINCY0YLQvtCz0L46IDxzcGFuIGNsYXNzPVwibG9jYWwtcGN0XCI+JHtsb2NhbFBjdC50b0ZpeGVkKDApfSUg0LzQtdGB0YLQvdC+0LU8L3NwYW4+IHxcbiAgICAgICAgICA8c3BhbiBjbGFzcz1cImltcG9ydC1wY3RcIj4ke2ltcG9ydFBjdC50b0ZpeGVkKDApfSUg0LjQvNC/0L7RgNGCPC9zcGFuPlxuICAgICAgICAgICR7aGFzQ3JpdGljYWxJbXBvcnRzID8gaHRtbGA8YnIvPjxzdHJvbmc+4pqgINCh0L7QtNC10YDQttC40YIg0LjQvNC/0L7RgNGC0L3Ri9C1INC60L7QvNC/0L7QvdC10L3RgtGLPC9zdHJvbmc+YCA6ICcnfVxuICAgICAgICA8L2Rpdj5cbiAgICAgIGAgOiAnJ31cblxuICAgICAgPGRpdiBjbGFzcz1cImxpbmtcIj5cbiAgICAgICAgPGEgaHJlZj1cImRhdGEvbm9tZW5jbGF0dXJlLmh0bWw/dW5pdD0ke3VuaXRJZH1cIj7Qn9C+0LTRgNC+0LHQvdC10LUg4oaSPC9hPlxuICAgICAgPC9kaXY+XG4gICAgPC9kaXY+XG4gIGA7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ1bml0V2lkZ2V0KFwiUFJELTAwNVwiKVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoidW5pdFdpZGdldChcIkNNUC0xMDNcIilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InVuaXRXaWRnZXQoXCJDTVAtMTA0XCIpXG4ifV19
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../ru/science/detailed";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "../../..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
