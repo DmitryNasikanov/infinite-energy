@@ -1,0 +1,424 @@
+---
+title: "Mass Driver Production"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Load data from JSON
+dataScript = FileAttachment("../../../data/db/data.json").json()
+
+// Materials available on Mercury (two versions for compatibility)
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Dictionaries for quick lookup
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: mercuryProduction.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Calculate totals ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? 'local' : 'import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '—'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? 'local' : 'import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+> **TL;DR**
+>
+> - **Purpose:** Electromagnetic catapults for launching mirrors into orbit
+> - **Parameters:** Length **1 km*** (base configuration), velocity 5 km/s, acceleration 1275g
+> - **Mass:** **~450 tons*** (99.5% local materials)
+> - **Throughput:** 600 launches/day, 70 tons of mirrors/day
+> - **Stages:** Elements (rails, coils, frame) -> Assembly (track, electronics, testing)
+>
+> *When extended to reduce g-load: 2 km (637g, 875 t) or 3 km (425g, 1,300 t).
+
+---
+
+## Overview
+
+A Mass Driver is an electromagnetic gun that accelerates mirrors to Mercury's escape velocity (4.3 km/s) for orbital insertion and Dyson Swarm formation.
+
+> **Theory and Scaling:**
+>
+> - [Mass Driver Theory](theory.qmd) - launch physics, efficiency, cryo-aluminum, known issues, lunar Mass Driver
+> - [Scaling](scaling.qmd) - throughput, production growth, energy balance, robots
+
+---
+
+## Basic Parameters
+
+### Launch Physics
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Mercury escape velocity | 4.3 km/s | [NASA Mercury Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html) |
+| Target velocity (with margin) | **5 km/s** | +16% for losses |
+| Mercury gravity | 3.7 m/s^2 | 0.38g |
+| Acceleration tunnel length | **1 km*** | Base configuration |
+| Acceleration | **12,500 m/s^2 (1275g)** | |
+| Acceleration time | **~0.4 sec** | |
+
+*When extended to reduce g-load: 2 km (637g) or 3 km (425g). See [Mass Driver Theory](theory.qmd#track-length-options).
+
+---
+
+## Mass Driver Construction
+
+### Main Components
+
+```{ojs}
+unitWidget("EQU-001")
+```
+
+| Component | Mass (1 km) | Material | Localization |
+|-----------|-------------|----------|--------------|
+| Tunnel frame | **~270 t** | Steel Fe-6%Mn | 100% local |
+| Rails + coils + cooling | **~170 t** | Aluminum (cryo) | 100% local |
+| Electronics and sensors | ~7 t | Import | **Earth** |
+| **TOTAL (1 km)** | **~450 t** | | **98.5% local** |
+
+*When extended: 2 km (~875 t), 3 km (~1,300 t).
+
+---
+
+## Three Stages of Mass Driver Production
+
+Mass Driver production is divided into three sequential stages:
+
+### 1. Element Production (Materials -> Components)
+
+Finished materials (Al/Fe/Si) are transformed into Mass Driver components.
+
+**Three element production lines:**
+
+- [Rail Production](elements/rails.qmd) - aluminum guides for acceleration
+- [Coil Winding](elements/coils.qmd) - electromagnetic windings (cryo-aluminum)
+- [Tunnel Frame](elements/frame.qmd) - 1 km steel frame
+
+**Materials:** Al (500 t) + Fe (800 t) from [regolith processing](../materials/overview.qmd)
+
+---
+
+### 2. Track Assembly (Components -> Mass Driver)
+
+Components are assembled into a finished 1 km Mass Driver (base configuration).
+
+**Three final assembly lines:**
+
+- [Track Assembly](assembly/track.qmd) - rail laying and coil mounting
+- [Control Electronics](assembly/electronics.qmd) - control systems and sensors
+- [Testing](assembly/testing.qmd) - functionality verification
+
+**Assembly time:** ~3-4 months for the first Mass Driver, ~1-2 months for subsequent units (experience curve)
+
+---
+
+### 3. Operations
+
+After commissioning, the Mass Driver operates at **600 launches/day**.
+
+| Parameter | Value |
+|-----------|-------|
+| Launch cycle | 2-3 minutes |
+| Launches per hour | 20-30 |
+| Launches per day | **600** |
+| Launches per year | **219,000** |
+
+**Throughput:** 600 x 116 kg = **70 tons of mirrors/day** = **26,000 t/year**
+
+---
+
+## Launch Energy
+
+### Per Launch
+
+```
+Kinetic energy = 1/2 mv^2
+
+For a 116 kg mirror:
+E = 0.5 x 116 x (5000)^2 = 1.45 GJ
+
+With 40% efficiency (aluminum coils):
+E_consumption = 1.45 / 0.40 = 3.6 GJ
+```
+
+### Mass Driver Power
+
+| Parameter | Value |
+|-----------|-------|
+| Peak power (acceleration) | 400 MW |
+| Average power (600 launches/day) | **33 MW** |
+| Heat dissipation | ~40 MW (requires cooling) |
+
+**More details:** [Mercury Energy System](../../energy.qmd)
+
+---
+
+## Cryo-Aluminum: Solving the Copper Problem
+
+**Problem:** Mercury has no copper - the primary material for Mass Driver coils on Earth.
+
+**Solution:** Cryogenic cooling of aluminum coils.
+
+| Material | At +20C | At -180C |
+|----------|---------|----------|
+| Copper | 100% | 400% |
+| Aluminum | 60% | **360%** |
+
+**Conclusion:** Aluminum at -180C has conductivity nearly equal to copper at room temperature.
+
+**Mass Driver location:** At the terminator (day/night boundary), radiators facing into shadow (-180C).
+
+**More details:** [Coil Winding](elements/coils.qmd)
+
+---
+
+## Material Balance
+
+**Per 1 Mass Driver (base configuration 1 km, ~450 t):**
+
+| Material | Mass | Source |
+|----------|------|--------|
+| Steel Fe-6%Mn | **~270 t** | [Regolith Processing](../materials/overview.qmd) |
+| Aluminum (cryogenic) | **~170 t** | [Regolith Processing](../materials/overview.qmd) |
+| Electronics | ~7 t | **Import from Earth** |
+
+**Localization:** 98.5% by mass
+
+**Material production time (1 km):**
+- Al: 170 t / 42 t/day = **4 days**
+- Fe: 270 t / 18 t/day = **15 days**
+
+**TOTAL (1 km):** ~**15-20 days** for material accumulation + 5-7 days for assembly = **~25 days**
+
+*When extended to 3 km: ~60 days (45 days Fe + 15 days assembly).
+
+---
+
+## System Throughput
+
+### One Mass Driver
+
+| Parameter | Value |
+|-----------|-------|
+| Mirrors/day | 600 |
+| Mirrors/year | 219,000 |
+| Tons of mirrors/day | 70 t |
+
+### 1,000 Mass Drivers (mature system)
+
+| Parameter | Value |
+|-----------|-------|
+| Mirrors/day | 600,000 |
+| Mirrors/year | 219 million |
+| Tons of mirrors/day | 70,000 t |
+
+**Time to 1 billion mirrors:** ~7-8 years with 1,000 Mass Drivers
+
+---
+
+## Complex Energy Consumption
+
+| Consumer | Power |
+|----------|-------|
+| Mass Driver (average) | 33 MW |
+| Solar furnaces (melting) | 10 MW |
+| Mirror production (rolling, welding) | 5 MW |
+| Robots (52 units x 5 kW) | 0.26 MW |
+| Control systems | 2 MW |
+| **TOTAL** | **~50 MW** |
+
+**Power supply:** Silicon panels 35,000 m^2 (56 MW) + Swarm mirrors
+
+**More details:** [Mercury Energy System](../../energy.qmd)
+
+---
+
+## Mass Driver Construction
+
+### Stages (base configuration 1 km)
+
+| Stage | Time | Robots |
+|-------|------|--------|
+| Site preparation | 3 days | 10 |
+| Tunnel excavation (1 km) | 1 week | 20 Moles-M |
+| Frame installation | 3-4 days | 15 Centaurs-M |
+| Rail mounting | 2 days | 10 Centaurs-M |
+| Coil winding | 3-4 days | 5 Centaurs-M |
+| Electrical and electronics | 2 days | 8 Centaurs-M |
+| Testing | 2 days | 3 Centaurs-M |
+| **TOTAL (1 km)** | **~20-25 days** | peak 20 |
+
+*When extended to 3 km: ~2-3 months.
+
+**With experience:** With parallel construction of multiple Mass Drivers - possible reduction to **15-20 days**.
+
+---
+
+## Wear and Maintenance
+
+### Wearing Parts (1 km track)
+
+| Component | Service life | Replacement (1 MD/year) |
+|-----------|--------------|-------------------------|
+| Guide rails | 3-6 months | 100-130 t Al |
+| Coil windings | 3-5 years | 10 t Al |
+| Capacitors | 2-3 years | 20 t |
+| Electronics | 5-10 years | 0.5 t (import) |
+
+**Annual replacement consumption (1 km):** ~120-150 t Al + 0.5 t import
+
+*For 3 km track: ~350 t Al + 0.5 t import.
+
+---
+
+## Scaling
+
+### Mass Driver Deployment by Phase
+
+| Phase | Year | MDs | Mirror production/year |
+|-------|------|-----|------------------------|
+| Initial | 1-2 | 100 | 22 million |
+| Growth | 3-5 | 1,000 | 219 million |
+| Mature | 5-10 | 10,000 | 2.2 billion |
+
+**Time to 1 billion mirrors:** ~7-8 years with 1,000 Mass Drivers
+
+---
+
+## See Also
+
+- [Rail Production](elements/rails.qmd) - aluminum guides
+- [Coil Winding](elements/coils.qmd) - cryo-aluminum windings
+- [Tunnel Frame](elements/frame.qmd) - 1 km steel structure
+- [Track Assembly](assembly/track.qmd) - Mass Driver mounting
+- [Energy System](../../energy.qmd) - Mass Driver power supply
+- [Swarm Mirrors](../../mirrors.qmd) - what the Mass Driver launches

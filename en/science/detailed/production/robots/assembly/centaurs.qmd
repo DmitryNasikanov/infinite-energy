@@ -1,0 +1,356 @@
+---
+title: "Centaur-M Assembly"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Manipulator robot for assembly and maintenance
+> - **Mass:** ~370 kg
+> - **Battery:** NaS 20 kWh + cable (optional)
+> - **Power:** 5 kW
+> - **Assembly time:** 48 hours per station
+
+---
+
+## Overview
+
+Centaur-M is a universal Gen-2 manipulator robot for precision operations: equipment assembly, welding, maintenance. Four-wheel platform with two 6-axis manipulators and a tool set.
+
+**Key feature:** The lightest Gen-2 robot (370 kg), maximum aluminum fraction (62%) to reduce mass.
+
+---
+
+## Centaur-M Material Balance
+
+| Component | Material | Mass | Source |
+|-----------|----------|------|--------|
+| Frame + chassis | Steel Fe-6%Mn | 80 kg | [Frame Manufacturing](../elements/frames.qmd) |
+| Body, radiators, manipulators | Aluminum | 230 kg | [Aluminum](../../materials/distillation.qmd) |
+| NaS Battery | Na + S + β-Al₂O₃ | 40 kg | [Battery Production](../elements/batteries.qmd) |
+| Actuators (12 pcs: 4 wheels + 2×6 manipulators) | Fe + Al + NaK | 15 kg | [Actuators](../elements/actuators.qmd) |
+| Electronics | — | 5 kg | **Import from Earth** |
+| **TOTAL** | — | **~370 kg** | **~99% local** |
+
+**Material distribution:**
+- Iron (Fe): 80 kg = **22%**
+- Aluminum (Al): 230 kg = **62%**
+- Sodium + Sulfur: 40 kg = **11%**
+- Import: 5 kg = **1%**
+
+---
+
+## Design
+
+### Dimensions
+
+| Parameter | Value |
+|-----------|-------|
+| Length | 2.5 m |
+| Width | 1.5 m |
+| Height | 1.8 m (to manipulator top) |
+| Ground clearance | 0.3 m |
+| Manipulator load capacity | 2×50 kg = 100 kg total |
+
+### Manipulators
+
+**2 manipulators with 6 axes each:**
+
+| Parameter | Value |
+|-----------|-------|
+| Manipulator length | 1.2 m |
+| Load capacity | 50 kg at 1 m distance |
+| Positioning accuracy | ±0.5 mm |
+| Movement speed | 1 m/s |
+| Material | Aluminum (lightweight) |
+
+**Tools (interchangeable attachments):**
+- TIG welding torch (vacuum, no gas required)
+- CNC milling head (mobile)
+- Universal gripper (electromechanical)
+- Torque-adjustable screwdriver
+- 3D laser scanner
+
+---
+
+## Assembly Process
+
+### Assembly Line (10 stations, 48 hours per station)
+
+| Station | Stage | Time | Robots |
+|---------|-------|------|--------|
+| 1 | Frame installation on jig | 1 hour | 1 Centaur-M |
+| 2 | Chassis mounting (4 wheels) | 3 hours | 2 Centaurs-M |
+| 3 | Al body and radiator installation | 4 hours | 2 Centaurs-M |
+| 4 | NaS battery installation (20 kWh) | 2 hours | 1 Centaur-M |
+| 5 | 2 manipulator mounting (6+6 axes) | 12 hours | 3 Centaurs-M |
+| 6 | Power cable routing | 3 hours | 1 Centaur-M |
+| 7 | Electronics installation (processor, sensors) | 4 hours | 2 Centaurs-M |
+| 8 | NaK cooling loop filling | 1 hour | 1 Centaur-M |
+| 9 | Manipulator calibration and testing | 14 hours | Automated |
+| 10 | Initial battery charging | 4 hours | Charging station |
+| **TOTAL** | | **48 hours** | |
+
+---
+
+## Stage 1: Frame Installation
+
+**Centaur-M Frame:**
+- Mass: ~310 kg (80 kg Fe + 230 kg Al)
+- Design: Lightweight aluminum frame with steel load-bearing nodes
+- Production: [WAAM 3D printing](../elements/frames.qmd)
+
+**Process:**
+1. Crane lifts frame from conveyor
+2. Frame installed on assembly jig
+3. Fixed on 4 supports
+4. Geometry verification (laser scanner)
+
+---
+
+## Stage 2: Chassis Mounting
+
+**4 wheels:**
+- Diameter: Ø0.8 m
+- Material: Aluminum (rim) + rubber (tread, imported)
+- Drive: Electric motors 2 kW × 4 = 8 kW total
+
+**Suspension:**
+- Independent on each wheel
+- Hydraulic shock absorbers (NaK)
+- Suspension travel: ±150 mm
+
+**Process:**
+1. Install 4 hubs on frame (M16 bolts)
+2. Mount drive electric motors
+3. Install wheels
+4. Alignment adjustment
+
+---
+
+## Stage 3: Body and Radiator Installation
+
+**Aluminum body:**
+- Mass: 100 kg (part of 230 kg Al)
+- Design: Lightweight panels from 2 mm Al sheets
+- Function: Electronics protection, radiators
+
+**Radiators:**
+- Area: ~5 m² (oriented toward shadow)
+- Material: Aluminum
+- Loop: NaK cooling for battery and processor
+
+**Process:**
+1. Install side panels (bolts + rivets)
+2. Mount radiators on roof
+3. Seal joints (TIG welding)
+
+---
+
+## Stage 4: NaS Battery Installation
+
+**NaS Battery 20 kWh:**
+- Mass: 40 kg
+- Voltage: 200 V (100 cells × 2 V)
+- Placement: Center of gravity (under platform)
+
+**Optional cable:**
+- For factory work, Centaur-M can operate from cable (10 kV)
+- Cable reel on body (50 m)
+- Automatic rewind on return
+
+**Process:**
+1. Lift battery with crane
+2. Install in battery compartment
+3. Connect power cables (M8 bolts)
+4. Connect battery management system (BMS)
+
+**Details:** [Battery Production](../elements/batteries.qmd)
+
+---
+
+## Stage 5: Manipulator Mounting
+
+**2 manipulators with 6 axes:**
+
+**Installation process:**
+1. Mount manipulator base on frame (M20 bolts)
+2. Install 6 manipulator links (each link — 200 mm)
+3. Connect 6 electric actuators (1 per axis)
+4. Route power and signal cables through manipulator
+5. Install interchangeable attachment (TIG torch by default)
+
+**Time:** 12 hours for 2 manipulators (most labor-intensive stage)
+
+**Details:** [Actuators](../elements/actuators.qmd)
+
+---
+
+## Stage 6: Power Cable Routing
+
+**Cables:**
+- Main power cable: 25 mm² Al (200 V, 50 A)
+- Manipulator control cables: 2×6 wires (axis signals)
+- Tool power cable: 16 mm² Al (for welding, milling)
+
+**Process:**
+1. Route cables through cable channels
+2. Connect to distribution panel
+3. Insulation test (megohmmeter)
+
+---
+
+## Stage 7: Electronics Installation
+
+**Centaur-M Electronics:**
+- Processor: ARM Cortex-A72 (4 cores, 1.5 GHz)
+- Sensors: 8 cameras, 2 lidars, GPS, IMU
+- Communication: Wi-Fi, 2.4 GHz radio channel
+- Mass: 5 kg
+
+**Process:**
+1. Install computer in protective enclosure
+2. Connect cameras and lidars
+3. Calibrate sensors
+4. Install communication antennas
+
+---
+
+## Stage 8: NaK Cooling Loop Filling
+
+**NaK Loop:**
+- Volume: ~20 liters
+- Temperature: +50-100°C (operating)
+- Radiators: 5 m² Al panels
+
+**Process:**
+1. Evacuate loop (remove air)
+2. Fill NaK through fill valve
+3. Leak test (vacuum test)
+4. Start NaK pump
+
+---
+
+## Stage 9: Manipulator Calibration and Testing
+
+**Test Program:**
+
+| Test | Description | Standard |
+|------|-------------|----------|
+| Manipulator calibration | Set zero positions for all 12 axes | Accuracy ±0.5 mm |
+| Movement | Check all 4 wheels | Speed 5 km/h |
+| Load pickup | Lift 50 kg at 1 m distance | Position accuracy ±1 mm |
+| TIG welding | Weld test on Al plates | Defect-free weld |
+| Battery | Full charge/discharge cycle | Capacity >18 kWh |
+| Autonomy | Autopilot, obstacle avoidance | 100% success |
+
+**Duration:** 14 hours (manipulator calibration takes significant time)
+
+---
+
+## Stage 10: Initial Charging
+
+**Charging Station:**
+- Voltage: 200 V
+- Current: 25 A
+- Full charge time: 4 hours (20 kWh / 5 kW)
+
+**Process:**
+1. Connect to charging station
+2. Activate battery (first cycle at 350°C)
+3. Full charge
+4. Capacity verification (must be >18 kWh)
+
+---
+
+## Power Consumption
+
+| Mode | Power | Operating Time |
+|------|-------|----------------|
+| Movement | 2 kW | 10 hours (50 km) |
+| Manipulator work (positioning) | 1 kW | 20 hours |
+| TIG welding | 5 kW | 4 hours |
+| CNC milling | 3 kW | 6 hours |
+| Idle | 0.2 kW | 100 hours |
+
+**Range:**
+- Movement: 50 km
+- Manipulator work: 20 hours
+- Welding: 4 hours
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performed by |
+|-----------|-----------|--------------|
+| MoS₂ lubricant replacement in manipulators | 1 month | Another Centaur-M |
+| Manipulator calibration | 1 month | Automated |
+| NaS battery replacement | 5-7 years | Assembly line |
+| Tool replacement (TIG torch, cutters) | As needed | Centaur-M self-service |
+
+**Service life:**
+- Frame: 10-15 years
+- Manipulators: 5-10 years
+- Battery: 5-7 years (4500 cycles)
+- Electronics: 5-10 years
+- **Robot overall:** 5-10 years
+
+---
+
+## Applications
+
+**Main Centaur-M tasks:**
+
+| Task | Description | % of time |
+|------|-------------|-----------|
+| Robot assembly | Component mounting on jig | 40% |
+| Structure welding | TIG welding Al/Fe parts | 20% |
+| CNC machining | Milling mounting surfaces | 15% |
+| Equipment maintenance | Part replacement, adjustment | 15% |
+| Testing | Product quality control | 10% |
+
+**Productivity:**
+- 1 Centaur-M can assemble 0.2 robots/day (5 Centaurs → 1 robot)
+- 1 Centaur-M can service 20 equipment units/day
+
+---
+
+## Centaur-M Tools
+
+### TIG Welding Torch
+
+| Parameter | Value |
+|-----------|-------|
+| Current | 10-200 A |
+| Environment | Vacuum (no shielding gas required) |
+| Electrode | Tungsten (W) |
+| Application | Al/Fe welding |
+
+### CNC Milling Head
+
+| Parameter | Value |
+|-----------|-------|
+| Power | 3 kW |
+| Rotation speed | 10,000 rpm |
+| Cutter | Carbide W-Co |
+| Application | Mounting surface machining |
+
+### Universal Gripper
+
+| Parameter | Value |
+|-----------|-------|
+| Load capacity | 50 kg |
+| Type | Electromechanical (servo) |
+| Grip accuracy | ±1 mm |
+
+---
+
+## See also
+
+- [Robot Production](../overview.qmd) — production overview
+- [Frame Manufacturing](../elements/frames.qmd) — lightweight Al frame for Centaur-M
+- [Battery Production](../elements/batteries.qmd) — NaS 20 kWh
+- [Actuators](../elements/actuators.qmd) — 12 electric actuators for manipulators
+- [Crab-M Assembly](crabs.qmd) — logistics robot
+- [Mole-M Assembly](moles.qmd) — excavator robot

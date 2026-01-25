@@ -1,0 +1,1159 @@
+---
+title: "Roadmap"
+sidebar: science
+---
+
+# Helios Project Roadmap
+
+> **TL;DR**
+>
+> - **4 phases:** R&D (1-6+ years, parallel) -> Earth (2-4) -> Moon (4-6) -> Mercury (6-10)
+> - **Total budget:** $350-750 billion; peak personnel ~50K people
+> - **Launches to Moon:** 10-20 (technology validation)
+> - **Launches to Mercury:** ~900 (building ~1650 factories)
+> - **Key risk:** Track 1 (robots and factories) - new technologies; Track 2 (rockets) - proven experience
+
+From first blueprints to 1000 Mass Drivers on Mercury.
+
+Detailed calculations: [Mirrors and Energy](../detailed/mirrors.qmd#energy) | [Mass Drivers](../detailed/production/railguns/theory.qmd) | [Budget](budget.qmd)
+
+---
+
+## Two Parallel Tracks
+
+| Track | Complexity | Experience |
+|-------|------------|------------|
+| **1. Robots and factories** | High | New technologies |
+| **2. Rocket program** | Medium | Decades of country experience |
+
+**Track 2** - scaling proven technologies. Countries know how to build rockets.
+
+**Track 1** - the main challenge. Requires phased validation.
+
+---
+
+## Ground Zero Factory Progression
+
+A unified system tested at three proving grounds:
+
+```{mermaid}
+flowchart TB
+    subgraph RND["Phase 1: R&D (years 1-6+)"]
+        R1[GZ Factory]
+        R2[Lines]
+        R3[Robots]
+        R4[AI]
+    end
+
+    subgraph EARTH["Phase 2: Earth (years 2-4)"]
+        E1[GZ prototype]
+        E2[MD test]
+        E3[Testing]
+    end
+
+    subgraph LUNA["Phase 3: Moon (years 4-6)"]
+        L1[GZ space]
+        L2[LSP]
+        L3[MD 2.5 km/s]
+        L4[Energy -> Earth]
+    end
+
+    subgraph MERCURY["Phase 4: Mercury (years 6-10)"]
+        M1[GZ final]
+        M2[1->~1650 factories]
+        M3[1000 MD]
+        M4[Swarm 1.1B]
+    end
+
+    RND -.->|"parallel"| EARTH
+    RND -.->|"parallel"| LUNA
+    EARTH --> LUNA
+    LUNA --> MERCURY
+    M2 --> M3
+    M3 --> M4
+
+    style RND fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style EARTH fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style LUNA fill:#F5F5F5,stroke:#616161,stroke-width:2px
+    style MERCURY fill:#FBE9E7,stroke:#E64A19,stroke-width:2px
+```
+
+**Reading the diagram:** top to bottom. Each phase validates technologies for the next.
+
+---
+
+## Track 1: Preparation Phases
+
+| Phase | Years | Budget ($B) | Peak Staff | Launches |
+|-------|-------|-------------|------------|----------|
+| **1: R&D** | 1-6+ | 15-30 | 30-50K | - |
+| **2: Earth Proving Ground** | 2-4 | 12-20 | 15-25K | - |
+| **3: Moon Proving Ground** | 4-6 | 9-18 | 10-20K | 10-20 |
+| **4: Mercury** | 6-10 | 180-270 | - | ~900 |
+| **TOTAL** | **1-10** | **250-400** | **~50K peak** | **~920** |
+
+*Budget with 2x contingency. Personnel calculation: $200K/person/year.*
+
+---
+
+### Phase 1: R&D and Development (years 1-6+)
+
+**Parallel phase:** R&D starts in year 1 and continues throughout the preparation period (until year 6+). Technology development runs in parallel with testing on Earth (years 2-4) and Moon (years 4-6). Design, simulations, AI development do not stop until full Mercury readiness is achieved.
+
+**Budget: $15-30B | Peak: 30-50K people**
+
+#### Years 1-2: Intensive Design (peak load)
+
+| Direction | Budget ($B) | People |
+|-----------|-------------|--------|
+| Swarm control software | 6-10 | 12-20K |
+| Autonomy neural networks | 4-8 | 8-15K |
+| VR simulators | 2-4 | 4-8K |
+| Scientific research | 2-4 | 3-6K |
+
+**For comparison:** SpaceX ~13K, Waymo ~2.5K, NVIDIA ~30K employees.
+
+#### Years 3-6: Refinements and Validation (parallel with proving grounds)
+
+**Focus evolution:**
+
+| Period | Work Focus | Personnel |
+|--------|-----------|-----------|
+| **Years 3-4** | Refinements based on Earth proving ground results | 20-30K |
+| **Years 5-6** | Refinements based on Moon proving ground results | 10-20K |
+
+**Main directions in years 3-6:**
+- **Algorithm optimization** based on real proving ground data
+- **Fixing identified problems** in factory and robot prototypes
+- **Autonomy AI refinement** for real conditions (communication delays, unforeseen situations)
+- **VR simulator adaptation** for space conditions (temperature, radiation, dust)
+- **Technical documentation preparation** for Mercury
+
+**Staff reduction:** As main design completes (years 1-2), the team gradually shrinks. Only engineers working on refinements and validation based on proving ground data remain.
+
+#### Ground Zero Factory Design
+
+::: {.callout-note}
+## Goal and Calculation Status
+
+The goal of this documentation is to confirm the **fundamental feasibility** of the project and provide preliminary budget and timeline estimates. Calculations confirm: all necessary technologies exist ([MRE electrolysis](../reference/technology-readiness.qmd#mre-molten-regolith-electrolysis), [WAAM](../reference/technology-readiness.qmd#waam-wire-arc-additive-manufacturing), solar concentration, [electromagnetic launch](../reference/technology-readiness.qmd#electromagnetic-launch-mass-driver)), materials on Mercury are present in sufficient quantities (Al, Fe, Si, Ti, S), delivery logistics are realistic at current launch cost trends.
+
+All provided numbers (areas, productivities, material flows) are **preliminary order-of-magnitude estimates**. Transitioning to implementation requires work by a professional engineering team to refine parameters, detailed design, and validation of adopted decisions.
+:::
+
+The project's key unit is the **replicator factory (F-R)**, fully self-sufficient for building new factories ([lights-out factories TRL 9](../reference/technology-readiness.qmd#lights-out-factories)). The second type - **mirror factory (F-M)** - specializes in mirror production.
+
+**Replicator factory (F-R) structure:**
+- Dome: 1500 m^2^ (50x30 m), height 6-8 m, atmosphere 0.1 atm N~2~
+- Zones: foundry, rolling, drawing, forming (WAAM+CNC), robot assembly, dome cutting/welding, equipment assembly
+- Productivity: 5 robots/day, 1 dome / 2-3 days, 1 equipment set / 2-3 weeks
+
+**Mirror factory (F-M):**
+- Same dome (1500 m^2^), different specialization
+- Zones: foundry, foil rolling, mirror assembly, QC/packaging
+- Productivity: ~400 mirrors/day
+
+> **More details:** [Factory Production](../detailed/production/factories/overview.qmd)
+
+#### Regolith Processing Line Design
+
+**Fiberglass line:**
+- MRE electrolysis -> silicate melt -> Pt-Rh spinnerets -> 28 t/day fiber
+- Application: composite domes for factories
+- [Details: fiberglass line](../detailed/production/materials/silicate-fabric.qmd)
+
+**Titanium line:**
+- TiO~2~ electrolysis -> PVD deposition -> electrochromic coating for mirrors
+- Application: mirror orientation control without fuel
+- [Details: titanium line](../detailed/production/materials/titanium.qmd)
+
+**Continuous slag distillation:**
+- Al/Mg/Na/K separation at different boiling temperatures
+- Application: obtaining pure metals for production
+- [Details: distillation](../detailed/production/materials/distillation.qmd)
+
+> **More details:** [Regolith Processing Overview](../detailed/production/materials/overview.qmd)
+
+#### Material Production Line Design
+
+**Aluminum line:**
+- Continuous casting for 50 um foil -> mirrors and concentrators
+- [Details: aluminum line](../detailed/production/materials/distillation.qmd)
+
+**Iron line:**
+- Producing rods for robot frames and MD structures
+- [Details: iron line](../detailed/production/materials/mre.qmd)
+
+**Silicate line:**
+- Loom + laminator -> 8-layer composite for domes
+- [Details: silicate line](../detailed/production/materials/silicate-fabric.qmd)
+
+#### Assembly Line Design
+
+**Mirror assembly (F-M):**
+- ~400 mirrors/day (116 kg each)
+- 4 um Al foil + TiO~2~ electrochromic coating
+- [Details: mirror assembly](../detailed/mirrors.qmd)
+
+**Gen-2 robot assembly (F-R):**
+- 5 robots/day (960 kg each)
+- 99% local materials (Al frames + Fe assemblies), 1% "Vitamins" from Earth
+- [Details: robot assembly](../detailed/production/robots/overview.qmd)
+
+**Dome assembly:**
+- 8-layer composite (fabric + Al foil) for factory atmosphere
+- [Details: dome assembly](../detailed/production/factories/assembly/domes.qmd)
+
+#### Factory Equipment Assembly Line Design
+
+**For self-replication:** each factory produces equipment for new factories.
+
+**Regolith processing line:**
+- MRE cells (electrolyzers) - steel/ceramic body, iridium anodes (import)
+- Solar furnaces - Al concentrators (local)
+- Distillation induction furnaces - Al+Cu coils
+- [Details: regolith processing](../detailed/production/materials/overview.qmd)
+
+**Material production line:**
+- CC-Al, CC-Fe (continuous casting machines) - Fe frame, Cu crystallizers (import)
+- 6-stand rolling mills - Fe rolls, local drive
+- Drawing mills - tungsten dies (import)
+- Looms - for silicate fabric, Al+Fe body
+- Laminators - for 8-layer dome composite
+- [Details: aluminum line](../detailed/production/materials/distillation.qmd)
+- [Details: iron line](../detailed/production/materials/mre.qmd)
+- [Details: silicate line](../detailed/production/materials/silicate-fabric.qmd)
+
+**Assembly line:**
+- PVD chambers - for TiO~2~ deposition on mirrors, steel body
+- [WAAM](../reference/technology-readiness.qmd#waam-wire-arc-additive-manufacturing) equipment (3D printing) - for Gen-2 robot frames
+- 5-axis CNC milling centers - Fe body, spindle (import)
+- Assembly jigs - for Gen-2 robots
+
+**99% local materials:**
+- Equipment frames: Fe (local)
+- Bodies, cladding: Al (local)
+- Furnace lining: MgO ceramics (local)
+- Heat transfer fluids: NaK alloy (Na+K local)
+
+**1% critical imports:**
+- Iridium anodes for MRE (~10 kg/year per cell)
+- Pt-Rh spinnerets for fiberglass (~50-100 kg/year)
+- Copper crystallizers for continuous casting (high thermal conductivity)
+- Tungsten dies and cutters (~0.1 t/year)
+- Bearings, drives, electronics
+
+> **More details:** [Factory Self-Replication](../detailed/production/factories/assembly/replication.qmd)
+
+**Each F-R produces ~83 t for a new factory** (dome 8 t + equipment 51 t + robots 14 t + power system 10 t), enabling exponential growth: 1 -> 2 -> 4 -> ... -> ~1650 factories in ~4 years.
+
+#### Robot Development
+
+**Robot Gen-1** (delivered from Earth):
+- Mass: ~50 kg
+- Purpose: factory assembly, reconnaissance
+- Materials: composites, electronics (100% Earth)
+
+**Robot Gen-2** (produced on-site):
+- Mass: ~960 kg
+- Purpose: mining, construction, MD maintenance
+- Materials: 99% local (Al frames + Fe critical assemblies)
+- Critical imports: motors, sensors, control boards
+
+> **More details:** [Robot Bestiary](../detailed/production/robots/overview.qmd)
+
+#### AI and Control Systems Development
+
+**Robot autonomy:**
+- GPS-free navigation (star orientation + SLAM)
+- Computer vision for manipulation
+- Swarm robot coordination for parallel tasks
+
+**Mirror swarm control:**
+- Formation keeping algorithms (~1000 mirrors per cluster)
+- Focusing on Moon LSP stations
+- Electrochromic orientation control
+
+**VR simulators:**
+- Mercury factory operation modeling
+- Algorithm testing before physical deployment
+
+#### Mass Driver Development
+
+**Construction:**
+- Track length: 2-3 km (Mercury), 1-1.5 km (Moon test), 500-1000 m (Earth test)
+- Launch velocity: 5 km/s (Mercury), 2.5 km/s (Moon)
+- Power consumption: 40 MW peak
+
+**Materials:**
+- Rails: Fe (local on Moon/Mercury)
+- Coils: Al + Cu import (critical for conductivity)
+- Control electronics: import from Earth
+
+> **More details:** [Mass Driver: Calculations](../detailed/production/railguns/theory.qmd)
+
+**Phase result:** Complete documentation, simulations, readiness for Earth prototyping.
+
+---
+
+### Phase 2: Earth Proving Ground (years 2-4)
+
+**Budget: $12-20B | Peak: 15-25K people**
+
+| Direction | Budget ($B) | People |
+|-----------|-------------|--------|
+| Factory prototypes | 6-10 | 6-10K |
+| Robot prototypes | 4-6 | 5-8K |
+| Test sites | 2-4 | 1.5-3K |
+
+#### Ground Zero Factory Prototype Deployment
+
+**Location:** desert (Mojave/Gobi) - conditions close to Mercury:
+- Temperature cycles: -50C...+70C
+- Minimum humidity
+- Open terrain for MD tests
+
+**Infrastructure:**
+- Vacuum chambers, thermal-baric chambers (-180C...+430C)
+- Thousands of Gen-1 robots, dozens of versions, crash tests
+
+**Test program:**
+- 3-5 iterations of full production cycle
+- Autonomous operation test (30 days off-grid)
+- All production line validation
+- Robot testing in extreme conditions
+
+#### Horizontal Mass Driver (test)
+
+**Parameters:**
+- Length: 500-1000 m (shortened version)
+- Velocity: 1-2 km/s (below orbital)
+- Goal: coil, synchronization, control debugging
+
+**Test program:**
+- Inert dummy launches (1000+ launches)
+- Coil and rail wear testing
+- Control system debugging
+
+**Result:**
+- Electromagnetic acceleration concept validation
+- Component wear database
+- Readiness for lunar space tests
+
+**Phase result:** Working factory and MD prototypes ready for lunar tests.
+
+---
+
+### Phase 3: Lunar Proving Ground (years 4-6)
+
+**Budget: $9-18B | Peak: 10-20K people | Launches: 10-20**
+
+**Why the Moon?**
+
+| Parameter | Moon | Mercury |
+|-----------|------|---------|
+| Travel time | 3 days | 3-4 months |
+| Mission cost | x1 | x10-20 |
+| Iterations on error | Fast | Slow |
+
+**Cargo to Moon (~60 t):**
+
+| Cargo | Mass | Cost |
+|-------|------|------|
+| Factory (modules) | 35 t | $0.5-1B |
+| Robots (50 pcs) | 2.5 t | $0.2-0.3B |
+| Concentrators, consumables | 7 t | $0.2B |
+| Reserve, redundancy | 15 t | $0.3-0.5B |
+| **Total** | **~60 t** | **$1.2-2B** |
+
+**Launches:**
+
+| Scenario | Price per launch | Launches | Total |
+|----------|------------------|----------|-------|
+| Optimistic | $50-100M | 10 | $0.5-1B |
+| **Baseline** | **$150-250M** | **15** | **$2-4B** |
+| Conservative | $300-500M | 20 | $6-10B |
+
+#### Ground Zero Factory - Space Version
+
+**Differences from Earth prototype:**
+- Radiation protection (cosmic rays, solar flares)
+- Vacuum seals for domes
+- Thermal regulation: -180C (night) to +120C (day)
+
+**What we test:**
+- Full cycle: robots -> factory assembly -> Gen-2 production
+- Lunar regolith mining and processing
+- Autonomous operation (1.3 sec communication delay)
+- All production line validation in space
+
+#### LSP Station Development
+
+**Lunar Solar Power** - receiving and transmitting energy from Swarm to Earth:
+
+**Location:** Moon limbs (east + west)
+- Earth visibility: constant
+- Reception from Swarm: mirror clusters focus light
+
+**Technology:**
+1. Concentrated light reception from Swarm
+2. PV panels (GaAs, 30% efficiency)
+3. Conversion to 2.45 GHz microwaves
+4. Transmission to rectenna on Earth
+
+**Chain efficiency:**
+- Swarm -> LSP: 95% (reflection + light transmission)
+- LSP PV: 30% (light -> electricity)
+- Electricity -> microwaves: 80%
+- Microwaves -> Earth: 75%
+- **Total: 18%** (vs 10% for orbital hub)
+
+**LSP advantages:**
+- Heat goes into ground (no radiators needed in space)
+- Stable position (no station-keeping required)
+- Repair and maintenance by factory robots
+
+**Number of stations:** 20-40
+- Coverage: 24/7 reception from one station
+- Redundancy: system works if 1-2 stations fail
+
+> **More details:** [Energy Reception Hub: LSP](../detailed/hub.qmd)
+
+#### Test Mass Driver on Moon
+
+**Parameters:**
+- Track length: 1-1.5 km
+- Target velocity: 2.5 km/s (Moon escape velocity)
+- Payload mass: 116 kg (test mirror)
+
+**Test program:**
+- Inert dummy launches (100-200 launches)
+- Real mirror launches (50-100 launches)
+- Orbital deployment verification
+- Electrochromic control
+
+**Result:**
+- MD validation for Mercury
+- Vacuum wear database
+- Space mirror coordination experience
+
+> **More details:** [Mass Driver: Calculations](../detailed/production/railguns/theory.qmd)
+
+#### Energy Transmission to Earth (first test)
+
+**Goal:** verify full LSP -> Earth chain
+
+**Program:**
+- Launch 10-100 mirrors from lunar MD
+- Form test cluster
+- Focus on one LSP station
+- Transmit microwaves to rectenna (Nevada/Yakutia)
+
+**Test power:**
+- 100 mirrors x 93 MW x 0.18 = 1.67 GW to Earth
+- Enough for a city of ~1.5 million people
+
+**Test result:**
+- Proof of concept for full system
+- Public demonstration (political support)
+- Validation before Mercury
+
+**Lunar proving ground advantages:**
+- Errors are cheap - lost a lunar mission, not Mercurian
+- Fast iterations - 3 days to Moon
+- Public success - energy to Earth already at this stage
+
+**Phase result:** Validated system (factory + MD + LSP + Swarm), ready for Mercury.
+
+---
+
+### Track 2: Rocket Program (parallel with Phases 1-3, years 1-6)
+
+| Year | Tasks |
+|------|-------|
+| 1-2 | Carrier selection, manufacturer contracts |
+| 2-4 | Spaceport modernization (Baikonur, Vostochny, partners) |
+| 3-5 | Carrier production ramp-up |
+| 4-6 | Test launches, Mercury trajectory refinement |
+
+**Note:** The rocket industry - organic development. These capacities would develop anyway: commercial launches, satellite constellations, lunar programs. Project Helios only accelerates and directs the existing trend. Therefore, these costs are conditionally included in the project budget - additional targeted investments may be needed to accelerate the pace, but basic industry development would happen without the project.
+
+**Result:** Readiness for 900 launches in 4 years.
+
+---
+
+## Phase 4: Mercury (years 6-10)
+
+*After successful Moon validation.*
+
+---
+
+## Mercury Strategy: Test + Reinforcement
+
+**Principle:** First we verify, then we scale.
+
+| Stage | Cargo | Goal | Risk |
+|-------|-------|------|------|
+| Expedition 1 | 75 t | Test: 1 factory + 1 MD | If failure - lost 75 t |
+| Expedition 2 | 150 t | Reinforcement: +3 factories | Only after E1 success |
+
+**Advantages:**
+- Risk reduction: not putting all eggs in one basket
+- Acceleration: 4 factories instead of 1 = 4x faster growth
+- Technology verification: first factory validates the concept
+
+---
+
+## Carrier Options
+
+The project is not tied to a specific rocket. Delivery options:
+
+### Current and Near-term Carriers (2026-2030)
+
+| Carrier | Country | To LEO | To Mercury* | Status |
+|---------|---------|-------:|------------:|--------|
+| **Falcon Heavy** | USA | 64 t | ~20 t | Flying |
+| **Starship Block 2** | USA | 150 t | ~50 t | Tests 2025 |
+| **Starship Block 3** | USA | 200 t | ~70 t | ~2027 |
+| **New Glenn** | USA | 45 t | ~15 t | January 2025 |
+| **New Glenn 9x4** | USA | 70 t | ~25 t | 2027 |
+
+### Prospective Carriers (2030+)
+
+| Carrier | Country | To LEO | To Mercury* | Status |
+|---------|---------|-------:|------------:|--------|
+| **Long March 9** | China | 150 t | ~50 t | 2033 |
+| **SLS Block 2** | USA | 130 t | ~40 t | In development |
+| **Yenisei** | Russia | 100 t | ~30 t | After 2033 |
+| **Don** | Russia | 150 t | ~50 t | After 2035 |
+| **Angara-A5V** | Russia | 38 t | ~12 t | 2030 |
+
+*Payload capacity to Mercury trajectory - estimate (~30-35% of LEO). High delta-v (~12.5 km/s) due to braking near the Sun.
+
+### Sources (December 2024)
+
+- SpaceX Starship: 11 test flights by October 2024, Block 2 from January 2025
+- New Glenn: first flight January 16, 2025, reached orbit
+- Long March 9: new design (similar to Starship) presented November 2024
+- Yenisei/Don: 600B rubles funding, flight tests from 2033
+
+### E1 Delivery Scenarios (75 t)
+
+| Scenario | Carriers | Flights | Note |
+|----------|----------|---------|------|
+| Optimal | Starship Block 2/3 | 1-2 | Minimum launches (2027+) |
+| Nearest | Falcon Heavy + New Glenn | 4-5 | Available 2025 |
+| International | Mixed fleet | 3-4 | Distributed risk |
+
+**Conclusion:** By project start (2030s) next-generation heavy carriers will be operational. Average payload ~40-50 t to Mercury.
+
+---
+
+## Expedition 1: Ground Zero Factory - Final Deployment
+
+**Cargo: 75 tons** (see carrier options above)
+
+#### Differences from Lunar Version
+
+- Enhanced thermal regulation: (-180C...**+430C**)
+- Solar concentrators optimized for 10 kW/m^2^ (vs 1.4 on Moon)
+- Enhanced radiation protection (extreme proximity to Sun)
+- Dust: abrasive + charged
+
+| Component | Mass | Purpose |
+|-----------|------|---------|
+| Ground Zero Factory (modules) | 35 t | Gen-2 robot production |
+| Gen-1 robots | 15 t | Factory assembly (56 pcs) |
+| Starter concentrators | 1 t | 30 MW for first days |
+| MD components | 20 t | Accelerated first Mass Driver assembly |
+| Consumables | 4 t | Vitamins for one year |
+
+**Key milestones:**
+- **Day 7: Factory operational!** Begins Gen-2 robot production
+- **Month 6: First MD ready** -> Dyson Swarm begins
+
+**Success criteria (by month 3):**
+- Factory produces 15 Gen-2 robots/month
+- Local concentrators provide 100+ MW energy
+- MD under construction (60% complete)
+
+---
+
+## Expedition 2: Reinforcement (Month 4-5)
+
+**"Leap of faith" strategy:**
+- Day 7: Factory #1 operational -> data to Earth
+- Month 1: E2 launches (not waiting for full confirmation)
+- Transit: ~3-4 months (direct trajectory)
+- **Month 4-5: E2 arrives**
+
+**Cargo: 150 tons** (see carrier options)
+
+| Component | Mass | Purpose |
+|-----------|------|---------|
+| 3 factories (modules) | 105 t | Production scaling |
+| Gen-1 robots | 30 t | Assembly acceleration (112 pcs) |
+| MD components | 10 t | Spare parts for MD #2-4 |
+| Consumables | 5 t | Vitamins for 2 years |
+
+**Result:**
+- Month 5: 4 factories operational
+- Production: 60 robots/month (instead of 15)
+- 4x faster growth
+- First MD ready by month 6 (no delays)
+
+---
+
+## Regular Supplies from Earth
+
+The base cannot be 100% autonomous. "Vitamins" are needed:
+
+| Category | What exactly | Why not on-site |
+|----------|--------------|-----------------|
+| Electronics | Control units, sensors | No microchip production |
+| Rare earths | Nd, Sm for magnets | Not on Mercury |
+| Copper | Continuous casting crystallizers | Deficit on Mercury |
+| Tungsten | Dies, cutters | Critical for processing |
+| Iridium | MRE anodes | Ultra-rare |
+| Gases | Argon, nitrogen | No atmosphere |
+
+### Vitamin Requirements
+
+```
+Per factory/year:
+- Electronics: ~10 kg (for ~180 robots)
+- Dies/cutters: ~3 kg
+- MRE anodes: ~4 kg
+- Gases: ~10 kg
+- Other: ~3 kg
+TOTAL: ~30 kg/factory/year
+```
+
+### Supply Schedule
+
+| Year | Factories | Vitamins | Add. factories* | Total cargo | Flights** |
+|------|-----------|----------|-----------------|-------------|-----------|
+| 1 | 25 | 1 t | +10 | ~400 t | 8-20 |
+| 2 | 120 | 4 t | +30 | ~1,100 t | 22-55 |
+| 3 | 500 | 15 t | +100 | ~3,600 t | 72-180 |
+| 4 | 1,000 | 30 t | +200 | ~5,500 t | 110-275 |
+| **Total** | | | | **~22,000 t*** | **~550** |
+
+*Including first expeditions (225 t) and +30% reserve.
+**Flights: minimum (Starship ~50 t) - maximum (Falcon Heavy ~20 t).
+
+*Additional factories accelerate growth - each factory = +15 robots/month.
+
+### Supply Economics
+
+```
+Delivery cost (Starship): ~$100/kg -> $100M for 1000 t
+Delivery cost (current): ~$10,000/kg -> $10B for 1000 t
+
+With Starship: year 3 supplies = ~$360M
+This is cheap for a planetary-scale project.
+```
+
+**Conclusion:** Earth supplies are not a problem. This is <1% of mass produced on Mercury.
+
+---
+
+## Days 1-7: Starter Energy Deployment
+
+### What We Do
+1. Robots deploy starter concentrators (1 ton = 20,000 m^2^)
+2. Install at "Peak of Eternal Light"
+3. Connect to power system
+
+### Result
+```
+Area: 20,000 m^2^
+Solar flux: 10 kW/m^2^
+PV efficiency (GaAs): 30%
+
+Power = 20,000 x 10 x 0.3 = 60 MW
+```
+
+**60 MW - enough for 10 factories** (5 MW each, with margin)
+
+---
+
+## Days 1-7: Parallel - Factory Assembly
+
+### What We Do
+- 56 Gen-1 robots assemble factory modules
+- Blitz assembly in 7 days (see [Ground Zero Factory](../detailed/production/factories/overview.qmd))
+
+### Result
+- **Day 7: Factory operational!**
+- Begins producing Gen-2 robots (15/month)
+
+---
+
+## Week 2-4: Energy Scaling
+
+### What We Do
+Factory produces concentrators from local aluminum.
+
+```
+Requirement: 100 MW (factory + MD startup)
+Needed: 37,000 m^2^ concentrators
+Aluminum mass: 2 tons
+Production time: ~1 week
+```
+
+### Result
+- **End of month 1: 100+ MW local energy**
+- Starter mirrors from Earth no longer critical
+
+---
+
+## Months 1-6: First Mass Driver Construction
+
+### Parallel Tracks
+
+| Month | Factory | Mass Driver | Energy |
+|-------|---------|-------------|--------|
+| 1 | +15 robots | Site, excavation | 100 MW |
+| 2 | +15 robots | Tunnel excavation | 150 MW |
+| 3 | +15 robots | Frame | 200 MW |
+| 4 | +15 robots | Rails | 250 MW |
+| 5 | +15 robots | Coils | 300 MW |
+| 6 | +15 robots | Testing | 350 MW |
+
+### Result
+- **Month 6: First MD ready!**
+- 60 Gen-2 robots accumulated
+- 350 MW local energy
+- Can launch 600 mirrors/day
+
+---
+
+## Month 6, Day 1: First Launch
+
+### What Happens
+```
+MD launches first mirror into space
+Mirror deploys in orbit
+100x100 m = 10,000 m^2^
+Reflects 93 MW solar energy
+```
+
+### Symbolic Moment
+First mirror of the Dyson Swarm. Beginning of a new era.
+
+---
+
+## Month 6-7: Mercury Energy Saturation
+
+### Calculation
+```
+MD: 600 mirrors/day
+In 30 days: 18,000 mirrors
+
+Mirror energy (for base, 50% efficiency):
+18,000 x 93 MW x 0.5 = 837,000 MW = 837 GW
+
+Base consumption at this point:
+- 1 factory: 5 MW
+- 1 MD: 40 MW
+- Robots, infrastructure: 10 MW
+= 55 MW
+```
+
+**Excess: 837,000 / 55 = 15,200x**
+
+### Conclusion
+**Within first month of MD operation, energy ceases to be a constraint forever.**
+
+Even per day:
+```
+600 mirrors x 93 MW x 0.5 = 27,900 MW = 27.9 GW
+```
+This covers base consumption 500 times over.
+
+---
+
+## Months 5-12: Expansion (with 4 factories)
+
+### Now the Only Constraint - Robot Production
+
+| Resource | Status |
+|----------|--------|
+| Energy | Infinite (after MD - 13,000x excess) |
+| Materials | Infinite (Mercury is rich) |
+| **Robots** | **Bottleneck** (60/month for 4 factories) |
+
+### 4 Factory Advantage
+
+```
+With 1 factory: 15 robots/month -> slow growth
+With 4 factories: 60 robots/month -> 4x faster
+```
+
+### Strategy: Build Factories and MDs in Parallel
+
+```
+Month 5: 4 factories (60 robots/month) - E2 arrived
+Month 6: First MD ready!
+Month 7: 8 factories (120 robots/month)
+Month 9: 16 factories (240 robots/month)
+Month 12: 25 factories (375 robots/month)
+```
+
+### Parallel: More MDs
+
+```
+Month 6: 1 MD (first!)
+Month 8: 3 MDs
+Month 10: 6 MDs
+Month 12: 12 MDs
+```
+
+---
+
+## Year 1: Results (E2 arrived by month 5)
+
+| Metric | Value |
+|--------|-------|
+| Factories | 25 |
+| Robots | 375/month |
+| Mass Drivers | 12 |
+| Mirrors in Swarm | ~2.5M |
+| Swarm power | 205 TW (reflected) |
+| To Earth (23% efficiency) | **47 TW** |
+
+**For comparison:** World consumption = 2.3 TW
+
+**Already in one year - 20 times world consumption!**
+
+*(Early E2 launch gives +2 months head start)*
+
+---
+
+## Years 2-3: Exponential Growth
+
+| Year | Factories | MDs | Mirrors in Swarm | To Earth |
+|------|-----------|-----|------------------|----------|
+| 1 | 25 | 12 | 2.5M | 47 TW |
+| 2 | 120 | 80 | 40M | 750 TW |
+| 3 | 500 | 400 | 250M | 4,700 TW |
+| 3.5 | 1,000 | 800 | 500M | 9,500 TW |
+| 4 | **~1,650** | **1,000** | 700M | 13,300 TW |
+
+**Conclusion:** Early E2 launch -> reach ~1650 factories and 1000 MDs in **~4 years**.
+
+---
+
+## Self-Replication: 1 Factory -> ~1650 Factories
+
+**Growth strategy:**
+- Each factory produces 15 Gen-2 robots/month
+- Robots build new factories and MDs in parallel
+- Exponential growth limited only by robot production
+
+**Growth schedule:**
+- **Year 1:** 25 factories, 12 MDs (after E2)
+- **Year 2:** 120 factories, 80 MDs
+- **Year 3:** 500 factories, 400 MDs
+- **Year 3.5:** 1000 factories, 800 MDs
+- **Year 4:** **~1650 factories, 1000 MDs**
+
+**99% local materials:**
+- Robot frames: Al (local)
+- Factory structures: Fe (local)
+- Mirrors: 4 um Al foil (local)
+- Factory domes: silicate composite (local)
+
+**1% import from Earth** ("Vitamins"):
+- Electronics: control boards, sensors
+- Rare earths: Nd, Sm for magnets
+- Copper: for MD coils (critical for conductivity)
+- Iridium: MRE anodes
+
+> **More details:** [Production and Self-Replication](../detailed/production.qmd), [Ground Zero Factory](../detailed/production/factories/overview.qmd)
+
+---
+
+## Network of 1000 Mass Drivers
+
+**Each MD parameters:**
+- Track length: 2-3 km
+- Launch velocity: 5 km/s (Mercury escape velocity)
+- Productivity: 600 mirrors/day
+- Power consumption: 40 MW peak
+
+**Total network productivity:**
+- 1000 MDs x 600 = **600,000 mirrors/day**
+- = **219 million mirrors/year**
+
+**MD materials (99% local):**
+- Rails: Fe (local)
+- Coils: Al + Cu import (critical for conductivity)
+- Control electronics: import from Earth
+
+**Single MD construction:**
+- Time: ~1 month (with 60+ Gen-2 robots)
+- Mass: ~500 t (rails, coils, structures)
+- Launch energy: from local concentrators
+
+> **More details:** [Mass Driver: Calculations](../detailed/production/railguns/theory.qmd)
+
+---
+
+## Dyson Swarm - Final Goal
+
+**Swarm parameters:**
+- Mirror count: ~1.1 billion active (accounting for 3-5%/year degradation)
+- Total area: 1.1x10^13^ m^2^ (~11 million km^2^)
+- Mass: ~128 million tons
+- Reflected power: ~100 PW
+- **Power to Earth: ~21 PW** (18% efficiency via LSP)
+
+**For comparison:**
+- World consumption 2026: 2.3 TW
+- Dyson Swarm (by year 10): **9,430 TW** = **4100x world consumption**
+
+**Swarm organization:**
+- Mirrors in clusters of 1000-10,000
+- Each cluster = virtual antenna ~100 km
+- Focusing on LSP stations on Moon limbs
+- Electrochromic orientation control (no fuel)
+
+**Construction time:**
+- ~9.5 years from first factory to 1.1 billion active mirrors
+- Mirror degradation already accounted in calculations
+
+**Disposal:**
+- Failed mirrors fall into the Sun
+- No space debris around Earth
+
+> **More details:** [Swarm Mirrors](../detailed/mirrors.qmd), [Scaling](../detailed/production/railguns/scaling.qmd)
+
+---
+
+## Year 3: Goal Achieved
+
+### 1000 Mass Drivers
+
+```
+Productivity: 1000 x 600 = 600,000 mirrors/day
+= 219 million mirrors/year
+
+Energy to Earth:
+219M x 93 MW x 0.20 = 4,073 TW/year added
+
+By year 4 in Swarm: ~134M active mirrors
+Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW
+```
+
+### Comparison
+
+| Metric | Value |
+|--------|-------|
+| World consumption 2026 | 2.3 TW |
+| Dyson Swarm (year 3) | 9,430 TW |
+| **Ratio** | **4,100x** |
+
+---
+
+## Why Not Infinite Growth
+
+**Criticism:** "Exponential growth is fantasy. You're just drawing pretty tables."
+
+**Response:** Criticism is valid if the goal is infinite growth for growth's sake. But our goal is finite:
+
+### Project Goal
+
+| Parameter | Value |
+|-----------|-------|
+| Target power | ~10,000 TW |
+| World consumption | 2.3 TW |
+| Margin | 4,000x |
+| Time to achieve | **3 years** |
+
+**Why 4000x margin?**
+- Mars terraforming (magnetic field)
+- Interplanetary logistics
+- Population and consumption growth (100 years ahead)
+- Space industry
+
+### After Year 3: Maintenance Mode
+
+```
+Growth STOPS after reaching goal:
+- 1000 MDs operating
+- Factories switch to repair and replacement
+- New mirrors = replace worn ones
+- Vitamin supplies continue
+```
+
+### Exponential is Tool, Not Goal
+
+| Phase | Years | Mode | Goal |
+|-------|-------|------|------|
+| Ramp-up | 0-3 | Exponential growth | Reach 1000 MDs |
+| Plateau | 3+ | Maintenance | System operation |
+
+**Main conclusion:** We're not building an infinite machine. We're building infrastructure with a finite goal. Exponential is only needed to reach the goal in reasonable time (3 years instead of 30).
+
+---
+
+## Key Milestones for Entire Project
+
+### Preparation Phases (years 1-6)
+
+| Year | Event |
+|------|-------|
+| 1 | Project start, design begins |
+| 2 | First robot and factory prototypes |
+| 3 | Earth proving ground operational, full test cycle |
+| 4 | **First lunar expedition** |
+| 5 | Lunar factory operational, producing robots |
+| 6 | Lunar proving ground validated, Mercury readiness |
+
+### Mercury Phase (years 6-10)
+
+| Moment | Event |
+|--------|-------|
+| Year 6, Day 0 | Expedition 1 landing on Mercury |
+| Day 7 | Factory #1 operational |
+| Month 1 | E2 launches from Earth ("leap of faith") |
+| **Month 4-5** | **Expedition 2 arrival (+3 factories)** |
+| **Month 6** | **First MD - energy export begins** |
+| Year 7 | 2x world consumption on receivers |
+| Year 8 | 16x world consumption |
+| **Year 10** | **1000 MDs, 100x world consumption** |
+
+---
+
+## Critical Path for Entire Project
+
+```
+PREPARATION (years 1-6):
++---------------------------------------------------------+
+| Phase 1: R&D (years 1-6+) -------------------------+    |
+|           |                                        |    |
+|           +---> Phase 2: Earth Proving (years 2-4) |    |
+|           |            |                           |    |
+|           +---> Phase 3: Moon (years 4-6) ---> Validation
++---------------------------------------------------------+
+                              |
+MERCURY (years 6-10):
++---------------------------------------------------------+
+| Phase 4: E1: Landing -> Factory (7 days) -> First MD (6 mo) -+
+|                   |                              |           |
+|            Concentrators (parallel)              v           |
+|                                            +-- Expansion     |
+|         E2: Launch (mo 1) -> Arrival (mo 4-5) -----+         |
+|          ^                                                   |
+|     "Leap of faith"                                          |
++---------------------------------------------------------+
+```
+
+**Key decisions:**
+- Moon as proving ground reduces Mercury risk
+- "Leap of faith" on Mercury accelerates by ~1 year
+- After first MD - energy is infinite, growth limited only by robots
+
+---
+
+## Known Limitations
+
+> **Attention:** This section describes problems requiring solutions.
+
+### Critical Issues
+
+#### 1. Timelines Are Underestimated
+
+| Phase | Planned timeline | Realistic estimate |
+|-------|------------------|-------------------|
+| R&D | 2 years | **3-4 years** |
+| Earth proving ground | 2 years | **3-4 years** |
+| Moon proving ground | 2 years | **3-5 years** |
+| Mercury to 1000 MDs | 4 years | **5-7 years** |
+| **Total** | **10 years** | **14-20 years** |
+
+**Reasons:**
+- Each problem in space -> months of waiting
+- AI development is unpredictable (Waymo: 15 years, no full autonomy)
+- Political delays not accounted for
+
+#### 2. "Leap of Faith" - High Risk
+
+Launching E2 one month after E1 landing (not waiting for full validation):
+
+| Scenario | Consequences |
+|----------|--------------|
+| E1 successful | 3 months gained |
+| E1 failed | E2 useless (~$1-2B lost) |
+
+**E1 failure probability:** 10-30% (first mission to new planet).
+
+### High Issues
+
+#### 3. Next-Generation Super-Heavy Carriers {#next-generation-super-heavy-carriers}
+
+Project depends on carriers with ~$1,000-2,500/kg cost appearing:
+
+| Carrier | Country | Payload capacity | Expected |
+|---------|---------|------------------|----------|
+| Starship | USA | 150-200 t | 2027-2030 |
+| Long March 9 | China | 150 t | 2030+ |
+| Yenisei | Russia | 100 t | 2030+ |
+| New Glenn | USA | 45 t | 2025-2026 |
+| SHLV | India | ~100 t | 2035+ |
+
+| Assumption | Risk |
+|------------|------|
+| Target price $1,000-1,500/kg by 2030 | Could be $2,500-3,000/kg |
+| 100-150 t to LEO | Real capacity may be lower |
+
+**Consequences:** If super-heavy carrier development delays, project shifts 2-3 years. Risk reduced through diversification: multiple countries developing such carriers in parallel.
+
+#### 4. Lunar Proving Ground May Be Insufficient
+
+| Parameter | Moon | Mercury |
+|-----------|------|---------|
+| Temperature | -180C...+120C | -180C...**+430C** |
+| Solar flux | 1.4 kW/m^2^ | **10 kW/m^2^** |
+| Radiation | Moderate | **Extreme** |
+| Dust | Abrasive | **Abrasive + charged** |
+
+**Risk:** Moon success doesn't guarantee Mercury success.
+
+### Require Research
+
+#### 5. International Cooperation
+
+- Project requires USA, China, Russia, EU, India participation
+- Geopolitical situation 2026 - tense
+- Sanctions and export controls block technology transfer
+
+**Scenario:** Competition instead of cooperation -> expense duplication, slowdown.
+
+#### 6. Regulatory Barriers
+
+- Laser energy transmission through atmosphere - requires international agreements
+- Frequency regulation for billion mirrors - doesn't exist
+- Space debris liability - not defined
+
+### Adjusted Timelines
+
+| Scenario | Total time | Comment |
+|----------|------------|---------|
+| Optimistic | 10-12 years | Everything goes to plan |
+| **Baseline** | **14-16 years** | Moderate delays |
+| Conservative | 18-25 years | Serious problems |
+
+**Conclusion:** Realistic timeline to 1000 MDs - **14-16 years**, not 10 years.
+
+---
+
+## Calculation References
+
+- [Technologies and Sources](../reference/technology-readiness.qmd) - TRL and bibliography
+- [Swarm Mirrors](../detailed/mirrors.qmd) - construction, efficiency, energy cascade
+- [Mass Drivers](../detailed/production/railguns/theory.qmd) - construction, materials, robots
+- [Scaling Problem](../detailed/production/railguns/scaling.qmd) - criticism and solutions
+- [Ground Zero Factory](../detailed/production/factories/overview.qmd) - technology roadmap

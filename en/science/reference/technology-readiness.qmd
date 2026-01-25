@@ -1,0 +1,432 @@
+---
+title: "Technologies and Sources"
+sidebar: science
+---
+
+# Technology Readiness and Bibliography for Project Helios
+
+> **TL;DR**
+>
+> - **9 of 14** key technologies have TRL 5+ (laboratory demonstration or higher)
+> - **4 technologies** already operate at industrial scale (TRL 9): dark factories, autonomous mining, NaS batteries, WAAM
+> - **5 technologies** require additional development (TRL 3-4): self-replication, robot AI, swarm coordination, in-situ silicon, cryo-Al GW
+> - **None** of the technologies are fundamentally new — all are based on existing physical principles and industrial processes
+> - **Sources:** USA, China, Japan, Europe (ESA, UK, Netherlands, Germany), Australia, Korea, India, Russia
+
+***
+
+## Technology Summary Table
+
+| # | Technology | TRL | Current Status | Key References (Geography) |
+|---|------------|-----|---------------|-------------------------------|
+| 1 | Electromagnetic Launch | 5-6 | 700 km/h demonstration | China NUDT, USA EMALS, Japan Chuo Shinkansen |
+| 2 | Dark Factories | 9 | Industrial operation | Japan FANUC, China Xiaomi/Foxconn, Netherlands Philips |
+| 3 | Autonomous Mining | 8-9 | 690+ trucks in operation | Australia Rio Tinto, USA Caterpillar, China CHN Energy |
+| 4 | WAAM 3D Printing | 7-8 | Industrial production | UK WAAM3D, Australia AML3D, Netherlands RAMLAB |
+| 5 | NaS Batteries | 9 | 5 GWh deployed | Japan NGK, Germany HH2E, USA Duke Energy |
+| 6 | Microwave Power Transmission | 5-6 | Space demo | USA Caltech, Japan NTT/MHI, EU ESA SOLARIS |
+| 7 | MRE Electrolysis | 5-6 | Laboratory demonstration | USA NASA/Blue Origin, India ISRO (planned) |
+| 8 | Ultra-thin Foil | 5-7 | R&D + production | China Chalco, Korea SK Nexilis, USA Planetary Society |
+| 9 | Solar Sails | 7-8 | Flight demonstration | Japan IKAROS, USA LightSail 2/NEA Scout |
+| 10 | Rectenna (MW→DC) | 6-7 | 85% efficiency proven | Japan NTT/MHI, USA NASA SPS, EU ESA |
+| 11 | Factory Self-replication | 3-4 | Concept + analogies | Japan FANUC, USA Tesla, Von Neumann theory |
+| 12 | Autonomous Robot AI | 4-5 | Industrial analogues | Australia Rio Tinto, USA Tesla FSD, Korea Hyundai/Boston Dynamics |
+| 13 | In-situ Silicon Cells | 3-4 | R&D | USA Blue Origin, EU ESA research |
+| 14 | Cryogenic Al Cable (GW) | 4 | Physics confirmed | Switzerland CERN LHC, Russia ITER cryogenic systems |
+
+> **TRL Scale:** 1-3 = research, 4-5 = laboratory, 6-7 = demonstration, 8-9 = operation
+
+***
+
+## Technologies TRL 7-9 (Industrial Maturity)
+
+### Dark Factories (Lights-off Manufacturing)
+
+**Project Application:** Ground Zero Factory and replicating factories operate without humans 24/7 on Mercury.
+
+**Existing Implementations:**
+
+| Company | Country | Year | Scale |
+|----------|--------|-----|---------|
+| [FANUC](https://en.wikipedia.org/wiki/Lights_out_(manufacturing)) | Japan | 2001 | Robots build robots, 50 units/day, **30 days without humans** |
+| [Xiaomi](https://www.faf.ae/home/2025/3/19/chinas-dark-factory-revolution-the-rise-of-fully-automated-manufacturing-without-workers-or-lights) | China | 2023 | 81,000 m², 10M smartphones/year, 24/7 without humans |
+| Foxconn | China | 2016+ | 60,000 robots replaced workers in Kunshan |
+| [BYD + Saudi Aramco](https://yourstory.com/2025/02/dark-factories-future-automation-manufacturing-trends) | China/Saudi Arabia | 2025 | Joint dark factory project for EVs |
+| Philips | Netherlands | — | 128 robots, 9 controllers |
+| Semiconductor fabs | Global | — | 300mm wafer — full automation (TSMC, Samsung, Intel) |
+
+**Dark factories market:** [$119 billion (2024)](https://www.grandviewresearch.com/industry-analysis/dark-factories-market-report), CAGR 8.7%. By 2025 China has 1M+ industrial robots.
+
+**Conclusion:** Helios factories are simpler than semiconductor fabs — metallurgy, not nanotechnology. Full automation is proven.
+
+***
+
+### Autonomous Mining
+
+**Project Application:** Mole-M robots extract 600 tons of regolith/day without operators.
+
+**Existing Implementations:**
+
+| Company | Location | Scale |
+|----------|---------|---------|
+| [Rio Tinto](https://www.mining-technology.com/features/featurerio-tinto-rolling-out-the-worlds-first-fully-driverless-mines-4831021/) | Pilbara, Australia | 69 autonomous trucks, controlled **from Perth (1,200 km away)** |
+| [Rio Tinto Gudai-Darri](https://www.robotics247.com/article/rio_tinto_opens_gudai_darri_its_most_technologically_advanced_mine) | Australia | Trucks + water carts + robotic lab + solar farm |
+| [Caterpillar](https://im-mining.com/2025/11/07/caterpillar-sets-out-to-hit-over-2000-autonomous-mining-trucks-by-2030/) | Global | **690 autonomous trucks** (2024), target 2,000+ by 2030 |
+| CHN Energy | China | Largest autonomous fleet in the world |
+| [Caterpillar + NASA](https://www.cnbc.com/2019/10/23/caterpillar-and-nasa-developing-autonomous-vehicles-to-mine-the-moon.html) | USA | Joint development for lunar mining |
+
+**Conclusion:** Autonomous mining is a mature technology. Caterpillar + NASA are already working on lunar applications. Mercury Mole-Ms are the next step.
+
+***
+
+### NaS Batteries
+
+**Project Application:** Power system for Gen-2 robots on Mercury.
+
+**Existing Implementations:**
+
+| Project | Country | Capacity | Year |
+|--------|--------|----------|-----|
+| [NGK globally](https://www.energy-storage.news/nas-batteries-long-duration-energy-storage-proven-at-5gwh-of-deployments-worldwide/) | Japan | **5 GWh**, 250+ projects | since 2003 |
+| [Toho Gas](https://www.energy-storage.news/ngk-sodium-sulfur-batteries-deployed-at-70mwh-japan-project-picked-for-pilot-by-us-utility-duke-energy/) | Japan | 11.4 MW / 69.6 MWh | 2024 |
+| HH2E | Germany | 230+ MWh (green H₂) | 2024 |
+| Duke Energy | USA | Pilot project | 2025 |
+
+**Characteristics:** Operating temperature 300-350°C, **7,300 cycles**, 20-year lifespan, <1% degradation/year.
+
+**Ideal for Mercury:** NaS requires heating to 300°C. On Mercury's day side +400°C — **free heating**. In shadow (-180°C) heat from NaS helps robots operate. This is not a bug, it's a feature.
+
+***
+
+### WAAM (Wire Arc Additive Manufacturing)
+
+**Project Application:** Production of robot frames, factory parts, Mass Driver elements.
+
+**Existing Implementations:**
+
+| Company | Country | Technology | Application |
+|----------|--------|-----------|-----------|
+| [WAAM3D](https://www.waam3d.com/) | UK | Industrial WAAM | Large Al/Ti parts |
+| [AML3D](https://aml3d.com/technology) | Australia | WAM® — no chamber | Open environment, shipbuilding |
+| [RAMLAB](https://www.ramlab.com/resources/waam-101/) | Netherlands | WAAM for ships | Propellers, hulls |
+| Lincoln Electric + MX3D | USA/Netherlands | Multi-wire WAAM | Bridges, structures |
+
+**Characteristics:** 1-10 kg/hour deposition rate, aluminum/steel/titanium, **no vacuum chamber** (important for Mercury — working in vacuum is even better!).
+
+**Conclusion:** WAAM in Mercury's vacuum = ideal conditions (no oxidation). Technology is mature and industrial.
+
+***
+## Technologies TRL 5-7 (Demonstration)
+
+### Electromagnetic Launch (Mass Driver)
+
+**Project Application:** Launching mirrors from Mercury's surface at 5 km/s.
+
+**Key Demonstrations:**
+
+| Project | Speed | Details |
+|--------|----------|--------|
+| [China NUDT (Dec 2025)](https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html) | **700 km/h in 2 sec** | 400 m track, ton-class, superconducting |
+| EMALS (US Navy) | — | Production catapult on carrier Gerald Ford |
+| Fujian (Chinese Navy) | — | Indigenous EMALS |
+| [NASA Mass Driver (1977)](https://ntrs.nasa.gov/citations/19770010564) | Concept | Original Gerard O'Neill idea |
+
+**Quote from Professor Li Jie (NUDT):** *"Going forward, we will focus on frontier fields such as high-speed maglev transport in pipelines, aerospace boost launches and experimental testing."*
+
+**Scaling for project:** NUDT achieved 700 km/h (194 m/s) over 400 m. Project requires 5,000 m/s over 3 km. Same physics — need to scale power system and track length. Linear motor is an induction machine, principle is identical at any speed.
+
+***
+
+### MRE (Molten Regolith Electrolysis)
+
+**Project Application:** Primary process for extracting Al, Fe, Si from Mercury regolith.
+
+**Current Status (2024-2025):**
+
+| Organization | Achievement | Source |
+|-------------|-----------|---------|
+| [NASA KSC](https://ntrs.nasa.gov/api/citations/20240011100/downloads/MRE_FY24%20GCD%20APR.pdf) | CDR passed, testing in ASSIST Chamber | NASA GCD FY24 |
+| [Lunar Resources](https://ntrs.nasa.gov/citations/20250003730) | 25 kg regolith in 36 h, O₂ measured | NASA ISRU Progress 2025 |
+| Blue Origin | MRE + purification Fe/Si/Al + solar cells | Blue Alchemist program |
+| [Sierra Space](https://www.sierraspace.com/press-releases/sierra-space-unveils-breakthrough-technology-designed-to-extract-oxygen-from-lunar-soil/) | Carbothermal O₂ extraction in JSC thermal vacuum | Sept 2024 |
+| [NASA System Model](https://ntrs.nasa.gov/citations/20240013999) | ~1 ton unit → 10 tons O₂/year | Nov 2024 |
+
+**TRL:** *"Both Carbothermal Reduction and Molten Regolith Electrolysis have demonstrated operation under simulated lunar environmental conditions to **TRL 5/6**."* — [NASA ISRU Progress Review 2025](https://ntrs.nasa.gov/citations/20250003730)
+
+**Principle:** Regolith melts at ~1600°C, electric current separates oxides into oxygen (anode) and metals (cathode): Fe, Si, Al, Ti. Requires no reagents or additives from Earth.
+
+***
+
+### Microwave Power Transmission
+
+**Project Application:** Power transmission from LSP stations on Moon to rectenna on Earth.
+
+**Key Demonstrations:**
+
+| Project | Achievement | Year |
+|--------|-----------|-----|
+| [Caltech SSPP/MAPLE](https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space) | **First** power transmission from space to Earth | 2023 |
+| NTT + MHI (Japan) | 152W over 1 km (world ground record) | — |
+| [Northrop Grumman SSPIDR](https://eepower.com/news/beaming-a-look-back-at-space-based-solar-power/) | Preparation for orbital test (AFRL) | 2025 |
+| JAXA SPS | Orbital SPS program | 2025+ |
+| ESA SOLARIS | SBSP research | 2024+ |
+| Virtus Solis | Commercial station | 2026 |
+| [China OMEGA](https://harvardtechnologyreview.com/2025/09/05/the-future-of-energy-unlocking-the-potential-of-space-based-solar-power/) | Megawatt station | 2028 |
+
+**Rectenna efficiency:** 85% (laboratory proven). Microwaves at 2.45 GHz pass through clouds with <5% loss.
+
+***
+
+### Ultra-thin Aluminum Foil
+
+**Project Application:** Swarm Mirrors — 4 μm aluminum foil, 110 kg per mirror.
+
+**Industrial Precedents:**
+
+| Project/Product | Thickness | Status |
+|----------------|---------|--------|
+| LightSail 2 (Planetary Society) | **4.5 μm** | Flew in space (2019) |
+| NEA Scout (NASA) | **2.5 μm** | Solar sail |
+| Chalco (China) | 6-8 μm | Industrial production |
+| [Li-ion battery R&D](https://news.metal.com/newscontent/103271777/) | 4-6 μm Al | R&D for batteries (2025) |
+| [SK Nexilis](https://www.metal.com/en/newscontent/103281418) (Malaysia) | Ultra-thin | 30,000 tons/year (new plant 2024) |
+
+**Current state:** 8 μm — mass commercial production. 4 μm — at edge of achievable, active R&D (Li-ion battery market pushing down). China = 65% of world production.
+
+**Conclusion:** Project requires scaling 4 μm rolling. No physical barriers — ongoing engineering optimization. LightSail 2 proved 4.5 μm viability in space.
+
+***
+
+## Technologies TRL 3-4 (Open Questions)
+
+::: {.callout-warning}
+## These technologies require additional development
+Below are technologies that have no direct industrial precedent. For each, nearest analogues and validation plan are provided.
+:::
+
+### Factory Self-replication
+
+**Requirement:** Factory produces components for building a new factory.
+
+**Nearest Analogues:**
+- FANUC: robots build robots (50 units/day, 30 days without humans)
+- Semiconductor fabs produce lithographic equipment for new fabs
+- Tesla Gigafactory: contains equipment for producing equipment
+
+**Key Clarification:** This is NOT replication in the Von Neumann sense. This is serial automated construction of standard modules. Dome, furnaces, rolling mill — all standard metallurgical equipment.
+
+**Critical Question:** What % of factory equipment is produced on-site? Answer: ~99.95% by mass. "Vitamins" (chips, sensors, iridium) — <0.05%.
+
+**Status:** Requires engineering development, but not scientific breakthrough.
+
+***
+
+### Autonomous AI for Robots
+
+**Requirement:** Fully autonomous operation with 8-20 minute communication delay.
+
+**Nearest Analogues:**
+- Rio Tinto: control from Perth (1,200 km), but delay 4 ms (not minutes)
+- Mars Perseverance: autonomous navigation, but ~100 m/day
+- Tesla FSD: autonomous driving in real-time in complex environment
+- Caterpillar Command: 690 trucks without drivers
+
+**Key Clarification:** Regolith mining is SIMPLER than city driving. No pedestrians, no intersections, predictable environment. Rio Tinto already mines 24/7 autonomously. Only difference is communication delay.
+
+**Solution:** Operators assign tasks (route, volume), robots execute autonomously. Feedback every 20 min is sufficient for monitoring.
+
+***
+
+### Coordination of 1 Billion Mirror Swarm
+
+**Requirement:** 1.1 billion mirrors in heliocentric orbit aim at LSP stations.
+
+**Key Clarification:** This is NOT a swarm coordination task. Each mirror is an independent controller. Task reduces to:
+1. Know your position (sun sensor + ephemeris)
+2. Know direction to target (uploaded tables)
+3. Orient yourself (electrochromics, light pressure)
+
+**Analogues:**
+- Starlink: 6,000+ satellites, autonomous orbit correction
+- GPS: 31 satellites with precision orbits
+- IoT: billions of devices with autonomous controllers
+
+**Status:** Engineering scaling problem, not scientific problem.
+
+***
+
+### In-situ Silicon Cells
+
+**Requirement:** Production of solar cells from regolith silicon on Mercury.
+
+**Key Reference:** Blue Origin [Blue Alchemist](https://www.blueorigin.com/news/blue-alchemist-technology/) — complete cycle: regolith → MRE → Si purification → solar cells. Demonstration 2023.
+
+**Clarification:** For Mercury's power system, 10-15% efficiency is sufficient (solar flux 10 kW/m²). This requires 99.99% purity (four nines), not 99.9999% (six nines). Zone melting in Mercury's vacuum = ideal conditions.
+
+***
+
+### Cryogenic Aluminum Cable (GW)
+
+**Requirement:** GW power transmission through Al cables at -180°C.
+
+**Physics:** At -180°C Al conductivity increases 10× (to ~360% of copper at +20°C). This is not a hypothesis — this is tabulated data.
+
+**Analogues:**
+- LHC (CERN): kilometers of superconducting cables at -271°C
+- High-temperature superconductors: commercial cables at -196°C (liquid N₂)
+
+**Clarification:** On Mercury's night side temperature is -180°C — cables are cooled for free.
+
+***
+
+## Reference Bibliography
+
+### Planetary Data
+
+| Source | URL | Country | Usage |
+|----------|-----|--------|---------------|
+| NASA Mercury Fact Sheet | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html) | USA | Mercury parameters |
+| ESA BepiColombo | [esa.int/BepiColombo](https://www.esa.int/Science_Exploration/Space_Science/BepiColombo) | Europe | Mercury surface composition (2025+) |
+| MESSENGER (NASA) | [messenger.jhuapl.edu](https://messenger.jhuapl.edu/) | USA | Mercury regolith data |
+| ISRO Chandrayaan-3 | [isro.gov.in](https://www.isro.gov.in/Chandrayaan3.html) | India | First landing on lunar south pole (2023) |
+| JAXA SLIM | [jaxa.jp](https://www.jaxa.jp/projects/sas/slim/) | Japan | Precision lunar landing (2024) |
+| KARI Danuri | [kari.re.kr](https://www.kari.re.kr/) | Korea | Lunar orbiter (2022) |
+| NASA Mars Fact Sheet | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) | USA | Mars parameters |
+| NASA Sun Fact Sheet | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) | USA | Solar constant |
+| Atomic Rockets | [projectrho.com](http://www.projectrho.com/public_html/rocket/) | USA | Delta-v, orbital mechanics |
+
+**Historical lunar regolith data:**
+
+| Program | Country | Year | Data |
+|-----------|--------|-----|--------|
+| Apollo 11-17 | USA | 1969-1972 | 382 kg of regolith samples |
+| Luna-16, -20, -24 | USSR | 1970-1976 | Automated sample return |
+| Chang'e-5 | China | 2020 | 1.7 kg samples |
+| Chang'e-6 | China | 2024 | Samples from lunar far side |
+
+***
+
+### Optics and Materials
+
+| Topic | Source | Country |
+|------|----------|--------|
+| Aluminum reflectivity | [PVEducation](https://www.pveducation.org/) | USA |
+| MgF₂ coatings | [HAL Science](https://univ-perp.hal.science/hal-03368709/document) | France |
+| Microwave power transmission | [ScienceDirect](https://www.sciencedirect.com/topics/earth-and-planetary-sciences/power-beaming) | Netherlands (Elsevier) |
+| Atmospheric losses | [AFIT Scholar](https://scholar.afit.edu/cgi/viewcontent.cgi?article=3072&context=etd) | USA |
+
+***
+
+### Semiconductors and Microelectronics
+
+| Topic | Source | Country |
+|------|----------|--------|
+| World wafer production | [SEMI](https://www.semi.org/) | Global |
+| Fab costs | [SemiWiki](https://semiwiki.com/) | USA |
+| Samsung Fabs | [samsung.com/semiconductor](https://semiconductor.samsung.com/) | Korea |
+| TSMC | [tsmc.com](https://www.tsmc.com/) | Taiwan |
+
+**European semiconductor projects:**
+- ASML (Netherlands) — lithography equipment
+- Infineon (Germany) — chip manufacturing
+- STMicroelectronics (France/Italy) — semiconductors
+
+***
+
+### Metallurgy and Materials
+
+| Company | Country | Products | Relevance |
+|----------|--------|-----------|---------------|
+| [RUSAL](https://rusal.ru/) | Russia | Aluminum | 2nd producer in world (outside China) |
+| [Chalco](http://www.chalco.com.cn/) | China | Aluminum, foil | 65% of world foil production |
+| [Nornickel](https://nornickel.ru/) | Russia | Nickel, palladium | World's largest |
+| [Tata Steel](https://www.tatasteel.com/) | India | Steel | 10th in world (2023) |
+| [POSCO](https://www.posco.co.kr/) | Korea | Steel | 6th in world |
+| [ArcelorMittal](https://corporate.arcelormittal.com/) | Luxembourg | Steel | World's largest |
+| [Baosteel](http://www.baosteel.com/) | China | Steel | 2nd in world |
+| [JSW Steel](https://www.jsw.in/steel) | India | Steel | Largest in India |
+
+**Materials processing technologies:**
+
+| Technology | Source | Country |
+|------------|----------|--------|
+| Silicon zone melting | [Wacker Chemie](https://www.wacker.com/) | Germany |
+| Aluminum electrolysis | [Rusal technologies](https://rusal.ru/development/technology/) | Russia |
+| Foil rolling | [Novelis](https://www.novelis.com/) | USA (Hindalco/India) |
+| Magnesium alloys | [Magontec](https://www.magontec.com/) | Australia |
+
+***
+
+### Economic Data
+
+#### Launch Costs
+
+| Source | URL | Country |
+|----------|-----|--------|
+| Space launch market competition | [Wikipedia](https://en.wikipedia.org/wiki/Space_launch_market_competition) | Global |
+| China-in-Space | [china-in-space.com](https://www.china-in-space.com/) | China |
+| NextSpaceflight | [nextspaceflight.com](https://nextspaceflight.com/) | Global |
+| SpaceTechAsia | [spacetechasia.com](https://www.spacetechasia.com/) | Asia |
+
+#### Robotics
+
+| Source | URL | Country |
+|----------|-----|--------|
+| StandardBots (prices) | [standardbots.com](https://standardbots.com/blog/how-much-do-robots-cost) | USA |
+| Boston Dynamics Spot | [VentureBeat](https://venturebeat.com/ai/boston-dynamics-buy-spot-robot-74500) | USA (owner: Korea Hyundai) |
+
+**Additional sources:**
+- ABB Robotics (Sweden/Switzerland)
+- KUKA (Germany)
+- FANUC (Japan)
+- Yaskawa (Japan)
+
+#### Energy
+
+| Source | URL | Usage | Country |
+|----------|-----|---------------|--------|
+| IEA World Energy Outlook | [iea.org](https://www.iea.org/reports/world-energy-outlook-2023) | World energy consumption (~20 TW) | France (IEA) |
+
+***
+
+### Space Agencies and Programs (Extended List)
+
+| Agency | Country | Relevant Programs |
+|-----------|--------|----------------------|
+| NASA | USA | ISRU (In-Situ Resource Utilization), Artemis, Mars missions |
+| ESA | Europe | SOLARIS (space solar power), ISRU research, ExoMars |
+| JAXA | Japan | IKAROS (solar sail), Hayabusa2 (asteroid mining) |
+| CNSA | China | Chang'e lunar program, OMEGA (space solar power) |
+| ISRO | India | Chandrayaan (Moon), Mangalyaan (Mars), ISRU plans |
+| Roscosmos | Russia | Lunar program, cryogenic systems |
+| KARI | Korea | Lunar program, satellites |
+
+***
+
+## Mars Terraforming (For Reference)
+
+| Topic | Source | Relevance |
+|------|----------|---------------|
+| Magnetic shield at L1 | NASA Planetary Science Division, 2017 | Swarm energy budget can support |
+| Mars atmosphere loss | MAVEN mission data | Energy calculations |
+| CO₂ and water reserves | Mars Reconnaissance Orbiter | Resource base |
+
+***
+
+## See Also
+
+- [Risks and Limitations](risks.qmd) — project technical risk analysis
+- [Project in 5 Minutes](../executive-summary.qmd) — overall architecture
+- [Production](../detailed/production/overview.qmd) — production technologies
+- [Swarm Mirrors](../detailed/mirrors.qmd) — energy and efficiency
+- [Budget](../summaries/budget.qmd) — project economics
+
+***
+
+## Notes
+
+1. All prices are in USD 2026
+2. Historical data adjusted for inflation where applicable
+3. Official sources used where possible (NASA, ESA, JAXA, CNSA, ISRO, Roscosmos)
+4. Commercial data from public company reports
+5. Geographic diversity of sources: USA, China, Japan, Europe, Australia, Korea, India, Russia

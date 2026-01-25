@@ -1,0 +1,154 @@
+---
+title: "Metal Melting"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Receiving and preparing Al and Fe melts for casting
+> - **Source:** MHD input at 1500°C from regolith processing
+> - **Equipment:** Tundish with two stoppers
+> - **Throughput:** 42 t Al + 35 t Fe/day
+
+---
+
+## Overview
+
+Metal melting is the first stage of factory element production. Molten metals (Al and Fe) arrive from regolith processing via MHD channels and are distributed to casting lines.
+
+---
+
+## Process Diagram
+
+```{mermaid}
+flowchart TD
+    subgraph EXTERNAL["OUTSIDE DOME"]
+        DIST["Distillation<br/>Al 1500°C"]
+        MRE["MRE Electrolysis<br/>Fe 1500°C"]
+    end
+
+    subgraph ENTRY["DOME ENTRY"]
+        MHD_AL["MHD Channel Al<br/>42 t/day"]
+        MHD_FE["MHD Channel Fe<br/>35 t/day"]
+    end
+
+    subgraph BUFFER["BUFFER ZONE"]
+        TUNDISH["Tundish<br/>2-3 t buffer"]
+        VALVE_AL["Stopper Al"]
+        VALVE_FE["Stopper Fe"]
+    end
+
+    subgraph OUTPUT["OUTPUT TO CASTING"]
+        MNLZ_AL["→ CCM-Al"]
+        MNLZ_FE["→ CCM-Fe"]
+    end
+
+    DIST --> MHD_AL
+    MRE --> MHD_FE
+    MHD_AL --> TUNDISH
+    MHD_FE --> TUNDISH
+    TUNDISH --> VALVE_AL
+    TUNDISH --> VALVE_FE
+    VALVE_AL --> MNLZ_AL
+    VALVE_FE --> MNLZ_FE
+
+    style EXTERNAL fill:#f0e68c
+    style ENTRY fill:#fff3cd
+    style BUFFER fill:#d4edda
+    style OUTPUT fill:#cce5ff
+```
+
+---
+
+## MHD Melt Input
+
+**Magnetohydrodynamic channel** is a method of transporting liquid metal WITHOUT contact with the pipe.
+
+| Parameter | Value |
+|-----------|-------|
+| Principle | Electromagnetic levitation of metal |
+| Temperature | 1500°C (above Tm of Al 660°C and ferrosilicon ~1400°C) |
+| Channel material | MgO-based ceramics (local production) |
+| Insulation | Vacuum gap around channel |
+| Heat losses | ~2% (compensated by induction heating) |
+
+**MHD advantages:**
+- No metal contact with walls → no contamination
+- Works in vacuum (outside dome)
+- No mechanical pumps (magnetic field only)
+
+**More details:** [Regolith Processing](../../materials/overview.qmd)
+
+---
+
+## Tundish
+
+Buffer vessel for separating aluminum and iron flows.
+
+| Parameter | Value |
+|-----------|-------|
+| Volume | 2-3 tons (30-60 minute buffer) |
+| Body material | SiC ceramics (silicon carbide) |
+| Lining | MgO refractory (local production) |
+| Temperature | 1500-1600°C |
+| Cooling | NaK radiators around body |
+
+### Two Stoppers (Gates)
+
+The tundish has two independent stoppers for flow control:
+
+| Stopper | Metal | Flow Rate | CCM |
+|---------|-------|-----------|-----|
+| Stopper 1 | Aluminum | 42 t/day | CCM-Al |
+| Stopper 2 | Iron | 35 t/day | CCM-Fe |
+
+**Operating principle:**
+- Stopper closed → melt stays in tundish
+- Stopper open → melt flows to CCM
+- Control: automatic (level sensors in CCM)
+
+---
+
+## Quality Control
+
+| Parameter | Control | Action on Deviation |
+|-----------|---------|---------------------|
+| Temperature | Pyrometers (±10°C) | Induction heating |
+| Tundish level | Laser sensors | MHD flow adjustment |
+| Metal purity | Optical spectrometer | Batch rejection |
+
+**Automation:** Tundish control system operates without operators — all parameters are regulated automatically.
+
+---
+
+## Power Consumption
+
+| Component | Power | Purpose |
+|-----------|-------|---------|
+| MHD channels | 50 kW × 2 | Flow maintenance |
+| Tundish induction heating | 100 kW | Heat loss compensation |
+| NaK cooling | 20 kW | Coolant pumps |
+| Automation | 5 kW | Sensors, control |
+| **TOTAL** | **~225 kW** | |
+
+---
+
+## Material Balance
+
+**Daily flow:**
+
+| Metal | Input (MHD) | Output (CCM) | Losses |
+|-------|-------------|--------------|--------|
+| Aluminum (Al) | 42 t/day | 41.5 t/day | 1.2% (slag) |
+| Iron (Fe) | 35 t/day | 34.5 t/day | 1.4% (slag) |
+
+**Slag:** Periodically skimmed and returned to MRE furnace for reprocessing.
+
+---
+
+## See Also
+
+- [Regolith Processing](../../materials/overview.qmd) — metal source
+- [CCM Casting](casting.qmd) — next production stage
+- [Aluminum Distillation](../../materials/distillation.qmd) — Al purification
+- [MRE Electrolysis](../../materials/mre.qmd) — Fe production

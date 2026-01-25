@@ -62,7 +62,13 @@ format:
           background: #0d6efd;
           color: #fff;
         }
+        /* Активный язык в dropdown */
+        .dropdown-item.active {
+          font-weight: bold;
+          background-color: rgba(0,0,0,0.05);
+        }
         </style>
+        <script src="/js/lang-switch.js"></script>
 
 website:
   title: "Проект Гелиос"
@@ -70,8 +76,12 @@ website:
     background: dark
     title: false
     right:
-      - text: "RU"
-        href: ru/index.qmd
+      - text: "🌐"
+        menu:
+          - text: "🇷🇺 Русский"
+            href: ru/index.qmd
+          - text: "🇬🇧 English"
+            href: en/index.qmd
     left:
       - text: "Проект Гелиос"
         href: ru/index.qmd

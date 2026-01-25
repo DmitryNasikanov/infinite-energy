@@ -1,0 +1,557 @@
+---
+title: "Mass Driver Scaling"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Load data from JSON
+dataScript = FileAttachment("../../../data/db/data.json").json()
+
+// Materials available on Mercury (two versions for compatibility)
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Dictionaries for quick lookup
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: mercuryProduction.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Calculate totals ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '-'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? 'local' : 'import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '-'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? 'local' : 'import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+> **TL;DR**
+>
+> - **Productivity:** 600 launches/day = 60 tons of mirrors (+ 9 t containers)
+> - **Scaling:** 1 billion mirrors in 7-8 years (exponential growth)
+> - **Energy:** 55 MW complex (33 MW launches + 22 MW production)
+> - **Robots:** 52 robots per 1 MD (mining 10, production 21, logistics 10, maintenance 7)
+> - **Panels:** 35,000 m² solar panels (self-sufficiency after 3 mirrors)
+
+> **Theory:** Mass driver physics see [MD Theory](theory.qmd) | **Production:** Details see [MD Production](overview.qmd)
+
+---
+
+## Mass Driver Productivity
+
+### Base Productivity
+
+| Parameter | Value |
+|-----------|-------|
+| Launches per day | **600** |
+| Interval between launches | 2.4 minutes |
+| Container mass | 115 kg |
+| Mirror mass | 100 kg |
+| Daily mirror output | **60 tons** |
+
+**Interval calculation:**
+
+```
+24 hours = 1440 minutes
+1440 / 600 = 2.4 minutes between shots
+```
+
+**Annual productivity:**
+
+```
+600 launches/day x 365 days = 219,000 launches/year
+219,000 x 100 kg = 21,900 tons of mirrors/year ~ 22,000 t
+```
+
+### Productivity Constraints
+
+| Factor | Impact |
+|--------|--------|
+| Coil cooling | 2-3 min between shots |
+| Container preparation | Loading + platform spin-up |
+| Capacitor charging | 1-2 minutes for full charge |
+| Maintenance | Planned shutdown 1 day/month |
+
+**Real productivity:** ~550-600 launches/day under optimal conditions.
+
+---
+
+## Mirror Scaling
+
+### Exponential Growth
+
+**Principle:** First mirrors generate energy -> build new factories -> more mirrors -> even more energy.
+
+| Year | Mass Drivers | Mirrors/year | Accumulated mirrors | Power (GW) |
+|------|--------------|--------------|---------------------|------------|
+| 1 | 1 | 220 k | 220 k | 0.22 |
+| 2 | 10 | 2.2 M | 2.4 M | 2.4 |
+| 3 | 100 | 22 M | 24 M | 24 |
+| 4 | 500 | 110 M | 134 M | 134 |
+| 5 | 1,000 | 220 M | 354 M | 354 |
+| 6 | 2,000 | 440 M | 794 M | 794 |
+| **7** | **3,500** | **770 M** | **1.56 B** | **1,560** |
+
+**Key point:** 1 billion mirrors achieved in **7-8 years** with production doubling every 12-18 months.
+
+### Growth Rates
+
+**Growth phases:**
+
+1. **Years 1-2: Initial phase** (1-10 MD)
+   - Manual process tuning
+   - Robot debugging
+   - Productivity: 50-70% of theoretical
+
+2. **Years 3-5: Exponential growth** (100-1000 MD)
+   - Full automation
+   - Factory self-replication
+   - Productivity: 80-90%
+
+3. **Years 6-10: Mass production** (1000-10000 MD)
+   - Parallel factories
+   - Logistics optimization
+   - Productivity: 90-95%
+
+### Scaling Scenarios
+
+#### Conservative (doubling every 2 years)
+
+```
+Year 1: 1 MD
+Year 3: 4 MD
+Year 5: 16 MD
+Year 7: 64 MD
+Year 9: 256 MD
+
+1 billion mirrors: ~12-15 years
+```
+
+#### Aggressive (doubling every 1.5 years)
+
+```
+Year 1: 1 MD
+Year 2.5: 4 MD
+Year 4: 16 MD
+Year 5.5: 64 MD
+Year 7: 256 MD
+Year 8.5: 1024 MD
+
+1 billion mirrors: ~7-8 years
+```
+
+#### Optimistic (doubling every year)
+
+```
+Year 1: 1 MD
+Year 2: 4 MD
+Year 3: 16 MD
+Year 4: 64 MD
+Year 5: 256 MD
+Year 6: 1024 MD
+
+1 billion mirrors: ~5-6 years
+```
+
+**Selected:** Aggressive scenario (doubling every 1.5 years) as realistic with self-replication.
+
+---
+
+## Energy Consumption
+
+### Launch Energy
+
+| Parameter | Value |
+|-----------|-------|
+| Energy per launch | 4.7 GJ |
+| Launches per day | 600 |
+| Daily energy | 2.82 TJ |
+| **Average power** | **33 MW** |
+
+**Peak power:** 390 MW (12 seconds of acceleration)
+
+### Mirror Production Energy
+
+| Stage | Power | Notes |
+|-------|-------|-------|
+| Aluminum smelting | 12 MW | 70 t/day, 15 kWh/kg |
+| Foil rolling | 3 MW | Rolling mill |
+| Forming and assembly | 5 MW | Robots + equipment |
+| Counterweight casting (Fe) | 1 MW | Mini furnace |
+| Container production | 1 MW | Al stamping |
+| **TOTAL production** | **22 MW** | Continuous |
+
+### Total Complex Energy Consumption
+
+```
+Launches (mass driver): 33 MW
+Mirror production: 22 MW
+
+TOTAL: 55 MW continuous
+```
+
+---
+
+## Complex Energy Balance
+
+### Solar Panels on Mercury
+
+**Before first mirror** the complex runs on surface solar panels:
+
+| Parameter | Value |
+|-----------|-------|
+| Insolation (Solar Boost) | 9-14 kW/m² |
+| GaAs panel efficiency | 30% |
+| Output | 2.7-4.2 kW/m² |
+| Consumption | 55 MW |
+| **Required area** | **13,000-20,000 m²** |
+
+**With 30% margin:** ~**25,000-35,000 m²** of panels.
+
+### Transition to Dyson Swarm Mirrors
+
+**First mirror 100x100 m:**
+
+| Parameter | Value |
+|-----------|-------|
+| Mirror area | 10,000 m² |
+| Insolation (Mercury orbit) | 10,343 W/m² |
+| Reflected power (90% efficiency) | **93 MW** |
+| At receiver (losses ~15%) | ~80 MW |
+| Electricity (GaAs 30%) | **~24 MW** |
+
+**First mirror energy balance:**
+
+```
+Complex consumption: 55 MW
+Output from 1 mirror: ~24 MW
+
+Deficit: -31 MW
+```
+
+**First mirror does not cover requirements!** ~3 mirrors needed for self-sufficiency:
+
+```
+3 mirrors x 24 MW = 72 MW
+Surplus: +17 MW
+```
+
+**With high-efficiency concentrators (45% efficiency):**
+
+```
+Output: 3 x 36 MW = 108 MW
+Surplus: +53 MW
+```
+
+**Conclusion:** After launching **3 mirrors** the complex becomes self-sufficient. Surplus is directed to:
+- Building new factories
+- Expanding robot production
+- Peak load reserves
+
+### Long-term Balance
+
+| Phase | Mirrors | Mirror power | Mass Drivers | Consumption |
+|-------|---------|--------------|--------------|-------------|
+| Start | 0 | 0 MW | 1 | 55 MW |
+| Self-sufficiency | 3 | 72 MW | 1 | 55 MW |
+| Year 1 | 220,000 | 5 TW | 1-10 | 0.5 GW |
+| Year 3 | 24 M | 560 TW | 100 | 5.5 GW |
+| Year 7 | 1.5 B | 35 PW | 3500 | 192 GW |
+
+> **Note:** Mirror power = reflected power (~93 MW/mirror x 0.25 for mirrors directed at Mercury). ~18% is transmitted to Earth via LSP stations.
+
+**Conclusion:** Swarm energy exceeds production consumption by **orders of magnitude**.
+
+---
+
+## Robots: Complete Supply Chain
+
+### Chain for 1 Mass Driver
+
+```
+Ore mining -> Processing -> Mirror production -> Logistics -> Buffer -> Launch
+```
+
+Mass driver consumes **600 mirrors/day = 70 tons/day**
+
+---
+
+### 1. Raw Material Mining
+
+| Task | Robots | Calculation |
+|------|--------|-------------|
+| Ore mining (Moles) | 6 | 70 t x 3 (ore->metal) = 210 t ore/day / 50 t/robot |
+| Ore transport to factory | 4 | 210 t / 70 t/trip, 2 trips/day |
+| **Total mining** | **10** | |
+
+**Details:** [Mole-M excavator robot](../robots/assembly/moles.qmd)
+
+---
+
+### 2. Processing and Mirror Production
+
+| Task | Robots | Notes |
+|------|--------|-------|
+| Aluminum smelting | 2 | Automated furnace |
+| 4 um foil rolling | 3 | Precision work |
+| Cutting and forming | 4 | 600 pcs/day = 25/hour |
+| Counterweight casting | 2 | Iron or basite |
+| Cable drawing | 2 | Steel wire |
+| Electronics mounting | 2 | Precision work |
+| Folding + packaging | 4 | Z-fold, container |
+| Quality control | 2 | Rejection |
+| **Total production** | **21** | |
+
+**Details:** [Centaur-M manipulator robot](../robots/assembly/centaurs.qmd)
+
+---
+
+### 3. Logistics and Buffer
+
+| Task | Robots | Notes |
+|------|--------|-------|
+| Mirror transport to buffer | 4 | From factory to mass driver |
+| Warehouse management (buffer) | 2 | 2-3 day reserve = 1500 mirrors |
+| Launch position feed | 4 | Continuous, every 2.4 min |
+| **Total logistics** | **10** | |
+
+**Details:** [Crab-M logistics robot](../robots/assembly/crabs.qmd)
+
+---
+
+### 4. Mass Driver Maintenance
+
+| Task | Robots | Type |
+|------|--------|------|
+| Platform mounting + spin-up | 2 | Centaur-M |
+| Maintenance | 2 | Centaur-M |
+| Diagnostics | 1 | Mole-M with sensors |
+| Reserve/repair | 2 | Centaur-M |
+| **Total maintenance** | **7** | |
+
+---
+
+### Summary: Robots per 1 Mass Driver
+
+| Stage | Robots | % |
+|-------|--------|---|
+| Raw material mining | 10 | 19% |
+| Mirror production | 21 | 40% |
+| Logistics and buffer | 10 | 19% |
+| Mass driver maintenance | 7 | 14% |
+| Reserve (charging, breakdowns) | 4 | 8% |
+| **TOTAL** | **52** | 100% |
+
+**Adjustment for charging:** +4 robots added for NaS battery charging time:
+- +1 Mole (cable backup)
+- +2 Centaurs (outdoor shifts)
+- +1 Crab (route charging time)
+
+**Details:** [Robot Production](../robots/overview.qmd)
+
+---
+
+### Robot Scaling
+
+| Mass Drivers | Robots (x52) | Notes |
+|--------------|--------------|-------|
+| 1 | 52 | Initial phase |
+| 10 | 520 | Years 1-2 |
+| 100 | 5,200 | Years 2-3 |
+| 1,000 | 52,000 | Years 3-5 |
+| 10,000 | 520,000 | Years 5-8 |
+| 100,000 | **5.2 M** | Full capacity |
+
+**Note:** Some robots (mining, processing) can serve multiple mass drivers if the factory is large. Real requirement: **45-50 robots per mass driver** with centralized production.
+
+### Robot Types
+
+| Type | Purpose | Mass | Share |
+|------|---------|------|-------|
+| [Mole-M](../robots/assembly/moles.qmd) | Regolith mining | 1500 kg | 15% |
+| [Crab-M](../robots/assembly/crabs.qmd) | Logistics, transport | 1000 kg | 40% |
+| [Centaur-M](../robots/assembly/centaurs.qmd) | Manipulation, assembly | 370 kg | 45% |
+
+---
+
+## Mirror Material Consumption
+
+### One Mirror Disk
+
+| Component | Material | Mass |
+|-----------|----------|------|
+| Reflective film | Aluminum 4 um | 100 kg |
+| Counterweights (4 pcs) | Iron or basalt | 3 kg |
+| Cables (4 pcs) | Steel | 2 kg |
+| Control electronics | Import | 50 g |
+| Actuators (electrochromic) | Local | 1 kg |
+| Launch container | Aluminum | 10 kg |
+| **TOTAL** | | **~115 kg** |
+
+### Daily Consumption per 1 Mass Driver
+
+```
+600 launches x 115 kg = 70 tons
+
+Of which:
+- Aluminum: ~66 tons (local)
+- Iron/steel: ~3 tons (local)
+- Electronics: ~30 kg (import)
+```
+
+### Annual Consumption per 1 Mass Driver
+
+```
+Mirrors: 70 t/day x 365 = 25,550 tons/year
+
+Of which:
+- Aluminum: ~24,000 t/year (94%)
+- Iron: ~1,100 t/year (4.3%)
+- Electronics: ~11 kg/year (0.04%)
+```
+
+**Material source:** [Regolith Processing](../materials/overview.qmd)
+
+---
+
+## See Also
+
+- [MD Theory](theory.qmd) - physics, efficiency, cryo-aluminum, problems
+- [MD Production](overview.qmd) - mass driver production overview
+- [Robot Production](../robots/overview.qmd) - Mole-M, Crab-M, Centaur-M
+- [Regolith Processing](../materials/overview.qmd) - obtaining Al, Fe, Si
+- [Energy System](../../energy.qmd) - Mercury power supply system
+- [Dyson Swarm Mirrors](../../mirrors.qmd) - mirror design details
+
+---
+
+## Sources
+
+- [NASA Mass Driver Concept](https://ntrs.nasa.gov/citations/19770010564)
+- [Robotics Productivity](../robots/overview.qmd)
+- [Exponential Production Growth](https://en.wikipedia.org/wiki/Self-replicating_machine)

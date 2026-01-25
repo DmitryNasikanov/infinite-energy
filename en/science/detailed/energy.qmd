@@ -1,0 +1,518 @@
+---
+title: "Mercury Energy System"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+dataScript = FileAttachment("../data/db/data.json").json()
+
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: mercuryProduction.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Total calculated ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '—'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+> **TL;DR**
+>
+> Mercury's energy system consists of two independent subsystems:
+>
+> **Section 1: Energy for Production**
+> - **Solar Boost:** 9-14 kW/m² (vs 1.3 kW/m² on Earth)
+> - **Power Towers:** GaAs cells with NaK cooling
+> - **Cryo-Transmission Lines:** Aluminum at -150°C — resistance 10x lower
+> - **Silicon Panels:** Aluminothermic process (100% local production)
+>
+> **Section 2: Energy for Mass Drivers**
+> - **Peak Power:** 400 MW during launch
+> - **Average Power:** 33 MW per Mass Driver (600 launches/day)
+> - **Capacitors:** Energy storage between launches
+> - **Cooling:** ~20 MW heat via NaK + radiators
+
+---
+
+## Energy System Overview
+
+Mercury's energy infrastructure addresses two fundamentally different challenges:
+
+1. **Continuous power supply for production** — factories, furnaces, conveyors (50-55 MW per complex)
+2. **Pulsed power for Mass Drivers** — peak loads 400 MW, average 33 MW
+
+The systems are separated because they have different operating modes and requirements.
+
+---
+
+# Section 1: Energy for Production
+
+*Generation. Without this stage, the factory is just a pile of metal.*
+
+## Mercury Physics (Solar Boost)
+
+| Location | Solar Flux |
+| :--- | :--- |
+| Earth Orbit | 1.3 kW/m² |
+| Mercury | 9–14 kW/m² |
+
+Mercury receives **7-11 times** more solar energy than Earth. This is a fundamental advantage for solar power generation.
+
+---
+
+## Concentrator Mirrors
+
+All mirrors for the first factory are delivered from Earth in folded form.
+
+| Parameter | Value |
+| :--- | :--- |
+| Material | Ultra-light polymer film (Kapton) with aluminum coating |
+| Weight | 50 g/m² |
+| Total kit weight | < 1 ton |
+| Design | Deploy on carbon fiber spokes (like umbrellas) |
+| Purpose | Power generation (on towers) + metal smelting (in furnaces) |
+
+---
+
+## Power Towers
+
+Installed by climbing robots on "Peaks of Eternal Light" (crater rims).
+
+**Principle:** Mirrors focus light on photovoltaic cells.
+
+**Photovoltaic Cells:**
+- Type: Multi-junction gallium arsenide (GaAs)
+- Properties: Expensive but durable
+
+**Cooling (radiative):**
+- No convection in vacuum
+- Cannot use ground (insulator)
+- Liquid NaK circulates inside the mast, absorbing heat from the hot cells
+- Liquid flows to the shadowed side of the tower to a radiator
+- Radiator "shines" toward cold space (3K) or the dark crater floor (-150°C), dissipating heat through radiation
+
+---
+
+## Cryogenic Transmission Lines
+
+Power must be transmitted from the mountain (where there's light and +400°C) down into the crater (where the factory is at -150°C).
+
+- Cable is laid along the shadowed slope
+- At -150°C, aluminum resistance drops ~10x (cryoresistivity effect)
+- Transmission losses: 3-5% instead of 15-20% at room temperature
+- Can use smaller cross-section cables for the same capacity
+
+**Note:** Aluminum is not a superconductor at any temperature. But Mercury's cryogenic temperatures (~120 K in shadow) reduce ohmic resistance enough for efficient power transmission over 1-2 km distances.
+
+---
+
+## Solar Panel Production
+
+*Energy independence. Local photovoltaic manufacturing.*
+
+The first factory uses GaAs cells from Earth. But scaling requires **local production** of silicon panels.
+
+### Why Silicon, Not GaAs
+
+| Parameter | GaAs | Silicon |
+| :--- | :--- | :--- |
+| Efficiency | 30-40% | 18-22% |
+| Raw materials | Gallium + Arsenic (scarce) | **20% of Mercury's crust** |
+| Production | Epitaxy, clean rooms | Simpler, 90s technology |
+| Verdict | First factory | **Scaling** |
+
+### Power Consumption per Complex
+
+| Consumer | Power | Notes |
+| :--- | :--- | :--- |
+| Mass Driver (average) | 33 MW | 600 launches/day × 4.8 GJ |
+| Solar furnaces (smelting) | 10 MW | Concentrators |
+| Mirror production | 5 MW | Rolling, welding, packaging |
+| Robots (~50 units × 5 kW) | 0.3 MW | Battery-powered |
+| Control systems and communications | 2 MW | IT infrastructure |
+| **TOTAL** | **~50 MW** | Rounded to 55 MW with margin |
+
+**Note:** Calculation per [Mass Driver Scaling](production/railguns/scaling.qmd#energy-balance). The 55 MW value includes 10% margin for peak loads and losses.
+
+### Silicon Panel Parameters
+
+| Parameter | Value |
+| :--- | :--- |
+| Solar flux on Mercury | 10 kW/m² (orbital average) |
+| Silicon cell efficiency | 18% |
+| Output per 1 m² | 10 × 0.18 = **1.8 kW/m²** |
+| Area per complex (55 MW) | **35,000 m²** (187×187 m square) |
+
+### Aluminothermic Silicon Reduction
+
+**Problem:** The traditional method (SiO₂ + C → Si + CO₂) requires carbon, which Mercury lacks.
+
+**Solution:** Aluminothermy — reduction with aluminum.
+
+```
+3SiO₂ + 4Al → 3Si + 2Al₂O₃
+```
+
+| Advantage | Description |
+| :--- | :--- |
+| Local aluminum | From MRE electrolysis slag |
+| No carbon import | Complete autonomy |
+| Byproduct | Al₂O₃ (corundum) → ceramics, abrasives |
+
+**Stoichiometry:**
+- Per 1 kg silicon: 1.3 kg aluminum
+- Byproduct: 1.3 kg corundum (Al₂O₃)
+
+### Production Chain
+
+| Stage | Process | Materials | Notes |
+| :--- | :--- | :--- | :--- |
+| 1 | Quartz sand (SiO₂) | Local | 20% of Mercury's crust |
+| 2 | Aluminum | MRE slag | Already produced |
+| 3 | **Aluminothermy** | Local | Solar furnace, 2000°C |
+| 4 | Zone refining | — | Purification to solar grade |
+| 5 | Czochralski method | Quartz crucible | Ingot ∅150 mm |
+| 6 | Wire sawing | Diamond wire (Earth) | 200 µm wafers |
+| 7 | P/B diffusion | Phosphorus + Boron (Earth) | p-n junction |
+| 8 | Screen printing | Local aluminum | Contacts |
+| 9 | SiNx deposition | Nitrogen (Earth) + Silane | Anti-reflection |
+| 10 | Module assembly | Local aluminum | No glass needed (vacuum) |
+
+### Material Balance
+
+**Si panel (1 m²):**
+
+```{ojs}
+unitWidget("PRD-005")
+```
+
+**Per 1000 m² — detailed calculation:**
+
+- Silicon: 2000 kg (aluminothermy)
+- Aluminum for Si: 2600 kg (MRE slag)
+- Al frame: 1000 kg
+- Byproduct: 2600 kg corundum → ceramics
+- **Total local:** ~5600 kg
+
+**Import (consumables):** ~6 kg/1000 m² — diamond wire, P/B doping, nitrogen
+
+### Per Production Complex (35,000 m²)
+
+| Parameter | Value |
+| :--- | :--- |
+| Import from Earth | **~210 kg** |
+| Local aluminum | ~126 tons |
+| Silicon | ~70 tons |
+| Corundum (byproduct) | ~91 tons → ceramics |
+| Finished panel mass | **~120 tons** |
+
+### Energy Balance
+
+**3 trips with GaAs panels — energy independence from day one:**
+
+| Parameter | Value | Notes |
+| :--- | :--- | :--- |
+| Complex consumption | 55 MW | Factory + MD + robots |
+| GaAs panels (trip 1) | 35,000 m² = 56 MW | 1.75 t |
+| GaAs panels (trip 2) | +35,000 m² = +56 MW | +1.75 t |
+| GaAs panels (trip 3) | +35,000 m² = +56 MW | +1.75 t |
+| **Total panels** | **105,000 m² = 168 MW** | **5.25 t** |
+| **Energy surplus** | **113 MW** | 3× consumption |
+
+**Benefits of 3 trips:**
+- Bootstrap without waiting for Swarm energy
+- Capability to run 2-3 factories in parallel (or 1 factory + accelerated mining)
+- Reserve for peak loads and scaling
+- Reduced criticality of "first mirror" — can operate indefinitely on solar power
+
+**Panel mass:** 50 g/m² × 105,000 m² = **5.25 t** — this is ~8% of total expedition mass.
+
+---
+
+# Section 2: Energy for Mass Drivers
+
+*Pulsed power systems. High peak loads during mirror launches.*
+
+## Mass Driver Power Consumption
+
+### Per Single Launch
+
+To launch a 116 kg mirror at 5 km/s requires:
+
+```
+Kinetic energy: 1.45 GJ
+With 40% efficiency: 3.6 GJ
+With system losses: ~4.8 GJ per launch
+```
+
+### Average Power (1 Mass Driver)
+
+```
+600 launches/day × 4.8 GJ = 2880 GJ/day
+= 120 GJ/hour
+= 33 MW (average power)
+```
+
+### Peak Power
+
+```
+During acceleration (10 sec): 400 MW
+Between launches: charging capacitors
+```
+
+**Conclusion:** One Mass Driver consumes ~33 MW continuously. This is equivalent to **~2-3 mirrors** (through 18% PV efficiency).
+
+---
+
+## Capacitor Banks
+
+**Problem:** Peak power of 400 MW for 10 seconds is impossible directly from solar panels.
+
+**Solution:** Capacitors store energy between launches (2-3 minutes) and release it in pulses.
+
+| Parameter | Value |
+| :--- | :--- |
+| Energy per launch | 4.8 GJ |
+| Acceleration time | 10 sec |
+| Peak power | 400 MW |
+| Charging time | 2-3 minutes between launches |
+| Average charging power | 33 MW |
+
+**Operating principle:**
+1. Solar panels continuously charge capacitors (33 MW)
+2. 2-3 minutes pass between launches — enough to accumulate 4.8 GJ
+3. At launch, capacitors instantly deliver 400 MW to MD coils
+4. Cycle repeats 600 times per day
+
+**Capacitor materials:**
+- Dielectric: local silicates + ceramics
+- Plates: aluminum (local)
+- Bank mass: ~20 tons per MD
+
+---
+
+## Power Distribution Across Coils
+
+The Mass Driver has several hundred coils along the 3-kilometer track. Energy is distributed sequentially:
+
+| Section | Length | Coils | Power |
+| :--- | :--- | :--- | :--- |
+| Acceleration (start) | 0-1 km | ~100 | 150 MW |
+| Acceleration (middle) | 1-2 km | ~100 | 150 MW |
+| Final acceleration | 2-3 km | ~100 | 100 MW |
+
+**Control:** Coils activate sequentially as the projectile passes, creating a "traveling magnetic field."
+
+---
+
+## MD Cooling Systems (~20 MW heat)
+
+### Heat Dissipation Problem
+
+| Parameter | Value |
+| :--- | :--- |
+| Energy per launch | 4.8 GJ |
+| Efficiency | 40% |
+| Heat per shot | **2.9 GJ = 290 MW for 10 sec** |
+| Interval between shots | 2–3 minutes |
+| Continuous heat dissipation | **~20 MW** (at 600 shots/day) |
+
+**Overheating consequences:**
+- Coil overheating → efficiency drop → even more heat
+- Thermal expansion of rails → projectile jamming
+- Winding insulation degradation
+
+### Solution: NaK Cooling + Radiators
+
+**Cooling system:**
+
+| Component | Description |
+| :--- | :--- |
+| Coolant | Eutectic NaK alloy (sodium-potassium) |
+| Melting point | −12°C (liquid under all Mercury conditions) |
+| Circulation | Pumps inside each coil |
+| Radiators | Directed toward Mercury's shadow side (−180°C) |
+| Radiator area | ~5000 m² per MD |
+
+**Operating principle:**
+1. NaK circulates through coils, absorbing heat
+2. Hot NaK (~200°C) flows to radiators
+3. Radiators radiate heat into cold space
+4. Cooled NaK (~50°C) returns to coils
+
+**Cryogenic temperature advantage:**
+- Mercury's shadow side: −180°C
+- Temperature difference ΔT = 200 − (−180) = 380°C
+- High radiative cooling efficiency
+
+### Cryo-Aluminum
+
+**Problem:** Mercury has no copper, and aluminum at room temperature has 1.6× worse conductivity.
+
+**Solution:** Use cryogenic cooling to increase aluminum conductivity.
+
+| Material | At +20°C | At −180°C |
+| :--- | :--- | :--- |
+| Copper | 100% | 400% |
+| Aluminum | 60% | 360% |
+
+**Conclusions:**
+- At −180°C, aluminum nearly matches copper in conductivity
+- Mass Driver efficiency is restored from 30% to **35-40%**
+- Cooling solves two problems simultaneously: heat removal + efficiency increase
+
+---
+
+## Material Balance (MD Energy Components)
+
+```{ojs}
+unitWidget("CMP-103")
+```
+
+**Capacitor bank:**
+- Mass: 20 tons
+- Materials: 60% Si (ceramics), 40% Al (plates)
+- Service life: 2-3 years (charge/discharge cycles)
+
+```{ojs}
+unitWidget("CMP-104")
+```
+
+**Cooling system:**
+- Mass: 75 tons
+- Al radiators: 60 t
+- NaK coolant: 15 t
+- Pumps and piping: ~1 t
+
+---
+
+## See Also
+
+- [Production](production/overview.qmd) — production system overview
+- [Mass Drivers: Theory](production/railguns/theory.qmd) — detailed MD design calculations
+- [Regolith Processing](production/materials/overview.qmd) — obtaining Al for conductors

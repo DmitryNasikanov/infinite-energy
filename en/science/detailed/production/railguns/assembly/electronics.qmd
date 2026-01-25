@@ -1,0 +1,258 @@
+---
+title: "Control Electronics"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Launch control and monitoring systems for Mass Drivers
+> - **Mass:** ~7 t (100% imported from Earth)
+> - **Components:** Controllers, sensors, power electronics
+> - **Critical import:** Not manufactured on Mercury
+
+---
+
+## Overview
+
+Control electronics is the "brain" of the Mass Driver, managing sequential coil activation, monitoring launch parameters, and ensuring safety.
+
+---
+
+## System Architecture
+
+```{mermaid}
+flowchart TD
+    subgraph CENTRAL CONTROL
+        MASTER["Main Controller<br/>(redundant)"]
+    end
+
+    subgraph TRACK MONITORING
+        SENSORS["600 sensors<br/>(current, T, position)"]
+        CAMERAS["50 cameras<br/>(optical monitoring)"]
+    end
+
+    subgraph POWER ELECTRONICS
+        MOSFET["3000 MOSFET switches<br/>(coil activation)"]
+        CAPS["Capacitor banks<br/>(4 GJ)"]
+    end
+
+    subgraph COMMUNICATIONS
+        FIBER["Fiber optics<br/>(3 km backbone)"]
+    end
+
+    SENSORS --> MASTER
+    CAMERAS --> MASTER
+    MASTER --> MOSFET
+    MOSFET --> CAPS
+    FIBER --> MASTER
+
+    style CENTRAL CONTROL fill:#f0e68c
+    style TRACK MONITORING fill:#fff3cd
+    style POWER ELECTRONICS fill:#d4edda
+    style COMMUNICATIONS fill:#cce5ff
+```
+
+---
+
+## System Components
+
+### 1. Main Controller
+
+| Parameter | Value |
+|-----------|-------|
+| Type | Industrial PLC |
+| Processor | ARM Cortex-A72 (4 cores, 1.5 GHz) |
+| Memory | 8 GB RAM, 128 GB SSD |
+| Redundancy | Dual backup (primary + backup) |
+| Mass | 50 kg (2 units) |
+| **Source** | **Imported from Earth** |
+
+**Functions:**
+- Acceleration trajectory calculation
+- Sequential coil activation control
+- Parameter monitoring
+- Emergency shutdown
+
+---
+
+### 2. Section Control Units
+
+| Parameter | Value |
+|-----------|-------|
+| Quantity | 100 units (every 30 m) |
+| Function | Control of 30 coils |
+| Processor | ARM Cortex-M4 (168 MHz) |
+| Interface | Ethernet (fiber optic) |
+| Mass per unit | 5 kg |
+| **TOTAL mass** | **500 kg** |
+| **Source** | **Imported from Earth** |
+
+---
+
+### 3. Sensors
+
+| Sensor Type | Quantity | Function | Mass |
+|-------------|----------|----------|------|
+| Hall effect current sensors | 3000 (1 per coil) | Coil current monitoring | 3 kg |
+| Thermocouples | 3000 | Coil temperature monitoring | 3 kg |
+| Position sensors | 100 | Projectile position detection | 10 kg |
+| Accelerometers | 50 | Frame vibration | 5 kg |
+| **TOTAL** | **6150** | | **~20 kg** |
+
+**Source:** **Imported from Earth**
+
+---
+
+### 4. Power Electronics
+
+#### MOSFET Switches
+
+| Parameter | Value |
+|-----------|-------|
+| Quantity | 3000 (1 per coil) |
+| Voltage | 1000 V |
+| Current | 1000 A |
+| Switching time | <1 us |
+| Mass per module | 500 g |
+| **TOTAL mass** | **1.5 t** |
+| **Source** | **Imported from Earth** |
+
+**Function:** Coil on/off switching with microsecond precision.
+
+---
+
+#### Capacitor Banks
+
+| Parameter | Value |
+|-----------|-------|
+| Capacitance | 10,000 F (farads) |
+| Voltage | 1000 V |
+| Energy | 4 GJ (per shot) |
+| Mass | ~5 t |
+| **Source** | **Imported from Earth** |
+
+**Function:** Energy storage between shots (2-3 minutes charging).
+
+**Details:** [Mass Driver Energy System](../../../energy.qmd)
+
+---
+
+### 5. Communications and Networks
+
+| Component | Length/Quantity | Function |
+|-----------|-----------------|----------|
+| Backbone fiber optics | 3 km | Connection to control center |
+| Ethernet cables | 10 km | Control unit connections |
+| Wi-Fi access points | 10 units | Backup communications, diagnostics |
+| **Mass** | **~50 kg** | |
+
+---
+
+## Software
+
+### Launch Algorithm
+
+```
+1. Readiness check:
+   - Projectile in position (position sensors)
+   - Capacitors charged (>95%)
+   - Cooling active (T < -140C)
+   - Track clear (cameras)
+
+2. Acceleration (12 sec):
+   - T=0: Activate coil #1
+   - T=4 ms: Activate coil #2
+   - ...
+   - T=12 sec: Activate coil #3000 -> launch
+
+3. Trajectory control:
+   - Actual velocity vs calculated
+   - Timing adjustment for subsequent coils
+
+4. Completion:
+   - Projectile exited track (optical sensors)
+   - Coil deactivation
+   - Capacitor charging (2-3 min)
+```
+
+---
+
+## Material Balance
+
+**Electronics per 1 Mass Driver:**
+
+| Component | Mass | Localization |
+|-----------|------|--------------|
+| Controllers (main + sections) | 550 kg | Import |
+| Sensors (6150 units) | 20 kg | Import |
+| MOSFET switches (3000 units) | 1.5 t | Import |
+| Capacitors | 5 t | Import |
+| Cables, fiber optics | 50 kg | Import |
+| **TOTAL** | **~7 t** | **100% import** |
+
+**Conclusion:** Electronics is the only Mass Driver component not manufactured locally.
+
+---
+
+## Electronics Installation
+
+| Stage | Duration | Robots |
+|-------|----------|--------|
+| Backbone fiber optic installation | 2 days | 5 Centaur-M |
+| Control unit installation (100 units) | 1 week | 10 Centaur-M |
+| Sensor connection (6150 units) | 1 week | 15 Centaur-M |
+| MOSFET module mounting | 3 days | 10 Centaur-M |
+| Communications testing | 1 day | Automated |
+| **TOTAL** | **~2 weeks** | |
+
+---
+
+## Electronics Power Consumption
+
+| Component | Power |
+|-----------|-------|
+| Main controller | 200 W |
+| Control units (100 units) | 10 kW |
+| Sensors (6150 units) | 6 kW |
+| MOSFET switches (standby) | 3 kW |
+| Cameras and communications | 1 kW |
+| **TOTAL** | **~20 kW** (continuous) |
+
+**Peak power:** 400 MW during launch (from capacitors, not grid).
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performer |
+|-----------|-----------|-----------|
+| Sensor calibration | Monthly | Automated |
+| Fiber optic inspection | Quarterly | Centaur-M |
+| MOSFET module replacement | On failure | Centaur-M |
+| Software update | As needed | Remote |
+
+**Service life:**
+- Controllers: 10-15 years
+- Sensors: 5-10 years
+- MOSFET switches: 2-5 years (depends on operating mode)
+- Capacitors: 2-3 years (charge/discharge cycles)
+
+---
+
+## Quality Control
+
+| Parameter | Control Method | Specification | Action on Deviation |
+|-----------|----------------|---------------|---------------------|
+| Coil switching time | Oscilloscope | <1 us deviation | Replace MOSFET |
+| Current sensor accuracy | Calibration | +/-1% | Recalibrate |
+| Fiber optics | OTDR (reflectometer) | Losses <1 dB/km | Replace section |
+| Electronics temperature | Thermocouples | <+50C | Improve cooling |
+
+---
+
+## See Also
+
+- [Track Assembly](track.qmd) — electronics installation on Mass Driver
+- [Testing](testing.qmd) — electronics verification
+- [Energy System](../../../energy.qmd) — Mass Driver power supply
+- [Coil Winding](../elements/coils.qmd) — connected to MOSFET switches

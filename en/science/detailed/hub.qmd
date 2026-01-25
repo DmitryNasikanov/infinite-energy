@@ -1,0 +1,571 @@
+---
+title: "Hub Station"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Load data from JSON
+dataScript = FileAttachment("../data/db/data.json").json()
+
+// Materials available on the Moon
+moonMaterials = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "moon")
+    .map(mp => mp.material_id)
+)
+
+// Dictionaries for quick lookup
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: moonMaterials.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = moonMaterials.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Total calculated ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` ×${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '—'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+> **TL;DR**
+>
+> - **Goal:** Receive energy from the Dyson Swarm and transmit to Earth
+> - **Solution:** Lunar Solar Power Station (LSP) — 20-40 stations on the Moon's limbs
+> - **Efficiency:** 18% (from Swarm to Earth)
+> - **Transmission:** Microwaves through clouds, global rectenna network
+> - **Alternative (rejected):** Orbital Hub at L1 — 10% efficiency, 7,900 km² radiators
+
+---
+
+## Concept
+
+The mirror swarm in Mercury's orbit produces petawatts of energy. But this energy is concentrated sunlight. It needs to be converted to a form suitable for transmission to Earth.
+
+```{mermaid}
+flowchart TD
+    A["Mirror Swarm (Mercury)"] -->|concentrated light| B["LSP stations on Moon"]
+    B -->|"PV → Electricity → Microwaves"| C["Rectenna on Earth"]
+    C --> D["Power Grid"]
+```
+
+Concept by [David Criswell](https://www.researchgate.net/publication/329718124_Solar_Power_via_the_Moon_2002): placing receivers on the Moon's surface with microwave power transmission.
+
+---
+
+## Geometry: Why Limbs?
+
+The Moon is tidally locked — one side always faces Earth. This creates a problem:
+
+| Position on Moon | Sees Swarm? | Sees Earth? |
+|------------------|-------------|-------------|
+| Near side | Partially | **Yes** |
+| Far side | Yes | No |
+| **Limbs (edges)** | **Yes** | **Yes** |
+
+**Solution:** 20-40 stations on the eastern and western limbs of the Moon.
+
+### Continuity of Operation
+
+```{mermaid}
+flowchart LR
+    subgraph cycle["Lunar Month (29.5 days)"]
+        A["Weeks 1-2"] -->|Western limb| B["Operating"]
+        C["Weeks 3-4"] -->|Eastern limb| D["Operating"]
+    end
+    B --> E["Continuous transmission to Earth"]
+    D --> E
+
+    style cycle fill:#F5F5F5,stroke:#616161,color:#212121
+```
+
+Stations on both limbs ensure continuous operation throughout the lunar month.
+
+---
+
+## Receiving Energy from the Swarm
+
+### Mirror Clusters
+
+Swarm mirrors are organized into **local clusters** of 1,000-10,000 units. Each cluster:
+
+- Synchronizes internally (delay ~0.3 ms)
+- Directs reflected light to designated LSP station
+- Forms a virtual antenna ~100 km in diameter
+
+### Beam Spreading
+
+| Parameter | Value |
+|-----------|-------|
+| Distance Mercury → Moon | ~100 million km |
+| Virtual antenna diameter | ~100 km |
+| Beam spreading | ~1 km |
+| LSP receiver size | 5-10 km |
+
+The beam spreads to ~1 km — the LSP receiver fully captures it.
+
+### Photovoltaics on the Moon
+
+| Parameter | Value |
+|-----------|-------|
+| Receiver area (per station) | ~10 km² |
+| Total area (20 stations) | ~200 km² |
+| PV efficiency (concentration) | ~45% |
+| Type | Multi-junction, from lunar silicon |
+
+---
+
+## Transmission to Earth
+
+### Why Microwaves?
+
+| Parameter | Microwaves | Laser |
+|-----------|------------|-------|
+| Passes through clouds | **Yes** | No |
+| Transmission efficiency | ~85% | ~70% |
+| Earth receiver | Rectenna | Thermal boiler |
+| Technology maturity | High | Medium |
+
+**Microwaves selected** — they pass through clouds and rain, enabling operation in any weather.
+
+### Global Rectenna Network
+
+The Moon is visible ~12 hours from any point on Earth. Solution — **global rectenna network**:
+
+| Time UTC | Moon over | Active rectenna | Energy goes to |
+|----------|-----------|-----------------|----------------|
+| 00:00 | Pacific Ocean | Australia | Asia |
+| 06:00 | India | Gobi (China) | Asia, Europe |
+| 12:00 | Africa | Sahara | Europe, Americas |
+| 18:00 | Atlantic | Atacama (Chile) | Americas |
+
+**Principle:** Rectenna receives → HVDC cables transmit to global grid → consumers receive continuously.
+
+**Buffering:** 1-2 hours of batteries smooth transitions between rectennas.
+
+**Advantage over solar:** The Moon is visible day and night — easier to ensure continuity.
+
+---
+
+## Earth Receivers (Rectenna)
+
+### Scale
+
+| Parameter | Value |
+|-----------|-------|
+| Target power | 1 PW (50× global) |
+| Power per rectenna | ~1 TW |
+| Number of stations | **~100** |
+| Area per rectenna | ~100 km² (10×10 km) |
+
+### Locations
+
+Rectennas are placed in **sparsely populated regions** — both in deserts for large-scale generation and closer to consumers:
+
+| Region | Location | Notes |
+|--------|----------|-------|
+| **Russia** | Yakutia | Close to consumers, sparsely populated |
+| **Russia/Asia** | Kazakhstan | Steppes, Central Asia |
+| **Europe** | Southern Spain | Semi-desert, close to consumers |
+| **USA** | Nevada/Arizona | Desert, close to consumers |
+| Africa | Sahara | Large-scale generation |
+| Asia | Gobi (Mongolia) | Large-scale generation |
+| S. America | Atacama (Chile) | Large-scale generation |
+| Oceania | Central Australia | Large-scale generation |
+
+### Construction
+
+A rectenna is an array of dipoles converting microwave radiation to electricity:
+
+1. Microwaves from LSP hit dipoles
+2. Dipoles generate alternating current
+3. Rectifiers convert to direct current
+4. HVDC transmits to grid
+
+**Rectenna efficiency:** ~85%
+
+---
+
+## Microwave Transmission Safety
+
+Microwaves are safer than laser but require strict zoning.
+
+| Parameter | Value |
+|-----------|-------|
+| Intensity on rectenna (center) | **10,000 W/m²** (10× sun) |
+| Sun at noon | 1,000 W/m² |
+| ICNIRP standard (public) | 10 W/m² |
+
+> **Note:** Power density of 10,000 W/m² matches real NASA (1978), JAXA, and modern SBSP concepts. See [PMC: SBSP Review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11064435/).
+
+### Territory Zoning
+
+| Zone | Intensity | Access |
+|------|-----------|--------|
+| Center | 10,000 W/m² | **Restricted zone** (automated) |
+| Middle | 100–1,000 W/m² | Technical personnel (limited) |
+| Periphery | <50 W/m² | Security perimeter |
+| Border | <10 W/m² | Meets ICNIRP standards |
+
+```{mermaid}
+flowchart TB
+    subgraph rectenna["RECTENNA (100 km²)"]
+        subgraph mid["Middle zone: 100-1000 W/m² — Technical personnel"]
+            subgraph center["Center: 10,000 W/m² — Restricted zone"]
+                A["Automated, no people"]
+            end
+        end
+    end
+    B["Periphery: <50 W/m² — Security"]
+    C["Border: <10 W/m² — Safe"]
+
+    style rectenna fill:#E8F5E9,stroke:#4CAF50,color:#1B5E20
+    style mid fill:#FFF3E0,stroke:#FF9800,color:#E65100
+    style center fill:#FFEBEE,stroke:#F44336,color:#B71C1C
+```
+
+**Safety:** Rectenna territory is fully fenced. System automatically shuts off when objects enter the beam (birds, aircraft).
+
+---
+
+## Building LSP
+
+### Lunar Manufacturing
+
+LSP is built from materials produced on the Moon — **not delivered from Earth**:
+
+| Component | Material | Source |
+|-----------|----------|--------|
+| Photovoltaics | Silicon | Moon (regolith) |
+| Structure | Aluminum | Moon (anorthosite) |
+| Antennas | Aluminum | Moon |
+| Electronics | Chips | Earth (~0.1%) |
+
+> **Unified technology:** The same Gen-2/Gen-3 robots that build factories on Mercury also work on the Moon. Lunar production is technology validation before Mercury. See [Robot Bestiary](production/robots/overview.qmd).
+
+### Advantages of Lunar Manufacturing
+
+| Parameter | On Moon | From Earth |
+|-----------|---------|------------|
+| Gravity | 0.16g | 1g |
+| Resources | In-situ | Delivery |
+| Radiators | Ground | In vacuum |
+| Heat | Dissipates into rock | Needs radiators |
+
+**Key advantage:** On the Moon, heat from conversion dissipates into the ground. No giant radiators needed.
+
+### Logistics
+
+1. **[Lunar factory](../summaries/moon.qmd)** produces LSP modules
+2. **[Mass Driver](production/railguns/theory.qmd#lunar-mass-driver)** delivers to limbs (not needed for LSP!)
+3. **Rovers** transport across surface to limbs
+4. **Robots** assemble stations
+
+### Construction Rates
+
+| Parameter | Value |
+|-----------|-------|
+| Total mass of 30 LSP + 100 rectennas | ~178,000 t |
+| Construction period | 3-5 years |
+| Production rate | ~50,000 t/year |
+
+---
+
+## System Components
+
+The Hub Station consists of three main subsystems working as unified infrastructure:
+
+### Lunar LSP Stations
+
+- **Quantity**: 20-40 stations on Moon's limbs
+- **Photovoltaic area**: ~10 km² per station (total ~300 km²)
+- **Materials**: Multi-junction photocells from lunar silicon (Si), aluminum (Al) frames and supports
+- **Production**: Local, from lunar regolith
+
+### Microwave Transmitters
+
+- **Location**: On lunar LSP stations
+- **Technology**: Klystrons with 90% efficiency
+- **Function**: Convert electricity to microwaves for Earth transmission
+
+### Earth Rectennas
+
+- **Quantity**: ~100 stations worldwide
+- **Size**: ~100 km² each (10×10 km), total ~10,000 km² receiving area
+- **Materials**: Dipole arrays from copper (Cu) and aluminum (Al), silicon (Si) rectifier diodes
+- **Function**: Receive microwaves and convert to direct current (HVDC)
+
+### Full System Composition
+
+```{ojs}
+unitWidget("HUB-001")
+```
+
+> **Note**: Masses and composition shown for entire Hub infrastructure - 30 lunar stations + 100 Earth rectennas. Production is primarily on the Moon from local regolith (Si, Al, Fe), copper can also be extracted from lunar minerals.
+
+---
+
+## System Efficiency
+
+| Stage | Efficiency |
+|-------|------------|
+| Mirror reflection | 90% |
+| Orbit geometry | 72% |
+| Concentration to Moon | 90% |
+| PV on lunar stations | 45% |
+| DC → Microwaves (Klystron) | 90% |
+| Transmission Moon → Earth | 95% |
+| Atmospheric passage | 95% |
+| Rectenna on Earth | 85% |
+| **Total efficiency** | **18%** |
+
+**Calculation:** $\eta = 0.90 \times 0.72 \times 0.90 \times 0.45 \times 0.90 \times 0.95 \times 0.95 \times 0.85 = 0.18$
+
+> **Comparison:** Orbital Hub with laser — only ~10% efficiency due to double conversion (light → laser → heat).
+
+---
+
+## Energy Distribution
+
+All Swarm energy is first received at lunar LSP stations, then distributed:
+
+| Stage | Recipient | Power | % of Swarm |
+|-------|-----------|-------|------------|
+| **1. Reception** | **Moon (LSP)** | **~20 PW** | **100%** |
+| ↳ 2a. Transmission | Earth (rectennas) | 1 PW | 5% |
+| ↳ 2b. Transmission | Mars (future) | 1-5 PW | 5-25% |
+| ↳ 2c. Local | Moon (furnaces) | ~0.5 PW | ~2.5% |
+| ↳ 2d. Buffer | Moon (reserve) | ~13-17 PW | ~65-85% |
+
+**Details of lunar usage:**
+- **Furnaces:** Melting regolith in solar furnaces, MRE electrolysis, materials production
+- **Reserve:** NaS batteries for peak load smoothing, future production expansion
+
+> **Why not all to Earth?** 1 PW = 1000 TW — this is 50 times global consumption (20 TW). It's enough for complete decarbonization, synthetic fuels, and industrial growth. For Mars terraforming, energy is directed straight to Mars (1-5 PW), bypassing Earth. The rest is reserve for space expansion.
+
+---
+
+## Alternative Architectures
+
+### Orbital Hub at L1
+
+::: {.callout-warning}
+## Concept Rejected
+Analysis showed economic infeasibility: 10% efficiency vs 18% for LSP, need to build 7,900 km² radiators in space.
+:::
+
+**Idea:** Station at L1 point (Earth-Moon, 326,000 km from Earth) receives light from Swarm and transmits by laser to Earth.
+
+| Problem | Hub (L1) | LSP (Moon) |
+|---------|----------|------------|
+| Efficiency | 10% | **18%** |
+| Radiators | 7,900 km² in space | 0 (ground) |
+| Structure mass | 15 million t in orbit | ~178,000 t on surface |
+| Construction | In microgravity | With gravity |
+| Resources | Delivery from Moon | In-situ |
+
+**Why such large radiators?** At 35% efficiency at light→laser stage, about 65% of energy becomes heat. In vacuum, the only way to dump heat is radiation. At 1000K a radiator emits ~57 kW/m². For 0.45 PW, 7,900 km² area is needed.
+
+::: {.callout-note collapse="true"}
+## Hub Construction Details (for reference)
+
+**Components:**
+
+| Component | Area | Mass |
+|-----------|------|------|
+| Receiver (photovoltaics) | 45 km² | ~0.5 million t |
+| **Radiators** | **7,900 km²** | **~12 million t** |
+| Laser array | — | ~1.5 million t |
+| Structure + systems | — | ~1 million t |
+| **Total** | | **~15 million t** |
+
+**Cost (from Moon):** $50-95 billion
+:::
+
+---
+
+### GEO Station + Space Elevator
+
+Alternative — geosynchronous orbit (36,000 km) with space elevator to reduce delivery costs.
+
+```{mermaid}
+flowchart LR
+    A["Mirror Swarm"] --> B["SPS on GEO"]
+    B --> C["Microwaves"]
+    C --> D["Rectenna"]
+    E["Space Elevator<br/>($100/kg vs $2000/kg)"] --> B
+```
+
+**Advantages:**
+- Station always above same point on Earth
+- Elevator reduces delivery cost 20×
+
+**Disadvantages:**
+- Requires space elevator technology (not yet available)
+- Still needs radiators in space
+
+---
+
+### Direct Solar Lasers
+
+Concentrated light directly pumps laser medium — no PV, no electricity.
+
+| Parameter | Value |
+|-----------|-------|
+| Theoretical limit | 31% |
+| Practical (2025) | 6-8% |
+| Status | Promising technology |
+
+**Advantage:** No diodes that degrade.
+
+---
+
+## Architecture Comparison
+
+| Option | Efficiency | Radiators | Maturity | Status |
+|--------|------------|-----------|----------|--------|
+| **Lunar LSP + Microwaves** | **18%** | **0 (ground)** | High | **Selected** |
+| Orbital Hub (L1) + Laser | 10% | 7,900 km² | Low | Rejected |
+| GEO Station + Elevator | 15-20% | Present | Medium | Alternative |
+
+**Conclusion:** Lunar LSP is the most efficient architecture with twice the efficiency and no radiators in space.
+
+---
+
+## See Also
+
+- [Project in 5 Minutes](../executive-summary.qmd) — overall project scheme
+- [Swarm Mirrors](mirrors.qmd) — energy source
+- [Moon](../summaries/moon.qmd) — LSP module production
+- [Energy Balance](energy.qmd) — production and consumption
+- [Lunar Mass Driver](production/railguns/theory.qmd#lunar-mass-driver) — materials delivery
+- [Budget](../summaries/budget.qmd) — project economics
+- [Roadmap](../summaries/roadmap.qmd) — timeline
+
+---
+
+## Sources
+
+- [Criswell D.R. "Solar Power via the Moon" (2002)](https://www.researchgate.net/publication/329718124_Solar_Power_via_the_Moon_2002)
+- [NASA Space Solar Power](https://www.nasa.gov/directorates/spacetech/niac/2011_Phase_I_Space_Solar_Power/)
+- [Microwave Power Transmission Safety](https://ntrs.nasa.gov/citations/19810008041)
+- [URSI White Paper on SPS Systems](https://www.ursi.org/files/WhitePapers/WPSPS-ReportMin.pdf) — rectenna power density
+- [PMC: SBSP Technical Review (2024)](https://pmc.ncbi.nlm.nih.gov/articles/PMC11064435/) — NASA/JAXA/China comparison
+- [Caltech SSPD-1 Demo (2023)](https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space)
+- [IEEE: Japan Orbital Solar Farm](https://spectrum.ieee.org/how-japan-plans-to-build-an-orbital-solar-farm)

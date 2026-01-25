@@ -40,8 +40,8 @@ This project welcomes review from physicists, orbital mechanics engineers, mater
 
 ## Languages
 
-- Russian (complete) — novel + full technical docs
-- English (work in progress) — summary pages
+- 🇷🇺 Russian — novel + full technical documentation
+- 🇬🇧 English — complete technical documentation (use 🌐 menu to switch)
 
 ## Author
 

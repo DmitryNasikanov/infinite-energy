@@ -1,0 +1,172 @@
+---
+title: "Rail Production"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Aluminum guide rails for electromagnetic acceleration
+> - **Material:** Cryogenic aluminum (cooled to -180°C)
+> - **Mass:** ~70 t per Mass Driver* (hollow profile, 1 km track)
+> - **Wear:** Replacement every 3-6 months (100-140 t/year per Mass Driver)
+>
+> *Extended tracks: 2 km (~140 t), 3 km (~210 t).
+
+---
+
+## Overview
+
+Mass Driver rails are aluminum guides along which the projectile (container with mirror) travels. The rails serve simultaneously as:
+- Guides for the projectile
+- Electrical conductors
+- Part of the electromagnetic circuit
+
+---
+
+## Rail Design
+
+| Parameter | Value |
+|-----------|-------|
+| Material | 99.5% pure aluminum |
+| Cross-section | 200x300 mm (hollow profile, 15 mm wall) |
+| Segment length | 10 m |
+| Segments per track | 100* (for 1 km track) |
+| Rail pair (2 pcs) | ~70 t Al per Mass Driver* |
+
+*Extended tracks: 2 km (200 segments, ~140 t), 3 km (300 segments, ~210 t).
+
+### Rail Profile
+
+```
+        300 mm
+   +--------------+
+   | +----------+ | <- 15 mm wall
+   | |          | |
+   | |   NaK    | | 200 mm  (cooling cavity)
+   | |          | |
+   | +----------+ |
+   +--------------+
+
+Wall cross-section: 14,100 mm² (0.0141 m²)
+For 2 rails x 1 km: 28.2 m³ Al -> ~76 t
+```
+
+---
+
+## Rail Manufacturing
+
+### Production Process
+
+| Stage | Equipment | Output |
+|-------|-----------|--------|
+| Billet casting | CCM-Al | 100x100 mm billets |
+| Rolling to profile | Rolling mill | 200x300 mm profile |
+| Cooling channel drilling | CNC mill | 50 mm channel |
+| Cutting to segments | Gas cutting | 10 m segments |
+| Heat treatment | Induction furnace | Stress relief |
+| Surface polishing | Grinding mill | Ra <1 um |
+
+**Details:** [Rolling Mill](../../factories/elements/rolling.qmd), [CNC/WAAM](../../factories/elements/waam.qmd)
+
+---
+
+## Cryogenic Cooling
+
+**Problem:** Aluminum has 60% of copper's conductivity at room temperature.
+
+**Solution:** Cooling to -180°C increases aluminum conductivity by 6x.
+
+| Material | Conductivity +20°C | Conductivity -180°C |
+|----------|-------------------|---------------------|
+| Copper | 100% | 400% |
+| Aluminum | 60% | **360%** |
+
+**Conclusion:** Cryogenic aluminum at -180°C has conductivity nearly equal to copper at room temperature.
+
+### Cooling System
+
+| Parameter | Value |
+|-----------|-------|
+| Coolant | NaK (sodium-potassium alloy) |
+| Coolant temperature | -150°C |
+| NaK flow rate | 50 L/min per track |
+| Radiators | Directed into shadow (-180°C) |
+| Pump power | 100 kW |
+
+---
+
+## Rail Wear
+
+### Causes of Wear
+
+| Cause | Contribution | Consequences |
+|-------|--------------|--------------|
+| Electrical arcing | 40% | Surface erosion |
+| Mechanical abrasion | 30% | Groove formation |
+| Thermal cycling | 20% | Microcracks |
+| Oxidation | 10% | Darkening, corrosion |
+
+**Aggravating factor:** 1275g acceleration creates very high mechanical loads over a short time (0.4 sec).
+
+### Service Life
+
+| Operating Mode | Launches | Service Life |
+|----------------|----------|--------------|
+| Intensive (600/day) | ~50,000 | **3 months** |
+| Medium (300/day) | ~50,000 | **6 months** |
+| Light (100/day) | ~50,000 | **1.5 years** |
+
+---
+
+## Material Balance
+
+**Per 1 Mass Driver (new, 1 km track):**
+
+| Component | Al Mass | Production |
+|-----------|---------|------------|
+| Rails (2 pcs x 1 km) | ~70 t | 42 t/day -> **1.7 days** |
+
+**Replacement (wear, 1 Mass Driver/year):**
+
+| Mode | Replacements/year | Al consumption/year |
+|------|-------------------|---------------------|
+| Intensive | 4 | 280 t |
+| Medium | 2 | 140 t |
+| Light | 0.7 | ~50 t |
+
+**At 1000 Mass Drivers (intensive mode):** 280,000 t Al/year for rail replacement alone.
+
+---
+
+## Quality Control
+
+| Parameter | Test | Standard | Action on Deviation |
+|-----------|------|----------|---------------------|
+| Conductivity | Eddy current test | >95% IACS | Remelting |
+| Flatness | Laser profilometer | +/-0.5 mm | Grinding |
+| Microcracks | Ultrasonic | No cracks | Rejection |
+| Surface finish | Optical inspection | Ra <1 um | Polishing |
+
+---
+
+## Rail Installation on Track
+
+| Stage | Time | Robots |
+|-------|------|--------|
+| Trench preparation | 2 weeks | 10 Moles-M |
+| Frame installation | 1 week | 20 Centaurs-M |
+| Rail mounting (100 segments) | **1 week** | 20 Centaurs-M |
+| Joint welding | 3 days | 10 Centaurs-M |
+| Cooling connection | 3 days | 10 Centaurs-M |
+| Calibration | 1 day | Automation |
+
+**TOTAL:** ~4 weeks from trench to ready rails.
+
+---
+
+## See Also
+
+- [Rolling Mill](../../factories/elements/rolling.qmd) — profile production
+- [Coil Winding](coils.qmd) — electromagnetic windings
+- [Tunnel Frame](frame.qmd) — support structure
+- [Track Assembly](../assembly/track.qmd) — Mass Driver installation

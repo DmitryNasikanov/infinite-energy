@@ -1,0 +1,301 @@
+---
+title: "Project Risks and Constraints"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Technological:** 4 technologies at TRL 3-4, 1 critical issue (iridium for anodes)
+> - **Budget:** AI and testing underestimated, dependence on super-heavy rockets
+> - **Human:** 50,000 specialists needed, competition for AI talent
+> - **Political:** sanctions, government changes, legal status of resources
+> - **Resource:** tungsten ~2%/year, electronics ~8%/year of world production
+
+---
+
+## Resolved Risks
+
+These issues initially appeared blocking but have solutions.
+
+| Risk | Solution | Details |
+|------|----------|---------|
+| Phased array synchronization | Local clusters of 1000-10000 mirrors | [Swarm Mirrors](../detailed/mirrors.qmd#mirror-clusters) |
+| Electrochromics too slow | Sufficient for cluster architecture | [Ultra-thin foil TRL 5-7](technology-readiness.qmd#ultra-thin-aluminum-foil) |
+| Copper not found on Mercury | Cryo-aluminum in shadow (-180C) | [Cryogenic Al](technology-readiness.qmd#cryogenic-aluminum-cable-gw) |
+| NaS batteries during night period | Cables + charging stations | [NaS TRL 9](technology-readiness.qmd#nas-batteries) |
+| Swarm orbital mechanics | Light pressure + ephemerides | [Ultra-thin foil](technology-readiness.qmd#ultra-thin-aluminum-foil) |
+| **Payload survivability at high g** | Proven to 25,000g (McCormick Stevenson) | [MD Theory](../detailed/production/railguns/theory.qmd#payload-survivability-at-high-g) |
+
+---
+
+## Technological Risks
+
+### TRL 3-4 Technologies
+
+Require additional development but are not fundamentally new.
+
+| Technology | TRL | Status | Closest Analog |
+|------------|-----|--------|----------------|
+| [Factory self-replication](technology-readiness.qmd#factory-self-replication) | 3-4 | Engineering task | FANUC: robots build robots |
+| [Autonomous robot AI](technology-readiness.qmd#autonomous-ai-for-robots) | 4-5 | Complicated by communication delay | Rio Tinto: 690 trucks |
+| [In-situ silicon cells](technology-readiness.qmd#in-situ-silicon-cells) | 3-4 | R&D | Blue Origin Blue Alchemist |
+| [Cryogenic Al GW cable](technology-readiness.qmd#cryogenic-aluminum-cable-gw) | 4 | Physics confirmed | CERN LHC cryogenics |
+
+**Details:** [Technologies and Sources - TRL 3-4](technology-readiness.qmd#trl-3-4-technologies-open-questions)
+
+---
+
+### Open Technical Issues
+
+#### Iridium for MRE Anodes (Critical)
+
+**Problem:** MRE anodes are consumed and require replacement every 6 months.
+
+| Parameter | Value |
+|-----------|-------|
+| Anode mass | ~20 kg iridium |
+| For 1000 factories over 10 years | ~400 tons |
+| World production | ~7 t/year |
+| **Deficit** | **~6x world production** |
+
+**Primary path - Cr-Fe-Co anodes:**
+
+- Lower lifespan (replacement every 3 months), but materials available on Mercury
+- 80 t/year local production instead of iridium import
+- TRL ~4, requires validation
+
+**Alternatives:** Carbon consumable (TRL ~3), H2 reduction (TRL ~2)
+
+**Status:** Serious problem - Cr-Fe-Co most likely solution
+
+---
+
+#### Energy Bridge Efficiency
+
+| Stage | Calculated | Pessimistic |
+|-------|------------|-------------|
+| Light - laser | 60% | 40-50% |
+| Receiver (PV) | 50% | 35-45% |
+| Atmosphere | 85% | 30-60% |
+| **Total** | **22-23%** | **10-15%** |
+
+**Compensation:** 50-100x redundancy (even at 10% efficiency - 1000 TW = 50x world consumption)
+
+**Details:** [Swarm Mirrors](../detailed/mirrors.qmd#energy-transmission-efficiency-via-lunar-lsp-stations)
+
+---
+
+#### Mirror Degradation
+
+| Parameter | Calculated | Pessimistic |
+|-----------|------------|-------------|
+| Lifespan | 10-15 years | 5-8 years |
+| Efficiency loss/year | 2-5% | 5-10% |
+
+**Causes:** Solar wind 10x, micrometeorites (JWST showed the problem), electrostatics.
+
+**Solution:** "Add, don't replace" strategy - production of 219 million/year compensates for degradation.
+
+---
+
+#### Mirror Thermal Expansion
+
+| Parameter | Value |
+|-----------|-------|
+| Delta-T during rotation | up to 88 K |
+| Edge displacement 100 m (Al) | ~20 cm |
+
+**Solution:** Carbon fiber frame (CTE ~1x10^-6) - displacement ~1 cm. Import ~0.5 t/factory.
+
+---
+
+#### Mercury Resources (MESSENGER Data)
+
+| Element | In Project | MESSENGER | Status |
+|---------|------------|-----------|--------|
+| Fe | ~5% | **1.5-2%** | 2.5x less |
+| Si | ~20% | ~24.6% | Sufficient |
+| Al | Sufficient | Lower than Moon | Moderate |
+
+**Consequence:** Process 2.5x more regolith for iron. Mirrors from Al - iron only for robots.
+
+---
+
+#### First Factory Assembly Time
+
+| Scenario | Assembly | Schedule Shift |
+|----------|----------|----------------|
+| Optimistic | 7 days | 0 |
+| Realistic | 30 days | +1 month |
+| Pessimistic | 60 days | +2 months |
+
+**Why not critical:** One-time delay, ~2% of 10-year schedule.
+
+---
+
+## Budget Risks
+
+### AI Budget Underestimated
+
+| Parameter | Baseline | Realistic |
+|-----------|----------|-----------|
+| Cost | $15-30 billion | **$50-100 billion** |
+| Timeline | 5-7 years | **8-12 years** |
+
+**References:**
+
+- Waymo: $11 billion over 15 years - no full autonomy
+- Tesla FSD: $15+ billion over 8 years - level 2
+- Mercury conditions are harder: vacuum, radiation, 5-20 min delay
+
+---
+
+### Dependence on Super-Heavy Rockets
+
+Baseline scenario: $2,500/kg with Starship/Long March 9 availability by 2030.
+
+| Scenario | Cost | Impact |
+|----------|------|--------|
+| Rockets on time | $2,500/kg | - |
+| 2-3 year delay | $3,500/kg | **+$30-50 billion** |
+
+---
+
+### Mission Insurance
+
+| Estimate | Amount |
+|----------|--------|
+| Baseline | $2-4 billion |
+| Realistic (5-10% of cargo) | **$10-20 billion** |
+
+---
+
+### Testing Underestimated
+
+| Stage | Baseline | Realistic |
+|-------|----------|-----------|
+| Factory prototypes | 3-5 iterations | 10-20 iterations |
+| Robot prototypes | $2 billion | $5-10 billion |
+| Lunar testbed | 2 years | 3-5 years |
+
+**Details:** [Budget - Known Limitations](../summaries/budget.qmd#known-limitations)
+
+---
+
+## Human Risks
+
+### Personnel
+
+| Parameter | Value |
+|-----------|-------|
+| Total specialists | ~50,000 people |
+| AI/ML engineers | ~4,000 |
+| Mission control operators | ~10,000 |
+| Training time | 5 years |
+
+### Competition for AI Specialists
+
+- OpenAI salaries: median $875K/year
+- Top researchers: $10-20M/year
+- Project competes with Google, Meta, OpenAI for the same people
+
+### International Teams
+
+- **Language barrier:** China, Russia, India, USA, EU
+- **Time zones:** 24/7 coordination
+- **Cultural differences:** Management styles, decision-making
+- **Visa restrictions:** Specialist mobility
+
+### Staff Retention
+
+- 10+ year project - people leave
+- Unique skills - few market analogs
+- Burnout on long projects
+
+---
+
+## Political Risks
+
+### Sanctions and International Tensions
+
+| Scenario | Consequence |
+|----------|-------------|
+| US-China sanctions expand | Electronics cooperation breakdown |
+| Sanctions against Russia | Loss of rocket capacity |
+| Chip export controls | Component shortage |
+
+### Government Changes
+
+- **10+ year project** - minimum 2-3 electoral cycles
+- New administrations may reconsider priorities
+- Reference: Artemis cancelled/restored programs
+
+### Competition Instead of Cooperation
+
+| Cooperation | Competition |
+|-------------|-------------|
+| 1 project, shared budget | 2-3 parallel projects |
+| ~$500-700 billion | ~$1.5-2 trillion total |
+
+### Legal Status of Resources
+
+- **Outer Space Treaty 1967:** Celestial bodies not subject to appropriation
+- **Artemis Accords (2020):** USA recognizes right to extraction
+- **China/Russia:** Did not sign Artemis Accords
+- **Risk:** Disputes over rights to Mercury resources
+
+### Public Opinion
+
+- "Why not solve Earth problems?"
+- Environmental protests against rectenna stations
+- NIMBYism with receiver placement
+
+---
+
+## Resource Constraints
+
+### Tungsten
+
+| Parameter | Value |
+|-----------|-------|
+| Requirement (10 years) | ~18,000 t |
+| World production | 85,000 t/year |
+| **Share** | **~2%/year** |
+
+### Electronics
+
+| Parameter | Value |
+|-----------|-------|
+| Chips for 1 trillion mirrors | ~1 trillion |
+| World production | ~1.2 trillion/year |
+| **Share (over 10 years)** | **~8%/year** |
+
+### Launch Capacity
+
+| Parameter | Value |
+|-----------|-------|
+| Cargo to Mercury | ~20,000 t |
+| At 200 t/launch | ~100 launches over 10 years |
+| **Launches/year** | **~10-20** |
+
+---
+
+## Uncertainties
+
+Require additional research:
+
+1. **Venus gravity influence** on swarm orbits - not modeled
+2. **Electronics production on Mercury** - theoretically possible, not designed
+3. **Hydrogen extraction from poles** - ice confirmed, logistics not designed
+4. **Aluminothermy in vacuum** - laboratory data, industrial scale not proven
+5. **NaS behavior during 176-day cycle** - no data on such regimes
+
+---
+
+## See Also
+
+- [Technologies and Sources](technology-readiness.qmd) - TRL of all technologies
+- [Budget](../summaries/budget.qmd) - financial constraints
+- [Project in 5 Minutes](../executive-summary.qmd) - overall architecture
+- [Roadmap](../summaries/roadmap.qmd) - timeline constraints
+- [Production](../detailed/production/overview.qmd) - production technologies

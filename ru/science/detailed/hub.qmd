@@ -226,7 +226,7 @@ flowchart LR
 |----------|----------|
 | Площадь приёмников (на станцию) | ~10 км² |
 | Общая площадь (20 станций) | ~200 км² |
-| КПД PV (концентрация) | ~50% |
+| КПД PV (концентрация) | ~45% |
 | Тип | Multi-junction, из лунного кремния |
 
 ---
@@ -304,33 +304,43 @@ Rectenna — это массив диполей, преобразующих ми
 
 ## Безопасность микроволновой передачи
 
-Микроволны безопаснее лазера, но требуют зонирования.
+Микроволны безопаснее лазера, но требуют строгого зонирования.
 
 | Параметр | Значение |
 |----------|----------|
-| Интенсивность на rectenna | 230 Вт/м² |
-| Солнце в полдень | 1000 Вт/м² |
-| Стандарт США (рабочие) | 100 Вт/м² |
+| Интенсивность на rectenna (центр) | **10,000 Вт/м²** (10× солнца) |
+| Солнце в полдень | 1,000 Вт/м² |
+| Стандарт ICNIRP (население) | 10 Вт/м² |
+
+> **Примечание:** Плотность мощности 10,000 Вт/м² соответствует реальным проектам NASA (1978), JAXA и современным концепциям. См. [PMC: SBSP Review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11064435/).
 
 ### Зонирование территории
 
+| Зона | Интенсивность | Доступ |
+|------|---------------|--------|
+| Центр | 10,000 Вт/м² | **Запретная зона** (автоматика) |
+| Средняя | 100–1,000 Вт/м² | Техперсонал (ограничено) |
+| Периферия | <50 Вт/м² | Охранный периметр |
+| Граница | <10 Вт/м² | Соответствует нормам ICNIRP |
+
 ```{mermaid}
 flowchart TB
-    subgraph rectenna["RECTENNA (100+ км²)"]
-        subgraph periphery["Периферия: <50 Вт/м² — Техперсонал"]
-            subgraph center["Центр: 230 Вт/м² — Запретная зона"]
+    subgraph rectenna["RECTENNA (100 км²)"]
+        subgraph mid["Средняя зона: 100-1000 Вт/м² — Техперсонал"]
+            subgraph center["Центр: 10,000 Вт/м² — Запретная зона"]
                 A["Автоматика, нет людей"]
             end
         end
     end
-    B["Граница: <10 Вт/м² — Безопасно для всех"]
+    B["Периферия: <50 Вт/м² — Охрана"]
+    C["Граница: <10 Вт/м² — Безопасно"]
 
     style rectenna fill:#E8F5E9,stroke:#4CAF50,color:#1B5E20
-    style periphery fill:#FFF3E0,stroke:#FF9800,color:#E65100
+    style mid fill:#FFF3E0,stroke:#FF9800,color:#E65100
     style center fill:#FFEBEE,stroke:#F44336,color:#B71C1C
 ```
 
-**Птицы и самолёты:** NASA подтвердила безопасность при <230 Вт/м². Система автоматически отключается при входе объектов в луч.
+**Безопасность:** Территория rectenna полностью огорожена. Система автоматически отключается при входе объектов в луч (птицы, самолёты).
 
 ---
 
@@ -555,3 +565,7 @@ flowchart LR
 - [Criswell D.R. "Solar Power via the Moon" (2002)](https://www.researchgate.net/publication/329718124_Solar_Power_via_the_Moon_2002)
 - [NASA Space Solar Power](https://www.nasa.gov/directorates/spacetech/niac/2011_Phase_I_Space_Solar_Power/)
 - [Microwave Power Transmission Safety](https://ntrs.nasa.gov/citations/19810008041)
+- [URSI White Paper on SPS Systems](https://www.ursi.org/files/WhitePapers/WPSPS-ReportMin.pdf) — плотность мощности rectenna
+- [PMC: SBSP Technical Review (2024)](https://pmc.ncbi.nlm.nih.gov/articles/PMC11064435/) — сравнение NASA/JAXA/China
+- [Caltech SSPD-1 Demo (2023)](https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space)
+- [IEEE: Japan Orbital Solar Farm](https://spectrum.ieee.org/how-japan-plans-to-build-an-orbital-solar-farm)

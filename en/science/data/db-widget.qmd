@@ -1,0 +1,32 @@
+---
+title: "Database Widget"
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+import { dataScript, mercuryProduction, mercuryMaterials, materialsById, unitsById, planetsById, unitWidget }
+from "../_ojs-data.qmd"
+```
+
+## Usage Example
+
+Widget for **BLDC Motor Al (CMP-011)**:
+
+```{ojs}
+unitWidget("CMP-011")
+```
+
+Widget for **MRE Cell (EQU-002)**:
+
+```{ojs}
+unitWidget("EQU-002")
+```
+
+Widget for **Robot Gen-2 (PRD-002)**:
+
+```{ojs}
+unitWidget("PRD-002")
+```

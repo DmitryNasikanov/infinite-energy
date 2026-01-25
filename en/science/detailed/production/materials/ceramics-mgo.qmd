@@ -1,0 +1,264 @@
+---
+title: "3.1.7 MgO Ceramics"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Production of refractory ceramics from magnesium
+> - **Input:** 48 t/day liquid Mg from distillation + 32 t/day O2 from MRE
+> - **Output:** ~70 t/day MgO ceramics (88% yield)
+> - **Applications:** Crucibles, furnace linings, thermal insulation
+
+---
+
+## Overview
+
+Magnesium oxide (MgO) ceramics are a critically important refractory material for all high-temperature processes in the factory. With a melting point of 2852C, MgO withstands the extreme conditions of MRE electrolysis, distillation, and metal casting.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Liquid Mg from distillation (48 t/day, 8% of regolith) |
+| Input | O2 from MRE electrolysis (32 t/day) |
+| Output | MgO ceramic blocks/powder (~70 t/day) |
+| Reaction yield | 88% (losses from dust, rejects, cracks) |
+| Power consumption | ~150 kW (oxidation + sintering) |
+
+[Back to overview](overview.qmd)
+
+---
+
+## Process Diagram
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["INPUT"]
+        MG["Liquid Mg<br/>1091C<br/>48 t/day"]
+        O2["O2 from MRE<br/>32 t/day"]
+    end
+
+    subgraph OXIDATION["OXIDATION"]
+        OX_FURNACE["Oxidation furnace<br/>600-1000C"]
+        REACTION["2Mg + O2 -> 2MgO"]
+        MGO_POWDER["MgO powder<br/>10-100 um"]
+    end
+
+    subgraph FORMING["FORMING"]
+        GRANULATE["Granulation"]
+        PRESS["Pressing<br/>50-200 MPa"]
+        GREEN["Green bodies"]
+    end
+
+    subgraph SINTERING["SINTERING"]
+        SOLAR["Solar furnace<br/>1500-1800C<br/>2-6 hours"]
+        CERAMIC["MgO ceramics<br/>~70 t/day"]
+    end
+
+    MG --> OX_FURNACE
+    O2 --> OX_FURNACE
+    OX_FURNACE --> REACTION
+    REACTION --> MGO_POWDER
+    MGO_POWDER --> GRANULATE
+    GRANULATE --> PRESS
+    PRESS --> GREEN
+    GREEN --> SOLAR
+    SOLAR --> CERAMIC
+
+    style INPUT fill:#fff3cd
+    style OXIDATION fill:#ffe4cc
+    style FORMING fill:#d4edda
+    style SINTERING fill:#cce5ff
+```
+
+---
+
+## Stage 1: Magnesium Oxidation
+
+**Reaction:** 2Mg + O2 -> 2MgO + heat (deltaH = -1203 kJ/mol)
+
+Liquid magnesium from distillation (1091C) is fed into the oxidation furnace where it contacts oxygen from MRE electrolysis.
+
+| Parameter | Value |
+|-----------|-------|
+| Reaction temperature | 600-1000C |
+| Incoming Mg | 48 t/day = 1,975 kmol/day |
+| Required O2 | 32 t/day = 987.5 kmol/day |
+| Outgoing MgO (theoretical) | 79.6 t/day |
+| Reaction character | Exothermic (releases heat) |
+
+### Equipment
+
+| Component | Material | Purpose |
+|-----------|----------|---------|
+| Furnace shell | Fe (steel) | Structure, cooling |
+| Lining | Al2O3 ceramics | Protection from high temperatures |
+| O2 injectors | SiC ceramics | Oxygen delivery to reaction zone |
+| Heat exchanger | Al alloy | Heat recovery from reaction |
+
+**Oxygen source:** MRE electrolysis produces ~1500 t O2/day when decomposing regolith oxides (SiO2, FeO, Al2O3). For MgO only 32 t/day is needed -- the excess is vented to atmosphere or stored for other purposes.
+
+---
+
+## Stage 2: Granulation and Forming
+
+After oxidation, MgO powder is obtained which must be converted into strong ceramic products.
+
+### Granulation
+
+| Parameter | Value |
+|-----------|-------|
+| Method | Melt atomization in vacuum |
+| Particle size | 10-100 um |
+| Goal | Obtain uniform powder for pressing |
+
+### Forming (Pressing)
+
+| Parameter | Value |
+|-----------|-------|
+| Pressure | 50-200 MPa |
+| Method | Isostatic pressing (uniform) |
+| Product | Green bodies |
+| Equipment | Hydraulic press (frame: Fe, dies: SiC) |
+
+---
+
+## Stage 3: Sintering in Solar Furnace
+
+**Sintering** is thermal treatment where a powder compact transforms into dense ceramics without melting.
+
+| Parameter | Value |
+|-----------|-------|
+| Temperature | 1500-1800C |
+| Time | 2-6 hours |
+| Atmosphere | Vacuum (natural Mercury environment) |
+| Heat source | Solar furnace (mirror concentration) |
+
+### Sintering Solar Furnace
+
+| Component | Material | Function |
+|-----------|----------|----------|
+| Concentrator mirrors | Al | Focus sunlight |
+| Crucible | MgO (in-house production) | Hold workpieces |
+| Thermal insulation | MgO felt | Reduce heat losses |
+| Vacuum chamber | Fe shell + Al2O3 insulation | Sintering environment |
+
+**Sintering results:**
+- Density increases from 50-60% to 90-95% of theoretical
+- Compressive strength: 100-200 MPa
+- Thermal shock resistance: excellent (deltaT > 500C)
+
+---
+
+## Material Balance
+
+**Reaction:** 2Mg + O2 -> 2MgO
+
+**Stoichiometric calculation:**
+
+| Component | In/Out | Quantity | Molar mass | kmol/day |
+|-----------|--------|----------|------------|----------|
+| Mg (input) | -> | 48 t/day | 24.3 kg/kmol | 1,975 |
+| O2 (input) | -> | 32 t/day | 32 kg/kmol | 987.5 |
+| MgO (theoretical) | <- | 79.6 t/day | 40.3 kg/kmol | 1,975 |
+| **MgO (actual)** | **<-** | **~70 t/day** | **88% yield** | **1,738** |
+
+### Losses (12%)
+
+| Loss source | Share | Note |
+|-------------|-------|------|
+| Dust carryover during granulation | ~5% | Collected by filters, returned to process |
+| Forming rejects | ~3% | Re-formed or re-melted |
+| Cracks during sintering | ~4% | Thermal shock, non-uniformity |
+
+---
+
+## MgO Ceramics Applications
+
+| Product | Consumption (t/day) | Criticality | Description |
+|---------|---------------------|-------------|-------------|
+| MRE crucibles | ~20 | **Critical** | Main vessel for melt in MRE furnace (Tmelt 2852C >> Twork 1500-2000C) |
+| Distillation condensers | ~10 | **Critical** | Ceramic surfaces for metal condensation (K, Na, Mg, Al) |
+| Furnace thermal insulation | ~25 | High | MgO felt/blocks for insulating solar furnaces, MRE, distillation |
+| MHD channels | ~5 | High | Channel lining for transporting molten metals (Al, Fe) |
+| Tundish lining | ~5 | High | Refractory protection of tundish for casting |
+| Reserve/buffer | ~5 | -- | Reserve for failures or production increase |
+| **TOTAL** | **~70** | | |
+
+---
+
+## Power Consumption
+
+| Stage | Power | Purpose |
+|-------|-------|---------|
+| Oxidation furnace | 50 kW | Maintain temperature 600-1000C |
+| Granulation | 10 kW | Atomization and cooling |
+| Forming press | 20 kW | Hydraulic system |
+| Solar furnace (electrical) | 30 kW | Mirror pointing, vacuum pumps |
+| Thermal energy (solar) | ~40 kW thermal | Sintering at 1500-1800C |
+| Transportation | 10 kW | Conveyors, loaders |
+| **TOTAL (electrical)** | **~120 kW** | |
+| **TOTAL (including solar)** | **~160 kW equivalent** | |
+
+> **Note:** The solar furnace uses concentrated sunlight for sintering, reducing electrical consumption. Electricity is only needed for mirror pointing and vacuum pumping.
+
+---
+
+## MgO Ceramics Properties
+
+| Property | Value | Comparison with other materials |
+|----------|-------|--------------------------------|
+| Melting point | 2852C | Higher than Al2O3 (2072C), lower than ThO2 (3350C, but toxic) |
+| Density | 3.58 g/cm3 | Lighter than Al2O3 (3.95 g/cm3) |
+| Thermal conductivity | 40-60 W/(m*K) | High -> good thermal insulation |
+| Thermal expansion coefficient | 13.5 x 10^-6 /K | Medium -> thermal shock resistance |
+| Chemical resistance | Excellent to basic slags | Reacts with acidic slags (SiO2) |
+| Electrical insulation | 10^14 Ohm*m | Excellent insulator |
+
+---
+
+## Quality Control
+
+| Parameter | Control method | Criterion |
+|-----------|----------------|-----------|
+| Powder particle size | Laser diffraction | 10-100 um (+/-10%) |
+| Compact density | Weighing + volume | >= 90% of theoretical |
+| Absence of cracks | Visual inspection + ultrasound | No visible defects |
+| Thermal resistance | Thermal shock test (deltaT 500C) | No destruction |
+| Chemical composition | X-ray diffraction (XRD) | > 98% MgO |
+
+**Automation:** The furnace, press, and sintering control system operates automatically. An operator is only required for maintenance and quality control.
+
+---
+
+## Manufacturing Specifics on Mercury
+
+### Advantages
+
+1. **Natural vacuum** -- no oxidation of impurities, no protective atmosphere required
+2. **Oxygen surplus** -- MRE produces ~1500 t O2/day, we use only 32 t
+3. **Free heat** -- solar furnace runs on concentrated sunlight (1 MW/m2 at surface)
+4. **Magnesium in regolith** -- 8% content, distillation yields 48 t/day pure Mg
+
+### Challenges
+
+1. **Dust in vacuum** -- during MgO granulation dust does not settle, electrostatic filters required
+2. **Thermal shock** -- rapid temperature swings (day/night: +430C/-180C) require slow ceramic cooling
+3. **Fragile green bodies** -- pressed compacts before sintering are very fragile -> careful transportation required
+
+---
+
+## Sources
+
+- **RHI Magnesita** -- world's largest refractory producer, including MgO (blast furnaces, steelmaking converters)
+- **Magnesia Mineracao** -- mining and MgO production from magnesite and seawater
+- **NASA Technical Reports** -- ceramics production in vacuum and microgravity
+- **NIST Chemistry WebBook** -- thermodynamic data for Mg + O2 reaction
+
+---
+
+## See Also
+
+- [MRE Electrolysis](mre.qmd) -- oxygen source for oxidation
+- [Slag Distillation](distillation.qmd) -- magnesium source
+- [Regolith Processing Overview](overview.qmd) -- general production context
+- [Elements Casting](../factories/elements/melting.qmd) -- MgO applications in tundish and MHD channels

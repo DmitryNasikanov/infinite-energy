@@ -1,0 +1,358 @@
+---
+title: "Project Helios in 5 Minutes"
+sidebar: science
+---
+
+## The Idea
+
+::: {.callout-note}
+## Document Status
+
+This document is a **conceptual design** (feasibility study). The goal is to demonstrate the fundamental feasibility of the project and identify the critical path for implementation.
+
+All calculations presented are **order-of-magnitude estimates**. Transitioning to implementation will require:
+
+- Detailed engineering development of each subsystem
+- Work by research institutes and design bureaus
+- Prototyping and field testing
+
+This is precisely why the first years of the project (1-4) are entirely dedicated to **R&D** — research and development work.
+:::
+
+Build a **Dyson Swarm** — ~1.1 billion mirrors around the Sun, producing **~100 petawatts** of reflected energy. First phase: **1 PW on Earth** (50x global consumption). Full potential with LSP scaling: up to ~21 PW (18% transmission efficiency).
+
+**Problems this can solve:**
+
+- **Global warming** — fossil fuel replacement + CO2 capture + orbital cooling
+- **Hunger** — vertical farms, water desalination, fertilizer synthesis
+- **Waste** — recycling any waste through high-temperature plasma decomposition
+- **Interstellar travel** — laser sails for acceleration to 20% of light speed
+- **Mars terraforming** — magnetic shield for atmosphere retention + heating + oxygen production
+
+> **Learn more:** [Why Mercury?](summaries/comparison.qmd), [Production](detailed/production.qmd), [Roadmap](summaries/roadmap.qmd)
+
+---
+
+## Project Overview
+
+```{mermaid}
+flowchart TB
+    subgraph EARTH["EARTH (years 1-4)"]
+        E1[R&D] --> E2[Gen-1 Robots<br/>+ electronics]
+        E2 --> E3[Desert testbed]
+        E2 --> E4[Rectenna<br/>Russia, Europe, USA,<br/>Gobi, Sahara, Atacama]
+    end
+
+    subgraph MOON["MOON (years 4-10)"]
+        L1[Testbed] --> L2[LSP stations<br/>on limbs]
+        L1 --> L4[Test MD]
+    end
+
+    subgraph SPACE[" "]
+        direction LR
+        subgraph MERCURY["MERCURY (years 6-15)"]
+            M1[Factory] --> M2[Self-replication]
+            M2 --> M3[1000 MDs]
+            M3 --> M4[Mirrors]
+        end
+        subgraph SWARM["DYSON SWARM"]
+            R1[~1.1B mirrors]
+        end
+        subgraph SUN["SUN"]
+            S1[Disposal]
+        end
+    end
+
+    E3 -->|rockets| L1
+    L4 -.->|experience| M1
+    E3 -->|rockets| M1
+    M4 -->|MD| R1
+    R1 -->|light| L2
+    L2 -->|microwaves| E4
+    R1 -.->|broken| S1
+
+    style SUN fill:#FFECB3,stroke:#FF8F00,stroke-width:2px,color:#E65100
+    style EARTH fill:#E3F2FD,stroke:#1976D2,stroke-width:2px,color:#0D47A1
+    style MOON fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#212121
+    style MERCURY fill:#FBE9E7,stroke:#E64A19,stroke-width:2px,color:#BF360C
+    style SWARM fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,color:#FF6F00
+    style SPACE fill:none,stroke:none
+
+    click E1 "summaries/roadmap.html" "Roadmap"
+    click E2 "detailed/production/robots/overview.html" "Robot Bestiary"
+    click E3 "summaries/roadmap.html" "Roadmap"
+    click E4 "detailed/hub.html" "Energy Reception Hub"
+    click L1 "summaries/roadmap.html" "Roadmap"
+    click L2 "detailed/hub.html" "LSP Stations"
+    click L4 "detailed/production/railguns/overview.html" "Mass Driver"
+    click M1 "detailed/production.html" "Production and Self-replication"
+    click M2 "detailed/production.html" "Production and Self-replication"
+    click M3 "detailed/production/railguns/overview.html" "Mass Driver"
+    click M4 "detailed/mirrors.html" "Swarm Mirrors"
+    click R1 "detailed/mirrors.html" "Swarm Mirrors"
+    click S1 "detailed/mirrors.html" "Mirror Disposal"
+```
+
+**Reading the diagram:** top to bottom by time. Earth -> Moon -> Mercury + Swarm.
+
+---
+
+## Scale and Budget
+
+### Scale
+
+| Parameter | Value |
+|-----------|-------|
+| Mirrors | **~1.1 billion** |
+| Mirror area | 1.1x10^13 m^2 (~11 million km^2) |
+| Swarm mass | ~128 million tons |
+| Factories on Mercury | ~1,650 (1,500 F-M + 150 F-R) |
+| Mass Drivers on Mercury | ~1,000 |
+| Import from Earth | ~100,000 tons (total project) |
+| Construction timeline | **~9.5 years** (degradation included) |
+| Power on Earth | **1 PW** (phase 1) / up to 21 PW (full) |
+
+**Phases:**
+- R&D (years 1-2)
+- Earth testbed (years 2-4)
+- Moon (years 4-10)
+- Mercury (years 6-18)
+
+### Budget (with LSP infrastructure)
+
+| Scenario | Budget (USD 2026) |
+|----------|-------------------|
+| Optimistic | $350-440B |
+| Baseline | $570-710B |
+| Conservative | $750-930B |
+
+For comparison: ISS — $150B, Apollo — $280B.
+
+> **Learn more:** [Project Budget](summaries/budget.qmd)
+
+---
+
+## Technology Readiness
+
+All key project technologies already exist and are being demonstrated:
+
+| Technology | TRL | Status (2025) |
+|------------|-----|---------------|
+| [Electromagnetic launch](reference/technology-readiness.qmd#electromagnetic-launch-mass-driver) | 5-6 | China: 700 km/h in 2 sec |
+| [Lights-off factories](reference/technology-readiness.qmd#lights-off-factories-lights-off-manufacturing) | 9 | FANUC, Xiaomi: 24/7 without people |
+| [Autonomous mining](reference/technology-readiness.qmd#autonomous-mining) | 8-9 | Rio Tinto: 690+ trucks |
+| [MRE electrolysis](reference/technology-readiness.qmd#mre-molten-regolith-electrolysis) | 5-6 | NASA, Blue Origin |
+| [Microwave transmission](reference/technology-readiness.qmd#microwave-power-transmission) | 5-6 | Caltech: from space to Earth (2023) |
+| [Ultra-thin foil](reference/technology-readiness.qmd#ultra-thin-aluminum-foil) | 5-7 | IKAROS, LightSail 2 |
+
+> **Learn more:** [Technologies and Sources](reference/technology-readiness.qmd)
+
+---
+
+## Earth: Preparation
+
+Everything starts on Earth.
+
+**R&D (years 1-2):**
+- Development of robots, factories, and AI systems
+- Mirror and Mass Driver prototypes
+- Factory prototypes and self-replication schemes
+- Planning for Moon and Mercury operations
+- Laser receiver development
+
+**Earth Testbed (years 3-6):**
+- Test factory in Mercury-like conditions (desert)
+- Gen-1 robot testing in extreme conditions
+- First Mass Driver (horizontal tests)
+
+**Production:**
+- Gen-1 robots for [delivery](detailed/delivery.qmd) to Moon and Mercury
+- Electronics — "Vitamins" for the entire project
+
+**Launch vehicles:**
+- ~900 launches over 4 years
+- Payload capacity: ~50 tons to Mercury
+- Rocket industry grows organically (satellites, lunar programs)
+
+> **Learn more:** [Roadmap](summaries/roadmap.qmd), [Budget](summaries/budget.qmd)
+
+---
+
+## Moon: Testbed
+
+The Moon is a key stage between Earth and Mercury.
+
+### Technology Testing (years 4-6)
+
+- Robots learn to mine, smelt, build
+- Errors are cheaper: 1.3 sec communication (vs 8-20 min), 3-day delivery (vs months)
+- Experience transfers to Mercury
+
+### Test Mass Driver
+
+Prototype of Mercury MD for technology validation:
+
+| Parameter | Mercury | Moon (test) |
+|-----------|---------|-------------|
+| Target velocity | 5 km/s | 2.5 km/s |
+| Track length | 2-3 km | 1-1.5 km |
+| Purpose | Mirror launch | Technology validation |
+
+> **Learn more:** [Moon](summaries/moon.qmd), [Mass Driver](detailed/production/railguns/theory.qmd)
+
+---
+
+## Mercury: Production
+
+The main factory of the project. [Why Mercury, not the Moon?](summaries/comparison.qmd)
+
+- **Energy:** solar flux 10 kW/m^2 — 7x more than on the Moon
+- **Resources:** the planet's metallic core — the richest deposit of iron and aluminum in the Solar System
+- **Orbit:** The Swarm orbits the Sun — doesn't occupy useful orbits around Earth
+- **Disposal:** failed mirrors fall into the Sun — no space debris
+
+### [Production Chain](detailed/production.qmd)
+
+```{mermaid}
+flowchart LR
+    A[Mining] --> B[Smelting]
+    B --> C[New factories]
+    B --> D[New MDs]
+    B --> E[Mirrors]
+    C --> D
+    E --> D
+    D --> F[Launch]
+    F --> G[Swarm]
+```
+
+### Self-replication
+
+Robots build robots. Factories build factories.
+
+- **99% of mass** — from local resources (**iron** for frames, **aluminum** for bodies, silicon)
+- **1% of mass** — "Vitamins" from Earth (electronics, optics)
+- **Gen-2 robots** — optimized (~960 kg): Al frames + Fe critical components
+- **Energy:** 168 MW (3 trips of GaAs panels) — bootstrap without waiting for Swarm
+- **Critical path:** First MD (~1 month) -> first mirrors -> scaling
+
+Over **~9.5 years:** 1 factory -> ~1,650 factories (1,500 F-M + 150 F-R) -> 1.1 billion working mirrors (degradation already included)
+
+> **Learn more:** [Ground Zero Factory](detailed/production/factories/overview.qmd), [Robot Bestiary](detailed/production/robots/overview.qmd)
+
+---
+
+## Dyson Swarm: Mirrors
+
+~1 billion [mirrors](detailed/mirrors.qmd) in heliocentric orbits.
+
+**Each mirror:**
+- Size: 100 x 100 m
+- Material: 4 um aluminum foil
+- Mass: ~116 kg
+- Power on Earth: ~19 MW (at 18% efficiency)
+
+**Organization:**
+- Mirrors grouped into clusters of 1,000-10,000 units
+- Each cluster — a virtual antenna ~100 km
+- Clusters focus light on LSP stations (Moon)
+
+**After first mirrors launch:**
+- Part of energy -> Earth (via LSP)
+- Part of energy -> Moon (for continued construction)
+- Part of energy -> Mercury (for factories and Mass Drivers)
+
+> **Learn more:** [Swarm Mirrors](detailed/mirrors.qmd)
+
+---
+
+## Energy to Earth: LSP + Rectenna
+
+The final link in the chain: Swarm light -> electricity on Earth.
+
+### LSP Stations (Lunar Solar Power)
+
+**Network of 20-40 stations on the Moon's surface** (instead of an orbital hub):
+
+| Parameter | Value |
+|-----------|-------|
+| Stations | 20-40 |
+| Location | Moon limbs (eastern + western) |
+| Transmission | Microwaves 2.45 GHz |
+| Efficiency (Swarm to Earth) | 18% |
+
+**How it works:**
+
+1. **Reception** — concentrated light from Swarm onto PV panels
+2. **Conversion** — light -> electricity -> microwaves
+3. **Transmission** — microwave beam to rectenna on Earth
+
+**LSP advantages:**
+- Heat dissipates into ground — no radiators needed in space
+- 18% efficiency (vs 10% for orbital hub)
+- Built from lunar resources
+
+### Rectenna on Earth
+
+Global network of microwave receivers:
+
+| Region | Location | Note |
+|--------|----------|------|
+| **Russia** | Yakutia, Kazakhstan | Sparsely populated areas |
+| **Europe** | Southern Spain | Semi-desert, close to consumers |
+| **USA** | Nevada/Arizona | Desert, close to consumers |
+| Africa | Sahara | Large-scale generation |
+| Asia | Gobi (Mongolia) | Large-scale generation |
+| S. America | Atacama (Chile) | Large-scale generation |
+| Oceania | Central Australia | Large-scale generation |
+
+Microwaves pass through clouds — all-weather operation.
+
+> **Learn more:** [Energy Reception Hub](detailed/hub.qmd)
+
+---
+
+## Risks
+
+1. **Logistics:** ~900 heavy rocket launches over 4 years — requires spaceport coordination
+2. **Lunar production:** LSP station deployment on limbs — new technology
+3. **Mercury production:** factory self-replication — complex autonomous system
+
+> **Learn more:** [Risks and Limitations](reference/risks.qmd)
+
+---
+
+## Conclusion
+
+::: {.callout-tip}
+## Study Results
+
+This feasibility study confirms: **the project is achievable with current technology levels**.
+
+**Key facts:**
+
+- All critical technologies exist (TRL 5-9) or are actively being developed
+- Budget of $350-750B is comparable to Apollo ($280B) and ISS ($150B)
+- Timeline of 10-15 years — realistic with international cooperation
+- First energy on Earth — as early as year 8-9 from start
+
+**Why this matters:**
+Project Helios is the only known solution capable of providing humanity with energy at a scale of **1000x current consumption**. This enables not only solving the climate crisis but also opening the path to Mars terraforming, interstellar travel, and sustainable civilization development.
+
+**Recommendation:** The project deserves high priority and international attention as the most promising path to solving global energy problems.
+:::
+
+---
+
+## See Also
+
+- [Why Mercury?](summaries/comparison.qmd) — comparison with Mars and Moon
+- [Roadmap](summaries/roadmap.qmd) — project timeline
+- [Production](detailed/production.qmd) — complete production cycle
+- [Swarm Mirrors](detailed/mirrors.qmd) — mirror design and production
+- [Energy Reception Hub](detailed/hub.qmd) — LSP stations and Earth transmission
+- [Ground Zero Factory](detailed/production/factories/overview.qmd) — how self-replication works
+- [Robot Bestiary](detailed/production/robots/overview.qmd) — who builds the project
+- [Delivery](detailed/delivery.qmd) — logistics Earth -> Moon -> Mercury
+- [Risks and Limitations](reference/risks.qmd) — technical risk analysis
+- [Project Budget](summaries/budget.qmd) — project economics
+- [Glossary](reference/glossary.qmd) — terminology

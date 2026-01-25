@@ -1,0 +1,318 @@
+---
+title: "Crab-M Assembly"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Logistics robot, material transport
+> - **Mass:** ~1000 kg
+> - **Battery:** NaS 50 kWh
+> - **Power:** 10 kW
+> - **Assembly time:** 48 hours per station
+
+---
+
+## Overview
+
+Crab-M is a Gen-2 logistics robot for transporting materials between factory facilities. The six-wheeled platform with a 2x3 m cargo bed can carry up to 5 tonnes of regolith or finished products.
+
+---
+
+## Crab-M Material Balance
+
+| Component | Material | Mass | Source |
+|-----------|----------|------|--------|
+| Frame + chassis | Steel Fe-6%Mn | 350 kg | [Frame Manufacturing](../elements/frames.qmd) |
+| Body, radiators | Aluminum | 450 kg | [Aluminum](../../materials/distillation.qmd) |
+| NaS Battery | Na + S + beta-Al2O3 | 150 kg | [Battery Production](../elements/batteries.qmd) |
+| Actuators (6 wheels + manipulator) | Fe + Al + NaK | 30 kg | [Actuators](../elements/actuators.qmd) |
+| Electronics | - | 20 kg | **Import from Earth** |
+| **TOTAL** | - | **~1000 kg** | **~98% local** |
+
+**Material distribution:**
+- Iron (Fe): 350 kg = **35%**
+- Aluminum (Al): 450 kg = **45%**
+- Sodium + Sulfur: 150 kg = **15%**
+- Import: 20 kg = **2%**
+
+---
+
+## Design
+
+### Dimensions
+
+| Parameter | Value |
+|-----------|-------|
+| Length | 4.5 m |
+| Width | 2.5 m |
+| Height | 2.0 m |
+| Ground clearance | 0.5 m |
+| Payload capacity | 5 t |
+
+### Wheel Base
+
+```{mermaid}
+flowchart LR
+    subgraph CHASSIS["CHASSIS"]
+        W1["Wheel 1"]
+        W2["Wheel 2"]
+        W3["Wheel 3"]
+        W4["Wheel 4"]
+        W5["Wheel 5"]
+        W6["Wheel 6"]
+    end
+
+    W1 -.-> W2
+    W2 -.-> W3
+    W4 -.-> W5
+    W5 -.-> W6
+
+    style CHASSIS fill:#d4edda
+```
+
+**6 wheels:** 3 on each side, independent suspension on each wheel.
+
+**Wheel diameter:** 1.2 m (to traverse regolith up to 0.5 m deep)
+
+---
+
+## Assembly Process
+
+### Assembly Line (10 stations, 48 hours per station)
+
+| Station | Stage | Time | Robots |
+|---------|-------|------|--------|
+| 1 | Frame installation on assembly fixture | 2 hours | 2 Centaur-M |
+| 2 | Chassis mounting (6 wheels) | 6 hours | 4 Centaur-M |
+| 3 | Al body and radiator installation | 8 hours | 3 Centaur-M |
+| 4 | NaS battery installation (50 kWh) | 4 hours | 2 Centaur-M |
+| 5 | Actuator mounting (6 wheel drives + 2 manipulators) | 6 hours | 3 Centaur-M |
+| 6 | Power cable routing | 4 hours | 2 Centaur-M |
+| 7 | Electronics installation (processor, sensors) | 6 hours | 2 Centaur-M |
+| 8 | NaK cooling circuit filling | 2 hours | 1 Centaur-M |
+| 9 | Sensor calibration and testing | 6 hours | Automated |
+| 10 | Initial battery charging | 4 hours | Charging station |
+| **TOTAL** | | **48 hours** | |
+
+---
+
+## Stage 1: Frame Installation
+
+**Crab-M Frame:**
+- Mass: ~800 kg (350 kg Fe + 450 kg Al)
+- Design: Hybrid Fe/Al (modular, bolted assembly)
+- Production: [WAAM 3D printing](../elements/frames.qmd)
+
+**Process:**
+1. Crane lifts frame from conveyor
+2. Frame placed on assembly fixture
+3. Secured on 4 supports
+4. Geometry check (laser scanner)
+
+---
+
+## Stage 2: Chassis Mounting
+
+**6 wheels:**
+- Diameter: 1.2 m
+- Material: Aluminum (rim) + rubber (tread, imported)
+- Drive: Electric motors 5 kW x 6 = 30 kW total
+
+**Suspension:**
+- Independent on each wheel
+- Hydraulic dampers (NaK)
+- Suspension travel: +/-200 mm
+
+**Process:**
+1. Install 6 hubs on frame (M20 bolts)
+2. Mount wheel drive motors
+3. Install wheels
+4. Alignment adjustment
+
+---
+
+## Stage 3: Body and Radiator Installation
+
+**Aluminum body:**
+- Mass: 450 kg
+- Design: Panels from 3 mm Al sheets
+- Function: Dust protection, cooling radiators
+
+**Radiators:**
+- Area: ~10 m2 (oriented toward shadow)
+- Material: Aluminum
+- Circuit: NaK cooling for battery and motors
+
+**Process:**
+1. Install side panels (bolts + rivets)
+2. Mount radiators on roof
+3. Seal joints (TIG welding)
+
+---
+
+## Stage 4: NaS Battery Installation
+
+**NaS Battery 50 kWh:**
+- Mass: 150 kg (active materials Na + S + beta-Al2O3)
+- Voltage: 400 V (200 cells x 2 V)
+- Placement: Center of gravity (under platform)
+
+**Process:**
+1. Lift battery with crane
+2. Install in battery compartment
+3. Connect power cables (M10 bolts)
+4. Connect battery management system (BMS)
+
+**Details:** [Battery Production](../elements/batteries.qmd)
+
+---
+
+## Stage 5: Actuator Mounting
+
+**8 actuators:**
+- 6 wheel drives (electric, 5 kW each)
+- 2 cargo platform manipulators (hydraulic, 30 kN)
+
+**Process:**
+1. Install electric motors in wheel hubs
+2. Route power cables to battery
+3. Mount hydraulic cylinders for platform
+4. Fill NaK into hydraulic circuit
+
+**Details:** [Actuators](../elements/actuators.qmd)
+
+---
+
+## Stage 6: Power Cable Routing
+
+**Cables:**
+- Main power cable: 50 mm2 Al (400 V, 100 A)
+- Control cables: 20 wires (signals, sensors)
+
+**Process:**
+1. Route cables through cable trays
+2. Connect to distribution panel
+3. Insulation test (megohmmeter)
+
+---
+
+## Stage 7: Electronics Installation
+
+**Crab-M Electronics:**
+- Processor: ARM Cortex-A72 (4 cores, 1.5 GHz)
+- Sensors: 12 cameras, 6 LiDARs, GPS, IMU
+- Communication: Wi-Fi, 2.4 GHz radio
+- Mass: 20 kg
+
+**Process:**
+1. Install computer in shielded enclosure
+2. Connect cameras and LiDARs
+3. Calibrate sensors
+4. Install communication antennas
+
+---
+
+## Stage 8: NaK Cooling Circuit Filling
+
+**NaK Circuit:**
+- Volume: ~50 liters
+- Temperature: +50-100C (operating)
+- Radiators: 10 m2 Al panels
+
+**Process:**
+1. Evacuate circuit (remove air)
+2. Fill NaK through fill valve
+3. Leak check (vacuum test)
+4. Start NaK pump
+
+---
+
+## Stage 9: Calibration and Testing
+
+**Test Program:**
+
+| Test | Description | Specification |
+|------|-------------|---------------|
+| Motion | Check all 6 wheels | Speed 10 km/h |
+| Manipulator | Lift 5 tonne load | Height 2 m |
+| Battery | Full charge/discharge cycle | Capacity >45 kWh |
+| Cooling | Radiator test | T <+100C |
+| Autonomy | Autopilot, obstacle avoidance | 100% success |
+
+**Duration:** 6 hours
+
+---
+
+## Stage 10: Initial Charging
+
+**Charging Station:**
+- Voltage: 400 V
+- Current: 25 A (gentle initial charge mode)
+- Full charge time: 5 hours (50 kWh / 10 kW)
+
+**Process:**
+1. Connect to charging station
+2. Battery activation (first cycle at 350C)
+3. Full charge
+4. Capacity check (must be >45 kWh)
+
+---
+
+## Power Consumption
+
+| Mode | Power | Operating Time |
+|------|-------|----------------|
+| Empty travel | 5 kW | 10 hours (50 km) |
+| Loaded travel (5 t) | 10 kW | 5 hours (25 km) |
+| Loading/unloading | 3 kW | 16 hours |
+| Idle | 0.5 kW | 100 hours |
+
+**Range:**
+- Empty: 50 km
+- With 5 t load: 25 km
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performed by |
+|-----------|-----------|--------------|
+| MoS2 grease replacement in bearings | 1 month | Centaur-M |
+| Sensor calibration | 3 months | Automated |
+| NaS battery replacement | 5-7 years | Assembly line |
+| Wheel replacement | 1 year | Centaur-M |
+
+**Service life:**
+- Frame: 10-15 years
+- Battery: 5-7 years (4500 cycles)
+- Electronics: 5-10 years
+- **Robot overall:** 5-10 years
+
+---
+
+## Applications
+
+**Main Crab-M Tasks:**
+
+| Task | Description | % time |
+|------|-------------|--------|
+| Regolith transport | Delivery of 100 t/day from Mole-M to factory | 40% |
+| JIT factory supply | Loading/unloading through airlock (coils, ingots, finished goods) | 20% |
+| Mass Driver buffer | Delivery of mirror containers from F-M to Mass Driver | 15% |
+| Inter-factory logistics | Domes, equipment, robots from F-R to sites | 15% |
+| Maintenance | Spare parts transport, external warehouse servicing | 10% |
+
+**Productivity:**
+- 20 trips/day x 5 t = **100 t/day per Crab-M**
+
+---
+
+## See Also
+
+- [Robot Production](../overview.qmd) - production overview
+- [Frame Manufacturing](../elements/frames.qmd) - Crab-M frame
+- [Battery Production](../elements/batteries.qmd) - NaS 50 kWh
+- [Actuators](../elements/actuators.qmd) - wheel drives
+- [Centaur-M Assembly](centaurs.qmd) - manipulator robot
+- [Mole-M Assembly](moles.qmd) - excavator robot

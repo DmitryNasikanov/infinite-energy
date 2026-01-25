@@ -1,0 +1,370 @@
+---
+title: "Mole-M Assembly"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Excavator robot, regolith mining
+> - **Mass:** ~1500 kg
+> - **Power:** 10 kV cable (no battery)
+> - **Power consumption:** 30 kW
+> - **Assembly time:** 48 hours per station
+
+---
+
+## Overview
+
+Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platform with a 1 m³ bucket can dig up to 100 tons of regolith per day. Powered by a 10 kV cable (no battery), as it always operates at the quarry near the power system.
+
+**Key feature:** The heaviest Gen-2 robot (1500 kg), maximum steel content (83%) for durability.
+
+---
+
+## Mole-M Material Balance
+
+| Component | Material | Mass | Source |
+|-----------|----------|------|--------|
+| Frame + chassis + bucket | Steel Fe-6%Mn | 1240 kg | [Frame Manufacturing](../elements/frames.qmd) |
+| Housing, radiators | Aluminum | 200 kg | [Aluminum](../../materials/distillation.qmd) |
+| NaS Battery | — | 0 kg | **No battery** (cable) |
+| Actuators (2 tracks + 4 bucket) | Fe + Al + NaK | 40 kg | [Actuators](../elements/actuators.qmd) |
+| Electronics | — | 20 kg | **Earth import** |
+| **TOTAL** | — | **~1500 kg** | **~99% local** |
+
+**Material distribution:**
+- Iron (Fe): 1240 kg = **83%**
+- Aluminum (Al): 200 kg = **13%**
+- Import: 20 kg = **1%**
+
+---
+
+## Design
+
+### Dimensions
+
+| Parameter | Value |
+|-----------|-------|
+| Length | 5.0 m |
+| Width | 3.0 m |
+| Height | 2.5 m |
+| Ground clearance | 0.6 m |
+| Bucket volume | 1 m³ (2.5 t regolith) |
+
+### Track Base
+
+**2 tracks:**
+- Track width: 0.6 m
+- Contact length: 2.5 m
+- Material: Steel Fe-6%Mn (wear-resistant)
+- Ground pressure: 0.2 kg/cm² (low, no sinking)
+
+**Drive:**
+- Electric motors 15 kW × 2 = 30 kW total
+- Gear ratio: 1:200 (high torque for digging)
+
+---
+
+## Assembly Process
+
+### Assembly Station (10 positions, 48 hours per position)
+
+| Position | Stage | Time | Robots |
+|----------|-------|------|--------|
+| 1 | Frame installation on station | 3 hours | 3 Centaur-M |
+| 2 | Track mounting (2 pcs) | 8 hours | 4 Centaur-M |
+| 3 | Al housing and radiator installation | 6 hours | 3 Centaur-M |
+| 4 | Bucket and hydraulics mounting | 8 hours | 4 Centaur-M |
+| 5 | Actuator mounting (2 track drives + 4 bucket) | 6 hours | 3 Centaur-M |
+| 6 | 10 kV power cable routing | 4 hours | 2 Centaur-M |
+| 7 | Electronics installation (processor, sensors) | 4 hours | 2 Centaur-M |
+| 8 | NaK cooling loop fill | 2 hours | 1 Centaur-M |
+| 9 | Sensor calibration and testing | 6 hours | Automated |
+| 10 | Digging test (idle) | 1 hour | Mole-M itself |
+| **TOTAL** | | **48 hours** | |
+
+---
+
+## Stage 1: Frame Installation
+
+**Mole-M frame:**
+- Mass: ~1440 kg (1240 kg Fe + 200 kg Al)
+- Design: Massive steel frame with aluminum panels
+- Production: [WAAM 3D printing](../elements/frames.qmd)
+
+**Process:**
+1. Crane lifts frame from conveyor (heavy, requires 2 t crane)
+2. Frame is placed on assembly station
+3. Secured on 6 supports (more than other robots)
+4. Geometry check (laser scanner)
+
+---
+
+## Stage 2: Track Mounting
+
+**2 tracks:**
+
+| Parameter | Value |
+|-----------|-------|
+| Track length | 3.0 m (closed loop) |
+| Width | 0.6 m |
+| Links | 60 pcs per track |
+| Track mass | 300 kg |
+| Material | Steel Fe-6%Mn |
+
+**Process:**
+1. Install 2 drive sprockets (front + rear)
+2. Install 4 support rollers on each side
+3. Track tensioning (60 links)
+4. Tension check (sag <50 mm)
+
+**Time:** 8 hours (tracks are heavy, complex installation)
+
+---
+
+## Stage 3: Housing and Radiator Installation
+
+**Aluminum housing:**
+- Mass: 200 kg
+- Design: Protective panels against dust
+- Function: Electronics protection, cooling radiators
+
+**Radiators:**
+- Area: ~15 m² (facing shadow)
+- Material: Aluminum
+- Circuit: NaK motor cooling (30 kW → 3 kW heat)
+
+**Process:**
+1. Side panel installation (bolts + rivets)
+2. Radiator mounting on roof
+3. Joint sealing (regolith dust protection)
+
+---
+
+## Stage 4: Bucket and Hydraulics Mounting
+
+**Bucket:**
+- Volume: 1 m³
+- Mass: 200 kg (steel Fe-6%Mn)
+- Load capacity: 2.5 t regolith
+- Design: Reinforced edges for digging
+
+**Bucket hydraulics:**
+- 4 hydraulic cylinders (NaK)
+- Force: 50 kN per cylinder = 200 kN total
+- Stroke: 1.5 m (bucket lift)
+
+**Process:**
+1. Bucket installation on frame (M30 bolts)
+2. 4 hydraulic cylinder mounting
+3. NaK tubing routing
+4. NaK hydraulic circuit fill
+5. Bucket lift test (no load)
+
+**Time:** 8 hours (complex hydraulics)
+
+---
+
+## Stage 5: Actuator Mounting
+
+**6 actuators:**
+- 2 track drives (electric, 15 kW each)
+- 4 bucket hydraulic cylinders (50 kN each)
+
+**Process:**
+1. Electric motor installation in drive sprockets
+2. Power cable routing to transformer
+3. Bucket hydraulic cylinder mounting
+4. NaK hydraulic circuit fill
+
+**Details:** [Actuators](../elements/actuators.qmd)
+
+---
+
+## Stage 6: 10 kV Power Cable Routing
+
+**10 kV cable:**
+- Length: 50 m (cable reel)
+- Cross-section: 50 mm² Al
+- Voltage: 10 kV (stepped down to 400 V by transformer)
+- Current: 3 A (at 30 kW load)
+
+**Cable reel:**
+- Automatic winding during movement
+- Capacity: 50 m (Mole-M operating radius from source)
+
+**Process:**
+1. Cable reel installation on housing
+2. 10 kV → 400 V transformer mounting
+3. Cable routing to electric motors
+4. Insulation check (10 kV — high voltage!)
+
+---
+
+## Stage 7: Electronics Installation
+
+**Mole-M electronics:**
+- Processor: ARM Cortex-A72 (4 cores, 1.5 GHz)
+- Sensors: 8 cameras, 4 lidars, GPS, IMU
+- Communication: Wi-Fi, 2.4 GHz radio
+- Mass: 20 kg
+
+**Process:**
+1. Computer installation in protected enclosure
+2. Camera and lidar connection
+3. Sensor calibration
+4. Communication antenna installation
+
+---
+
+## Stage 8: NaK Cooling Loop Fill
+
+**NaK circuit:**
+- Volume: ~80 liters (more than other robots)
+- Temperature: +50-100°C (operating)
+- Radiators: 15 m² Al panels
+
+**Process:**
+1. Circuit evacuation (air removal)
+2. NaK fill through fill valve
+3. Seal check (vacuum test)
+4. NaK pump startup
+
+---
+
+## Stage 9: Sensor Calibration and Testing
+
+**Test program:**
+
+| Test | Description | Specification |
+|------|-------------|---------------|
+| Track movement | 2 track check | Speed 5 km/h |
+| Bucket lift | Hydraulics test (no load) | Height 2 m |
+| Idle digging | Air digging test | Smooth movement |
+| Cooling | Radiator test at 30 kW load | T <+100°C |
+| Autonomy | Autopilot, programmed digging | 100% success |
+
+**Duration:** 6 hours
+
+---
+
+## Stage 10: Digging Test
+
+**First digging test:**
+- Location: Test area with regolith
+- Volume: 10 m³ regolith (10 buckets)
+- Goal: Bucket and hydraulics verification
+
+**Process:**
+1. Mole-M drives to test area
+2. Digs 10 buckets of regolith (2.5 t each)
+3. Dumps regolith in pile
+4. Returns to station
+
+**Time:** 1 hour
+
+---
+
+## Power Consumption
+
+| Mode | Power | Energy |
+|------|-------|--------|
+| Movement | 10 kW | — |
+| Digging | 30 kW | — |
+| Idle | 1 kW | — |
+
+**Daily consumption:**
+- 8 hours digging × 30 kW = **240 kWh/day**
+- 2 hours movement × 10 kW = 20 kWh/day
+- 14 hours idle × 1 kW = 14 kWh/day
+- **TOTAL:** ~**280 kWh/day per 1 Mole-M**
+
+**Cable connection:**
+- 10 kV cable from nearest substation
+- Operating radius: 50 m (cable length)
+- Mobility: cable relocation every 50 m
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performer |
+|-----------|-----------|-----------|
+| MoS₂ track lubrication replacement | 1 week | Centaur-M |
+| Track tension check | 1 week | Automated |
+| Bucket teeth replacement | 1 month | Centaur-M (welding) |
+| Track link replacement | 3 months | Centaur-M |
+| Hydraulics replacement | As needed | Assembly station |
+
+**Service life:**
+- Frame: 10-15 years
+- Tracks: 6 months - 1 year (regolith wear)
+- Bucket: 1-2 years (edge wear)
+- Hydraulics: 3-5 years
+- Electronics: 5-10 years
+- **Robot overall:** 5-10 years (with track and bucket replacement)
+
+---
+
+## Applications
+
+**Mole-M main tasks:**
+
+| Task | Description | % time |
+|------|-------------|--------|
+| Regolith digging | 100 t/day (40 buckets × 2.5 t) | 80% |
+| Site leveling | Construction preparation | 10% |
+| Trench digging | For cables, pipelines | 5% |
+| Backfilling | Trench backfill | 5% |
+
+**Productivity:**
+- 1 Mole-M: **100 t regolith/day**
+- 6 Mole-M at quarry: **600 t regolith/day**
+
+---
+
+## Regolith Quarry
+
+**Typical quarry:**
+
+| Parameter | Value |
+|-----------|-------|
+| Area | 100×100 m |
+| Depth | 3-5 m |
+| Productivity | 600 t/day (6 Moles-M) |
+| Dump | 50 m from quarry |
+| Transport | 20 Crabs-M (to factory) |
+
+**Process:**
+1. Mole-M digs regolith (1 m³ bucket)
+2. Dumps into Crab-M bed
+3. Crab-M transports regolith to factory (5 t per trip)
+4. Cycle repeats
+
+---
+
+## Wear and Spare Parts
+
+**Critical components:**
+
+| Component | Service life | Stock per 1 complex |
+|-----------|--------------|---------------------|
+| Track links | 6-12 months | 1200 pcs (10 tracks) |
+| Bucket teeth | 1 month | 120 pcs (10 buckets) |
+| Hydraulic cylinders | 3 years | 24 pcs (6 Moles) |
+
+**Spare parts production:**
+- Track links: WAAM 3D printing (Fe)
+- Bucket teeth: Casting + heat treatment
+- Hydraulic cylinders: Turning
+
+---
+
+## See Also
+
+- [Robot Production](../overview.qmd) — production overview
+- [Frame Manufacturing](../elements/frames.qmd) — massive Fe Mole-M frame
+- [Actuators](../elements/actuators.qmd) — bucket hydraulics
+- [Crab-M Assembly](crabs.qmd) — regolith transport
+- [Centaur-M Assembly](centaurs.qmd) — Mole-M maintenance
+- [Regolith Processing](../../materials/overview.qmd) — where regolith goes

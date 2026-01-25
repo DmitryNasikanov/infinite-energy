@@ -1,0 +1,447 @@
+---
+title: "Carbon Extraction (Optional)"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Load data from JSON
+dataScript = FileAttachment("../../../data/db/data.json").json()
+
+// Materials available on Mercury (two versions for compatibility)
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Dictionaries for quick lookup
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: mercuryProduction.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Total calculated ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '—'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+# Carbon Extraction (Optional Module)
+
+> **Status:** Optional extension. The base factory operates **WITHOUT** carbon.
+
+---
+
+## Why Carbon?
+
+| Application | Consumption | Priority |
+|-------------|-------------|----------|
+| Carbon anodes for MRE | ~10 kg/day | High (replaces expensive iridium) |
+| Graphite lubricants | ~1 kg/day | Medium |
+| Alloyed steel | 1-1.4% C | Low (Fe-6%Mn is sufficient) |
+
+**Conclusion:** The main application is **replacing iridium anodes** with carbon ones. This reduces import dependency.
+
+---
+
+## Carbon Source
+
+**LRM (Low Reflectance Material)** — dark zones on Mercury's surface. This is ancient graphite crust formed 4.6 billion years ago when the magma ocean cooled.
+
+| Parameter | Value |
+| :--- | :--- |
+| Carbon content in LRM | 1-3% (MESSENGER, Peplowski et al. 2016) |
+| Origin | Graphite floated to the surface of the magma ocean |
+| Form | Crystalline graphite (not amorphous carbon) |
+| Sublimation temperature | 3640°C (does not melt during MRE) |
+
+### Extraction Process
+
+During MRE electrolysis of LRM-enriched regolith, graphite **does not melt** (T_sublimation = 3640°C > T_melt = 1500°C). Graphite particles float to the melt surface as foam and are skimmed off along with slag.
+
+| Stage | Description |
+| :--- | :--- |
+| Mining | Robots collect regolith from LRM zones (dark areas) |
+| Smelting | MRE at 1500°C — graphite does not dissolve |
+| Flotation | Graphite (ρ=2.2 g/cm³) floats to the surface |
+| Collection | Skimmer removes graphite foam |
+| Purification | Thermal sublimation of impurities |
+
+**Yield:** Processing 200 t LRM-regolith/day (~2-3% C): **4-6 t graphite/day**.
+
+> **Source:** Peplowski, P.N. et al. (2016). "Evidence for geochemically distinct regions on Mercury." Nature Geoscience. [Johns Hopkins APL](https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/)
+
+---
+
+## "Carbon" Complexes: Mini-Factories for Graphite Extraction
+
+**Problem:** LRM zones (with graphite) are located at **equatorial latitudes**, while main factories are at the **poles**.
+
+| Crater | Latitude | Distance to pole | Carbon content |
+|--------|----------|------------------|----------------|
+| Rachmaninoff | 27°N | ~2800 km | up to 4% |
+| Tolstoj | 16°S | ~5800 km | 2-3% |
+
+**There is NO graphite at the poles** — only regular regolith + water ice.
+
+Carbon Complexes are **complete mini-factories**, not just "collection stations". They:
+
+1. Mine and process LRM-regolith
+2. Extract graphite (main product → to pole)
+3. Extract Al, Fe, Si (for their own needs)
+4. Build their own mini mass driver for graphite delivery
+
+### Architecture: Two Complexes
+
+Night at the equator lasts **~88 Earth days**. A single complex would be idle half the time.
+
+**Solution:** Two complexes on opposite hemispheres. When one has night — the other works.
+
+```
+        NORTH POLE (factory "Point Zero")
+                    ●
+                   /|\
+    [MD-graphite] ←─────── Carbon-North (Rachmaninoff, 27°N)
+                   │
+    [MD-graphite] ←─────── Carbon-South (Tolstoj, 16°S)
+                   \|/
+                    ●
+        SOUTH POLE
+```
+
+| Complex | Location | Crater diameter | Distance to pole |
+|---------|----------|-----------------|------------------|
+| **Carbon-North** | [Rachmaninoff](https://en.wikipedia.org/wiki/Rachmaninoff_(crater)), 27°N, 58°E | 305 km | ~2800 km |
+| **Carbon-South** | [Tolstoj](https://en.wikipedia.org/wiki/Tolstoj_Basin), 16°S, 163°W | 390 km | ~5800 km |
+
+### Technological Process at the Complex
+
+```
+LRM-regolith (200 t/day) → Crushing → MRE-smelting (1500°C)
+                                            ↓
+                          ┌─────────────────┼─────────────────┐
+                          ↓                 ↓                 ↓
+                     GRAPHITE            HEAVY              SLAG
+                   (floats)           (Fe, sinks)        (Al, Mg, Si)
+                          ↓                 ↓                 ↓
+                     Skimmer           MHD-pump         Distillation
+                          ↓                 ↓                 ↓
+                     Packaging          Casting          Separate
+                     → MD               → rails           metals
+```
+
+**Material output (200 t LRM-regolith/day):**
+
+LRM-regolith contains the same elements as regular regolith, plus 2-3% graphite:
+
+| Element | In LRM-regolith | Output (200 t/day) | Purpose |
+|---------|-----------------|-------------------|---------|
+| **Graphite (C)** | 2-3% | **4-6 t/day** | → pole (MD) |
+| Aluminum (Al) | ~7% | ~14 t/day | MD rails, windings |
+| Iron (Fe) | ~2% | ~4 t/day | MD tunnel frame |
+| Silicon (Si) | ~25% | ~50 t/day | Slag (not used) |
+
+### Summary: Carbon Complex vs Main Factory
+
+| Parameter | Main factory | Carbon Complex |
+|-----------|--------------|----------------|
+| Regolith/day | 600 t | 200 t |
+| Main product | Mirrors | Graphite |
+| By-products | All metals → industry | Al, Fe for itself |
+| Mass driver | 3 km, 1300 t | 500 m - 1 km, ~330 t |
+| Robots | ~60 | ~10 |
+| Power | 55 MW | ~5 MW |
+| Bootstrap from Earth | 62 t | ~10 t |
+
+---
+
+## Mini Mass Drivers
+
+### Purpose
+
+**Graphite delivery** from equatorial LRM zones to polar factories. Each Carbon Complex builds its own mini mass driver from local materials.
+
+### Comparison with Main MD
+
+| Parameter | Main MD (pole) | Mini MD (Carbon) |
+|-----------|----------------|------------------|
+| Purpose | Launch mirrors to orbit | Deliver graphite to pole |
+| Distance | To orbit (infinity) | 2800-5800 km |
+| Target velocity | 5 km/s | 2-3 km/s |
+| Length | **1 km** | 500 m - 1 km |
+| Mass | **~450 t** | ~330 t |
+| Acceleration | **1275g** | 20-25g |
+| Payload/launch | 116 kg (mirror) | 100 kg (graphite container) |
+| Energy/launch | 3.6 GJ | 0.5-1 GJ |
+
+### Why Lower Velocity?
+
+For ballistic flight within the planet, orbital velocity is not needed. It's enough to reach the parabola apex and fall to the receiver.
+
+```
+Flight time ≈ 2 × √(2h/g)
+
+For h = 300 km (apogee):
+t ≈ 2 × √(600000 / 3.7) ≈ 800 sec ≈ 13 min
+
+With horizontal component: 20-30 min flight
+```
+
+### Mini Mass Driver
+
+```{ojs}
+unitWidget("EQU-011")
+```
+
+**Components:** frame (steel ~200 t), rails + windings (Al ~130 t), electronics (~2 t import)
+
+### Mini MD Construction
+
+The Carbon Complex produces materials and builds the mini MD itself.
+
+**Accumulation rate (200 t LRM-regolith/day):**
+
+| Material | Output/day | Needed for MD | Days to accumulate |
+|----------|------------|---------------|-------------------|
+| Aluminum | ~14 t | ~130 t | ~10 days |
+| Iron | ~4 t | ~200 t | ~50 days |
+
+**Construction stages:**
+
+| Stage | Duration | Robots |
+|-------|----------|--------|
+| Material accumulation | ~30 days | — |
+| Trench digging (1 km) | ~30 days | 3 Mole-M |
+| Frame installation | ~15 days | 3 Centaur-M |
+| Rails and coils mounting | ~15 days | 3 Centaur-M |
+| **TOTAL** | **~3 months** | |
+
+### Power Consumption
+
+| Parameter | Value |
+|-----------|-------|
+| Kinetic energy (100 kg, 2.5 km/s) | ~0.31 GJ |
+| At 40% efficiency (electricity cost) | ~0.8 GJ |
+| At 50 launches/day | ~40 GJ/day |
+| Average power | **~0.5 MW** |
+
+**Calculation:** E = mv²/2 = 100 kg × (2500 m/s)² / 2 = 312.5 MJ ≈ 0.31 GJ. With 40% efficiency: 0.31/0.4 ≈ 0.8 GJ per launch.
+
+---
+
+## Graphite Delivery to Pole
+
+### Delivery Parameters
+
+| Parameter | Carbon-North | Carbon-South |
+|-----------|--------------|--------------|
+| Distance | ~2800 km | ~5800 km |
+| Launch velocity | ~2 km/s | ~3 km/s |
+| MD length | ~500 m | ~1 km |
+| Flight time | ~20 min | ~30 min |
+| Payload/launch | ~100 kg | ~100 kg |
+| Launches/day | ~50 | ~50 |
+| Graphite output | 4-6 t/day | 4-6 t/day |
+
+### Receiver at Pole
+
+| Component | Description |
+|-----------|-------------|
+| Catch net | Diameter ~500 m, cable-net |
+| Dampers | Impact absorption (containers arrive at ~100 m/s velocity) |
+| Crab-M | 2 robots collect containers |
+| Buffer | Container storage before processing |
+
+### Operating Schedule
+
+```
+Mercury solar day (176 Earth days):
+
+Complexes are positioned with ~140° longitude offset (Rachmaninoff 58°E, Tolstoj 163°W).
+Their day/night cycles are shifted by approximately 68 Earth days.
+
+Approximate schedule:
+- Day 1-88:   Carbon-North operates (day), Carbon-South in twilight/night
+- Day 68-156: Carbon-South operates (day), Carbon-North in twilight/night
+
+Periods overlap → at least one complex is always active.
+```
+
+**Total:** Shift operation ensures continuous supply of **~5 t graphite/day** (from active complex).
+
+---
+
+## Carbon Complex Deployment
+
+### Phase 1: Bootstrap (first 6 months)
+
+**Carbon Complex:**
+
+```{ojs}
+unitWidget("FAC-002")
+```
+
+**Bootstrap from Earth (~10 t):**
+
+- Robots: 3 Mole-M, 3 Centaur-M, 2 Crab-M (~5 t)
+- Mini MRE furnace (~2 t)
+- Solar mirrors (~1 t)
+- MD electronics (~2 t)
+
+**Deployment stages:**
+
+| Month | Activity |
+|-------|----------|
+| 1-2 | MRE furnace assembly, start LRM-regolith mining |
+| 3-4 | Material accumulation for mini MD |
+| 5-6 | Mini MD construction |
+| 7+ | Operation — graphite delivery to pole |
+
+### Phase 2: Operation
+
+After mini MD launch:
+- Graphite is sent to the pole (4-6 t/day from active complex)
+- Two complexes in shifts provide **~5 t/day continuously**
+
+---
+
+## When to Build Carbon Complexes?
+
+| Condition | Decision |
+|-----------|----------|
+| Iridium anodes wearing out | Build Carbon for carbon anodes |
+| Need alloyed steel | Add carbon to Fe-6%Mn |
+| Base factory operating | **Not needed** — continue without carbon |
+
+**Conclusion:** Carbon Complexes are an **optional extension**. The base factory is fully functional without them.
+
+---
+
+## Sources
+
+- [Klima et al. (2018)](https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2018GL077544) — global LRM distribution
+- [Peplowski et al. (2016)](https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/) — carbon on Mercury

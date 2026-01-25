@@ -1,0 +1,217 @@
+---
+title: "Reflection Geometry"
+sidebar: science
+---
+
+# Calculations: Mirror Reflection Geometry to Hub
+
+> **TL;DR**
+>
+> - **Average geometric efficiency:** 72% when mirrors are placed in the ecliptic plane
+> - **"Dead zone":** ~17% of orbit (mirror between Sun and Hub)
+> - **Compensation:** either +40% mirrors, or orbit cranking (orbital inclination change over 1-2 years)
+
+---
+
+## Problem Statement
+
+A mirror in Mercury's orbit (0.39 AU) must reflect sunlight to the Hub at L1 (~1 AU). Reflection efficiency depends on the mirror's position in its orbit.
+
+```
+         Mirror M
+            *
+           /|\
+          / | \
+  from   /  |  \   to
+Sun     /   |   \  Hub
+       /    |theta\
+      Sun---+-----o L1 (Hub)
+            |
+            |
+   theta = angle between directions
+       "from Sun" and "to Hub"
+```
+
+**Law of reflection:** angle of incidence = angle of reflection.
+
+To reflect light from the Sun to the Hub, the mirror must be oriented at angle theta/2 to the incident ray. Effective mirror area:
+
+$$
+\eta = \cos\left(\frac{\theta}{2}\right)
+$$
+
+When theta -> 180 degrees (mirror between Sun and Hub), efficiency eta -> 0.
+
+---
+
+## Calculating Angle Theta
+
+### Geometry
+
+Three points in space:
+- **S** - Sun (center)
+- **M** - Mirror in orbit with radius r_M = 0.39 AU
+- **E** - Hub (L1) at distance r_E = 1 AU from the Sun
+
+Angle phi - mirror position in orbit (phi = 0 degrees when mirror is between S and E).
+
+### Formulas
+
+**Distance from mirror to Hub** (Law of Cosines):
+
+$$
+ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
+$$
+
+**Angle theta at vertex M** (angle SME):
+
+$$
+\cos(\theta) = \frac{SM^2 + ME^2 - SE^2}{2 \cdot SM \cdot ME} = \frac{r_M^2 + ME^2 - r_E^2}{2 \cdot r_M \cdot ME}
+$$
+
+**Efficiency:**
+
+$$
+\eta = \cos\left(\frac{\theta}{2}\right)
+$$
+
+---
+
+## Calculation Table
+
+| phi (degrees) | ME (AU) | theta (degrees) | theta/2 (degrees) | eta = cos(theta/2) |
+|---------------|---------|-----------------|-------------------|---------------------|
+| 0             | 0.610   | 180.0           | 90.0              | 0.00                |
+| 15            | 0.631   | 155.8           | 77.9              | 0.21                |
+| 30            | 0.690   | 133.6           | 66.8              | 0.39                |
+| 45            | 0.775   | 114.2           | 57.1              | 0.54                |
+| 60            | 0.873   | 97.2            | 48.6              | 0.66                |
+| 75            | 0.975   | 82.3            | 41.1              | 0.75                |
+| 90            | 1.073   | 68.7            | 34.3              | 0.83                |
+| 105           | 1.164   | 56.1            | 28.1              | 0.88                |
+| 120           | 1.242   | 44.2            | 22.1              | 0.93                |
+| 135           | 1.305   | 32.8            | 16.4              | 0.96                |
+| 150           | 1.352   | 21.7            | 10.9              | 0.98                |
+| 165           | 1.380   | 10.8            | 5.4               | 1.00                |
+| 180           | 1.390   | 0.0             | 0.0               | 1.00                |
+
+Symmetry: values for phi = 195 degrees...345 degrees are mirrored relative to 180 degrees.
+
+---
+
+## Efficiency Diagram
+
+```
+Efficiency eta across orbit (top view of ecliptic):
+
+                       180 deg (eta=100%)
+                          *
+                    165 deg /|\ 195 deg
+                   (100%)/|(100%)
+                150 deg *   |   * 210 deg
+               (98%)  \  |  /  (98%)
+           135 deg *------\-+-/------* 225 deg
+          (96%)         \|/        (96%)
+       120 deg *-----------Sun-----------* 240 deg
+      (93%)                              (93%)
+    105 deg *---------------------------* 255 deg
+   (88%)                                (88%)
+  90 deg *-------------------------------* 270 deg
+ (83%)                                   (83%)
+   75 deg *                             * 285 deg
+  (75%)                                 (75%)
+    60 deg *                          * 300 deg
+   (66%)                              (66%)
+      45 deg *                     * 315 deg
+     (54%)                         (54%)
+        30 deg *              * 330 deg
+       (39%)                  (39%)
+           15 deg *       * 345 deg
+          (21%)           (21%)
+                 * 0 deg
+               (eta=0%)
+                 |
+             to Hub (L1)
+```
+
+---
+
+## Summary Metrics
+
+### Average Efficiency
+
+With uniform distribution of mirrors across the orbit:
+
+$$
+\bar{\eta} = \frac{1}{2\pi} \int_0^{2\pi} \cos\left(\frac{\theta(\phi)}{2}\right) d\phi \approx 0.72
+$$
+
+**Average geometric efficiency: 72%**
+
+### Efficiency Distribution
+
+| Range eta | Fraction of orbit |
+|-----------|-------------------|
+| eta > 90% | 39% |
+| eta > 80% | 53% |
+| eta > 50% | 78% |
+| eta < 20% | 17% ("dead zone") |
+
+---
+
+## Project Impact
+
+### Option 1: Accept 72% Efficiency
+
+Geometric losses are factored into overall efficiency:
+
+| Stage | Current Efficiency | With Geometry |
+|-------|-------------------|---------------|
+| Mirror reflection | 90% | 90% |
+| Concentration to Hub | 95% | **68%** (95% x 0.72) |
+| ... | ... | ... |
+
+**Compensation:** increase number of mirrors by ~40% (1.4 billion instead of 1 billion).
+
+### Option 2: Orbit Cranking
+
+The mirror can use solar light pressure to change its orbital inclination.
+
+| Parameter | Value |
+|-----------|-------|
+| Sail area | 10,000 m^2 |
+| Mass | 116 kg |
+| Sail loading | 11.6 g/m^2 |
+| Acceleration at 0.39 AU | 4.4 mm/s^2 |
+| Delta-V for 45 deg inclination | ~32.6 km/s |
+| **Time** | **1-2 years** |
+
+At 45 degree inclination to the ecliptic, the mirror can reflect to the Hub from any point in its orbit with ~95% efficiency.
+
+---
+
+## Comparison of Options
+
+| Parameter | Baseline (72%) | Orbit Cranking |
+|-----------|----------------|----------------|
+| Orbital inclination | 0 deg (ecliptic) | 45 deg |
+| Average efficiency | 72% | 95% |
+| Number of mirrors | +40% | - |
+| Time to operation | immediate | 1-2 years |
+| Complexity | low | medium |
+
+---
+
+## Sources
+
+- ESA Solar Polar Orbiter TRS: [sci.esa.int](https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter)
+- NASA Solar Sail Trajectories: [ntrs.nasa.gov](https://ntrs.nasa.gov/search.jsp?R=20000057299)
+- IKAROS mission (JAXA): [en.wikipedia.org/wiki/IKAROS](https://en.wikipedia.org/wiki/IKAROS)
+
+---
+
+## See Also
+
+- [Dyson Swarm Mirrors](mirrors.qmd) - design and parameters
+- [Energy Balance](energy.qmd) - power calculations
+- [Mass Driver](production/railguns/overview.qmd) - mirror launch

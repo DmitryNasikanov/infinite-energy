@@ -1,0 +1,281 @@
+---
+title: "Actuators and Hydraulics"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Drives and mechanisms for Gen-2 robots
+> - **Heat transfer fluid:** Sodium-Potassium (NaK) instead of water
+> - **Lubrication:** Molybdenum disulfide (MoS2) for vacuum
+> - **Localization:** 90% local (NaK, MoS2 import)
+
+---
+
+## Overview
+
+Actuators are the drives of Gen-2 robots, responsible for limb, joint, and manipulator movement. On Mercury, conventional water-based hydraulic systems cannot be used (water freezes and evaporates in vacuum), so special fluids and lubricants are employed.
+
+---
+
+## Types of Actuators
+
+### Hydraulic Actuators (Primary)
+
+| Parameter | Value |
+|-----------|-------|
+| Working fluid | Sodium-Potassium (NaK) |
+| Pressure | 200-300 bar |
+| Temperature | -12C ... +400C |
+| NaK source | [Distillation](../../materials/distillation.qmd) |
+
+**Advantages of NaK:**
+- Liquid across a wide temperature range (-12C to +785C)
+- Does not boil in vacuum at operating temperatures
+- Produced from local regolith (electrolysis)
+
+**Disadvantages:**
+- High chemical reactivity (reacts with water)
+- Requires hermetic circuits
+
+---
+
+### Electric Actuators (Secondary)
+
+| Parameter | Value |
+|-----------|-------|
+| Type | Stepper motors + gearboxes |
+| Power | 100-500 W |
+| Gearbox | Planetary 1:100-1:500 |
+| Localization | 30% (Al windings local, magnets import) |
+
+**Applications:**
+- Precision movements (Centaur-M manipulators)
+- Backup drives
+- Rotary mechanisms
+
+---
+
+## Hydraulic System
+
+### NaK Circuit Design
+
+```{mermaid}
+flowchart LR
+    subgraph CIRCUIT["HYDRAULIC CIRCUIT"]
+        PUMP["Pump<br/>NaK"]
+        ACTUATOR["Actuator<br/>(cylinder)"]
+        RADIATOR["Radiator<br/>(cooling)"]
+    end
+
+    PUMP --> ACTUATOR
+    ACTUATOR --> RADIATOR
+    RADIATOR --> PUMP
+
+    style CIRCUIT fill:#d4edda
+```
+
+| Component | Material | Mass | Source |
+|-----------|----------|------|--------|
+| Pump | Al housing + Fe rotor | 5 kg | Local |
+| Tubing | Stainless steel | 3 kg | Local |
+| Cylinders (actuators) | Steel + Al | 10 kg | Local |
+| Radiator | Aluminum | 2 kg | Local |
+| **TOTAL** | — | **20 kg** | **100% local** |
+
+---
+
+## Working Fluids
+
+### Sodium-Potassium (NaK)
+
+| Parameter | Value |
+|-----------|-------|
+| Composition | Na78K22 (78% Na, 22% K) |
+| Liquid range | -12C ... +785C |
+| Density | 0.87 g/cm3 |
+| Viscosity | 0.7 cP (at 100C) |
+| Application | Hydraulics, cooling, heat transfer |
+
+**Source:** Extracted from local regolith via electrolysis.
+
+**More details:** [Distillation](../../materials/distillation.qmd)
+
+---
+
+### Coolant
+
+NaK is used not only for hydraulics but also for cooling:
+- Robot solar panels (Crab-M, Centaur-M)
+- Electric motors
+- Power electronics
+
+**Cooling circuit:**
+- NaK flows through radiators facing away from the Sun
+- Heat is radiated into space
+- Temperature maintained at +50-100C
+
+---
+
+## Lubrication (Tribology)
+
+**Critical rule:** Conventional oils evaporate in vacuum, so special lubricants are used.
+
+### Lubricant Types by Environment
+
+| Environment | Lubricant type | Material | Source |
+|-------------|----------------|----------|--------|
+| **External (vacuum)** | Dry solid | Molybdenum disulfide (MoS2) | **Import from Earth** |
+| **External (vacuum)** | Soft metals | Lead (Pb), gold (Au) | Local (Pb), import (Au) |
+| **Internal (dome)** | Vacuum synthetic oils | Perfluoropolyethers (PFPE) | **Import from Earth** |
+
+---
+
+### Molybdenum Disulfide (MoS2)
+
+**Why ideal for vacuum:**
+- Does not evaporate (sublimation temperature >1100C)
+- Low friction coefficient (0.03-0.1)
+- Works across wide temperature range (-200C ... +400C)
+
+**Applications:**
+- External manipulator bearings
+- Robot joints
+- Mole-M tracks
+
+**Problem:** Imported from Earth (no MoS2 deposits found on Mercury)
+
+---
+
+### Soft Metals (Pb, Au)
+
+**Applications:**
+- Lead bushings in joints (Pb melts at +327C — sufficiently soft)
+- Gold coatings for critical components (Au does not oxidize)
+
+**Source:**
+- Lead (Pb) — local (trace amounts in regolith)
+- Gold (Au) — import (too rare on Mercury)
+
+---
+
+### Vacuum Oils (PFPE)
+
+**Application:** Internal mechanisms under dome (low pressure 0.1 atm N2)
+
+**Characteristics:**
+- Low vapor pressure (<10^-9 mbar)
+- Recirculation in closed crankcases (no losses)
+
+**Problem:** Import from Earth (complex synthesis)
+
+---
+
+## Actuator Manufacturing
+
+### Process
+
+| Stage | Description | Equipment |
+|-------|-------------|-----------|
+| 1. Cylinder fabrication | Lathe machining of steel tube D50 mm | CNC lathe |
+| 2. Piston fabrication | Milling from Al stock | CNC milling machine |
+| 3. Actuator assembly | Piston and seal installation | Centaur-M |
+| 4. NaK filling | Vacuum filling of NaK into circuit | Vacuum chamber |
+| 5. Sealing | TIG welding in Ar atmosphere | TIG welder |
+| 6. Testing | Hydraulic testing at 500 bar | Test stand |
+
+**Production time:** 4 hours per actuator
+
+---
+
+## Material Balance
+
+**For 5 robots/day (average robot 960 kg):**
+
+| Component | Mass for 5 robots | Source |
+|-----------|-------------------|--------|
+| NaK (hydraulics) | 100 kg | [Distillation](../../materials/distillation.qmd) |
+| Steel (cylinders) | 50 kg | [Iron](../../materials/mre.qmd) |
+| Aluminum (radiators) | 20 kg | [Aluminum](../../materials/distillation.qmd) |
+| MoS2 lubricant | 5 kg | **Import from Earth** |
+| PFPE oil | 2 kg | **Import from Earth** |
+| **TOTAL** | **~177 kg** | **~96% local** |
+
+**Consumption from daily production:**
+- NaK: 100 kg from 200 kg/day = **50%**
+- Fe: 50 kg from 18 t/day = **0.3%**
+- Al: 20 kg from 42 t/day = **0.05%**
+
+---
+
+## Typical Actuators by Robot
+
+### Mole-M (excavator)
+
+| Actuator | Quantity | Type | Force |
+|----------|----------|------|-------|
+| Bucket drive | 2 | Hydraulic | 50 kN |
+| Track drive | 2 | Electric | 10 kW |
+| Manipulator | 4 | Hydraulic | 10 kN |
+
+**TOTAL:** 8 actuators, ~60 kg
+
+---
+
+### Crab-M (logistics)
+
+| Actuator | Quantity | Type | Force |
+|----------|----------|------|-------|
+| Wheel drive | 6 | Electric | 5 kW |
+| Cargo lift | 2 | Hydraulic | 30 kN |
+| Manipulator | 2 | Hydraulic | 5 kN |
+
+**TOTAL:** 10 actuators, ~40 kg
+
+---
+
+### Centaur-M (manipulation)
+
+| Actuator | Quantity | Type | Force |
+|----------|----------|------|-------|
+| Wheel drive | 4 | Electric | 2 kW |
+| Main manipulator | 6 | Electric | 1 kN |
+| Precision manipulator | 2 | Electric | 0.1 kN |
+
+**TOTAL:** 12 actuators, ~25 kg
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performer |
+|-----------|-----------|-----------|
+| MoS2 lubricant replacement | 1 month | Centaur-M |
+| NaK seal check | 3 months | Automation |
+| Seal replacement | 1 year | Centaur-M |
+| Actuator replacement | As needed | Assembly jig |
+
+**Service life:**
+- Hydraulic actuators: 3-5 years
+- Electric actuators: 5-10 years
+- NaK (fluid): indefinite (recirculation)
+
+---
+
+## Quality Control
+
+| Parameter | Method | Standard | Action on deviation |
+|-----------|--------|----------|---------------------|
+| Seal integrity | Vacuum test | <10^-6 mbar·l/s | Rebuild |
+| Pressure | Hydraulic testing | 500 bar (2x working) | Reject |
+| Force | Bench testing | +/-5% of nominal | Adjustment |
+| Temperature | Thermocouples | -12C ... +400C | Check NaK |
+
+---
+
+## See Also
+
+- [Distillation](../../materials/distillation.qmd) — obtaining NaK from regolith
+- [Frame Manufacturing](frames.qmd) — actuator installation on frame
+- [Robot Assembly](../assembly/crabs.qmd) — hydraulics integration
+- [Battery Production](batteries.qmd) — power supply for electric actuators

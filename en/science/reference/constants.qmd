@@ -1,0 +1,160 @@
+---
+title: "Physical Constants"
+sidebar: science
+---
+
+All values used in calculations for Project Helios.
+
+---
+
+## Solar System
+
+### Solar Constant
+
+| Location | Value | Source |
+|----------|-------|--------|
+| Earth (1 AU) | 1,361 W/m² | [NASA Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) |
+| Mercury (orbit average) | **10,343 W/m²** | Arithmetic mean of perihelion and aphelion |
+| Mercury (perihelion) | ~14,444 W/m² | Calculation: 1361 × (1/0.307)² |
+| Mercury (aphelion) | ~6,242 W/m² | Calculation: 1361 × (1/0.467)² |
+| Moon | 1,361 W/m² | Same as Earth (1 AU) |
+| Mars | 589 W/m² | [NASA Mars Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) |
+
+> **Note:** The value 9,082 W/m² is the flux at mean distance (0.387 AU). For energy calculations, we use the orbit average: (14,444 + 6,242) / 2 = **10,343 W/m²**.
+
+### Planetary Parameters
+
+| Planet | Gravity | Escape Velocity | Distance from Sun |
+|--------|---------|-----------------|-------------------|
+| Mercury | 3.7 m/s² (0.38g) | 4.3 km/s | 0.39 AU (57.9M km) |
+| Moon | 1.62 m/s² (0.16g) | 2.4 km/s | 1 AU |
+| Mars | 3.7 m/s² (0.38g) | 5.0 km/s | 1.52 AU |
+| Earth | 9.8 m/s² (1g) | 11.2 km/s | 1 AU (150M km) |
+
+**Source:** [NASA Planetary Fact Sheets](https://nssdc.gsfc.nasa.gov/planetary/planetfact.html)
+
+### Regolith Composition
+
+See [Planetary Surface Composition](../summaries/mercury.qmd) — detailed data for Mercury, Moon, and Mars.
+
+---
+
+## Materials
+
+### Aluminum
+
+| Parameter | Value |
+|-----------|-------|
+| Density | 2,700 kg/m³ |
+| Melting point | 660°C |
+| Reflectivity (pure) | 90–92% |
+| Reflectivity (with MgF₂ coating) | 95–96% |
+| Emissivity (polished) | 0.03–0.05 |
+| Emissivity (with black coating) | 0.8 |
+
+### Steel
+
+| Parameter | Value |
+|-----------|-------|
+| Density | 7,800 kg/m³ |
+| Melting point | ~1,500°C |
+
+### Silicon
+
+| Parameter | Value |
+|-----------|-------|
+| Density | 2,330 kg/m³ |
+| Solar cell efficiency | 18–22% |
+
+---
+
+## Physical Constants
+
+| Constant | Value | Symbol |
+|----------|-------|--------|
+| Stefan-Boltzmann constant | 5.67×10⁻⁸ W/(m²·K⁴) | σ |
+| Speed of light | 299,792,458 m/s | c |
+| Light pressure (Mercury orbit) | ~60 µPa | — |
+
+---
+
+## Project Design Parameters
+
+### Swarm Mirrors
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Size | 100 × 100 m (square) | Design decision |
+| Area | 10,000 m² | |
+| Foil thickness | 4 µm | Technological minimum |
+| Foil mass | ~110 kg | 10000 × 0.000004 × 2700 |
+| Corner masses (4 pcs) | ~3 kg | Iron or basalt |
+| Tethers (4 pcs) | ~2 kg | Steel wire |
+| Electrochromic layer (TiO₂) | ~1 kg | Mercury (500 nm coating × 10% area) |
+| Electronics | ~50 g | Earth (import) |
+| **Total mass** | **~116 kg** | |
+| Reflected power | 93 MW | 10000 × 10343 × 0.90 |
+
+### Dyson Swarm (Target Parameters)
+
+| Parameter | Value | Calculation |
+|-----------|-------|-------------|
+| Number of mirrors | **~1 billion** | 100 PW / 93 MW |
+| Total area | 10¹³ m² (~10,000 km²) | 10⁹ × 10⁴ m² |
+| Total mass | ~116 million tons | 10⁹ × 116 kg |
+| Specific mass | 0.0116 kg/m² | 116 kg / 10000 m² |
+| Mass Drivers | ~1,000 | |
+| Production timeline | ~9.5 years | accounting for degradation |
+| Intercepted power | ~114 petawatts | 1.1×10⁹ × 103 MW |
+| Reflected power | ~103 petawatts | 1.1×10⁹ × 93 MW |
+| Power on Earth | **~21 petawatts** | 114 PW × 18% efficiency |
+
+### Mass Driver
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Target velocity | 5 km/s | Escape velocity + margin |
+| Tunnel length | **1 km** (base)* | Maximum construction speed |
+| Acceleration | **12,500 m/s² (1275g)** | |
+| Acceleration time | **~0.4 sec** | |
+| Installation mass | **~450 t** | |
+| Efficiency (aluminum coils) | 40% | Conservative estimate |
+| Margin vs proven 25,000g | **20×** | McCormick Stevenson GNC |
+
+*When reducing load: 2 km (637g) or 3 km (425g)
+
+### Gen-2 Robots (Optimized Fe/Al Hybrid)
+
+| Parameter | Crab-M | Centaur-M | Mole-M | Average |
+|-----------|--------|-----------|--------|---------|
+| Total mass | **~1,000 kg** | **~370 kg** | **~1,500 kg** | **~960 kg** |
+| Iron (critical components) | ~350 kg (35%) | ~80 kg (22%) | ~1,250 kg (83%) | ~560 kg (58%) |
+| Aluminum (frame, body) | ~450 kg (45%) | ~230 kg (62%) | ~200 kg (13%) | ~300 kg (31%) |
+
+**Optimization principle:**
+- Steel only for critical components: wheels/tracks, bucket, bearings
+- Aluminum frames and bodies — sufficient strength at lower mass
+- At 5 robots/day: ~1.5 t Al + ~2.8 t Fe
+
+### Ground Zero Factory
+
+| Parameter | Value |
+|-----------|-------|
+| Power consumption (peak) | 55 MW |
+| Solar panel area (3 launches) | 105,000 m² |
+| Available power | **168 MW** |
+| Surplus over consumption | 113 MW |
+| Silicon panel output | 1.6 kW/m² |
+| Dome area | ~1,500 m² (~50×30 m) |
+
+---
+
+## Constants Usage
+
+These values are used in calculations:
+
+- [Swarm Mirrors](../detailed/mirrors.qmd) — mirror energy and power transmission
+- [Mass Driver](../detailed/production/railguns/theory.qmd) — launch physics
+- [Scaling](../detailed/production/railguns/scaling.qmd) — exponential growth
+- [Project Physics](../executive-summary.qmd) — core technologies
+- [Technologies and Sources](technology-readiness.qmd) — TRL and bibliography

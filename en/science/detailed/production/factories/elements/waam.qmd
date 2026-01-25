@@ -1,0 +1,242 @@
+---
+title: "WAAM: Metal 3D Printing"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Technology:** Wire Arc Additive Manufacturing (wire deposition by arc)
+> - **Material:** Wire 1.6-2.0 mm diameter (Al, Fe from rolling mill)
+> - **Productivity:** ~60-180 kg/day (3 cells) for complex parts
+> - **Application:** Robot bodies, brackets, frames, tooling
+
+---
+
+## Overview
+
+WAAM is a metal 3D printing technology where a robotic arm melts wire with an electric arc and deposits material layer by layer. It is an industrial alternative to powder-based 3D printing, faster and more economical.
+
+---
+
+## Operating Principle
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["INPUT"]
+        WIRE["Wire 1.6 mm diameter<br/>from drawing line"]
+    end
+
+    subgraph WAAM_CELL["WAAM CELL"]
+        ROBOT["6-axis robot"]
+        TORCH["Welding torch"]
+        ARC["Electric arc<br/>~5000C"]
+        ARGON["Shielding gas Ar"]
+        TABLE["Rotary table"]
+    end
+
+    subgraph POST["POST-PROCESSING"]
+        CNC["5-axis CNC<br/>milling"]
+        FINISH["Finishing"]
+    end
+
+    subgraph OUTPUT["OUTPUT"]
+        PARTS["Finished parts<br/>bodies, frames, brackets"]
+    end
+
+    WIRE --> ROBOT
+    ROBOT --> TORCH
+    TORCH --> ARC
+    ARGON --> ARC
+    ARC --> TABLE
+    TABLE --> CNC
+    CNC --> FINISH
+    FINISH --> PARTS
+
+    style INPUT fill:#f0e68c
+    style WAAM_CELL fill:#fff3cd
+    style POST fill:#d4edda
+    style OUTPUT fill:#cce5ff
+```
+
+**Process:**
+1. Robot feeds wire to the torch
+2. Electric arc melts the wire (and workpiece surface)
+3. Molten droplet solidifies, forming deposited layer
+4. Robot moves 1-2 mm, deposits next layer
+5. Layer by layer the part grows
+
+---
+
+## WAAM Cell
+
+### Robotic Arm
+
+| Parameter | Value |
+|-----------|-------|
+| Type | 6-axis industrial robot |
+| Payload | 10-20 kg (torch + wire) |
+| Positioning accuracy | +/-0.1 mm |
+| Travel speed | 0.5-2 m/s |
+| Material | Steel Fe + Al (local production) |
+
+**Difference from Earth robots:** Lightweight Al construction (low gravity 0.38g), no lubrication (operates in 0.1 atm nitrogen).
+
+---
+
+### Welding Torch
+
+| Parameter | Value |
+|-----------|-------|
+| Type | MIG/MAG (Metal Inert Gas) |
+| Current | 150-300 A |
+| Voltage | 20-30 V |
+| Power | 3-9 kW |
+| Wire feed | 3-8 m/min |
+| Shielding gas | Argon (Ar) - from Earth |
+
+**Why argon?**
+- Inert gas - does not react with melt
+- Heavier than air - displaces nitrogen from welding zone
+- Prevents oxidation and porosity
+
+**Argon consumption:** ~10 L/min (200 cubic meters/month per cell) - critical import from Earth
+
+---
+
+### Rotary Table
+
+| Parameter | Value |
+|-----------|-------|
+| Diameter | 1-2 m |
+| Load capacity | 500-1000 kg |
+| Rotation speed | 0.1-10 rpm |
+| Tilt | +/-45 degrees |
+
+**Purpose:** Allows robot to deposit complex parts by rotating them to optimal angles.
+
+---
+
+## Materials for WAAM
+
+| Material | Application | Productivity |
+|----------|-------------|--------------|
+| Aluminum (Al) | Robot bodies, brackets | ~3 t/day |
+| Iron (Fe) | Frames, structural elements | ~1 t/day |
+
+**Wire source:** [Rolling mill](rolling.qmd) (drawing line)
+
+---
+
+## Productivity
+
+| Parameter | Value |
+|-----------|-------|
+| Deposition rate | 1-3 kg/hour per cell |
+| Number of WAAM cells | 3 (per factory) |
+| Operation | 20 hours/day |
+| **TOTAL** | **~20-60 kg/day per cell** |
+| **For 3 cells** | **~60-180 kg/day** |
+
+**Why not more?**
+- WAAM is slower than casting but allows complex shapes without tooling
+- Used for parts that cannot be cast (hollow bodies, complex geometries)
+
+---
+
+## Post-Processing: CNC Milling
+
+After WAAM, the part has a rough surface and excess material. Finish machining is required.
+
+### 5-Axis Machining Center
+
+| Parameter | Value |
+|-----------|-------|
+| Type | Vertical machining center |
+| Number of axes | 5 (X, Y, Z + 2 rotary) |
+| Spindle power | 10-20 kW |
+| Spindle speed | 10000-20000 rpm |
+| Tool | Carbide end mills (WC - from Earth) |
+
+**Coolant (cutting fluid):**
+- Oil in closed loop (recirculation)
+- Filtration through centrifuge
+- Cooling on radiators outside dome
+
+**Machining accuracy:** +/-0.05 mm
+
+---
+
+## Typical Parts Produced by WAAM
+
+| Part | Material | Mass | Print time | Application |
+|------|----------|------|------------|-------------|
+| Crab-M body | Al | 50 kg | 20 hours | [Crab-M robot](../../robots/assembly/crabs.qmd) |
+| Centaur-M frame | Al | 30 kg | 12 hours | [Centaur-M robot](../../robots/assembly/centaurs.qmd) |
+| Caster brackets | Fe | 20 kg | 8 hours | [Continuous casting](casting.qmd) |
+| Assembly tooling | Fe | 10 kg | 5 hours | Jigs, fixtures |
+
+---
+
+## Advantages of WAAM
+
+| Advantage | Description |
+|-----------|-------------|
+| No tooling | No molds, dies, casting patterns needed |
+| Rapid prototyping | New part in 1 day (casting takes weeks) |
+| Material savings | Only required metal used (casting has 30-50% waste) |
+| Complex geometry | Cavities, internal channels, organic shapes |
+
+---
+
+## WAAM Limitations
+
+| Limitation | Solution |
+|------------|----------|
+| Low speed | Use for complex parts, simple ones by casting |
+| Surface roughness | Post-processing on CNC |
+| Argon import | Critical consumable - shipped from Earth |
+| Tool wear | Carbide tools (WC) - import |
+
+---
+
+## Energy Consumption
+
+| Component | Power | Quantity | TOTAL |
+|-----------|-------|----------|-------|
+| WAAM cell (robot + torch) | 10 kW | 3 | 30 kW |
+| CNC machining center | 20 kW | 2 | 40 kW |
+| Exhaust ventilation | 5 kW | 1 | 5 kW |
+| Automation | 5 kW | - | 5 kW |
+| **TOTAL** | | | **~80 kW** |
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performed by |
+|-----------|-----------|--------------|
+| Torch replacement | 1 month | Centaur-M |
+| CNC tool replacement | 1 week | Centaur-M |
+| Rotary table cleaning | Daily | Crab-M |
+| Robot calibration | Weekly | Automation |
+| Coolant oil refill | Weekly | Centaur-M |
+
+---
+
+## Quality Control
+
+| Parameter | Control method | Standard | Action on deviation |
+|-----------|---------------|----------|---------------------|
+| Porosity | Ultrasonic | <2% | Reject |
+| Dimensions | 3D laser scanner | +/-0.1 mm | Rework on CNC |
+| Cracks | Dye penetrant inspection | No cracks | Reject |
+| Hardness | Hardness tester | Per specification | Heat treatment |
+
+---
+
+## See Also
+
+- [Rolling mill](rolling.qmd) - wire source
+- [Robot assembly](../../robots/overview.qmd) - main consumer of WAAM parts
+- [Continuous casting](casting.qmd) - alternative for simple parts
+- [Equipment production](../assembly/equipment.qmd) - tooling from WAAM

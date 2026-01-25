@@ -1,0 +1,213 @@
+---
+title: "Coil Winding"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Electromagnetic windings for projectile acceleration
+> - **Material:** Cryogenic aluminum (360% conductivity at -180°C)
+> - **Mass:** ~300 t per Mass Driver (3,000 coils)
+> - **Technology:** Automated winding + cryogenic cooling
+
+---
+
+## Overview
+
+Mass Driver coils are electromagnets that create the magnetic field for projectile acceleration. Coils are sequentially energized, attracting the projectile and accelerating it to 5 km/s.
+
+---
+
+## Coil Design
+
+| Parameter | Value |
+|-----------|-------|
+| Coils per track | 3,000 (1 m each) |
+| Turns per coil | 50-100 |
+| Wire | Aluminum, 10 mm diameter |
+| Mass per coil | ~100 kg |
+| **TOTAL winding mass** | **~300 t Al** |
+
+### Coil Schematic
+
+```
+  Coil cross-section (side view):
+
+  ╭─────────────────╮
+  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓  │ ← 50-100 turns Al wire
+  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+  │  ▓▓ [NaK] ▓▓   │ ← NaK cooling channel
+  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+  ╰─────────────────╯
+```
+
+---
+
+## Cryogenic Aluminum
+
+**Problem:** Mercury has no copper (the standard winding material on Earth).
+
+**Solution:** Aluminum at -180°C has conductivity nearly equal to copper at room temperature.
+
+### Conductivity Comparison
+
+| Material | +20°C | -180°C | Increase |
+|----------|-------|--------|----------|
+| Copper | 100% | 400% | 4x |
+| Aluminum | 60% | **360%** | **6x** |
+
+**Conclusion:** Cryo-aluminum is an ideal copper replacement for Mass Drivers.
+
+### Mass Driver Location
+
+Mass Drivers are positioned at the **terminator** (day/night boundary):
+- Working section in shadow (temperature -180°C)
+- Cooling radiators face the shadow
+- Electronics and control on the sunlit side (power source)
+
+---
+
+## Coil Production
+
+### Winding Process
+
+| Stage | Equipment | Output |
+|-------|-----------|--------|
+| Wire production | Drawing mill | Al, 10 mm diameter |
+| Coil winding | Winding machine | 50-100 turns |
+| Cooling installation | NaK tube welding | Cooling channels |
+| Insulation | Ceramic coating | Arc protection |
+| Testing | Ohmmeter | Resistance <0.1 Ohm |
+
+**Productivity:** 1 winding machine = 10-20 coils/day
+
+**For 3,000 coils:** 150-300 days = **5-10 months** on 1 machine
+
+**With 10 machines:** ~**1 month**
+
+**Details:** [Rolling Mill](../../factories/elements/rolling.qmd)
+
+---
+
+## Coil Cooling System
+
+### NaK Circuit
+
+| Parameter | Value |
+|-----------|-------|
+| Coolant | NaK (eutectic Na-K alloy) |
+| Circuit temperature | -150°C |
+| NaK flow rate | 100 L/min per track |
+| Tube diameter | 20 mm |
+| NaK mass in system | ~5 t |
+
+### Radiators
+
+| Parameter | Value |
+|-----------|-------|
+| Radiator area | 5,000 m² |
+| Material | Aluminum (thermal conductivity) |
+| Location | Facing shadow (-180°C) |
+| Heat rejection | ~40 MW |
+
+**Principle:** NaK circulates through coils (absorbs heat) → radiators in shadow (releases heat) → back to coils.
+
+---
+
+## Heat Generation During Launch
+
+### Energy Balance per Shot
+
+| Parameter | Value |
+|-----------|-------|
+| Energy per launch | 3.6 GJ |
+| Efficiency | 40% |
+| Heat loss | **2.2 GJ** |
+| Shot duration | 12 sec |
+| Peak heat generation | **~180 MW** |
+
+### Average Power
+
+At 600 launches/day:
+
+```
+2.2 GJ × 600 / 86,400 sec = ~15 MW average heat generation
+```
+
+**Required rejection:** ~15-20 MW continuous + peaks up to 180 MW.
+
+---
+
+## Coil Wear
+
+### Wear Causes
+
+| Cause | Contribution | Consequences |
+|-------|--------------|--------------|
+| Overheating | 40% | Insulation degradation |
+| Electric arcing | 30% | Turn melting |
+| Mechanical vibration | 20% | Wire breakage |
+| Oxidation | 10% | Corrosion |
+
+### Service Life
+
+| Mode | Launches | Service Life |
+|------|----------|--------------|
+| Intensive (600/day) | ~500,000 | **3-5 years** |
+| Medium (300/day) | ~500,000 | **5-7 years** |
+
+**Replacement:** ~30 t Al/year per Mass Driver.
+
+---
+
+## Material Balance
+
+**Per 1 Mass Driver (new):**
+
+| Component | Mass | Production |
+|-----------|------|------------|
+| Windings (3,000 coils) | 300 t Al | 42 t/day → **8 days** |
+| NaK cooling system | 5 t NaK | Local |
+| Radiators | 50 t Al | 42 t/day → **1.5 days** |
+
+**Replacement (wear, 1 Mass Driver over 5 years):**
+
+| Component | Mass/year | Production |
+|-----------|-----------|------------|
+| Windings | 30 t Al | 0.7 days production |
+| NaK | 1 t | Top-up |
+
+---
+
+## Coil Installation on Track
+
+| Stage | Time | Robots |
+|-------|------|--------|
+| Coil frame installation | 1 week | 20 Centaur-M |
+| Coil mounting (3,000 units) | **1 month** | 10 Centaur-M |
+| Cooling connection | 1 week | 10 Centaur-M |
+| Power cable routing | 1 week | 10 Centaur-M |
+| Circuit testing | 2 days | Automated |
+
+**TOTAL:** ~6 weeks from installation to ready.
+
+---
+
+## Quality Control
+
+| Parameter | Control | Standard | Action on Deviation |
+|-----------|---------|----------|---------------------|
+| Resistance | Ohmmeter | <0.1 Ohm | Rewind |
+| Insulation | Megohmmeter | >10 MOhm | Additional coating |
+| Inductance | LCR meter | Within ±5% | Turn adjustment |
+| Cooling | Thermocouples | T <-140°C | Check NaK circuit |
+
+---
+
+## See Also
+
+- [Rail Production](rails.qmd) — aluminum guides
+- [Tunnel Frame](frame.qmd) — support structure
+- [Track Assembly](../assembly/track.qmd) — Mass Driver installation
+- [Energy System](../../../energy.qmd) — coil power supply

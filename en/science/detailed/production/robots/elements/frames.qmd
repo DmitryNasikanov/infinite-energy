@@ -1,0 +1,176 @@
+---
+title: "Robot Frame Manufacturing"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Structural frames for robots
+> - **Material:** Hybrid Fe/Al (steel + aluminum)
+> - **Technology:** WAAM 3D printing + CNC machining
+> - **Output:** ~5 frames/day
+
+---
+
+## Overview
+
+The robot frame is the structural chassis to which all other components attach: batteries, actuators, electronics. The frame must be strong (Fe) and lightweight (Al).
+
+---
+
+## Frame Material Balance
+
+| Robot Type | Frame Mass | Fe | Al | Other* | Ratio |
+|------------|------------|----|----|--------|-------|
+| Mole-M | ~1250 kg | 1040 kg | 210 kg | — | 83% Fe / 17% Al |
+| Crab-M | ~800 kg | 280 kg | 360 kg | 160 kg | 35% Fe / 45% Al / 20% |
+| Centaur-M | ~320 kg | 70 kg | 200 kg | 50 kg | 22% Fe / 62% Al / 16% |
+
+*Other: fasteners, wiring channels, fiberglass panels.
+
+**Distribution Principle:**
+- **Mole-M:** Heavy work (digging) → more steel
+- **Crab-M:** Medium load (transport) → Fe/Al balance
+- **Centaur-M:** Precision work (manipulation) → more aluminum (lightweight)
+
+---
+
+## Frame Production: WAAM 3D Printing
+
+### Process
+
+| Step | Description |
+|------|-------------|
+| 1. 3D Model Development | CAD model of frame (custom for each type) |
+| 2. WAAM Printing | Robot manipulator deposits wire layer by layer |
+| 3. CNC Machining | Milling of mounting surfaces, threaded holes |
+| 4. Heat Treatment | Stress relief (annealing) |
+| 5. Quality Control | Ultrasonic testing for cracks, geometry measurement |
+
+**Details:** [WAAM 3D Printing](../../factories/elements/waam.qmd)
+
+---
+
+## WAAM Cell for Frames
+
+| Parameter | Value |
+|-----------|-------|
+| Type | 6-axis robot manipulator |
+| Wire | Fe dia. 1.6-2.0 mm + Al dia. 1.6 mm |
+| Throughput | 25-35 kg/hr (multi-wire system) |
+| Shielding | Argon (Ar) |
+
+### Frame Print Time
+
+| Robot Type | Frame Mass | WAAM Time | CNC Time | TOTAL |
+|------------|------------|-----------|----------|-------|
+| Mole-M | 1250 kg | 40 hours | 8 hours | **~48 hours** |
+| Crab-M | 800 kg | 25 hours | 5 hours | **~30 hours** |
+| Centaur-M | 320 kg | 10 hours | 2 hours | **~12 hours** |
+
+**With 3 WAAM cells:** Can print 3 frames in parallel → ~5 frames/day (mixed types).
+
+---
+
+## CNC Machining of Mounting Surfaces
+
+After WAAM printing, the frame has a rough surface. Critical areas are machined on CNC.
+
+| Operation | Tool | Precision |
+|-----------|------|-----------|
+| Milling mounting surfaces | Carbide end mill | +/-0.05 mm |
+| Drilling holes | Drill bit | +/-0.1 mm |
+| Threading | Tap | M6-M20 |
+
+**Mounting points per frame:**
+- Mole-M: ~50 (actuators, battery, electronics)
+- Crab-M: ~40
+- Centaur-M: ~30
+
+---
+
+## Hybrid Fe/Al Construction
+
+**Question:** How to combine steel and aluminum in one frame?
+
+**Answer:** Two approaches:
+
+### Option A: Sequential Printing
+
+1. Print steel frame (WAAM Fe)
+2. Print aluminum overlays on steel (WAAM Al)
+3. Strength provided by mechanical interlocking of layers
+
+**Problem:** Different thermal expansion coefficients (Fe vs Al) → cracks during thermal cycling.
+
+---
+
+### Option B: Modular Construction (recommended)
+
+1. Print steel skeleton (load-bearing elements)
+2. Print aluminum panels (housing, radiators)
+3. Assembly with bolts/rivets
+
+**Advantages:**
+- No thermal expansion issues
+- Easy replacement of damaged panels
+- Clear separation of functions (steel = strength, aluminum = lightweight)
+
+---
+
+## Material Balance
+
+**For 5 frames/day (average mix):**
+
+| Material | Mass for 5 frames | Source |
+|----------|-------------------|--------|
+| Iron (Fe) | ~2.5 t | [Regolith Processing](../../materials/overview.qmd) |
+| Aluminum (Al) | ~1.2 t | [Regolith Processing](../../materials/overview.qmd) |
+| Argon (Ar) | ~10 kg | **Import from Earth** |
+
+**Consumption from daily production:**
+- Fe: 2.5 t from 11 t/day = **23%**
+- Al: 1.2 t from 42 t/day = **3%**
+
+---
+
+## Quality Control
+
+| Parameter | Method | Standard | Action |
+|-----------|--------|----------|--------|
+| Porosity | Ultrasonic | <2% | Reject |
+| Geometry | 3D laser scanner | +/-1 mm | CNC rework |
+| Cracks | Dye penetrant inspection | No cracks | Reject |
+| Strength | Tensile test (sampling) | Per specification | — |
+
+---
+
+## Power Consumption
+
+| Component | Power |
+|-----------|-------|
+| WAAM cells (3 units) | 30 kW |
+| CNC machines (2 units) | 40 kW |
+| Heat treatment | 20 kW |
+| **TOTAL** | **~90 kW** |
+
+---
+
+## Equipment Maintenance
+
+| Operation | Frequency | Performer |
+|-----------|-----------|-----------|
+| WAAM torch replacement | 1 month | Centaur-M |
+| CNC cutter replacement | 1 week | Centaur-M |
+| Robot manipulator calibration | 1 month | Automatic |
+| Rotary table cleaning | Daily | Crab-M |
+
+---
+
+## See Also
+
+- [WAAM 3D Printing](../../factories/elements/waam.qmd) — manufacturing technology
+- [Rolling Mill](../../factories/elements/rolling.qmd) — wire production
+- [Mole-M Assembly](../assembly/moles.qmd) — frame installation
+- [Crab-M Assembly](../assembly/crabs.qmd) — frame installation
+- [Centaur-M Assembly](../assembly/centaurs.qmd) — frame installation

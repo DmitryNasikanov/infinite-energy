@@ -1,0 +1,312 @@
+---
+title: "3.1.4 Titanium Line"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Load data from JSON
+dataScript = FileAttachment("../../../data/db/data.json").json()
+
+// Materials available on Mercury (two versions for compatibility)
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Dictionaries for quick lookup
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: mercuryProduction.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Total calculated ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '—'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+## Overview
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Magnetic fraction (ilmenite FeTiO₃ + troilite FeS) |
+| Output | TiO₂, S, Fe₂O₃ |
+| Throughput | ~33 t/day |
+| Purpose | Mirror electrochromics |
+
+← [Back to overview](overview.qmd)
+
+---
+
+## Line Purpose
+
+Extraction of TiO₂ for mirror electrochromics. Titanium (<1% in Mercury's crust) is found in **ilmenite (FeTiO₃)** — a weakly magnetic mineral.
+
+| Parameter | Value |
+|-----------|-------|
+| TiO₂ requirement | 1 kg × 600 mirrors = **0.6 t/day** |
+| Available (Ti <1%) | ~4.5 t TiO₂ from 270 t regolith |
+| Reserve | **×7.5** (surplus) |
+
+---
+
+## Process Diagram
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["MAGNETIC FRACTION"]
+        MF[/"Ilmenite + Troilite<br/>33 t/day"/]
+    end
+
+    subgraph SUBLIMATION["SULFUR SUBLIMATION"]
+        MF --> TS["Heating to 450°C<br/>(in vacuum)"]
+        TS -->|"S↗"| S_COND["Condenser"]
+        S_COND --> S_OUT[/"Sulfur<br/>~18 t/day"/]
+    end
+
+    subgraph ROASTING["OXIDATIVE ROASTING"]
+        TS -->|"FeS → FeO"| OX["Roasting 900°C<br/>+ O₂"]
+        OX --> FeTi["FeO + TiO₂"]
+    end
+
+    subgraph SEPARATION["MAGNETIC SEPARATION"]
+        FeTi --> SEP["Magnetic<br/>separator"]
+        SEP -->|"magnetic"| FE_OUT[/"Fe₂O₃<br/>→ MRE"/]
+        SEP -->|"non-magnetic"| TI_OUT[/"TiO₂<br/>→ electrochromics"/]
+    end
+
+    style SUBLIMATION fill:#fff3cd
+    style ROASTING fill:#f8d7da
+    style SEPARATION fill:#d4edda
+```
+
+| Stage | Description | Temperature |
+| :--- | :--- | :--- |
+| Sulfur sublimation | Heating magnetic fraction in vacuum | 450°C |
+| Oxidative roasting | Oxidation FeS → Fe₂O₃ | 900°C |
+| Magnetic separation | Separation of Fe₂O₃ (magnetic) and TiO₂ (non-magnetic) | — |
+
+---
+
+## Sulfur Sublimation
+
+Troilite (FeS) is a source of sulfur for NaS batteries.
+
+| Parameter | Value |
+| :--- | :--- |
+| Reaction | FeS → Fe + S↑ (at 450°C in vacuum) |
+| Sulfur evaporates | Condenses on cold surface |
+| Output | ~18 t sulfur/day |
+
+**Sulfur condenser:**
+- Cold surface in shadow (-150°C)
+- Sulfur deposits as yellow crystals
+- Remelting: liquid sulfur (>115°C) → to battery workshop
+
+> **Note:** Vacuum reduces sulfur sublimation temperature, saving energy.
+
+---
+
+## Oxidative Roasting
+
+After sulfur removal, a mixture of FeO and FeTiO₃ remains. Roasting in the presence of oxygen:
+
+| Reaction | Product |
+| :--- | :--- |
+| 2FeO + ½O₂ → Fe₂O₃ | Hematite (magnetic) |
+| FeTiO₃ + ½O₂ → Fe₂O₃ + TiO₂ | Hematite + rutile |
+
+**Parameters:**
+
+| Parameter | Value |
+| :--- | :--- |
+| Temperature | 900°C |
+| Atmosphere | O₂ (from MRE cell) |
+| Duration | 2-4 hours |
+
+---
+
+## Magnetic Separation Fe₂O₃/TiO₂
+
+After roasting, the mixture is separated by a magnetic separator:
+
+| Fraction | Magnetic properties | Product |
+| :--- | :--- | :--- |
+| Fe₂O₃ (hematite) | Magnetic | Returns to MRE cell |
+| TiO₂ (rutile) | Non-magnetic | Goes to electrochromics |
+
+> **Note:** Fe₂O₃ is valuable feedstock, returned to the main cycle for iron extraction.
+
+---
+
+## Mirror Electrochromics
+
+TiO₂ is used to control mirror orientation in space:
+
+| Component | Function |
+|-----------|----------|
+| TiO₂ layer | Changes reflectivity when voltage is applied |
+| Effect | Uneven light pressure → torque |
+| Control | Mirror tilting without engines or fuel |
+
+**Principle:** A 100×100 m mirror with electrochromic coating. When voltage is applied to one edge, reflectivity decreases → light pressure becomes uneven → the mirror slowly rotates. This allows directing reflected light to the receiver without fuel consumption.
+
+**Electrochromic layer mass:** ~1 kg/mirror (out of 116 kg total mass).
+
+### Advantages of Electrochromic Control
+
+- No consumable fuel
+- No mechanical parts
+- Powered by solar panels
+- Service life = mirror service life
+
+---
+
+## Product Output
+
+| Product | Quantity | Application |
+| :--- | :--- | :--- |
+| TiO₂ (rutile) | ~3 t/day | Mirror electrochromics |
+| Sulfur (S) | ~18 t/day | NaS batteries |
+| Fe₂O₃ (hematite) | ~12 t/day | Return to MRE → iron |
+
+---
+
+## Sources
+
+- **MESSENGER Mission (2011-2015)** — Mercury surface composition data
+- **Electrochromic Materials** — TiO₂ coating research
+- **Space Mirror Control** — Space mirror orientation technologies
+
+---
+
+## See Also
+
+- [Regolith Processing](overview.qmd) — process overview
+- [Energy Storage](../robots/elements/batteries.qmd) — NaS batteries from sulfur
+- [Mirrors](../../mirrors.qmd) — construction and control

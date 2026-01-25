@@ -1,0 +1,199 @@
+---
+title: "Moon"
+sidebar: science
+---
+
+The Moon is a key element of the project. Here, **Lunar Solar Power (LSP) stations** receive energy from the Dyson Swarm and transmit it to Earth via [microwaves](../reference/technology-readiness.qmd#microwave-power-transmission).
+
+---
+
+## Lunar Solar Power (LSP) {#lunar-solar-power}
+
+### Transmission Scheme
+
+```
+Dyson Swarm (Mercury) → Light to Moon → PV stations → Microwaves → Earth
+```
+
+### Why the Moon Instead of an Orbital Hub?
+
+| Parameter | Orbital Hub (L1) | Moon (LSP) |
+|-----------|------------------|------------|
+| Efficiency | 10% | **18%** |
+| Radiators | 7,900 km² in space | 0 (heat to ground) |
+| Structure mass | 15 million tons in orbit | On surface |
+| Construction | Zero gravity | Gravity |
+| Resources | Delivery | In-situ |
+
+> More details about the energy receiving hub (LSP vs orbital Hub) — [hub.qmd](../detailed/hub.qmd).
+
+### Energy Transmission Efficiency
+
+| Stage | Efficiency | Losses |
+|-------|------------|--------|
+| Mirror reflection | 90% | 10% |
+| Orbital geometry | 72% | 28% |
+| Concentration on Moon | 90% | 10% |
+| PV at lunar stations | 45% | 55% |
+| DC → Microwaves (Klystron) | 90% | 10% |
+| Transmission Moon → Earth | 95% | 5% |
+| Atmospheric passage | 95% | 5% |
+| Rectenna on Earth | 85% | 15% |
+| **Total Efficiency** | **18%** | **82%** |
+
+**Calculation:** $\eta = 0.90 \times 0.72 \times 0.90 \times 0.45 \times 0.90 \times 0.95 \times 0.95 \times 0.85 = 0.18$
+
+---
+
+### Geometry: Why the Limbs?
+
+The Moon is in **tidal lock** — one side always faces Earth. This creates a problem for station placement:
+
+| Position | Sees Swarm? | Sees Earth? |
+|----------|-------------|-------------|
+| Near side | Partially | Yes |
+| Far side | Yes | No |
+| **Limbs (edges)** | **Yes** | **Yes** |
+
+**Solution [Criswell](https://www.researchgate.net/publication/329718124_Solar_Power_via_the_Moon_2002):** 20-40 stations on the eastern and western limbs.
+
+```
+View from pole:
+                    EASTERN
+                      LIMB
+                       *
+                      /|\
+                     / | \
+    TO SWARM <--------*--+--*--------> TO EARTH
+     (light)         |  |  |         (microwaves)
+                     |  |  |
+                      \ | /
+                       \|/
+                        *
+                    WESTERN
+                      LIMB
+```
+
+### Limb Operation Cycle
+
+The lunar month (29.5 days) determines which limb operates:
+
+```
++-- Week 1-2: Western limb illuminated → operates
++-- Week 3-4: Eastern limb illuminated → operates
++-- Transition: 1-2 days overlap, both operate
+```
+
+**Result:** Continuous energy transmission with minimal gaps.
+
+---
+
+### Continuous Power Supply
+
+The Moon is visible from any point on Earth for ~12 hours. Solution — **global rectenna network**:
+
+| Time UTC | Moon above | Active rectenna | Energy goes to |
+|----------|------------|-----------------|----------------|
+| 00:00 | Pacific Ocean | Australia | Asia |
+| 06:00 | India | Gobi (China) | Asia, Europe |
+| 12:00 | Africa | Sahara | Europe, Americas |
+| 18:00 | Atlantic | Atacama (Chile) | Americas |
+
+**Principle:** Rectenna receives → HVDC cables transmit to global grid → consumers receive continuously.
+
+**Buffering:** 1-2 hour batteries smooth transitions between rectennas.
+
+**Advantage over solar:** The Moon is visible both day and night — easier to ensure continuity than with traditional solar power plants.
+
+---
+
+### Rectenna on Earth
+
+Large antenna arrays are needed to receive microwaves:
+
+| Parameter | Value |
+|-----------|-------|
+| Area of one rectenna | ~100 km² |
+| Quantity | 4-6 (global network) |
+| Locations | Deserts: Sahara, Gobi, Atacama, Australia |
+| Intensity | 230 W/m² (1/4 of sunlight) |
+
+### Microwave Safety
+
+Microwaves are safer than lasers but require zoning:
+
+| Parameter | Value |
+|-----------|-------|
+| Intensity on rectenna | 230 W/m² |
+| Sun at noon | 1000 W/m² |
+| US standard (workers) | 100 W/m² |
+| Public standard | 10-50 W/m² |
+
+**Why don't microwaves heat the atmosphere?** N₂ and O₂ do not absorb microwaves — they are transparent at 2.45 GHz frequency. A microwave oven heats water, not air. The atmosphere transmits 95% of energy.
+
+**Territory Zoning:**
+
+```
++-------------------------------------+
+|         RECTENNA (100+ km²)         |
+|  +-------------------------------+  |
+|  |   Center: 230 W/m²            |  | <- Restricted zone
+|  |   (automation, no people)     |  |
+|  +-------------------------------+  |
+|        Periphery: <50 W/m²          | <- Technical personnel
++-------------------------------------+
+           Border: <10 W/m²            <- Safe for everyone
+```
+
+**Birds and aircraft:** NASA confirmed safety at <230 W/m². The system automatically reduces power when objects enter the beam.
+
+---
+
+## Contents (Plan)
+
+### Why the Moon?
+- Test site before Mercury
+- 1.3 sec communication delay (vs 8-20 min to Mercury)
+- Mistakes are cheaper here
+
+### Testing Ground (Years 4-6)
+- Validation of all space technologies
+- Robots learn to mine, smelt, build
+- Comparison of conditions: Moon vs Mercury
+
+### Test Mass Driver
+
+Prototype of the Mercury Mass Driver for **technology validation**:
+
+- Length: ~15 km (vs 1 km on Mercury)
+- Acceleration: 20-25g (vs 1275g on Mercury)
+- Speed: 2.5 km/s
+- Energy: 3-4 GJ/t (3-4x more efficient)
+
+**Purpose:** validation of design and operations before deployment on Mercury. Mistakes on the Moon are cheaper — 1.3 sec communication delay (vs 8-20 min), 3 days delivery (vs months).
+
+**Why gentler acceleration on the Moon?** Lower escape velocity (2.4 km/s vs 4.3 km/s) allows for extended track length with reduced acceleration forces, serving as a lower-risk proving ground for mass driver technology.
+
+::: {.callout-warning}
+## Historical Note: Building the Orbital Hub
+
+Originally planned to build an **orbital Hub at L1 point** and launch modules via lunar Mass Driver. Concept rejected — instead using **LSP stations on the Moon's surface** (18% vs 10% efficiency, no radiators needed in space).
+
+Details: [Energy Receiving Hub](../detailed/hub.qmd#alternative-architectures)
+:::
+
+### Energy for the Moon
+- Phase 1: Solar panels (14 days of light)
+- Phase 2: Energy from Swarm via LSP stations
+
+---
+
+## See Also
+
+- [Technologies and Sources](../reference/technology-readiness.qmd) — TRL of microwave transmission (Caltech, JAXA, ESA SOLARIS)
+- [Project in 5 Minutes](../executive-summary.qmd) — overall project architecture
+- [Energy Receiving Hub](../detailed/hub.qmd) — LSP stations and transmission to Earth
+- [Production](../detailed/production.qmd) — two centers: Mercury + Moon
+- [Test Mass Driver](../detailed/production/railguns/theory.qmd) — technology validation
+- [Roadmap](roadmap.qmd) — lunar phase timeline
+- [Why Mercury?](comparison.qmd) — comparison of Moon and Mercury

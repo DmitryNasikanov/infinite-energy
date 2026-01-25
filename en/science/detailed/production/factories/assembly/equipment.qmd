@@ -1,0 +1,274 @@
+---
+title: "Factory Equipment Production"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Manufacturing equipment for new factories
+> - **Components:** Continuous caster, rolling mill, WAAM cells, cranes, assembly jigs
+> - **Technologies:** WAAM 3D printing + CNC + assembly
+> - **Time:** ~4 weeks per equipment set for 1 factory
+
+---
+
+## Overview
+
+Each new factory requires an equipment set: casting machines, rolling mills, robotic cells. Equipment is produced at [replicator factories (F-R)](../overview.qmd#replicator-factory-f-r) in the "Equipment Assembly" zone (200 m²).
+
+---
+
+## Equipment Set for a New Factory
+
+| Equipment | Mass | Material | Technology |
+|-----------|------|----------|------------|
+| Continuous caster (2 units) | ~10 t | Fe frame + Cu crystallizer | WAAM + Cu import |
+| Rolling mill (6 stands) | ~15 t | Fe | WAAM + casting |
+| Wire drawing mill | ~3 t | Fe + WC dies | WAAM + WC import |
+| WAAM cells (3 units) | ~5 t | Fe + Al | WAAM + assembly |
+| CNC machines (2 units) | ~8 t | Fe + imported electronics | WAAM + import |
+| Overhead crane (1 t) | ~2 t | Fe + Al | WAAM + assembly |
+| Assembly jig (10 positions) | ~5 t | Fe + Al | WAAM + welding |
+| Roller conveyors | ~3 t | Fe + Al | Rolling + welding |
+| **TOTAL** | **~51 t** | | |
+
+---
+
+## Production Process
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["MATERIALS"]
+        AL["Aluminum<br/>sheets, wire"]
+        FE["Iron<br/>profiles, wire"]
+        IMPORT["Imports<br/>Cu, WC, electronics"]
+    end
+
+    subgraph FABRICATION["PARTS FABRICATION"]
+        WAAM["WAAM 3D printing<br/>housings, frames"]
+        CNC["CNC machining<br/>precision parts"]
+        CASTING["Casting<br/>rolling mill rolls"]
+    end
+
+    subgraph ASSEMBLY["EQUIPMENT ASSEMBLY"]
+        MNLZ_ASM["Caster assembly"]
+        MILL_ASM["Rolling mill assembly"]
+        ROBOT_ASM["WAAM cell assembly"]
+    end
+
+    subgraph OUTPUT["OUTPUT"]
+        EQUIPMENT["Equipment set<br/>for new factory"]
+    end
+
+    AL --> WAAM
+    FE --> WAAM
+    FE --> CASTING
+    IMPORT --> MNLZ_ASM
+    WAAM --> CNC
+    CNC --> MNLZ_ASM
+    CNC --> MILL_ASM
+    CNC --> ROBOT_ASM
+    CASTING --> MILL_ASM
+    MNLZ_ASM --> EQUIPMENT
+    MILL_ASM --> EQUIPMENT
+    ROBOT_ASM --> EQUIPMENT
+
+    style INPUT fill:#f0e68c
+    style FABRICATION fill:#fff3cd
+    style ASSEMBLY fill:#d4edda
+    style OUTPUT fill:#cce5ff
+```
+
+---
+
+## Key Equipment
+
+### Continuous Caster (MНЛЗ)
+
+| Component | Mass | Material | Technology |
+|-----------|------|----------|------------|
+| Frame | ~4 t | Fe | WAAM + welding |
+| Copper crystallizer | ~0.5 t | Cu | **Import from Earth** |
+| Pulling rolls (4 pairs) | ~2 t | Steel + ceramics | Casting + coating |
+| NaK cooling system | ~1 t | Al tubes | Rolling + welding |
+| Automation | ~0.3 t | Electronics | **Import from Earth** |
+| Roller conveyor | ~1 t | Al | Rolling + welding |
+
+**Production time:** 5-7 days (for 2 casters)
+
+**Critical import:** Copper crystallizer (~500 kg per caster) — copper thermal conductivity is critical for quality casting.
+
+**Details:** [Continuous Casting](../elements/casting.qmd)
+
+---
+
+### Rolling Mill (6 stands)
+
+| Component | Mass | Material | Technology |
+|-----------|------|----------|------------|
+| Frame (6 stands) | ~8 t | Fe | WAAM + welding |
+| Rolls (12 pcs, 2 per stand) | ~5 t | Hardened steel | Casting + heat treatment |
+| Drive motors (6 pcs) | ~1 t | Al + Cu windings | Assembly (Cu import) |
+| Inter-stand conveyors | ~1 t | Al | Rolling + welding |
+
+**Production time:** 7-10 days
+
+**Critical parts:**
+- Rolls — require hardening (heat treatment to HRC 55-60)
+- Bearings — import from Earth (no local production yet)
+
+**Details:** [Rolling Mill](../elements/rolling.qmd)
+
+---
+
+### WAAM Cells (3 units)
+
+| Component | Mass per cell | Material | Technology |
+|-----------|---------------|----------|------------|
+| 6-axis robot arm | ~0.8 t | Al + Fe | WAAM + assembly |
+| Welding torch | ~10 kg | Fe + Cu | Assembly + import |
+| Rotary table | ~0.5 t | Fe + Al | WAAM + electronics |
+| Control unit | ~50 kg | Electronics | **Import from Earth** |
+
+**Production time:** 3-5 days for 3 cells
+
+**Critical import:** Robot control electronics (servo drives, controllers).
+
+**Details:** [WAAM 3D Printing](../elements/waam.qmd)
+
+---
+
+### CNC Machining Centers (2 units)
+
+| Component | Mass per machine | Material | Technology |
+|-----------|-----------------|----------|------------|
+| Bed | ~3 t | Fe | WAAM + welding |
+| Spindle | ~0.2 t | Steel + bearings | **Import from Earth** |
+| Guide rails | ~0.5 t | Hardened steel | Rolling + heat treatment |
+| CNC controller | ~30 kg | Electronics | **Import from Earth** |
+| Tool magazine | ~0.3 t | Al | WAAM + assembly |
+
+**Production time:** 10-12 days for 2 machines
+
+**Critical import:**
+- Spindle (20,000 RPM, precision ±0.001 mm)
+- CNC controller (5-axis interpolation)
+- Carbide cutters (WC)
+
+---
+
+### Overhead Crane (1 t)
+
+| Component | Mass | Material | Technology |
+|-----------|------|----------|------------|
+| Main beam | ~1 t | Fe | WAAM + welding |
+| Trolley | ~0.5 t | Fe + Al | Assembly |
+| Hoist | ~0.3 t | Fe + steel cable | Cable import |
+| Electric drive | ~0.2 t | Al + Cu windings | Assembly |
+
+**Lifting capacity:** 1 ton
+
+**Span:** 30 m (dome width)
+
+**Production time:** 3-5 days
+
+---
+
+## Material Balance
+
+**Per 1 equipment set (~51 t):**
+
+| Material | Mass | Source |
+|----------|------|--------|
+| Iron (Fe) | ~35 t | [Regolith processing](../../materials/overview.qmd) |
+| Aluminum (Al) | ~10 t | [Regolith processing](../../materials/overview.qmd) |
+| Copper (Cu) | ~1 t | **Import from Earth** |
+| Electronics | ~0.5 t | **Import from Earth** |
+| Tungsten carbide (WC) | ~0.1 t | **Import from Earth** |
+| Other (bearings, cables) | ~0.4 t | **Import from Earth** |
+
+**Localization:** ~90% by mass (Fe + Al are local)
+
+**Critical import:** ~2 t per factory (electronics, precision parts)
+
+---
+
+## Production Timeline
+
+| Week | Work |
+|------|------|
+| 1 | Fabricate caster parts (WAAM + CNC) |
+| 2 | Assemble casters + fabricate rolling mill rolls |
+| 3 | Assemble rolling mill + fabricate WAAM cells |
+| 4 | Assemble CNC machines + overhead crane |
+| **TOTAL** | **~4 weeks per set** |
+
+**Parallelism:** When producing equipment for multiple factories, processes run in parallel.
+
+---
+
+## Equipment Testing
+
+Before shipping to a new factory, equipment undergoes acceptance testing.
+
+| Equipment | Test | Criterion |
+|-----------|------|-----------|
+| Caster | Trial casting (100 kg Al) | Ingot without cracks |
+| Rolling mill | Rolling billet 100×100 → Ø20 mm | Profile within ±1 mm tolerance |
+| WAAM cell | Print test part (100 mm cube) | Dimensions ±0.5 mm, porosity <2% |
+| CNC machine | Machine calibration part | Precision ±0.05 mm |
+| Overhead crane | Lift 1.5 t (150% load) | No deformation |
+
+**Testing time:** 2-3 days
+
+---
+
+## Transportation and Installation
+
+After production, equipment is transported to the new factory.
+
+| Stage | Time | Robots |
+|-------|------|--------|
+| Disassembly and packing | 1 day | 4 Centaurs-M |
+| Transportation | 1 day | 6 Crabs-M |
+| Installation inside dome | 2 days | 8 Centaurs-M |
+| Power and automation connection | 1 day | 4 Centaurs-M |
+| Commissioning | 1 day | Automation + 2 Centaurs-M |
+| **TOTAL** | **6 days** | |
+
+---
+
+## Production Energy Consumption
+
+| Component | Power |
+|-----------|-------|
+| WAAM cells (3 units) | 30 kW |
+| CNC machines (2 units) | 40 kW |
+| Casting furnaces | 50 kW |
+| Welding stations | 20 kW |
+| Cranes and transport | 10 kW |
+| **TOTAL** | **~150 kW** |
+
+---
+
+## Equipment Maintenance
+
+After installation, equipment requires periodic maintenance.
+
+| Operation | Frequency | Performer |
+|-----------|-----------|-----------|
+| Bearing lubrication | Weekly | Centaur-M |
+| Machine calibration | Monthly | Automation |
+| Rolling mill roll replacement | 1 month | Centaur-M (4 robots, 6 hours) |
+| Wire drawing die replacement | 1 month | Centaur-M |
+| Electronics repair | As needed | Centaur-M + spare parts import |
+
+---
+
+## See Also
+
+- [Continuous Casting](../elements/casting.qmd) — main factory equipment
+- [Rolling Mill](../elements/rolling.qmd) — semi-finished product manufacturing
+- [WAAM 3D Printing](../elements/waam.qmd) — parts fabrication technology
+- [Self-Replication](replication.qmd) — factory scaling
+- [Robot Production](../../robots/overview.qmd) — Centaurs-M for assembly

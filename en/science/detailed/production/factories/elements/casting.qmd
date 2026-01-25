@@ -1,0 +1,204 @@
+---
+title: "CCM: Continuous Casting Machine"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Converting molten metal into ingots and billets
+> - **Technology:** CCM (Continuous Casting Machine)
+> - **Throughput:** 42 t Al + 35 t Fe → billets 100×100 mm
+> - **Key feature:** NaK cooling (not water!), copper molds
+
+---
+
+## Overview
+
+CCM is key equipment for converting liquid metal into solid billets. Melt from the tundish flows continuously into the crystallizer, where it solidifies and is drawn out as an ingot.
+
+---
+
+## CCM Schematic
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["INPUT"]
+        TUNDISH["Tundish<br/>1500°C"]
+    end
+
+    subgraph CRYSTALLIZER["CRYSTALLIZER"]
+        STOPPER["Stopper"]
+        MOLD["Copper mold<br/>100×100 mm"]
+        COOLING["NaK cooling<br/>−150°C"]
+    end
+
+    subgraph PULLING["WITHDRAWAL"]
+        ROLLERS["Withdrawal rolls<br/>0.5-1 m/min"]
+        CUTTING["Gas cutting<br/>length 6 m"]
+    end
+
+    subgraph OUTPUT["OUTPUT"]
+        BILLETS["Billets 100×100×6000 mm<br/>to roller table"]
+    end
+
+    TUNDISH --> STOPPER
+    STOPPER --> MOLD
+    MOLD --> COOLING
+    COOLING --> ROLLERS
+    ROLLERS --> CUTTING
+    CUTTING --> BILLETS
+
+    style INPUT fill:#f0e68c
+    style CRYSTALLIZER fill:#fff3cd
+    style PULLING fill:#d4edda
+    style OUTPUT fill:#cce5ff
+```
+
+---
+
+## CCM Design
+
+### Crystallizer
+
+| Parameter | Value |
+|-----------|-------|
+| Material | Copper (from Earth) — high thermal conductivity |
+| Shape | Square 100×100 mm |
+| Length | 800 mm |
+| Coating | Nickel (corrosion protection) |
+| Cooling | NaK circuit (not water!) |
+
+**Why copper?**
+- Thermal conductivity 400 W/(m·K) — approximately 8× faster heat removal than steel
+- Does not react with Al and Fe during brief contact
+- Durability: 500-1000 heats without replacement
+
+**Why NaK instead of water?**
+- Water freezes at −150°C outside the dome
+- NaK is liquid from −12°C to +785°C — works in any conditions
+- Closed cycle: NaK → radiators → return
+
+---
+
+### Withdrawal Rolls
+
+| Parameter | Value |
+|-----------|-------|
+| Number of pairs | 3-4 |
+| Withdrawal speed | 0.5-1 m/min |
+| Force per pair | 5-10 tons |
+| Roll material | Steel with ceramic coating |
+
+**Operating principle:**
+1. Melt enters the crystallizer
+2. Shell solidifies on walls (copper removes heat)
+3. Rolls pull the ingot downward
+4. Core solidifies as it moves
+
+---
+
+### Gas Cutting
+
+The continuous ingot is cut into 6 m billets.
+
+| Parameter | Value |
+|-----------|-------|
+| Method | Oxy-acetylene cutting |
+| Cutting frequency | Every 6 minutes (at 1 m/min speed) |
+| Oxygen | From MRE cell |
+| Acetylene | Synthesized from calcium carbide (CaC₂) + water |
+
+**Alternative:** Plasma cutting (requires more energy but cleaner cuts).
+
+---
+
+## Two CCMs at the Factory
+
+The Ground Zero Factory is equipped with two CCMs:
+
+| CCM | Metal | Throughput | Output |
+|-----|-------|------------|--------|
+| CCM-Al | Aluminum | 42 t/day | Ingots 100×100×6000 mm |
+| CCM-Fe | Iron | 35 t/day | Billets 100×100×6000 mm |
+
+**Roller table:** A conveyor roller system transports ingots to the rolling mill.
+
+---
+
+## Operating Modes
+
+### Continuous casting (main mode)
+
+- Tundish continuously supplies melt
+- CCM operates 20-22 hours/day
+- Stoppages: 2-4 hours for crystallizer replacement (every 5-7 days)
+
+### Emergency shutdown
+
+If melt runs out or quality drops:
+1. Tundish stopper closes
+2. Rolls continue pulling until crystallizer is empty
+3. CCM cools and is cleaned
+
+**Restart time:** 1-2 hours
+
+---
+
+## Quality Control
+
+| Parameter | Control | Norm | Action on deviation |
+|-----------|---------|------|---------------------|
+| Melt temperature | Pyrometer | 1500±10°C | Induction heating |
+| Withdrawal speed | Encoders on rolls | 0.5-1 m/min | Speed adjustment |
+| Cracks on ingot | IR camera | No cracks | Ingot rejection |
+| Ingot size | Laser profilometer | 100×100±1 mm | Stop and inspect |
+
+**Automation:** AI system analyzes ingot quality in real time and adjusts parameters.
+
+---
+
+## Power Consumption
+
+| Component | Power | Purpose |
+|-----------|-------|---------|
+| NaK cooling (2× CCM) | 50 kW × 2 | Coolant pumps |
+| Withdrawal rolls (2× CCM) | 30 kW × 2 | Electric motors |
+| Gas cutting | 10 kW | Torches, gas supply |
+| Roller table | 20 kW | Ingot transport |
+| Automation | 5 kW | Sensors, control |
+| **TOTAL** | **~195 kW** | |
+
+---
+
+## Material Balance
+
+**Daily throughput:**
+
+| Metal | Input (melt) | Output (ingots) | Losses |
+|-------|--------------|-----------------|--------|
+| Aluminum | 41.5 t | 41 t | 1.2% (trim) |
+| Iron | 34.5 t | 34 t | 1.5% (trim) |
+
+**Trim:** Periodically remelted in the solar furnace and returned to the cycle.
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Performer |
+|-----------|-----------|-----------|
+| Crystallizer replacement | 5-7 days | Centaur-M (2 robots) |
+| Roller table cleaning | Daily | Crab-M |
+| Sensor calibration | Weekly | Automation |
+| Roll replacement | 1 month | Centaur-M |
+
+**Crystallizer replacement time:** 2-4 hours (including cooling and disassembly).
+
+---
+
+## See Also
+
+- [Metal Melting](melting.qmd) — previous stage
+- [Rolling Mill](rolling.qmd) — next stage
+- [Regolith Processing](../../materials/overview.qmd) — metal source
+- [Robot Production](../../robots/overview.qmd) — Centaur-M for maintenance

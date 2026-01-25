@@ -1,0 +1,199 @@
+---
+title: "Nomenclature"
+sidebar: science
+toc: false
+execute:
+  echo: false
+---
+
+Interactive browser for the Project Helios unit database.
+
+```{ojs}
+//| output: false
+
+// Import from shared module
+import { dataScript, mercuryMaterials, materialsById, unitsById, planetsById }
+from "../_ojs-data.qmd"
+
+// Alias for compatibility with code below
+data = dataScript
+
+// Additional dictionaries for nomenclature
+categoriesById = new Map(data.categories.map(c => [c.id, c]))
+
+// Group units by category
+unitsByCategory = {
+  const map = new Map();
+  data.units.forEach(u => {
+    if (!map.has(u.category_id)) map.set(u.category_id, []);
+    map.get(u.category_id).push(u);
+  });
+  return map;
+}
+```
+
+## Select unit
+
+```{ojs}
+viewof selectedUnit = Inputs.select(
+  data.units.map(u => u.id),
+  {
+    label: "Unit:",
+    format: id => {
+      const u = unitsById.get(id);
+      return `${id} — ${u.name}`;
+    }
+  }
+)
+```
+
+```{ojs}
+{
+  const unit = unitsById.get(selectedUnit);
+  if (!unit) return html`<div>Select unit</div>`;
+
+  const category = categoriesById.get(unit.category_id);
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // BOM for this unit
+  const bom = data.unitMaterials
+    .filter(um => um.unit_id === selectedUnit)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryMaterials.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(2) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (if assembly)
+  const components = data.unitComponents
+    .filter(uc => uc.assembly_id === selectedUnit)
+    .map(uc => ({ ...uc, component: unitsById.get(uc.component_id) }));
+
+  // Where used
+  const usedIn = data.unitComponents
+    .filter(uc => uc.component_id === selectedUnit)
+    .map(uc => ({ ...uc, assembly: unitsById.get(uc.assembly_id) }));
+
+  // Calculate totals
+  const localPct = bom.filter(b => b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+  const importPct = bom.filter(b => !b.isLocal).reduce((sum, b) => sum + b.fraction_pct, 0);
+
+  return html`
+    <div class="db-widget">
+      <h3>${unit.name}</h3>
+      <div class="meta">
+        <span class="badge ${unit.is_assembly ? 'assembly' : 'simple'}">
+          ${unit.is_assembly ? 'Assembly' : 'Simple unit'}
+        </span>
+        ${category ? html`<span>${category.name}</span>` : ''}
+        ${unit.mass_kg ? html` | <strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+      </div>
+      ${unit.description ? html`<p>${unit.description}</p>` : ''}
+      ${planet ? html`<div class="section"><strong>Production:</strong> ${planet.name}${planet.id === 'earth' ? ' (import)' : ''}</div>` : ''}
+
+      ${components.length > 0 ? html`
+        <div class="section">
+          <h4>Components (${components.length}):</h4>
+          <table>
+            <thead><tr><th>Component</th><th>Qty</th></tr></thead>
+            <tbody>
+              ${components.map(c => html`
+                <tr>
+                  <td>${c.component?.name || c.component_id}</td>
+                  <td>${c.quantity} pcs</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${usedIn.length > 0 ? html`
+        <div class="section">
+          <h4>Used in (${usedIn.length}):</h4>
+          <table>
+            <thead><tr><th>Assembly</th><th>Qty</th></tr></thead>
+            <tbody>
+              ${usedIn.map(u => html`
+                <tr>
+                  <td>${u.assembly?.name || u.assembly_id}</td>
+                  <td>${u.quantity} pcs</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${bom.length > 0 ? html`
+        <div class="section">
+          <h4>Bill of Materials (BOM):</h4>
+          <table>
+            <thead><tr><th>Material</th><th>%</th><th>kg</th><th>Source</th></tr></thead>
+            <tbody>
+              ${bom.map(b => html`
+                <tr>
+                  <td>
+                    ${b.material?.symbol ? html`<strong>${b.material.symbol}</strong> ` : ''}
+                    ${b.material?.name || b.material_id}
+                  </td>
+                  <td>${b.fraction_pct}%</td>
+                  <td>${b.massKg || '—'}</td>
+                  <td class="${b.isLocal ? 'local' : 'import'}">${b.isLocal ? '✓ local' : '⚠ import'}</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+          <div class="summary">
+            Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> | <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+```
+
+---
+
+## Database statistics
+
+```{ojs}
+html`
+<table class="stats-table">
+  <tr><td>Planets</td><td><strong>${data.planets.length}</strong></td></tr>
+  <tr><td>Materials</td><td><strong>${data.materials.length}</strong></td></tr>
+  <tr><td>Units</td><td><strong>${data.units.length}</strong></td></tr>
+  <tr><td>Material↔planet links</td><td><strong>${data.planetMaterials.length}</strong></td></tr>
+  <tr><td>BOM records</td><td><strong>${data.unitMaterials.length}</strong></td></tr>
+  <tr><td>Component links</td><td><strong>${data.unitComponents.length}</strong></td></tr>
+</table>
+`
+```
+
+---
+
+## All units by category
+
+```{ojs}
+{
+  const sections = [];
+  unitsByCategory.forEach((units, catId) => {
+    const cat = categoriesById.get(catId);
+    const items = units.map(u => html`
+      <li>
+        <strong>${u.id}</strong> ${u.name}
+        ${u.mass_kg ? html` — ${u.mass_kg.toLocaleString()} kg` : ''}
+        ${u.production_planet_id === 'earth' ? html` <em>(import)</em>` : ''}
+      </li>
+    `);
+    sections.push(html`
+      <h4>${cat?.name || catId}</h4>
+      <ul>${items}</ul>
+    `);
+  });
+  return html`<div>${sections}</div>`;
+}
+```

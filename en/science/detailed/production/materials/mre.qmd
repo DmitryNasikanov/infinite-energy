@@ -1,0 +1,436 @@
+---
+title: "3.1.2 MRE Electrolysis"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+// Load data from JSON
+dataScript = FileAttachment("../../../data/db/data.json").json()
+
+// Materials available on Mercury (two versions for compatibility)
+mercuryProduction = new Set(
+  dataScript.materialProduction
+    .filter(mp => mp.planet_id === "mercury")
+    .map(mp => mp.material_id)
+)
+
+mercuryMaterials = new Set(
+  dataScript.planetMaterials
+    .filter(pm => pm.planet_id === "mercury")
+    .map(pm => pm.material_id)
+)
+
+// Dictionaries for quick lookup
+materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
+unitsById = new Map(dataScript.units.map(u => [u.id, u]))
+planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
+
+// Function to get component materials
+function getComponentMaterials(componentId) {
+  return dataScript.unitMaterials
+    .filter(um => um.unit_id === componentId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      return {
+        symbol: material?.symbol,
+        name: material?.name || um.material_id,
+        fraction_pct: um.fraction_pct,
+        isLocal: mercuryProduction.has(um.material_id)
+      };
+    });
+}
+
+// Function to display unit widget
+function unitWidget(unitId) {
+  const unit = unitsById.get(unitId);
+  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
+
+  const planet = planetsById.get(unit.production_planet_id);
+
+  // Base unit materials
+  const materials = dataScript.unitMaterials
+    .filter(um => um.unit_id === unitId)
+    .map(um => {
+      const material = materialsById.get(um.material_id);
+      const isLocal = mercuryProduction.has(um.material_id);
+      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
+      return { ...um, material, isLocal, massKg };
+    });
+
+  // Components (subassemblies)
+  const components = dataScript.unitComponents
+    .filter(uc => uc.assembly_id === unitId)
+    .map(uc => {
+      const component = unitsById.get(uc.component_id);
+      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
+      const isLocal = component?.production_planet_id === unit.production_planet_id;
+      const componentMaterials = getComponentMaterials(uc.component_id);
+
+      return {
+        id: uc.component_id,
+        name: component?.name || uc.component_id,
+        quantity: uc.quantity,
+        massKg: totalMassKg,
+        isLocal,
+        materials: componentMaterials
+      };
+    });
+
+  // Total calculated ONLY from materials (not components!)
+  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  const hasCriticalImports = components.some(c => !c.isLocal);
+
+  // Component table rows
+  const componentRows = components.map(c => html`
+    <tr class="component-row">
+      <td>
+        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
+        <div class="component-materials">
+          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
+        </div>
+      </td>
+      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  // Material table rows
+  const materialRows = materials.map(m => html`
+    <tr>
+      <td>
+        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
+        ${m.material?.name || m.material_id}
+      </td>
+      <td>${m.fraction_pct}%</td>
+      <td>${m.massKg || '—'} kg</td>
+      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
+    </tr>
+  `);
+
+  return html`
+    <div class="db-widget">
+      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
+      <div class="meta">
+        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
+        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
+        ${planet ? html` | Production: ${planet.name}` : ''}
+      </div>
+
+      ${components.length > 0 ? html`
+        <div class="section-header">Components</div>
+        <table class="components-table">
+          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${componentRows}</tbody>
+        </table>
+      ` : ''}
+
+      ${materials.length > 0 ? html`
+        <div class="section-header">Materials</div>
+        <table class="materials-table">
+          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
+          <tbody>${materialRows}</tbody>
+        </table>
+        <div class="summary">
+          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
+          <span class="import-pct">${importPct.toFixed(0)}% import</span>
+          ${hasCriticalImports ? html`<br/><strong>⚠ Contains imported components</strong>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="link">
+        <a href="data/nomenclature.html?unit=${unitId}">Details →</a>
+      </div>
+    </div>
+  `;
+}
+```
+
+## Overview
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Silicates (~95% of non-magnetic fraction) |
+| Output | O₂, Fe/Si (ferrosilicon), Al/Mg slag |
+| Throughput | ~536 t/day |
+| Energy consumption | ~10 MW thermal (furnace) + ~500 kW electrical (electrolysis) |
+
+← [Back to overview](overview.qmd)
+
+### Regolith Feed to Furnace
+
+Between the flow splitter and the solar furnace is a **vibrating feeder with dosing system**:
+
+1. Regolith flows into a receiving hopper above the furnace
+2. Vibration drive ensures uniform feed rate
+3. Gate valve regulates feed speed
+4. Regolith drops into the furnace crucible through the loading port
+
+Feed is **batch-based**: load 500 kg → melt → transfer to MRE cell → load next batch.
+
+### Material Flow
+
+```{mermaid}
+flowchart TD
+    subgraph FURNACE["SOLAR FURNACE"]
+        SUN["Sunlight beam"] --> CRUCIBLE["MgO Crucible"]
+        CRUCIBLE --> MELT["Melt 1500°C"]
+    end
+
+    subgraph CELL["MRE CELL"]
+        MELT --> ELECTROLYZER["Electrolyzer"]
+        ELECTROLYZER --> ANODE["Ir Anodes"]
+        ELECTROLYZER --> CATHODE["Cathode"]
+        ANODE -->|"O₂ ↑"| CAP["Gas hood"]
+        CATHODE -->|"Fe/Si ↓"| METAL["Metals ρ=6-8"]
+        ELECTROLYZER -->|"floats up"| SLAG["Al/Mg slag ρ=2.5"]
+    end
+
+    subgraph OUTPUTS["PRODUCT SEPARATION"]
+        CAP -->|"pipe"| COMP["Compressor"] --> TANK[/"O₂ 250t/day"/]
+        METAL -->|"MHD valve"| CAST["Foundry"] --> FeSi[/"Fe/Si 35t/day"/]
+        SLAG -->|"skimmer"| DIST["Distillation"]
+    end
+
+    subgraph DISTILL["SLAG DISTILLATION"]
+        DIST --> Al[/"Al 42t"/] & Mg[/"Mg 48t"/] & Na[/"Na 18t"/] & K[/"K 3t"/]
+    end
+
+    style FURNACE fill:#fff3cd
+    style CELL fill:#d4edda
+    style OUTPUTS fill:#cce5ff
+    style DISTILL fill:#f0e68c
+```
+
+---
+
+## Solar Furnace
+
+**Principle:** Concentration of sunlight by mirrors into a single point. On Mercury, solar flux is ~10 kW/m² — 7 times greater than on Earth.
+
+**Why not an electric furnace?**
+
+Electricity on Mercury is precious — it's needed for electrolysis, motors, electronics. Sunlight is free and abundant. Mirrors focus 10 MW of thermal energy directly into the crucible, bypassing the light→electricity→heat conversion.
+
+| Parameter | Value |
+| :--- | :--- |
+| Type | Parabolic concentrator |
+| Mirror area | ~1000 m² |
+| Focus temperature | 1500–2000°C |
+| Power | ~10 MW (thermal) |
+| Efficiency | ~90% (no convection in vacuum) |
+
+### Construction and Materials
+
+```{ojs}
+unitWidget("EQU-003")
+```
+
+An array of flat mirrors directs light to a parabolic reflector. The reflector focuses the beam into the crucible containing regolith.
+
+**Safety principle:** Mirrors _reflect_ light (operating T <100°C), they don't absorb it. All thermal energy is concentrated in the MgO crucible¹ (operating T 1500–2000°C, melting point = 2852°C — margin of 852°C). The rest of the structure remains cold (<200°C).
+
+¹ Magnite (MgO) is produced from local magnesium in regolith (slag distillation, 8% content, ~48 t/day).
+
+**Advantages of vacuum:**
+- No convection — heat is not carried away by air
+- No oxidation — crucible doesn't burn externally
+- No atmospheric absorption — all light reaches the target
+
+> **Note:** These are **ground-based** concentrator mirrors on Mercury's surface, not to be confused with the orbital Dyson Swarm. The first mirror set (~1 t, Kapton) is delivered from Earth, then produced locally from aluminum. See [Production Energy](../../energy.qmd).
+
+> **Furnace role:** The solar furnace **only melts** regolith. Electrolysis and oxygen collection occur in a separate enclosed MRE cell, where melt is transferred via MHD channel.
+
+---
+
+## Molten Regolith Electrolysis (MRE)
+
+**Principle:** Passing current through molten regolith. Metals are deposited at the cathode, oxygen is released at the anode.
+
+### Process Chemistry
+
+Regolith at 1500°C is molten oxides: SiO₂, Al₂O₃, FeO, MgO, CaO. During electrolysis:
+
+- **Cathode (−):** Metals are reduced
+  - Fe²⁺ + 2e⁻ → Fe (settles to bottom, density 7.8 g/cm³)
+  - Si⁴⁺ + 4e⁻ → Si (mixes with Fe → ferrosilicon)
+  - Al³⁺ + 3e⁻ → Al (floats, density 2.7 g/cm³)
+  - Mg²⁺ + 2e⁻ → Mg (floats together with Al)
+
+- **Anode (+):** Oxygen is released
+  - O²⁻ → ½O₂ + 2e⁻
+
+| Parameter | Value |
+| :--- | :--- |
+| Temperature | 1500°C (maintained by solar furnace) |
+| Voltage | 2–4 V |
+| Current | 10,000–50,000 A |
+| Power | ~500 kW (electrical) |
+| O₂ yield | ~40% of regolith mass |
+
+### MRE Cell Construction
+
+The MRE cell is an **enclosed** ceramic vessel, separate from the solar furnace:
+
+| Component | Description |
+|-----------|-------------|
+| Shell | Steel casing with MgO lining |
+| Lid | Ceramic, with ports for anodes |
+| Anodes | Iridium rods, immersed in melt from above |
+| Cathode | Cell bottom (conductive) |
+| Gas hood | Above melt, collects O₂ |
+| O₂ outlet | Pipe to compressor |
+
+```{ojs}
+unitWidget("EQU-002")
+```
+
+### Oxygen Collection Principle
+
+1. Oxygen is released at anodes (O₂ bubbles rise through melt)
+2. Gas collects in hood above melt surface
+3. Pipe channels O₂ to cryogenic compressor
+4. Liquefied O₂ is stored in insulated tanks (−183°C)
+
+> **Important:** The solar furnace is **open** at the top for the solar beam and only melts regolith. Oxygen is released in the **enclosed** MRE cell, where melt is transferred via MHD channel.
+
+### Product Separation by Density
+
+The melt in the cell spontaneously stratifies into layers of different density:
+
+```
+     ┌─────────────────────────┐
+     │       Gas hood          │ ─→ O₂ (pipe to compressor)
+     │  ~~~~~~~~~~~~~~~~~~~~   │
+     │     Al/Mg (ρ=2.5)       │ ─→ Skimmer (ladle from top)
+     │  - - - - - - - - - - -  │
+     │    Silicate slag        │    (remains, periodically removed)
+     │  - - - - - - - - - - -  │
+     │     Fe/Si (ρ=6.0)       │ ─→ MHD valve (magnetic gate)
+     └─────────────────────────┘
+```
+
+| Output | Method | Frequency |
+|--------|--------|-----------|
+| O₂ | Continuous pipe extraction | Constant |
+| Al/Mg | Skimmer removes crust | Every 30 min |
+| Fe/Si | MHD valve opens | Every 2-4 hours |
+
+**Reduction order (by Gibbs energy):** Cr → Mn → Fe → Si → Ti → Al → Mg → Ca. Metals with low energy (Fe, Mn) are reduced first and sink. Metals on the right (Al, Mg) float into slag.
+
+**Note on anodes:** Anodes are consumable — oxygen gradually oxidizes the material. Iridium anodes last ~6 months. This is the only component requiring regular import from Earth (mass ~10 kg/year per cell).
+
+---
+
+## Product Separation
+
+### Slag Skimmer
+
+Mechanical removal of Al/Mg crust from melt surface.
+
+| Component | Material | Mass | Source |
+| :--- | :--- | :--- | :--- |
+| Ladle | **SiC** (silicon carbide, melting point 2730°C) | 8 kg | Local |
+| Lever arm | Fe-6%Mn steel | 20 kg | Local |
+| Actuator | NaK hydraulics | 12 kg | Local |
+| Accumulator | Al₂O₃ ceramic | 30 kg | Local |
+| **Total** | | **70 kg** | **100% local** |
+
+> **Localization:** Fully local production. SiC is synthesized by the Acheson process from local Si (MRE) and C (LRM zones). Ladle replacement — approximately every 2 years under intensive operation.
+
+```{ojs}
+unitWidget("EQU-030")
+```
+
+### MHD Valve (Bottom Fe/Si Drain)
+
+On an automated factory without personnel, an **MHD valve** is used — the same principle as an MHD pump, but in reverse.
+
+| Parameter | Description |
+| :--- | :--- |
+| Principle | Magnetic field holds conducting melt |
+| Closed | Field creates back-pressure — melt doesn't flow |
+| Open | Field switched off — melt flows under gravity |
+| Regulation | Field strength = flow rate |
+| Materials | Al coils, MgO ceramic channel — **all local** |
+
+**MHD valve advantages:**
+
+- No moving parts in contact with melt
+- No wear — magnetic field doesn't wear out
+- Precise flow control (from drops to stream)
+- Instant open/close
+- Works at 1500°C (coils are external, conductively cooled)
+
+### Iron Refining
+
+Purification of Fe/Si from impurities before delivery to foundry.
+
+| Method | Description |
+| :--- | :--- |
+| Argon blowing (**import**) | Gas bubbles capture non-metallic inclusions |
+| Vacuum degassing | Removal of dissolved gases (vacuum already exists) |
+| Result | Clean ferrosilicon for casting |
+
+---
+
+## Manganese Extraction
+
+**Source:** MnO in silicates (0.1% of crust per MESSENGER).
+
+**Process:** During MRE electrolysis, manganese is reduced at the cathode together with iron:
+
+| Parameter | Value |
+| :--- | :--- |
+| Reaction | MnO + 2e⁻ → Mn (metallic) |
+| Mn density | 7.4 g/cm³ (≈ Fe 7.8 g/cm³) |
+| Behavior | Sinks together with Fe/Si |
+| Result | Automatic iron alloying |
+
+**Yield:** ~600 kg Mn/day from 600 t regolith (0.1%).
+
+**Mn content in iron:** ~6% (600 kg Mn in 10,000 kg Fe) — higher than in ordinary steel. This is **low-alloy steel** with improved mechanical properties.
+
+---
+
+## Silicon Extraction
+
+**Source:** Ferrosilicon (Fe + Si) — MRE electrolysis product. Silicon is reduced at the cathode together with iron and settles at the cell bottom.
+
+| Parameter | Value |
+| :--- | :--- |
+| Si content in regolith | ~20% (as SiO₂) |
+| Si yield | ~25 t/day (from 600 t regolith) |
+| Product form | Ferrosilicon (~15% Si, ~85% Fe) |
+
+### Silicon Purification for Electronics
+
+Solar panels and microchips require pure silicon. Two methods:
+
+| Method | Description |
+| :--- | :--- |
+| Aluminothermy | 3SiO₂ + 4Al → 3Si + 2Al₂O₃ (local materials) |
+| Zone refining | Purification to 99.9999% (for electronics) |
+
+**Fiberglass:** Produced on a [separate line](silicate-fabric.qmd) from silicates directly (before MRE electrolysis).
+
+---
+
+## References
+
+- **NASA MRE Research** — Molten Regolith Electrolysis studies
+- **ESA In-Situ Resource Utilization** — Lunar regolith electrolysis research
+- **Electrochemistry of Molten Oxides** — Academic publications
+
+---
+
+## See Also
+
+- [Regolith Processing](overview.qmd) — process overview
+- [Fiberglass Line](silicate-fabric.qmd) — alternative silicate pathway
+- [Slag Distillation](distillation.qmd) — Al/Mg slag processing
+- [Iron Line (factory)](mre.qmd) — uses ferrosilicon

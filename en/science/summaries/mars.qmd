@@ -1,0 +1,303 @@
+---
+title: "Mars Terraforming"
+sidebar: science
+---
+
+# Calculations: Mars Terraforming
+
+> **TL;DR**
+>
+> - **Main problem:** Mars lost its magnetic field 4 billion years ago -> atmosphere is stripped by solar wind
+> - **Solution:** Orbital ring of superconducting magnets (100-1000 satellites, ~10^21-10^22 A·m²)
+> - **Shield power consumption:** ~100 GW continuous (comparable to Dyson Swarm output)
+> - **Sequence:** magnetic shield -> heating -> greenhouse effect -> liquid water -> biosphere
+> - **Conclusion:** Mars terraforming is a separate megaproject after completing Helios
+
+---
+
+## The Mars Problem
+
+| Parameter | Mars | Earth |
+|-----------|------|-------|
+| Magnetic field | **None** (lost 4 billion years ago) | 25-65 µT |
+| Atmosphere | 0.6% of Earth's | 100% |
+| Temperature | -60°C average | +15°C |
+| Water | Frozen | Liquid |
+
+**Without a magnetic field:**
+- Solar wind strips atmosphere (~100 g/s)
+- Surface is irradiated
+- Any created atmosphere will escape
+
+---
+
+## Why Heat the Planet?
+
+### Terraforming Logic
+
+```
+Step 1: Magnetic shield
+        ↓
+Atmosphere stops escaping
+        ↓
+Step 2: Heating with mirrors
+        ↓
+CO₂ in polar caps sublimates
+        ↓
+Step 3: Greenhouse effect
+        ↓
+Temperature rises -> more CO₂ sublimates
+        ↓
+Step 4: Ice melts
+        ↓
+Liquid water on surface
+        ↓
+Step 5: Biosphere
+        ↓
+Plants produce oxygen
+```
+
+### What Mars Has
+
+| Resource | Amount | Location |
+|----------|--------|----------|
+| CO₂ (frozen) | ~4 trillion tons | Polar caps |
+| Water ice | ~5 million km³ | Poles + subsurface |
+| CO₂ (bound) | ~100 trillion tons | In rocks |
+
+**Problem:** All of this is frozen at -60°C. Heating required.
+
+---
+
+## Magnetic Shield: The Serious Option
+
+### Why Not a Dipole at L1
+
+NASA concept (2017) - minimalist dipole at L1 point:
+- Power: ~150 MW
+- Problem: This is an "umbrella", not a full magnetosphere
+- Does not protect from cosmic rays
+- Does not create radiation belts
+
+### Full Magnetosphere
+
+**Option: Orbital ring of superconducting magnets**
+
+| Parameter | Value |
+|-----------|-------|
+| Orbit | Equatorial, 400-1000 km |
+| Number of satellites | 100-1000 |
+| Magnetic moment (total) | ~10^21-10^22 A·m² |
+| Surface field | ~10-50 µT |
+
+```
+Comparison:
+Earth: 8 × 10²² A·m² (at core) -> 25-65 µT at surface
+Our shield: orbital ring closer to surface
+
+Refined calculation:
+For 10 µT field at surface from 500 km orbit:
+m ≈ 3×10²¹ A·m² (30× higher than initial estimate)
+```
+
+> **Note:** Calculation requires refinement - geometry differs from point dipole for orbital ring. Order of magnitude: 10^21-10^22 A·m².
+
+### Shield Power Consumption
+
+```
+Each satellite:
+- Superconducting coil: current ~10⁶ A
+- Cryogenic cooling: ~10-100 MW
+- Mass: ~50-100 tons
+
+1000 satellites:
+- Total cooling power: 10-100 GW
+- Total mass: 50,000 - 100,000 tons
+```
+
+**Shield energy: ~100 GW** (continuous)
+
+---
+
+## Heating the Planet
+
+### Goal: Sublimate Polar Caps
+
+```
+CO₂ mass in caps: 4 × 10¹⁵ kg
+Heat of sublimation CO₂: 571 kJ/kg
+Energy for sublimation: 4 × 10¹⁵ × 571 × 10³ = 2.3 × 10²¹ J
+
+At 500 TW power:
+Time = 2.3 × 10²¹ / 5 × 10¹⁴ = 4.6 × 10⁶ seconds ≈ 53 days
+
+BUT: also need to heat ice from -120°C to -78°C (sublimation point)
+Add ~30% -> ~70 days
+```
+
+**Conclusion:** At 500 TW of directed heat - polar caps sublimate in ~2-3 months.
+
+### How to Direct Heat
+
+```
+Dyson Swarm mirrors redirect sunlight to Mars poles:
+- 500 TW = ~6 million mirrors (100×100 m each)
+- This is ~2.5% of the Swarm by year 3
+```
+
+---
+
+## Greenhouse Effect
+
+### After CO₂ Sublimation
+
+```
+Current Mars pressure: 0.6 kPa (0.6% of Earth's)
++ 4 trillion tons CO₂: +10-20 kPa
+New pressure: ~10-20 kPa (10-20% of Earth's)
+
+CO₂ greenhouse effect:
+Δt ≈ 5-10°C per doubling of concentration
+At 10-20 kPa CO₂: +30-50°C
+
+New average temperature: -60 + 40 = -20°C
+```
+
+**Still cold, but ice at equator will start melting in summer.**
+
+### Enhancing Greenhouse Effect
+
+For further heating:
+1. Continue heating with mirrors (+10°C)
+2. Add other greenhouse gases (SF₆, CF₄)
+3. Release bound CO₂ from rocks (heating)
+
+---
+
+## Terraforming Timeline
+
+*Aligned with prologue events (2075).*
+
+| Project Year | Calendar | Event | Result |
+|--------------|----------|-------|--------|
+| 0 | ~2030 | Landing on Mercury | - |
+| 3 | ~2033 | Swarm operational (9,500 TW) | Energy available |
+| 3-25 | 2033-2055 | Priority: Earth | Energy bridge, infrastructure |
+| 25-30 | ~2055-2060 | Shield construction | 100,000 t delivered |
+| 30 | ~2060 | Shield activation | Atmosphere stops escaping |
+| 30-35 | 2060-2065 | Polar heating | CO₂ sublimates |
+| 35-40 | 2065-2070 | Greenhouse acceleration | Temperature rises |
+| 40 | ~2070 | Mask instead of spacesuit | Pressure 10-15 kPa |
+| **42** | **2072** | **First lake** | Liquid water! |
+| 45 | 2075 | 200,000 colonists | Domed cities |
+| 70-100 | 2100-2130 | Comfortable climate | 0°C average |
+| 150-300 | 2180-2330 | Breathable atmosphere | 21% O₂ |
+
+---
+
+## Terraforming Energy Budget
+
+| Task | Power | % of Swarm | Duration |
+|------|-------|------------|----------|
+| Magnetic shield | 100 GW | 0.001% | Continuous |
+| Cap sublimation | 500 TW | 5% | 2-3 months |
+| Heat maintenance | 500-1000 TW | 5-10% | 100+ years |
+| Water electrolysis (O₂) | 100 TW | 1% | Continuous |
+| Industry | 50 TW | 0.5% | Continuous |
+
+**Total for Mars: ~15-17% of Swarm power**
+
+---
+
+## Comparison with Swarm
+
+| Parameter | Value |
+|-----------|-------|
+| Swarm power (year 3) | 9,500 TW |
+| Mars consumption | ~1,500 TW |
+| **Remainder for other projects** | **~8,000 TW** |
+
+```
+Mars consumes 15% of the Swarm.
+The remaining 85% available for:
+- Earth energy supply
+- Other planets (Venus, moons)
+- Interplanetary logistics
+- Space industry
+```
+
+---
+
+## Realistic Expectations
+
+### What's Possible in 100 Years
+
+| Parameter | Now | In 100 years |
+|-----------|-----|--------------|
+| Pressure | 0.6 kPa | 30-50 kPa |
+| Temperature | -60°C | 0 - +10°C |
+| Water | Ice | Lakes, rivers |
+| Atmosphere | 95% CO₂ | 95% CO₂, trace O₂ |
+| Life | None | Plants under domes |
+
+### What's Needed for "Breathable" Atmosphere
+
+```
+Needed: 21% O₂ at 100 kPa = 21 kPa oxygen
+Mass: ~5 × 10¹⁶ kg O₂
+
+Source: Water electrolysis
+2H₂O -> 2H₂ + O₂
+Energy: 286 kJ/mol O₂ = 9 MJ/kg O₂
+
+For 5 × 10¹⁶ kg:
+E = 5 × 10¹⁶ × 9 × 10⁶ = 4.5 × 10²³ J
+
+At 100 TW: time = 4.5 × 10²³ / 10¹⁴ = 4.5 × 10⁹ s ≈ 140 years
+```
+
+**Conclusion:** Even with a Dyson Swarm, creating a breathable atmosphere takes ~150-500 years.
+
+---
+
+## Summary
+
+| Stage | Project Year | Calendar | Requirements |
+|-------|--------------|----------|--------------|
+| Magnetic shield | 25-30 | 2055-2060 | 100 GW + 100,000 t |
+| CO₂ sublimation | 30-35 | 2060-2065 | 500 TW × years |
+| **First lake** | **42** | **2072** | Greenhouse effect |
+| Comfortable climate | 70-100 | 2100-2130 | 1000 TW continuous |
+| Breathable atmosphere | 150-300 | 2180-2330 | 100 TW for electrolysis |
+
+### Why Not Sooner?
+
+First 25 years (2033-2055) priority is **Earth**:
+- Building photoreceiver stations
+- Deploying Energy Bridge
+- Solving Earth's problems (hunger, energy, ecology)
+
+Mars is the second priority. Only after Earth stabilization does large-scale terraforming begin.
+
+**Key conclusion:** Mars terraforming is a centuries-long project, but the Dyson Swarm makes it *possible*. First lake in 2072 - 42 years after project start.
+
+---
+
+---
+
+## See Also
+
+- [Technologies and Sources](../reference/technology-readiness.qmd) - TRL of technologies, including magnetic shield references
+- [Why Mercury?](comparison.qmd) - location comparison
+- [Project in 5 Minutes](../executive-summary.qmd) - Swarm technologies
+- [Swarm Mirrors](../detailed/mirrors.qmd) - energetics and efficiency
+- [Roadmap](roadmap.qmd) - project timeline
+
+---
+
+## Sources
+
+- [NASA Planetary Science Vision 2050: Mars Magnetic Shield](https://www.hou.usra.edu/meetings/V2050/pdf/8250.pdf)
+- [Terraforming Mars - Wikipedia](https://en.wikipedia.org/wiki/Terraforming_of_Mars)
+- [Mars Polar Ice Caps - NASA](https://mars.nasa.gov/all-about-mars/facts/)
+- [Greenhouse Effect Calculations](https://en.wikipedia.org/wiki/Greenhouse_effect)
