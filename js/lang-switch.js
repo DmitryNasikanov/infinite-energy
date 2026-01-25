@@ -1,40 +1,45 @@
-// Конфигурация языков — легко добавить новые
-const LANGUAGES = {
-  ru: { code: 'ru', flag: '🇷🇺' },
-  en: { code: 'en', flag: '🇬🇧' },
-  // zh: { code: 'zh', flag: '🇨🇳' },
-  // es: { code: 'es', flag: '🇪🇸' },
-};
+// Language switcher - handles GitHub Pages subdirectory
+// NOTE: This script is now inlined in _quarto.yml for reliability
+// This file is kept for reference only
 
-// Определить текущий язык из URL
-function getCurrentLang() {
-  const match = window.location.pathname.match(/^\/(ru|en|zh|es)\//);
-  return match ? match[1] : 'ru'; // default: ru
+const LANGUAGES = { ru: '🇷🇺', en: '🇬🇧' };
+
+function getBasePath() {
+  // Extract base path before /ru/ or /en/
+  // E.g., "/infinite-energy/ru/science/" -> "/infinite-energy"
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
 }
 
-// Переключить на другой язык
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
 function switchLanguage(targetLang) {
+  const basePath = getBasePath();
   const path = window.location.pathname;
   const currentLang = getCurrentLang();
-
   if (currentLang === targetLang) return;
 
-  // Сохранить позицию скролла
   sessionStorage.setItem('scrollY', window.scrollY);
 
-  // Заменить язык в пути
-  const langPattern = new RegExp(`^/(${Object.keys(LANGUAGES).join('|')})/`);
-  let newPath = path.replace(langPattern, `/${targetLang}/`);
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
 
-  // Корневая страница
-  if (path === '/' || path === '/index.html') {
-    newPath = `/${targetLang}/`;
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
   }
 
   window.location.href = newPath;
 }
 
-// Восстановить позицию после загрузки
 window.addEventListener('load', function() {
   const savedY = sessionStorage.getItem('scrollY');
   if (savedY) {
@@ -43,22 +48,15 @@ window.addEventListener('load', function() {
   }
 });
 
-// Навесить обработчики на кнопки языков
 document.addEventListener('DOMContentLoaded', function() {
-  // Найти элементы меню по флагу в тексте
   document.querySelectorAll('.dropdown-item').forEach(el => {
     const text = el.textContent;
-
-    // Определить язык по флагу
-    for (const [langCode, langConfig] of Object.entries(LANGUAGES)) {
-      if (text.includes(langConfig.flag)) {
-        // Перехватить клик
+    for (const [langCode, flag] of Object.entries(LANGUAGES)) {
+      if (text.includes(flag)) {
         el.addEventListener('click', function(e) {
           e.preventDefault();
           switchLanguage(langCode);
         });
-
-        // Подсветить текущий язык
         if (langCode === getCurrentLang()) {
           el.classList.add('active');
         }
