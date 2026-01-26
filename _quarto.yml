@@ -140,8 +140,8 @@ format:
             }
           });
 
-          // Rewrite navbar links to match current language
-          document.querySelectorAll('.navbar a[href*="/ru/"]').forEach(link => {
+          // Rewrite ALL links (navbar + sidebar + content) to match current language
+          document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
             const href = link.getAttribute('href');
             if (href) {
               link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
