@@ -251,28 +251,6 @@ format:
             }
           });
 
-          // Save and restore sidebar expanded state
-          const SIDEBAR_STATE_KEY = 'sidebarExpandedSections';
-          const savedState = JSON.parse(sessionStorage.getItem(SIDEBAR_STATE_KEY) || '{}');
-          Object.entries(savedState).forEach(([id, isExpanded]) => {
-            const section = document.getElementById(id);
-            if (section && isExpanded) {
-              section.classList.add('show');
-              const toggle = document.querySelector(`[data-bs-target="#${id}"]`);
-              if (toggle) toggle.setAttribute('aria-expanded', 'true');
-            }
-          });
-          document.querySelectorAll('.sidebar-item-toggle').forEach(toggle => {
-            toggle.addEventListener('click', () => {
-              setTimeout(() => {
-                const state = {};
-                document.querySelectorAll('.sidebar-section').forEach(section => {
-                  state[section.id] = section.classList.contains('show');
-                });
-                sessionStorage.setItem(SIDEBAR_STATE_KEY, JSON.stringify(state));
-              }, 100);
-            });
-          });
         });
         </script>
 
