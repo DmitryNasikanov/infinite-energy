@@ -13,7 +13,7 @@ dataScript = FileAttachment("../data/db/data.json").json()
 
 // Материалы доступные на Луне
 moonMaterials = new Set(
-  dataScript.materialProduction
+  dataScript.planetMaterials
     .filter(mp => mp.planet_id === "moon")
     .map(mp => mp.material_id)
 )

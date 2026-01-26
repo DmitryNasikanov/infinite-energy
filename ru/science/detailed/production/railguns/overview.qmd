@@ -11,12 +11,7 @@ execute:
 // Загрузка данных из JSON
 dataScript = FileAttachment("../../../data/db/data.json").json()
 
-// Материалы доступные на Меркурии (две версии для совместимости)
-mercuryProduction = new Set(
-  dataScript.materialProduction
-    .filter(mp => mp.planet_id === "mercury")
-    .map(mp => mp.material_id)
-)
+// Материалы доступные на Меркурии
 
 mercuryMaterials = new Set(
   dataScript.planetMaterials
@@ -39,7 +34,7 @@ function getComponentMaterials(componentId) {
         symbol: material?.symbol,
         name: material?.name || um.material_id,
         fraction_pct: um.fraction_pct,
-        isLocal: mercuryProduction.has(um.material_id)
+        isLocal: mercuryMaterials.has(um.material_id)
       };
     });
 }
@@ -56,7 +51,7 @@ function unitWidget(unitId) {
     .filter(um => um.unit_id === unitId)
     .map(um => {
       const material = materialsById.get(um.material_id);
-      const isLocal = mercuryProduction.has(um.material_id);
+      const isLocal = mercuryMaterials.has(um.material_id);
       const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
       return { ...um, material, isLocal, massKg };
     });
