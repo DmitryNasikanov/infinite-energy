@@ -440,48 +440,34 @@ Centaur-M operates in two zones: inside the protective dome (70%) and outside (3
 
 #### Overall Complex Infrastructure Diagram
 
-```
-                              +-----------------------------------------+
-                              |         MASS DRIVER (3 km)              |
-                              |  [*] entrance   =================  exit -> |
-                              +-----------------------------------------+
-                                   |
-                              [*] Crab station
-                                   |
-                              +------------+
-                              |   BUFFER   | [*] Crab station
-                              | (1500 pcs) |
-                              +------------+
-                                   |
-          +-----------------------+------------------------+
-          |                       |                        |
-     [*] intermediate        [*] station              [*] intermediate
-          |                       |                        |
-          |                 +------------+                 |
-          |                 |            |                 |
-    [Quarry 1]              |   FACTORY  |           [Quarry 2]
-     *========+             |   (dome)   |              +========*
-    Mole-M   ||             |            |              ||   Mole-M
-    (cable)  || [*][*][*][*]|  +------+  | [*][*][*][*] ||   (cable)
-             ||    Crabs    |  |Centrs|  |    Crabs     ||
-             ||    entrance |  |(cable|  |    exit      ||
-             ||             |  | 50m) |  |              ||
-             ||             |  +------+  |              ||
-             +==============+============+==============+
-                            |  [*][*][*]  |
-                            |airlock+chrg |
-                            +------------+
-                                   |
-                            [*] station outside
-                                   |
-                            [Quarry 3]
-                               *======= Mole-M (cable)
+```{mermaid}
+%%| fig-width: 10
+flowchart TB
+    subgraph MD["MASS DRIVER (3 km)"]
+        MD_IN["⚡ entrance"] --> MD_TRACK["═══════════"] --> MD_OUT["exit →"]
+    end
 
-LEGEND:
-  [*]  = charging station (Crabs, Centaurs outside)
-  *=== = cable point + cable (Moles)
-  [*][*][*] = station cluster
+    MD_IN --> CS1["⚡ Crab station"]
+    CS1 --> BUF["BUFFER (1500 pcs)<br/>⚡ Crab station"]
+
+    BUF --> INT1["⚡ intermediate"]
+    BUF --> ST["⚡ station"]
+    BUF --> INT2["⚡ intermediate"]
+
+    INT1 --> Q1["Quarry 1<br/>Mole-M (cable)"]
+    INT2 --> Q2["Quarry 2<br/>Mole-M (cable)"]
+
+    ST --> FAC["FACTORY (dome)<br/>⚡⚡⚡⚡ Crabs entrance<br/>Centaurs (cable 50m)<br/>⚡⚡⚡⚡ Crabs exit<br/>⚡⚡⚡⚡⚡⚡ airlock+charging"]
+
+    FAC --> EXT["⚡ station outside"]
+    EXT --> Q3["Quarry 3<br/>Mole-M (cable)"]
+
+    style MD fill:#f0f0f0,stroke:#333
+    style FAC fill:#e8f4e8,stroke:#2a2
+    style BUF fill:#f4f4e8,stroke:#aa2
 ```
+
+**Legend:** ⚡ = charging station | Cable = power connection for Moles
 
 #### Infrastructure Summary per Complex
 
