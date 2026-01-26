@@ -218,10 +218,6 @@ format:
             }
           });
 
-          // DEBUG: Show detected language in console and page title
-          console.log('i18n: currentLang =', currentLang, 'path =', window.location.pathname);
-          document.title = '[' + currentLang.toUpperCase() + '] ' + document.title;
-
           // Translate navigation labels for EN pages
           if (currentLang === 'en') {
             // Translate navbar items
