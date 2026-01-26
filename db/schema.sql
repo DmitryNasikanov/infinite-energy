@@ -1,4 +1,4 @@
--- Схема базы данных проекта «Гелиос» v3
+-- Схема базы данных проекта «Гелиос» v4 (i18n)
 -- DuckDB DDL
 
 -- ============================================
@@ -6,7 +6,8 @@
 -- ============================================
 CREATE TABLE IF NOT EXISTS planets (
     id VARCHAR PRIMARY KEY,                    -- 'earth', 'mercury', 'moon', 'mars'
-    name VARCHAR NOT NULL,                     -- Название на русском
+    name_ru VARCHAR NOT NULL,                  -- Название на русском
+    name_en VARCHAR,                           -- Название на английском
     gravity_m_s2 DECIMAL,                      -- Ускорение свободного падения, м/с²
     solar_constant_w_m2 DECIMAL,               -- Солнечная постоянная на орбите, Вт/м²
     escape_velocity_km_s DECIMAL,              -- Вторая космическая скорость, км/с
@@ -20,9 +21,11 @@ CREATE TABLE IF NOT EXISTS planets (
 CREATE TABLE IF NOT EXISTS materials (
     id VARCHAR PRIMARY KEY,                    -- 'MAT-AL', 'MAT-FE-MN', ...
     parent_id VARCHAR,                         -- Иерархия: MAT-METAL → MAT-FE → MAT-FE-MN
-    name VARCHAR NOT NULL,                     -- Название
+    name_ru VARCHAR NOT NULL,                  -- Название на русском
+    name_en VARCHAR,                           -- Название на английском
     symbol VARCHAR,                            -- Химический символ: 'Al', 'Fe', 'O₂'
-    description TEXT,                          -- Назначение и применение
+    description_ru TEXT,                       -- Описание на русском
+    description_en TEXT,                       -- Описание на английском
     criticality VARCHAR,                       -- 'critical' / 'high' / 'medium' / 'low'
     sources TEXT                               -- JSON-массив ссылок на источники
 );
@@ -49,7 +52,8 @@ CREATE TABLE IF NOT EXISTS planet_materials (
 -- ============================================
 CREATE TABLE IF NOT EXISTS categories (
     id VARCHAR PRIMARY KEY,                    -- 'robots', 'facilities', ...
-    name VARCHAR NOT NULL                      -- Название на русском
+    name_ru VARCHAR NOT NULL,                  -- Название на русском
+    name_en VARCHAR                            -- Название на английском
 );
 
 -- ============================================
@@ -60,8 +64,10 @@ CREATE TABLE IF NOT EXISTS categories (
 CREATE TABLE IF NOT EXISTS units (
     id VARCHAR PRIMARY KEY,                    -- 'ROB-001', 'FAC-001', 'EQU-001', ...
     category_id VARCHAR REFERENCES categories(id),
-    name VARCHAR NOT NULL,                     -- Название
-    description TEXT,                          -- Описание
+    name_ru VARCHAR NOT NULL,                  -- Название на русском
+    name_en VARCHAR,                           -- Название на английском
+    description_ru TEXT,                       -- Описание на русском
+    description_en TEXT,                       -- Описание на английском
     mass_kg DECIMAL,                           -- Масса, кг
     power_kw DECIMAL,                          -- Потребляемая мощность, кВт
     parent_id VARCHAR,                         -- Родительская сборка (вложенность)
@@ -103,8 +109,8 @@ CREATE TABLE IF NOT EXISTS unit_components (
 
 -- Вычисление массы материала для единицы:
 -- SELECT
---     u.name as unit,
---     m.name as material,
+--     u.name_ru as unit,
+--     m.name_ru as material,
 --     um.fraction_pct,
 --     u.mass_kg * um.fraction_pct / 100 as material_mass_kg
 -- FROM unit_materials um
@@ -113,9 +119,9 @@ CREATE TABLE IF NOT EXISTS unit_components (
 
 -- Проверка доступности материалов на планете производства:
 -- SELECT
---     u.name as unit,
+--     u.name_ru as unit,
 --     u.production_planet_id,
---     m.name as material,
+--     m.name_ru as material,
 --     CASE WHEN plm.planet_id IS NOT NULL THEN 'OK' ELSE 'MISSING!' END as availability
 -- FROM units u
 -- JOIN unit_materials um ON um.unit_id = u.id

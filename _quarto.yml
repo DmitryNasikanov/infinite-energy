@@ -112,6 +112,7 @@ format:
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+          // Handle dropdown items for language switching
           document.querySelectorAll('.dropdown-item').forEach(el => {
             const text = el.textContent;
             for (const [langCode, flag] of Object.entries(LANGUAGES)) {
@@ -120,6 +121,14 @@ format:
                 if (langCode === getCurrentLang()) el.classList.add('active');
                 break;
               }
+            }
+          });
+
+          // Update navbar language indicator from 🌐 to current language flag
+          const currentFlag = LANGUAGES[getCurrentLang()] || '🌐';
+          document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+            if (link.textContent.trim() === '🌐') {
+              link.textContent = currentFlag;
             }
           });
         });

@@ -2,10 +2,8 @@
 """
 Инициализация базы данных номенклатуры проекта «Гелиос»
 
-Схема v3:
-- planets: +has_atmosphere, +references (JSON)
-- entities → units: +is_assembly, +production_planet_id
-- entity_materials → unit_materials: quantity_kg → fraction_pct
+Схема v4 (i18n):
+- Все name/description поля: name_ru/name_en, description_ru/description_en
 """
 
 import json
@@ -25,25 +23,25 @@ def create_tables(con):
 def seed_planets(con):
     """Планеты солнечной системы"""
     planets = [
-        # id, name, gravity, solar_constant, escape_velocity, has_atmosphere, sources (JSON)
-        ("earth", "Земля", 9.81, 1361, 11.2, True,
+        # id, name_ru, name_en, gravity, solar_constant, escape_velocity, has_atmosphere, sources
+        ("earth", "Земля", "Earth", 9.81, 1361, 11.2, True,
          json.dumps(["https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html"])),
 
-        ("mercury", "Меркурий", 3.7, 10343, 4.25, False,
+        ("mercury", "Меркурий", "Mercury", 3.7, 10343, 4.25, False,
          json.dumps([
              "https://messenger.jhuapl.edu/",
              "Nittler et al. 2011 - Surface composition",
              "Peplowski et al. 2015 - Elemental abundances"
          ])),
 
-        ("moon", "Луна", 1.62, 1361, 2.38, False,
+        ("moon", "Луна", "Moon", 1.62, 1361, 2.38, False,
          json.dumps([
              "https://www.lpi.usra.edu/lunar/samples/",
              "Taylor 1982 - Planetary Science",
              "LROC - Lunar Reconnaissance Orbiter Camera"
          ])),
 
-        ("mars", "Марс", 3.71, 589, 5.03, True,
+        ("mars", "Марс", "Mars", 3.71, 589, 5.03, True,
          json.dumps([
              "https://mars.nasa.gov/",
              "Rieder et al. 2004 - Mars Pathfinder soil composition",
@@ -52,8 +50,8 @@ def seed_planets(con):
     ]
     con.executemany(
         """INSERT OR REPLACE INTO planets
-           (id, name, gravity_m_s2, solar_constant_w_m2, escape_velocity_km_s, has_atmosphere, sources)
-           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+           (id, name_ru, name_en, gravity_m_s2, solar_constant_w_m2, escape_velocity_km_s, has_atmosphere, sources)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
         planets
     )
 
@@ -61,14 +59,15 @@ def seed_planets(con):
 def seed_categories(con):
     """Категории единиц"""
     categories = [
-        ("robots", "Роботы"),
-        ("facilities", "Объекты/Заводы"),
-        ("equipment", "Оборудование"),
-        ("products", "Продукция"),
-        ("transport", "Транспорт/Контейнеры"),
+        # id, name_ru, name_en
+        ("robots", "Роботы", "Robots"),
+        ("facilities", "Объекты/Заводы", "Facilities"),
+        ("equipment", "Оборудование", "Equipment"),
+        ("products", "Продукция", "Products"),
+        ("transport", "Транспорт/Контейнеры", "Transport"),
     ]
     con.executemany(
-        "INSERT OR REPLACE INTO categories (id, name) VALUES (?, ?)",
+        "INSERT OR REPLACE INTO categories (id, name_ru, name_en) VALUES (?, ?, ?)",
         categories
     )
 
@@ -76,71 +75,173 @@ def seed_categories(con):
 def seed_materials(con):
     """Материалы с иерархией и источниками"""
     materials = [
-        # id, parent_id, name, symbol, description, criticality, sources (JSON)
+        # id, parent_id, name_ru, name_en, symbol, description_ru, description_en, criticality, sources
 
         # Корневые категории
-        ("MAT-METAL", None, "Металлы", None, "Металлы и сплавы", None, None),
-        ("MAT-NONMETAL", None, "Неметаллы", None, "Неметаллические элементы и соединения", None, None),
-        ("MAT-COMPOUND", None, "Соединения", None, "Сплавы и химические соединения", None, None),
+        ("MAT-METAL", None, "Металлы", "Metals", None,
+         "Металлы и сплавы", "Metals and alloys", None, None),
+        ("MAT-NONMETAL", None, "Неметаллы", "Non-metals", None,
+         "Неметаллические элементы и соединения", "Non-metallic elements and compounds", None, None),
+        ("MAT-COMPOUND", None, "Соединения", "Compounds", None,
+         "Сплавы и химические соединения", "Alloys and chemical compounds", None, None),
 
         # Металлы
-        ("MAT-AL", "MAT-METAL", "Алюминий", "Al", "Зеркала, корпуса, радиаторы, фольга для куполов", "critical",
+        ("MAT-AL", "MAT-METAL", "Алюминий", "Aluminum", "Al",
+         "Зеркала, корпуса, радиаторы, фольга для куполов",
+         "Mirrors, housings, radiators, foil for domes",
+         "critical",
          json.dumps(["CHALCO — фольга 4.5 мкм", "Novelis — промышленная фольга", "ALCOA — aerospace aluminium"])),
-        ("MAT-FE", "MAT-METAL", "Железо", "Fe", "Рамы, шасси, конструкции", "critical",
+
+        ("MAT-FE", "MAT-METAL", "Железо", "Iron", "Fe",
+         "Рамы, шасси, конструкции",
+         "Frames, chassis, structures",
+         "critical",
          json.dumps(["ArcelorMittal — конструкционная сталь", "POSCO — автоматизированное производство"])),
-        ("MAT-FE-MN", "MAT-FE", "Сталь Fe-6%Mn", None, "Прочная сталь без углерода, легированная марганцем", "high",
+
+        ("MAT-FE-MN", "MAT-FE", "Сталь Fe-6%Mn", "Fe-6%Mn Steel", None,
+         "Прочная сталь без углерода, легированная марганцем",
+         "Strong carbon-free steel alloyed with manganese",
+         "high",
          json.dumps(["ASTM A128 — Hadfield steel standard", "Metso Outotec — износостойкие стали"])),
-        ("MAT-MG", "MAT-METAL", "Магний", "Mg", "Лёгкие сплавы, пиротехника", "high",
+
+        ("MAT-MG", "MAT-METAL", "Магний", "Magnesium", "Mg",
+         "Лёгкие сплавы, пиротехника",
+         "Light alloys, pyrotechnics",
+         "high",
          json.dumps(["US Magnesium — электролизное производство", "Magontec — сплавы"])),
-        ("MAT-TI", "MAT-METAL", "Титан", "Ti", "Электрохромика зеркал, прочные узлы", "medium",
+
+        ("MAT-TI", "MAT-METAL", "Титан", "Titanium", "Ti",
+         "Электрохромика зеркал, прочные узлы",
+         "Electrochromic mirrors, strong joints",
+         "medium",
          json.dumps(["VSMPO-AVISMA — титановые сплавы", "ATI — aerospace titanium"])),
-        ("MAT-NA", "MAT-METAL", "Натрий", "Na", "Батареи NaS (анод)", "high",
+
+        ("MAT-NA", "MAT-METAL", "Натрий", "Sodium", "Na",
+         "Батареи NaS (анод)",
+         "NaS batteries (anode)",
+         "high",
          json.dumps(["Chemours — промышленный натрий", "NGK Insulators — NaS технология"])),
-        ("MAT-MN", "MAT-METAL", "Марганец", "Mn", "Легирование стали Fe-6%Mn", "medium",
+
+        ("MAT-MN", "MAT-METAL", "Марганец", "Manganese", "Mn",
+         "Легирование стали Fe-6%Mn",
+         "Alloying of Fe-6%Mn steel",
+         "medium",
          json.dumps(["South32 — добыча марганца", "ERAMET — ферросплавы"])),
-        ("MAT-IR", "MAT-METAL", "Иридий", "Ir", "Аноды MRE-ячеек (устойчивость к расплаву)", "medium",
+
+        ("MAT-IR", "MAT-METAL", "Иридий", "Iridium", "Ir",
+         "Аноды MRE-ячеек (устойчивость к расплаву)",
+         "MRE cell anodes (melt resistance)",
+         "medium",
          json.dumps(["Johnson Matthey — платиновые металлы", "Heraeus — иридиевые аноды"])),
-        ("MAT-PT", "MAT-METAL", "Платина", "Pt", "Фильеры для волочения стекловолокна", "medium",
+
+        ("MAT-PT", "MAT-METAL", "Платина", "Platinum", "Pt",
+         "Фильеры для волочения стекловолокна",
+         "Dies for fiberglass drawing",
+         "medium",
          json.dumps(["Anglo American Platinum", "Impala Platinum"])),
-        ("MAT-W", "MAT-METAL", "Вольфрам", "W", "Фрезы CNC, фильеры, инструмент", "medium",
+
+        ("MAT-W", "MAT-METAL", "Вольфрам", "Tungsten", "W",
+         "Фрезы CNC, фильеры, инструмент",
+         "CNC cutters, dies, tooling",
+         "medium",
          json.dumps(["Sandvik — вольфрамовые фрезы", "Kennametal — твёрдые сплавы W-Co"])),
-        ("MAT-CU", "MAT-METAL", "Медь", "Cu", "Обмотки моторов Gen-1, кристаллизаторы МНЛЗ", "high",
+
+        ("MAT-CU", "MAT-METAL", "Медь", "Copper", "Cu",
+         "Обмотки моторов Gen-1, кристаллизаторы МНЛЗ",
+         "Gen-1 motor windings, CCM crystallizers",
+         "high",
          json.dumps(["Codelco — электролитическая медь", "Freeport-McMoRan"])),
 
         # Неметаллы
-        ("MAT-O2", "MAT-NONMETAL", "Кислород", "O₂", "Главный продукт MRE, побочный продукт", "critical",
+        ("MAT-O2", "MAT-NONMETAL", "Кислород", "Oxygen", "O₂",
+         "Главный продукт MRE, побочный продукт",
+         "Main MRE product, byproduct",
+         "critical",
          json.dumps(["Linde — промышленный кислород", "Air Liquide — криогенное разделение"])),
-        ("MAT-SI", "MAT-NONMETAL", "Кремний", "Si", "Стекловолокно, электроника, солнечные панели", "critical",
+
+        ("MAT-SI", "MAT-NONMETAL", "Кремний", "Silicon", "Si",
+         "Стекловолокно, электроника, солнечные панели",
+         "Fiberglass, electronics, solar panels",
+         "critical",
          json.dumps(["Wacker Chemie — поликремний", "LONGi — солнечный Si", "Owens Corning — стекловолокно"])),
-        ("MAT-S", "MAT-NONMETAL", "Сера", "S", "Батареи NaS (катод)", "high",
+
+        ("MAT-S", "MAT-NONMETAL", "Сера", "Sulfur", "S",
+         "Батареи NaS (катод)",
+         "NaS batteries (cathode)",
+         "high",
          json.dumps(["BASF — промышленная сера", "Claus process — побочный продукт"])),
-        ("MAT-C", "MAT-NONMETAL", "Углерод/Графит", "C", "Композиты, восстановитель Ti, термозащита", "high",
+
+        ("MAT-C", "MAT-NONMETAL", "Углерод/Графит", "Carbon/Graphite", "C",
+         "Композиты, восстановитель Ti, термозащита",
+         "Composites, Ti reducer, thermal protection",
+         "high",
          json.dumps(["SGL Carbon — графитовые материалы", "Toray — углеродное волокно"])),
-        ("MAT-K", "MAT-NONMETAL", "Калий", "K", "Удобрения, химические процессы", "low",
+
+        ("MAT-K", "MAT-NONMETAL", "Калий", "Potassium", "K",
+         "Удобрения, химические процессы",
+         "Fertilizers, chemical processes",
+         "low",
          json.dumps(["Nutrien — добыча калия", "K+S — хлорид калия"])),
 
         # Соединения и сплавы
-        ("MAT-NAK", "MAT-COMPOUND", "Натрий-калий", "NaK", "Теплоноситель (-12°C...+785°C)", "high",
+        ("MAT-NAK", "MAT-COMPOUND", "Натрий-калий", "Sodium-Potassium", "NaK",
+         "Теплоноситель (-12°C...+785°C)",
+         "Heat transfer fluid (-12°C...+785°C)",
+         "high",
          json.dumps(["DOE — Sodium Technology Handbook", "ESA Bepi-Colombo — NaK cooling"])),
-        ("MAT-MOS2", "MAT-COMPOUND", "Дисульфид молибдена", "MoS₂", "Смазка для вакуума", "medium",
+
+        ("MAT-MOS2", "MAT-COMPOUND", "Дисульфид молибдена", "Molybdenum Disulfide", "MoS₂",
+         "Смазка для вакуума",
+         "Vacuum lubricant",
+         "medium",
          json.dumps(["Dow Corning — Molykote", "NASA — vacuum lubricants"])),
-        ("MAT-GAAS", "MAT-COMPOUND", "Арсенид галлия", "GaAs", "Высокоэффективные фотоячейки (импорт)", "high",
+
+        ("MAT-GAAS", "MAT-COMPOUND", "Арсенид галлия", "Gallium Arsenide", "GaAs",
+         "Высокоэффективные фотоячейки (импорт)",
+         "High-efficiency photocells (import)",
+         "high",
          json.dumps(["Spectrolab — космические GaAs ячейки", "SolAero — multi-junction cells"])),
-        ("MAT-AL2O3", "MAT-COMPOUND", "Оксид алюминия", "Al₂O₃", "Керамика, бета-глинозём для NaS", "medium",
+
+        ("MAT-AL2O3", "MAT-COMPOUND", "Оксид алюминия", "Aluminum Oxide", "Al₂O₃",
+         "Керамика, бета-глинозём для NaS",
+         "Ceramics, beta-alumina for NaS",
+         "medium",
          json.dumps(["NGK Insulators — beta-alumina для NaS", "CoorsTek — техническая керамика"])),
-        ("MAT-MGO", "MAT-COMPOUND", "Оксид магния", "MgO", "Тугоплавкая керамика для тиглей и футеровки (Tпл=2852°C). Местное производство: Mg из реголита (8%, вакуумная дистилляция шлака MRE), окисление → MgO", "medium",
+
+        ("MAT-MGO", "MAT-COMPOUND", "Оксид магния", "Magnesium Oxide", "MgO",
+         "Тугоплавкая керамика для тиглей и футеровки (Tпл=2852°C). Местное производство: Mg из реголита (8%, вакуумная дистилляция шлака MRE), окисление → MgO",
+         "Refractory ceramics for crucibles and lining (Tm=2852°C). Local production: Mg from regolith (8%, vacuum distillation of MRE slag), oxidation → MgO",
+         "medium",
          json.dumps(["Magnesium oxide refractory", "Mercury regolith processing"])),
-        ("MAT-TIO2", "MAT-COMPOUND", "Диоксид титана", "TiO₂", "Электрохромика зеркал", "medium",
+
+        ("MAT-TIO2", "MAT-COMPOUND", "Диоксид титана", "Titanium Dioxide", "TiO₂",
+         "Электрохромика зеркал",
+         "Mirror electrochromics",
+         "medium",
          json.dumps(["IKAROS (JAXA 2010) — TiO₂ электрохромика в космосе", "Gentex — автомобильная электрохромика"])),
-        ("MAT-LI", "MAT-METAL", "Литий", "Li", "Li-ion батареи Gen-1 (импорт)", "high",
+
+        ("MAT-LI", "MAT-METAL", "Литий", "Lithium", "Li",
+         "Li-ion батареи Gen-1 (импорт)",
+         "Gen-1 Li-ion batteries (import)",
+         "high",
          json.dumps(["Albemarle — литиевые соединения", "CATL — Li-ion батареи", "Panasonic — Tesla cells"])),
-        ("MAT-KEVLAR", "MAT-NONMETAL", "Кевлар", None, "Армирование конструкций Gen-1 (импорт)", "medium",
+
+        ("MAT-KEVLAR", "MAT-NONMETAL", "Кевлар", "Kevlar", None,
+         "Армирование конструкций Gen-1 (импорт)",
+         "Gen-1 structure reinforcement (import)",
+         "medium",
          json.dumps(["DuPont — Kevlar aramid fiber", "Teijin — Twaron"])),
-        ("MAT-CFRP", "MAT-COMPOUND", "Углепластик", "CFRP", "Корпуса Gen-1 (импорт)", "medium",
+
+        ("MAT-CFRP", "MAT-COMPOUND", "Углепластик", "CFRP", "CFRP",
+         "Корпуса Gen-1 (импорт)",
+         "Gen-1 housings (import)",
+         "medium",
          json.dumps(["Toray — T700/T800 carbon fiber", "Hexcel — aerospace CFRP", "SpaceX Dragon — CFRP capsule"])),
     ]
     con.executemany(
-        "INSERT OR REPLACE INTO materials (id, parent_id, name, symbol, description, criticality, sources) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        """INSERT OR REPLACE INTO materials
+           (id, parent_id, name_ru, name_en, symbol, description_ru, description_en, criticality, sources)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         materials
     )
 
@@ -202,194 +303,423 @@ def seed_planet_materials(con):
 
 
 def seed_units(con):
-    """Единицы проекта (бывш. entities) с источниками"""
+    """Единицы проекта с i18n"""
     units = [
-        # id, category_id, name, description, mass_kg, power_kw, parent_id, is_assembly, production_planet_id, sources
+        # id, category_id, name_ru, name_en, description_ru, description_en, mass_kg, power_kw, parent_id, is_assembly, production_planet_id, sources
 
         # =====================================
         # РОБОТЫ GEN-1 (импорт с Земли)
         # =====================================
-        ("ROB-011", "robots", "Паук-З (Spider-Z)", "Разведчик, альпинист, 4 ноги, камеры", 82, 3, None, True, "earth",
+        ("ROB-011", "robots", "Паук-З (Spider-Z)", "Spider-Z",
+         "Разведчик, альпинист, 4 ноги, камеры",
+         "Scout, climber, 4 legs, cameras",
+         82, 3, None, True, "earth",
          json.dumps(["Boston Dynamics Spot — 4-leg robot", "NASA LEMUR — climbing robot"])),
-        ("ROB-012", "robots", "Краб-З (Crab-Z)", "Тяжёлый грузчик, 6 ног, 2 т груз", 950, 25, None, True, "earth",
+
+        ("ROB-012", "robots", "Краб-З (Crab-Z)", "Crab-Z",
+         "Тяжёлый грузчик, 6 ног, 2 т груз",
+         "Heavy loader, 6 legs, 2t payload",
+         950, 25, None, True, "earth",
          json.dumps(["ANYbotics ANYmal — промышленный 4-leg", "Agility Robotics Digit — logistics robot"])),
-        ("ROB-013", "robots", "Кентавр-З (Centaur-Z)", "Техник-манипулятор, 4 ноги + 2 руки", 150, 12, None, True, "earth",
+
+        ("ROB-013", "robots", "Кентавр-З (Centaur-Z)", "Centaur-Z",
+         "Техник-манипулятор, 4 ноги + 2 руки",
+         "Technician-manipulator, 4 legs + 2 arms",
+         150, 12, None, True, "earth",
          json.dumps(["NASA Robonaut — humanoid manipulator", "ABB YuMi — collaborative robot"])),
-        ("ROB-014", "robots", "Крот-З (Mole-Z)", "Экскаватор, гусеницы, ковш", 800, 30, None, True, "earth",
+
+        ("ROB-014", "robots", "Крот-З (Mole-Z)", "Mole-Z",
+         "Экскаватор, гусеницы, ковш",
+         "Excavator, tracks, bucket",
+         800, 30, None, True, "earth",
          json.dumps(["Caterpillar 320F — compact excavator", "Komatsu PC200 — hydraulic excavator"])),
-        ("ROB-015", "robots", "Манипулятор Ф-А1", "Стационарный манипулятор первого завода", 250, 8, "FAC-001", True, "earth",
+
+        ("ROB-015", "robots", "Манипулятор Ф-А1", "F-A1 Manipulator",
+         "Стационарный манипулятор первого завода",
+         "Stationary manipulator of first factory",
+         250, 8, "FAC-001", True, "earth",
          json.dumps(["FANUC M-2000iA — heavy payload robot", "KUKA KR 1000 titan — industrial manipulator"])),
 
         # =====================================
         # РОБОТЫ GEN-2 (местное производство)
         # =====================================
-        ("ROB-021", "robots", "Краб-М (Crab-M)", "Логист Gen-2, 6 ног, 5 т груз, NaS батарея", 1000, 30, None, True, "mercury",
+        ("ROB-021", "robots", "Краб-М (Crab-M)", "Crab-M",
+         "Логист Gen-2, 6 ног, 5 т груз, NaS батарея",
+         "Gen-2 logistics, 6 legs, 5t payload, NaS battery",
+         1000, 30, None, True, "mercury",
          json.dumps(["Caterpillar Command — autonomous mining", "Rio Tinto autonomous trucks"])),
-        ("ROB-022", "robots", "Кентавр-М (Centaur-M)", "Сборщик Gen-2, 4 ноги + 2 руки, лёгкий", 370, 12, None, True, "mercury",
+
+        ("ROB-022", "robots", "Кентавр-М (Centaur-M)", "Centaur-M",
+         "Сборщик Gen-2, 4 ноги + 2 руки, лёгкий",
+         "Gen-2 assembler, 4 legs + 2 arms, lightweight",
+         370, 12, None, True, "mercury",
          json.dumps(["NASA Mars rovers — autonomous operation", "Boston Dynamics Stretch — warehouse robot"])),
-        ("ROB-023", "robots", "Крот-М (Mole-M)", "Добытчик Gen-2, гусеницы, 600 т/день", 1500, 40, None, True, "mercury",
+
+        ("ROB-023", "robots", "Крот-М (Mole-M)", "Mole-M",
+         "Добытчик Gen-2, гусеницы, 600 т/день",
+         "Gen-2 miner, tracks, 600t/day",
+         1500, 40, None, True, "mercury",
          json.dumps(["Komatsu autonomous haul trucks", "Sandvik AutoMine — underground mining"])),
 
         # =====================================
         # ЗАВОДЫ
         # =====================================
-        ("FAC-001", "facilities", "Точка Ноль", "Основной завод на северном полюсе Меркурия, 1500 м²", None, 55000, None, True, "mercury",
+        ("FAC-001", "facilities", "Точка Ноль", "Ground Zero Factory",
+         "Основной завод на северном полюсе Меркурия, 1500 м²",
+         "Main factory at Mercury's north pole, 1500 m²",
+         None, 55000, None, True, "mercury",
          json.dumps(["SpaceX Starbase — automated factory concept", "Tesla Gigafactory — robotic manufacturing"])),
-        ("FAC-002", "facilities", "Комплекс Карбон-Север", "Мини-завод по добыче графита (LRM, полярный кратер)", None, 5000, None, True, "mercury",
+
+        ("FAC-002", "facilities", "Комплекс Карбон-Север", "Carbon-North Complex",
+         "Мини-завод по добыче графита (LRM, полярный кратер)",
+         "Mini graphite mining plant (LRM, polar crater)",
+         None, 5000, None, True, "mercury",
          json.dumps(["MESSENGER — Mercury LRM deposits data", "Apollo 17 — lunar graphite studies"])),
-        ("FAC-003", "facilities", "Комплекс Карбон-Юг", "Мини-завод по добыче графита (LRM, полярный кратер)", None, 5000, None, True, "mercury",
+
+        ("FAC-003", "facilities", "Комплекс Карбон-Юг", "Carbon-South Complex",
+         "Мини-завод по добыче графита (LRM, полярный кратер)",
+         "Mini graphite mining plant (LRM, polar crater)",
+         None, 5000, None, True, "mercury",
          json.dumps(["MESSENGER — Mercury LRM deposits data", "Apollo 17 — lunar graphite studies"])),
-        ("FAC-004", "facilities", "Гелио-башня", "Концентратор солнечной энергии на вершине кратера, 10 МВт", 50000, 0, None, True, "mercury",
+
+        ("FAC-004", "facilities", "Гелио-башня", "Helio-Tower",
+         "Концентратор солнечной энергии на вершине кратера, 10 МВт",
+         "Solar energy concentrator at crater rim, 10 MW",
+         50000, 0, None, True, "mercury",
          json.dumps(["Odeillo Solar Furnace (France) — 1 MW", "DLR Solar Tower Jülich — concentrated solar"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ДОБЫЧА И ПОДГОТОВКА
         # =====================================
-        ("EQU-021", "equipment", "Виброгрохот", "Грохочение реголита, разделение фракций", 500, 10, "FAC-001", True, "mercury",
+        ("EQU-021", "equipment", "Виброгрохот", "Vibrating Screen",
+         "Грохочение реголита, разделение фракций",
+         "Regolith screening, fraction separation",
+         500, 10, "FAC-001", True, "mercury",
          json.dumps(["Metso Outotec — vibrating screens", "Sandvik — mining equipment"])),
-        ("EQU-004", "equipment", "Щековая дробилка", "Дробление реголита <10мм", 3000, 50, "FAC-001", True, "mercury",
+
+        ("EQU-004", "equipment", "Щековая дробилка", "Jaw Crusher",
+         "Дробление реголита <10мм",
+         "Regolith crushing <10mm",
+         3000, 50, "FAC-001", True, "mercury",
          json.dumps(["Metso Lokotrack — mobile crusher", "Sandvik QJ341 — jaw crusher"])),
-        ("EQU-005", "equipment", "Магнитный сепаратор", "Разделение магнитной/немагнитной фракций", 500, 20, "FAC-001", True, "mercury",
+
+        ("EQU-005", "equipment", "Магнитный сепаратор", "Magnetic Separator",
+         "Разделение магнитной/немагнитной фракций",
+         "Magnetic/non-magnetic fraction separation",
+         500, 20, "FAC-001", True, "mercury",
          json.dumps(["Eriez — magnetic separation", "STEINERT — sensor-based sorting"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ПЛАВКА И ЭЛЕКТРОЛИЗ
         # =====================================
-        ("EQU-003", "equipment", "Солнечная печь", "Концентратор для плавки реголита 1500°C", 2000, 0, "FAC-001", True, "mercury",
+        ("EQU-003", "equipment", "Солнечная печь", "Solar Furnace",
+         "Концентратор для плавки реголита 1500°C",
+         "Concentrator for melting regolith at 1500°C",
+         2000, 0, "FAC-001", True, "mercury",
          json.dumps(["Odeillo (France) — 1 MW solar furnace", "DLR Cologne — high-flux solar furnace"])),
-        ("EQU-002", "equipment", "MRE-ячейка", "Электролиз расплава реголита (Al, Fe, Si, O₂)", 5000, 500, "FAC-001", True, "mercury",
+
+        ("EQU-002", "equipment", "MRE-ячейка", "MRE Cell",
+         "Электролиз расплава реголита (Al, Fe, Si, O₂)",
+         "Molten regolith electrolysis (Al, Fe, Si, O₂)",
+         5000, 500, "FAC-001", True, "mercury",
          json.dumps(["FFC Cambridge Process — molten salt electrolysis", "Metalysis — solid-state electrolysis"])),
-        ("EQU-022", "equipment", "МГД-насос", "Перекачка расплава через магнитное поле", 200, 50, "FAC-001", True, "mercury",
+
+        ("EQU-022", "equipment", "МГД-насос", "MHD Pump",
+         "Перекачка расплава через магнитное поле",
+         "Pumping melt via magnetic field",
+         200, 50, "FAC-001", True, "mercury",
          json.dumps(["ABB — electromagnetic pumps for metals", "Precimeter — MHD pumps"])),
-        ("EQU-023", "equipment", "Промковш (тандиш)", "Разделение Al/Fe расплавов, 2 стопора", 1000, 0, "FAC-001", True, "mercury",
+
+        ("EQU-023", "equipment", "Промковш (тандиш)", "Tundish",
+         "Разделение Al/Fe расплавов, 2 стопора",
+         "Al/Fe melt separation, 2 stoppers",
+         1000, 0, "FAC-001", True, "mercury",
          json.dumps(["SMS Group — tundish technology", "Vesuvius — refractory systems"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ДИСТИЛЛЯЦИЯ ШЛАКА
         # =====================================
-        ("EQU-031", "equipment", "Конденсатор калия", "Фракционная конденсация K при 759°C", 500, 10, "FAC-001", True, "mercury",
+        ("EQU-031", "equipment", "Конденсатор калия", "Potassium Condenser",
+         "Фракционная конденсация K при 759°C",
+         "Fractional condensation of K at 759°C",
+         500, 10, "FAC-001", True, "mercury",
          json.dumps(["Fractional distillation of metals", "Vacuum metallurgy"])),
-        ("EQU-032", "equipment", "Конденсатор натрия", "Фракционная конденсация Na при 883°C", 800, 15, "FAC-001", True, "mercury",
+
+        ("EQU-032", "equipment", "Конденсатор натрия", "Sodium Condenser",
+         "Фракционная конденсация Na при 883°C",
+         "Fractional condensation of Na at 883°C",
+         800, 15, "FAC-001", True, "mercury",
          json.dumps(["Sodium production by Downs process", "Vacuum distillation"])),
-        ("EQU-033", "equipment", "Конденсатор магния", "Фракционная конденсация Mg при 1091°C", 1500, 25, "FAC-001", True, "mercury",
+
+        ("EQU-033", "equipment", "Конденсатор магния", "Magnesium Condenser",
+         "Фракционная конденсация Mg при 1091°C",
+         "Fractional condensation of Mg at 1091°C",
+         1500, 25, "FAC-001", True, "mercury",
          json.dumps(["Pidgeon process — magnesium distillation", "Vacuum metallurgy of Mg"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ЛИТЬЁ
         # =====================================
-        ("EQU-006", "equipment", "МНЛЗ-Al", "Машина непрерывного литья алюминия, 100×100 мм", 8000, 100, "FAC-001", True, "mercury",
+        ("EQU-006", "equipment", "МНЛЗ-Al", "CCM-Al",
+         "Машина непрерывного литья алюминия, 100×100 мм",
+         "Continuous casting machine for aluminum, 100×100 mm",
+         8000, 100, "FAC-001", True, "mercury",
          json.dumps(["SMS Group — aluminum casters", "Danieli — continuous casting"])),
-        ("EQU-007", "equipment", "МНЛЗ-Fe", "Машина непрерывного литья стали, 100×100 мм", 10000, 150, "FAC-001", True, "mercury",
+
+        ("EQU-007", "equipment", "МНЛЗ-Fe", "CCM-Fe",
+         "Машина непрерывного литья стали, 100×100 мм",
+         "Continuous casting machine for steel, 100×100 mm",
+         10000, 150, "FAC-001", True, "mercury",
          json.dumps(["Danieli — steel continuous casters", "Primetals — billet casters"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ФОРМОВКА
         # =====================================
-        ("EQU-024", "equipment", "Индукционная печь", "Нагрев Fe заготовок до 1100°C в N₂", 3000, 100, "FAC-001", True, "mercury",
+        ("EQU-024", "equipment", "Индукционная печь", "Induction Furnace",
+         "Нагрев Fe заготовок до 1100°C в N₂",
+         "Heating Fe billets to 1100°C in N₂",
+         3000, 100, "FAC-001", True, "mercury",
          json.dumps(["Inductotherm — induction heating", "ABP Induction — steel reheating"])),
-        ("EQU-008", "equipment", "Прокатный стан", "6-клетьевой, вход 100×100 → выход Ø20 мм", 15000, 200, "FAC-001", True, "mercury",
+
+        ("EQU-008", "equipment", "Прокатный стан", "Rolling Mill",
+         "6-клетьевой, вход 100×100 → выход Ø20 мм",
+         "6-stand, input 100×100 → output Ø20 mm",
+         15000, 200, "FAC-001", True, "mercury",
          json.dumps(["SMS Meer — rolling mills", "Siemens VAI — long products"])),
-        ("EQU-025", "equipment", "Волочильный стан", "Фильеры W, выход Ø1.6-2.0 мм проволока", 2000, 30, "FAC-001", True, "mercury",
+
+        ("EQU-025", "equipment", "Волочильный стан", "Wire Drawing Machine",
+         "Фильеры W, выход Ø1.6-2.0 мм проволока",
+         "W dies, output Ø1.6-2.0 mm wire",
+         2000, 30, "FAC-001", True, "mercury",
          json.dumps(["Niehoff — wire drawing machines", "Samp — drawing equipment"])),
-        ("EQU-026", "equipment", "Фольгопрокат", "Прокат Al фольги 4-50 мкм для зеркал", 5000, 50, "FAC-001", True, "mercury",
+
+        ("EQU-026", "equipment", "Фольгопрокат", "Foil Rolling Mill",
+         "Прокат Al фольги 4-50 мкм для зеркал",
+         "Al foil rolling 4-50 μm for mirrors",
+         5000, 50, "FAC-001", True, "mercury",
          json.dumps(["Achenbach — foil rolling mills", "Fata Hunter — aluminum rolling"])),
-        ("EQU-009", "equipment", "WAAM-ячейка", "3D-печать дуговой наплавкой проволоки", 2000, 50, "FAC-001", True, "mercury",
+
+        ("EQU-009", "equipment", "WAAM-ячейка", "WAAM Cell",
+         "3D-печать дуговой наплавкой проволоки",
+         "Wire arc additive manufacturing",
+         2000, 50, "FAC-001", True, "mercury",
          json.dumps(["Lincoln Electric — WAAM systems", "WAAM3D — wire arc additive manufacturing", "Cranfield University — WAAM research"])),
-        ("EQU-010", "equipment", "CNC 5-осевой", "Фрезерный станок, твердосплавные фрезы W-Co", 3000, 30, "FAC-001", True, "mercury",
+
+        ("EQU-010", "equipment", "CNC 5-осевой", "5-Axis CNC",
+         "Фрезерный станок, твердосплавные фрезы W-Co",
+         "Milling machine, W-Co carbide cutters",
+         3000, 30, "FAC-001", True, "mercury",
          json.dumps(["DMG MORI — 5-axis machining centers", "Mazak — multi-axis CNC", "Haas — vertical mills"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — СБОРКА
         # =====================================
-        ("EQU-027", "equipment", "Сборочный стапель", "1 позиция сборки робота/оборудования", 500, 5, "FAC-001", True, "mercury",
+        ("EQU-027", "equipment", "Сборочный стапель", "Assembly Station",
+         "1 позиция сборки робота/оборудования",
+         "1 robot/equipment assembly position",
+         500, 5, "FAC-001", True, "mercury",
          json.dumps(["Comau — assembly systems", "KUKA — robotic assembly cells"])),
-        ("EQU-028", "equipment", "Мостовой кран", "Г/п 1 т, пролёт 10 м", 2000, 20, "FAC-001", True, "mercury",
+
+        ("EQU-028", "equipment", "Мостовой кран", "Overhead Crane",
+         "Г/п 1 т, пролёт 10 м",
+         "1t capacity, 10m span",
+         2000, 20, "FAC-001", True, "mercury",
          json.dumps(["Konecranes — overhead cranes", "Demag — industrial cranes"])),
-        ("EQU-029", "equipment", "AGV-тележка", "Автоматическая логистическая тележка", 200, 5, "FAC-001", True, "mercury",
+
+        ("EQU-029", "equipment", "AGV-тележка", "AGV Cart",
+         "Автоматическая логистическая тележка",
+         "Automated logistics cart",
+         200, 5, "FAC-001", True, "mercury",
          json.dumps(["KUKA — mobile platforms", "MiR — autonomous mobile robots"])),
 
         # =====================================
         # ОБОРУДОВАНИЕ — ЭНЕРГЕТИКА
         # =====================================
-        ("EQU-001", "equipment", "Масс-драйвер", "Электромагнитная катапульта, 3 км, 5 км/с", 1300000, 33000, "FAC-001", True, "mercury",
+        ("EQU-001", "equipment", "Масс-драйвер", "Mass Driver",
+         "Электромагнитная катапульта, 3 км, 5 км/с",
+         "Electromagnetic catapult, 3 km, 5 km/s",
+         1300000, 33000, "FAC-001", True, "mercury",
          json.dumps(["NASA Mass Driver Study 1992", "O'Neill 1974: The Colonization of Space", "NUDT maglev 700 km/h (China, 2025)"])),
-        ("EQU-011", "equipment", "Мини масс-драйвер", "МД для комплексов Карбон, 500м-1км", 330000, 500, None, True, "mercury",
+
+        ("EQU-011", "equipment", "Мини масс-драйвер", "Mini Mass Driver",
+         "МД для комплексов Карбон, 500м-1км",
+         "MD for Carbon complexes, 500m-1km",
+         330000, 500, None, True, "mercury",
          json.dumps(["NASA Lunar Mass Driver concept", "EMF coilgun technology"])),
-        ("EQU-030", "equipment", "ЛЭП криогенная", "Сверхпроводящая линия, 1 км участок", 1000, 0, None, True, "mercury",
+
+        ("EQU-030", "equipment", "ЛЭП криогенная", "Cryogenic Power Line",
+         "Сверхпроводящая линия, 1 км участок",
+         "Superconducting line, 1 km section",
+         1000, 0, None, True, "mercury",
          json.dumps(["AMSC — superconducting cables", "Nexans — HTS power cables"])),
 
         # =====================================
         # КОМПОНЕНТЫ — ИМПОРТ С ЗЕМЛИ
         # =====================================
-        ("CMP-001", "equipment", "Блок электроники", "CPU, микроконтроллеры, связь", 5, 0, None, False, "earth",
+        ("CMP-001", "equipment", "Блок электроники", "Electronics Block",
+         "CPU, микроконтроллеры, связь",
+         "CPU, microcontrollers, communications",
+         5, 0, None, False, "earth",
          json.dumps(["ARM Cortex processors", "Intel Xeon — space-grade", "Xilinx — rad-hard FPGAs"])),
-        ("CMP-002", "equipment", "Камера стерео", "Stereo vision, 2 камеры", 0.5, 0, None, False, "earth",
+
+        ("CMP-002", "equipment", "Камера стерео", "Stereo Camera",
+         "Stereo vision, 2 камеры",
+         "Stereo vision, 2 cameras",
+         0.5, 0, None, False, "earth",
          json.dumps(["Intel RealSense", "ZED — stereo cameras", "Teledyne FLIR — industrial vision"])),
-        ("CMP-003", "equipment", "Лидар", "3D сканер, дальность 50м", 2, 0, None, False, "earth",
+
+        ("CMP-003", "equipment", "Лидар", "Lidar",
+         "3D сканер, дальность 50м",
+         "3D scanner, 50m range",
+         2, 0, None, False, "earth",
          json.dumps(["Velodyne — lidar sensors", "Ouster — digital lidar", "Livox — compact lidar"])),
-        ("CMP-004", "equipment", "BLDC мотор Cu", "Бесщёточный мотор, медные обмотки", 5, 0, None, False, "earth",
+
+        ("CMP-004", "equipment", "BLDC мотор Cu", "Cu BLDC Motor",
+         "Бесщёточный мотор, медные обмотки",
+         "Brushless motor, copper windings",
+         5, 0, None, False, "earth",
          json.dumps(["Maxon — precision motors", "FAULHABER — micro drives", "Kollmorgen — servomotors"])),
-        ("CMP-005", "equipment", "Li-ion батарея", "Литий-ионная батарея 1 кВт·ч", 10, 0, None, False, "earth",
+
+        ("CMP-005", "equipment", "Li-ion батарея", "Li-ion Battery",
+         "Литий-ионная батарея 1 кВт·ч",
+         "Lithium-ion battery 1 kWh",
+         10, 0, None, False, "earth",
          json.dumps(["CATL — battery cells", "Panasonic — 2170 cells", "Samsung SDI — prismatic cells"])),
-        ("EQU-014", "equipment", "Анод иридиевый", "Анод для MRE-ячеек, Ir", 2, 0, None, False, "earth",
+
+        ("EQU-014", "equipment", "Анод иридиевый", "Iridium Anode",
+         "Анод для MRE-ячеек, Ir",
+         "Anode for MRE cells, Ir",
+         2, 0, None, False, "earth",
          json.dumps(["Heraeus — precious metal anodes", "Johnson Matthey — Ir electrodes"])),
-        ("EQU-013", "equipment", "Фильера Pt", "Фильера для стекловолокна, платина", 0.5, 0, None, False, "earth",
+
+        ("EQU-013", "equipment", "Фильера Pt", "Pt Die",
+         "Фильера для стекловолокна, платина",
+         "Fiberglass die, platinum",
+         0.5, 0, None, False, "earth",
          json.dumps(["Heraeus — Pt bushings", "Johnson Matthey — glass fiber dies"])),
-        ("CMP-006", "equipment", "Фильера W", "Фильера для волочения проволоки, вольфрам", 0.5, 0, None, False, "earth",
+
+        ("CMP-006", "equipment", "Фильера W", "W Die",
+         "Фильера для волочения проволоки, вольфрам",
+         "Wire drawing die, tungsten",
+         0.5, 0, None, False, "earth",
          json.dumps(["Sandvik — tungsten carbide dies", "Esteves — wire drawing dies"])),
-        ("CMP-007", "equipment", "Фреза W-Co", "Твердосплавная фреза для CNC", 0.2, 0, None, False, "earth",
+
+        ("CMP-007", "equipment", "Фреза W-Co", "W-Co Cutter",
+         "Твердосплавная фреза для CNC",
+         "Carbide cutter for CNC",
+         0.2, 0, None, False, "earth",
          json.dumps(["Sandvik Coromant — carbide cutters", "Kennametal — milling tools"])),
-        ("CMP-008", "equipment", "Кристаллизатор Cu", "Медный кристаллизатор для МНЛЗ", 50, 0, None, False, "earth",
+
+        ("CMP-008", "equipment", "Кристаллизатор Cu", "Cu Crystallizer",
+         "Медный кристаллизатор для МНЛЗ",
+         "Copper crystallizer for CCM",
+         50, 0, None, False, "earth",
          json.dumps(["SMS Group — copper molds", "KME — crystallizers"])),
-        ("CMP-009", "equipment", "GaAs панель", "Фотоячейка арсенид галлия, 1 м²", 5, 0, None, False, "earth",
+
+        ("CMP-009", "equipment", "GaAs панель", "GaAs Panel",
+         "Фотоячейка арсенид галлия, 1 м²",
+         "Gallium arsenide photocell, 1 m²",
+         5, 0, None, False, "earth",
          json.dumps(["Spectrolab — space solar cells", "SolAero — triple-junction GaAs"])),
-        ("CMP-010", "equipment", "Чип управления", "Чип для зеркала Роя, 50 г", 0.05, 0, None, False, "earth",
+
+        ("CMP-010", "equipment", "Чип управления", "Control Chip",
+         "Чип для зеркала Роя, 50 г",
+         "Dyson Swarm mirror chip, 50 g",
+         0.05, 0, None, False, "earth",
          json.dumps(["Texas Instruments — rad-hard chips", "Microchip — space-grade MCUs"])),
 
         # =====================================
         # КОМПОНЕНТЫ — МЕСТНОЕ ПРОИЗВОДСТВО
         # =====================================
-        ("CMP-011", "equipment", "BLDC мотор Al", "Бесщёточный мотор, алюминиевые обмотки", 5, 0, None, True, "mercury",
+        ("CMP-011", "equipment", "BLDC мотор Al", "Al BLDC Motor",
+         "Бесщёточный мотор, алюминиевые обмотки",
+         "Brushless motor, aluminum windings",
+         5, 0, None, True, "mercury",
          json.dumps(["ABB — aluminum wound motors", "WEG — Al conductors in motors"])),
-        ("CMP-012", "equipment", "NaS батарея 1кВт·ч", "Натрий-серная батарея, 1 кВт·ч", 8, 0, None, True, "mercury",
+
+        ("CMP-012", "equipment", "NaS батарея 1кВт·ч", "NaS Battery 1kWh",
+         "Натрий-серная батарея, 1 кВт·ч",
+         "Sodium-sulfur battery, 1 kWh",
+         8, 0, None, True, "mercury",
          json.dumps(["NGK Insulators — NaS batteries", "GE Durathon — Na-based storage"])),
-        ("CMP-013", "equipment", "Подшипник Al₂O₃", "Корундовый подшипник, 100% местное производство", 0.5, 0, None, True, "mercury",
+
+        ("CMP-013", "equipment", "Подшипник Al₂O₃", "Al₂O₃ Bearing",
+         "Корундовый подшипник, 100% местное производство",
+         "Corundum bearing, 100% local production",
+         0.5, 0, None, True, "mercury",
          json.dumps(["CoorsTek — alumina bearings", "Morgan Advanced Materials — Al₂O₃ ceramics"])),
-        ("CMP-014", "equipment", "Редуктор", "Планетарный редуктор, Fe+Al", 3, 0, None, True, "mercury",
+
+        ("CMP-014", "equipment", "Редуктор", "Gearbox",
+         "Планетарный редуктор, Fe+Al",
+         "Planetary gearbox, Fe+Al",
+         3, 0, None, True, "mercury",
          json.dumps(["Harmonic Drive — precision gearboxes", "Nabtesco — planetary gears"])),
 
         # Старая электроника (для совместимости)
-        ("EQU-012", "equipment", "Электроника сенсоров", "Микроконтроллеры, датчики, камеры (пакет)", 20, 0, None, False, "earth",
+        ("EQU-012", "equipment", "Электроника сенсоров", "Sensor Electronics",
+         "Микроконтроллеры, датчики, камеры (пакет)",
+         "Microcontrollers, sensors, cameras (package)",
+         20, 0, None, False, "earth",
          json.dumps(["NXP — automotive MCUs", "STMicroelectronics — sensor hubs"])),
 
         # =====================================
         # ПРОДУКЦИЯ
         # =====================================
-        ("PRD-001", "products", "Зеркало 100×100м", "Алюминиевое зеркало с электрохромикой TiO₂", 116, 0, None, True, "mercury",
+        ("PRD-001", "products", "Зеркало 100×100м", "Mirror 100×100m",
+         "Алюминиевое зеркало с электрохромикой TiO₂",
+         "Aluminum mirror with TiO₂ electrochromics",
+         116, 0, None, True, "mercury",
          json.dumps(["IKAROS (JAXA 2010) — solar sail", "LightSail 2 (Planetary Society)", "NEA Scout — NASA solar sail"])),
-        ("PRD-002", "products", "Робот Gen-2", "Робот второго поколения (усреднённый)", 320, 15, None, True, "mercury",
+
+        ("PRD-002", "products", "Робот Gen-2", "Gen-2 Robot",
+         "Робот второго поколения (усреднённый)",
+         "Second generation robot (averaged)",
+         320, 15, None, True, "mercury",
          json.dumps(["Caterpillar autonomous mining", "Rio Tinto autonomous trucks"])),
-        ("PRD-003", "products", "Купол завода", "Силикатный купол 50×30м, 1500 м²", 8000, 0, None, True, "mercury",
+
+        ("PRD-003", "products", "Купол завода", "Factory Dome",
+         "Силикатный купол 50×30м, 1500 м²",
+         "Silicate dome 50×30m, 1500 m²",
+         8000, 0, None, True, "mercury",
          json.dumps(["Bigelow Aerospace — inflatable modules", "NASA TransHab — expandable habitats"])),
-        ("PRD-004", "products", "NaS батарея 15кВт·ч", "Натрий-серная батарея для роботов", 100, 0, None, True, "mercury",
+
+        ("PRD-004", "products", "NaS батарея 15кВт·ч", "NaS Battery 15kWh",
+         "Натрий-серная батарея для роботов",
+         "Sodium-sulfur battery for robots",
+         100, 0, None, True, "mercury",
          json.dumps(["NGK Insulators — NaS grid storage", "GE Durathon — Na-based batteries"])),
-        ("PRD-005", "products", "Si панель", "Кремниевая солнечная панель, 1 м²", 10, 0, None, True, "mercury",
+
+        ("PRD-005", "products", "Si панель", "Si Panel",
+         "Кремниевая солнечная панель, 1 м²",
+         "Silicon solar panel, 1 m²",
+         10, 0, None, True, "mercury",
          json.dumps(["LONGi — monocrystalline Si", "First Solar — thin film", "SunPower — high efficiency"])),
-        ("PRD-006", "products", "Силикатная ткань", "Ткань SiO₂ для куполов, 1 м²", 0.3, 0, None, True, "mercury",
+
+        ("PRD-006", "products", "Силикатная ткань", "Silicate Fabric",
+         "Ткань SiO₂ для куполов, 1 м²",
+         "SiO₂ fabric for domes, 1 m²",
+         0.3, 0, None, True, "mercury",
          json.dumps(["3M Nextel — ceramic fabric", "Saint-Gobain — silica cloth"])),
 
         # =====================================
         # ТРАНСПОРТ
         # =====================================
-        ("TRN-001", "transport", "Контейнер графита", "Баллистический контейнер 100 кг", 20, 0, None, True, "mercury",
+        ("TRN-001", "transport", "Контейнер графита", "Graphite Container",
+         "Баллистический контейнер 100 кг",
+         "Ballistic container 100 kg",
+         20, 0, None, True, "mercury",
          json.dumps(["SpaceX Dragon cargo — reentry containers"])),
-        ("TRN-002", "transport", "Капсула зеркала", "Защитная капсула для запуска зеркала", 10, 0, None, True, "mercury",
+
+        ("TRN-002", "transport", "Капсула зеркала", "Mirror Capsule",
+         "Защитная капсула для запуска зеркала",
+         "Protective capsule for mirror launch",
+         10, 0, None, True, "mercury",
          json.dumps(["NASA — deployable structures", "JAXA IKAROS — sail deployment"])),
     ]
     con.executemany(
         """INSERT OR REPLACE INTO units
-           (id, category_id, name, description, mass_kg, power_kw, parent_id, is_assembly, production_planet_id, sources)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+           (id, category_id, name_ru, name_en, description_ru, description_en, mass_kg, power_kw, parent_id, is_assembly, production_planet_id, sources)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         units
     )
 
@@ -930,7 +1260,7 @@ def seed_unit_materials(con):
 
 
 def main():
-    print(f"Инициализация базы данных v3: {DB_PATH}")
+    print(f"Инициализация базы данных v4 (i18n): {DB_PATH}")
 
     # Удаляем старую БД если есть
     if DB_PATH.exists():

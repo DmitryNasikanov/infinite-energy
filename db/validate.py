@@ -19,11 +19,11 @@ def validate_bom_percentages(con) -> list[str]:
     result = con.execute("""
         SELECT
             um.unit_id,
-            u.name,
+            u.name_ru,
             ROUND(SUM(um.fraction_pct), 2) as total_pct
         FROM unit_materials um
         JOIN units u ON u.id = um.unit_id
-        GROUP BY um.unit_id, u.name
+        GROUP BY um.unit_id, u.name_ru
         HAVING ABS(100 - SUM(um.fraction_pct)) > 0.1
     """).fetchall()
 
@@ -66,7 +66,7 @@ def validate_assembly_references(con) -> list[str]:
 
     # assembly_id должен быть сборкой
     result = con.execute("""
-        SELECT DISTINCT uc.assembly_id, u.name, u.is_assembly
+        SELECT DISTINCT uc.assembly_id, u.name_ru, u.is_assembly
         FROM unit_components uc
         JOIN units u ON u.id = uc.assembly_id
         WHERE u.is_assembly = false
@@ -140,7 +140,7 @@ def validate_planet_materials(con) -> list[str]:
 
     # Исключаем категории (parent_id IS NULL)
     result = con.execute("""
-        SELECT m.id, m.name
+        SELECT m.id, m.name_ru
         FROM materials m
         LEFT JOIN planet_materials pm ON pm.material_id = m.id
         WHERE pm.material_id IS NULL
@@ -160,7 +160,7 @@ def validate_units_have_bom(con) -> list[str]:
     # Исключаем импортные юниты (production_planet_id = 'earth')
     # и сборки (is_assembly = true)
     result = con.execute("""
-        SELECT u.id, u.name
+        SELECT u.id, u.name_ru
         FROM units u
         LEFT JOIN unit_materials um ON um.unit_id = u.id
         WHERE um.unit_id IS NULL
@@ -180,7 +180,7 @@ def validate_unused_materials(con) -> list[str]:
 
     # Исключаем категории (parent_id IS NULL)
     result = con.execute("""
-        SELECT m.id, m.name
+        SELECT m.id, m.name_ru
         FROM materials m
         LEFT JOIN unit_materials um ON um.material_id = m.id
         WHERE um.material_id IS NULL
