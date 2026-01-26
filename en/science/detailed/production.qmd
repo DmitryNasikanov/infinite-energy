@@ -515,7 +515,7 @@ Increased proportionally to robot count + reserve for intensive 7-day work.
 | :--- | :--- | :--- | :--- |
 | Spare legs (Spider) | 32 | 160 kg | 2 sets per robot |
 | Spare tracks (Crab) | 48 | 300 kg | 4 sets per robot |
-| NaS batteries (Gen-1) | 15 | 750 kg | Reserve |
+| **Li-S batteries (Gen-1)** | 15 | 750 kg | Reserve (operates from -60°C) |
 | Control units | 8 | 80 kg | Brains - critical |
 | Sensors (cameras, lidars) | 30 | 50 kg | |
 | Actuators (motors) | 50 | 250 kg | |
@@ -569,25 +569,25 @@ Increased proportionally to robot count + reserve for intensive 7-day work.
 
 ---
 
-### Assembly Optimization: "Blitz Assembly"
+### First Factory Assembly (Bootstrap)
 
-*7 days from landing to first Gen-2 robot.*
+> **Details:** [First Factory Assembly (Bootstrap)](bootstrap.qmd)
 
-Gen-1 robots are light but fragile (titanium, carbon fiber). Lifespan is limited. The longer assembly takes, the higher the risk of breakdown before factory startup.
+*Critical checkpoint: energy autonomy within 12-24 hours.*
 
-**Solution:** Compress assembly to 7 days through pre-assembly and parallelism.
+Gen-1 robots are light but limited by batteries (Li-S, 15-24 hour autonomy). Before charging infrastructure deployment, time is critical.
 
-#### Critical Path: 7 Days
+**Solution:** Checkpoint model — achieve energy autonomy within 12-24 hours, after which assembly time is constrained only by Gen-1 lifespan (2-3 years).
 
-| Day | Main Work | Result |
-| :--- | :--- | :--- |
-| 1 | Unloading + mirror deployment | Modules in position |
-| 2 | Mirrors + MRE on site | MRE ready to operate |
-| 3 | Dome inflation + power supply | **Power available!** |
-| 4 | CCM and rolling mill into dome | Metal flowing |
-| 5 | Finishing module + commissioning | Line ready |
-| 6 | First smelt -> casting -> rolling | Material for WAAM |
-| 7 | WAAM + CNC + assembly | **First Gen-2** |
+#### Assembly Scenarios
+
+| Scenario | Before checkpoint | After | **Total** |
+|----------|-------------------|-------|-----------|
+| Optimistic | 12 h | 6 days | **7 days** |
+| Realistic | 24 h | 10-15 days | **11-16 days** |
+| Pessimistic | 48 h | 20-30 days | **22-32 days** |
+
+**Key insight:** After checkpoint (24 h), time is not critical.
 
 ---
 

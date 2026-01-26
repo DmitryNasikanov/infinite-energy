@@ -37,10 +37,51 @@ Gen-2 robots are autonomous machines manufactured from local materials on Mercur
 |--------|-------------------|---------------|
 | Material | Ti + carbon fiber | Fe + Al (local) |
 | Mass | 120-950 kg | 370-1500 kg |
-| Battery | Li-Ion | NaS (local) |
+| Battery | **Li-S** (-60°C...+60°C) | NaS (local) |
 | Lifespan | 2-3 years | 5+ years |
 | Repairability | Difficult (parts from Earth) | Easy (all local) |
 | Cost | High | Low |
+
+---
+
+## Gen-1 Robots: Specifications
+
+Gen-1 robots are delivered from Earth for [first factory assembly](../../bootstrap.qmd). They use **Li-S (Lithium-Sulfur)** batteries — modern technology with extended temperature range.
+
+### Why Li-S Instead of Li-Ion
+
+| Parameter | Li-Ion | Li-S (2025-2026) |
+|-----------|--------|------------------|
+| Specific energy | 150-250 Wh/kg | **400-500 Wh/kg** |
+| Temperature range | -20°C...+60°C | **-60°C...+60°C** |
+| Capacity retention at -40°C | 50-60% | **85%** |
+| Mass (at equal capacity) | 100% | **60%** (40% lighter) |
+| TRL (2026) | 9 | 7-8 |
+
+**Sources:** [NASA Li-S](https://techport.nasa.gov/view/92914), [Lyten ISS 2025](https://www.batterytechonline.com/materials/lithium-sulfur-batteries-to-be-tested-aboard-the-iss-in-2025), [ESA Li-S](https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Shaping_the_Future/High_Specific_Energy_Lithium_Sulfur_cell_for_Space_applications)
+
+### Gen-1 Specifications Table
+
+| Robot | Mass | Li-S Battery | Capacity | Power | Autonomy | Role |
+|-------|------|--------------|----------|-------|----------|------|
+| **Spider-Z** | 120 kg | 10 kg | 4.5 kWh | 300 W | **15 h** | Panel, mirror mounting |
+| **Centaur-Z** | 250 kg | 25 kg | 11 kWh | 500 W | **22 h** | Assembly, docking |
+| **Crab-Z** | 950 kg | 80 kg | 36 kWh | 1500 W | **24 h** | Module logistics |
+| **Mole-Z** | 800 kg | 70 kg | 31 kWh | 2000 W | **15.5 h** | Site preparation |
+
+*Calculation: Li-S specific energy 450 Wh/kg (conservative, theoretical limit 2500 Wh/kg)*
+
+### Assembly Team Composition (First Expedition)
+
+| Type | Qty | Unit Mass | Total | Role in bootstrap |
+|------|-----|-----------|-------|-------------------|
+| Spider-Z | 16 | 120 kg | 1.9 t | Panel mounting (critical path) |
+| Crab-Z | 12 | 950 kg | 11.4 t | Unloading and module logistics |
+| Centaur-Z | 24 | 250 kg | 6.0 t | Assembly and connections |
+| Mole-Z | 4 | 800 kg | 3.2 t | Site leveling |
+| **Total** | **56** | | **22.5 t** | |
+
+**Details:** [First Factory Assembly (Bootstrap)](../../bootstrap.qmd)
 
 ---
 

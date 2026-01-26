@@ -124,13 +124,24 @@ Require additional development but are not fundamentally new.
 
 #### First Factory Assembly Time
 
-| Scenario | Assembly | Schedule Shift |
-|----------|----------|----------------|
-| Optimistic | 7 days | 0 |
-| Realistic | 30 days | +1 month |
-| Pessimistic | 60 days | +2 months |
+**Critical checkpoint:** Energy autonomy (12-24 hours)
 
-**Why not critical:** One-time delay, ~2% of 10-year schedule.
+After checkpoint, assembly time is NOT critical — constraint is only Gen-1 lifespan (2-3 years).
+
+| Scenario | Before checkpoint | After | **Total** | Rationale |
+|----------|-------------------|-------|-----------|-----------|
+| Optimistic | 12 h | 6 days | **7 days** | Everything works perfectly |
+| Realistic | 24 h | 10-15 days | **11-16 days** | Typical delays |
+| Pessimistic | 48 h | 20-30 days | **22-32 days** | Equipment issues |
+
+**Key insight:**
+
+- **Old model:** "7 days critical, 30 = failure"
+- **New model:** "24 hours critical, rest = Gen-1 lifespan question"
+
+After charging infrastructure deployment (checkpoint), robots can work 24/7 with recharging. Even 30-day assembly keeps the project viable.
+
+**Detailed calculation:** [First Factory Assembly (Bootstrap)](../detailed/bootstrap.qmd)
 
 ---
 

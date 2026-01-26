@@ -1,0 +1,319 @@
+---
+title: "First Factory Assembly (Bootstrap)"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Critical checkpoint:** Energy autonomy within **12-24 hours** — after this, assembly time is NOT critical
+> - **Total time:** 7-32 days (depending on conditions), but post-checkpoint constraint is only Gen-1 lifespan (2-3 years)
+> - **Gen-1 batteries:** [Li-S](../reference/technology-readiness.qmd#li-s-batteries-lithium-sulfur) (not Li-Ion!) — operates down to -60°C
+> - **Dome:** Pre-assembled inflatable module from Earth (deployment in 4-8 hours)
+
+---
+
+## Why This is a Unique Phase
+
+Bootstrap is the only moment in the project when there are no local resources and nowhere to charge robots. After factory startup, standard production with self-replication begins.
+
+| Aspect | Bootstrap | Standard Production |
+|--------|-----------|---------------------|
+| **Robots** | Gen-1 (Ti + Li-S) | Gen-2 (Fe/Al + NaS) |
+| **Materials** | 100% imported | 97% local |
+| **Dome** | Pre-assembled inflatable | On-site assembly |
+| **Energy** | Limited by batteries | Unlimited |
+| **Critical path** | **Energy autonomy** | Throughput |
+| **Repair** | Spare parts limited | Local manufacturing |
+
+**Key insight:** Until charging infrastructure is deployed, robots operate on batteries (15-24 hours). After checkpoint they can recharge → further assembly time is constrained only by Gen-1 lifespan (2-3 years).
+
+---
+
+## Checkpoint: Energy Autonomy
+
+**Goal:** Robots can recharge → further assembly time is not critical.
+
+```{mermaid}
+%%| fig-width: 10
+gantt
+    title Critical Path to Checkpoint (12-24 h)
+    dateFormat HH:mm
+    axisFormat %H:%M
+
+    section Phase A: Energy Autonomy
+    A1. Unload energy modules      :a1, 00:00, 2h
+    A2. Deploy solar panels        :a2, after a1, 4h
+    A3. Lay power cables           :a3, after a2, 4h
+    A4. Charging station           :a4, after a3, 2h
+
+    section Checkpoint
+    ENERGY AUTONOMY                :milestone, after a4, 0d
+
+    section Phase B: Dome (parallel)
+    B1. Level site                 :b1, 00:00, 8h
+    B2. Deploy dome                :b2, after b1, 4h
+```
+
+### Critical Path Calculation
+
+| Operation | Robots | Hours | Parallel with | Result |
+|-----------|--------|-------|---------------|--------|
+| A1. Unload energy modules | Crab-Z ×12 | 2 | - | Modules in position |
+| A2. Deploy panels | Spider-Z ×16 | 4 | B1 | 5 MW available |
+| A3. Lay cables | Centaur-Z ×8 | 4 | B1 | Power system |
+| A4. Charging station | Centaur-Z ×4 | 2 | B2 | **Checkpoint!** |
+| **Critical path** | | **12 h** | | |
+
+**With ×2 buffer:** 24 hours to energy autonomy (margin for unexpected issues).
+
+### Why Time After Checkpoint is Not Critical
+
+| Factor | Before checkpoint | After checkpoint |
+|--------|-------------------|------------------|
+| **Robot battery** | LIMIT (15-24 h) | Rechargeable |
+| **Work shift** | LIMIT (one shift) | 24/7 |
+| **Robot breakdown** | CRITICAL | Time for repair |
+| **Overall time** | CRITICAL | Only Gen-1 lifespan |
+
+---
+
+## Gen-1 Robots: Specifications
+
+### Batteries: Li-S (Lithium-Sulfur)
+
+**Why Li-S instead of Li-Ion:**
+
+| Parameter | Li-Ion | Li-S (2025-2026) |
+|-----------|--------|------------------|
+| Specific energy | 150-250 Wh/kg | **400-500 Wh/kg** |
+| Temperature range | -20°C...+60°C | **-60°C...+60°C** |
+| Capacity retention at -40°C | 50-60% | **85%** |
+| Mass (at equal capacity) | 100% | **60%** (40% lighter) |
+
+**Sources:** [NASA Li-S](https://techport.nasa.gov/view/92914), [Lyten ISS 2025](https://www.batterytechonline.com/materials/lithium-sulfur-batteries-to-be-tested-aboard-the-iss-in-2025), [ESA Li-S](https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Shaping_the_Future/High_Specific_Energy_Lithium_Sulfur_cell_for_Space_applications)
+
+### Gen-1 Specifications
+
+| Robot | Mass | Li-S Battery | Capacity | Power | Autonomy | Role |
+|-------|------|--------------|----------|-------|----------|------|
+| **Spider-Z** | 120 kg | 10 kg | 4.5 kWh | 300 W | **15 h** | Panel, mirror mounting |
+| **Centaur-Z** | 250 kg | 25 kg | 11 kWh | 500 W | **22 h** | Assembly, docking |
+| **Crab-Z** | 950 kg | 80 kg | 36 kWh | 1500 W | **24 h** | Module logistics |
+| **Mole-Z** | 800 kg | 70 kg | 31 kWh | 2000 W | **15.5 h** | Site preparation |
+
+*Calculation: Li-S specific energy 450 Wh/kg (conservative, theoretical limit 2500 Wh/kg)*
+
+### Assembly Team Composition
+
+| Type | Qty | Unit Mass | Total | Role in bootstrap |
+|------|-----|-----------|-------|-------------------|
+| Spider-Z | 16 | 120 kg | 1.9 t | Panel mounting (critical path) |
+| Crab-Z | 12 | 950 kg | 11.4 t | Unloading and module logistics |
+| Centaur-Z | 24 | 250 kg | 6.0 t | Assembly and connections |
+| Mole-Z | 4 | 800 kg | 3.2 t | Site leveling |
+| **Total** | **56** | | **22.5 t** | |
+
+---
+
+## Pre-assembled Inflatable Dome
+
+Instead of on-site dome assembly (4 days in old model) — bring a ready inflatable module:
+
+| Parameter | On-site assembly | Inflatable module |
+|-----------|------------------|-------------------|
+| Time | 4 days | **4-8 hours** |
+| Mass | ~8 t | 10-12 t (+2-3 t) |
+| Robots | 6 Moles-M (Gen-2!) | 6 Centaurs-Z (Gen-1) |
+| Risk | High | Low |
+
+**Analog:** [Bigelow Aerospace BEAM](https://www.nasa.gov/mission_pages/station/research/experiments/1804.html) module on ISS (16 m³, 1.4 t) — operating successfully since 2016.
+
+**Deployment process:**
+
+1. Unload module (Crab-Z ×4, 1 hour)
+2. Position on site (Centaur-Z ×6, 1 hour)
+3. Inflate with nitrogen (automatic, 30 min)
+4. Connect airlock (Centaur-Z ×4, 1 hour)
+5. Leak check (30 min)
+6. Dome ready (**4 hours**)
+
+---
+
+## Full Operations List
+
+### Phase A: Energy Autonomy (CRITICAL, 12 h)
+
+| # | Operation | Robots | Hours | Dependency | Robot-hours |
+|---|-----------|--------|-------|------------|-------------|
+| A1.1 | Open cargo bay | Centaur-Z ×2 | 0.5 | - | 1 |
+| A1.2 | Unload energy modules | Crab-Z ×12 | 1.5 | A1.1 | 18 |
+| A1.3 | Transport to installation site | Crab-Z ×12 | 0.5 | A1.2 | 6 |
+| A2.1 | Deploy panel frame | Spider-Z ×8 | 1 | A1.3 | 8 |
+| A2.2 | Install GaAs cells | Spider-Z ×16 | 2 | A2.1 | 32 |
+| A2.3 | Connect sections | Spider-Z ×8 | 1 | A2.2 | 8 |
+| A3.1 | Lay main cable (500 m) | Centaur-Z ×4 | 2 | A2.2 | 8 |
+| A3.2 | Install distribution nodes | Centaur-Z ×4 | 1 | A3.1 | 4 |
+| A3.3 | Connect to panels | Centaur-Z ×4 | 1 | A3.2 | 4 |
+| A4.1 | Install charging station | Centaur-Z ×4 | 1 | A3.3 | 4 |
+| A4.2 | Testing and calibration | Centaur-Z ×2 | 1 | A4.1 | 2 |
+| | **Phase A Total** | | **12 h** | | **95 robot-hours** |
+
+**CHECKPOINT: Energy autonomy achieved!**
+
+---
+
+### Phase B: Dome (parallel with A, 12 h)
+
+| # | Operation | Robots | Hours | Dependency | Robot-hours |
+|---|-----------|--------|-------|------------|-------------|
+| B1.1 | Mark site (50×30 m) | Centaur-Z ×2 | 1 | - | 2 |
+| B1.2 | Remove top regolith layer | Mole-Z ×4 | 3 | B1.1 | 12 |
+| B1.3 | Compact surface | Mole-Z ×4 | 2 | B1.2 | 8 |
+| B1.4 | Create foundation supports | Mole-Z ×4 | 2 | B1.3 | 8 |
+| B2.1 | Unload dome module | Crab-Z ×4 | 1 | A1.2 | 4 |
+| B2.2 | Position on site | Centaur-Z ×6 | 1 | B1.4, B2.1 | 6 |
+| B2.3 | Inflate with N₂ (0.1 atm) | Automatic | 0.5 | B2.2 | 0 |
+| B2.4 | Connect airlock | Centaur-Z ×4 | 1 | B2.3 | 4 |
+| B2.5 | Leak check | Centaur-Z ×2 | 0.5 | B2.4 | 1 |
+| | **Phase B Total** | | **12 h** | | **45 robot-hours** |
+
+---
+
+### Phase C: Equipment Installation (24-48 h)
+
+| # | Operation | Robots | Hours | Dependency | Robot-hours |
+|---|-----------|--------|-------|------------|-------------|
+| C1.1 | Unload MRE module | Crab-Z ×4 | 1 | A1.2 | 4 |
+| C1.2 | Transport to dome | Crab-Z ×4 | 0.5 | C1.1 | 2 |
+| C1.3 | Install MRE on foundation | Crab-Z ×4 + Centaur-Z ×4 | 1 | B2.5, C1.2 | 8 |
+| C1.4 | Connect MRE power | Centaur-Z ×4 | 1 | C1.3 | 4 |
+| C1.5 | Connect MRE cooling | Centaur-Z ×4 | 1 | C1.4 | 4 |
+| C2.1 | Unload caster module | Crab-Z ×4 | 1 | A1.2 | 4 |
+| C2.2 | Transport into dome | Crab-Z ×4 | 1 | C2.1, B2.5 | 4 |
+| C2.3 | Install in position | Crab-Z ×4 + Centaur-Z ×6 | 2 | C2.2 | 20 |
+| C2.4 | Level and secure | Centaur-Z ×6 | 2 | C2.3 | 12 |
+| C3.1 | Unload rolling module | Crab-Z ×6 | 1.5 | A1.2 | 9 |
+| C3.2 | Transport into dome | Crab-Z ×6 | 1.5 | C3.1, B2.5 | 9 |
+| C3.3 | Install rolling mill | Crab-Z ×4 + Centaur-Z ×6 | 3 | C3.2 | 30 |
+| C3.4 | Install wire drawing | Centaur-Z ×4 | 2 | C3.3 | 8 |
+| C4.1 | Unload finishing module | Crab-Z ×4 | 1 | A1.2 | 4 |
+| C4.2 | Transport into dome | Crab-Z ×4 | 1 | C4.1, B2.5 | 4 |
+| C4.3 | Install WAAM | Centaur-Z ×4 | 2 | C4.2 | 8 |
+| C4.4 | Install CNC | Centaur-Z ×4 | 2 | C4.3 | 8 |
+| C4.5 | Install assembly jig | Centaur-Z ×8 | 2 | C4.4 | 16 |
+| C5.1 | Lay internal cables | Centaur-Z ×8 | 2 | C1.3, C2.3 | 16 |
+| C5.2 | Connect all modules | Centaur-Z ×12 | 2 | C5.1 | 24 |
+| | **Phase C Total** | | **~28 h** | | **198 robot-hours** |
+
+---
+
+### Phase D: Commissioning (20-40 h)
+
+| # | Operation | Robots | Hours | Dependency | Robot-hours |
+|---|-----------|--------|-------|------------|-------------|
+| D1.1 | Calibrate MRE (temp, current) | Centaur-Z ×4 | 4 | C1.5 | 16 |
+| D1.2 | Test melt (100 kg Al) | Centaur-Z ×2 | 2 | D1.1 | 4 |
+| D2.1 | Calibrate caster (speed, cooling) | Centaur-Z ×4 | 3 | C2.4 | 12 |
+| D2.2 | Test casting (50 kg) | Centaur-Z ×2 | 2 | D2.1 | 4 |
+| D3.1 | Calibrate rolling mill | Centaur-Z ×4 | 3 | C3.4 | 12 |
+| D3.2 | Test rolling (billet → rod) | Centaur-Z ×2 | 2 | D3.1 | 4 |
+| D3.3 | Calibrate wire drawing | Centaur-Z ×2 | 2 | D3.2 | 4 |
+| D3.4 | Test drawing (rod → wire) | Centaur-Z ×2 | 1 | D3.3 | 2 |
+| D4.1 | Calibrate WAAM | Centaur-Z ×4 | 2 | C4.3 | 8 |
+| D4.2 | Test deposition (bracket) | Centaur-Z ×2 | 2 | D4.1 | 4 |
+| D4.3 | Calibrate CNC | Centaur-Z ×2 | 2 | C4.4 | 4 |
+| D4.4 | Test machining | Centaur-Z ×2 | 1 | D4.3 | 2 |
+| D5.1 | Integration test (full cycle) | Centaur-Z ×8 | 4 | D1.2, D2.2, D3.4, D4.4 | 32 |
+| D5.2 | First production melt | Centaur-Z ×4 | 4 | D5.1 | 16 |
+| | **Phase D Total** | | **~34 h** | | **124 robot-hours** |
+
+---
+
+### Phase E: First Gen-2 Robot (24-30 h)
+
+| # | Operation | Robots/Equipment | Hours | Dependency | Robot-hours |
+|---|-----------|------------------|-------|------------|-------------|
+| E1.1 | Melt Al for frame (300 kg) | MRE (auto) | 4 | D5.2 | 0 |
+| E1.2 | Melt Fe for tracks (560 kg) | MRE (auto) | 4 | D5.2 | 0 |
+| E2.1 | Cast billets (caster) | Caster (auto) | 6 | E1.1, E1.2 | 0 |
+| E2.2 | Roll frame profile | Rolling (auto) | 4 | E2.1 | 0 |
+| E2.3 | Draw wire for WAAM | Drawing (auto) | 2 | E2.2 | 0 |
+| E3.1 | WAAM: body and complex parts | WAAM (auto) | 4 | E2.3 | 0 |
+| E3.2 | CNC: finish machining | CNC (auto) | 2 | E3.1 | 0 |
+| E4.1 | Assemble chassis | Centaur-Z ×4 | 2 | E3.2 | 8 |
+| E4.2 | Install motors | Centaur-Z ×2 | 1 | E4.1 | 2 |
+| E4.3 | Install NaS battery | Centaur-Z ×2 | 1 | E4.2 | 2 |
+| E4.4 | Install electronics (vitamins) | Centaur-Z ×2 | 1 | E4.3 | 2 |
+| E5.1 | Calibration and testing | Centaur-Z ×2 | 2 | E4.4 | 4 |
+| E5.2 | First Gen-2 deployment | — | — | E5.1 | — |
+| | **Phase E Total** | | **~30 h** | | **18 robot-hours** |
+
+---
+
+## Summary: Total Time and Robot-Hours
+
+| Phase | Description | Hours | Robot-hours | Criticality |
+|-------|-------------|-------|-------------|-------------|
+| **A** | Energy autonomy | 12 | 95 | **CRITICAL** |
+| **B** | Dome | 12 | 45 | Parallel with A |
+| **C** | Equipment installation | 28 | 198 | After checkpoint |
+| **D** | Commissioning | 34 | 124 | After C |
+| **E** | First Gen-2 | 30 | 18 | After D |
+| | **Total** | **~116 h** | **480 robot-hours** | |
+
+**Sequential time:** ~116 hours = **~5 days** (excluding nights, recharges, issues)
+
+---
+
+## Three Scenarios
+
+| Scenario | Before checkpoint | After checkpoint | **Total** | Rationale |
+|----------|-------------------|------------------|-----------|-----------|
+| **Optimistic** | 12 h | 6 days | **7 days** | Everything works perfectly |
+| **Realistic** | 24 h | 10-15 days | **11-16 days** | Typical delays, recharges |
+| **Pessimistic** | 48 h | 20-30 days | **22-32 days** | Equipment issues, breakdowns |
+
+### Key Difference from Old Model
+
+| Old model | New model |
+|-----------|-----------|
+| "7 days critical, 30 = failure" | "24 hours critical, rest = resource question" |
+| Linear planning | Checkpoint-oriented |
+| Focus on total time | Focus on energy autonomy |
+
+**Conclusion:** After checkpoint (24 h) time is not critical — constrained only by Gen-1 robot lifespan (2-3 years). Even 30-day assembly keeps the project viable.
+
+---
+
+## Bootstrap Phase Risks
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Robot breakdown before checkpoint | **Critical** | 20% robot reserve, repair kit |
+| Panel malfunction | **Critical** | Spare sections in manifest |
+| Dome damage | High | Sealant repair kit, spare airlock |
+| MRE module failure | Medium | Spare electrodes |
+| Module incompatibility | Low | Earth pre-assembly, testing |
+
+### Repair Kit (updated)
+
+| Component | Qty | Mass | Note |
+|-----------|-----|------|------|
+| Spare legs (Spider-Z) | 32 | 160 kg | 2 sets per robot |
+| Spare tracks (Crab-Z) | 48 | 300 kg | 4 sets per robot |
+| **Li-S batteries (Gen-1)** | 15 | 750 kg | Reserve (not NaS!) |
+| Control units | 8 | 80 kg | Brains — critical |
+| Sensors (cameras, lidars) | 30 | 50 kg | |
+| Actuators (motors) | 50 | 250 kg | |
+| MoS₂ lubricant | — | 15 kg | |
+| **Repair kit total** | | **~1.6 t** | |
+
+---
+
+## See Also
+
+- [Production](production.qmd) — standard operation mode
+- [Robots](production/robots/overview.qmd) — Gen-1 and Gen-2 specifications
+- [Risks and Constraints](../reference/risks.qmd) — overall risk analysis
+- [Technologies and Sources](../reference/technology-readiness.qmd) — Li-S battery TRL
+- [Roadmap](../summaries/roadmap.qmd) — project timeline

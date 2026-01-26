@@ -678,14 +678,25 @@ Power = 20,000 x 10 x 0.3 = 60 MW
 
 ---
 
-## Days 1-7: Parallel - Factory Assembly
+## First Factory Assembly (Bootstrap)
 
 ### What We Do
-- 56 Gen-1 robots assemble factory modules
-- Blitz assembly in 7 days (see [Ground Zero Factory](../detailed/production/factories/overview.qmd))
+- 56 Gen-1 robots (Li-S batteries, 15-24 h autonomy) assemble factory modules
+- **Critical checkpoint:** Energy autonomy within 12-24 hours
+- After checkpoint, assembly time is NOT critical — constrained only by Gen-1 lifespan (2-3 years)
+
+**Details:** [First Factory Assembly (Bootstrap)](../detailed/bootstrap.qmd)
+
+### Scenarios
+
+| Scenario | Before checkpoint | After | Total |
+|----------|-------------------|-------|-------|
+| Optimistic | 12 h | 6 days | **7 days** |
+| Realistic | 24 h | 10-15 days | **11-16 days** |
+| Pessimistic | 48 h | 20-30 days | **22-32 days** |
 
 ### Result
-- **Day 7: Factory operational!**
+- **Day 7-32: Factory operational!**
 - Begins producing Gen-2 robots (15/month)
 
 ---
