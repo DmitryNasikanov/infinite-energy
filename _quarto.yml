@@ -131,10 +131,19 @@ format:
           });
 
           // Update navbar language indicator from 🌐 to current language flag
-          const currentFlag = LANGUAGES[getCurrentLang()] || '🌐';
+          const currentLang = getCurrentLang();
+          const currentFlag = LANGUAGES[currentLang] || '🌐';
           document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
             if (link.textContent.trim() === '🌐') {
               link.textContent = currentFlag;
+            }
+          });
+
+          // Rewrite navbar links to match current language
+          document.querySelectorAll('.navbar a[href*="/ru/"]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href) {
+              link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
             }
           });
         });
