@@ -271,9 +271,45 @@ Operating in shifts (equatorial night ~44 days). **Details:** [Regolith Processi
 
 ### Stage 1. Energy
 
-> **Details:** [Production Energy](energy.qmd)
+*Generation. Without this stage the factory is a pile of metal.*
 
-Solar Boost (9-14 kW/m^2), Power Towers with GaAs cells, cryogenic power lines, silicon panel production (aluminothermy) and silicate domes.
+#### Solar Boost
+
+Mercury receives **9-14 kW/m²** of solar flux (vs 1.3 kW/m² on Earth) — a fundamental advantage for energy.
+
+#### Power Towers
+
+Installed on "Peaks of Eternal Light" (crater rims):
+
+| Component | Description |
+|-----------|-------------|
+| **Mirrors** | Kapton with Al coating, 50 g/m², deploy on carbon fiber spokes |
+| **Photocells** | Multi-junction GaAs (30-40% efficiency) |
+| **Cooling** | NaK circulates inside mast → radiator in shadow (−150°C) |
+| **Cryogenic power line** | Aluminum at −150°C — resistance 10× lower |
+
+**Details:** [Cryogenic aluminum cable](../reference/technology-readiness.qmd#cryogenic-aluminum-cable-gw)
+
+#### Energy Consumption per Complex
+
+| Consumer | Power | Note |
+|----------|-------|------|
+| Mass driver (average) | 33 MW | 600 launches/day × 4.8 GJ |
+| Solar furnaces (melting) | 10 MW | Concentrators |
+| Mirror production | 5 MW | Rolling, welding, packaging |
+| Robots (~50 units × 5 kW) | 0.3 MW | Battery-powered |
+| Control and communication | 2 MW | IT infrastructure |
+| **TOTAL** | **~55 MW** | With 10% margin |
+
+**Energy balance at launch:**
+- 3 shipments of GaAs panels = **168 MW** (5.25 t)
+- Reserve = 113 MW for scaling
+
+#### Local Panel Production
+
+For scaling — silicon panels from local materials (aluminothermy).
+
+**Details:** [Silicon Production](production/materials/silicon.qmd)
 
 ---
 
@@ -662,7 +698,7 @@ With an ~8-year lifespan and a billion mirrors, ~100-200 million units fail annu
 
 **Failsafe:** Upon complete electronics failure, the mirror loses control -> chaotic rotation -> zero thrust -> remains in orbit but doesn't interfere (distances ~km between mirrors).
 
-**Details:** [Energy Calculations](energy.qmd#mirror-disposal)
+**Details:** [Swarm Mirrors](mirrors.qmd#orbital-mechanics-and-disposal)
 
 ---
 
