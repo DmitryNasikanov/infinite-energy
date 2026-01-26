@@ -5,8 +5,8 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **Technological:** 4 technologies at TRL 3-4, 1 critical issue (iridium for anodes)
-> - **Budget:** AI and testing underestimated, dependence on super-heavy rockets
+> - **Technological:** 2 technologies at TRL 3-4 + 1 borderline (TRL 4), 1 critical issue (iridium for anodes)
+> - **Budget:** testing underestimated, dependence on super-heavy rockets
 > - **Human:** 50,000 specialists needed, competition for AI talent
 > - **Political:** sanctions, government changes, legal status of resources
 > - **Resource:** tungsten ~2%/year, electronics ~8%/year of world production
@@ -20,7 +20,7 @@ These issues initially appeared blocking but have solutions.
 | Risk | Solution | Details |
 |------|----------|---------|
 | Phased array synchronization | Local clusters of 1000-10000 mirrors | [Swarm Mirrors](../detailed/mirrors.qmd#mirror-clusters) |
-| Electrochromics too slow | Sufficient for cluster architecture | [Ultra-thin foil TRL 5-7](technology-readiness.qmd#ultra-thin-aluminum-foil) |
+| Electrochromics too slow | Sufficient for cluster architecture | [Electrochromic TiO₂ TRL 6-7](technology-readiness.qmd#electrochromic-tio₂) |
 | Copper not found on Mercury | Cryo-aluminum in shadow (-180C) | [Cryogenic Al](technology-readiness.qmd#cryogenic-aluminum-cable-gw) |
 | NaS batteries during night period | Cables + charging stations | [NaS TRL 9](technology-readiness.qmd#nas-batteries) |
 | Swarm orbital mechanics | Light pressure + ephemerides | [Ultra-thin foil](technology-readiness.qmd#ultra-thin-aluminum-foil) |
@@ -37,9 +37,10 @@ Require additional development but are not fundamentally new.
 | Technology | TRL | Status | Closest Analog |
 |------------|-----|--------|----------------|
 | [Factory self-replication](technology-readiness.qmd#factory-self-replication) | 3-4 | Engineering task | FANUC: robots build robots |
-| [Autonomous robot AI](technology-readiness.qmd#autonomous-ai-for-robots) | 4-5 | Complicated by communication delay | Rio Tinto: 690 trucks |
 | [In-situ silicon cells](technology-readiness.qmd#in-situ-silicon-cells) | 3-4 | R&D | Blue Origin Blue Alchemist |
 | [Cryogenic Al GW cable](technology-readiness.qmd#cryogenic-aluminum-cable-gw) | 4 | Physics confirmed | CERN LHC cryogenics |
+
+> **Note:** Autonomous robot AI upgraded to TRL 6-7 based on Mars Perseverance, Waymo, and Rio Tinto demonstrations.
 
 **Details:** [Technologies and Sources - TRL 3-4](technology-readiness.qmd#trl-3-4-technologies-open-questions)
 
@@ -135,18 +136,24 @@ Require additional development but are not fundamentally new.
 
 ## Budget Risks
 
-### AI Budget Underestimated
+### AI Cost Declining (Risk Resolved)
 
-| Parameter | Baseline | Realistic |
-|-----------|----------|-----------|
-| Cost | $15-30 billion | **$50-100 billion** |
-| Timeline | 5-7 years | **8-12 years** |
+Baseline estimate ($15-30 billion) was conservative. By 2026:
 
-**References:**
+| Factor | Impact |
+|--------|--------|
+| Foundation models (Meta RoboLlama, Google RT-X) | -50-70% development cost |
+| Humanoid robots | $15-20K (was $50-250K in 2023) |
+| Autonomous mining | TRL 8-9, ready infrastructure |
 
-- Waymo: $11 billion over 15 years - no full autonomy
-- Tesla FSD: $15+ billion over 8 years - level 2
-- Mercury conditions are harder: vacuum, radiation, 5-20 min delay
+**2026 References:**
+
+- Boston Dynamics Atlas 3.0 + DeepMind: 30,000 units/year serial production
+- Caterpillar: 690 autonomous trucks, target 2000+ by 2030
+- Rio Tinto: 130 trucks + 1700 km autonomous rail (AutoHaul)
+- Tesla Optimus Gen 3: $15-20K at mass production
+
+**Conclusion:** AI budget of $15-30 billion is adequate or overestimated thanks to foundation models.
 
 ---
 
@@ -274,9 +281,9 @@ Baseline scenario: $2,500/kg with Starship/Long March 9 availability by 2030.
 
 | Parameter | Value |
 |-----------|-------|
-| Cargo to Mercury | ~20,000 t |
-| At 200 t/launch | ~100 launches over 10 years |
-| **Launches/year** | **~10-20** |
+| Cargo to Mercury | ~22,000 t |
+| At 25-50 t/launch | ~440-880 launches over 10 years |
+| **Launches/year** | **~50-100** |
 
 ---
 
