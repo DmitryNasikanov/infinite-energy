@@ -104,6 +104,11 @@ format:
             newPath = `${basePath}/${targetLang}/`;
           }
 
+          // Fallback для книги (главы не переведены на EN)
+          if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+            newPath = `${basePath}/${targetLang}/book/`;
+          }
+
           window.location.href = newPath;
         }
 
