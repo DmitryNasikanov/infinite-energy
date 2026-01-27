@@ -5,7 +5,7 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **Technological:** 2 technologies at TRL 4-5 (subsystems proven), 1 critical issue (iridium for anodes)
+> - **Technological:** 2 technologies at TRL 4-5 (subsystems proven), 1 critical issue (iridium for anodes — solvable with carbon anodes from local materials)
 > - **Budget:** testing underestimated, dependence on super-heavy rockets
 > - **Human:** 50,000 specialists needed, competition for AI talent
 > - **Political:** sanctions, government changes, legal status of resources
@@ -57,15 +57,15 @@ Require additional development but are not fundamentally new. All subsystems pro
 | World production | ~7 t/year |
 | **Deficit** | **~6x world production** |
 
-**Primary path - Cr-Fe-Co anodes:**
+**Scale of the problem:** At full scale of 1650 factories (20 MRE cells × 4 anodes × 2 kg), initial loading requires ~264 t of iridium and ~330 t/year for replacement — over 40x world production. Iridium import is feasible only in early stages (single-digit factories); at scale, transition to local anodes is **mandatory**.
 
-- Lower lifespan (replacement every 3 months), but materials available on Mercury
-- 80 t/year local production instead of iridium import
-- TRL ~4, requires validation
+**Solutions (local materials):**
 
-**Alternatives:** Carbon consumable (TRL ~3), H2 reduction (TRL ~2)
+1. **Carbon anodes** — consumable, ~10 kg/day per factory. Carbon is mined from Mercury's LRM zones ([details](../detailed/production/materials/carbon.qmd)). Full chain developed: graphite mining → mini-MD delivery → anodes. Demand is covered.
+2. **Cr-Fe-Co anodes** — lower lifespan (replacement every 3 months), but materials available on Mercury. 80 t/year local production. TRL ~4, requires validation.
+3. **H₂ reduction** — TRL ~2, prospective alternative.
 
-**Status:** Serious problem - Cr-Fe-Co most likely solution
+**Status:** Problem is solvable — carbon anodes from local materials are the most developed path
 
 ---
 
@@ -110,13 +110,13 @@ Require additional development but are not fundamentally new. All subsystems pro
 
 #### Mercury Resources (MESSENGER Data)
 
-| Element | In Project | MESSENGER | Status |
-|---------|------------|-----------|--------|
-| Fe | ~5% | **1.5-2%** | 2.5x less |
-| Si | ~20% | ~24.6% | Sufficient |
-| Al | Sufficient | Lower than Moon | Moderate |
+| Element | Demand | In Regolith (MESSENGER) | Status |
+|---------|--------|-------------------------|--------|
+| Al | 42 t/day (7%) — mirrors, windings | ~7% (from feldspars) | **Sufficient** |
+| Si | 25 t/day (4%) — solar panels | ~24.6% | Sufficient with margin |
+| Fe | 10 t/day (~2%) — robot frames | 1.5-2% | Sufficient (production designed for 2%) |
 
-**Consequence:** Process 2.5x more regolith for iron. Mirrors from Al - iron only for robots.
+**Conclusion:** Primary material — aluminum (~95% of mirror mass). The production chain ([distillation](../detailed/production/materials/distillation.qmd)) is designed around actual regolith composition per MESSENGER data. No deficit of bulk elements.
 
 ---
 
@@ -188,11 +188,47 @@ Baseline scenario: $2,500/kg with Starship/Long March 9 availability by 2030.
 
 ### Testing Underestimated
 
-| Stage | Baseline | Realistic |
-|-------|----------|-----------|
-| Factory prototypes | 3-5 iterations | 10-20 iterations |
-| Robot prototypes | $2 billion | $5-10 billion |
-| Lunar testbed | 2 years | 3-5 years |
+| Stage | Baseline | Realistic | Rationale |
+|-------|----------|-----------|-----------|
+| Factory prototypes | 3-5 iterations | 5-10 iterations | 3-5 ground (Gansu) + 2-5 lunar |
+| Robot prototypes | $2 billion | $5-10 billion | Hundreds of versions, thousands of units |
+| Lunar testbed | 2 years | 1.5-2.5 years | 3-5 iterations × 3-5 months + deployment |
+
+#### Estimation Methodology {#testing-estimation-methodology}
+
+**Lunar iteration cycle** (with dedicated launches, independent of third-party launch windows):
+
+| Cycle stage | Optimistic | Realistic |
+|-------------|------------|-----------|
+| Failure analysis (telemetry) | 1-2 weeks | 2-4 weeks |
+| Fix design | 2-4 weeks | 4-8 weeks |
+| Component manufacturing | 2-4 weeks | 4-8 weeks |
+| Prep + flight (3 days) | 1-2 weeks | 2-4 weeks |
+| Installation + retest | 1-2 weeks | 2-4 weeks |
+| **Total cycle** | **~2 months** | **~4 months** |
+
+**Total testbed:** 3-5 iterations × 3-5 months + 3-6 months deployment = **12-31 months ≈ 1.5-2.5 years**
+
+**Why 5-10 factory iterations, not 10-20:**
+
+- Ground test site (Gansu) — vacuum chambers, thermal simulators (-180°C to +430°C) — allows 3-5 iterations before going to the Moon (TRL 4→6)
+- The Moon validates in the real environment (TRL 6→7-8): 2-5 iterations
+- Reference: JPL Mars Rover — 7+ Rocky prototypes before Sojourner, but without a ground facility simulating target conditions
+
+**Why 1.5-2.5 years on the Moon, not 3-5 years:**
+
+- Earth-Moon transit: ~3 days (not months like deep space)
+- Dedicated launches: independent of third-party windows (cf. NASA CLPS: ~2 flights/year)
+- Ground R&D (years 3-4) reduces the number of lunar iterations — a proven system goes to the Moon
+
+**Methodology sources:**
+
+- NASA Software Engineering Handbook, [§7.6](https://swehb.nasa.gov/display/SWEHBVB/7.6+-+Software+Test+Estimation+and+Testing+Levels): integration & test = 22-40% of total schedule
+- Aerospace Corp, ["Test Like You Fly" Process Guide](https://aerospace.org/sites/default/files/2024-06/TOR-2014-02537-REV%20A%20-%20The%20Test%20Like%20You%20Fly%20Process%20Guide%20for%20Space,%20Launch,%20and%20Ground%20Systems.pdf), TOR-2014-02537
+- JPL Mars Rover: [7+ Rocky prototypes before Sojourner](https://www-robotics.jpl.nasa.gov/media/documents/iros96.pdf)
+- [INCOSE Systems Engineering Handbook v5.0](https://sebokwiki.org/wiki/INCOSE_Systems_Engineering_Handbook) — V-model, verification & validation
+- NASA CLPS: [~2 flights/year](https://www.nasa.gov/reference/commercial-lunar-payload-services/) as lunar mission cadence reference
+- NASA [TRA Best Practices Guide SP-20205003605](https://ntrs.nasa.gov/api/citations/20205003605/downloads/%20SP-20205003605%20TRA%20BP%20Guide%20FINAL.pdf)
 
 **Details:** [Budget - Known Limitations](../summaries/budget.qmd#known-limitations)
 
@@ -301,10 +337,8 @@ Baseline scenario: $2,500/kg with Starship/Long March 9 availability by 2030.
 Require additional research:
 
 1. **Venus gravity influence** on swarm orbits - not modeled
-2. **Electronics production on Mercury** - theoretically possible, not designed
-3. **Hydrogen extraction from poles** - ice confirmed, logistics not designed
-4. **Aluminothermy in vacuum** - laboratory data, industrial scale not proven
-5. **NaS behavior during 176-day cycle** - no data on such regimes
+2. **Hydrogen extraction from poles** - ice confirmed, logistics not designed
+3. **Aluminothermy in vacuum** - laboratory data, industrial scale not proven
 
 ---
 
