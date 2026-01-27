@@ -393,65 +393,64 @@ Each cluster synchronizes internally and directs reflected light to its section 
 
 ## Production Schedule
 
-::: {.callout-note}
-## Timeline requires separate calculation
-The exact schedule depends on factory cloning rate and Mass Driver production. Preliminary estimates are provided.
+::: {.callout-tip}
+## Result: ~9.5 years to 1.1 billion active mirrors
+Exponential factory growth (1->~1,650) and Mass Driver scaling (1->1,000) over 4 years, then full capacity of 219 million mirrors/year. Detailed calculation: [Scaling](production/railguns/scaling.qmd), [Roadmap](../summaries/roadmap.qmd).
 :::
 
 ### Production Capacity Growth
 
-| Year | GZF | Mass Drivers | Mirrors/year |
-|------|-----|--------------|--------------|
-| 1 | 10-20 | ~50 | ~11 million |
-| 2 | 50-100 | ~150 | ~33 million |
-| 3 | 200-400 | ~400 | ~88 million |
-| 4 | 800-1200 | ~900 | ~197 million |
-| 5+ | **~1,500** | **1,000** | **219 million** |
+| Year | Factories | Mass Drivers | Mirrors/year |
+|------|-----------|--------------|--------------|
+| 1 | 25 | 12 | ~2.6 M |
+| 2 | 120 | 80 | ~17.5 M |
+| 3 | 500 | 400 | ~88 M |
+| 4+ | ~1,650 | 1,000 | 219 M |
 
 **At 1,000 Mass Drivers (full capacity):**
 ```
 1 MD = 600 mirrors/day = 219,000 mirrors/year
 1,000 MD = 219 million mirrors/year
-Each MD is served by ~1.5 GZF (400 mirrors/day × 1.5 = 600)
+Each MD is served by ~1.5 GZF (400 mirrors/day x 1.5 = 600)
 ```
 
 ### Mirror Accumulation
 
 With a 10-year service life, mirrors begin failing from year 11.
 
-| Year | Produced | Replaced | Total | Power on Earth | × global |
-|------|----------|----------|-------|----------------|----------|
-| **1** | 11 M | — | 11 M | 0.21 PW | **10×** |
-| 2 | 33 M | — | 44 M | 0.84 PW | 42× |
-| 3 | 88 M | — | 132 M | 2.5 PW | 125× |
-| 4 | 197 M | — | 329 M | 6.3 PW | 315× |
-| 5 | 219 M | — | 548 M | 10 PW | 500× |
-| 6 | 219 M | — | 767 M | 15 PW | 750× |
-| **7** | 219 M | — | 986 M | **~19 PW** | **~1000×** |
-| 8 | 219 M | — | 1.21 B | 23 PW | 1150× |
-| 9 | 219 M | — | 1.42 B | 27 PW | 1350× |
-| 10 | 219 M | — | 1.64 B | 31 PW | 1550× |
-| 11 | 219 M | 11 M | 1.85 B | 35 PW | 1750× |
-| 12 | 219 M | 33 M | 2.04 B | 39 PW | ~2000× |
+| Year | Produced | Replaced | Total | Reflected | On Earth (18%) | × global |
+|------|----------|----------|-------|-----------|----------------|----------|
+| **1** | 2.6 M | — | 2.6 M | 0.24 PW | 0.04 PW | **2×** |
+| 2 | 17.5 M | — | 20 M | 1.9 PW | 0.34 PW | 17× |
+| 3 | 88 M | — | 108 M | 10 PW | 1.8 PW | 90× |
+| 4 | 219 M | — | 327 M | 30 PW | 5.5 PW | 275× |
+| 5 | 219 M | — | 546 M | 51 PW | 9.1 PW | 455× |
+| 6 | 219 M | — | 765 M | 71 PW | 12.8 PW | 640× |
+| 7 | 219 M | — | 984 M | 92 PW | 16.5 PW | 825× |
+| **8** | 219 M | — | 1.20 B | 112 PW | **20.1 PW** | **1005×** |
+| 9 | 219 M | — | 1.42 B | 132 PW | 23.8 PW | 1190× |
+| 10 | 219 M | — | 1.64 B | 153 PW | 27.4 PW | 1370× |
+| 11 | 219 M | 2.6 M | 1.86 B | 173 PW | 31.1 PW | 1555× |
+| 12 | 219 M | 17.5 M | 2.06 B | 192 PW | 34.5 PW | 1725× |
 
 > **Global energy consumption (2023):** ~0.02 PW (20 TW). Source: [IEA World Energy Outlook](https://www.iea.org/reports/world-energy-outlook-2023).
 >
-> **In the first year alone** (0.21 PW) the project produces 10× global consumption!
+> In the first year, the project reflects 0.24 PW — on Earth this is 0.04 PW (2× global consumption).
 
-> **Note:** "Replaced" = mirrors that failed after 10 years (equals production of that year).
+> **Note:** "Reflected" = mirrors × 93 MW. "On Earth" = × 0.18 (LSP chain efficiency). "Replaced" = mirrors that failed after 10 years.
 > Total = previous total + produced − replaced.
 
 ### Key Milestones
 
-- **Year 1:** 0.21 PW — already 10× global consumption
-- **Year 7:** ~19 PW — 1000× global consumption, **~1.1 billion mirrors** target achieved
+- **Year 1:** 0.24 PW reflected (0.04 on Earth) — 2× global consumption
+- **Year 8:** ~112 PW reflected (~20 on Earth) — 1000× global consumption, ~1.1 billion active mirrors
 - **Year 11+:** growth slows due to replacement
 
 ### Long-term Balance
 
-After year 11, net increase = 219 M − (production 10 years ago). By year 15, we reach a **plateau of ~2.2 billion mirrors** (~42 PW), when replacement equals production (219 M/year).
+After year 11, net increase = 219 M − (production 10 years ago). By year 15, we reach a **plateau of ~2.2 billion mirrors** (~40 PW on Earth), when replacement equals production (219 M/year).
 
-> **Why 1.1 billion?** ~21 PW = ~1000× global consumption — covers all civilization's energy needs, including Mars terraforming, fuel synthesis, and interstellar missions.
+> **Why 1.1 billion?** ~20 PW on Earth = ~1000× global consumption — covers all civilization's energy needs, including Mars terraforming, fuel synthesis, and interstellar missions.
 
 ---
 
@@ -543,7 +542,79 @@ For a mirror at 0.39 AU orbit (Mercury), reflecting to Hub (L1, ~1 AU):
 | 135° | 33° | 96% |
 | 180° (L1 behind Sun) | 0° | 100% |
 
-Detailed calculations: [Reflection Geometry](geometry.qmd)
+::: {.callout-tip collapse="true"}
+## Full Mathematical Derivation
+
+### Problem Statement
+
+A mirror in Mercury's orbit (0.39 AU) must reflect sunlight to the Hub at L1 (~1 AU). Reflection efficiency depends on the mirror's position in its orbit.
+
+```
+         Mirror M
+            *
+           /|\
+          / | \
+  from   /  |  \   to
+Sun     /   |   \  Hub
+       /    |theta\
+      Sun---+-----o L1 (Hub)
+            |
+   theta = angle between directions
+       "from Sun" and "to Hub"
+```
+
+**Law of reflection:** angle of incidence = angle of reflection. To reflect light from the Sun to the Hub, the mirror is oriented at angle θ/2 to the incident ray. Effective area:
+
+$$
+\eta = \cos\left(\frac{\theta}{2}\right)
+$$
+
+### Calculating Angle θ
+
+Three points: **S** (Sun), **M** (mirror, r_M = 0.39 AU), **E** (Hub L1, r_E = 1 AU). Angle φ — orbital position (φ = 0° when mirror is between S and E).
+
+**Distance from mirror to Hub** (Law of Cosines):
+
+$$
+ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
+$$
+
+**Angle θ at vertex M:**
+
+$$
+\cos(\theta) = \frac{r_M^2 + ME^2 - r_E^2}{2 \cdot r_M \cdot ME}
+$$
+
+### Full Calculation Table
+
+| φ (degrees) | ME (AU) | θ (degrees) | θ/2 (degrees) | η = cos(θ/2) |
+|-------------|---------|-------------|---------------|--------------|
+| 0           | 0.610   | 180.0       | 90.0          | 0.00         |
+| 15          | 0.631   | 155.8       | 77.9          | 0.21         |
+| 30          | 0.690   | 133.6       | 66.8          | 0.39         |
+| 45          | 0.775   | 114.2       | 57.1          | 0.54         |
+| 60          | 0.873   | 97.2        | 48.6          | 0.66         |
+| 75          | 0.975   | 82.3        | 41.1          | 0.75         |
+| 90          | 1.073   | 68.7        | 34.3          | 0.83         |
+| 105         | 1.164   | 56.1        | 28.1          | 0.88         |
+| 120         | 1.242   | 44.2        | 22.1          | 0.93         |
+| 135         | 1.305   | 32.8        | 16.4          | 0.96         |
+| 150         | 1.352   | 21.7        | 10.9          | 0.98         |
+| 165         | 1.380   | 10.8        | 5.4           | 1.00         |
+| 180         | 1.390   | 0.0         | 0.0           | 1.00         |
+
+Symmetry: values for φ = 195°...345° are mirrored relative to 180°.
+
+### Average Efficiency
+
+With uniform distribution of mirrors across the orbit:
+
+$$
+\bar{\eta} = \frac{1}{2\pi} \int_0^{2\pi} \cos\left(\frac{\theta(\phi)}{2}\right) d\phi \approx 0.72
+$$
+
+**Sources:** [ESA Solar Polar Orbiter TRS](https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter), [NASA Solar Sail Trajectories](https://ntrs.nasa.gov/search.jsp?R=20000057299), [IKAROS (JAXA)](https://en.wikipedia.org/wiki/IKAROS)
+:::
 
 ### Summary Metrics
 

@@ -11,12 +11,18 @@ execute:
 ```{ojs}
 //| output: false
 
-// Импортируем из общего модуля
-import { dataScript, mercuryMaterials, materialsById, unitsById, planetsById }
-from "../_ojs-data.qmd"
+// Загрузка данных напрямую из JSON
+data = FileAttachment("../data/db/data.json").json()
 
-// Alias для совместимости с кодом ниже
-data = dataScript
+// Материалы доступные на Меркурии
+mercuryMaterials = new Set(
+  data.planetMaterials.filter(pm => pm.planet_id === "mercury").map(pm => pm.material_id)
+)
+
+// Словари для быстрого поиска
+materialsById = new Map(data.materials.map(m => [m.id, m]))
+unitsById = new Map(data.units.map(u => [u.id, u]))
+planetsById = new Map(data.planets.map(p => [p.id, p]))
 
 // Дополнительные словари для nomenclature
 categoriesById = new Map(data.categories.map(c => [c.id, c]))

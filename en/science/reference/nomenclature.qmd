@@ -11,12 +11,18 @@ Interactive browser for the Project Helios unit database.
 ```{ojs}
 //| output: false
 
-// Import from shared module
-import { dataScript, mercuryMaterials, materialsById, unitsById, planetsById }
-from "../_ojs-data.qmd"
+// Load data directly from JSON
+data = FileAttachment("../data/db/data.json").json()
 
-// Alias for compatibility with code below
-data = dataScript
+// Materials available on Mercury
+mercuryMaterials = new Set(
+  data.planetMaterials.filter(pm => pm.planet_id === "mercury").map(pm => pm.material_id)
+)
+
+// Lookup dictionaries
+materialsById = new Map(data.materials.map(m => [m.id, m]))
+unitsById = new Map(data.units.map(u => [u.id, u]))
+planetsById = new Map(data.planets.map(p => [p.id, p]))
 
 // Additional dictionaries for nomenclature
 categoriesById = new Map(data.categories.map(c => [c.id, c]))

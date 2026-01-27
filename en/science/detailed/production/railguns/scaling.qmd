@@ -198,39 +198,46 @@ function unitWidget(unitId) {
 
 ## Mirror Scaling
 
-### Exponential Growth
+### Realistic Growth Model
 
 **Principle:** First mirrors generate energy -> build new factories -> more mirrors -> even more energy.
 
-| Year | Mass Drivers | Mirrors/year | Accumulated mirrors | Power (GW) |
-|------|--------------|--------------|---------------------|------------|
-| 1 | 1 | 220 k | 220 k | 0.22 |
-| 2 | 10 | 2.2 M | 2.4 M | 2.4 |
-| 3 | 100 | 22 M | 24 M | 24 |
-| 4 | 500 | 110 M | 134 M | 134 |
-| 5 | 1,000 | 220 M | 354 M | 354 |
-| 6 | 2,000 | 440 M | 794 M | 794 |
-| **7** | **3,500** | **770 M** | **1.56 B** | **1,560** |
+Data based on [Roadmap](../../../summaries/roadmap.qmd): Expedition 1 (1 factory) + Expedition 2 (+3 factories by month 5) -> exponential factory and Mass Driver growth.
 
-**Key point:** 1 billion mirrors achieved in **7-8 years** with production doubling every 12-18 months.
+| Year | Factories | Mass Drivers | Mirrors/year | Accumulated |
+|------|-----------|--------------|--------------|-------------|
+| 1 | 25 | 12 | ~2.6 M | 2.6 M |
+| 2 | 120 | 80 | ~17.5 M | 20 M |
+| 3 | 500 | 400 | ~88 M | 108 M |
+| 4 | ~1,650 | 1,000 | ~219 M | 327 M |
+| 5 | ~1,650 | 1,000 | 219 M | 546 M |
+| 6 | ~1,650 | 1,000 | 219 M | 765 M |
+| **7** | **~1,650** | **1,000** | **219 M** | **984 M** |
+
+**Key point:** ~1 billion mirrors in ~5 years (1,000 MD plateau by year 4). Accounting for degradation (3-5%/year) — ~1.1 billion active mirrors in **~9.5 years**.
+
+::: {.callout-note}
+## Theoretical Potential
+With unlimited resources and without expedition logistics, exponential growth can be faster: 1 -> 10 -> 100 -> 500 -> 1,000 -> 2,000 -> 3,500 MDs in 7 years. The realistic model above accounts for factory deployment from the [Roadmap](../../../summaries/roadmap.qmd).
+:::
 
 ### Growth Rates
 
 **Growth phases:**
 
-1. **Years 1-2: Initial phase** (1-10 MD)
+1. **Years 1-2: Initial phase** (12-80 MD)
    - Manual process tuning
    - Robot debugging
    - Productivity: 50-70% of theoretical
 
-2. **Years 3-5: Exponential growth** (100-1000 MD)
+2. **Years 3-4: Exponential growth** (400-1,000 MD)
    - Full automation
    - Factory self-replication
    - Productivity: 80-90%
 
-3. **Years 6-10: Mass production** (1000-10000 MD)
+3. **Year 5+: Full capacity** (1,000 MD, ~1,650 factories)
    - Parallel factories
-   - Logistics optimization
+   - Maintenance and replacement mode
    - Productivity: 90-95%
 
 ### Scaling Scenarios
@@ -273,7 +280,7 @@ Year 6: 1024 MD
 1 billion mirrors: ~5-6 years
 ```
 
-**Selected:** Aggressive scenario (doubling every 1.5 years) as realistic with self-replication.
+**Selected:** Aggressive scenario (doubling every 1.5 years) as realistic with self-replication. Specific data — see the realistic growth model above.
 
 ---
 
@@ -370,15 +377,15 @@ Surplus: +53 MW
 
 ### Long-term Balance
 
-| Phase | Mirrors | Mirror power | Mass Drivers | Consumption |
-|-------|---------|--------------|--------------|-------------|
+| Phase | Mirrors | Power (for Mercury) | Mass Drivers | Consumption |
+|-------|---------|---------------------|--------------|-------------|
 | Start | 0 | 0 MW | 1 | 55 MW |
 | Self-sufficiency | 3 | 72 MW | 1 | 55 MW |
-| Year 1 | 220,000 | 5 TW | 1-10 | 0.5 GW |
-| Year 3 | 24 M | 560 TW | 100 | 5.5 GW |
-| Year 7 | 1.5 B | 35 PW | 3500 | 192 GW |
+| Year 1 | 2.6 M | 60 TW | 12 | 0.7 GW |
+| Year 3 | 108 M | 2,500 TW | 400 | 22 GW |
+| Year 7 | 984 M | 23 PW | 1,000 | 55 GW |
 
-> **Note:** Mirror power = reflected power (~93 MW/mirror x 0.25 for mirrors directed at Mercury). ~18% is transmitted to Earth via LSP stations.
+> **Note:** Mercury power = reflected power (~93 MW/mirror x 0.25 for mirrors directed at Mercury). ~18% is transmitted to Earth via LSP stations.
 
 **Conclusion:** Swarm energy exceeds production consumption by **orders of magnitude**.
 
@@ -476,11 +483,10 @@ Mass driver consumes **600 mirrors/day = 70 tons/day**
 | Mass Drivers | Robots (x52) | Notes |
 |--------------|--------------|-------|
 | 1 | 52 | Initial phase |
-| 10 | 520 | Years 1-2 |
-| 100 | 5,200 | Years 2-3 |
-| 1,000 | 52,000 | Years 3-5 |
-| 10,000 | 520,000 | Years 5-8 |
-| 100,000 | **5.2 M** | Full capacity |
+| 12 | 624 | Year 1 |
+| 80 | 4,160 | Year 2 |
+| 400 | 20,800 | Year 3 |
+| 1,000 | 52,000 | Year 4+ |
 
 **Note:** Some robots (mining, processing) can serve multiple mass drivers if the factory is large. Real requirement: **45-50 robots per mass driver** with centralized production.
 
