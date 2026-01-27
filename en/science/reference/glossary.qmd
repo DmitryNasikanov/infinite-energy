@@ -3,7 +3,61 @@ title: "Glossary of Terms"
 sidebar: science
 ---
 
+## A
+
+### Aluminothermy
+Method of silicon reduction with aluminum instead of carbon. Used on Mercury where carbon is almost absent.
+
+```
+3SiO₂ + 4Al → 3Si + 2Al₂O₃
+```
+
+**See:** [Technologies and Sources](technology-readiness.qmd)
+
+---
+
+## B
+
+### Bootstrap
+First factory assembly on Mercury from 100% imported materials by Gen-1 robots. A unique project phase: before self-replication starts, everything depends on delivered equipment.
+
+**Key:** Critical checkpoint — energy autonomy within 12-24 hours. After checkpoint, assembly time is not critical.
+
+**See:** [First Factory Assembly](../detailed/bootstrap.qmd)
+
+---
+
+## C
+
+### Checkpoint
+The moment of energy autonomy during first factory assembly. Charging infrastructure (cables + charging stations) is deployed, robots can work 24/7 with recharging. Must be achieved within 12-24 hours.
+
+**Key:** After checkpoint, total factory assembly time is not critical — even 30 days is fine.
+
+**See:** [First Factory Assembly](../detailed/bootstrap.qmd)
+
+### Cryogenic Cable
+Aluminum cable cooled to -180°C in Mercury's permanent shadow for GW-scale power transmission. Replaces copper cables (no copper on Mercury). At cryogenic temperatures, Al resistance drops ~20×.
+
+**TRL:** 4-5 (NIST physics proven, analogs — CERN LHC cryogenics).
+
+**See:** [Technologies and Sources](technology-readiness.qmd#cryogenic-aluminum-gw-cable)
+
+---
+
 ## D
+
+### Dark Factories (Lights-off Manufacturing)
+Fully automated factories operating 24/7 without human presence. Industry standard: FANUC (Japan), Xiaomi (China).
+
+**TRL:** 9. **Application:** foundation of Mercury production model.
+
+**See:** [Technologies and Sources](technology-readiness.qmd#dark-factories-lights-off-manufacturing)
+
+### Distillation (Slag Processing)
+Method of processing MRE electrolysis byproducts. Slag contains useful metal oxides extracted via thermal distillation at different boiling points.
+
+**See:** [Distillation](../detailed/production/materials/distillation.qmd)
 
 ### Dyson Swarm
 A cloud of ~1.1 billion independent mirror satellites orbiting a star. NOT a solid sphere (that's a "Dyson Sphere" — science fiction), but a swarm of autonomous elements on heliocentric orbits.
@@ -12,36 +66,83 @@ A cloud of ~1.1 billion independent mirror satellites orbiting a star. NOT a sol
 
 ---
 
-## S
-
-### Swarm Mirrors
-Ultra-light reflective disks 100×100 m made of aluminum foil (4 µm). Controlled by light pressure through electrochromic coating. Mass ~116 kg, power on Earth ~19 MW (at 18% efficiency).
-
-**Reference:** IKAROS (JAXA, 2010) — first interplanetary solar sail.
-
-**See:** [Project in 5 Minutes](../executive-summary.qmd), [Swarm Mirrors](../detailed/mirrors.qmd)
-
----
-
-## P
-
-### Power Beam
-Energy transmission system from Swarm to Earth through 3 cascades:
-
-1. **Collection:** Swarm organized into [local clusters](../detailed/mirrors.qmd#mirror-clusters), concentrates light
-2. **Transit:** Light travels through vacuum to Hub Station at L1 point
-3. **Descent:** Hub converts to laser and redirects to ground receiver
-
-**Efficiency:** 18% ([calculation](../summaries/moon.qmd#energy-transmission-efficiency)), compensated by 100× redundancy.
-
-**See:** [Project in 5 Minutes](../executive-summary.qmd)
-
----
-
 ## E
 
 ### Electrochromics
-Material that changes reflectivity when voltage is applied (like old LCD watches). Used to control mirror orientation without engines.
+Material that changes reflectivity when voltage is applied (like old LCD watches). Used to control mirror orientation without engines — differential reflectivity creates light pressure imbalance.
+
+**TRL:** 6-7 (TiO₂).
+
+**See:** [Technologies and Sources](technology-readiness.qmd#electrochromics-tio₂)
+
+---
+
+## F
+
+### F-M / F-R (Factory Types)
+Two factory types on Mercury:
+
+- **F-M (Factory-Mirror)** — produces aluminum mirrors for the Swarm. ~400 mirrors/day. Total ~1,500.
+- **F-R (Factory-Replicator)** — produces robots, domes, equipment, new factories. Total ~150.
+
+**See:** [Production](../detailed/production.qmd)
+
+---
+
+## G
+
+### GaAs Panels (Gallium Arsenide)
+High-efficiency solar panels (30%+ efficiency) for the initial bootstrap phase. Imported from Earth, providing 168 MW for the first factory before Swarm energy arrives.
+
+**See:** [First Factory Assembly](../detailed/bootstrap.qmd)
+
+### Generation 1 (Gen-1)
+Earth-manufactured robots, optimized for mass during delivery. Materials: titanium, carbon fiber, kevlar. High-tech, expensive, limited lifespan (2-3 years).
+
+**Classes:** Spider-E, Crab-E, Centaur-E, Manipulator F-A1, Mole-E
+
+**See:** [Robot Bestiary](../detailed/production/robots/overview.qmd)
+
+### Generation 2 (Gen-2)
+Mercury-manufactured robots, optimized for local resources. Materials: steel, aluminum, iron. Heavier, rougher, but cheaper and more repairable.
+
+**Classes:** Crab-M, Centaur-M, Mole-M
+
+**See:** [Robot Bestiary](../detailed/production/robots/overview.qmd)
+
+### Ground Zero Factory
+First factory on Mercury. 100% of components delivered from Earth. Task — launch self-replication and build subsequent factories from local resources.
+
+**Power consumption:** 55 MW.
+
+**See:** [Ground Zero Factory](../detailed/production/factories/overview.qmd)
+
+---
+
+## H
+
+### Heliocentric Orbit
+Orbit around the Sun (not around a planet). Swarm mirrors are on heliocentric orbits at ~57.9 million km from the Sun.
+
+---
+
+## I
+
+### ISRU (In-Situ Resource Utilization)
+Using local resources instead of importing from Earth. Key project principle: 97-99% of factory and robot mass is produced from Mercury regolith.
+
+**See:** [Production](../detailed/production.qmd)
+
+---
+
+## L
+
+### LSP Station (Lunar Solar Power)
+Ground-based solar power station on the Moon's surface. Receives concentrated light from the Swarm, converts to 2.45 GHz microwaves, and transmits to rectenna on Earth. Network of 20-40 stations on lunar limbs.
+
+**Advantage:** Heat dissipates into the ground (no space radiators needed), 18% efficiency.
+
+**See:** [LSP Stations](../detailed/hub.qmd)
 
 ---
 
@@ -52,7 +153,105 @@ Electromagnetic catapult for launching cargo into space. Mercury has no atmosphe
 
 **Parameters:** length 2–3 km, velocity 5 km/s, installation mass ~1,300 t.
 
-**See:** [Project in 5 Minutes](../executive-summary.qmd), [Railgun Calculations](../detailed/production/railguns/theory.qmd)
+**See:** [Mass Driver Theory](../detailed/production/railguns/theory.qmd)
+
+### MNLZ (Continuous Casting)
+Continuous casting machine. Industrial method for producing metal slabs from melt (SMS Group, Danieli). Used to produce aluminum blanks for mirrors.
+
+**TRL:** 9 (global metallurgy standard).
+
+**See:** [Casting](../detailed/production/factories/elements/casting.qmd)
+
+### MRE (Molten Regolith Electrolysis)
+Electrolysis of molten regolith — method for extracting metals and oxygen from lunar/Mercury soil. Regolith melts at ~1600°C, electric current separates oxides into metal (cathode) and oxygen (anode).
+
+**TRL:** 5-6 (NASA, Blue Origin).
+
+**See:** [MRE Electrolysis](../detailed/production/materials/mre.qmd)
+
+---
+
+## N
+
+### NaS Battery (Sodium-Sulfur)
+Battery for [Gen-2 robots](../detailed/production/robots/overview.qmd). Sodium and sulfur are extracted from Mercury regolith. Operating temperature +300°C.
+
+**Advantage:** Does not require lithium (which is absent on Mercury).
+
+**Problem:** Requires constant heating → [solution via cables and stations](risks.qmd).
+
+---
+
+## P
+
+### Phased Array
+Array of emitters working synchronously as one antenna. The mirror swarm forms a virtual antenna ~100 km in diameter for focusing light on LSP stations.
+
+### Power Beam
+Energy transmission system from Swarm to Earth through 3 cascades:
+
+1. **Collection:** Swarm organized into [local clusters](../detailed/mirrors.qmd#mirror-clusters) of 1,000-10,000 mirrors, concentrates light
+2. **Transit:** Light travels through vacuum to LSP stations on lunar limbs
+3. **Descent:** LSP stations convert light to microwaves and transmit to rectenna on Earth
+
+**Efficiency:** 18% ([calculation](../detailed/hub.qmd)), compensated by 50-100× redundancy.
+
+**See:** [LSP Stations](../detailed/hub.qmd)
+
+---
+
+## R
+
+### Rectenna (Rectifying Antenna)
+Ground station on Earth receiving microwave radiation from LSP stations on the Moon and converting to DC power. Efficiency 85-90%. Located in deserts (Sahara, Gobi, Atacama, Nevada, Yakutia).
+
+**Key:** Works in any weather — microwaves pass through clouds.
+
+**See:** [LSP Stations](../detailed/hub.qmd)
+
+### Regolith
+Loose fragmental soil on the surface of Mercury and the Moon. Primary source of raw materials: contains oxides of aluminum, silicon, iron, calcium, magnesium. Processed via MRE.
+
+**Composition (Mercury, MESSENGER):** Si ~24.6%, Al ~7%, Fe 1.5-2%, Ca ~6%, Mg ~9%.
+
+**See:** [Physical Constants](constants.qmd)
+
+---
+
+## S
+
+### Self-Replication
+System's ability to build its own copies. Gen-2 robots build Gen-2 robots, factories build factories. Exponential growth: 1 factory → ~1,650 in ~9.5 years.
+
+**Limitation:** Requires "Vitamins" from Earth (1–3% of mass).
+
+**See:** [Self-Replication](../detailed/production/factories/assembly/replication.qmd)
+
+### Solar Constant
+Solar radiation power per unit area:
+
+- Earth: 1,361 W/m²
+- Mercury (orbit average): 10,343 W/m² (7.6× more)
+
+**See:** [Physical Constants](constants.qmd)
+
+### Swarm Mirrors
+Ultra-light reflective disks 100×100 m made of aluminum foil (4 µm). Controlled by light pressure through electrochromic coating. Mass ~116 kg, power on Earth ~19 MW (at 18% efficiency).
+
+**Reference:** IKAROS (JAXA, 2010) — first interplanetary solar sail.
+
+**See:** [Swarm Mirrors](../detailed/mirrors.qmd)
+
+---
+
+## T
+
+### TRL (Technology Readiness Level)
+Technology maturity scale from 1 (basic principles) to 9 (mass production). Used by NASA, ESA, DoD for readiness assessment. All project technologies are at TRL 4-9.
+
+**Key levels:** TRL 4-5 = subsystems proven, integration incomplete. TRL 9 = mass production.
+
+**See:** [Technologies and Sources](technology-readiness.qmd)
 
 ---
 
@@ -72,115 +271,14 @@ Critical components that cannot be manufactured on Mercury and must be shipped f
 
 ---
 
-## G
+## W
 
-### Generation 1 (Gen-1)
-Earth-manufactured robots, optimized for mass during delivery. Materials: titanium, carbon fiber, kevlar. High-tech, expensive, limited lifespan.
+### WAAM (Wire Arc Additive Manufacturing)
+Metal 3D-printing using electric arc welding. A robot deposits metal wire layer by layer, creating parts of any shape. Primary method for producing Gen-2 robot bodies and factory equipment.
 
-**Classes:** Spider-E, Crab-E, Centaur-E, Manipulator F-A1, Mole-E
+**TRL:** 7-8 (Gefertec, WAAM3D, Lincoln Electric).
 
-**See:** [Robot Bestiary](../detailed/production/robots/overview.qmd)
-
-### Generation 2 (Gen-2)
-Mercury-manufactured robots, optimized for local resources. Materials: steel, aluminum, iron. Heavier, rougher, but cheaper and more repairable.
-
-**Classes:** Crab-M, Centaur-M, Mole-M
-
-**See:** [Robot Bestiary](../detailed/production/robots/overview.qmd)
-
----
-
-## Ground Zero Factory
-First factory on Mercury. 100% of components delivered from Earth. Task — launch self-replication and build subsequent factories from local resources.
-
-**Power consumption:** 55 MW.
-
-**See:** [Ground Zero Factory](../detailed/production/factories/overview.qmd)
-
----
-
-## Self-Replication
-System's ability to build its own copies. Gen-2 robots build Gen-2 robots, factories build factories. Exponential growth.
-
-**Limitation:** Requires "Vitamins" from Earth (1–3% of mass).
-
-### Solar Constant
-Solar radiation power per unit area:
-
-- Earth: 1,361 W/m²
-- Mercury (orbit average): 10,343 W/m² (7.6× more)
-
----
-
-## N
-
-### NaS Battery (Sodium-Sulfur)
-Battery for [Gen-2 robots](../detailed/production/robots/overview.qmd). Sodium and sulfur are extracted from Mercury regolith. Operating temperature +300°C.
-
-**Advantage:** Does not require lithium (which is absent on Mercury).
-
-**Problem:** Requires constant heating → [solution via cables and stations](risks.qmd#nas-battery-lifetime-during-night).
-
----
-
-## Phased Array
-Array of emitters working synchronously as one antenna. The mirror swarm forms a virtual antenna ~100 km in diameter for energy transmission.
-
----
-
-## Heliocentric Orbit
-Orbit around the Sun (not around a planet). Swarm mirrors are on heliocentric orbits at ~57.9 million km from the Sun.
-
----
-
-## A
-
-### Aluminothermy
-Method of silicon reduction with aluminum instead of carbon. Used on Mercury where carbon is almost absent.
-
-```
-3SiO₂ + 4Al → 3Si + 2Al₂O₃
-```
-
----
-
-## H
-
-### Hub Station
-Orbital station at L1 point (Earth-Moon), receiving light from the Dyson Swarm and converting it into a laser beam for transmission to Earth.
-
-**Parameters:**
-
-| Characteristic | Value |
-|----------------|-------|
-| Diameter | 5-10 km |
-| Mass | 1-2 million tons |
-| Orbit | L1 (326,000 km from Earth) |
-
-**Construction:** Modules are manufactured on the Moon and launched by lunar mass driver to L1 point.
-
-**See:** [Budget](../summaries/budget.qmd#orbital-infrastructure)
-
----
-
-## L
-
-### L1 Point (Lagrange)
-Gravitational equilibrium point between Earth and Moon, approximately 326,000 km from Earth (58,000 km from Moon). An object at L1 maintains position relative to both bodies with minimal correction (~50 m/s per year).
-
-**Application in project:** Hub Station placement. L1 is closer to Moon than GEO (geostationary orbit), which reduces the cost of material delivery by lunar mass driver.
-
-**See:** [Lunar Mass Driver](../detailed/production/railguns/theory.qmd#lunar-mass-driver)
-
-### Lunar Mass Driver
-Adaptation of Mercury mass driver for the Moon. Launches Hub Station modules to L1 point.
-
-**Advantages over Mercury:**
-- Track length: 1-1.5 km (vs 2-3 km)
-- Energy: 3-4 GJ/t (vs 12.5 GJ/t)
-- 2× shorter and 3× more economical
-
-**See:** [Calculations](../detailed/production/railguns/theory.qmd#lunar-mass-driver)
+**See:** [WAAM 3D-Printing](../detailed/production/factories/elements/waam.qmd)
 
 ---
 
