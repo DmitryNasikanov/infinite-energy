@@ -7,9 +7,9 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **21 of 23** technologies have TRL 6+ (demonstration or higher)
+> - **All 24** technologies have TRL 4+ (laboratory or higher)
 > - **17 technologies** have TRL 7-9 (industrial maturity): electromagnetic launch, dark factories, autonomous mining, WAAM, NaS, foil, solar sails, continuous casting, rolling, CNC, etc.
-> - **2 technologies** TRL 3-4 (self-replication, in-situ silicon) + 1 borderline TRL 4 (cryogenic Al cable)
+> - **2 technologies** TRL 4-5 (self-replication, cryogenic Al cable) — subsystems proven, integration in progress
 > - **None** of the technologies are fundamentally new — all are based on existing physical principles and industrial processes
 > - **Sources:** USA, China, Japan, Europe (ESA, UK, Netherlands, Germany), Australia, Korea, India, Russia
 
@@ -29,10 +29,10 @@ sidebar: science
 | 8 | Ultra-thin Foil | 7-8 | LightSail 2 in space (4.5 μm) | 🇨🇳 Chalco, 🇰🇷 SK Nexilis, 🇺🇸 Planetary Society |
 | 9 | Solar Sails | 7-8 | Flight demonstration | 🇯🇵 IKAROS, 🇺🇸 LightSail 2/NEA Scout |
 | 10 | Rectenna (MW→DC) | 6-7 | 85% efficiency proven | 🇯🇵 NTT/MHI, 🇺🇸 NASA SPS, 🇪🇺 ESA |
-| 11 | Factory Self-replication | 3-4 | Concept + analogies | 🇯🇵 FANUC, 🇺🇸 Tesla, Von Neumann theory |
+| 11 | Factory Self-replication | 4-5 | Subsystems TRL 9 (FANUC, Tesla), integration is engineering task | 🇯🇵 FANUC, 🇺🇸 Tesla, Von Neumann theory |
 | 12 | Autonomous Robot AI | 6-7 | Mars + ground demo | 🇺🇸 Mars Perseverance, 🇺🇸 Waymo, 🇦🇺 Rio Tinto |
-| 13 | In-situ Silicon Cells | 3-4 | R&D | 🇺🇸 Blue Origin, 🇪🇺 ESA research |
-| 14 | Cryogenic Al Cable (GW) | 4 | Physics confirmed | 🇨🇭 CERN LHC, 🇷🇺 ITER cryogenic systems |
+| 13 | In-situ Silicon Cells | 5-6 | Lab demonstration (Blue Alchemist CDR 2025) | 🇺🇸 Blue Origin, 🇪🇺 ESA/Maana Electric |
+| 14 | Cryogenic Al Cable (GW) | 4-5 | NIST physics, superconducting analogues TRL 5-6 | 🇨🇭 CERN LHC, 🇷🇺 ITER cryogenic systems |
 
 > **TRL Scale:** 1-3 = research, 4-5 = laboratory, 6-7 = demonstration, 8-9 = operation
 
@@ -238,7 +238,7 @@ sidebar: science
 
 ***
 
-## Technologies TRL 3-4 (Open Questions)
+## Technologies TRL 4-5 (Open Questions)
 
 ::: {.callout-warning}
 ## These technologies require additional development
@@ -258,7 +258,7 @@ Below are technologies that have no direct industrial precedent. For each, neare
 
 **Critical Question:** What % of factory equipment is produced on-site? Answer: ~99.95% by mass. "Vitamins" (chips, sensors, iridium) — <0.05%.
 
-**Status:** Requires engineering development, but not scientific breakthrough.
+**TRL 4-5 Justification:** All subsystems (dark factories, CNC, WAAM, induction furnaces, robots) are at TRL 9. In 2025-2026, industry is shifting to agentic autonomy — factories as integrated systems (Xiaomi: 100% automation, FANUC: 6,000+ robots/month without humans). Self-replication is an integration task of proven subsystems into one cycle, not creation of new technologies.
 
 ***
 
@@ -284,9 +284,21 @@ Below are technologies that have no direct industrial precedent. For each, neare
 
 **Requirement:** Production of solar cells from regolith silicon on Mercury.
 
-**Key Reference:** Blue Origin [Blue Alchemist](https://www.blueorigin.com/news/blue-alchemist-technology/) — complete cycle: regolith → MRE → Si purification → solar cells. Demonstration 2023.
+**Key Reference:** Blue Origin [Blue Alchemist](https://www.blueorigin.com/news/blue-alchemist-technology/) — complete cycle from regolith to solar cells:
 
-**Clarification:** For Mercury's power system, 10-15% efficiency is sufficient (solar flux 10 kW/m²). This requires 99.99% purity (four nines), not 99.9999% (six nines). Zone melting in Mercury's vacuum = ideal conditions.
+1. **MRE** (Molten Regolith Electrolysis) — electrolysis of molten regolith at ~1600°C
+2. Sequential extraction of **Fe → Si → Al** without toxic chemicals (electricity only)
+3. Solar cell fabrication + protective cover glass from byproducts
+
+Status: full cycle demonstration on simulant 2023, [CDR passed September 2025](https://www.blueorigin.com/news/blue-alchemist-hits-major-milestone-toward-permanent-sustainable-lunar-infrastructure), demonstration in simulated lunar conditions planned for 2026 (NASA $35M grant).
+
+**Second reference:** [Maana Electric](https://maanaelectric.com/) (Luxembourg/ESA) — TERRABOX (terrestrial testbench) and SOURCE (lunar demonstrator) projects. First fully ISRU solar panel from 99% local feedstock (2024). Participant in ESA Space Resource Challenge 2025.
+
+**Why low silicon purity is not a problem:**
+
+On Earth, solar flux is ~1.4 kW/m², requiring ≥20% efficiency and silicon purity of 99.9999% (six nines). At Mercury's orbit, flux is ~10 kW/m² (7.6× higher), and 10-15% efficiency is sufficient. This efficiency is achieved with 99.99% purity (four nines) — a two-order-of-magnitude less stringent requirement that significantly simplifies production.
+
+**Zone melting in vacuum:** A purification method where a molten zone slowly passes along a silicon ingot, pushing impurities to the edges. On Earth this requires vacuum chambers — on Mercury, vacuum is free (surface pressure ~10⁻¹⁵ atm).
 
 ***
 
@@ -302,6 +314,8 @@ Below are technologies that have no direct industrial precedent. For each, neare
 - High-temperature superconductors: commercial cables at -196°C (liquid N₂)
 
 **Clarification:** On Mercury's night side temperature is -180°C — cables are cooled for free.
+
+**TRL 4-5 Justification:** Superconducting cables (a more complex technology) are already at TRL 5-6: [SuperNode](https://supernode.energy/technology/) demonstrated 500 MW at 50 kV (2025), [SCARLET project](https://www.sciencedirect.com/science/article/abs/pii/S0011227520302137) (EU) targets 1 GW. Cryoresistive aluminum is fundamentally simpler: no superconductors needed, standard material. On Mercury, the primary complexity — cryogenic cooling infrastructure — is eliminated.
 
 ***
 
