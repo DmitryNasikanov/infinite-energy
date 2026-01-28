@@ -23,7 +23,7 @@ unitsById = new Map(dataScript.units.map(u => [u.id, u]))
 planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
 
 // Функция для получения материалов компонента
-function getComponentMaterials(componentId) {
+getComponentMaterials = function(componentId) {
   return dataScript.unitMaterials
     .filter(um => um.unit_id === componentId)
     .map(um => {
@@ -38,7 +38,7 @@ function getComponentMaterials(componentId) {
 }
 
 // Функция для отображения виджета единицы
-function unitWidget(unitId) {
+unitWidget = function(unitId) {
   const unit = unitsById.get(unitId);
   if (!unit) return html`<div class="db-widget">Единица ${unitId} не найдена</div>`;
 
