@@ -35,7 +35,7 @@ flowchart TD
     end
 
     subgraph POST["POST-PROCESSING"]
-        CNC["5-axis CNC<br/>milling"]
+        GRIND["Abrasive<br/>grinding"]
         FINISH["Finishing"]
     end
 
@@ -48,8 +48,8 @@ flowchart TD
     TORCH --> ARC
     FLUX --> ARC
     ARC --> TABLE
-    TABLE --> CNC
-    CNC --> FINISH
+    TABLE --> GRIND
+    GRIND --> FINISH
     FINISH --> PARTS
 
     style INPUT fill:#f0e68c
@@ -144,26 +144,27 @@ flowchart TD
 
 ---
 
-## Post-Processing: CNC Milling
+## Post-Processing: Abrasive Grinding
 
-After WAAM, the part has a rough surface and excess material. Finish machining is required.
+After WAAM, the part has a rough surface. Finish machining is done by **grinding** (not milling).
 
-### 5-Axis Machining Center
+### Grinding Cell
 
 | Parameter | Value |
 |-----------|-------|
-| Type | Vertical machining center |
-| Number of axes | 5 (X, Y, Z + 2 rotary) |
-| Spindle power | 10-20 kW |
-| Spindle speed | 10000-20000 rpm |
-| Tool | Al₂O₃ ceramic cutters (corundum, local) |
+| Type | Centaur-M robot with abrasive head |
+| Number of axes | 6 (manipulator) + rotary table |
+| Drive power | 3-5 kW |
+| Spindle speed | 3000-6000 rpm |
+| Tool | Al₂O₃ abrasive wheels (corundum, local) |
 
-**Coolant (cutting fluid):**
-- Oil in closed loop (recirculation)
-- Filtration through centrifuge
-- Cooling on radiators outside dome
+**Advantages over CNC:**
+- No imported high-speed spindle (20,000 rpm)
+- Al₂O₃ abrasive produced from regolith (unlimited)
+- Same Centaur-M robot, just different tool
+- Dry machining in vacuum (no coolant)
 
-**Machining accuracy:** +/-0.05 mm
+**Machining accuracy:** +/-0.05 mm (sufficient for bodies and frames)
 
 ---
 
@@ -194,8 +195,8 @@ After WAAM, the part has a rough surface and excess material. Finish machining i
 | Limitation | Solution |
 |------------|----------|
 | Low speed | Use for complex parts, simple ones by casting |
-| Surface roughness | Post-processing on CNC |
-| Tool wear | Al₂O₃ ceramic — higher wear than WC, but unlimited material (replacement every 3-5 days) |
+| Surface roughness | Abrasive grinding (Al₂O₃) |
+| Abrasive wear | Al₂O₃ corundum — local production, replacement every 1-2 days |
 
 ---
 
@@ -204,10 +205,10 @@ After WAAM, the part has a rough surface and excess material. Finish machining i
 | Component | Power | Quantity | TOTAL |
 |-----------|-------|----------|-------|
 | WAAM cell (robot + torch) | 10 kW | 3 | 30 kW |
-| CNC machining center | 20 kW | 2 | 40 kW |
+| Grinding cell (robot + head) | 5 kW | 2 | 10 kW |
 | Exhaust ventilation | 5 kW | 1 | 5 kW |
 | Automation | 5 kW | - | 5 kW |
-| **TOTAL** | | | **~80 kW** |
+| **TOTAL** | | | **~50 kW** |
 
 ---
 
@@ -216,10 +217,9 @@ After WAAM, the part has a rough surface and excess material. Finish machining i
 | Operation | Frequency | Performed by |
 |-----------|-----------|--------------|
 | Torch replacement | 1 month | Centaur-M |
-| CNC tool replacement | 1 week | Centaur-M |
+| Abrasive wheel replacement | 1-2 days | Centaur-M |
 | Rotary table cleaning | Daily | Crab-M |
 | Robot calibration | Weekly | Automation |
-| Coolant oil refill | Weekly | Centaur-M |
 
 ---
 

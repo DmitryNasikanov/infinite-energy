@@ -177,18 +177,6 @@
       ]
     },
     {
-      "id": "MAT-W",
-      "parent_id": "MAT-METAL",
-      "name": "Вольфрам",
-      "symbol": "W",
-      "description": "Фрезы CNC, фильеры, инструмент",
-      "criticality": "medium",
-      "sources": [
-        "Sandvik — вольфрамовые фрезы",
-        "Kennametal — твёрдые сплавы W-Co"
-      ]
-    },
-    {
       "id": "MAT-CU",
       "parent_id": "MAT-METAL",
       "name": "Медь",
@@ -369,6 +357,19 @@
         "Toray — T700/T800 carbon fiber",
         "Hexcel — aerospace CFRP",
         "SpaceX Dragon — CFRP capsule"
+      ]
+    },
+    {
+      "id": "MAT-SI3N4",
+      "parent_id": "MAT-COMPOUND",
+      "name": "Нитрид кремния",
+      "symbol": "Si₃N₄",
+      "description": "Керамические фрезы для CNC (местное производство из Si + N₂)",
+      "criticality": "medium",
+      "sources": [
+        "Sandvik ceramic cutting tools",
+        "3M Silicon Nitride",
+        "PMC: Si₃N₄ machining tools"
       ]
     }
   ],
@@ -957,9 +958,9 @@
     {
       "id": "CMP-001",
       "category_id": "equipment",
-      "name": "Блок электроники",
-      "description": "CPU, микроконтроллеры, связь",
-      "mass_kg": 5.0,
+      "name": "Чипсет",
+      "description": "CPU, микроконтроллеры, FPGA, радиомодуль (корпус — местный Al)",
+      "mass_kg": 0.2,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
@@ -1067,31 +1068,47 @@
     {
       "id": "CMP-006",
       "category_id": "equipment",
-      "name": "Фильера W",
-      "description": "Фильера для волочения проволоки, вольфрам",
+      "name": "Фильера Si₃N₄ (проволока)",
+      "description": "Фильера для волочения проволоки, керамика (местное производство)",
       "mass_kg": 0.5,
       "power_kw": null,
       "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "earth",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
       "sources": [
-        "Sandvik — tungsten carbide dies",
-        "Esteves — wire drawing dies"
+        "ATCERA — Si₃N₄ wire drawing dies",
+        "KYOCERA — silicon nitride dies"
+      ]
+    },
+    {
+      "id": "CMP-017",
+      "category_id": "equipment",
+      "name": "Фильера Al₂O₃ (стекло)",
+      "description": "Фильера для стекловолокна, керамика (местное производство)",
+      "mass_kg": 2.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": true,
+      "production_planet_id": "mercury",
+      "sources": [
+        "ScienceDirect 1981 — ceramic bushings",
+        "Stanford Advanced Materials — Al2O3 bushings"
       ]
     },
     {
       "id": "CMP-007",
       "category_id": "equipment",
-      "name": "Фреза W-Co",
-      "description": "Твердосплавная фреза для CNC",
+      "name": "Фреза Si₃N₄",
+      "description": "Керамическая фреза для CNC (местное производство)",
       "mass_kg": 0.2,
       "power_kw": null,
       "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "earth",
+      "is_assembly": true,
+      "production_planet_id": "mercury",
       "sources": [
-        "Sandvik Coromant — carbide cutters",
-        "Kennametal — milling tools"
+        "Sandvik ceramic cutting tools",
+        "3M Silicon Nitride",
+        "Kennametal ceramic inserts"
       ]
     },
     {
@@ -1411,9 +1428,9 @@
     },
     {
       "planet_id": "mercury",
-      "material_id": "MAT-W",
-      "concentration_pct": 0.01,
-      "notes": "следы (фильеры стекловолокна)"
+      "material_id": "MAT-SI3N4",
+      "concentration_pct": null,
+      "notes": "производится из Si + N₂ (фрезы CNC)"
     },
     {
       "planet_id": "moon",
@@ -1483,12 +1500,6 @@
     },
     {
       "planet_id": "earth",
-      "material_id": "MAT-W",
-      "concentration_pct": null,
-      "notes": "импорт, фрезы CNC (WC-Co)"
-    },
-    {
-      "planet_id": "earth",
       "material_id": "MAT-GAAS",
       "concentration_pct": null,
       "notes": "импорт, фотоячейки"
@@ -1518,16 +1529,16 @@
       "notes": "импорт, углепластик"
     },
     {
+      "planet_id": "earth",
+      "material_id": "MAT-MOS2",
+      "concentration_pct": null,
+      "notes": "импорт, смазка для вакуума"
+    },
+    {
       "planet_id": "mercury",
       "material_id": "MAT-NAK",
       "concentration_pct": null,
       "notes": "производится из Na+K"
-    },
-    {
-      "planet_id": "mercury",
-      "material_id": "MAT-MOS2",
-      "concentration_pct": null,
-      "notes": "производится (Mo — следы)"
     },
     {
       "planet_id": "mercury",
@@ -1951,7 +1962,7 @@
     },
     {
       "unit_id": "EQU-025",
-      "material_id": "MAT-W",
+      "material_id": "MAT-SI3N4",
       "fraction_pct": 0.25
     },
     {
@@ -2001,7 +2012,7 @@
     },
     {
       "unit_id": "EQU-010",
-      "material_id": "MAT-W",
+      "material_id": "MAT-SI3N4",
       "fraction_pct": 0.15
     },
     {

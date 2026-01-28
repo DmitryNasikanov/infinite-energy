@@ -34,6 +34,7 @@ sidebar: science
 | 13 | NaS Batteries | 9 | 5 GWh deployed | 🇯🇵 NGK, 🇩🇪 HH2E, 🇺🇸 Duke Energy |
 | 14 | Dark Factories | 9 | Industrial operation | 🇯🇵 FANUC, 🇨🇳 Xiaomi/Foxconn, 🇳🇱 Philips |
 | 15 | Integrated Servo Actuators | 9 | Automated mass production | 🇨🇳 EYOU (100K/yr), 🇨🇳 Leaderdrive, 🇯🇵 Harmonic Drive, 🇯🇵 Nabtesco |
+| 16 | Si₃N₄ Ceramic Cutters | 8-9 | Industrial standard | 🇸🇪 Sandvik, 🇺🇸 3M, 🇩🇪 CeramTec |
 
 > **TRL Scale:** 1-3 = research, 4-5 = laboratory, 6-7 = demonstration, 8-9 = operation
 
@@ -295,21 +296,44 @@ Below are technologies that have no direct industrial precedent. For each, neare
 
 **Requirement:** 1.1 billion mirrors in heliocentric orbit aim at LSP stations.
 
-**Key Clarification:** This is NOT a swarm coordination task. Each mirror is an independent controller. Task reduces to:
-1. Know your position (sun sensor + ephemeris)
-2. Know direction to target (uploaded tables)
-3. Orient yourself (electrochromics, light pressure)
+**Solution:** [Mother-Children architecture](../detailed/mirrors.qmd#optical-cluster-control) — optical cluster control.
+
+#### Control Hierarchy
+
+| Level | Element | Quantity | Electronics | TRL |
+|-------|---------|----------|-------------|-----|
+| Cluster | Mother mirror | 1.1 M | Full chip (50 g) | 7-8 |
+| Followers | Child mirrors | 1.1 B | Simple decoder (2 g) | 6-7 |
+
+#### Mother Mirrors (TRL 7-8)
+
+**Functions:** Star tracker + processor + laser transmitter + radio.
 
 **Analogues:**
 - Starlink: 6,000+ satellites, autonomous orbit correction
 - GPS: 31 satellites with precision orbits
-- IoT: billions of devices with autonomous controllers
+- [China Laser ISL](https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/): 400 Gbps optical communication between satellites (2024-2025)
 
-**Status:** Engineering scaling problem, not scientific problem.
+#### Child Mirrors (TRL 6-7)
+
+**Functions:** Photodiode + simple decoder → electrochromic commands.
+
+**Principle:** Mother modulates laser beam (analogous to TV remote). Children decode pulses into orientation commands.
+
+**Analogues:**
+- [IKAROS](https://en.wikipedia.org/wiki/IKAROS) (2010): electrochromic control of solar sail
+- [Leader-follower formation](https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430): optical satellite navigation
+- TV IR remotes: ~5 transistors for decoding
+
+**Local Production Prospect:** From phase 2 (years 10+) receivers are produced on Mercury:
+- Photodiodes: [Blue Alchemist](#in-situ-silicon-cells) (TRL 5-6)
+- LC circuits: aluminum + Al₂O₃ ceramics (local materials)
+
+**Status:** Engineering scaling problem. All components have industrial precedents.
 
 ***
 
-### In-situ Silicon Cells
+### In-situ Silicon Cells {#in-situ-silicon-cells}
 
 **Requirement:** Production of solar cells from regolith silicon on Mercury.
 

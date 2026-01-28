@@ -6,9 +6,9 @@ sidebar: science
 > **TL;DR**
 >
 > - **Purpose:** Launch control and monitoring systems for Mass Drivers
-> - **Mass:** ~7 t (100% imported from Earth)
-> - **Components:** Controllers, sensors, power electronics
-> - **Critical import:** Not manufactured on Mercury
+> - **Mass:** ~7 t (96% local, 4% import)
+> - **Import:** ~275 kg (controller boards, MOSFET chips, sensors)
+> - **Local:** ~6.85 t (NaS capacitors, Al heatsinks, housings)
 
 ---
 
@@ -64,8 +64,10 @@ flowchart TD
 | Processor | ARM Cortex-A72 (4 cores, 1.5 GHz) |
 | Memory | 8 GB RAM, 128 GB SSD |
 | Redundancy | Dual backup (primary + backup) |
-| Mass | 50 kg (2 units) |
-| **Source** | **Imported from Earth** |
+| Board mass | ~5 kg (2 units = 10 kg) |
+| Housing mass (Al) | ~40 kg (2 units) |
+| **Board source** | **Imported from Earth** (~10 kg) |
+| **Housing source** | **Local** (Al) |
 
 **Functions:**
 - Acceleration trajectory calculation
@@ -83,9 +85,11 @@ flowchart TD
 | Function | Control of 30 coils |
 | Processor | ARM Cortex-M4 (168 MHz) |
 | Interface | Ethernet (fiber optic) |
-| Mass per unit | 5 kg |
-| **TOTAL mass** | **500 kg** |
-| **Source** | **Imported from Earth** |
+| Board mass | ~450 g |
+| Housing mass (Al) | ~4.5 kg |
+| **TOTAL board mass** | **45 kg** |
+| **Board source** | **Imported from Earth** (~45 kg) |
+| **Housing source** | **Local** (Al)
 
 ---
 
@@ -113,27 +117,34 @@ flowchart TD
 | Voltage | 1000 V |
 | Current | 1000 A |
 | Switching time | <1 us |
-| Mass per module | 500 g |
-| **TOTAL mass** | **1.5 t** |
-| **Source** | **Imported from Earth** |
+| Chip mass | ~50 g |
+| Heatsink mass (Al) | ~400 g |
+| **TOTAL module** | **~450 g** |
+| **Chip source** | **Imported from Earth** (~150 kg per MD) |
+| **Heatsink source** | **Local** (Al) |
 
 **Function:** Coil on/off switching with microsecond precision.
 
+**Localization:** Heatsinks and housings manufactured from local Al, only chips imported.
+
 ---
 
-#### Capacitor Banks
+#### NaS Capacitor Banks
 
 | Parameter | Value |
 |-----------|-------|
+| Type | Sodium-sulfur (NaS) |
 | Capacitance | 10,000 F (farads) |
 | Voltage | 1000 V |
 | Energy | 4 GJ (per shot) |
 | Mass | ~5 t |
-| **Source** | **Imported from Earth** |
+| **Source** | **100% local** |
+
+**Materials:** Na (anode) + S (cathode) + Al₂O₃ beta-alumina (separator) — all from [regolith](../../materials/overview.qmd).
 
 **Function:** Energy storage between shots (2-3 minutes charging).
 
-**Details:** [MD Theory](../theory.qmd#capacitor-banks)
+**Details:** [MD Theory](../theory.qmd#capacitor-banks), [NaS TRL 9](../../../../reference/technology-readiness.qmd#nas-batteries)
 
 ---
 
@@ -181,16 +192,18 @@ flowchart TD
 
 **Electronics per 1 Mass Driver:**
 
-| Component | Mass | Localization |
-|-----------|------|--------------|
-| Controllers (main + sections) | 550 kg | Import |
-| Sensors (6150 units) | 20 kg | Import |
-| MOSFET switches (3000 units) | 1.5 t | Import |
-| Capacitors | 5 t | Import |
-| Cables, fiber optics | 50 kg | Import |
-| **TOTAL** | **~7 t** | **100% import** |
+| Component | Import | Local | Total |
+|-----------|--------|-------|-------|
+| Controller boards | 55 kg | 495 kg (Al housings) | 550 kg |
+| Sensors | 20 kg | — | 20 kg |
+| MOSFET chips | 150 kg | 1.35 t (Al heatsinks) | 1.5 t |
+| **NaS Capacitors** | **—** | **5 t** | **5 t** |
+| Cables, fiber optics | 50 kg | — | 50 kg |
+| **TOTAL** | **~275 kg** | **~6.85 t** | **~7.1 t** |
 
-**Conclusion:** Electronics is the only Mass Driver component not manufactured locally.
+**Localization: 96%** by mass (NaS capacitors + heatsinks + housings).
+
+**Conclusion:** Only boards and chips imported (~275 kg/MD). NaS capacitors and housings — local production.
 
 ---
 

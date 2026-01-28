@@ -10,11 +10,11 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **Requirements:** 60-100 t to Moon (testbed), 22,000 t to Mercury (main program)
-> - **Launch vehicles:** [Starship](https://en.wikipedia.org/wiki/SpaceX_Starship) (USA, 200 t), [Long March 9](https://en.wikipedia.org/wiki/Long_March_9) (China, 150 t), [Yenisei](https://en.wikipedia.org/wiki/Yenisei_(rocket)) (Russia, 100 t), [New Glenn](https://en.wikipedia.org/wiki/New_Glenn) (USA, 70 t)
-> - **Lunar programs:** [Artemis](https://www.nasa.gov/artemis) (NASA), [Chang'e](https://en.wikipedia.org/wiki/Chinese_Lunar_Exploration_Program) (China), [Luna](https://en.wikipedia.org/wiki/Luna-Glob) (Russia), [ILRS](https://en.wikipedia.org/wiki/International_Lunar_Research_Station) (China+Russia, 2035)
-> - **Launch rate:** 200-275 launches/year at peak (requires 4-5 spaceports)
-> - **Delivery cost:** $55-165 billion (depending on scenario)
+> - **Total imports:** ~2,400 t over ~11 years (Moon 80 t + Mercury 2,325 t)
+> - **Localization:** 96% of mass produced locally (NaS capacitors, housings, heatsinks)
+> - **Launch vehicles:** [Starship](https://en.wikipedia.org/wiki/SpaceX_Starship) (USA), [Long March 9](https://en.wikipedia.org/wiki/Long_March_9) (China), [Yenisei](https://en.wikipedia.org/wiki/Yenisei_(rocket)) (Russia)
+> - **Launch rate:** ~15-30 launches/year at peak (1 spaceport sufficient)
+> - **Delivery cost:** $8-15 billion (instead of $80+ billion without localization)
 
 ---
 
@@ -41,13 +41,13 @@ sidebar: science
 
 ---
 
-## Phase 2: Mercury (Years 6-10)
+## Phase 2: Mercury (Years 6-15)
 
 | Expedition | Year | Cargo | Objective |
 |------------|------|-------|-----------|
 | E1 | 6 | 75 t | Test: 1 factory + 1 Mass Driver |
-| E2 | 6.5 | 150 t | Reinforcement: +3 factories |
-| Regular | 7-10 | 22,000 t | 1000 factories, "Vitamins" |
+| E2 | 6.5 | 65 t | Reinforcement: +3 factories (electronics) |
+| Regular | 7-15 | ~2,185 t | 1645 factories + 1000 MDs (electronics only) |
 
 **Trajectory to Mercury:**
 
@@ -62,29 +62,30 @@ sidebar: science
 
 | Year | Factories | Cargo | Launches |
 |------|-----------|-------|----------|
-| 7 | 25 | 800 t | 16-32 |
-| 8 | 120 | 2,200 t | 44-88 |
-| 9 | 500 | 7,200 t | 144-288 |
-| 10 | 1000 | 11,600 t | 232-464 |
-| **Total (regular)** | | **~21,800 t** | **436-872** |
+| 7 | 25 | 91 t | 2-4 |
+| 8 | 120 | 214 t | 4-9 |
+| 9 | 500 | 519 t | 10-21 |
+| 10 | 1000 | 728 t | 15-29 |
+| 11-15 | — | 633 t | 13-25 |
+| **Total (regular)** | | **~2,185 t** | **~44-88** |
 
-**Peak:** 200-275 launches/year = 4-5 launches/week globally.
+**Peak:** 15-30 launches/year = 1-2 launches/month globally.
 
 **Note:**
-- Regular deliveries (years 7-10): 21,800 t
-- Expeditions 1-2 (years 6-6.5): 225 t
-- **Total to Mercury: ~22,000 t**
-- **Total launches (including expeditions and reserve): ~900**
+- Regular deliveries (years 7-15): ~2,185 t
+- Expeditions 1-2 (years 6-6.5): 140 t
+- **Total to Mercury: ~2,325 t**
+- **Total launches (including expeditions and reserve): ~50-100**
 
 ---
 
 ## Delivery Cost
 
-| Scenario | $/kg to Mercury | 22,000 t | Assumptions |
-|----------|-----------------|----------|-------------|
-| Optimistic | $1,500 | $33 billion | Fully reusable vehicles |
-| **Baseline** | **$2,500** | **$55 billion** | **International fleet** |
-| Conservative | $5,000 | $110 billion | Current technology |
+| Scenario | $/kg to Mercury | 2,325 t | Assumptions |
+|----------|-----------------|---------|-------------|
+| Optimistic | $1,500 | $3.5 billion | Fully reusable vehicles |
+| **Baseline** | **$2,500** | **$6 billion** | **International fleet** |
+| Conservative | $5,000 | $12 billion | Current technology |
 
 **Detailed calculations:** [Budget](../summaries/budget.qmd) | [Roadmap](../summaries/roadmap.qmd)
 
@@ -95,8 +96,8 @@ sidebar: science
 ```{mermaid}
 %%| fig-width: 8
 flowchart LR
-    subgraph "Phase 2 (Years 6-10): Mercury"
-        E2[Earth] -->|"Rockets<br>22,000 t"| M[Mercury]
+    subgraph "Phase 2 (Years 6-15): Mercury"
+        E2[Earth] -->|"Rockets<br>~2,325 t"| M[Mercury]
         M -->|"MD 5 km/s"| R[Dyson Swarm]
     end
 
@@ -109,10 +110,43 @@ flowchart LR
 | Route | Purpose | Cargo | Mechanism |
 |-------|---------|-------|-----------|
 | Earth to Moon | Testbed, LSP factories | 60-100 t | Super-heavy lift vehicles |
-| Earth to Mercury | Factories, Mass Drivers | 22,000 t | Super-heavy lift vehicles |
+| Earth to Mercury | Factory and MD electronics | ~2,325 t | Super-heavy lift vehicles |
 | Mercury to orbit | Swarm Mirrors | ~10^14 t | Mercury Mass Driver |
 
 **Moon:** [LSP station](../summaries/moon.qmd) production from local resources (regolith to aluminum, silicon). Only "Vitamins" delivered from Earth — electronics, optics, rare materials. Production details: [Ground Zero Factory](production/factories/overview.qmd).
+
+## Vitamins: Critical Imports {#vitamins}
+
+Vitamins are materials that cannot or should not be produced on Mercury.
+
+### Permanent Imports (~77 kg/factory/year)
+
+| Category | Material | Mass | Purpose |
+|----------|----------|------|---------|
+| Electronics | Chipsets (GaAs, CMOS) | ~72 kg | 180 robots × 2 chips × 0.2 kg |
+| Metals | Iridium (Ir) | ~4 kg | MRE anodes (replacement) |
+| Gases | Nitrogen (N₂) | ~3 kg | Si₃N₄ ceramics (cutters + wire dies) |
+| **TOTAL** | | **~79 kg** | |
+
+### Transitional Imports (Gen-1 only, first expedition)
+
+| Material | Purpose | After Localization |
+|----------|---------|-------------------|
+| Li/Li-S | Batteries | NaS from local Na+S |
+| Cu | Motors | Cryogenic Al cable |
+| Kevlar | Reinforcement | Basalt fiber |
+| CFRP | Housings | Local Fe-6%Mn steel |
+| GaAs | Starter panels | Si from regolith |
+
+### Localized Materials (formerly imported)
+
+| Before | After | Source |
+|--------|-------|--------|
+| ~~W-Co cutters~~ | Si₃N₄ ceramic | Si + N₂ |
+| ~~Platinum (glass dies)~~ | Al₂O₃ ceramic | Al 7% + O₂ ([ScienceDirect 1981](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510)) |
+| ~~Electronics housings~~ | Aluminum Al | Local |
+
+> **Details:** [Deficient Elements](production.qmd#deficit-elements), [Technologies](../reference/technology-readiness.qmd)
 
 ---
 
@@ -133,7 +167,7 @@ The project requires launch vehicles with >50 t payload to LEO. By the active ph
 
 *Payload to Mercury trajectory ~30-35% of LEO (Delta-v ~12.5 km/s).
 
-**Economies of scale:** Doubling payload capacity reduces cost per kilogram by ~1.5-2x. For 22,000 t cargo to Mercury, this is the difference between $55 billion and $110 billion.
+**Economies of scale:** Doubling payload capacity reduces cost per kilogram by ~1.5-2x. For 2,325 t cargo to Mercury, this is the difference between $6 billion and $12 billion.
 
 ::: {.callout-warning}
 ## Geopolitical Factor
@@ -175,7 +209,7 @@ The same mirrors that transmit energy to Earth can be used to accelerate cargo. 
 
 # Spaceport Infrastructure
 
-200-275 launches/year requires a global network of spaceports.
+80-165 launches/year requires 2-3 active spaceports.
 
 | Spaceport | Country | Coordinates | Vehicles | Capacity |
 |-----------|---------|-------------|----------|----------|
@@ -189,9 +223,9 @@ The same mirrors that transmit energy to Earth can be used to accelerate cargo. 
 | **Vostochny** | Russia | 51 deg N | Angara, Soyuz-2 | 10-15 launches/year |
 | **Plesetsk** | Russia | 63 deg N | Angara, Soyuz | 10-15 launches/year |
 
-::: {.callout-warning}
-## Bottleneck
-No spaceport is capable of >100 launches/year today. Starbase is the first candidate for such intensity. Project Helios will require 4-5 active sites.
+::: {.callout-note}
+## Infrastructure
+At peak 165 launches/year, 2-3 spaceports are sufficient. Starbase (planned 100 launches/year) + 1-2 additional sites will provide the necessary capacity.
 :::
 
 ---
@@ -279,7 +313,7 @@ flowchart LR
 | Risk | Problem | Mitigation |
 |------|---------|------------|
 | Launch vehicle delays | Starship Block 3, Long March 9 | Reliance on multiple vehicles |
-| Spaceport capacity | 200+ launches/year impossible today | Distribution across 4-5 sites |
+| Spaceport capacity | 165 launches/year at peak | 2-3 spaceports (Starbase + backup) |
 | Geopolitics | Sanctions limit cooperation | Parallel USA/China/Russia programs |
 | Solar thermal propulsion | Early-stage technology | [Portal Space](https://www.portalsystems.space/) testing (2025-2026). Alternative: solar sails ([Samara University](https://rg.ru/2024/05/07/reg-pfo/foton-vmesto-tonn.html), [SIASAIL-I](https://english.cas.cn/newsroom/cas_media/201912/t20191231_228731.shtml)) |
 
@@ -288,4 +322,121 @@ flowchart LR
 - Mission insurance to Mercury (high risk, long flight)
 - Interface standardization between vehicles from different countries
 - Upper stage disposal (space debris)
+
+---
+
+# Project Import Summary {#project-summary}
+
+## Import Matrix by Location
+
+### MOON
+
+| Category | Initial | **TOTAL** |
+|----------|---------|-----------|
+| **Factories** | 40 t | **40 t** |
+| **Robots Gen-1** | 10 t | **10 t** |
+| **Infrastructure** | 30 t | **30 t** |
+| **TOTAL MOON** | **80 t** | **80 t** |
+
+*Initial = Year 4, initial launch to Moon*
+
+*Infrastructure = concentrators 5 t + vitamins 10 t + reserve 15 t*
+
+### MERCURY
+
+| Category | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Year 11-15 | **TOTAL** |
+|----------|---------|--------|--------|--------|---------|------------|-----------|
+| **Factories (boards)** | 140 t | 1 t | 5 t | 21 t | 63 t | | **230 t** |
+| **Mass Drivers (boards)** | | 3 t | 19 t | 88 t | 165 t | | **275 t** |
+| **Mirrors** | | 85 t | 180 t | 370 t | 420 t | | **1,055 t** |
+| **Robots (vitamins)** | | 2 t | 10 t | 40 t | 80 t | 633 t | **765 t** |
+| **TOTAL MERCURY** | **140 t** | **91 t** | **214 t** | **519 t** | **728 t** | **633 t** | **2,325 t** |
+
+*Initial = Year 6, E1 expedition — 4 bootstrap factories (full import before localization)*
+
+### SUMMARY TABLE
+
+| Location | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Year 11-15 | **TOTAL** |
+|----------|---------|--------|--------|--------|---------|------------|-----------|
+| **MOON** | 80 t | | | | | | **80 t** |
+| **MERCURY** | 140 t | 91 t | 214 t | 519 t | 728 t | 633 t | **2,325 t** |
+| **TOTAL** | **220 t** | **91 t** | **214 t** | **519 t** | **728 t** | **633 t** | **~2,400 t** |
+
+**Equivalent: ~48 Starship launches (50 t/launch)**
+
+---
+
+## Detailed Breakdown by Category
+
+### 1. Factories (~230 t)
+
+| Component | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Total |
+|-----------|---------|--------|--------|--------|---------|-------|
+| E1 bootstrap (4 factories) | 140 t | | | | | 140 t |
+| MNLZ automation boards | | 0.6 t | 2.9 t | 11 t | 35 t | 50 t |
+| Control unit boards | | 0.4 t | 2.1 t | 10 t | 28 t | 40 t |
+| **Total factories** | **140 t** | **1 t** | **5 t** | **21 t** | **63 t** | **230 t** |
+
+- **Initial (E1 bootstrap):** full import of 4 factories before localization
+- **Regular:** electronics boards only (~55 kg/factory), housings — [local production](production/factories/assembly/equipment.qmd)
+- Al₂O₃ bearings — 100% local (ceramic from regolith)
+- 99.9% of equipment mass — local production
+
+### 2. Mass Drivers (~275 t)
+
+| Component | Year 7 | Year 8 | Year 9 | Year 10 | Total |
+|-----------|--------|--------|--------|---------|-------|
+| Controller boards | 0.7 t | 4 t | 18 t | 33 t | 55 t |
+| MOSFET chips | 2 t | 10 t | 48 t | 90 t | 150 t |
+| Sensors | 0.2 t | 1.4 t | 6 t | 12 t | 20 t |
+| Cables | 0.6 t | 3.4 t | 16 t | 30 t | 50 t |
+| **Total MDs** | **3 t** | **19 t** | **88 t** | **165 t** | **275 t** |
+
+- 1,000 MDs × **275 kg** electronics = **275 t** (boards and chips only)
+- **NaS capacitors** — 100% local (Na + S + Al₂O₃ from regolith)
+- Heatsinks and housings — local Al
+- Remaining 450 t/MD — local production
+
+### 3. Mirrors (~1,055 t)
+
+| Component | Year 7 | Year 8 | Year 9 | Year 10 | Total |
+|-----------|--------|--------|--------|---------|-------|
+| Mother chips | 5 t | 10 t | 20 t | 20 t | 55 t |
+| Child decoders | 80 t | 170 t | 350 t | 400 t | 1,000 t |
+| **Total mirrors** | **85 t** | **180 t** | **370 t** | **420 t** | **1,055 t** |
+
+- [Mother-Children architecture](mirrors.qmd#optical-cluster-control): 1.1M Mother chips × 50g + 500M Child decoders × 2g
+- Child receivers (phase 2): local production
+
+### 4. Robots (~775 t)
+
+| Component | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Year 11-15 | Total |
+|-----------|---------|--------|--------|--------|---------|------------|-------|
+| Gen-1 (Moon) | 10 t | | | | | | 10 t |
+| Vitamins (chipsets) | | 2 t | 10 t | 40 t | 80 t | 633 t | 765 t |
+| **Total robots** | **10 t** | **2 t** | **10 t** | **40 t** | **80 t** | **633 t** | **775 t** |
+
+- **Initial:** Gen-1 robots for Moon factory (full import)
+- **Regular:** vitamins — chipsets (72 kg), iridium (4 kg), nitrogen (3 kg) per factory/year
+- Years 11-15: 1,645 factories × 79 kg × 5 years = 650 t
+
+### 5. Moon Infrastructure (~30 t)
+
+| Component | Initial | Total |
+|-----------|---------|-------|
+| Solar concentrators | 5 t | 5 t |
+| Moon vitamins (2 years) | 10 t | 10 t |
+| Reserve | 15 t | 15 t |
+| **Total infrastructure** | **30 t** | **30 t** |
+
+---
+
+> **Savings from localization:**
+>
+> - **Self-replicating factories:** reduced equipment import from ~14,000 t to ~230 t (98%)
+> - **NaS capacitors:** local production from regolith, reduced MD import from 7,000 t to 275 t (96%)
+> - **Local housings/heatsinks:** assembled locally from Al, import only boards and chips
+> - **Al₂O₃ bearings:** 100% local ceramic
+> - **Mother-Children architecture:** reduced mirror electronics import from 55,000 t to 1,055 t (98%)
+> - Without these optimizations, the project would require ~80,000 t total import
 

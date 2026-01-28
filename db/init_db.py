@@ -134,12 +134,6 @@ def seed_materials(con):
          "medium",
          json.dumps(["Johnson Matthey — платиновые металлы", "Heraeus — иридиевые аноды"])),
 
-        ("MAT-W", "MAT-METAL", "Вольфрам", "Tungsten", "W",
-         "Фрезы CNC, фильеры, инструмент",
-         "CNC cutters, dies, tooling",
-         "medium",
-         json.dumps(["Sandvik — вольфрамовые фрезы", "Kennametal — твёрдые сплавы W-Co"])),
-
         ("MAT-CU", "MAT-METAL", "Медь", "Copper", "Cu",
          "Обмотки моторов Gen-1 (земное производство)",
          "Gen-1 motor windings (Earth production)",
@@ -231,6 +225,12 @@ def seed_materials(con):
          "Gen-1 housings (import)",
          "medium",
          json.dumps(["Toray — T700/T800 carbon fiber", "Hexcel — aerospace CFRP", "SpaceX Dragon — CFRP capsule"])),
+
+        ("MAT-SI3N4", "MAT-COMPOUND", "Нитрид кремния", "Silicon Nitride", "Si₃N₄",
+         "Керамические фрезы для CNC (местное производство из Si + N₂)",
+         "Ceramic cutters for CNC (local production from Si + N₂)",
+         "medium",
+         json.dumps(["Sandvik ceramic cutting tools", "3M Silicon Nitride", "PMC: Si₃N₄ machining tools"])),
     ]
     con.executemany(
         """INSERT OR REPLACE INTO materials
@@ -258,7 +258,7 @@ def seed_planet_materials(con):
         ("mercury", "MAT-TI", 0.5, "из ильменита TiO₂"),
         ("mercury", "MAT-MN", 0.1, None),
         ("mercury", "MAT-C", 2, "только LRM-зоны (полярные кратеры)"),
-        ("mercury", "MAT-W", 0.01, "следы (фильеры стекловолокна)"),
+        ("mercury", "MAT-SI3N4", None, "производится из Si + N₂ (фрезы CNC)"),
 
         # Луна
         ("moon", "MAT-O2", 45, None),
@@ -276,16 +276,15 @@ def seed_planet_materials(con):
 
         # Земля (импорт — concentration = NULL)
         ("earth", "MAT-IR", None, "импорт, аноды MRE"),
-        ("earth", "MAT-W", None, "импорт, фрезы CNC (WC-Co)"),
         ("earth", "MAT-GAAS", None, "импорт, фотоячейки"),
         ("earth", "MAT-LI", None, "импорт, Li-ion батареи Gen-1"),
         ("earth", "MAT-CU", None, "моторы Gen-1 (земное производство)"),
         ("earth", "MAT-KEVLAR", None, "импорт, армирование"),
         ("earth", "MAT-CFRP", None, "импорт, углепластик"),
+        ("earth", "MAT-MOS2", None, "импорт, смазка для вакуума"),
 
         # Меркурий — дополнительные соединения
         ("mercury", "MAT-NAK", None, "производится из Na+K"),
-        ("mercury", "MAT-MOS2", None, "производится (Mo — следы)"),
         ("mercury", "MAT-AL2O3", None, "производится из Al+O₂ (керамика, подшипники)"),
         ("mercury", "MAT-MGO", None, "производится из Mg+O₂"),
         ("mercury", "MAT-TIO2", None, "производится из Ti+O₂"),
@@ -556,10 +555,10 @@ def seed_units(con):
         # =====================================
         # КОМПОНЕНТЫ — ИМПОРТ С ЗЕМЛИ
         # =====================================
-        ("CMP-001", "equipment", "Блок электроники", "Electronics Block",
-         "CPU, микроконтроллеры, связь",
-         "CPU, microcontrollers, communications",
-         5, 0, None, False, "earth",
+        ("CMP-001", "equipment", "Чипсет", "Chipset",
+         "CPU, микроконтроллеры, FPGA, радиомодуль (корпус — местный Al)",
+         "CPU, microcontrollers, FPGA, radio module (housing — local Al)",
+         0.2, 0, None, False, "earth",
          json.dumps(["ARM Cortex processors", "Intel Xeon — space-grade", "Xilinx — rad-hard FPGAs"])),
 
         ("CMP-002", "equipment", "Камера стерео", "Stereo Camera",
@@ -598,17 +597,23 @@ def seed_units(con):
          0.5, 0, None, False, "earth",
          json.dumps(["Heraeus — Pt bushings", "Johnson Matthey — glass fiber dies"])),
 
-        ("CMP-006", "equipment", "Фильера W", "W Die",
-         "Фильера для волочения проволоки, вольфрам",
-         "Wire drawing die, tungsten",
-         0.5, 0, None, False, "earth",
-         json.dumps(["Sandvik — tungsten carbide dies", "Esteves — wire drawing dies"])),
+        ("CMP-006", "equipment", "Фильера Si₃N₄ (проволока)", "Si₃N₄ Die (wire)",
+         "Фильера для волочения проволоки, керамика (местное производство)",
+         "Wire drawing die, ceramic (local production)",
+         0.5, 0, None, True, "mercury",
+         json.dumps(["ATCERA — Si₃N₄ wire drawing dies", "KYOCERA — silicon nitride dies"])),
 
-        ("CMP-007", "equipment", "Фреза W-Co", "W-Co Cutter",
-         "Твердосплавная фреза для CNC",
-         "Carbide cutter for CNC",
-         0.2, 0, None, False, "earth",
-         json.dumps(["Sandvik Coromant — carbide cutters", "Kennametal — milling tools"])),
+        ("CMP-017", "equipment", "Фильера Al₂O₃ (стекло)", "Al₂O₃ Die (glass)",
+         "Фильера для стекловолокна, керамика (местное производство)",
+         "Glass fiber bushing, ceramic (local production)",
+         2, 0, None, True, "mercury",
+         json.dumps(["ScienceDirect 1981 — ceramic bushings", "Stanford Advanced Materials — Al2O3 bushings"])),
+
+        ("CMP-007", "equipment", "Фреза Si₃N₄", "Si₃N₄ Cutter",
+         "Керамическая фреза для CNC (местное производство)",
+         "Ceramic cutter for CNC (local production)",
+         0.2, 0, None, True, "mercury",
+         json.dumps(["Sandvik ceramic cutting tools", "3M Silicon Nitride", "Kennametal ceramic inserts"])),
 
         ("CMP-008", "equipment", "Кристаллизатор Cu", "Cu Crystallizer",
          "Медный кристаллизатор для МНЛЗ",
@@ -1047,7 +1052,7 @@ def seed_unit_materials(con):
         # Волочильный стан (2000 кг)
         ("EQU-025", "MAT-FE", 80),      # рама
         ("EQU-025", "MAT-AL", 15),      # обмотки
-        ("EQU-025", "MAT-W", 0.25),     # фильеры (импорт, 5 кг)
+        ("EQU-025", "MAT-SI3N4", 0.25), # фильеры Si₃N₄ (местное, 5 кг, 3x срок службы)
         ("EQU-025", "MAT-SI", 4.75),    # электроника/управление
         # Итого: 100%
 
@@ -1066,7 +1071,7 @@ def seed_unit_materials(con):
         # CNC 5-осевой (3000 кг)
         ("EQU-010", "MAT-FE", 80),      # станина, шпиндель
         ("EQU-010", "MAT-AL", 15),      # обмотки
-        ("EQU-010", "MAT-W", 0.15),     # фрезы W-Co (импорт, 4 кг)
+        ("EQU-010", "MAT-SI3N4", 0.15), # фрезы Si₃N₄ керамика (местные, 4 кг)
         ("EQU-010", "MAT-SI", 4.85),    # электроника/ЧПУ
         # Итого: 100%
 

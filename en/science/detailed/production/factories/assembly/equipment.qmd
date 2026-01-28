@@ -6,8 +6,8 @@ sidebar: science
 > **TL;DR**
 >
 > - **Purpose:** Manufacturing equipment for new factories
-> - **Components:** Continuous caster, rolling mill, WAAM cells, cranes, assembly jigs
-> - **Technologies:** WAAM 3D printing + CNC + assembly
+> - **Components:** Continuous caster, rolling mill, WAAM cells, grinding cells, cranes, assembly jigs
+> - **Technologies:** WAAM 3D printing + abrasive grinding + assembly
 > - **Time:** ~4 weeks per equipment set for 1 factory
 
 ---
@@ -24,13 +24,13 @@ Each new factory requires an equipment set: casting machines, rolling mills, rob
 |-----------|------|----------|------------|
 | Continuous caster (2 units) | ~10 t | Fe frame + local crystallizer | WAAM + casting |
 | Rolling mill (6 stands) | ~15 t | Fe | WAAM + casting |
-| Wire drawing mill | ~3 t | Fe + Al₂O₃ dies | WAAM + ceramics (local) |
+| Wire drawing mill | ~3 t | Fe + Si₃N₄ dies | WAAM + ceramics (local) |
 | WAAM cells (3 units) | ~5 t | Fe + Al | WAAM + assembly |
-| CNC machines (2 units) | ~8 t | Fe + imported electronics | WAAM + import |
+| Grinding cells (2 units) | ~3 t | Fe + Al | WAAM + assembly |
 | Overhead crane (1 t) | ~2 t | Fe + Al | WAAM + assembly |
 | Assembly jig (10 positions) | ~5 t | Fe + Al | WAAM + welding |
 | Roller conveyors | ~3 t | Fe + Al | Rolling + welding |
-| **TOTAL** | **~51 t** | | |
+| **TOTAL** | **~46 t** | | |
 
 ---
 
@@ -46,7 +46,7 @@ flowchart TD
 
     subgraph FABRICATION["PARTS FABRICATION"]
         WAAM["WAAM 3D printing<br/>housings, frames"]
-        CNC["CNC machining<br/>precision parts"]
+        GRIND["Abrasive grinding<br/>finish machining"]
         CASTING["Casting<br/>rolling mill rolls"]
     end
 
@@ -64,10 +64,10 @@ flowchart TD
     FE --> WAAM
     FE --> CASTING
     IMPORT --> MNLZ_ASM
-    WAAM --> CNC
-    CNC --> MNLZ_ASM
-    CNC --> MILL_ASM
-    CNC --> ROBOT_ASM
+    WAAM --> GRIND
+    GRIND --> MNLZ_ASM
+    GRIND --> MILL_ASM
+    GRIND --> ROBOT_ASM
     CASTING --> MILL_ASM
     MNLZ_ASM --> EQUIPMENT
     MILL_ASM --> EQUIPMENT
@@ -116,7 +116,7 @@ flowchart TD
 
 **Critical parts:**
 - Rolls — require hardening (heat treatment to HRC 55-60)
-- Bearings — import from Earth (no local production yet)
+- Al₂O₃ bearings — 100% local production (ceramic from regolith)
 
 **Details:** [Rolling Mill](../elements/rolling.qmd)
 
@@ -129,32 +129,36 @@ flowchart TD
 | 6-axis robot arm | ~0.8 t | Al + Fe | WAAM + assembly |
 | Welding torch | ~10 kg | Fe + Cu | Assembly + import |
 | Rotary table | ~0.5 t | Fe + Al | WAAM + electronics |
-| Control unit | ~50 kg | Electronics | **Import from Earth** |
+| Control unit | ~50 kg | Al housing + boards | Housing local, **boards import** (~5 kg) |
 
 **Production time:** 3-5 days for 3 cells
 
-**Critical import:** Robot control electronics (servo drives, controllers).
+**Critical import:** Electronics boards only (~5 kg/unit). Housings — local WAAM production.
 
 **Details:** [WAAM 3D Printing](../elements/waam.qmd)
 
 ---
 
-### CNC Machining Centers (2 units)
+### Grinding Cells (2 units)
 
-| Component | Mass per machine | Material | Technology |
-|-----------|-----------------|----------|------------|
-| Bed | ~3 t | Fe | WAAM + welding |
-| Spindle | ~0.2 t | Steel + bearings | **Import from Earth** |
-| Guide rails | ~0.5 t | Hardened steel | Rolling + heat treatment |
-| CNC controller | ~30 kg | Electronics | **Import from Earth** |
-| Tool magazine | ~0.3 t | Al | WAAM + assembly |
+| Component | Mass per cell | Material | Technology |
+|-----------|---------------|----------|------------|
+| 6-axis robot arm | ~0.8 t | Al + Fe | WAAM + assembly |
+| Abrasive head | ~50 kg | Fe + Al₂O₃ | Local production |
+| Rotary table | ~0.5 t | Fe + Al | WAAM + electronics |
+| Control unit | ~50 kg | Al housing + boards | Housing local, **boards import** (~5 kg) |
 
-**Production time:** 10-12 days for 2 machines
+**Production time:** 3-5 days for 2 cells
 
-**Critical import:**
-- Spindle (20,000 RPM, precision ±0.001 mm)
-- CNC controller (5-axis interpolation)
-- Al₂O₃ ceramic cutters (local)
+**Advantages over CNC:**
+- No imported high-speed spindle (saves ~0.4 t/factory)
+- Al₂O₃ abrasive (corundum) — 100% local production from regolith
+- Same Centaur-M robot as WAAM — standardization
+- Dry machining in vacuum (no coolant)
+
+**Machining accuracy:** ±0.05 mm (sufficient for housings and frames)
+
+**Details:** [WAAM 3D Printing](../elements/waam.qmd) — post-processing
 
 ---
 
@@ -177,18 +181,24 @@ flowchart TD
 
 ## Material Balance
 
-**Per 1 equipment set (~51 t):**
+**Per 1 equipment set (~46 t):**
 
 | Material | Mass | Source |
 |----------|------|--------|
-| Iron (Fe) | ~35 t | [Regolith processing](../../materials/overview.qmd) |
+| Iron (Fe) | ~30 t | [Regolith processing](../../materials/overview.qmd) |
 | Aluminum (Al) | ~10 t | [Regolith processing](../../materials/overview.qmd) |
-| Electronics | ~0.5 t | **Import from Earth** |
-| Other (bearings, cables) | ~0.4 t | **Import from Earth** |
+| Al₂O₃ (abrasive + bearings) | ~1 t | [Regolith processing](../../materials/overview.qmd) |
+| Electronics boards | ~55 kg | **Import from Earth** |
 
-**Localization:** ~90% by mass (Fe + Al are local)
+**Localization:** ~99.9% by mass
 
-**Critical import:** ~0.9 t per factory (electronics, precision parts)
+**Critical import:** ~55 kg per factory (boards only, housings local)
+
+**Import breakdown:**
+- MNLZ automation boards (2 units): ~30 kg
+- Control unit boards (5 units): ~25 kg
+
+**Savings vs CNC:** Eliminating imported spindles = ~660 t savings across 1,645 factories
 
 ---
 
@@ -196,10 +206,10 @@ flowchart TD
 
 | Week | Work |
 |------|------|
-| 1 | Fabricate caster parts (WAAM + CNC) |
+| 1 | Fabricate caster parts (WAAM + grinding) |
 | 2 | Assemble casters + fabricate rolling mill rolls |
 | 3 | Assemble rolling mill + fabricate WAAM cells |
-| 4 | Assemble CNC machines + overhead crane |
+| 4 | Assemble grinding cells + overhead crane |
 | **TOTAL** | **~4 weeks per set** |
 
 **Parallelism:** When producing equipment for multiple factories, processes run in parallel.
@@ -215,7 +225,7 @@ Before shipping to a new factory, equipment undergoes acceptance testing.
 | Caster | Trial casting (100 kg Al) | Ingot without cracks |
 | Rolling mill | Rolling billet 100×100 → Ø20 mm | Profile within ±1 mm tolerance |
 | WAAM cell | Print test part (100 mm cube) | Dimensions ±0.5 mm, porosity <2% |
-| CNC machine | Machine calibration part | Precision ±0.05 mm |
+| Grinding cell | Machine test part | Precision ±0.05 mm, surface finish |
 | Overhead crane | Lift 1.5 t (150% load) | No deformation |
 
 **Testing time:** 2-3 days
@@ -242,11 +252,11 @@ After production, equipment is transported to the new factory.
 | Component | Power |
 |-----------|-------|
 | WAAM cells (3 units) | 30 kW |
-| CNC machines (2 units) | 40 kW |
+| Grinding cells (2 units) | 10 kW |
 | Casting furnaces | 50 kW |
 | Welding stations | 20 kW |
 | Cranes and transport | 10 kW |
-| **TOTAL** | **~150 kW** |
+| **TOTAL** | **~120 kW** |
 
 ---
 

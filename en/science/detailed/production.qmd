@@ -241,7 +241,9 @@ Mercury is an anomalous planet. A giant metallic core, only lightly covered with
 | Carbon (C) | 1-3% in LRM zones | Graphite: Hadfield steel, lubricants, anodes ([MESSENGER 2016](https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/)) |
 | Hydrogen (H) | Only polar ice | Extraction from craters |
 | Copper (Cu) | Scarce | Aluminum or sodium wires in steel tubes |
-| Tungsten (W) | Critical for cutting tools | Import from Earth |
+| Glass fiber bushings | Al₂O₃ (local) | **Al₂O₃ ceramics** — [proven alternative to Pt-Rh](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510) |
+| CNC cutters | Need cutting tools | **Si₃N₄ ceramics** from Si + N₂ (minimal nitrogen import) |
+| Iridium (Ir) | Absent | Import from Earth (MRE anodes) |
 | Rare earths | Critical for electronics | Import from Earth |
 | Argon (Ar) | Absent | Shielding gas for WAAM and refining - import from Earth |
 | Oxygen (O2) | From MRE (~1500 t/day) | Dome atmosphere (0.1 atm) |
@@ -366,7 +368,7 @@ Converting billets into bar and wire for WAAM.
 | :--- | :--- |
 | Heating furnace | Induction, 1100-1200 deg C, nitrogen atmosphere |
 | Rolling mill | 6 stands, input 100x100 mm -> output dia. 20 mm |
-| Wire drawing mill | Tungsten dies, output dia. 1.6-2.0 mm |
+| Wire drawing mill | Si₃N₄ ceramic dies (local, 3x lifespan), output dia. 1.6-2.0 mm |
 
 #### Metal 3D Printer (WAAM)
 
@@ -384,8 +386,8 @@ Converting billets into bar and wire for WAAM.
 | :--- | :--- |
 | Purpose | Finishing after WAAM and casting |
 | Machine | 5-axis machining center |
-| Coolant | Oil (closed-loop recirculation) |
-| Tooling | Carbide end mills (tungsten-cobalt, from Earth) |
+| Coolant | Not required (vacuum, ceramics work in dry conditions) |
+| Tooling | **Si₃N₄ ceramic cutters** (local production from Si + N₂) |
 
 ---
 
@@ -967,9 +969,21 @@ flowchart TD
 | Cargo | When | Mass |
 |-------|------|------|
 | First factory | Year 0 | 62 t |
-| Vitamins | Years 1-10 | ~17 kg/factory/year |
+| Vitamins (factories) | Years 1-10 | ~77 kg/factory/year |
+| Mirror electronics | Years 7-15 | **~1,055 t** (total) |
 
 **Vitamins** are what Mercury doesn't have: electronics (controllers, sensors), iridium (MRE anodes), rare earths (magnets).
+
+**Mirror electronics** — thanks to [Mother-Children architecture](mirrors.qmd#optical-cluster-control), import is reduced by **98%**:
+
+| Component | Quantity | Mass/unit | Import |
+|-----------|----------|-----------|--------|
+| Mother chips | 1.1 M | 50 g | 55 t |
+| Child decoders (phase 1) | ~500 M | 2 g | ~1,000 t |
+| Child receivers (phase 2) | ~600 M | 0 g | 0 t (local) |
+| **Total** | 1.1 B | | **~1,055 t** |
+
+*Without optimization: 55,000 t (1,100 Starship). With Mother-Children: 21 Starship.*
 
 ### Mercury -> Swarm
 

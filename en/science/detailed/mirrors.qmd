@@ -80,7 +80,7 @@ Along the mirror edges are strips of electrochromic material (TiO₂, titanium o
 - No thrusters, no fuel
 - Energy: microwatts from integrated photovoltaic
 
-> **Why TiO₂, not WO₃?** Tungsten oxide (WO₃) is more efficient, but there is no tungsten on Mercury. With a billion mirrors, WO₃ import is unrealistic. TiO₂ is less efficient (17% vs 60%), but titanium is mined locally.
+> **Why TiO₂, not WO₃?** Tungsten oxide (WO₃) is more efficient, but tungsten was not measured by MESSENGER and its availability is unknown. Titanium is confirmed (~0.5%), and at billion-mirror scale source reliability is critical. TiO₂ is less efficient (17% vs 60%), but production is 100% local.
 
 **Pointing Accuracy:**
 
@@ -242,10 +242,11 @@ Mercury's polar craters are in eternal shadow. Factories receive energy:
 
 ### Mirror Clusters
 
-Mirrors are organized into **local clusters** of 1,000-10,000 units:
+Mirrors are organized into **local clusters** of ~1,000 units:
 
 | Parameter | Value |
 |-----------|-------|
+| Cluster size | ~1,000 mirrors |
 | Virtual antenna diameter per cluster | ~100 km |
 | Communication delay within cluster | ~0.3 ms |
 | Beam spread at 100 million km | ~1 km |
@@ -253,6 +254,64 @@ Mirrors are organized into **local clusters** of 1,000-10,000 units:
 Each cluster synchronizes internally and directs reflected light to its section of lunar receivers.
 
 > **Why not a unified array?** Global synchronization of a billion mirrors is impossible — signal delay Mercury-Earth is ~670 seconds. Details: [Risks](../reference/risks.qmd#phased-array-synchronization).
+
+### Optical Cluster Control {#optical-cluster-control}
+
+The "Mother-Children" architecture **reduces electronics import by 98%**.
+
+#### The Problem
+
+With individual control, each mirror requires a full 50 g chip:
+- 1.1 billion mirrors × 50 g = **55,000 tons** of electronics from Earth
+- ~6,250 tons/year = ~125 Starship launches/year
+
+#### Solution: Mother Mirrors + Child Mirrors
+
+| Role | Electronics | Quantity | Mass/unit | Import |
+|------|-------------|----------|-----------|--------|
+| **Mother** (leader) | Full chip | 1.1 M | 50 g | **55 t** |
+| **Children** (followers) | Simple decoder | 1.1 B | 2 g | **2,200 t** |
+| **TOTAL** | | | | **2,255 t** |
+
+**Savings: 55,000 t → 2,255 t = 96%** (24× less)
+
+#### How It Works
+
+**Mother mirror** (1 per ~1,000 Children):
+- Star tracker — determines cluster orientation
+- Processor — calculates commands for Children
+- Laser transmitter — modulated beam to Children
+- Radio — communication with Earth/other Mothers
+
+**Child mirrors** (passive):
+- Photodiode (~2 g) — receives optical signal from Mother
+- Simple decoder — converts signal to electrochromic commands
+- No processor — only analog/digital logic
+
+```
+Control Protocol:
+
+Mother → [modulated light] → Children
+
+Commands (example):
+├─ 1 ms pulse: "edge A activate"
+├─ 2 ms pulse: "edge B activate"
+├─ 3 ms pulse: "all off"
+└─ Pulse series: encodes angle/speed
+```
+
+#### Hybrid Implementation
+
+| Phase | Years | Technology | Import |
+|-------|-------|------------|--------|
+| 1 | 7-10 | Import 2 g decoders | ~1,000 t |
+| 2 | 10+ | Local analog receivers | **0 t** |
+
+**Phase 2:** [Blue Alchemist](../reference/technology-readiness.qmd#in-situ-silicon-cells) technology (TRL 5-6) enables production of silicon photodiodes from lunar/Mercurian regolith. Resonant LC circuits (coils + capacitors) are made from local aluminum and Al₂O₃ ceramics.
+
+**Total import:** ~1,055 t (instead of 55,000 t) = **98% savings**
+
+> **Technology baseline:** [Laser inter-satellite links](https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/) (China, 2024-2025) — 400 Gbps optical communication between satellites. [Leader-follower formation](https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430) — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.
 
 ---
 
@@ -553,30 +612,34 @@ unitWidget("PRD-001")
 ```
 EARTH                              MERCURY
   │                                    │
-  │ Control chip (~50 g)               │ Aluminum (foil)
-  │                                    │ Titanium (TiO₂)
+  │ Mother chip (~50 g, 1 per 1000)    │ Aluminum (foil)
+  │ Child decoder (~2 g, years 7-10)   │ Titanium (TiO₂)
   └────────────────────────────────────┤ Iron (tip masses)
+                                       │ Child receiver (years 10+)
                                        ↓
                                     MIRRORS
                                        ↓
-                              L1 (Hub) → Earth
+                              LSP (Moon) → Earth
 ```
 
 ### Import from Earth
 
-With production of 1 billion mirrors, total import mass (chips only):
+With [Mother-Children architecture](#optical-cluster-control), import is reduced by 98%:
 
-$$
-1 \times 10^{9} \times 50 \text{ g} = 5 \times 10^{7} \text{ kg} = 50,000 \text{ tons}
-$$
+| Component | Quantity | Mass/unit | Import |
+|-----------|----------|-----------|--------|
+| Mother chips | 1.1 M | 50 g | **55 t** |
+| Child decoders (phase 1) | ~500 M | 2 g | **~1,000 t** |
+| Child receivers (phase 2) | ~600 M | 0 g | **0 t** (local) |
+| **TOTAL** | | | **~1,055 t** |
 
-Over 8 years of production: **~6,250 tons/year** = **~125 launches/year** (Starship 50 t).
+**Comparison:**
+- Without optimization: 1.1 B × 50 g = **55,000 t** = ~1,100 Starship
+- With Mother-Children architecture: **~1,055 t** = **~21 Starship**
 
-**Steady-state rate (after year 1):**
-- Production: 219 million mirrors/year (including replacement)
-- Chip import: 219 M × 50 g = **~11,000 tons/year** = **~219 launches/year**
+**Savings: 98%** (53× fewer launches)
 
-This is **easily achievable** — less than 1 launch per day.
+> **Note:** Phase 2 (years 10+) uses [Blue Alchemist](../reference/technology-readiness.qmd#in-situ-silicon-cells) technology for local production of silicon photoreceivers from regolith.
 
 ### Production Process on Mercury
 

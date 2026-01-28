@@ -561,9 +561,9 @@
   {
     "id": "CMP-001",
     "category_id": "equipment",
-    "name": "Блок электроники",
-    "description": "CPU, микроконтроллеры, связь",
-    "mass_kg": 5.0,
+    "name": "Чипсет",
+    "description": "CPU, микроконтроллеры, FPGA, радиомодуль (корпус — местный Al)",
+    "mass_kg": 0.2,
     "power_kw": null,
     "parent_id": null,
     "is_assembly": false,
@@ -671,31 +671,47 @@
   {
     "id": "CMP-006",
     "category_id": "equipment",
-    "name": "Фильера W",
-    "description": "Фильера для волочения проволоки, вольфрам",
+    "name": "Фильера Si₃N₄ (проволока)",
+    "description": "Фильера для волочения проволоки, керамика (местное производство)",
     "mass_kg": 0.5,
     "power_kw": null,
     "parent_id": null,
-    "is_assembly": false,
-    "production_planet_id": "earth",
+    "is_assembly": true,
+    "production_planet_id": "mercury",
     "sources": [
-      "Sandvik — tungsten carbide dies",
-      "Esteves — wire drawing dies"
+      "ATCERA — Si₃N₄ wire drawing dies",
+      "KYOCERA — silicon nitride dies"
+    ]
+  },
+  {
+    "id": "CMP-017",
+    "category_id": "equipment",
+    "name": "Фильера Al₂O₃ (стекло)",
+    "description": "Фильера для стекловолокна, керамика (местное производство)",
+    "mass_kg": 2.0,
+    "power_kw": null,
+    "parent_id": null,
+    "is_assembly": true,
+    "production_planet_id": "mercury",
+    "sources": [
+      "ScienceDirect 1981 — ceramic bushings",
+      "Stanford Advanced Materials — Al2O3 bushings"
     ]
   },
   {
     "id": "CMP-007",
     "category_id": "equipment",
-    "name": "Фреза W-Co",
-    "description": "Твердосплавная фреза для CNC",
+    "name": "Фреза Si₃N₄",
+    "description": "Керамическая фреза для CNC (местное производство)",
     "mass_kg": 0.2,
     "power_kw": null,
     "parent_id": null,
-    "is_assembly": false,
-    "production_planet_id": "earth",
+    "is_assembly": true,
+    "production_planet_id": "mercury",
     "sources": [
-      "Sandvik Coromant — carbide cutters",
-      "Kennametal — milling tools"
+      "Sandvik ceramic cutting tools",
+      "3M Silicon Nitride",
+      "Kennametal ceramic inserts"
     ]
   },
   {

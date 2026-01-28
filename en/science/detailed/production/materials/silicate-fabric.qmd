@@ -18,9 +18,7 @@ import { unitWidget } from "../../../ojs-data.qmd"
 | Output | Glass fiber |
 | Throughput | ~30 t/day |
 | Energy consumption | Solar furnace (thermal) |
-| Location | **Outside the dome (in vacuum)** |
-
-> **Why vacuum:** The line uses tungsten bushings, which oxidize in the presence of oxygen. In Mercury's vacuum, tungsten withstands up to 2800C without degradation.
+| Location | **Under the dome** |
 
 [Back to overview](overview.qmd)
 
@@ -80,7 +78,7 @@ flowchart TD
     end
 
     subgraph FIBERIZATION["FIBERIZATION"]
-        MELT --> FILT["W bushings<br/>(local)"]
+        MELT --> FILT["Al₂O₃ bushings<br/>(ceramic)"]
         FILT --> FIBER["Fiber 5-13 um"]
         FIBER --> DRUM["Winding drum"]
     end
@@ -97,7 +95,7 @@ flowchart TD
 | Stage | Description | Temperature |
 | :--- | :--- | :--- |
 | Melting | Silicates melt in solar furnace | 1400C |
-| Fiberization | Melt is forced through tungsten bushings | 1200C |
+| Fiberization | Melt is forced through Al₂O₃ ceramic bushings | 1200C |
 | Drawing | Fiber of 5-13 um diameter is drawn by drum | - |
 | Winding | Fiber is collected onto bobbins | - |
 
@@ -108,41 +106,27 @@ flowchart TD
 | Component | Function | Materials |
 | :--- | :--- | :--- |
 | Small solar furnace | Silicate melting | Al mirrors, MgO crucible (local) |
-| Tungsten bushings | Fiber drawing | W (**local**) |
+| Ceramic bushings | Fiber drawing | Al₂O₃ (**local**) |
 | Winding drum | Bobbin collection | Fe frame, Al drum |
 
-### Tungsten Bushings (W) - Local Production
+### Ceramic Bushings (Al₂O₃) - Local Production
 
 | Parameter | Value |
 | :--- | :--- |
-| Kit mass | 200-400 kg W |
+| Material | Al₂O₃ (corundum) |
+| Operating temperature | up to 1800°C (glass fiber 1200-1400°C ✓) |
 | Service life | 3-5 years |
-| Source | [Regolith processing](overview.qmd) (tungsten - trace element) |
+| Source | [Regolith processing](overview.qmd) (Al 7% + O₂ 45%) |
 
-> **Why tungsten:** On Earth, platinum (Pt-Rh) is used because tungsten oxidizes at >400C in air. But the glass fiber line on Mercury operates **in vacuum**, where tungsten does not oxidize and withstands up to 2800C. This allows complete localization of production without importing precious metals.
+> **Why ceramics:** On Earth, platinum (Pt-Rh) is traditionally used. Scientific research has shown that **Al₂O₃ ceramic bushings** produce fibers of comparable quality ([ScienceDirect, 1981](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510)). Al₂O₃ is produced from local feedstock (Al 7%, O₂ 45% of regolith per [MESSENGER](https://www.science.org/doi/10.1126/science.1211567)).
 
-### Why Vacuum Is Not a Problem for Glass?
-
-**Potential concern:** evaporation of alkalis (Na, K) at 1400C in vacuum.
-
-**Why this is not a problem:**
-
-1. **Mercury silicate composition is similar to E-glass** — alkali content < 1%
-2. **SiO₂ vapor pressure** — only 10⁻⁴ Torr at 1025C (very low)
-3. **Fast process** — melt passes through bushings in seconds
-4. **ESA research** — fibers in vacuum may be **stronger** due to absence of hydrolytic weakening
-
-### Design: Hermetic Crucible
-
-For reliability, a closed system is used:
+### Design
 
 | Element | Material | Purpose |
 | :--- | :--- | :--- |
-| Crucible | MgO ceramics (local) | Melting in sealed volume |
-| Bushings | Tungsten (local) | Only bushing zone exposed to vacuum |
-| Cooling | Radiation to vacuum | Rapid fiber cooling |
-
-> **Note:** The closed crucible minimizes melt exposure to vacuum. The fiber cools instantly through radiative heat transfer in vacuum.
+| Crucible | MgO ceramics (local) | Silicate melting |
+| Bushings | Al₂O₃ ceramics (local) | Fiber forming |
+| Cooling | Air (dome atmosphere) | Fiber cooling |
 
 ---
 
@@ -156,14 +140,16 @@ For reliability, a closed system is used:
 | Thermal insulation | Medium | Equipment protection | MgO ceramics, vacuum |
 | Filters | Low | Gas purification | In vacuum, dust settles by itself |
 
-> **Conclusion:** Glass fiber is a **critical material**. Without it, factory electrics (cables, motors) and expansion (new domes) are impossible. By locating the line in vacuum, the entire line is **fully localized** - tungsten bushings are produced from local feedstock.
+> **Conclusion:** Glass fiber is a **critical material**. Without it, factory electrics (cables, motors) and expansion (new domes) are impossible. The line is **fully localized** — Al₂O₃ ceramic bushings are produced from local feedstock (Al 7%, O₂ 45% of regolith).
 
 ---
 
 ## References
 
-- **Owens Corning, Johns Manville** - major glass fiber manufacturers. Technology has been refined since the 1930s.
-- **E-glass composition** - standard industrial glass fiber composition
+- [Ceramic bushing for glass fibre production (ScienceDirect, 1981)](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510) — Al₂O₃ and ZrO₂ bushings produce fibers comparable to Pt-Rh
+- [MESSENGER XRS (Science, 2012)](https://www.science.org/doi/10.1126/science.1211567) — Mercury regolith composition (Al 7%, O₂ 45%)
+- **Owens Corning, Johns Manville** — major glass fiber manufacturers. Technology has been refined since the 1930s.
+- **E-glass composition** — standard industrial glass fiber composition
 
 ---
 
