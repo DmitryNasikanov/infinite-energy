@@ -134,12 +134,6 @@ def seed_materials(con):
          "medium",
          json.dumps(["Johnson Matthey — платиновые металлы", "Heraeus — иридиевые аноды"])),
 
-        ("MAT-PT", "MAT-METAL", "Платина", "Platinum", "Pt",
-         "Фильеры для волочения стекловолокна",
-         "Dies for fiberglass drawing",
-         "medium",
-         json.dumps(["Anglo American Platinum", "Impala Platinum"])),
-
         ("MAT-W", "MAT-METAL", "Вольфрам", "Tungsten", "W",
          "Фрезы CNC, фильеры, инструмент",
          "CNC cutters, dies, tooling",
@@ -147,8 +141,8 @@ def seed_materials(con):
          json.dumps(["Sandvik — вольфрамовые фрезы", "Kennametal — твёрдые сплавы W-Co"])),
 
         ("MAT-CU", "MAT-METAL", "Медь", "Copper", "Cu",
-         "Обмотки моторов Gen-1, кристаллизаторы МНЛЗ",
-         "Gen-1 motor windings, CCM crystallizers",
+         "Обмотки моторов Gen-1 (земное производство)",
+         "Gen-1 motor windings (Earth production)",
          "high",
          json.dumps(["Codelco — электролитическая медь", "Freeport-McMoRan"])),
 
@@ -285,6 +279,7 @@ def seed_planet_materials(con):
         ("earth", "MAT-W", None, "импорт, фрезы CNC (WC-Co)"),
         ("earth", "MAT-GAAS", None, "импорт, фотоячейки"),
         ("earth", "MAT-LI", None, "импорт, Li-ion батареи Gen-1"),
+        ("earth", "MAT-CU", None, "моторы Gen-1 (земное производство)"),
         ("earth", "MAT-KEVLAR", None, "импорт, армирование"),
         ("earth", "MAT-CFRP", None, "импорт, углепластик"),
 
@@ -1212,11 +1207,10 @@ def seed_unit_materials(con):
 
         # Робот Gen-2 усреднённый (320 кг)
         ("PRD-002", "MAT-FE", 46.9),    # 150 кг рама, шасси
-        ("PRD-002", "MAT-AL", 15.6),    # 50 кг корпус, радиаторы
+        ("PRD-002", "MAT-AL", 17.2),    # 55 кг корпус, радиаторы, проводка (Al вместо Cu)
         ("PRD-002", "MAT-NA", 15.6),    # 50 кг батарея NaS (Na)
         ("PRD-002", "MAT-S", 15.6),     # 50 кг батарея NaS (S)
         ("PRD-002", "MAT-SI", 3.2),     # 10 кг электроника, датчики
-        ("PRD-002", "MAT-CU", 1.6),     # 5 кг проводка
         ("PRD-002", "MAT-MOS2", 1.5),   # 5 кг смазка
         # Итого: 100%
 
@@ -1235,8 +1229,7 @@ def seed_unit_materials(con):
 
         # Si панель (10 кг/м²) — по railgun.qmd панели ~3.5 кг/м², но с защитой ~10 кг/м²
         ("PRD-005", "MAT-SI", 50),      # 5 кг: ячейки 3 кг + стекло/SiO₂ защита 2 кг
-        ("PRD-005", "MAT-AL", 45),      # 4.5 кг: рама + подложка + кабели
-        ("PRD-005", "MAT-CU", 5),       # 0.5 кг проводка, контакты
+        ("PRD-005", "MAT-AL", 50),      # 5 кг: рама + подложка + кабели (Al вместо Cu)
         # Итого: 100%
 
         # Силикатная ткань (0.3 кг/м²)
@@ -1262,9 +1255,9 @@ def seed_unit_materials(con):
         # ОБЪЕКТЫ — ЭНЕРГОПРИЁМ
         # =====================================
 
-        # Хаб приёма энергии (177600000 кг = 177600 т)
-        ("HUB-001", "MAT-AL", 60),      # рама, отражатели
-        ("HUB-001", "MAT-CU", 28),      # фотоэлементы, кабели
+        # Хаб приёма энергии — только лунные LSP станции (177600000 кг = 177600 т)
+        # Земные ректенны производятся на Земле из местных материалов
+        ("HUB-001", "MAT-AL", 88),      # рама, отражатели, антенны
         ("HUB-001", "MAT-SI", 9),       # электроника, преобразователи
         ("HUB-001", "MAT-FE-MN", 3),    # крепёж (сталь)
         # Итого: 100%

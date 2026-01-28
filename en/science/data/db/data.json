@@ -177,24 +177,12 @@
       ]
     },
     {
-      "id": "MAT-PT",
-      "parent_id": "MAT-METAL",
-      "name": "Platinum",
-      "symbol": "Pt",
-      "description": "Dies for fiberglass drawing",
-      "criticality": "medium",
-      "sources": [
-        "Anglo American Platinum",
-        "Impala Platinum"
-      ]
-    },
-    {
       "id": "MAT-W",
       "parent_id": "MAT-METAL",
       "name": "Tungsten",
       "symbol": "W",
-      "description": "Not currently used (cutters/dies replaced by Al₂O₃ ceramic)",
-      "criticality": "low",
+      "description": "CNC cutters, dies, tooling",
+      "criticality": "medium",
       "sources": [
         "Sandvik — вольфрамовые фрезы",
         "Kennametal — твёрдые сплавы W-Co"
@@ -205,7 +193,7 @@
       "parent_id": "MAT-METAL",
       "name": "Copper",
       "symbol": "Cu",
-      "description": "Gen-1 motor windings, MD coils",
+      "description": "Gen-1 motor windings (Earth production)",
       "criticality": "high",
       "sources": [
         "Codelco — электролитическая медь",
@@ -1079,46 +1067,46 @@
     {
       "id": "CMP-006",
       "category_id": "equipment",
-      "name": "Al₂O₃ Die",
-      "description": "Wire drawing die, corundum ceramic (100% local)",
+      "name": "W Die",
+      "description": "Wire drawing die, tungsten",
       "mass_kg": 0.5,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
-      "production_planet_id": "mercury",
+      "production_planet_id": "earth",
       "sources": [
-        "CoorsTek — alumina ceramic dies",
+        "Sandvik — tungsten carbide dies",
         "Esteves — wire drawing dies"
       ]
     },
     {
       "id": "CMP-007",
       "category_id": "equipment",
-      "name": "Al₂O₃ Cutter",
-      "description": "Ceramic cutter for CNC, corundum (100% local, higher wear but unlimited)",
+      "name": "W-Co Cutter",
+      "description": "Carbide cutter for CNC",
       "mass_kg": 0.2,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
-      "production_planet_id": "mercury",
+      "production_planet_id": "earth",
       "sources": [
-        "Sandvik Coromant — ceramic cutters",
-        "Kennametal — alumina tools"
+        "Sandvik Coromant — carbide cutters",
+        "Kennametal — milling tools"
       ]
     },
     {
       "id": "CMP-008",
       "category_id": "equipment",
-      "name": "Crystallizer",
-      "description": "Steel Fe-6%Mn for CCM-Al, MgO ceramic for CCM-Fe (100% local)",
+      "name": "Cu Crystallizer",
+      "description": "Copper crystallizer for CCM",
       "mass_kg": 50.0,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
-      "production_planet_id": "mercury",
+      "production_planet_id": "earth",
       "sources": [
-        "Refratechnik — MgO refractory ceramics",
-        "RHI Magnesita — crystallizer linings"
+        "SMS Group — copper molds",
+        "KME — crystallizers"
       ]
     },
     {
@@ -1422,6 +1410,12 @@
       "notes": "только LRM-зоны (полярные кратеры)"
     },
     {
+      "planet_id": "mercury",
+      "material_id": "MAT-W",
+      "concentration_pct": 0.01,
+      "notes": "следы (фильеры стекловолокна)"
+    },
+    {
       "planet_id": "moon",
       "material_id": "MAT-O2",
       "concentration_pct": 45.0,
@@ -1489,21 +1483,9 @@
     },
     {
       "planet_id": "earth",
-      "material_id": "MAT-PT",
-      "concentration_pct": null,
-      "notes": "импорт, фильеры стекловолокна"
-    },
-    {
-      "planet_id": "earth",
       "material_id": "MAT-W",
       "concentration_pct": null,
-      "notes": "не используется (фрезы/фильеры заменены на Al₂O₃)"
-    },
-    {
-      "planet_id": "earth",
-      "material_id": "MAT-CU",
-      "concentration_pct": null,
-      "notes": "импорт, обмотки двигателей, катушки МД"
+      "notes": "импорт, фрезы CNC (WC-Co)"
     },
     {
       "planet_id": "earth",
@@ -1516,6 +1498,12 @@
       "material_id": "MAT-LI",
       "concentration_pct": null,
       "notes": "импорт, Li-ion батареи Gen-1"
+    },
+    {
+      "planet_id": "earth",
+      "material_id": "MAT-CU",
+      "concentration_pct": null,
+      "notes": "моторы Gen-1 (земное производство)"
     },
     {
       "planet_id": "earth",
@@ -1674,7 +1662,7 @@
     {
       "unit_id": "ROB-021",
       "material_id": "MAT-AL",
-      "fraction_pct": 45.0
+      "fraction_pct": 55.0
     },
     {
       "unit_id": "ROB-021",
@@ -1690,11 +1678,6 @@
       "unit_id": "ROB-021",
       "material_id": "MAT-S",
       "fraction_pct": 3.5
-    },
-    {
-      "unit_id": "ROB-021",
-      "material_id": "MAT-CU",
-      "fraction_pct": 10.0
     },
     {
       "unit_id": "ROB-021",
@@ -1884,12 +1867,12 @@
     {
       "unit_id": "EQU-006",
       "material_id": "MAT-FE-MN",
-      "fraction_pct": 83.0
+      "fraction_pct": 80.0
     },
     {
       "unit_id": "EQU-006",
       "material_id": "MAT-MGO",
-      "fraction_pct": 7.0
+      "fraction_pct": 10.0
     },
     {
       "unit_id": "EQU-006",
@@ -1968,7 +1951,7 @@
     },
     {
       "unit_id": "EQU-025",
-      "material_id": "MAT-AL2O3",
+      "material_id": "MAT-W",
       "fraction_pct": 0.25
     },
     {
@@ -2018,7 +2001,7 @@
     },
     {
       "unit_id": "EQU-010",
-      "material_id": "MAT-AL2O3",
+      "material_id": "MAT-W",
       "fraction_pct": 0.15
     },
     {
@@ -2329,7 +2312,7 @@
     {
       "unit_id": "PRD-002",
       "material_id": "MAT-AL",
-      "fraction_pct": 15.6
+      "fraction_pct": 17.2
     },
     {
       "unit_id": "PRD-002",
@@ -2345,11 +2328,6 @@
       "unit_id": "PRD-002",
       "material_id": "MAT-SI",
       "fraction_pct": 3.2
-    },
-    {
-      "unit_id": "PRD-002",
-      "material_id": "MAT-CU",
-      "fraction_pct": 1.6
     },
     {
       "unit_id": "PRD-002",
@@ -2399,12 +2377,7 @@
     {
       "unit_id": "PRD-005",
       "material_id": "MAT-AL",
-      "fraction_pct": 45.0
-    },
-    {
-      "unit_id": "PRD-005",
-      "material_id": "MAT-CU",
-      "fraction_pct": 5.0
+      "fraction_pct": 50.0
     },
     {
       "unit_id": "PRD-006",
@@ -2439,12 +2412,7 @@
     {
       "unit_id": "HUB-001",
       "material_id": "MAT-AL",
-      "fraction_pct": 60.0
-    },
-    {
-      "unit_id": "HUB-001",
-      "material_id": "MAT-CU",
-      "fraction_pct": 28.0
+      "fraction_pct": 88.0
     },
     {
       "unit_id": "HUB-001",

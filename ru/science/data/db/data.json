@@ -177,18 +177,6 @@
       ]
     },
     {
-      "id": "MAT-PT",
-      "parent_id": "MAT-METAL",
-      "name": "Платина",
-      "symbol": "Pt",
-      "description": "Фильеры для волочения стекловолокна",
-      "criticality": "medium",
-      "sources": [
-        "Anglo American Platinum",
-        "Impala Platinum"
-      ]
-    },
-    {
       "id": "MAT-W",
       "parent_id": "MAT-METAL",
       "name": "Вольфрам",
@@ -205,7 +193,7 @@
       "parent_id": "MAT-METAL",
       "name": "Медь",
       "symbol": "Cu",
-      "description": "Обмотки моторов Gen-1, кристаллизаторы МНЛЗ",
+      "description": "Обмотки моторов Gen-1 (земное производство)",
       "criticality": "high",
       "sources": [
         "Codelco — электролитическая медь",
@@ -1422,6 +1410,12 @@
       "notes": "только LRM-зоны (полярные кратеры)"
     },
     {
+      "planet_id": "mercury",
+      "material_id": "MAT-W",
+      "concentration_pct": 0.01,
+      "notes": "следы (фильеры стекловолокна)"
+    },
+    {
       "planet_id": "moon",
       "material_id": "MAT-O2",
       "concentration_pct": 45.0,
@@ -1489,21 +1483,9 @@
     },
     {
       "planet_id": "earth",
-      "material_id": "MAT-PT",
-      "concentration_pct": null,
-      "notes": "импорт, фильеры стекловолокна"
-    },
-    {
-      "planet_id": "earth",
       "material_id": "MAT-W",
       "concentration_pct": null,
-      "notes": "импорт, фрезы CNC"
-    },
-    {
-      "planet_id": "earth",
-      "material_id": "MAT-CU",
-      "concentration_pct": null,
-      "notes": "импорт, кристаллизаторы, обмотки"
+      "notes": "импорт, фрезы CNC (WC-Co)"
     },
     {
       "planet_id": "earth",
@@ -1516,6 +1498,12 @@
       "material_id": "MAT-LI",
       "concentration_pct": null,
       "notes": "импорт, Li-ion батареи Gen-1"
+    },
+    {
+      "planet_id": "earth",
+      "material_id": "MAT-CU",
+      "concentration_pct": null,
+      "notes": "моторы Gen-1 (земное производство)"
     },
     {
       "planet_id": "earth",
@@ -1674,7 +1662,7 @@
     {
       "unit_id": "ROB-021",
       "material_id": "MAT-AL",
-      "fraction_pct": 45.0
+      "fraction_pct": 55.0
     },
     {
       "unit_id": "ROB-021",
@@ -1690,11 +1678,6 @@
       "unit_id": "ROB-021",
       "material_id": "MAT-S",
       "fraction_pct": 3.5
-    },
-    {
-      "unit_id": "ROB-021",
-      "material_id": "MAT-CU",
-      "fraction_pct": 10.0
     },
     {
       "unit_id": "ROB-021",
@@ -1884,12 +1867,12 @@
     {
       "unit_id": "EQU-006",
       "material_id": "MAT-FE-MN",
-      "fraction_pct": 75.0
+      "fraction_pct": 80.0
     },
     {
       "unit_id": "EQU-006",
-      "material_id": "MAT-CU",
-      "fraction_pct": 15.0
+      "material_id": "MAT-MGO",
+      "fraction_pct": 10.0
     },
     {
       "unit_id": "EQU-006",
@@ -1908,7 +1891,7 @@
     },
     {
       "unit_id": "EQU-007",
-      "material_id": "MAT-CU",
+      "material_id": "MAT-MGO",
       "fraction_pct": 12.0
     },
     {
@@ -2329,7 +2312,7 @@
     {
       "unit_id": "PRD-002",
       "material_id": "MAT-AL",
-      "fraction_pct": 15.6
+      "fraction_pct": 17.2
     },
     {
       "unit_id": "PRD-002",
@@ -2345,11 +2328,6 @@
       "unit_id": "PRD-002",
       "material_id": "MAT-SI",
       "fraction_pct": 3.2
-    },
-    {
-      "unit_id": "PRD-002",
-      "material_id": "MAT-CU",
-      "fraction_pct": 1.6
     },
     {
       "unit_id": "PRD-002",
@@ -2399,12 +2377,7 @@
     {
       "unit_id": "PRD-005",
       "material_id": "MAT-AL",
-      "fraction_pct": 45.0
-    },
-    {
-      "unit_id": "PRD-005",
-      "material_id": "MAT-CU",
-      "fraction_pct": 5.0
+      "fraction_pct": 50.0
     },
     {
       "unit_id": "PRD-006",
@@ -2439,12 +2412,7 @@
     {
       "unit_id": "HUB-001",
       "material_id": "MAT-AL",
-      "fraction_pct": 60.0
-    },
-    {
-      "unit_id": "HUB-001",
-      "material_id": "MAT-CU",
-      "fraction_pct": 28.0
+      "fraction_pct": 88.0
     },
     {
       "unit_id": "HUB-001",
