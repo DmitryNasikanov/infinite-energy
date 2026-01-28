@@ -18,6 +18,9 @@ import { unitWidget } from "../../../ojs-data.qmd"
 | Output | Glass fiber |
 | Throughput | ~30 t/day |
 | Energy consumption | Solar furnace (thermal) |
+| Location | **Outside the dome (in vacuum)** |
+
+> **Why vacuum:** The line uses tungsten bushings, which oxidize in the presence of oxygen. In Mercury's vacuum, tungsten withstands up to 2800C without degradation.
 
 [Back to overview](overview.qmd)
 
@@ -77,7 +80,7 @@ flowchart TD
     end
 
     subgraph FIBERIZATION["FIBERIZATION"]
-        MELT --> FILT["Pt-Rh bushings<br/>(import)"]
+        MELT --> FILT["W bushings<br/>(local)"]
         FILT --> FIBER["Fiber 5-13 um"]
         FIBER --> DRUM["Winding drum"]
     end
@@ -94,7 +97,7 @@ flowchart TD
 | Stage | Description | Temperature |
 | :--- | :--- | :--- |
 | Melting | Silicates melt in solar furnace | 1400C |
-| Fiberization | Melt is forced through platinum bushings | 1200C |
+| Fiberization | Melt is forced through tungsten bushings | 1200C |
 | Drawing | Fiber of 5-13 um diameter is drawn by drum | - |
 | Winding | Fiber is collected onto bobbins | - |
 
@@ -105,19 +108,18 @@ flowchart TD
 | Component | Function | Materials |
 | :--- | :--- | :--- |
 | Small solar furnace | Silicate melting | Al mirrors, MgO crucible (local) |
-| Platinum bushings | Fiber drawing | Pt-Rh (**import**) |
+| Tungsten bushings | Fiber drawing | W (**local**) |
 | Winding drum | Bobbin collection | Fe frame, Al drum |
 
-### Platinum Bushings (Pt-Rh) - Strategic Import
+### Tungsten Bushings (W) - Local Production
 
 | Parameter | Value |
 | :--- | :--- |
-| Kit mass | 200-400 kg Pt-Rh |
+| Kit mass | 200-400 kg W |
 | Service life | 3-5 years |
-| Replacement rate | ~50-100 kg/year |
-| Import type | One-time (at startup) + rare replacements |
+| Source | [Regolith processing](overview.qmd) (tungsten - trace element) |
 
-> **Why platinum:** Pt withstands 1770C and does not react with molten glass - this is the industry standard. The alternative is tungsten (W) bushings, but they oxidize. **Pt-Rh bushings are the only critical import for this line.**
+> **Why tungsten:** On Earth, platinum (Pt-Rh) is used because tungsten oxidizes at >400C in air. But the glass fiber line on Mercury operates **in vacuum**, where tungsten does not oxidize and withstands up to 2800C. This allows complete localization of production without importing precious metals.
 
 ---
 
@@ -131,7 +133,7 @@ flowchart TD
 | Thermal insulation | Medium | Equipment protection | MgO ceramics, vacuum |
 | Filters | Low | Gas purification | In vacuum, dust settles by itself |
 
-> **Conclusion:** Glass fiber is a **critical material**. Without it, factory electrics (cables, motors) and expansion (new domes) are impossible. Platinum bushings are a strategic import that must be secured.
+> **Conclusion:** Glass fiber is a **critical material**. Without it, factory electrics (cables, motors) and expansion (new domes) are impossible. By locating the line in vacuum, the entire line is **fully localized** - tungsten bushings are produced from local feedstock.
 
 ---
 
