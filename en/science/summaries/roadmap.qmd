@@ -144,7 +144,7 @@ All provided numbers (areas, productivities, material flows) are **preliminary o
 The project's key unit is the **replicator factory (F-R)**, fully self-sufficient for building new factories ([lights-out factories TRL 9](../reference/technology-readiness.qmd#lights-out-factories)). The second type - **mirror factory (F-M)** - specializes in mirror production.
 
 **Replicator factory (F-R) structure:**
-- Dome: 1500 m^2^ (50x30 m), height 6-8 m, atmosphere 0.1 atm N~2~
+- Dome: 1500 m^2^ (50x30 m), height 6-8 m, atmosphere 0.1 atm O~2~
 - Zones: foundry, rolling, drawing, forming (WAAM+CNC), robot assembly, dome cutting/welding, equipment assembly
 - Productivity: 5 robots/day, 1 dome / 2-3 days, 1 equipment set / 2-3 weeks
 
@@ -215,7 +215,7 @@ The project's key unit is the **replicator factory (F-R)**, fully self-sufficien
 - [Details: regolith processing](../detailed/production/materials/overview.qmd)
 
 **Material production line:**
-- CC-Al, CC-Fe (continuous casting machines) - Fe frame, Cu crystallizers (import)
+- CC-Al, CC-Fe (continuous casting machines) - Fe frame, local crystallizers (Fe-6%Mn steel for Al, MgO ceramic for Fe)
 - 6-stand rolling mills - Fe rolls, local drive
 - Drawing mills - tungsten dies (import)
 - Looms - for silicate fabric, Al+Fe body
@@ -239,7 +239,6 @@ The project's key unit is the **replicator factory (F-R)**, fully self-sufficien
 **1% critical imports:**
 - Iridium anodes for MRE (~10 kg/year per cell)
 - Pt-Rh spinnerets for fiberglass (~50-100 kg/year)
-- Copper crystallizers for continuous casting (high thermal conductivity)
 - Tungsten dies and cutters (~0.1 t/year)
 - Bearings, drives, electronics
 
@@ -612,21 +611,17 @@ The base cannot be 100% autonomous. "Vitamins" are needed:
 |----------|--------------|-----------------|
 | Electronics | Control units, sensors | No microchip production |
 | Rare earths | Nd, Sm for magnets | Not on Mercury |
-| Copper | Continuous casting crystallizers | Deficit on Mercury |
-| Tungsten | Dies, cutters | Critical for processing |
+| Copper | MD coils, motor windings | Deficit on Mercury |
 | Iridium | MRE anodes | Ultra-rare |
-| Gases | Argon, nitrogen | No atmosphere |
 
 ### Vitamin Requirements
 
 ```
 Per factory/year:
 - Electronics: ~10 kg (for ~180 robots)
-- Dies/cutters: ~3 kg
 - MRE anodes: ~4 kg
-- Gases: ~10 kg
 - Other: ~3 kg
-TOTAL: ~30 kg/factory/year
+TOTAL: ~17 kg/factory/year
 ```
 
 ### Supply Schedule

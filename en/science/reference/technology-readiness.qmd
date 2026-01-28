@@ -7,8 +7,8 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **All 24** technologies have TRL 4+ (laboratory or higher)
-> - **17 technologies** have TRL 7-9 (industrial maturity): electromagnetic launch, dark factories, autonomous mining, WAAM, NaS, foil, solar sails, continuous casting, rolling, CNC, etc.
+> - **All 25** technologies have TRL 4+ (laboratory or higher)
+> - **18 technologies** have TRL 7-9 (industrial maturity): electromagnetic launch, dark factories, autonomous mining, WAAM, NaS, foil, solar sails, continuous casting, rolling, CNC, servo actuators, etc.
 > - **2 technologies** TRL 4-5 (self-replication, cryogenic Al cable) — subsystems proven, integration in progress
 > - **None** of the technologies are fundamentally new — all are based on existing physical principles and industrial processes
 > - **Sources:** USA, China, Japan, Europe (ESA, UK, Netherlands, Germany), Australia, Korea, India, Russia
@@ -33,6 +33,7 @@ sidebar: science
 | 12 | Autonomous Mining | 8-9 | 690+ trucks in operation | 🇦🇺 Rio Tinto, 🇺🇸 Caterpillar, 🇨🇳 CHN Energy |
 | 13 | NaS Batteries | 9 | 5 GWh deployed | 🇯🇵 NGK, 🇩🇪 HH2E, 🇺🇸 Duke Energy |
 | 14 | Dark Factories | 9 | Industrial operation | 🇯🇵 FANUC, 🇨🇳 Xiaomi/Foxconn, 🇳🇱 Philips |
+| 15 | Integrated Servo Actuators | 9 | Automated mass production | 🇨🇳 EYOU (100K/yr), 🇨🇳 Leaderdrive, 🇯🇵 Harmonic Drive, 🇯🇵 Nabtesco |
 
 > **TRL Scale:** 1-3 = research, 4-5 = laboratory, 6-7 = demonstration, 8-9 = operation
 
@@ -172,6 +173,27 @@ sidebar: science
 
 **Conclusion:** Solar sails are mature space technology with multiple flight demonstrations.
 
+### Integrated Servo Actuators (Robot Joints)
+
+**Project Application:** Centaur-M (12 actuators per robot), 6-axis WAAM cell manipulators, all precision movements on assembly lines.
+
+**Existing Production:**
+
+| Company | Country | Capacity | Product |
+|---------|---------|----------|---------|
+| [EYOU Robot Technology](https://www.yicaiglobal.com/news/worlds-first-automated-production-line-for-humanoid-robot-joints-kicks-off-operation-in-shanghai) | 🇨🇳 China | 100,000 joints/yr (automated line from 01.2026) | Servo modules for humanoids |
+| Leaderdrive | 🇨🇳 China | Mass production | Harmonic drives |
+| [Harmonic Drive](https://www.harmonicdrive.net/) | 🇯🇵 Japan | Industrial standard | Strain wave gears |
+| [Nabtesco](https://www.nabtesco.com/) | 🇯🇵 Japan | Industrial standard | Cycloidal reducers |
+
+| Source | Fact | Year |
+|--------|------|------|
+| [EYOU — Yicai Global](https://www.yicaiglobal.com/news/worlds-first-automated-production-line-for-humanoid-robot-joints-kicks-off-operation-in-shanghai) | World's first automated humanoid joint production line, 100K/yr, Shanghai (Zhangjiang) | 2026 |
+| EYOU → AgiBot | Designated supplier for A2 series since October 2024 | 2024 |
+| TrendForce | Humanoid robot market CAGR 154% (2024-2027), joints = ~50% of robot cost | 2024 |
+
+**Conclusion:** Mass automated production of servo actuators — TRL 9. Mercury adaptation requires vacuum modifications (MoS₂ lubrication, NaK hydraulics), but base kinematics are fully ready. Details: [Actuators and Hydraulics](../detailed/production/robots/elements/actuators.qmd).
+
 ***
 ## Technologies TRL 6-7 (Demonstration)
 
@@ -190,6 +212,8 @@ sidebar: science
 | [NASA System Model](https://ntrs.nasa.gov/citations/20240013999) | ~1 ton unit → 10 tons O₂/year | Nov 2024 |
 
 **TRL:** *"Both Carbothermal Reduction and Molten Regolith Electrolysis have demonstrated operation under simulated lunar environmental conditions to **TRL 5/6**."* — [NASA ISRU Progress Review 2025](https://ntrs.nasa.gov/citations/20250003730)
+
+**Note:** NASA's TRL 5/6 rating covers MRE as a category, including early-stage projects (Lunar Resources — TRL 4→5). Blue Origin passed [CDR in September 2025](https://www.blueorigin.com/news/blue-alchemist-hits-major-milestone-toward-permanent-sustainable-lunar-infrastructure) — per [NASA standards](https://ntrs.nasa.gov/api/citations/20205003605/downloads/%20SP-20205003605%20TRA%20BP%20Guide%20FINAL.pdf), CDR corresponds to ≥TRL 6. The summary table reflects the most mature implementation.
 
 **Principle:** Regolith melts at ~1600°C, electric current separates oxides into oxygen (anode) and metals (cathode): Fe, Si, Al, Ti. Requires no reagents or additives from Earth.
 

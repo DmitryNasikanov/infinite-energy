@@ -30,7 +30,7 @@ flowchart TD
         ROBOT["6-axis robot"]
         TORCH["Welding torch"]
         ARC["Electric arc<br/>~5000C"]
-        ARGON["Shielding gas Ar"]
+        FLUX["Flux shielding<br/>FCAW-S"]
         TABLE["Rotary table"]
     end
 
@@ -46,7 +46,7 @@ flowchart TD
     WIRE --> ROBOT
     ROBOT --> TORCH
     TORCH --> ARC
-    ARGON --> ARC
+    FLUX --> ARC
     ARC --> TABLE
     TABLE --> CNC
     CNC --> FINISH
@@ -79,7 +79,7 @@ flowchart TD
 | Travel speed | 0.5-2 m/s |
 | Material | Steel Fe + Al (local production) |
 
-**Difference from Earth robots:** Lightweight Al construction (low gravity 0.38g), no lubrication (operates in 0.1 atm nitrogen).
+**Difference from Earth robots:** Lightweight Al construction (low gravity 0.38g), no lubrication (operates in 0.1 atm O₂).
 
 ---
 
@@ -87,19 +87,20 @@ flowchart TD
 
 | Parameter | Value |
 |-----------|-------|
-| Type | MIG/MAG (Metal Inert Gas) |
+| Type | FCAW-S (Flux-Cored Arc Welding — Self-shielded) |
 | Current | 150-300 A |
 | Voltage | 20-30 V |
 | Power | 3-9 kW |
 | Wire feed | 3-8 m/min |
-| Shielding gas | Argon (Ar) - from Earth |
+| Wire | Flux-cored with flux core (TiO₂+CaO+MgO+Fe) |
 
-**Why argon?**
-- Inert gas - does not react with melt
-- Heavier than air - displaces nitrogen from welding zone
-- Prevents oxidation and porosity
+**Why FCAW-S?**
+- Flux creates shielding gas and slag cover when heated
+- No external gas required — argon is not imported
+- Flux components are 100% local: TiO₂ (titanium line), CaO (MRE slag), MgO (magnesite), Fe
+- Earth analogs: Lincoln Electric Innershield, ESAB Coreshield
 
-**Argon consumption:** ~10 L/min (200 cubic meters/month per cell) - critical import from Earth
+**Flux-cored wire production:** steel strip → forming into tube → flux filling → drawing to Ø1.6-2.0 mm
 
 ---
 
@@ -155,7 +156,7 @@ After WAAM, the part has a rough surface and excess material. Finish machining i
 | Number of axes | 5 (X, Y, Z + 2 rotary) |
 | Spindle power | 10-20 kW |
 | Spindle speed | 10000-20000 rpm |
-| Tool | Carbide end mills (WC - from Earth) |
+| Tool | Al₂O₃ ceramic cutters (corundum, local) |
 
 **Coolant (cutting fluid):**
 - Oil in closed loop (recirculation)
@@ -194,8 +195,7 @@ After WAAM, the part has a rough surface and excess material. Finish machining i
 |------------|----------|
 | Low speed | Use for complex parts, simple ones by casting |
 | Surface roughness | Post-processing on CNC |
-| Argon import | Critical consumable - shipped from Earth |
-| Tool wear | Carbide tools (WC) - import |
+| Tool wear | Al₂O₃ ceramic — higher wear than WC, but unlimited material (replacement every 3-5 days) |
 
 ---
 
@@ -227,10 +227,10 @@ After WAAM, the part has a rough surface and excess material. Finish machining i
 
 | Parameter | Control method | Standard | Action on deviation |
 |-----------|---------------|----------|---------------------|
-| Porosity | Ultrasonic | <2% | Reject |
-| Dimensions | 3D laser scanner | +/-0.1 mm | Rework on CNC |
-| Cracks | Dye penetrant inspection | No cracks | Reject |
-| Hardness | Hardness tester | Per specification | Heat treatment |
+| Porosity | In-process monitoring (arc current, WAAM cameras) | <2% | Parameter correction |
+| Dimensions | CNC touch probe | +/-0.1 mm | Rework on CNC |
+| Cracks | Visual (Centaur-M cameras) | No visible defects | Reject |
+| Hardness | Mechanical hardness tester | Per specification | Heat treatment |
 
 ---
 

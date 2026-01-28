@@ -193,8 +193,8 @@
       "parent_id": "MAT-METAL",
       "name": "Tungsten",
       "symbol": "W",
-      "description": "CNC cutters, dies, tooling",
-      "criticality": "medium",
+      "description": "Not currently used (cutters/dies replaced by Al₂O₃ ceramic)",
+      "criticality": "low",
       "sources": [
         "Sandvik — вольфрамовые фрезы",
         "Kennametal — твёрдые сплавы W-Co"
@@ -205,7 +205,7 @@
       "parent_id": "MAT-METAL",
       "name": "Copper",
       "symbol": "Cu",
-      "description": "Gen-1 motor windings, CCM crystallizers",
+      "description": "Gen-1 motor windings, MD coils",
       "criticality": "high",
       "sources": [
         "Codelco — электролитическая медь",
@@ -382,43 +382,6 @@
         "Hexcel — aerospace CFRP",
         "SpaceX Dragon — CFRP capsule"
       ]
-    },
-    {
-      "id": "MAT-SIC",
-      "parent_id": "MAT-COMPOUND",
-      "name": "Silicon Carbide",
-      "symbol": "SiC",
-      "description": "SiC",
-      "criticality": "low",
-      "sources": [
-        "Saint-Gobain — SiC refractories",
-        "Washington Mills — abrasives"
-      ]
-    },
-    {
-      "id": "MAT-SIO2-FIBER",
-      "parent_id": "MAT-COMPOUND",
-      "name": "Silicate Fiber",
-      "symbol": "SiO₂",
-      "description": "Стекловолокно для куполов и изоляции",
-      "criticality": "high",
-      "sources": [
-        "3M Nextel — керамическое волокно",
-        "Saint-Gobain — кварцевое волокно",
-        "Owens Corning — стекловолокно"
-      ]
-    },
-    {
-      "id": "MAT-CAO",
-      "parent_id": "MAT-COMPOUND",
-      "name": "Calcium Oxide",
-      "symbol": "CaO",
-      "description": "CaO",
-      "criticality": "medium",
-      "sources": [
-        "Carmeuse — промышленная известь",
-        "Lhoist — металлургический флюс"
-      ]
     }
   ],
   "categories": [
@@ -441,10 +404,6 @@
     {
       "id": "transport",
       "name": "Transport"
-    },
-    {
-      "id": "components",
-      "name": "Components"
     }
   ],
   "units": [
@@ -626,6 +585,22 @@
       "sources": [
         "Odeillo Solar Furnace (France) — 1 MW",
         "DLR Solar Tower Jülich — concentrated solar"
+      ]
+    },
+    {
+      "id": "HUB-001",
+      "category_id": "facilities",
+      "name": "Energy Reception Hub",
+      "description": "LSP stations on Moon + rectennas on Earth, 300 km² photovoltaics, 10000 km² rectennas",
+      "mass_kg": 177600000.0,
+      "power_kw": null,
+      "parent_id": null,
+      "is_assembly": true,
+      "production_planet_id": "moon",
+      "sources": [
+        "hub.qmd — архитектура LSP",
+        "Lunar Solar Power (Criswell, 1980s)",
+        "Space-Based Solar Power (NASA studies)"
       ]
     },
     {
@@ -1104,46 +1079,46 @@
     {
       "id": "CMP-006",
       "category_id": "equipment",
-      "name": "W Die",
-      "description": "Wire drawing die, tungsten",
+      "name": "Al₂O₃ Die",
+      "description": "Wire drawing die, corundum ceramic (100% local)",
       "mass_kg": 0.5,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
-      "production_planet_id": "earth",
+      "production_planet_id": "mercury",
       "sources": [
-        "Sandvik — tungsten carbide dies",
+        "CoorsTek — alumina ceramic dies",
         "Esteves — wire drawing dies"
       ]
     },
     {
       "id": "CMP-007",
       "category_id": "equipment",
-      "name": "W-Co Cutter",
-      "description": "Carbide cutter for CNC",
+      "name": "Al₂O₃ Cutter",
+      "description": "Ceramic cutter for CNC, corundum (100% local, higher wear but unlimited)",
       "mass_kg": 0.2,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
-      "production_planet_id": "earth",
+      "production_planet_id": "mercury",
       "sources": [
-        "Sandvik Coromant — carbide cutters",
-        "Kennametal — milling tools"
+        "Sandvik Coromant — ceramic cutters",
+        "Kennametal — alumina tools"
       ]
     },
     {
       "id": "CMP-008",
       "category_id": "equipment",
-      "name": "Cu Crystallizer",
-      "description": "Copper crystallizer for CCM",
+      "name": "Crystallizer",
+      "description": "Steel Fe-6%Mn for CCM-Al, MgO ceramic for CCM-Fe (100% local)",
       "mass_kg": 50.0,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": false,
-      "production_planet_id": "earth",
+      "production_planet_id": "mercury",
       "sources": [
-        "SMS Group — copper molds",
-        "KME — crystallizers"
+        "Refratechnik — MgO refractory ceramics",
+        "RHI Magnesita — crystallizer linings"
       ]
     },
     {
@@ -1371,273 +1346,6 @@
         "NASA — deployable structures",
         "JAXA IKAROS — sail deployment"
       ]
-    },
-    {
-      "id": "HUB-001",
-      "category_id": "facilities",
-      "name": "Energy Reception Hub",
-      "description": "LSP stations on Moon + rectennas on Earth, 300 km² photovoltaics, 10000 km² rectennas",
-      "mass_kg": 177600000.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": true,
-      "production_planet_id": "moon",
-      "sources": [
-        "hub.qmd — архитектура LSP",
-        "Lunar Solar Power (Criswell, 1980s)",
-        "Space-Based Solar Power (NASA studies)"
-      ]
-    },
-    {
-      "id": "CMP-020",
-      "category_id": "components",
-      "name": "Al Drum",
-      "description": "Вращающийся цилиндр ⌀800×1200мм для магнитного сепаратора",
-      "mass_kg": 150.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": []
-    },
-    {
-      "id": "CMP-021",
-      "category_id": "components",
-      "name": "Electromagnet",
-      "description": "0.5-1.5 Тл, обмотка Al, сердечник Fe",
-      "mass_kg": 20.0,
-      "power_kw": 2.0,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": []
-    },
-    {
-      "id": "CMP-022",
-      "category_id": "components",
-      "name": "EM Scraper",
-      "description": "На электромагнитных направляющих, без подшипников",
-      "mass_kg": 30.0,
-      "power_kw": 1.0,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": []
-    },
-    {
-      "id": "CMP-023",
-      "category_id": "components",
-      "name": "Ceramic Lining",
-      "description": "Труба Al₂O₃ (корунд), выдерживает 1500°C, химически инертна к расплаву",
-      "mass_kg": 30.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Morgan Advanced Materials — Al₂O₃ ceramics",
-        "CoorsTek — high-temperature ceramics"
-      ]
-    },
-    {
-      "id": "CMP-024",
-      "category_id": "components",
-      "name": "MLI (Multi-Layer Insulation)",
-      "description": "Экранно-вакуумная теплоизоляция, ~20 слоёв Al фольги с вакуумом",
-      "mass_kg": 5.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Dunmore — MLI blankets",
-        "Sheldahl — aerospace insulation"
-      ]
-    },
-    {
-      "id": "CMP-025",
-      "category_id": "components",
-      "name": "Steel Shell (Tundish)",
-      "description": "Внешний корпус тандиша, сталь Fe-6%Mn",
-      "mass_kg": 700.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "SMS Group — tundish shells"
-      ]
-    },
-    {
-      "id": "CMP-026",
-      "category_id": "components",
-      "name": "Refractory Lining (Magnesite)",
-      "description": "Внутренняя облицовка MgO, выдерживает 1800°C",
-      "mass_kg": 250.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Vesuvius — refractory linings",
-        "RHI Magnesita — MgO refractories"
-      ]
-    },
-    {
-      "id": "CMP-027",
-      "category_id": "components",
-      "name": "Induction Heater",
-      "description": "Поддержание температуры расплава 1550°C",
-      "mass_kg": 50.0,
-      "power_kw": 100.0,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Inductotherm — induction heating",
-        "ABB — tundish heating systems"
-      ]
-    },
-    {
-      "id": "CMP-028",
-      "category_id": "components",
-      "name": "SiC Ladle",
-      "description": "Тугоплавкий черпак из карбида кремния для контакта с расплавом",
-      "mass_kg": 8.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Saint-Gobain — SiC components"
-      ]
-    },
-    {
-      "id": "CMP-029",
-      "category_id": "components",
-      "name": "Skimmer Arm",
-      "description": "Штанга из стали Fe-6%Mn для крепления черпака",
-      "mass_kg": 20.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Industrial manipulators"
-      ]
-    },
-    {
-      "id": "CMP-030",
-      "category_id": "components",
-      "name": "Hydraulic Drive",
-      "description": "NaK гидравлика для подъёма/опускания черпака",
-      "mass_kg": 12.0,
-      "power_kw": 2.0,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "NaK hydraulic systems"
-      ]
-    },
-    {
-      "id": "CMP-031",
-      "category_id": "components",
-      "name": "Ceramic Accumulator",
-      "description": "Приёмный ковш Al₂O₃ для сбора шлака",
-      "mass_kg": 30.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "CoorsTek — alumina containers"
-      ]
-    },
-    {
-      "id": "EQU-034",
-      "category_id": "equipment",
-      "name": "Vibrating Feeder",
-      "description": "Транспортировка реголита электромагнитной вибрацией",
-      "mass_kg": 100.0,
-      "power_kw": 5.0,
-      "parent_id": "FAC-001",
-      "is_assembly": true,
-      "production_planet_id": "mercury",
-      "sources": [
-        "Eriez — electromagnetic feeders",
-        "Syntron — vibratory feeders"
-      ]
-    },
-    {
-      "id": "CMP-101",
-      "category_id": "components",
-      "name": "Rails and Coils",
-      "description": "Электромагнитные катушки и проводящие рельсы",
-      "mass_kg": 500000.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "railgun.qmd — конструкция масс-драйвера"
-      ]
-    },
-    {
-      "id": "CMP-102",
-      "category_id": "components",
-      "name": "Tunnel Frame",
-      "description": "Стальная опорная конструкция 3 км",
-      "mass_kg": 800000.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "railgun.qmd — конструкция масс-драйвера"
-      ]
-    },
-    {
-      "id": "CMP-103",
-      "category_id": "components",
-      "name": "Capacitor Bank",
-      "description": "Накопители энергии для пиковой мощности 400 МВт",
-      "mass_kg": 20000.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "railgun.qmd — энергосистема масс-драйвера"
-      ]
-    },
-    {
-      "id": "CMP-104",
-      "category_id": "components",
-      "name": "Cooling System",
-      "description": "Радиаторы и циркуляция NaK для отвода 40 МВт тепла",
-      "mass_kg": 75000.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "railgun.qmd — охлаждение масс-драйвера"
-      ]
-    },
-    {
-      "id": "CMP-105",
-      "category_id": "components",
-      "name": "Rotating Platform",
-      "description": "Раскрутка контейнера 60-120 об/мин, диаметр 2 м",
-      "mass_kg": 5000.0,
-      "power_kw": null,
-      "parent_id": null,
-      "is_assembly": false,
-      "production_planet_id": "mercury",
-      "sources": [
-        "railgun.qmd — система раскрутки"
-      ]
     }
   ],
   "planetMaterials": [
@@ -1789,13 +1497,13 @@
       "planet_id": "earth",
       "material_id": "MAT-W",
       "concentration_pct": null,
-      "notes": "импорт, фрезы CNC"
+      "notes": "не используется (фрезы/фильеры заменены на Al₂O₃)"
     },
     {
       "planet_id": "earth",
       "material_id": "MAT-CU",
       "concentration_pct": null,
-      "notes": "импорт, кристаллизаторы, обмотки"
+      "notes": "импорт, обмотки двигателей, катушки МД"
     },
     {
       "planet_id": "earth",
@@ -1885,7 +1593,7 @@
     },
     {
       "unit_id": "ROB-012",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 21.0
     },
     {
@@ -1930,7 +1638,7 @@
     },
     {
       "unit_id": "ROB-014",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 30.0
     },
     {
@@ -2100,7 +1808,7 @@
     },
     {
       "unit_id": "EQU-003",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 15.0
     },
     {
@@ -2155,13 +1863,18 @@
     },
     {
       "unit_id": "EQU-023",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 70.0
     },
     {
       "unit_id": "EQU-023",
+      "material_id": "MAT-MGO",
+      "fraction_pct": 15.0
+    },
+    {
+      "unit_id": "EQU-023",
       "material_id": "MAT-AL2O3",
-      "fraction_pct": 25.0
+      "fraction_pct": 10.0
     },
     {
       "unit_id": "EQU-023",
@@ -2170,13 +1883,13 @@
     },
     {
       "unit_id": "EQU-006",
-      "material_id": "MAT-FE",
-      "fraction_pct": 75.0
+      "material_id": "MAT-FE-MN",
+      "fraction_pct": 83.0
     },
     {
       "unit_id": "EQU-006",
-      "material_id": "MAT-CU",
-      "fraction_pct": 15.0
+      "material_id": "MAT-MGO",
+      "fraction_pct": 7.0
     },
     {
       "unit_id": "EQU-006",
@@ -2195,7 +1908,7 @@
     },
     {
       "unit_id": "EQU-007",
-      "material_id": "MAT-CU",
+      "material_id": "MAT-MGO",
       "fraction_pct": 12.0
     },
     {
@@ -2255,7 +1968,7 @@
     },
     {
       "unit_id": "EQU-025",
-      "material_id": "MAT-W",
+      "material_id": "MAT-AL2O3",
       "fraction_pct": 0.25
     },
     {
@@ -2305,7 +2018,7 @@
     },
     {
       "unit_id": "EQU-010",
-      "material_id": "MAT-W",
+      "material_id": "MAT-AL2O3",
       "fraction_pct": 0.15
     },
     {
@@ -2410,7 +2123,7 @@
     },
     {
       "unit_id": "EQU-031",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 60.0
     },
     {
@@ -2430,7 +2143,7 @@
     },
     {
       "unit_id": "EQU-032",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 60.0
     },
     {
@@ -2450,7 +2163,7 @@
     },
     {
       "unit_id": "EQU-033",
-      "material_id": "MAT-FE",
+      "material_id": "MAT-FE-MN",
       "fraction_pct": 55.0
     },
     {
@@ -2724,107 +2437,6 @@
       "fraction_pct": 5.0
     },
     {
-      "unit_id": "EQU-003",
-      "material_id": "MAT-FE-MN",
-      "fraction_pct": 15.0
-    },
-    {
-      "unit_id": "CMP-023",
-      "material_id": "MAT-AL2O3",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-024",
-      "material_id": "MAT-AL",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-025",
-      "material_id": "MAT-FE",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-026",
-      "material_id": "MAT-MGO",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-027",
-      "material_id": "MAT-FE",
-      "fraction_pct": 60.0
-    },
-    {
-      "unit_id": "CMP-027",
-      "material_id": "MAT-AL",
-      "fraction_pct": 30.0
-    },
-    {
-      "unit_id": "CMP-027",
-      "material_id": "MAT-SI",
-      "fraction_pct": 10.0
-    },
-    {
-      "unit_id": "CMP-028",
-      "material_id": "MAT-SIC",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-029",
-      "material_id": "MAT-FE",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-030",
-      "material_id": "MAT-FE",
-      "fraction_pct": 50.0
-    },
-    {
-      "unit_id": "CMP-030",
-      "material_id": "MAT-AL",
-      "fraction_pct": 40.0
-    },
-    {
-      "unit_id": "CMP-030",
-      "material_id": "MAT-NA",
-      "fraction_pct": 5.0
-    },
-    {
-      "unit_id": "CMP-030",
-      "material_id": "MAT-K",
-      "fraction_pct": 5.0
-    },
-    {
-      "unit_id": "CMP-031",
-      "material_id": "MAT-AL2O3",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "EQU-023",
-      "material_id": "MAT-MGO",
-      "fraction_pct": 25.0
-    },
-    {
-      "unit_id": "EQU-023",
-      "material_id": "MAT-AL",
-      "fraction_pct": 1.5
-    },
-    {
-      "unit_id": "EQU-006",
-      "material_id": "MAT-FE-MN",
-      "fraction_pct": 15.0,
-      "notes": "Стальной кристаллизатор: Tпл стали 1500°C >> Tлитья Al 700°C"
-    },
-    {
-      "unit_id": "EQU-031",
-      "material_id": "MAT-FE-MN",
-      "fraction_pct": 60.0
-    },
-    {
-      "unit_id": "EQU-033",
-      "material_id": "MAT-FE-MN",
-      "fraction_pct": 55.0
-    },
-    {
       "unit_id": "HUB-001",
       "material_id": "MAT-AL",
       "fraction_pct": 60.0
@@ -2841,83 +2453,8 @@
     },
     {
       "unit_id": "HUB-001",
-      "material_id": "MAT-FE",
-      "fraction_pct": 0.3
-    },
-    {
-      "unit_id": "EQU-034",
       "material_id": "MAT-FE-MN",
-      "fraction_pct": 70.0
-    },
-    {
-      "unit_id": "EQU-034",
-      "material_id": "MAT-AL",
-      "fraction_pct": 30.0
-    },
-    {
-      "unit_id": "CMP-020",
-      "material_id": "MAT-AL",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-021",
-      "material_id": "MAT-FE",
-      "fraction_pct": 60.0
-    },
-    {
-      "unit_id": "CMP-021",
-      "material_id": "MAT-AL",
-      "fraction_pct": 40.0
-    },
-    {
-      "unit_id": "CMP-022",
-      "material_id": "MAT-FE-MN",
-      "fraction_pct": 70.0
-    },
-    {
-      "unit_id": "CMP-022",
-      "material_id": "MAT-AL",
-      "fraction_pct": 30.0
-    },
-    {
-      "unit_id": "CMP-101",
-      "material_id": "MAT-AL",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-102",
-      "material_id": "MAT-FE",
-      "fraction_pct": 100.0
-    },
-    {
-      "unit_id": "CMP-103",
-      "material_id": "MAT-SI",
-      "fraction_pct": 60.0
-    },
-    {
-      "unit_id": "CMP-103",
-      "material_id": "MAT-AL",
-      "fraction_pct": 40.0
-    },
-    {
-      "unit_id": "CMP-104",
-      "material_id": "MAT-AL",
-      "fraction_pct": 80.0
-    },
-    {
-      "unit_id": "CMP-104",
-      "material_id": "MAT-NAK",
-      "fraction_pct": 20.0
-    },
-    {
-      "unit_id": "CMP-105",
-      "material_id": "MAT-FE",
-      "fraction_pct": 70.0
-    },
-    {
-      "unit_id": "CMP-105",
-      "material_id": "MAT-AL",
-      "fraction_pct": 30.0
+      "fraction_pct": 3.0
     }
   ],
   "unitComponents": [
@@ -3295,101 +2832,6 @@
       "assembly_id": "EQU-001",
       "component_id": "CMP-001",
       "quantity": 50
-    },
-    {
-      "assembly_id": "EQU-005",
-      "component_id": "CMP-020",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-005",
-      "component_id": "CMP-021",
-      "quantity": 8
-    },
-    {
-      "assembly_id": "EQU-005",
-      "component_id": "CMP-022",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-005",
-      "component_id": "EQU-034",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-022",
-      "component_id": "CMP-023",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-022",
-      "component_id": "CMP-024",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-023",
-      "component_id": "CMP-025",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-023",
-      "component_id": "CMP-026",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-023",
-      "component_id": "CMP-027",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-030",
-      "component_id": "CMP-028",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-030",
-      "component_id": "CMP-029",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-030",
-      "component_id": "CMP-030",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-030",
-      "component_id": "CMP-031",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "FAC-001",
-      "component_id": "EQU-030",
-      "quantity": 2
-    },
-    {
-      "assembly_id": "EQU-001",
-      "component_id": "CMP-101",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-001",
-      "component_id": "CMP-102",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-001",
-      "component_id": "CMP-103",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-001",
-      "component_id": "CMP-104",
-      "quantity": 1
-    },
-    {
-      "assembly_id": "EQU-001",
-      "component_id": "CMP-105",
-      "quantity": 1
     }
   ]
 }

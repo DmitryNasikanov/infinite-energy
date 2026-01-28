@@ -73,9 +73,14 @@ function unitWidget(unitId) {
       };
     });
 
-  // Итого считаем ТОЛЬКО по материалам (не компонентам!)
-  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
-  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
+  // Итого: материалы + компоненты (по массе)
+  const importMatMassKg = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + (unit.mass_kg ? unit.mass_kg * m.fraction_pct / 100 : 0), 0);
+  const totalMatMassKg = materials.reduce((sum, m) => sum + (unit.mass_kg ? unit.mass_kg * m.fraction_pct / 100 : 0), 0);
+  const importCompMassKg = components.filter(c => !c.isLocal).reduce((sum, c) => sum + (c.massKg || 0), 0);
+  const totalCompMassKg = components.reduce((sum, c) => sum + (c.massKg || 0), 0);
+  const totalMassKg = totalMatMassKg + totalCompMassKg;
+  const importPct = totalMassKg > 0 ? (importMatMassKg + importCompMassKg) / totalMassKg * 100 : 0;
+  const localPct = 100 - importPct;
   const hasCriticalImports = components.some(c => !c.isLocal);
 
   // Строки таблицы компонентов
@@ -129,8 +134,8 @@ function unitWidget(unitId) {
           <tbody>${materialRows}</tbody>
         </table>
         <div class="summary">
-          Итого: <span class="local-pct">${localPct.toFixed(0)}% местное</span> |
-          <span class="import-pct">${importPct.toFixed(0)}% импорт</span>
+          Итого: <span class="local-pct">${importPct > 0 && importPct < 1 ? '>99' : localPct.toFixed(0)}% местное</span> |
+          <span class="import-pct">${importPct > 0 && importPct < 1 ? '<1' : importPct.toFixed(0)}% импорт</span>
           ${hasCriticalImports ? html`<br/><strong>⚠ Содержит импортные компоненты</strong>` : ''}
         </div>
       ` : ''}

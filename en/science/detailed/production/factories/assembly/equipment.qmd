@@ -22,9 +22,9 @@ Each new factory requires an equipment set: casting machines, rolling mills, rob
 
 | Equipment | Mass | Material | Technology |
 |-----------|------|----------|------------|
-| Continuous caster (2 units) | ~10 t | Fe frame + Cu crystallizer | WAAM + Cu import |
+| Continuous caster (2 units) | ~10 t | Fe frame + local crystallizer | WAAM + casting |
 | Rolling mill (6 stands) | ~15 t | Fe | WAAM + casting |
-| Wire drawing mill | ~3 t | Fe + WC dies | WAAM + WC import |
+| Wire drawing mill | ~3 t | Fe + Al₂O₃ dies | WAAM + ceramics (local) |
 | WAAM cells (3 units) | ~5 t | Fe + Al | WAAM + assembly |
 | CNC machines (2 units) | ~8 t | Fe + imported electronics | WAAM + import |
 | Overhead crane (1 t) | ~2 t | Fe + Al | WAAM + assembly |
@@ -41,7 +41,7 @@ flowchart TD
     subgraph INPUT["MATERIALS"]
         AL["Aluminum<br/>sheets, wire"]
         FE["Iron<br/>profiles, wire"]
-        IMPORT["Imports<br/>Cu, WC, electronics"]
+        IMPORT["Imports<br/>electronics"]
     end
 
     subgraph FABRICATION["PARTS FABRICATION"]
@@ -88,7 +88,8 @@ flowchart TD
 | Component | Mass | Material | Technology |
 |-----------|------|----------|------------|
 | Frame | ~4 t | Fe | WAAM + welding |
-| Copper crystallizer | ~0.5 t | Cu | **Import from Earth** |
+| Crystallizer (CCM-Al) | ~0.5 t | Fe-6%Mn steel + MgO coating | Casting + coating (local) |
+| Crystallizer (CCM-Fe) | ~0.5 t | MgO ceramic | Sintering (local) |
 | Pulling rolls (4 pairs) | ~2 t | Steel + ceramics | Casting + coating |
 | NaK cooling system | ~1 t | Al tubes | Rolling + welding |
 | Automation | ~0.3 t | Electronics | **Import from Earth** |
@@ -96,7 +97,7 @@ flowchart TD
 
 **Production time:** 5-7 days (for 2 casters)
 
-**Critical import:** Copper crystallizer (~500 kg per caster) — copper thermal conductivity is critical for quality casting.
+**100% local crystallizer materials:** Steel for Al (margin ~900°C), MgO ceramic for Fe (margin ~1300°C). No import required.
 
 **Details:** [Continuous Casting](../elements/casting.qmd)
 
@@ -153,7 +154,7 @@ flowchart TD
 **Critical import:**
 - Spindle (20,000 RPM, precision ±0.001 mm)
 - CNC controller (5-axis interpolation)
-- Carbide cutters (WC)
+- Al₂O₃ ceramic cutters (local)
 
 ---
 
@@ -182,14 +183,13 @@ flowchart TD
 |----------|------|--------|
 | Iron (Fe) | ~35 t | [Regolith processing](../../materials/overview.qmd) |
 | Aluminum (Al) | ~10 t | [Regolith processing](../../materials/overview.qmd) |
-| Copper (Cu) | ~1 t | **Import from Earth** |
+| Copper (Cu) | ~0.2 t | **Import from Earth** (motor windings) |
 | Electronics | ~0.5 t | **Import from Earth** |
-| Tungsten carbide (WC) | ~0.1 t | **Import from Earth** |
 | Other (bearings, cables) | ~0.4 t | **Import from Earth** |
 
 **Localization:** ~90% by mass (Fe + Al are local)
 
-**Critical import:** ~2 t per factory (electronics, precision parts)
+**Critical import:** ~1.5 t per factory (electronics, precision parts)
 
 ---
 

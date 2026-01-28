@@ -8,7 +8,7 @@ sidebar: science
 > - **Purpose:** Receiving and preparing Al and Fe melts for casting
 > - **Source:** MHD input at 1500°C from regolith processing
 > - **Equipment:** Tundish with two stoppers
-> - **Throughput:** 42 t Al + 35 t Fe/day
+> - **Throughput:** 42 t Al + 11 t Fe-Mn steel/day
 
 ---
 
@@ -24,12 +24,12 @@ Metal melting is the first stage of factory element production. Molten metals (A
 flowchart TD
     subgraph EXTERNAL["OUTSIDE DOME"]
         DIST["Distillation<br/>Al 1500°C"]
-        MRE["MRE Electrolysis<br/>Fe 1500°C"]
+        MRE["Zone Refining<br/>Fe-Mn 1500°C"]
     end
 
     subgraph ENTRY["DOME ENTRY"]
         MHD_AL["MHD Channel Al<br/>42 t/day"]
-        MHD_FE["MHD Channel Fe<br/>35 t/day"]
+        MHD_FE["MHD Channel Fe-Mn<br/>11 t/day"]
     end
 
     subgraph BUFFER["BUFFER ZONE"]
@@ -100,7 +100,7 @@ The tundish has two independent stoppers for flow control:
 | Stopper | Metal | Flow Rate | CCM |
 |---------|-------|-----------|-----|
 | Stopper 1 | Aluminum | 42 t/day | CCM-Al |
-| Stopper 2 | Iron | 35 t/day | CCM-Fe |
+| Stopper 2 | Fe-Mn steel | 11 t/day | CCM-Fe |
 
 **Operating principle:**
 - Stopper closed → melt stays in tundish
@@ -140,7 +140,7 @@ The tundish has two independent stoppers for flow control:
 | Metal | Input (MHD) | Output (CCM) | Losses |
 |-------|-------------|--------------|--------|
 | Aluminum (Al) | 42 t/day | 41.5 t/day | 1.2% (slag) |
-| Iron (Fe) | 35 t/day | 34.5 t/day | 1.4% (slag) |
+| Fe-Mn steel | 11 t/day | 10.85 t/day | 1.4% (slag) |
 
 **Slag:** Periodically skimmed and returned to MRE furnace for reprocessing.
 

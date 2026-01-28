@@ -7,7 +7,7 @@ sidebar: science
 >
 > - **Purpose:** Converting billets into sheets, profiles, wire
 > - **Equipment:** 6-stand rolling mill + wire drawing machine
-> - **Throughput:** 41 t Al + 34 t Fe → foil, sheets, wire
+> - **Throughput:** 41 t Al + 10.7 t Fe-Mn steel → foil, sheets, wire, profiles
 > - **Output:** 50 μm foil, 1-3 mm sheets, Ø1.6-2.0 mm wire
 
 ---
@@ -23,45 +23,45 @@ The rolling mill is key equipment for converting 100×100 mm billets into useful
 ```{mermaid}
 flowchart TD
     subgraph INPUT["INPUT"]
-        BILLETS["100×100 mm Billets<br/>from CCM"]
+        BILLETS_AL["Al Billets 41 t/day<br/>from CCM-Al"]
+        BILLETS_FE["Fe-Mn Billets 10.7 t/day<br/>from CCM-Fe"]
     end
 
     subgraph HEATING["HEATING"]
-        FURNACE["Induction Furnace<br/>1100-1200°C"]
+        FURNACE_AL["Ind. Furnace Al<br/>400-500°C"]
+        FURNACE_FE["Ind. Furnace Fe<br/>1100-1200°C"]
     end
 
     subgraph ROLLING["ROLLING"]
         MILL["6-Stand Mill<br/>100 mm → Ø20 mm"]
-        SPLIT["Stream Split"]
     end
 
-    subgraph FINISHING["FINISHING"]
+    subgraph AL_FINISH["ALUMINUM"]
         FOIL["Foil Rolling<br/>→ 50 μm"]
         SHEET["Sheet Rolling<br/>→ 1-3 mm"]
-        WIRE["Wire Drawing<br/>→ Ø1.6-2.0 mm"]
+        WIRE_AL["Al Wire Drawing<br/>→ Ø1.6 mm"]
     end
 
-    subgraph OUTPUT["OUTPUT"]
-        FOIL_OUT["Foil for Mirrors"]
-        SHEET_OUT["Sheets for Housings"]
-        WIRE_OUT["Wire for WAAM"]
+    subgraph FE_FINISH["Fe-Mn STEEL"]
+        PROFILE["Profiles<br/>Ø20 mm"]
+        WIRE_FE["Fe Wire Drawing<br/>→ Ø1.6-2.0 mm"]
     end
 
-    BILLETS --> FURNACE
-    FURNACE --> MILL
-    MILL --> SPLIT
-    SPLIT -->|"60%"| FOIL
-    SPLIT -->|"30%"| SHEET
-    SPLIT -->|"10%"| WIRE
-    FOIL --> FOIL_OUT
-    SHEET --> SHEET_OUT
-    WIRE --> WIRE_OUT
+    BILLETS_AL --> FURNACE_AL
+    BILLETS_FE --> FURNACE_FE
+    FURNACE_AL --> MILL
+    FURNACE_FE --> MILL
+    MILL -->|"Al 60%"| FOIL
+    MILL -->|"Al 30%"| SHEET
+    MILL -->|"Al 10%"| WIRE_AL
+    MILL -->|"Fe 60%"| PROFILE
+    MILL -->|"Fe 40%"| WIRE_FE
 
     style INPUT fill:#f0e68c
     style HEATING fill:#fff3cd
     style ROLLING fill:#d4edda
-    style FINISHING fill:#b8e0d2
-    style OUTPUT fill:#cce5ff
+    style AL_FINISH fill:#b8e0d2
+    style FE_FINISH fill:#cce5ff
 ```
 
 ---
@@ -99,7 +99,7 @@ A series of rolls, each reducing the thickness of the workpiece.
 | Output | Ø20 mm profile or 5 mm strip |
 | Rolling Speed | 1-3 m/s (increasing toward final stands) |
 | Force per Stand | 50-200 tons |
-| Roll Material | Hardened steel with WC coating |
+| Roll Material | Hardened steel with Al₂O₃ coating |
 
 ### Stand Sequence
 
@@ -116,11 +116,11 @@ A series of rolls, each reducing the thickness of the workpiece.
 
 ---
 
-## Three Finishing Directions
+## Finishing: Aluminum
 
-After the 6-stand mill, metal splits into three streams.
+After the 6-stand mill, aluminum splits into three streams.
 
-### 1. Foil Rolling (60% of stream, ~25 t Al/day)
+### 1. Foil Rolling (60% of Al stream, ~25 t/day)
 
 50 μm aluminum foil for mirrors.
 
@@ -146,7 +146,7 @@ After the 6-stand mill, metal splits into three streams.
 
 ---
 
-### 2. Sheet Rolling (30% of stream, ~13 t Al/day)
+### 2. Sheet Rolling (30% of Al stream, ~13 t/day)
 
 1-3 mm aluminum sheets for robot housings.
 
@@ -165,7 +165,7 @@ After the 6-stand mill, metal splits into three streams.
 
 ---
 
-### 3. Wire Drawing (10% of stream, ~4 t Al/day)
+### 3. Al Wire Drawing (10% of Al stream, ~4 t/day)
 
 Ø1.6-2.0 mm wire for WAAM 3D printing.
 
@@ -190,6 +190,56 @@ After the 6-stand mill, metal splits into three streams.
 
 ---
 
+## Finishing: Fe-Mn Steel
+
+After the 6-stand mill, Fe-Mn steel splits into two streams.
+
+### 4. Profiles (60% of Fe stream, ~6.4 t/day)
+
+Steel profiles Ø20 mm for frames and structures.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Ø20 mm profile (after 6-stand mill) |
+| Output | 20×20 mm square / Ø20 mm round |
+| Cut lengths | 3-6 m |
+| Cutting | Gas / plasma |
+
+**Process:**
+- Profile from 6-stand mill already has final cross-section Ø20 mm
+- Straightening on roller straightener
+- Cutting to 3-6 m lengths
+- Marking and storage
+
+**Application:** Robot frames, equipment structures, load-bearing elements
+
+---
+
+### 5. Fe Wire Drawing (40% of Fe stream, ~4.3 t/day)
+
+Ø1.6-2.0 mm wire for WAAM 3D printing of steel parts.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Ø20 mm profile |
+| Output | Ø1.6-2.0 mm wire |
+| Number of Passes | 5-7 |
+| Drawing Speed | 3-5 m/s |
+| Dies | Tungsten (from Earth) |
+
+**Process:**
+- Similar to aluminum wire drawing
+- Higher drawing force (steel is harder than Al)
+- Intermediate annealing after 2-3 passes (strain relief)
+
+**Lubricant:** MoS₂ (molybdenum disulfide)
+
+**Winding:** Spools of 50-100 kg
+
+**Application:** [WAAM 3D Printing](waam.qmd) of steel parts
+
+---
+
 ## Material Balance
 
 **Aluminum stream distribution (41 t/day):**
@@ -200,12 +250,12 @@ After the 6-stand mill, metal splits into three streams.
 | 1-3 mm sheets | ~13 t | 30% | Robots, housings |
 | Ø1.6 mm wire | ~4 t | 10% | WAAM |
 
-**Iron stream distribution (34 t/day):**
+**Fe-Mn steel stream distribution (10.7 t/day):**
 
 | Product | Mass | % | Application |
 |---------|------|---|-------------|
-| Profile (square/round) | ~20 t | 60% | Frames, structures |
-| Ø1.6-2.0 mm wire | ~14 t | 40% | WAAM |
+| Profile (square/round) | ~6.4 t | 60% | Frames, structures |
+| Ø1.6-2.0 mm wire | ~4.3 t | 40% | WAAM |
 
 ---
 

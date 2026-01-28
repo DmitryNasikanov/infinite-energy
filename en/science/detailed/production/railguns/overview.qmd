@@ -7,142 +7,7 @@ execute:
 
 ```{ojs}
 //| output: false
-
-// Load data from JSON
-dataScript = FileAttachment("../../../data/db/data.json").json()
-
-// Materials available on Mercury
-
-mercuryMaterials = new Set(
-  dataScript.planetMaterials
-    .filter(pm => pm.planet_id === "mercury")
-    .map(pm => pm.material_id)
-)
-
-// Dictionaries for quick lookup
-materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
-unitsById = new Map(dataScript.units.map(u => [u.id, u]))
-planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
-
-// Function to get component materials
-function getComponentMaterials(componentId) {
-  return dataScript.unitMaterials
-    .filter(um => um.unit_id === componentId)
-    .map(um => {
-      const material = materialsById.get(um.material_id);
-      return {
-        symbol: material?.symbol,
-        name: material?.name || um.material_id,
-        fraction_pct: um.fraction_pct,
-        isLocal: mercuryMaterials.has(um.material_id)
-      };
-    });
-}
-
-// Function to display unit widget
-function unitWidget(unitId) {
-  const unit = unitsById.get(unitId);
-  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
-
-  const planet = planetsById.get(unit.production_planet_id);
-
-  // Base unit materials
-  const materials = dataScript.unitMaterials
-    .filter(um => um.unit_id === unitId)
-    .map(um => {
-      const material = materialsById.get(um.material_id);
-      const isLocal = mercuryMaterials.has(um.material_id);
-      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
-      return { ...um, material, isLocal, massKg };
-    });
-
-  // Components (subassemblies)
-  const components = dataScript.unitComponents
-    .filter(uc => uc.assembly_id === unitId)
-    .map(uc => {
-      const component = unitsById.get(uc.component_id);
-      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
-      const isLocal = component?.production_planet_id === unit.production_planet_id;
-      const componentMaterials = getComponentMaterials(uc.component_id);
-
-      return {
-        id: uc.component_id,
-        name: component?.name || uc.component_id,
-        quantity: uc.quantity,
-        massKg: totalMassKg,
-        isLocal,
-        materials: componentMaterials
-      };
-    });
-
-  // Calculate totals ONLY from materials (not components!)
-  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
-  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
-  const hasCriticalImports = components.some(c => !c.isLocal);
-
-  // Component table rows
-  const componentRows = components.map(c => html`
-    <tr class="component-row">
-      <td>
-        <strong>${c.name}</strong>${c.quantity > 1 ? html` x${c.quantity}` : ''}
-        <div class="component-materials">
-          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
-        </div>
-      </td>
-      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
-      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? 'local' : 'import'}</td>
-    </tr>
-  `);
-
-  // Material table rows
-  const materialRows = materials.map(m => html`
-    <tr>
-      <td>
-        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
-        ${m.material?.name || m.material_id}
-      </td>
-      <td>${m.fraction_pct}%</td>
-      <td>${m.massKg || '—'} kg</td>
-      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? 'local' : 'import'}</td>
-    </tr>
-  `);
-
-  return html`
-    <div class="db-widget">
-      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
-      <div class="meta">
-        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
-        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
-        ${planet ? html` | Production: ${planet.name}` : ''}
-      </div>
-
-      ${components.length > 0 ? html`
-        <div class="section-header">Components</div>
-        <table class="components-table">
-          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
-          <tbody>${componentRows}</tbody>
-        </table>
-      ` : ''}
-
-      ${materials.length > 0 ? html`
-        <div class="section-header">Materials</div>
-        <table class="materials-table">
-          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
-          <tbody>${materialRows}</tbody>
-        </table>
-        <div class="summary">
-          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
-          <span class="import-pct">${importPct.toFixed(0)}% import</span>
-          ${hasCriticalImports ? html`<br/><strong>Contains imported components</strong>` : ''}
-        </div>
-      ` : ''}
-
-      <div class="link">
-        <a href="data/nomenclature.html?unit=${unitId}">Details</a>
-      </div>
-    </div>
-  `;
-}
+import { unitWidget } from "../../../_ojs-data.qmd"
 ```
 
 > **TL;DR**
@@ -168,24 +33,9 @@ A Mass Driver is an electromagnetic gun that accelerates mirrors to Mercury's es
 
 ---
 
-## Basic Parameters
-
-### Launch Physics
-
-| Parameter | Value | Source |
-|-----------|-------|--------|
-| Mercury escape velocity | 4.3 km/s | [NASA Mercury Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html) |
-| Target velocity (with margin) | **5 km/s** | +16% for losses |
-| Mercury gravity | 3.7 m/s^2 | 0.38g |
-| Acceleration tunnel length | **1 km*** | Base configuration |
-| Acceleration | **12,500 m/s^2 (1275g)** | |
-| Acceleration time | **~0.4 sec** | |
-
-*When extended to reduce g-load: 2 km (637g) or 3 km (425g). See [Mass Driver Theory](theory.qmd#track-length-options).
-
----
-
 ## Mass Driver Construction
+
+Base parameters: 1 km track, 5 km/s, 1275g, 0.4 sec acceleration, 33 MW average power. Details: [MD Theory](theory.qmd).
 
 ### Main Components
 
@@ -251,51 +101,6 @@ After commissioning, the Mass Driver operates at **600 launches/day**.
 
 ---
 
-## Launch Energy
-
-### Per Launch
-
-```
-Kinetic energy = 1/2 mv^2
-
-For a 116 kg mirror:
-E = 0.5 x 116 x (5000)^2 = 1.45 GJ
-
-With 40% efficiency (aluminum coils):
-E_consumption = 1.45 / 0.40 = 3.6 GJ
-```
-
-### Mass Driver Power
-
-| Parameter | Value |
-|-----------|-------|
-| Peak power (acceleration) | 400 MW |
-| Average power (600 launches/day) | **33 MW** |
-| Heat dissipation | ~40 MW (requires cooling) |
-
-**More details:** [MD Theory](theory.qmd#mass-driver-energy-balance)
-
----
-
-## Cryo-Aluminum: Solving the Copper Problem
-
-**Problem:** Mercury has no copper - the primary material for Mass Driver coils on Earth.
-
-**Solution:** Cryogenic cooling of aluminum coils.
-
-| Material | At +20C | At -180C |
-|----------|---------|----------|
-| Copper | 100% | 400% |
-| Aluminum | 60% | **360%** |
-
-**Conclusion:** Aluminum at -180C has conductivity nearly equal to copper at room temperature.
-
-**Mass Driver location:** At the terminator (day/night boundary), radiators facing into shadow (-180C).
-
-**More details:** [Coil Winding](elements/coils.qmd)
-
----
-
 ## Material Balance
 
 **Per 1 Mass Driver (base configuration 1 km, ~450 t):**
@@ -315,45 +120,6 @@ E_consumption = 1.45 / 0.40 = 3.6 GJ
 **TOTAL (1 km):** ~**15-20 days** for material accumulation + 5-7 days for assembly = **~25 days**
 
 *When extended to 3 km: ~60 days (45 days Fe + 15 days assembly).
-
----
-
-## System Throughput
-
-### One Mass Driver
-
-| Parameter | Value |
-|-----------|-------|
-| Mirrors/day | 600 |
-| Mirrors/year | 219,000 |
-| Tons of mirrors/day | 70 t |
-
-### 1,000 Mass Drivers (mature system)
-
-| Parameter | Value |
-|-----------|-------|
-| Mirrors/day | 600,000 |
-| Mirrors/year | 219 million |
-| Tons of mirrors/day | 70,000 t |
-
-**Time to 1 billion mirrors:** ~7-8 years with 1,000 Mass Drivers
-
----
-
-## Complex Energy Consumption
-
-| Consumer | Power |
-|----------|-------|
-| Mass Driver (average) | 33 MW |
-| Solar furnaces (melting) | 10 MW |
-| Mirror production (rolling, welding) | 5 MW |
-| Robots (52 units x 5 kW) | 0.26 MW |
-| Control systems | 2 MW |
-| **TOTAL** | **~50 MW** |
-
-**Power supply:** Silicon panels 35,000 m^2 (56 MW) + Swarm mirrors
-
-**More details:** [Production](../../production.qmd#energy)
 
 ---
 
@@ -392,20 +158,6 @@ E_consumption = 1.45 / 0.40 = 3.6 GJ
 **Annual replacement consumption (1 km):** ~120-150 t Al + 0.5 t import
 
 *For 3 km track: ~350 t Al + 0.5 t import.
-
----
-
-## Scaling
-
-### Mass Driver Deployment by Phase
-
-| Phase | Year | MDs | Mirror production/year |
-|-------|------|-----|------------------------|
-| Initial | 1-2 | 100 | 22 million |
-| Growth | 3-5 | 1,000 | 219 million |
-| Mature | 5-10 | 10,000 | 2.2 billion |
-
-**Time to 1 billion mirrors:** ~7-8 years with 1,000 Mass Drivers
 
 ---
 

@@ -7,133 +7,7 @@ execute:
 
 ```{ojs}
 //| output: false
-
-dataScript = FileAttachment("../../../data/db/data.json").json()
-
-
-materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
-unitsById = new Map(dataScript.units.map(u => [u.id, u]))
-planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
-
-// Function to get component materials
-function getComponentMaterials(componentId) {
-  return dataScript.unitMaterials
-    .filter(um => um.unit_id === componentId)
-    .map(um => {
-      const material = materialsById.get(um.material_id);
-      return {
-        symbol: material?.symbol,
-        name: material?.name || um.material_id,
-        fraction_pct: um.fraction_pct,
-        isLocal: mercuryMaterials.has(um.material_id)
-      };
-    });
-}
-
-// Function to display unit widget
-function unitWidget(unitId) {
-  const unit = unitsById.get(unitId);
-  if (!unit) return html`<div class="db-widget">Unit ${unitId} not found</div>`;
-
-  const planet = planetsById.get(unit.production_planet_id);
-
-  // Base unit materials
-  const materials = dataScript.unitMaterials
-    .filter(um => um.unit_id === unitId)
-    .map(um => {
-      const material = materialsById.get(um.material_id);
-      const isLocal = mercuryMaterials.has(um.material_id);
-      const massKg = unit.mass_kg ? (unit.mass_kg * um.fraction_pct / 100).toFixed(0) : null;
-      return { ...um, material, isLocal, massKg };
-    });
-
-  // Components (subassemblies)
-  const components = dataScript.unitComponents
-    .filter(uc => uc.assembly_id === unitId)
-    .map(uc => {
-      const component = unitsById.get(uc.component_id);
-      const totalMassKg = component?.mass_kg ? (component.mass_kg * uc.quantity) : null;
-      const isLocal = component?.production_planet_id === unit.production_planet_id;
-      const componentMaterials = getComponentMaterials(uc.component_id);
-
-      return {
-        id: uc.component_id,
-        name: component?.name || uc.component_id,
-        quantity: uc.quantity,
-        massKg: totalMassKg,
-        isLocal,
-        materials: componentMaterials
-      };
-    });
-
-  // Total calculated ONLY from materials (not components!)
-  const localPct = materials.filter(m => m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
-  const importPct = materials.filter(m => !m.isLocal).reduce((sum, m) => sum + m.fraction_pct, 0);
-  const hasCriticalImports = components.some(c => !c.isLocal);
-
-  // Component table rows
-  const componentRows = components.map(c => html`
-    <tr class="component-row">
-      <td>
-        <strong>${c.name}</strong>${c.quantity > 1 ? html` ×${c.quantity}` : ''}
-        <div class="component-materials">
-          ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
-        </div>
-      </td>
-      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
-      <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
-    </tr>
-  `);
-
-  // Material table rows
-  const materialRows = materials.map(m => html`
-    <tr>
-      <td>
-        ${m.material?.symbol ? html`<strong>${m.material.symbol}</strong> ` : ''}
-        ${m.material?.name || m.material_id}
-      </td>
-      <td>${m.fraction_pct}%</td>
-      <td>${m.massKg || '—'} kg</td>
-      <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
-    </tr>
-  `);
-
-  return html`
-    <div class="db-widget">
-      <h4>${unit.name} <span style="color: #6c757d; font-weight: normal;">(${unit.id})</span></h4>
-      <div class="meta">
-        ${unit.mass_kg ? html`<strong>${unit.mass_kg.toLocaleString()}</strong> kg` : ''}
-        ${unit.power_kw ? html` | <strong>${unit.power_kw.toLocaleString()}</strong> kW` : ''}
-        ${planet ? html` | Production: ${planet.name}` : ''}
-      </div>
-
-      ${components.length > 0 ? html`
-        <div class="section-header">Components</div>
-        <table class="components-table">
-          <thead><tr><th>Component</th><th>Mass</th><th>Source</th></tr></thead>
-          <tbody>${componentRows}</tbody>
-        </table>
-      ` : ''}
-
-      ${materials.length > 0 ? html`
-        <div class="section-header">Materials</div>
-        <table class="materials-table">
-          <thead><tr><th>Material</th><th>%</th><th>Mass</th><th>Source</th></tr></thead>
-          <tbody>${materialRows}</tbody>
-        </table>
-        <div class="summary">
-          Total: <span class="local-pct">${localPct.toFixed(0)}% local</span> |
-          <span class="import-pct">${importPct.toFixed(0)}% import</span>
-          ${hasCriticalImports ? html`<br/><strong>⚠ Contains imported components</strong>` : ''}
-        </div>
-      ` : ''}
-
-      <div class="link">
-        <a href="data/nomenclature.html?unit=${unitId}">Details →</a>
-      </div>
-    </div>
-  `;
-}
+import { unitWidget } from "../../../../_ojs-data.qmd"
 ```
 
 > **TL;DR**
@@ -219,7 +93,7 @@ unitWidget("CMP-012")
 | 1. Case fabrication | Steel tube Ø50 mm, length 1 m | Lathe |
 | 2. Electrolyte installation | β-Al₂O₃ ceramic tube inside case | Manual assembly (Centaur-M) |
 | 3. Na and S filling | Sodium in center, sulfur outside | Vacuum filling |
-| 4. Sealing | Welding caps in Ar atmosphere | TIG welding |
+| 4. Sealing | Laser welding of caps | Laser welder |
 | 5. Initial charge | Electrolyte activation (12 hours at 350°C) | Charging station |
 | 6. Testing | 10 charge/discharge cycles | Automated |
 

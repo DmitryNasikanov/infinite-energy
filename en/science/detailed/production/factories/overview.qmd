@@ -9,7 +9,7 @@ sidebar: science
 > - **Two types:** Factory-Replicator (F-R: robots + domes + equipment) and Factory-Mirrors (F-M: mirrors)
 > - **Lean manufacturing:** Storage outside (vacuum), only JIT buffer inside
 > - **Output:** Self-replication 1 -> ~1,650 factories in ~4 years (bottleneck: "Vitamins" delivery)
-> - **Size:** Dome ~1,500 m^2 (~50x30 m), height 6-8 m, atmosphere 0.1 atm N2
+> - **Size:** Dome ~1,500 m^2 (~50x30 m), height 6-8 m, atmosphere 0.1 atm O2
 > - **Materials:** 600 t regolith/day -> 42 t Al + 18 t Fe + 25 t Si
 
 ::: {.callout-note}
@@ -30,7 +30,7 @@ The "Ground Zero Factory" is the first self-replicating factory on Mercury. Its 
 |-----------|-------|
 | Principle | Gravity-flow line + vacuum distillation |
 | External environment | Vacuum |
-| Internal dome environment | Inert gas (nitrogen) 0.1 atm |
+| Internal dome environment | Oxygen 0.1 atm (local, from MRE) |
 | **Dome dimensions** | **~50x30 m (~1,500 m^2)** |
 | Dome height | 6-8 m (for 1 t bridge crane) |
 | Power consumption (factory) | 5 MW (peak) |
@@ -48,7 +48,7 @@ Factories #0-3 -> build Factories #4-7
 
 **First expedition:** ~67 tons from Earth (including 5.25 t GaAs panels), assembly in 7 days.
 
-**More on preparation:** [Roadmap](../../../summaries/roadmap.qmd)
+**More on preparation:** [First Factory Assembly (Bootstrap)](../../bootstrap.qmd) | [Roadmap](../../../summaries/roadmap.qmd)
 
 ---
 
@@ -89,7 +89,7 @@ flowchart TD
         STORAGE["External storage<br/>racks + containers"]
     end
 
-    subgraph DOME["F-R Dome (0.1 atm N2, +25C)"]
+    subgraph DOME["F-R Dome (0.1 atm O2, +25C)"]
         subgraph CASTING["Casting (200 m2)"]
             TUNDISH["Tundish"]
             MNLZ_AL["CCM-Al"]
@@ -169,7 +169,7 @@ flowchart TD
         STORAGE["External storage<br/>mirror containers"]
     end
 
-    subgraph DOME["F-M Dome (0.1 atm N2, +25C)"]
+    subgraph DOME["F-M Dome (0.1 atm O2, +25C)"]
         subgraph CASTING["Casting (200 m2)"]
             TUNDISH["Tundish"]
             MNLZ["CCM-Al"]

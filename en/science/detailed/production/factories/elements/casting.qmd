@@ -7,8 +7,8 @@ sidebar: science
 >
 > - **Purpose:** Converting molten metal into ingots and billets
 > - **Technology:** CCM (Continuous Casting Machine)
-> - **Throughput:** 42 t Al + 35 t Fe → billets 100×100 mm
-> - **Key feature:** NaK cooling (not water!), copper molds
+> - **Throughput:** 42 t Al + 11 t Fe-Mn steel → billets 100×100 mm
+> - **Key feature:** NaK cooling (not water!), 100% local crystallizer materials
 
 ---
 
@@ -28,7 +28,7 @@ flowchart TD
 
     subgraph CRYSTALLIZER["CRYSTALLIZER"]
         STOPPER["Stopper"]
-        MOLD["Copper mold<br/>100×100 mm"]
+        MOLD["Crystallizer<br/>100×100 mm"]
         COOLING["NaK cooling<br/>−150°C"]
     end
 
@@ -58,20 +58,44 @@ flowchart TD
 
 ## CCM Design
 
-### Crystallizer
+### Crystallizers (two types)
+
+The two CCMs use different crystallizer materials — both from local resources:
+
+#### CCM-Al: Steel Crystallizer
 
 | Parameter | Value |
 |-----------|-------|
-| Material | Copper (from Earth) — high thermal conductivity |
+| Material | Fe-6%Mn steel (local) |
 | Shape | Square 100×100 mm |
 | Length | 800 mm |
-| Coating | Nickel (corrosion protection) |
-| Cooling | NaK circuit (not water!) |
+| Coating | MgO ceramic (prevents sticking) |
+| Cooling | NaK circuit |
 
-**Why copper?**
-- Thermal conductivity 400 W/(m·K) — approximately 8× faster heat removal than steel
-- Does not react with Al and Fe during brief contact
-- Durability: 500-1000 heats without replacement
+**Why steel for Al?**
+- Aluminum melts at 660°C, steel at 1538°C — ~900°C margin
+- Steel thermal conductivity ~50 W/(m·K) — lower than copper, but sufficient given large temperature gradient
+- 100% local material, no imports
+- MgO coating prevents aluminum adhesion
+
+#### CCM-Fe: Ceramic Crystallizer
+
+| Parameter | Value |
+|-----------|-------|
+| Material | MgO ceramic (magnite, local) |
+| Shape | Square 100×100 mm |
+| Length | 800 mm |
+| Coating | Not required (MgO is inert to Fe melt) |
+| Cooling | NaK circuit |
+
+**Why MgO for Fe?**
+- MgO melting point = 2852°C — ~1300°C margin above Fe melt (1538°C)
+- Thermal conductivity ~30-60 W/(m·K) — lower than copper, casting speed reduced (~0.3 m/min vs 1 m/min)
+- Inert to iron melt — does not form carbides (unlike graphite)
+- 100% local: magnesium is 8% of Mercury regolith, calcination → MgO
+- More frequent replacement (every 3-5 days), but material is unlimited
+
+> **Earth analogs:** MgO ceramics are a standard refractory in metallurgy. Used in tundishes, furnace linings, and casting equipment (Refratechnik, RHI Magnesita).
 
 **Why NaK instead of water?**
 - Water freezes at −150°C outside the dome
@@ -91,7 +115,7 @@ flowchart TD
 
 **Operating principle:**
 1. Melt enters the crystallizer
-2. Shell solidifies on walls (copper removes heat)
+2. Shell solidifies on walls (crystallizer removes heat via NaK)
 3. Rolls pull the ingot downward
 4. Core solidifies as it moves
 
@@ -119,7 +143,7 @@ The Ground Zero Factory is equipped with two CCMs:
 | CCM | Metal | Throughput | Output |
 |-----|-------|------------|--------|
 | CCM-Al | Aluminum | 42 t/day | Ingots 100×100×6000 mm |
-| CCM-Fe | Iron | 35 t/day | Billets 100×100×6000 mm |
+| CCM-Fe | Fe-Mn steel | 11 t/day | Billets 100×100×6000 mm |
 
 **Roller table:** A conveyor roller system transports ingots to the rolling mill.
 
@@ -177,7 +201,7 @@ If melt runs out or quality drops:
 | Metal | Input (melt) | Output (ingots) | Losses |
 |-------|--------------|-----------------|--------|
 | Aluminum | 41.5 t | 41 t | 1.2% (trim) |
-| Iron | 34.5 t | 34 t | 1.5% (trim) |
+| Fe-Mn steel | 10.85 t | 10.7 t | 1.5% (trim) |
 
 **Trim:** Periodically remelted in the solar furnace and returned to the cycle.
 
