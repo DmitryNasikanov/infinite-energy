@@ -1,0 +1,297 @@
+---
+title: "Rolling Mill"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Converting billets into sheets, profiles, wire
+> - **Equipment:** 6-stand rolling mill + wire drawing machine
+> - **Throughput:** 41 t Al + 10.7 t Fe-Mn steel → foil, sheets, wire, profiles
+> - **Output:** 50 μm foil, 1-3 mm sheets, Ø1.6-2.0 mm wire
+
+---
+
+## Overview
+
+The rolling mill is key equipment for converting 100×100 mm billets into useful semi-finished products. Metal passes through a series of rolls, gradually decreasing in thickness.
+
+---
+
+## Rolling Complex Diagram
+
+```{mermaid}
+flowchart TD
+    subgraph INPUT["INPUT"]
+        BILLETS_AL["Al Billets 41 t/day<br/>from CCM-Al"]
+        BILLETS_FE["Fe-Mn Billets 10.7 t/day<br/>from CCM-Fe"]
+    end
+
+    subgraph HEATING["HEATING"]
+        FURNACE_AL["Ind. Furnace Al<br/>400-500°C"]
+        FURNACE_FE["Ind. Furnace Fe<br/>1100-1200°C"]
+    end
+
+    subgraph ROLLING["ROLLING"]
+        MILL["6-Stand Mill<br/>100 mm → Ø20 mm"]
+    end
+
+    subgraph AL_FINISH["ALUMINUM"]
+        FOIL["Foil Rolling<br/>→ 50 μm"]
+        SHEET["Sheet Rolling<br/>→ 1-3 mm"]
+        WIRE_AL["Al Wire Drawing<br/>→ Ø1.6 mm"]
+    end
+
+    subgraph FE_FINISH["Fe-Mn STEEL"]
+        PROFILE["Profiles<br/>Ø20 mm"]
+        WIRE_FE["Fe Wire Drawing<br/>→ Ø1.6-2.0 mm"]
+    end
+
+    BILLETS_AL --> FURNACE_AL
+    BILLETS_FE --> FURNACE_FE
+    FURNACE_AL --> MILL
+    FURNACE_FE --> MILL
+    MILL -->|"Al 60%"| FOIL
+    MILL -->|"Al 30%"| SHEET
+    MILL -->|"Al 10%"| WIRE_AL
+    MILL -->|"Fe 60%"| PROFILE
+    MILL -->|"Fe 40%"| WIRE_FE
+
+    style INPUT fill:#f0e68c
+    style HEATING fill:#fff3cd
+    style ROLLING fill:#d4edda
+    style AL_FINISH fill:#b8e0d2
+    style FE_FINISH fill:#cce5ff
+```
+
+---
+
+## Heating Furnace
+
+Before rolling, the billet must be heated to a plastic state.
+
+| Parameter | Aluminum | Iron |
+|-----------|----------|------|
+| Temperature | 400-500°C | 1100-1200°C |
+| Furnace Type | Induction | Induction |
+| Atmosphere | Nitrogen N₂ | Nitrogen N₂ |
+| Heating Time | 10-15 min | 30-40 min |
+| Power | 200 kW | 500 kW |
+
+**Why induction furnace?**
+- Rapid heating (no waiting for furnace warm-up)
+- Precise temperature control (±10°C)
+- No combustion products (clean environment)
+- ~90% efficiency
+
+**Nitrogen atmosphere:** Prevents metal oxidation during heating.
+
+---
+
+## Rolling Mill (6 Stands)
+
+A series of rolls, each reducing the thickness of the workpiece.
+
+| Parameter | Value |
+|-----------|-------|
+| Number of Stands | 6 |
+| Input | 100×100 mm billet |
+| Output | Ø20 mm profile or 5 mm strip |
+| Rolling Speed | 1-3 m/s (increasing toward final stands) |
+| Force per Stand | 50-200 tons |
+| Roll Material | Hardened steel with Al₂O₃ coating |
+
+### Stand Sequence
+
+| Stand | Input | Output | Reduction |
+|-------|-------|--------|-----------|
+| 1 | 100×100 mm | 80×80 mm | 20% |
+| 2 | 80×80 mm | 60×60 mm | 25% |
+| 3 | 60×60 mm | 40×40 mm | 33% |
+| 4 | 40×40 mm | Ø30 mm | 30% |
+| 5 | Ø30 mm | Ø25 mm | 20% |
+| 6 | Ø25 mm | Ø20 mm | 20% |
+
+**Roller table between stands:** Metal cools by ~50-100°C between passes.
+
+---
+
+## Finishing: Aluminum
+
+After the 6-stand mill, aluminum splits into three streams.
+
+### 1. Foil Rolling (60% of Al stream, ~25 t/day)
+
+50 μm aluminum foil for mirrors.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | 5 mm strip |
+| Output | 50 μm foil |
+| Number of Passes | 8-10 |
+| Rolling Speed | 10-20 m/min |
+| Lubricant | Mineral oil + graphite |
+
+**Process:**
+- 5 mm strip passes through a series of rolls with decreasing gap
+- Each pass reduces thickness by 30-40%
+- Final thickness: 50 μm (0.05 mm)
+
+**Quality Control:**
+- Thickness: laser profilometer (±2 μm)
+- Flatness: IR camera (deviation <0.1 mm/m)
+- Cleanliness: optical inspection (no scratches)
+
+**Application:** [Swarm Mirrors](../../../summaries/mirrors.qmd)
+
+---
+
+### 2. Sheet Rolling (30% of Al stream, ~13 t/day)
+
+1-3 mm aluminum sheets for robot housings.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | 5 mm strip or Ø20 mm profile |
+| Output | 1-3 mm sheets |
+| Sheet Width | 500-1000 mm |
+| Rolling Speed | 5-10 m/min |
+
+**Sheet Cutting:**
+- Gas cutting: 1×2 m sheets
+- Plasma cutting: complex contours (by templates)
+
+**Application:** [Robot Assembly](../../robots/overview.qmd), housings, radiators
+
+---
+
+### 3. Al Wire Drawing (10% of Al stream, ~4 t/day)
+
+Ø1.6-2.0 mm wire for WAAM 3D printing.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Ø20 mm profile |
+| Output | Ø1.6-2.0 mm wire |
+| Number of Passes | 5-7 |
+| Drawing Speed | 5-10 m/s |
+| Dies | Tungsten (from Earth) |
+
+**Process:**
+- Ø20 mm profile is pushed through dies with decreasing diameter
+- Each die reduces diameter by 15-20%
+- Final wire: Ø1.6-2.0 mm
+
+**Lubricant:** MoS₂ (molybdenum disulfide) — works in vacuum
+
+**Winding:** Wire is wound onto spools of 50-100 kg
+
+**Application:** [WAAM 3D Printing](waam.qmd)
+
+---
+
+## Finishing: Fe-Mn Steel
+
+After the 6-stand mill, Fe-Mn steel splits into two streams.
+
+### 4. Profiles (60% of Fe stream, ~6.4 t/day)
+
+Steel profiles Ø20 mm for frames and structures.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Ø20 mm profile (after 6-stand mill) |
+| Output | 20×20 mm square / Ø20 mm round |
+| Cut lengths | 3-6 m |
+| Cutting | Gas / plasma |
+
+**Process:**
+- Profile from 6-stand mill already has final cross-section Ø20 mm
+- Straightening on roller straightener
+- Cutting to 3-6 m lengths
+- Marking and storage
+
+**Application:** Robot frames, equipment structures, load-bearing elements
+
+---
+
+### 5. Fe Wire Drawing (40% of Fe stream, ~4.3 t/day)
+
+Ø1.6-2.0 mm wire for WAAM 3D printing of steel parts.
+
+| Parameter | Value |
+|-----------|-------|
+| Input | Ø20 mm profile |
+| Output | Ø1.6-2.0 mm wire |
+| Number of Passes | 5-7 |
+| Drawing Speed | 3-5 m/s |
+| Dies | Tungsten (from Earth) |
+
+**Process:**
+- Similar to aluminum wire drawing
+- Higher drawing force (steel is harder than Al)
+- Intermediate annealing after 2-3 passes (strain relief)
+
+**Lubricant:** MoS₂ (molybdenum disulfide)
+
+**Winding:** Spools of 50-100 kg
+
+**Application:** [WAAM 3D Printing](waam.qmd) of steel parts
+
+---
+
+## Material Balance
+
+**Aluminum stream distribution (41 t/day):**
+
+| Product | Mass | % | Application |
+|---------|------|---|-------------|
+| 50 μm foil | ~25 t | 60% | Mirrors |
+| 1-3 mm sheets | ~13 t | 30% | Robots, housings |
+| Ø1.6 mm wire | ~4 t | 10% | WAAM |
+
+**Fe-Mn steel stream distribution (10.7 t/day):**
+
+| Product | Mass | % | Application |
+|---------|------|---|-------------|
+| Profile (square/round) | ~6.4 t | 60% | Frames, structures |
+| Ø1.6-2.0 mm wire | ~4.3 t | 40% | WAAM |
+
+---
+
+## Power Consumption
+
+| Component | Power | Purpose |
+|-----------|-------|---------|
+| Induction Furnace (Al) | 200 kW | Heating Al to 500°C |
+| Induction Furnace (Fe) | 500 kW | Heating Fe to 1200°C |
+| 6-Stand Mill | 300 kW | Rolling |
+| Foil Rolling | 100 kW | Final foil rolling |
+| Sheet Rolling | 50 kW | Sheet cutting |
+| Wire Drawing Machine | 150 kW | Wire drawing |
+| Roller Tables | 30 kW | Transport |
+| Automation | 10 kW | Sensors, control |
+| **TOTAL** | **~1340 kW** | |
+
+---
+
+## Maintenance
+
+| Operation | Frequency | Executor |
+|-----------|-----------|----------|
+| Roll Replacement | 2-3 weeks | Centaur-M (4 robots) |
+| Die Replacement | 1 month | Centaur-M |
+| Roller Table Cleaning | Daily | Crab-M |
+| Sensor Calibration | Weekly | Automation |
+| Equipment Lubrication | Daily | Automation (drip lubrication) |
+
+**Roll replacement time:** 4-6 hours (including cooling and disassembly).
+
+---
+
+## See Also
+
+- [Continuous Casting](casting.qmd) — previous stage
+- [WAAM 3D Printing](waam.qmd) — uses wire
+- [Swarm Mirrors](../../../summaries/mirrors.qmd) — uses foil
+- [Robot Assembly](../../robots/overview.qmd) — uses sheets

@@ -1,0 +1,159 @@
+---
+title: "3.1.1 Glass Fiber Line"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+import { unitWidget } from "../../ojs-data.qmd"
+```
+
+## Overview
+
+| Parameter | Value |
+|----------|----------|
+| Input | Silicates (~5% of non-magnetic fraction) |
+| Output | Glass fiber |
+| Throughput | ~30 t/day |
+| Energy consumption | Solar furnace (thermal) |
+| Location | **Under the dome** |
+
+[Back to overview](overview.qmd)
+
+---
+
+## Purpose of the Line
+
+Part of the silicate stream (~5%) goes to glass fiber production directly, bypassing MRE electrolysis.
+
+**Why a separate line:**
+
+- Fiber production requires silicates in their original form (oxides SiO2, CaO, Al2O3)
+- In MRE, oxides are decomposed by electrolysis into metals + O2
+- If everything were electrolyzed, no silicates would remain for fiber production
+
+```{mermaid}
+flowchart LR
+    subgraph INPUT["NON-MAGNETIC FRACTION"]
+        NM[/"Silicates<br/>564 t/day"/]
+    end
+
+    NM --> |"~5%"| GF["Glass fiber line<br/>(solar furnace)"]
+    NM --> |"~95%"| MRE["MRE electrolysis"]
+
+    GF --> FIBER[/"Glass fiber<br/>~30 t/day"/]
+    MRE --> METAL[/"Metals + O2"/]
+
+    style GF fill:#b8e0d2
+    style MRE fill:#e8a8d4
+```
+
+---
+
+## Silicate Composition (Feedstock)
+
+Mercury regolith silicates **already contain** the required composition for glass fiber, similar to industrial E-glass:
+
+| Oxide | Fraction | Role in Glass |
+| :--- | :--- | :--- |
+| SiO2 | ~45% | Glass former |
+| Al2O3 | ~15% | Strength, chemical resistance |
+| CaO | ~10% | Flux (lowers melting point) |
+| MgO | ~10% | Strength |
+| FeO | ~5% | Impurity (gives greenish tint) |
+
+> **Note:** On Earth, E-glass contains boron (B2O3) to lower the melting temperature. Mercury has no boron, so we melt at a higher temperature (~1400C), which is not a problem for a solar furnace.
+
+---
+
+## Process Diagram
+
+```{mermaid}
+flowchart TD
+    subgraph MELTING["MELTING"]
+        SIL[/"Silicates<br/>~30 t/day"/] --> SF["Small solar furnace<br/>1400C"]
+        SF --> MELT["Molten glass"]
+    end
+
+    subgraph FIBERIZATION["FIBERIZATION"]
+        MELT --> FILT["Al₂O₃ bushings<br/>(ceramic)"]
+        FILT --> FIBER["Fiber 5-13 um"]
+        FIBER --> DRUM["Winding drum"]
+    end
+
+    subgraph PRODUCT["PRODUCT"]
+        DRUM --> BOBBIN[/"Glass fiber<br/>bobbins"/]
+    end
+
+    style MELTING fill:#fff3cd
+    style FIBERIZATION fill:#d4edda
+    style PRODUCT fill:#cce5ff
+```
+
+| Stage | Description | Temperature |
+| :--- | :--- | :--- |
+| Melting | Silicates melt in solar furnace | 1400C |
+| Fiberization | Melt is forced through Al₂O₃ ceramic bushings | 1200C |
+| Drawing | Fiber of 5-13 um diameter is drawn by drum | - |
+| Winding | Fiber is collected onto bobbins | - |
+
+---
+
+## Equipment
+
+| Component | Function | Materials |
+| :--- | :--- | :--- |
+| Small solar furnace | Silicate melting | Al mirrors, MgO crucible (local) |
+| Ceramic bushings | Fiber drawing | Al₂O₃ (**local**) |
+| Winding drum | Bobbin collection | Fe frame, Al drum |
+
+### Ceramic Bushings (Al₂O₃) - Local Production
+
+| Parameter | Value |
+| :--- | :--- |
+| Material | Al₂O₃ (corundum) |
+| Operating temperature | up to 1800°C (glass fiber 1200-1400°C ✓) |
+| Service life | 3-5 years |
+| Source | [Regolith processing](overview.qmd) (Al 7% + O₂ 45%) |
+
+> **Why ceramics:** On Earth, platinum (Pt-Rh) is traditionally used. Scientific research has shown that **Al₂O₃ ceramic bushings** produce fibers of comparable quality ([ScienceDirect, 1981](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510)). Al₂O₃ is produced from local feedstock (Al 7%, O₂ 45% of regolith per [MESSENGER](https://www.science.org/doi/10.1126/science.1211567)).
+
+### Design
+
+| Element | Material | Purpose |
+| :--- | :--- | :--- |
+| Crucible | MgO ceramics (local) | Silicate melting |
+| Bushings | Al₂O₃ ceramics (local) | Fiber forming |
+| Cooling | Air (dome atmosphere) | Fiber cooling |
+
+---
+
+## Glass Fiber Applications
+
+| Product | Criticality | Purpose | Alternative |
+| :--- | :--- | :--- | :--- |
+| Cable insulation | **Critical** | All factory wiring | Ceramic beads (difficult) |
+| Winding insulation | **Critical** | All motors, transformers | Al2O3 ceramics (brittle) |
+| Dome fabric | **High** | Al-membrane reinforcement, new factories | Metal only (heavier) |
+| Thermal insulation | Medium | Equipment protection | MgO ceramics, vacuum |
+| Filters | Low | Gas purification | In vacuum, dust settles by itself |
+
+> **Conclusion:** Glass fiber is a **critical material**. Without it, factory electrics (cables, motors) and expansion (new domes) are impossible. The line is **fully localized** — Al₂O₃ ceramic bushings are produced from local feedstock (Al 7%, O₂ 45% of regolith).
+
+---
+
+## References
+
+- [Ceramic bushing for glass fibre production (ScienceDirect, 1981)](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510) — Al₂O₃ and ZrO₂ bushings produce fibers comparable to Pt-Rh
+- [MESSENGER XRS (Science, 2012)](https://www.science.org/doi/10.1126/science.1211567) — Mercury regolith composition (Al 7%, O₂ 45%)
+- **Owens Corning, Johns Manville** — major glass fiber manufacturers. Technology has been refined since the 1930s.
+- **E-glass composition** — standard industrial glass fiber composition
+
+---
+
+## See Also
+
+- [Regolith Processing](overview.qmd) - process overview
+- [MRE Electrolysis](mre.qmd) - main metal production line

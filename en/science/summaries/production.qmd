@@ -1,0 +1,1037 @@
+---
+title: "Production"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Two centers:** Mercury (mirrors + self-replication) and the Moon (testbed + LSP stations)
+> - **Mercury strategy:** Self-replication 1 -> ~1650 factories in 4 years (bottleneck: Vitamins delivery)
+> - **Moon strategy:** Testbed for technology validation + construction of LSP stations at limbs
+> - **Synergy:** Moon validates technologies -> Mercury scales production
+> - **Logistics:** Mercury -> Dyson Swarm -> LSP (Moon) -> Earth
+
+::: {.callout-note}
+## Objective and Calculation Status
+
+The purpose of this documentation is to confirm the **fundamental feasibility** of the project and provide preliminary estimates for budgets and timelines. Calculations confirm: all necessary technologies exist (MRE electrolysis, WAAM, solar concentration, electromagnetic launch), materials on Mercury are present in sufficient quantities (Al, Fe, Si, Ti, S), and delivery logistics are realistic given current launch cost trends.
+
+All numbers provided (areas, throughputs, material flows) are **preliminary order-of-magnitude estimates**. Transitioning to implementation requires a professional engineering team for parameter refinement, detailed design, and validation of adopted solutions.
+:::
+
+---
+
+## Production System Overview
+
+The project uses **two production centers** with different tasks and conditions. This is not duplication but specialization - each location does what it does best. Production develops in three phases:
+
+### Preparation: Earth -> Moon (years 1-6)
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    subgraph EARTH["EARTH"]
+        E1["First factory"]
+        E2["Vitamins"]
+    end
+
+    subgraph MOON["MOON (testbed)"]
+        L1["Technology validation"]
+        L2["Knowledge and experience"]
+    end
+
+    E1 --> L1
+    E2 --> L1
+    L1 --> L2
+    L2 -.->|"transfer to Mercury"| KNOWLEDGE["Ready for scaling"]
+
+    style EARTH fill:#a8d4e8
+    style MOON fill:#d4e8a8
+```
+
+### Scaling: Mercury (from year 6)
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    KNOWLEDGE["Knowledge from Moon"] --> M1
+
+    subgraph EARTH["EARTH"]
+        E2["Vitamins"]
+    end
+
+    subgraph MERCURY["MERCURY"]
+        M1["Ground Zero Factory"]
+        M2["~1650 factories"]
+        M2a["Mass Drivers"]
+        M3["Mirrors"]
+        MC["Carbon (craters)"]
+        MG["Graphite"]
+    end
+
+    subgraph SWARM["SWARM"]
+        R1["1 billion mirrors"]
+    end
+
+    E2 --> M1
+    M1 --> M2
+    M2 --> M2a
+    M2a --> M3
+    M3 --> R1
+    MC --> MG
+    MG --> M2
+
+    style EARTH fill:#a8d4e8
+    style MERCURY fill:#e8d4a8
+    style SWARM fill:#e8e8a8
+```
+
+### Result: Closed Energy Cycle (from year 7)
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    subgraph SWARM["SWARM"]
+        R1["1 billion mirrors"]
+    end
+
+    subgraph MOON["MOON (LSP)"]
+        L4["Limb stations"]
+    end
+
+    subgraph EARTH["EARTH"]
+        H1["Rectenna"]
+    end
+
+    R1 -->|"light"| L4
+    L4 -->|"microwaves"| H1
+
+    style SWARM fill:#e8e8a8
+    style MOON fill:#d4e8a8
+    style EARTH fill:#a8d4e8
+```
+
+**Production Logic:**
+
+1. **Preparation (years 1-6):** R&D and prototyping (years 1-4), lunar testbed (years 4-6). The Moon validates extraction, smelting, and assembly technologies in vacuum and low gravity conditions.
+
+2. **Scaling (from year 6):** Knowledge from the Moon is applied on Mercury. The Ground Zero Factory copies itself exponentially, reaching ~1650 factories (~1500 F-M + ~150 F-R). Mirrors are produced and sent to the Swarm.
+
+3. **Energy cycle (from year 7):** The Dyson Swarm reflects light to lunar LSP stations. LSP converts light to microwaves and transmits to Earth. Closed cycle: energy -> production -> more energy.
+
+**Why doesn't the Moon send robots to Mercury?**
+
+Mercury produces its own robots - this is part of factory self-replication. The Moon only transfers knowledge and experience (software, procedures, debugging). Physical delivery of robots from Moon to Mercury is economically impractical (delta-v ~13 km/s).
+
+### Why Two Locations Instead of One?
+
+| Factor | Mercury | Moon |
+|--------|---------|------|
+| **Solar flux** | 9-14 kW/m^2 | 1.4 kW/m^2 |
+| **Advantage** | Energy for smelting and self-replication | Proximity to Earth (1.3 sec delay) |
+| **Specialization** | Mirrors + self-replication | Testbed + LSP stations |
+| **Strategy** | Exponential growth | Validation → LSP production |
+
+**Mercury** is an energy machine. 7x more sunlight means solar furnaces melt metal faster, panels generate more power, and the factory can copy itself without power constraints.
+
+**The Moon** is the gateway to space. A 1.3-second communication delay allows operators to control the process in near real-time — ideal for technology validation (years 4-6). After validation, the Moon transitions to producing LSP stations from local resources (silicon, aluminum).
+
+---
+
+## Production on Mercury
+
+### Preparatory Phases (pre-launch)
+
+Before launching the factory to Mercury, the project goes through three preparatory phases:
+
+| Phase | Years | Objective | Result |
+|-------|-------|-----------|--------|
+| **R&D** | 1-2 | Technology development | Robot prototypes, MRE cells, Mass Driver |
+| **Earth Testbed** | 2-4 | Testing in controlled environment | Assembly line, lights-out factory |
+| **Moon Testbed** | 4-6 | Space validation (1.3 sec delay) | Robots learn to dig, smelt, assemble |
+| **Mercury** | 6+ | Production launch | Ground Zero Factory |
+
+**"Faith in success" strategy:** Expedition 2 (robots + materials) launches one month after Expedition 1 lands - before receiving full results. This shortens total project time by ~2 years.
+
+**Details:** [Roadmap](roadmap.qmd)
+
+---
+
+### Ground Zero Factory
+
+> **Detailed article:** [Factory Production](../detailed/factories/overview.qmd) — F-R and F-M layouts, factory types, material flows
+>
+> **First factory assembly:** [Bootstrap](../detailed/bootstrap.qmd) — checkpoint model, assembly scenarios
+
+**Project:** Helios Prime
+**Document:** First Factory Technology Roadmap
+**Status:** 100% of components delivered from Earth
+
+---
+
+> **TL;DR**
+>
+> - **Concept:** Self-replicating factory on Mercury, building copies of itself from local resources
+> - **Throughput:** 600 t regolith/day -> **42 t Al** + **~11 t Fe-Mn steel** -> **~407 mirrors/day** (F-M)
+> - **Power consumption:** 55 MW for the complex - **168 MW available** (3 trips with GaAs panels)
+> - **8 stages:** geology -> energy -> panels -> silicate fabric -> hydraulics -> smelting -> forming -> assembly
+> - **Local production:** silicon panels (aluminothermy), silicate domes, NaS batteries, **hybrid Fe/Al robots**
+> - **First expedition:** ~67 tons from Earth (including 5.25 t GaAs panels), assembly in 7 days
+> - **Power reserve:** 113 MW surplus -> bootstrap without Swarm dependency
+> - **Assembly jig:** 10 parallel positions -> **5 robots/day**
+> - **Dome:** ~1500 m^2 (~50x30 m) - continuous casting, rolling, assembly
+
+---
+
+### General Principles
+
+| Parameter | Value |
+| :--- | :--- |
+| Principle | Gravity-flow line + Vacuum distillation |
+| External environment | Vacuum |
+| Internal dome environment | Oxygen 0.1 atm (local, from MRE) |
+| **Dome dimensions** | **~50x30 m (~1500 m^2)** |
+| Power consumption (factory only) | 5 MW (peak) |
+| Power consumption (entire complex) | 55 MW (factory + Mass Driver + robots) |
+| **Available energy (3 GaAs trips)** | **168 MW** (113 MW reserve) |
+
+> **Note:** 5 MW is the energy of the factory itself (smelting, MRE, rolling). The full complex with Mass Driver (~39 MW) consumes 55 MW. With 3 trips of GaAs panels, 168 MW is available - a 113 MW reserve for scaling. See [detailed calculation](#power-consumption-of-1-complex).
+
+### Dome Dimensions and Layout
+
+**Total area:** ~1500 m^2 (~50x30 m) - under 0.1 atm oxygen pressure.
+
+| Zone | Area | Purpose |
+|------|------|---------|
+| Continuous casting + tundish | ~200 m^2 | Billet casting |
+| Rolling mill | ~300 m^2 | 6 stands + roller tables |
+| Wire drawing mill | ~100 m^2 | Wire, cables |
+| Assembly jig | ~500 m^2 | 10 robot positions |
+| WAAM + CNC | ~150 m^2 | Finishing operations |
+| Billet storage | ~150 m^2 | Product buffer |
+| Passages and maneuvering | ~100 m^2 | Centaurs, loading |
+
+**Dome height:** 6-8 m (sufficient for 1 t capacity overhead crane).
+
+---
+
+### Stage 0. Geology and Resources
+
+*Raw material base.*
+
+Mercury is an anomalous planet. A giant metallic core, only lightly covered with rocky crust. The richest deposit in the Solar System.
+
+#### Abundant Elements
+
+| Element | Content | Application |
+| :--- | :--- | :--- |
+| **Aluminum (Al)** | 6-8% of regolith (**42 t/day** at 600 t) | **Mirrors** (95 kg/unit), robot bodies, radiators |
+| Silicon (Si) | ~20% of crust | Solar panels, glass, ceramics, electronics |
+| Sulfur (S) | Anomalously high | Insulator (sulfide concrete), chemistry, batteries |
+| **Iron (Fe)** | 1.5-4% of regolith (**18 t/day** at 600 t) | **Gen-2 Robots** (frames, tracks), MD rails |
+| Magnesium (Mg) | Sufficient | Light alloys |
+| Titanium (Ti) | Present in ilmenites | High-strength components (spider legs) |
+| Sodium (Na) | From feldspars | Coolant (liquid metal) |
+| Potassium (K) | From feldspars | Coolant (liquid metal) |
+
+#### Scarce Elements ("Vitamins" from Earth)
+
+| Element | Problem | Solution |
+| :--- | :--- | :--- |
+| Carbon (C) | 1-3% in LRM zones | Graphite: Hadfield steel, lubricants, anodes ([MESSENGER 2016](https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/)) |
+| Hydrogen (H) | Only polar ice | Extraction from craters |
+| Copper (Cu) | Scarce | Aluminum or sodium wires in steel tubes |
+| Glass fiber bushings | Al₂O₃ (local) | **Al₂O₃ ceramics** — [proven alternative to Pt-Rh](https://www.sciencedirect.com/science/article/abs/pii/0261306981900510) |
+| CNC cutters | Need cutting tools | **Si₃N₄ ceramics** from Si + N₂ (minimal nitrogen import) |
+| Iridium (Ir) | Absent | Import from Earth (MRE anodes) |
+| Rare earths | Critical for electronics | Import from Earth |
+| Argon (Ar) | Absent | Shielding gas for WAAM and refining - import from Earth |
+| Oxygen (O2) | From MRE (~1500 t/day) | Dome atmosphere (0.1 atm) |
+
+#### Volatile Compounds
+
+**Water ice (H2O):** Located at the bottom of polar craters. Source of hydrogen (chemistry) and oxygen (oxidizer).
+
+#### "Carbon" Graphite Mining Complexes
+
+LRM zones (with graphite) are located at equatorial latitudes, while factories are at poles. Solution: two specialized complexes.
+
+| Complex | Location | Delivery to pole |
+|---------|----------|------------------|
+| **Carbon-North** | Rachmaninoff (27 deg N) | Mini MD, ~2800 km |
+| **Carbon-South** | Tolstoj (16 deg S) | Mini MD, ~5800 km |
+
+Operating in shifts (equatorial night ~44 days). **Details:** [Regolith Processing](../detailed/materials/overview.qmd)
+
+**Import vs localization:**
+
+| Phase | Factories | Recommendation |
+|-------|-----------|----------------|
+| 1-2 | 1-10 | **Import iridium** - simpler and cheaper |
+| 3 | 10-100 | Consider Carbon complex |
+| 4+ | 100+ | **Build extraction** at LRM |
+
+**Conclusion:** The base factory operates without carbon (manganese steels, Si3N4 ceramics, iridium anodes). Carbon is an optimization for scaling, not a critical dependency.
+
+---
+
+### Stage 1. Energy
+
+*Generation. Without this stage the factory is a pile of metal.*
+
+#### Solar Boost
+
+Mercury receives **9-14 kW/m²** of solar flux (vs 1.3 kW/m² on Earth) — a fundamental advantage for energy.
+
+#### Power Towers
+
+Installed on "Peaks of Eternal Light" (crater rims):
+
+| Component | Description |
+|-----------|-------------|
+| **Mirrors** | Kapton with Al coating, 50 g/m², deploy on carbon fiber spokes |
+| **Photocells** | Multi-junction GaAs (30-40% efficiency) |
+| **Cooling** | NaK circulates inside mast → radiator in shadow (−150°C) |
+| **Cryogenic power line** | Aluminum at −150°C — resistance 10× lower |
+
+**Details:** [Cryogenic aluminum cable](../reference/technology-readiness.qmd#cryogenic-aluminum-cable-gw)
+
+#### Energy Consumption per Complex
+
+| Consumer | Power | Note |
+|----------|-------|------|
+| Mass driver (average) | 33 MW | 600 launches/day × 4.8 GJ |
+| Solar furnaces (melting) | 10 MW | Concentrators |
+| Mirror production | 5 MW | Rolling, welding, packaging |
+| Robots (~50 units × 5 kW) | 0.3 MW | Battery-powered |
+| Control and communication | 2 MW | IT infrastructure |
+| **TOTAL** | **~55 MW** | With 10% margin |
+
+**Energy balance at launch:**
+- 3 shipments of GaAs panels = **168 MW** (5.25 t)
+- Reserve = 113 MW for scaling
+
+#### Local Panel Production
+
+For scaling — silicon panels from local materials (aluminothermy).
+
+**Details:** [Silicon Production](../detailed/materials/silicon.qmd)
+
+---
+
+### Stage 2. Hydraulics and Fluids
+
+> **Details:** [Hydraulics and Fluids](../detailed/robots/elements/actuators.qmd)
+
+Coolant system (NaK) and lubrication (MoS2/vacuum oils) for operation in vacuum conditions.
+
+---
+
+### Regolith Processing
+
+> **Details:** [Regolith Processing](../detailed/materials/overview.qmd)
+
+Full cycle: crushing -> smelting -> MRE electrolysis -> separation into Fe, Al, Si, Ti, S -> transit to dome.
+
+---
+
+### Stage 6. Battery Production
+
+> **Details:** [Battery Production](../detailed/robots/elements/batteries.qmd)
+
+NaS batteries (sodium-sulfur) from local materials: 150-240 Wh/kg, 15-year lifespan.
+
+---
+
+### Stage 7. Forming
+
+*Clean zone - INSIDE THE DOME.*
+
+Gas environment already present here (oxygen 0.1 atm).
+
+#### Continuous Casting Machine (CCM)
+
+Liquid metal from the tundish solidifies in profile form.
+
+| Parameter | Value |
+| :--- | :--- |
+| Type | Billet (100x100 mm square) |
+| Mold material | Steel + MgO lining (local) |
+| Cooling | NaK circuit (not water!) |
+| Withdrawal speed | 0.5-1 m/min |
+
+#### Rolling Mill
+
+Converting billets into bar and wire for WAAM.
+
+| Stage | Parameters |
+| :--- | :--- |
+| Heating furnace | Induction, 1100-1200 deg C, nitrogen atmosphere |
+| Rolling mill | 6 stands, input 100x100 mm -> output dia. 20 mm |
+| Wire drawing mill | Si₃N₄ ceramic dies (local, 3x lifespan), output dia. 1.6-2.0 mm |
+
+#### Metal 3D Printer (WAAM)
+
+| Parameter | Value |
+| :--- | :--- |
+| Method | Wire Arc Additive Manufacturing |
+| Principle | Robot melts wire with arc, depositing layer by layer |
+| Material | Wire dia. 1.6 mm (from rolling mill) |
+| Shielding environment | Argon (flow to weld zone) |
+| Products | Complex parts: housings, brackets, frames |
+
+#### Milling (CNC)
+
+| Parameter | Value |
+| :--- | :--- |
+| Purpose | Finishing after WAAM and casting |
+| Machine | 5-axis machining center |
+| Coolant | Not required (vacuum, ceramics work in dry conditions) |
+| Tooling | **Si₃N₄ ceramic cutters** (local production from Si + N₂) |
+
+---
+
+### Stage 8. Assembly
+
+*Assembly shop.*
+
+#### Assembly Jig
+
+Final point. **10 parallel positions** - manipulator robots (Centaur-M) connect:
+
+| Component | Source |
+| :--- | :--- |
+| Bones | **Aluminum frames** and tracks (local) |
+| Heart | Sodium-sulfur battery (local) |
+| Brains | Control unit and sensors (from Earth, "Vitamins" storage) |
+
+**Throughput:**
+- Assembly time per robot: **48 hours** per position
+- Parallel positions: **10**
+- Total: **5 robots/day** per factory
+
+**Cycle:** 48 hours on position -> new robot leaves jig -> airlock -> charging -> drives off to dig ore.
+
+#### Factory Line Throughput
+
+| Line | Throughput | Bottleneck? |
+|------|------------|-------------|
+| Regolith extraction | **600 t/day** | 6 Moles x ~100 t/day |
+| Solar furnace + MRE | **>600 t/day** | Excess capacity |
+| Aluminum output | **42 t/day** | 600 x 7% |
+| Fe-Mn steel output | **~11 t/day** | MRE + titanium line |
+| Foil rolling (F-M) | **~407 mirrors/day** | 42 t / 95 kg Al x 0.92 |
+| Assembly jig (F-R) | **5 robots/day** | Expandable |
+
+#### Gen-2 Robots: Classes and Specifications
+
+Second-generation robots are produced on-site from hybrid Fe/Al alloy.
+
+| Class | Mass | Materials | Battery | Power | Purpose |
+|-------|------|-----------|---------|-------|---------|
+| **Mole-M** | ~1500 kg | Fe 83% + Al 13% | 10 kV cable | 30 kW | Regolith extraction |
+| **Crab-M** | ~1000 kg | Fe 35% + Al 45% | NaS 50 kWh | 10 kW | Logistics, MD buffer |
+| **Centaur-M** | ~370 kg | Fe 22% + Al 62% | NaS 20 kWh + cable | 5 kW | Assembly, maintenance |
+| **Average** | ~960 kg | Fe 58% + Al 31% | - | - | - |
+
+**Gen-2 vs Gen-1 Differences:**
+
+| Aspect | Gen-1 (from Earth) | Gen-2 (local) |
+|--------|-------------------|---------------|
+| Material | Ti + carbon fiber | Fe + Al (local) |
+| Mass | 120-950 kg | 370-1500 kg |
+| Battery | Li-Ion | NaS (local) |
+| Lifespan | 2-3 years | 5+ years |
+| Repairability | Difficult (parts from Earth) | Easy (all local) |
+
+**F-R Material Balance (5 robots/day):**
+- Fe for robots: 5 x ~560 kg = **~2.8 t/day** (of 18 t available)
+- Al for robots: 5 x ~300 kg = **~1.5 t/day** (of 42 t available)
+- Remaining Al (~40.5 t/day) -> domes, equipment, MD components
+
+**Details:** [Robot Bestiary](../detailed/robots/overview.qmd)
+
+---
+
+### Robot Power Supply Infrastructure
+
+*Hybrid system: cable inside + stations outside.*
+
+Centaur-M operates in two zones: inside the protective dome (70%) and outside (30%). Each zone has its own solution.
+
+#### Inside Dome: Cable System
+
+| Parameter | Value |
+|-----------|-------|
+| Connection points | 8-10 (around shop perimeter) |
+| Cable length per robot | 50 m |
+| Voltage | 400 V DC |
+| Cross-section | 4 mm^2 Al |
+| Cable + reel mass | ~15 kg |
+
+#### Outside: Charging Stations
+
+| Location | Stations | Purpose |
+|----------|----------|---------|
+| Dome airlock | 2 | Before/after excursion |
+| Mass Driver entrance | 2 | MD maintenance |
+| Solar panels | 2 | Power system maintenance |
+| **Total** | **6** | |
+
+**Outdoor work mode:** Shift-based - one Centaur works (40 min), another charges.
+
+#### Overall Complex Infrastructure Diagram
+
+```{mermaid}
+%%| fig-width: 10
+flowchart TB
+    subgraph MD["MASS DRIVER (1 km)"]
+        MD_IN["⚡ entrance"] --> MD_TRACK["track 1 km"] --> MD_OUT["exit →"]
+    end
+
+    MD_IN --> CS1["⚡ Crab station"]
+    CS1 --> BUF["BUFFER (1500 pcs)<br/>⚡ Crab station"]
+
+    BUF --> INT1["⚡ intermediate"]
+    BUF --> ST["⚡ station"]
+    BUF --> INT2["⚡ intermediate"]
+
+    INT1 --> Q1["Quarry 1<br/>Mole-M (cable)"]
+    INT2 --> Q2["Quarry 2<br/>Mole-M (cable)"]
+
+    ST --> FAC["FACTORY (dome)<br/>⚡⚡⚡⚡ Crabs entrance<br/>Centaurs (cable 50m)<br/>⚡⚡⚡⚡ Crabs exit<br/>⚡⚡⚡⚡⚡⚡ airlock+charging"]
+
+    FAC --> EXT["⚡ station outside"]
+    EXT --> Q3["Quarry 3<br/>Mole-M (cable)"]
+
+    style MD fill:#f0f0f0,stroke:#333
+    style FAC fill:#e8f4e8,stroke:#2a2
+    style BUF fill:#f4f4e8,stroke:#aa2
+```
+
+**Legend:** ⚡ = charging station | Cable = power connection for Moles
+
+#### Infrastructure Summary per Complex
+
+| Component | Quantity | Type | Robot |
+|-----------|----------|------|-------|
+| Cable points (10 kV) | 6 | High-voltage | Mole-M |
+| Charging stations | 12-15 | Fast charging | Crab-M |
+| Points inside dome (400 V) | 8-10 | Low-voltage | Centaur-M |
+| Stations outside | 6 | Fast charging | Centaur-M |
+| **Total points** | **~35-37** | | |
+
+#### Scale for 1000 Factories
+
+| Component | Per 1 factory | Per 1000 factories |
+|-----------|--------------|-------------------|
+| Cable points (Mole) | 6 | 6,000 |
+| Charging stations (Crab) | 15 | 15,000 |
+| Points inside (Centaur) | 10 | 10,000 |
+| Stations outside (Centaur) | 6 | 6,000 |
+| **Total** | **~37** | **~37,000** |
+
+**Details:** [Robot Bestiary - Centaur-M](../detailed/robots/overview.qmd)
+
+---
+
+### First Expedition Manifest
+
+*What we bring from Earth to launch Ground Zero.*
+
+#### Assembly Crew (Gen-1 Robots)
+
+| Type | Qty | Unit Mass | Total | Role |
+| :--- | :--- | :--- | :--- | :--- |
+| Spider-E | 16 | 120 kg | 1.9 t | Mirror mounting (critical path) |
+| Crab-E | 12 | 950 kg | 11.4 t | Module logistics |
+| Centaur-E | 24 | 250 kg | 6.0 t | Assembly and docking |
+| Mole-E | 4 | 800 kg | 3.2 t | Site preparation |
+| **Total robots** | **56** | | **22.5 t** | |
+
+#### Crew Repair Kit (before factory startup)
+
+Increased proportionally to robot count + reserve for intensive 7-day work.
+
+| Component | Qty | Mass | Note |
+| :--- | :--- | :--- | :--- |
+| Spare legs (Spider) | 32 | 160 kg | 2 sets per robot |
+| Spare tracks (Crab) | 48 | 300 kg | 4 sets per robot |
+| **Li-S batteries (Gen-1)** | 15 | 750 kg | Reserve (operates from -60°C) |
+| Control units | 8 | 80 kg | Brains - critical |
+| Sensors (cameras, lidars) | 30 | 50 kg | |
+| Actuators (motors) | 50 | 250 kg | |
+| MoS2 lubricant | - | 15 kg | |
+| **Total repair kit** | | **~1.6 t** | |
+
+#### Factory Equipment (modular delivery)
+
+| Module | Mass | Contents |
+| :--- | :--- | :--- |
+| **Energy module** | 3.0 t | Mirrors (2000 m^2) + frame + GaAs cells + radiators |
+| **MRE module** | 4.0 t | Furnace + crucible + electrodes + MHD + frame |
+| **Dome module** | 4.0 t | Shell + airlock + tundish + internal radiators |
+| **CCM module** | 6.0 t | Mold + stand + roller table (on skids) |
+| **Rolling module** | 10.0 t | Mill (6 stands) + drawing + winding |
+| **Finishing module** | 6.0 t | WAAM + CNC + jig + manipulators |
+| **Total equipment** | **~35 t** | Modular pre-assembly |
+
+#### First Year Consumables
+
+| Category | Mass | Note |
+| :--- | :--- | :--- |
+| MRE anodes (reserve) | 0.2 t | |
+| Oils, lubricants | 0.1 t | |
+| Beta-Al2O3 electrolytes | 0.3 t | For first 50 batteries |
+| **Total consumables** | **~0.6 t** | |
+
+#### Vitamins (Electronics, Rare Elements)
+
+| Category | Mass | Note |
+| :--- | :--- | :--- |
+| Control units (for new robots) | 0.5 t | For 100 robots |
+| Sensors | 0.2 t | |
+| Miscellaneous electronics | 0.3 t | |
+| Rare earths (Nd, Sm for magnets) | 0.1 t | |
+| **Total Vitamins** | **~1 t** | |
+
+#### Manifest Summary
+
+| Category | Mass |
+| :--- | :--- |
+| Assembly crew (56 robots) | 22.5 t |
+| Crew repair kit | 1.6 t |
+| Factory equipment (modules) | 35.0 t |
+| Consumables (1 year) | 0.6 t |
+| Vitamins (electronics) | 1.0 t |
+| **TOTAL first expedition** | **~61 t** |
+
+---
+
+### First Factory Assembly (Bootstrap)
+
+> **Details:** [First Factory Assembly (Bootstrap)](../detailed/bootstrap.qmd)
+
+*Critical checkpoint: energy autonomy within 12-24 hours.*
+
+Gen-1 robots are light but limited by batteries (Li-S, 15-24 hour autonomy). Before charging infrastructure deployment, time is critical.
+
+**Solution:** Checkpoint model — achieve energy autonomy within 12-24 hours, after which assembly time is constrained only by Gen-1 lifespan (2-3 years).
+
+#### Assembly Scenarios
+
+| Scenario | Before checkpoint | After | **Total** |
+|----------|-------------------|-------|-----------|
+| Optimistic | 12 h | 6 days | **7 days** |
+| Realistic | 24 h | 10-15 days | **11-16 days** |
+| Pessimistic | 48 h | 20-30 days | **22-32 days** |
+
+**Key insight:** After checkpoint (24 h), time is not critical.
+
+---
+
+### Self-Replication
+
+> **Details:** [Self-Replication](../detailed/factories/assembly/replication.qmd)
+
+Energy Bootstrap (168 MW from day one), exponential factory growth (1 -> 1000 in 16 weeks), 4 deployment phases.
+
+---
+
+### Mercury Mass Driver
+
+Electromagnetic catapult for launching mirrors into orbit.
+
+| Parameter | Value |
+|----------|-------|
+| Length | 2-3 km |
+| Exit velocity | 5 km/s |
+| Mass | 1300 tons |
+| Throughput | 600 launches/day (70 t/day) |
+| Energy per launch | 3.6 GJ |
+
+**Details:** [MD Production](../detailed/railguns/overview.qmd), [MD Theory](../detailed/railguns/theory.qmd), [Scaling](../detailed/railguns/scaling.qmd)
+
+---
+
+### Real Automated Factory Prototypes
+
+#### Xiaomi Factory in Wuhan (October 2025)
+
+The first fully automated Xiaomi home appliances factory - a real prototype of the technologies described in the book.
+
+| Parameter | Value |
+|----------|-------|
+| Throughput | 1 air conditioner every 6.5 seconds, 7 million units/year |
+| Operating mode | "Lights-out" - casting and metalworking shops operate without lighting or people |
+| Autonomous robots | 161 units for internal logistics (covering 90% of movements) |
+| Conveyor system | 4.2 km of overhead conveyors connecting 6 shops |
+| Quality control | AI visual inspection, 100% testing (not sampling), accuracy +/-0.05 mm |
+| First-pass yield | >99% |
+
+**Connection to the book:**
+
+The Ground Zero Factory is a scaled version of this concept. 2025 technologies demonstrate that the basic principles of unmanned manufacturing already work on Earth. The difference:
+
+- **Xiaomi:** produces one type of product (air conditioners) from ready-made components
+- **Ground Zero:** produces its own components and copies of itself from raw materials (self-replication)
+
+---
+
+### Mirror Disposal
+
+With an ~8-year lifespan and a billion mirrors, ~100-200 million units fail annually. Without a disposal mechanism, this would create space debris accumulation.
+
+**Solution:** Self-disposal through solar descent.
+
+**Principle:** A mirror is a solar sail. When tilted at an angle to the Sun, a tangential force is created that decelerates orbital motion. The orbit descends in a spiral until burning up in the solar corona.
+
+| Condition | Action |
+|-----------|--------|
+| Efficiency < 30% | Automatic transition to disposal mode |
+| Loss of contact > 30 days | Autonomous decision by onboard software |
+| Command from Earth | Forced disposal |
+
+| Parameter | Value |
+|----------|-------|
+| Initial orbit | ~0.4 AU (Mercury's orbit) |
+| Light pressure | ~60 uPa |
+| Descent time | 6-12 months |
+| End point | Solar corona (burn-up) |
+
+**Failsafe:** Upon complete electronics failure, the mirror loses control -> chaotic rotation -> zero thrust -> remains in orbit but doesn't interfere (distances ~km between mirrors).
+
+**Details:** [Swarm Mirrors](mirrors.qmd#orbital-mechanics-and-disposal)
+
+---
+
+### Known Factory Limitations
+
+> **Note:** This section describes problems specific to production. Overall project risk analysis: **[Risks and Limitations](../reference/risks.qmd)**.
+
+#### Critical Problems
+
+**1. Iridium Deficit**
+
+| Parameter | Value |
+|----------|-------|
+| For 1000 factories over 10 years | **~400 tons** |
+| World production | ~7 t/year (70 t over 10 years) |
+| Deficit | **~6x world production** |
+
+#### High Priority Problems
+
+- MHD pump: power consumption underestimated by 25x (20 kW -> 500 kW actual)
+- Cooling radiators: mass not accounted for (100-200 tons)
+- IT infrastructure: underestimated by 100-200x (50 kW -> 5-10 MW)
+
+#### Require Research
+
+- Electrostatics during fiberglass production in vacuum
+- NaS battery thermal regime during Mercury night (88 Earth days)
+- Distributed control of 1000 autonomous factories
+
+---
+
+## Assembly Lines
+
+After regolith processing, clean materials are obtained: aluminum, iron, silicon, magnesium, titanium, and others. These materials go into producing **components**, which are then assembled into **finished products**.
+
+### Process: Materials -> Components -> Products
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    subgraph MAT["MATERIALS"]
+        M1["Al, Fe, Si"]
+    end
+
+    subgraph CMP["COMPONENTS"]
+        C1["Rails"]
+        C2["Frame"]
+        C3["Capacitors"]
+        C4["Cooling"]
+    end
+
+    subgraph ASM["FINISHED PRODUCTS"]
+        A1["Mass Driver"]
+        A2["Robots"]
+        A3["Mirrors"]
+    end
+
+    M1 --> C1
+    M1 --> C2
+    M1 --> C3
+    M1 --> C4
+    C1 --> A1
+    C2 --> A1
+    C3 --> A1
+    C4 --> A1
+
+    style MAT fill:#e8d4a8
+    style CMP fill:#d4e8a8
+    style ASM fill:#a8d4e8
+```
+
+### Example: Mass Driver Assembly
+
+**Stage 1: Component Production (2-3 weeks)**
+
+| Component | Line | Materials | Mass |
+|-----------|------|-----------|------|
+| Rails and coils | Al forming | Al | 500 t |
+| Tunnel frame | Fe welding | Fe | 800 t |
+| Capacitors | Electronics | Si, Al | 20 t |
+| Cooling | Radiators | Al, NaK | 75 t |
+| Platform | Mechanical | Fe, Al | 5 t |
+| Electronics | Import | (Vitamins) | 0.25 t |
+
+**Stage 2: Final Assembly (1 week)**
+
+5-10 assembly robots (ROB-022 Centaur-M) mount components into a unified structure:
+
+1. Tunnel frame installation (3 days)
+2. Rails and coils mounting (2 days)
+3. Capacitor and cooling connection (1 day)
+4. Spin platform installation (1 day)
+5. Electronics integration and testing (1 day)
+
+**Result:** EQU-001 (Mass Driver), 1400 t, 33 MW peak power
+
+### Example: Gen-2 Robot Assembly
+
+**Stage 1: Component Production (4-6 hours)**
+
+| Component | Line | Output |
+|-----------|------|--------|
+| Motors | Electric motors | CMP-011 |
+| NaS batteries | Batteries | CMP-012 |
+| Chassis | Forming | CMP-013 |
+| Hydraulics | Pumps | CMP-014 |
+| Electronics | Import | CMP-001 |
+
+**Stage 2: Final Assembly (2-4 hours)**
+
+F-A1 manipulators on conveyor:
+1. Chassis + motors assembly (1 hour)
+2. Battery installation (30 min)
+3. Hydraulics mounting (30 min)
+4. Electronics integration (1 hour)
+5. Calibration and testing (30 min)
+
+**Throughput:** 5000 robots/day at 1000 factories (5 robots/day per factory)
+
+---
+
+## Production on the Moon
+
+The Moon performs two critical functions: **testbed** (years 4-6) and **specialized manufacturer** (years 7+).
+
+### Why the Moon?
+
+| Advantage | Value |
+|-----------|-------|
+| Communication delay | 1.3 sec (vs 5-20 min to Mercury) |
+| Delivery cost | 60x cheaper than to Mercury |
+| Control | Earth operators can intervene in real-time |
+| Resources | Silicon 20%, iron 10% |
+
+**Mistakes on the Moon are cheaper.** If a robot gets stuck, the operator sees it in 2.6 seconds and can help. On Mercury, the same situation requires 10+ minutes of waiting.
+
+### Testbed (years 4-6)
+
+Before sending the factory to Mercury, all technologies are validated on the Moon:
+
+| Technology | Moon Test |
+|------------|-----------|
+| Regolith extraction | Moles learn to dig in 0.16g |
+| Metal smelting | Solar furnace at 1.4 kW/m^2 |
+| Robot assembly | Centaurs assemble Gen-2 |
+| Mass Driver | Test launches before Mercury |
+
+**Result:** By year 6, the team understands all production pitfalls in space.
+
+### Lunar Mass Driver
+
+Test prototype for technology validation before Mercury.
+
+| Parameter | Value |
+|----------|-------|
+| Length | 0.5-1 km |
+| Exit velocity | 2.5 km/s |
+| Energy per ton | 3-4 GJ (1.5x more efficient than Mercury) |
+| Purpose | Technology testing |
+
+**Why shorter than Mercury's?** Moon gravity is 0.16g (vs 0.38g on Mercury). Lower velocity = shorter acceleration track.
+
+### LSP Station Construction
+
+The Moon builds **LSP stations at limbs** for receiving energy from the Swarm:
+
+| Component | Material | Source |
+|-----------|----------|--------|
+| Photovoltaics | Silicon | Moon (regolith) |
+| Structure | Aluminum | Moon (anorthosite) |
+| Antennas | Aluminum | Moon |
+
+**Process:** Lunar factories produce modules -> rovers deliver to limbs -> robots assemble stations.
+
+### Moon Power Supply
+
+| Phase | Source | Power |
+|-------|--------|-------|
+| 1 (years 4-6) | Solar panels | 10-50 MW |
+| 2 (years 7+) | Energy from Swarm via LSP | 0.01 PW |
+
+**Night problem:** Lunar night lasts 14 Earth days. Factories stop, batteries discharge. Solution - batteries + energy from Swarm (when LSP becomes operational).
+
+---
+
+## Production Comparison
+
+| Aspect | Mercury | Moon |
+|--------|---------|------|
+| **Solar flux** | 9-14 kW/m^2 | 1.4 kW/m^2 |
+| **Strategy** | Self-replication | Direct delivery |
+| **Main product** | Mirrors (392,000/day) | LSP stations |
+| **Secondary product** | Gen-2 robots | Gen-2 robots (test) |
+| **Mass Driver** | 5 km/s, 2-3 km | 2.5 km/s, 0.5-1 km (test) |
+| **Purpose** | Dyson Swarm | Testbed + energy reception |
+| **Control** | Autonomous (AI) | Manual (1.3 sec) |
+| **Initial investment** | 62 t (one factory) | ~100 t (components) |
+| **Ramp-up** | 0 years | 1-2 years |
+| **Night downtime** | None (poles) | 14 days/month |
+
+### Why Not Mercury Only?
+
+**Testbed.** Technology validation on Mercury is too risky: 8-20 minute communication delay, delivery takes months. On the Moon: 1.3 sec delay, 3-day delivery. Moon mistakes are fixed quickly and cheaply.
+
+**LSP stations.** Energy from the Swarm must be received on the Moon - it's visible from Earth. Microwaves from Mercury's surface won't reach Earth.
+
+### Why Not Moon Only?
+
+**Energy.** 1.4 kW/m^2 vs 10 kW/m^2 - a 7x difference. Self-replication on the Moon would require 7x more panels and time. Exponential growth stalls.
+
+**Night.** 14 days without sun every month. Factories idle, batteries discharge. On Mercury's poles, the sun shines constantly.
+
+---
+
+## Logistics Between Objects
+
+### Material Flows
+
+```{mermaid}
+flowchart TD
+    subgraph EARTH["EARTH"]
+        E1[/"First expedition<br/>62 t"/]
+        E2[/"Vitamins<br/>rare earths, W, Ir"/]
+    end
+
+    subgraph MERCURY["MERCURY (pole)"]
+        M1["Factory"]
+        M2["Mass Driver"]
+        M3[/"Mirrors"/]
+    end
+
+    subgraph SWARM["SWARM (orbit)"]
+        R1["1 billion mirrors"]
+    end
+
+    subgraph MOON["MOON"]
+        L1["Testbed"]
+        L2["MD (test)"]
+        L3[/"LSP stations"/]
+    end
+
+    subgraph EARTH2["EARTH (reception)"]
+        H1["Rectenna"]
+    end
+
+    E1 -->|"year 6"| M1
+    E2 -->|"years 6+"| M1
+    M1 --> M2
+    M2 --> M3
+    M3 --> R1
+    R1 -->|"light"| L3
+    L3 -->|"microwaves"| H1
+
+    L1 -->|"validation"| M1
+
+    style EARTH fill:#a8d4e8
+    style EARTH2 fill:#a8d4e8
+    style MERCURY fill:#e8d4a8
+    style SWARM fill:#e8e8a8
+    style MOON fill:#d4e8a8
+```
+
+### Earth -> Mercury
+
+| Cargo | When | Mass |
+|-------|------|------|
+| First factory | Year 0 | 62 t |
+| Vitamins (factories) | Years 1-10 | ~77 kg/factory/year |
+| Mirror electronics | Years 7-15 | **~1,055 t** (total) |
+
+**Vitamins** are what Mercury doesn't have: electronics (controllers, sensors), iridium (MRE anodes), rare earths (magnets).
+
+**Mirror electronics** — thanks to [Mother-Children architecture](mirrors.qmd#optical-cluster-control), import is reduced by **98%**:
+
+| Component | Quantity | Mass/unit | Import |
+|-----------|----------|-----------|--------|
+| Mother chips | 1.1 M | 50 g | 55 t |
+| Child decoders (phase 1) | ~500 M | 2 g | ~1,000 t |
+| Child receivers (phase 2) | ~600 M | 0 g | 0 t (local) |
+| **Total** | 1.1 B | | **~1,055 t** |
+
+*Without optimization: 55,000 t (1,100 Starship). With Mother-Children: 21 Starship.*
+
+### Mercury -> Swarm
+
+| Parameter | Value |
+|----------|-------|
+| Product | Mirrors (116 kg, 100x100 m) |
+| Rate | 600,000 units/day (1,500 F-M x 400/day) |
+| Flight time | Several months |
+| Orbit | 0.1-0.2 AU from Sun |
+
+### Moon: LSP Stations
+
+| Parameter | Value |
+|----------|-------|
+| Products | LSP station modules |
+| Location | Moon limbs (east/west) |
+| Purpose | Receive energy from Swarm, transmit to Earth |
+
+### Moon -> Earth (energy)
+
+| Parameter | Value |
+|----------|-------|
+| Power | 1 PW (50x world consumption) |
+| Transmission method | Microwaves |
+| Receivers | Rectenna (deserts, steppes) |
+
+### Closed Energy Cycle
+
+After LSP launch (year 6-7), energy begins circulating:
+
+1. **Swarm** reflects light -> **LSP stations on Moon**
+2. **LSP** converts to microwaves -> **Rectenna on Earth** (1 PW)
+3. Part of energy -> **production on Moon** (0.01 PW)
+4. Part of energy -> **Mercury** (reserve)
+
+**Result:** Self-sustaining system. Factories produce mirrors -> mirrors provide energy -> energy powers factories and Earth.
+
+---
+
+## See Also
+
+- [Technologies and Sources](../reference/technology-readiness.qmd) - TRL and bibliography
+- [Project in 5 Minutes](../executive-summary.qmd) - overall project architecture
+- [Why Mercury?](comparison.qmd) - location comparison
+- [Ground Zero Factory](../detailed/factories/overview.qmd) - Mercury production roadmap
+- [Moon](moon.qmd) - lunar LSP stations
+- [Robot Bestiary](../detailed/robots/overview.qmd) - Gen-1 and Gen-2 robots
+- [Mass Driver: Theory](../detailed/railguns/theory.qmd) - physics and calculations for Mercury and Moon
+- [Mass Driver: Production](../detailed/railguns/overview.qmd) - how to build an MD
+- [Scaling](../detailed/railguns/scaling.qmd) - self-replication and growth
+- [Roadmap](roadmap.qmd) - project timeline

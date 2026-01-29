@@ -1,0 +1,239 @@
+---
+title: "Mass Driver Testing"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Purpose:** Verify Mass Driver functionality before operation
+> - **Duration:** 1-2 weeks
+> - **Stages:** Geometry -> Electrical -> Cooling -> Test Launches
+> - **Criterion:** 10 successful launches in a row -> Mass Driver ready
+
+---
+
+## Overview
+
+Mass Driver testing is the final stage before commissioning. Goal: ensure all systems work correctly and the Mass Driver can safely launch mirrors.
+
+---
+
+## Testing Program
+
+### Full Sequence
+
+| Stage | Duration | Description |
+|-------|----------|-------------|
+| 1. Geometric Control | 2 days | Track straightness verification |
+| 2. Electrical Tests | 2 days | Circuit and insulation testing |
+| 3. Cooling Tests | 1 day | NaK circuit check, temperature |
+| 4. Dry Runs | 2 days | Empty container acceleration (no mirror) |
+| 5. Live Launches (test) | 3 days | Mirror launches (real mass and dimensions) |
+| 6. Continuous Mode | 2 days | 100 launches in 24 hours |
+| 7. Acceptance and Certification | 1 day | Documentation |
+| **TOTAL** | **~2 weeks** | |
+
+---
+
+## Stage 1: Geometric Control
+
+### Straightness Verification
+
+| Parameter | Control Method | Tolerance | Action on Deviation |
+|-----------|---------------|-----------|---------------------|
+| Horizontal straightness | Laser level | +/-5 mm per 100 m | Support adjustment |
+| Vertical straightness | Theodolite | +/-5 mm per 100 m | Support adjustment |
+| Rail parallelism | Laser gauge | +/-1 mm | Fastener tightening |
+| Coil perpendicularity | Goniometer | +/-0.1 deg | Correction |
+
+**Instruments:**
+- Laser level (accuracy +/-1 mm per 100 m)
+- Theodolite (accuracy 1")
+- Laser rangefinder (accuracy +/-0.1 mm)
+
+**Personnel:** 5 Centaurs-M + automation
+
+---
+
+## Stage 2: Electrical Tests
+
+### Circuit Verification
+
+| Test | Equipment | Tolerance | Goal |
+|------|-----------|-----------|------|
+| Coil resistance | Ohmmeter | <0.1 Ohm per coil | No breaks |
+| Coil insulation | Megohmmeter | >10 MOhm | No breakdowns |
+| Coil inductance | LCR meter | Within +/-5% | Uniformity |
+| Sequential switching | Oscilloscope | Delay <1 us | Synchronization |
+
+### Power Electronics Verification
+
+| Test | Description |
+|------|-------------|
+| MOSFET switches | On/off test 1000 times |
+| Capacitors | Charge to 1000 V, hold 1 hour, discharge |
+| Sensors | Calibration of all 6150 sensors |
+| Communication | Fiber optic check, delay <1 ms |
+
+**Personnel:** Automation + 2 Centaurs-M (supervision)
+
+---
+
+## Stage 3: Cooling Tests
+
+### NaK Circuit Verification
+
+| Parameter | Control | Tolerance | Action |
+|-----------|---------|-----------|--------|
+| NaK temperature | Thermocouples | -150 deg C +/- 10 deg C | Flow rate adjustment |
+| NaK flow rate | Flow meter | 100 L/min | Pump check |
+| Circuit pressure | Manometer | 2-3 atm | Leak check |
+| Coil temperature | Thermocouples | <-140 deg C | Contact improvement |
+
+### Radiator Test
+
+| Parameter | Control | Tolerance |
+|-----------|---------|-----------|
+| Radiator temperature | IR camera | -170 deg C to -180 deg C |
+| Heat dissipation | Thermal imager | Uniform distribution |
+
+**Duration:** 24 hours of continuous cooling operation
+
+**Personnel:** Automation + 1 Centaur-M (inspection)
+
+---
+
+## Stage 4: Dry Runs
+
+### Test Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Projectile | Empty container (no mirror) |
+| Projectile mass | 10 kg (lighter than nominal 116 kg) |
+| Target velocity | 1.5 km/s (30% of nominal 5 km/s) |
+| Number of shots | 10 |
+
+**Goal:** Verify system operation without risking a valuable mirror.
+
+### Controlled Parameters
+
+| Parameter | Control | Tolerance |
+|-----------|---------|-----------|
+| Acceleration | Accelerometers in projectile | 15g +/- 2g |
+| Exit velocity | Laser Doppler | 1.5 +/- 0.1 km/s |
+| Coil sequence | Oscilloscope | Synchronization |
+| Coil temperature | Thermocouples | <-130 deg C |
+| Frame vibrations | Accelerometers | <1g |
+
+**Personnel:** Automation + 5 Centaurs-M (observation)
+
+---
+
+## Stage 5: Live Launches (test)
+
+### Test Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Projectile | Real mirror 100x100 m |
+| Projectile mass | 116 kg (nominal) |
+| Target velocity | 5 km/s (nominal) |
+| Number of shots | 20 |
+
+**Goal:** Verify Mass Driver operation in nominal mode.
+
+### Additional Checks
+
+| Test | Method | Success Criterion |
+|------|--------|-------------------|
+| Mirror deployment | Telescope + cameras | Mirror fully deployed |
+| Trajectory | Radar + optics | Orbit within +/-10 km |
+| Orientation | Telemetry | Mirror oriented toward Sun |
+| Light reflection | Photometer | Brightness matches calculated |
+
+**Personnel:** Automation + 10 Centaurs-M (mirror feed)
+
+---
+
+## Stage 6: Continuous Mode
+
+### Test Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Duration | 24 hours |
+| Launches | 100 (every ~15 min) |
+| Mode | Nominal (116 kg, 5 km/s) |
+
+**Goal:** Verify Mass Driver reliability during extended operation.
+
+### Controlled Parameters
+
+| Parameter | Control | Success Criterion |
+|-----------|---------|-------------------|
+| Launch success rate | Statistics | >95% (no more than 5 failures) |
+| Rail wear | Visual inspection | Wear marks <0.1 mm |
+| Cooling stability | Thermocouples | T = -150 deg C +/- 10 deg C |
+| Energy consumption | Meter | 3.6 GJ +/- 0.2 GJ per shot |
+
+**Personnel:** Automation + 20 Crabs-M (mirror logistics)
+
+---
+
+## Stage 7: Acceptance and Certification
+
+### Documentation
+
+| Document | Contents |
+|----------|----------|
+| Test protocol | All test results |
+| Mass Driver passport | Technical specifications |
+| Operating manual | Operating modes, maintenance |
+| Defect log | Identified problems and their resolution |
+
+### Readiness Criteria
+
+| Criterion | Tolerance |
+|-----------|-----------|
+| Track geometry | Deviations within tolerances |
+| Electrical | All circuits operational |
+| Cooling | Stable temperature -150 deg C |
+| Dry runs | 10/10 successful |
+| Live launches | 18/20 successful (>90%) |
+| Continuous mode | 95/100 successful (>95%) |
+
+**Acceptance:** Signing of commissioning certificate.
+
+---
+
+## Typical Problems and Solutions
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| Projectile stuck at 1 km | Coil overheating | Improve cooling |
+| Velocity below calculated | Poor synchronization | Delay calibration |
+| Frame vibrations | Resonance | Dampers on supports |
+| Insulation breakdown | Electric arc | Coil replacement |
+
+---
+
+## Testing Energy Consumption
+
+| Stage | Shots | Energy | TOTAL |
+|-------|-------|--------|-------|
+| Dry runs | 10 | 0.03 GJ x 10 | 0.3 GJ |
+| Live launches | 20 | 3.6 GJ x 20 | 72 GJ |
+| Continuous mode | 100 | 3.6 GJ x 100 | 360 GJ |
+| **TOTAL** | **130** | | **~432 GJ** |
+
+**In power:** 432 GJ / (14 days x 86400 sec) = ~0.36 MW average power for testing.
+
+---
+
+## See Also
+
+- [Track Assembly](track.qmd) - previous stage
+- [Control Electronics](electronics.qmd) - control systems
+- [Mirror Production](../../../summaries/mirrors.qmd) - what the Mass Driver launches
+- [MD Theory](../theory.qmd) - physics and energy of Mass Driver

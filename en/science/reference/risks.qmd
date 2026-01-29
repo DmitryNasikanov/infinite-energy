@@ -19,13 +19,13 @@ These issues initially appeared blocking but have solutions.
 
 | Risk | Solution | Details |
 |------|----------|---------|
-| Phased array synchronization | Optical control: Mother mirror → ~1000 Children | [Optical Cluster Control](../detailed/mirrors.qmd#optical-cluster-control) |
+| Phased array synchronization | Optical control: Mother mirror → ~1000 Children | [Optical Cluster Control](../summaries/mirrors.qmd#optical-cluster-control) |
 | Electrochromics too slow | Sufficient for cluster architecture | [Electrochromic TiO₂ TRL 7-8](technology-readiness.qmd#electrochromic-tio₂) |
-| Mirror electronics import (55,000 t) | Mother-Children architecture: 98% savings | [Optical Cluster Control](../detailed/mirrors.qmd#optical-cluster-control) |
+| Mirror electronics import (55,000 t) | Mother-Children architecture: 98% savings | [Optical Cluster Control](../summaries/mirrors.qmd#optical-cluster-control) |
 | Copper not found on Mercury | Cryo-aluminum in shadow (-180C) | [Cryogenic Al](technology-readiness.qmd#cryogenic-aluminum-cable-gw) |
 | NaS batteries during night period | Cables + charging stations | [NaS TRL 9](technology-readiness.qmd#nas-batteries) |
-| **Payload survivability at high g** | Proven to 25,000g (McCormick Stevenson) | [MD Theory](../detailed/production/railguns/theory.qmd#payload-survivability-at-high-g) |
-| **Super-heavy rocket dependency** | Multi-rocket approach: 3-4 medium rockets + independent Mercury landings | [Delivery](../detailed/delivery.qmd) |
+| **Payload survivability at high g** | Proven to 25,000g (McCormick Stevenson) | [MD Theory](../detailed/railguns/theory.qmd#payload-survivability-at-high-g) |
+| **Super-heavy rocket dependency** | Multi-rocket approach: 3-4 medium rockets + independent Mercury landings | [Delivery](../summaries/delivery.qmd) |
 
 ---
 
@@ -63,7 +63,7 @@ Require additional development but are not fundamentally new. All subsystems pro
 
 **Solutions (local materials):**
 
-1. **Carbon anodes** — consumable, ~10 kg/day per factory. Carbon is mined from Mercury's LRM zones ([details](../detailed/production/materials/carbon.qmd)). Full chain developed: graphite mining → mini-MD delivery → anodes. Demand is covered.
+1. **Carbon anodes** — consumable, ~10 kg/day per factory. Carbon is mined from Mercury's LRM zones ([details](../detailed/materials/carbon.qmd)). Full chain developed: graphite mining → mini-MD delivery → anodes. Demand is covered.
 2. **Cr-Fe-Co anodes** — lower lifespan (replacement every 3 months), but materials available on Mercury. 80 t/year local production. TRL ~4, requires validation.
 3. **H₂ reduction** — TRL ~2, prospective alternative.
 
@@ -82,7 +82,7 @@ Require additional development but are not fundamentally new. All subsystems pro
 
 **Compensation:** 50-100x redundancy (even at 10% efficiency - 1000 TW = 50x world consumption)
 
-**Details:** [Swarm Mirrors](../detailed/mirrors.qmd#energy-transmission-efficiency-via-lunar-lsp-stations)
+**Details:** [Swarm Mirrors](../summaries/mirrors.qmd#energy-transmission-efficiency-via-lunar-lsp-stations)
 
 ---
 
@@ -118,7 +118,7 @@ Require additional development but are not fundamentally new. All subsystems pro
 | Si | 25 t/day (4%) — solar panels | ~24.6% | Sufficient with margin |
 | Fe | 10 t/day (~2%) — robot frames | 1.5-2% | Sufficient (production designed for 2%) |
 
-**Conclusion:** Primary material — aluminum (~95% of mirror mass). The production chain ([distillation](../detailed/production/materials/distillation.qmd)) is designed around actual regolith composition per MESSENGER data. No deficit of bulk elements.
+**Conclusion:** Primary material — aluminum (~95% of mirror mass). The production chain ([distillation](../detailed/materials/distillation.qmd)) is designed around actual regolith composition per MESSENGER data. No deficit of bulk elements.
 
 ---
 
@@ -373,4 +373,4 @@ Require additional research:
 - [Budget](../summaries/budget.qmd) - financial constraints
 - [Project in 5 Minutes](../executive-summary.qmd) - overall architecture
 - [Roadmap](../summaries/roadmap.qmd) - timeline constraints
-- [Production](../detailed/production/overview.qmd) - production technologies
+- [Production](../detailed/manufacturing.qmd) - production technologies

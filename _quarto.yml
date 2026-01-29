@@ -317,112 +317,106 @@ website:
           contents:
             - ru/science/summaries/comparison.qmd
             - ru/science/summaries/moon.qmd
-            #- ru/science/summaries/mercury.qmd  # stub, hidden until ready
+            - ru/science/summaries/mirrors.qmd
+            - ru/science/summaries/delivery.qmd
+            - ru/science/summaries/production.qmd
             - ru/science/summaries/budget.qmd
             - ru/science/summaries/roadmap.qmd
             - text: "Марс (перспектива)"
               href: ru/science/summaries/mars.qmd
         - section: "Детальные темы"
           contents:
-            - ru/science/detailed/mirrors.qmd
             - ru/science/detailed/hub.qmd
-            - ru/science/detailed/delivery.qmd
-            - ru/science/detailed/production.qmd
+            - ru/science/detailed/bootstrap.qmd
+            - ru/science/detailed/manufacturing.qmd
 
-            - section: "Производство"
+            - section: "Переработка реголита"
               contents:
-                - text: "Навигация"
-                  href: ru/science/detailed/production/overview.qmd
+                - text: "Обзор"
+                  href: ru/science/detailed/materials/overview.qmd
+                - text: "Электролиз MRE"
+                  href: ru/science/detailed/materials/mre.qmd
+                - text: "Дистилляция шлака"
+                  href: ru/science/detailed/materials/distillation.qmd
+                - text: "Стекловолокно"
+                  href: ru/science/detailed/materials/silicate-fabric.qmd
+                - text: "Линия титана"
+                  href: ru/science/detailed/materials/titanium.qmd
+                - text: "Углерод (опц.)"
+                  href: ru/science/detailed/materials/carbon.qmd
+                - text: "Кремний"
+                  href: ru/science/detailed/materials/silicon.qmd
+                - text: "Керамика MgO"
+                  href: ru/science/detailed/materials/ceramics-mgo.qmd
 
-                - section: "Переработка реголита"
+            - section: "Производство заводов"
+              contents:
+                - text: "Обзор"
+                  href: ru/science/detailed/factories/overview.qmd
+                - section: "Элементы"
                   contents:
-                    - text: "Обзор"
-                      href: ru/science/detailed/production/materials/overview.qmd
-                    - text: "Электролиз MRE"
-                      href: ru/science/detailed/production/materials/mre.qmd
-                    - text: "Дистилляция шлака"
-                      href: ru/science/detailed/production/materials/distillation.qmd
-                    - text: "Стекловолокно"
-                      href: ru/science/detailed/production/materials/silicate-fabric.qmd
-                    - text: "Линия титана"
-                      href: ru/science/detailed/production/materials/titanium.qmd
-                    - text: "Углерод (опц.)"
-                      href: ru/science/detailed/production/materials/carbon.qmd
-                    - text: "Кремний"
-                      href: ru/science/detailed/production/materials/silicon.qmd
-                    - text: "Керамика MgO"
-                      href: ru/science/detailed/production/materials/ceramics-mgo.qmd
+                    - text: "Плавка"
+                      href: ru/science/detailed/factories/elements/melting.qmd
+                    - text: "Литье (МНЛЗ)"
+                      href: ru/science/detailed/factories/elements/casting.qmd
+                    - text: "Прокат"
+                      href: ru/science/detailed/factories/elements/rolling.qmd
+                    - text: "3D-печать (WAAM)"
+                      href: ru/science/detailed/factories/elements/waam.qmd
+                - section: "Сборка"
+                  contents:
+                    - text: "Купола"
+                      href: ru/science/detailed/factories/assembly/domes.qmd
+                    - text: "Оборудование"
+                      href: ru/science/detailed/factories/assembly/equipment.qmd
+                    - text: "Саморепликация"
+                      href: ru/science/detailed/factories/assembly/replication.qmd
 
-                - section: "Производство заводов"
+            - section: "Масс-драйверы"
+              contents:
+                - text: "Производство МД"
+                  href: ru/science/detailed/railguns/overview.qmd
+                - text: "Теория и КПД"
+                  href: ru/science/detailed/railguns/theory.qmd
+                - text: "Масштабирование"
+                  href: ru/science/detailed/railguns/scaling.qmd
+                - section: "Элементы МД"
                   contents:
-                    - text: "Обзор"
-                      href: ru/science/detailed/production/factories/overview.qmd
-                    - text: "Первый завод (Bootstrap)"
-                      href: ru/science/detailed/bootstrap.qmd
-                    - section: "Элементы"
-                      contents:
-                        - text: "Плавка"
-                          href: ru/science/detailed/production/factories/elements/melting.qmd
-                        - text: "Литье (МНЛЗ)"
-                          href: ru/science/detailed/production/factories/elements/casting.qmd
-                        - text: "Прокат"
-                          href: ru/science/detailed/production/factories/elements/rolling.qmd
-                        - text: "3D-печать (WAAM)"
-                          href: ru/science/detailed/production/factories/elements/waam.qmd
-                    - section: "Сборка"
-                      contents:
-                        - text: "Купола"
-                          href: ru/science/detailed/production/factories/assembly/domes.qmd
-                        - text: "Оборудование"
-                          href: ru/science/detailed/production/factories/assembly/equipment.qmd
-                        - text: "Саморепликация"
-                          href: ru/science/detailed/production/factories/assembly/replication.qmd
+                    - text: "Рельсы"
+                      href: ru/science/detailed/railguns/elements/rails.qmd
+                    - text: "Катушки"
+                      href: ru/science/detailed/railguns/elements/coils.qmd
+                    - text: "Каркас"
+                      href: ru/science/detailed/railguns/elements/frame.qmd
+                - section: "Сборка МД"
+                  contents:
+                    - text: "Трек"
+                      href: ru/science/detailed/railguns/assembly/track.qmd
+                    - text: "Электроника"
+                      href: ru/science/detailed/railguns/assembly/electronics.qmd
+                    - text: "Тестирование"
+                      href: ru/science/detailed/railguns/assembly/testing.qmd
 
-                - section: "Масс-драйверы"
+            - section: "Производство роботов"
+              contents:
+                - text: "Обзор"
+                  href: ru/science/detailed/robots/overview.qmd
+                - section: "Элементы"
                   contents:
-                    - text: "Производство МД"
-                      href: ru/science/detailed/production/railguns/overview.qmd
-                    - text: "Теория и КПД"
-                      href: ru/science/detailed/production/railguns/theory.qmd
-                    - text: "Масштабирование"
-                      href: ru/science/detailed/production/railguns/scaling.qmd
-                    - section: "Элементы МД"
-                      contents:
-                        - text: "Рельсы"
-                          href: ru/science/detailed/production/railguns/elements/rails.qmd
-                        - text: "Катушки"
-                          href: ru/science/detailed/production/railguns/elements/coils.qmd
-                        - text: "Каркас"
-                          href: ru/science/detailed/production/railguns/elements/frame.qmd
-                    - section: "Сборка МД"
-                      contents:
-                        - text: "Трек"
-                          href: ru/science/detailed/production/railguns/assembly/track.qmd
-                        - text: "Электроника"
-                          href: ru/science/detailed/production/railguns/assembly/electronics.qmd
-                        - text: "Тестирование"
-                          href: ru/science/detailed/production/railguns/assembly/testing.qmd
-
-                - section: "Производство роботов"
+                    - text: "Рамы"
+                      href: ru/science/detailed/robots/elements/frames.qmd
+                    - text: "Батареи (NaS)"
+                      href: ru/science/detailed/robots/elements/batteries.qmd
+                    - text: "Актуаторы"
+                      href: ru/science/detailed/robots/elements/actuators.qmd
+                - section: "Сборка роботов"
                   contents:
-                    - text: "Обзор"
-                      href: ru/science/detailed/production/robots/overview.qmd
-                    - section: "Элементы"
-                      contents:
-                        - text: "Рамы"
-                          href: ru/science/detailed/production/robots/elements/frames.qmd
-                        - text: "Батареи (NaS)"
-                          href: ru/science/detailed/production/robots/elements/batteries.qmd
-                        - text: "Актуаторы"
-                          href: ru/science/detailed/production/robots/elements/actuators.qmd
-                    - section: "Сборка роботов"
-                      contents:
-                        - text: "Краб-М"
-                          href: ru/science/detailed/production/robots/assembly/crabs.qmd
-                        - text: "Кентавр-М"
-                          href: ru/science/detailed/production/robots/assembly/centaurs.qmd
-                        - text: "Крот-М"
-                          href: ru/science/detailed/production/robots/assembly/moles.qmd
+                    - text: "Краб-М"
+                      href: ru/science/detailed/robots/assembly/crabs.qmd
+                    - text: "Кентавр-М"
+                      href: ru/science/detailed/robots/assembly/centaurs.qmd
+                    - text: "Крот-М"
+                      href: ru/science/detailed/robots/assembly/moles.qmd
         - section: "Справочники"
           contents:
             - ru/science/reference/technology-readiness.qmd

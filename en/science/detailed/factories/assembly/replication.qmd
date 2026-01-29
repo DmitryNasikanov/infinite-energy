@@ -1,0 +1,330 @@
+---
+title: "Factory Self-Replication"
+sidebar: science
+---
+
+> **TL;DR**
+>
+> - **Concept:** Each factory builds new factories from local materials
+> - **Rate:** Self-replication in ~3 weeks/factory, but practical growth 1 → 1000 takes ~4 years (bottleneck: "Vitamins" delivery from Earth)
+> - **Key:** Energy independence (168 MW from day one)
+> - **Phases:** Bootstrap (2 months) → Factory Growth (4 months) → Infrastructure (1 month) → Mirrors (9 years)
+
+---
+
+## Overview
+
+Self-replication is a factory's ability to produce copies of itself. This is the key technology for achieving exponential growth of production capacity on Mercury.
+
+---
+
+## Energy Bootstrap (Phase 0)
+
+**Problem:** How to start production without energy from the Dyson Swarm?
+
+**Solution:** 3 cargo runs of GaAs panels provide **168 MW** — a **113 MW** surplus above the first factory's consumption (55 MW).
+
+### Energy Reserve Calculation
+
+| Parameter | Value |
+|-----------|-------|
+| 1 factory consumption | 55 MW |
+| Available (3 GaAs runs) | 168 MW |
+| **Reserve** | **113 MW** |
+| Supports | 2-3 additional factories |
+
+**Conclusion:** The factory is energy-independent from day one. No need to wait for the Dyson Swarm to begin replication.
+
+**Details:** [Production](../../../summaries/production.qmd#energy)
+
+---
+
+## Phase 0: First Mass Driver (Month 0-1)
+
+Before factory replication, we need to build the first Mass Driver for launching mirrors.
+
+### First Mass Driver Timeline (1 km baseline)
+
+| Parameter | Value |
+|-----------|-------|
+| Mass Driver mass | **450 tons*** |
+| Al production | 42 t/day |
+| Fe production | 18 t/day |
+| Time for Al (~170 t) | **4 days** |
+| Time for Fe (~270 t) | **15 days** |
+| Assembly and testing | 5-7 days |
+| **TOTAL first Mass Driver (1 km)** | **~25 days** |
+
+*Baseline 1 km variant. For extended 2-3 km tracks: mass 875-1,300 t, time 40-60 days.
+
+**Details:** [Mass Driver Production](../../railguns/overview.qmd)
+
+---
+
+### Mini-Swarm for Mercury Energy
+
+After launching the first Mass Driver, we build a minimal set of mirrors to power new factories.
+
+| Parameter | Calculation |
+|-----------|-------------|
+| 1 mirror reflects | 93 MW |
+| Needed for 10 factories | 550 MW |
+| Energy transmission efficiency | ~10% |
+| Required reflected power | 5.5 GW = 60 mirrors |
+| With 10x margin | **600 mirrors** |
+
+**Producing 600 mirrors:** The first Ground Zero Factory can produce mirrors on the rolling mill (foil) with manual assembly, though not optimized for this. Estimate: ~50 mirrors/day → **~12 days** for 600 units.
+
+**Logic:** 600 mirrors power 10 factories. This is sufficient for Phase 1 (growth to 1,000 factories over 4 months).
+
+---
+
+## Phase 1: Exponential Factory Growth (Months 2-6)
+
+[Replicator factories (Ground Zero Factory)](../overview.qmd#ground-zero-factory) build new factories. First — new Ground Zero Factories (for exponential growth), then — [mirror factories](../overview.qmd#mirror-factory) (for mirror production). At 100% Ground Zero Factory allocation to replication:
+
+### Replication Timeline
+
+| Week | Factories | Growth |
+|------|-----------|--------|
+| 0 | 1 | — |
+| 6 | 2 | +1 |
+| 9 | 4 | +2 |
+| 12 | 16 | +12 |
+| 16 | ~1,000 | +984 |
+
+**Doubling time:** ~3 weeks (at 50% allocation to replication)
+
+**Details:** [Production Scaling](../../railguns/scaling.qmd)
+
+---
+
+### What Does a Ground Zero Factory Produce for a New Factory?
+
+| Component | Mass | Time | Details |
+|-----------|------|------|---------|
+| Dome (8 t) | 8 t | 2-3 days | [Dome Assembly](domes.qmd) |
+| Equipment (51 t) | 51 t | 10-15 days | [Equipment Production](equipment.qmd) |
+| Robots (15 units x 960 kg) | 14 t | 3 days | [Robot Production](../../robots/overview.qmd) |
+| Energy system (panels) | 10 t | 5 days | [Production](../../../summaries/production.qmd#energy) |
+| **TOTAL** | **~83 t** | **~3 weeks** | |
+
+**Growth Strategy:**
+
+1. **Exponential growth phase:** All Ground Zero Factories at 100% build new Ground Zero Factories (doubling every 3 weeks)
+2. **Switch to mirror factories:** After reaching target Ground Zero Factory count (~100 units) — transition to building mirror factories
+3. **Mirror factories are simpler:** No WAAM/CNC, cutting table, or assembly jigs needed → equipment kit is lighter and faster to manufacture
+
+---
+
+## Phase 2: Infrastructure Deployment (Months 6-7)
+
+After reaching 1,000 factories, focus shifts to building Mass Drivers.
+
+### Timeline for 1,000 Mass Drivers (1 km baseline)
+
+| Parameter | Value |
+|-----------|-------|
+| Factories | 1,000 |
+| Al production | 42 t/day x 1,000 = 42,000 t/day |
+| Fe production | 18 t/day x 1,000 = 18,000 t/day |
+| Mass of 1 Mass Driver (1 km) | **450 t** (170 t Al + 270 t Fe) |
+| Materials for 1,000 Mass Drivers | 450,000 t |
+| Time for 1,000 Mass Drivers | **~15 days** |
+
+**Conclusion:** 1,000 factories build 1,000 Mass Drivers in **~2 weeks** (1 km baseline track).
+
+*For 3 km tracks: mass 1,300 t, time ~30 days.
+
+**Details:** [Mass Driver Production](../../railguns/overview.qmd)
+
+---
+
+### Robot Deployment
+
+| Parameter | Value |
+|-----------|-------|
+| Factories | 1,000 |
+| Robots per factory | 60 (20 Moles, 20 Crabs, 20 Centaurs) |
+| **TOTAL robots** | **60,000** |
+| Robot production | 5 robots/day x 1,000 factories = 5,000 robots/day |
+| Time for 60,000 robots | **~12 days** |
+
+---
+
+## Phase 3: Mirror Production (Months 7-114)
+
+After infrastructure deployment, all 1,000 factories switch to mirror production.
+
+### Timeline for 1 Billion Mirrors
+
+| Parameter | Value |
+|-----------|-------|
+| Factories | 1,000 |
+| Mirrors/day per factory | ~392 |
+| **TOTAL mirrors/day** | **~392,000** |
+| Target | 1 billion mirrors |
+| Time | **~2,555 days (~7 years)** |
+
+**Details:** [Dyson Swarm Mirrors](../../../summaries/mirrors.qmd)
+
+---
+
+## Resource Allocation by Phase
+
+```{mermaid}
+gantt
+    title Deployment Phases (months) — 1 km baseline
+    dateFormat  YYYY-MM
+    section Phase 0: Bootstrap
+    First Mass Driver (~25 days)      :2025-01, 25d
+    600 mirrors (2 days)              :2025-02, 2d
+    section Phase 1: Factory Growth
+    Replication 1→1000                :2025-02, 120d
+    section Phase 2: Infrastructure
+    1000 Mass Drivers                 :2025-06, 15d
+    60,000 robots                     :2025-06, 12d
+    section Phase 3: Mirrors
+    Production of 1 billion mirrors   :2025-07, 2555d
+```
+
+---
+
+## Phase 0 Critical Path (1 km baseline)
+
+| Day | Stage | Work |
+|-----|-------|------|
+| 1-7 | Factory deployment | Blitz assembly (Gen-1 robots) |
+| 8-25 | First Mass Driver production | Fe 15 days, Al 4 days, assembly 5-7 days |
+| 26-27 | 600 mirrors production | 392 mirrors/day x 1.5 days |
+| 28+ | Mini-Swarm launch | Energy to Mercury (550 MW) |
+
+*For 3 km track: days 8-60, first launch on day ~62.
+
+**Details:** [Roadmap](../../../summaries/roadmap.qmd)
+
+---
+
+## Bottlenecks and Risks
+
+| Bottleneck | Risk | Solution |
+|------------|------|----------|
+| Energy for first factories | Energy shortage during replication | Mini-Swarm of 600 mirrors powers 10 factories |
+| "Vitamins" import | Electronics, rare metals | Regular runs from Earth (once per 3 months) |
+| Gen-1 robot failures | Fragile titanium robots | Quick transition to Gen-2 (local Fe/Al) |
+| Equipment wear | Continuous caster, rolling mill | Spare parts in first expedition |
+
+---
+
+## Bottleneck: "Vitamins" Delivery
+
+### Theoretical vs Practical Growth Rate
+
+| Parameter | Theoretical | Practical |
+|-----------|-------------|-----------|
+| Self-replication rate | 1 factory → 2 factories in 3 weeks | Same (local materials) |
+| Growth 1 → 1,000 | **~4 months** (exponential) | **~4 years** (delivery-limited) |
+| Bottleneck | None (with "Vitamins" available) | **"Vitamins" delivery from Earth** |
+
+### Bottleneck Calculation
+
+**"Vitamins" requirements:**
+- Per factory: ~2 t (electronics, Cu, rare earths)
+- For 1,000 factories: **2,000 t**
+
+**Delivery constraints:**
+- Flight time Earth → Mercury: 3-12 months
+- Launch rate: 200-275 launches/year (peak capacity of all spaceports)
+- Payload capacity: 30-70 t/launch on Mercury trajectory
+
+**Realistic scenario** (from [delivery.qmd](../../../summaries/delivery.qmd)):
+- Year 7: 25 factories (800 t cargo, 16-32 launches)
+- Year 8: 120 factories (2,200 t, 44-88 launches)
+- Year 9: 500 factories (7,200 t, 144-288 launches)
+- Year 10: 1,000 factories (11,600 t, 232-464 launches)
+
+**Conclusion:** Exponential growth 1 → 1,000 in 4 months is TECHNICALLY possible (local materials available), but LOGISTICALLY constrained by "Vitamins" delivery and stretches to ~4 years.
+
+### Optimization Strategies
+
+**Option 1: Pre-staging "Vitamins"**
+- Send 3,000 t of "Vitamins" BEFORE growth begins
+- Requires ~100 launches in the year before replication starts
+- Enables theoretical 4-month pace
+- **Problem:** Too large an upfront investment
+
+**Option 2: Parallel Delivery (baseline scenario)**
+- Factory growth synchronized with "Vitamins" delivery
+- ~4 years from 1 to 1,000 factories
+- ~2,400 t total cargo (thanks to 96% localization)
+- **Advantage:** Investment distributed over time
+
+**Option 3: Hybrid**
+- First 100 factories: rapid growth (pre-stage "Vitamins")
+- Then: synchronize with delivery
+- **Compromise:** 1 → 100 in ~1 year, 100 → 1,000 in 3 years
+
+---
+
+## Material Balance of Self-Replication
+
+**Material consumption (1 factory over 3 weeks):**
+
+| Material | Consumption | Source |
+|----------|-------------|--------|
+| Aluminum (Al) | ~50 t | [Regolith Processing](../../materials/overview.qmd) |
+| Iron (Fe) | ~30 t | [Regolith Processing](../../materials/overview.qmd) |
+| Silicon (Si) | ~10 t | [Regolith Processing](../../materials/overview.qmd) |
+| Imports (electronics, Cu) | ~2 t | **Earth** |
+
+**Localization:** ~97% by mass
+
+---
+
+## System Performance
+
+### After Phase 1 (1,000 factories)
+
+| Parameter | Value |
+|-----------|-------|
+| Al production | 42,000 t/day |
+| Fe production | 18,000 t/day |
+| Mirror production | ~392,000 units/day |
+| Robot production | 5,000 units/day |
+| Energy consumption | 55 GW (55 MW x 1,000) |
+
+**Energy supply:** 600 mini-Swarm mirrors are insufficient. Continuous Swarm expansion is required in parallel with factory growth.
+
+---
+
+## Final Numbers
+
+| Stage | Timeline (practical) | Factories/Mass Drivers/Robots | **MIRRORS** (main goal) |
+|-------|----------------------|-------------------------------|-------------------------|
+| **Phase 0** | 2 months | 1 factory + 1 Mass Driver | **600 mirrors** (energy for growth) |
+| **Phase 1** | **~4 years** | 1 → 1,000 factories | **~30M mirrors** (50% capacity on replication, 50% on mirrors) |
+| **Phase 2** | 1-2 months | 1,000 Mass Drivers + 60,000 robots | **~25M mirrors** (parallel with Mass Drivers) |
+| **Phase 3** | ~7 years | Infrastructure ready | **~945M mirrors** (100% capacity on mirrors) |
+| **TOTAL** | **~11 years** | Full infrastructure | **~1 billion mirrors in Dyson Swarm** |
+
+**Key point:** Mirrors are the MAIN GOAL of the project. They are produced **from the very beginning**, not just in Phase 3:
+- **Phase 1:** Factories grow AND produce mirrors (50/50 allocation)
+- **Phase 2:** Build Mass Drivers AND continue producing mirrors
+- **Phase 3:** ALL capacity (100%) on mirror production
+
+**Note:** Phase 1 stretches from 4 months (theoretical) to 4 years (practical) due to the bottleneck — "Vitamins" delivery (electronics, rare materials) from Earth. The self-replication rate (~3 weeks per factory) is limited not by local materials, but by import logistics.
+
+**Phase 1 mirror calculation:**
+- Average factories during growth: ~500 (from 1 to 1,000)
+- Output: 500 factories x 210 mirrors/day x 50% = ~52,500 mirrors/day
+- Over 4 years (1,460 days): ~52,500 x 1,460 = **~76M mirrors** (more precise calculation)
+
+---
+
+## See Also
+
+- [Factory Production](../overview.qmd) — production overview
+- [Equipment Production](equipment.qmd) — kit for a new factory
+- [Dome Assembly](domes.qmd) — factory shells
+- [Scaling](../../railguns/scaling.qmd) — detailed growth calculations
+- [Roadmap](../../../summaries/roadmap.qmd) — project phases

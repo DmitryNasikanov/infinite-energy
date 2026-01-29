@@ -29,7 +29,7 @@ Build a **Dyson Swarm** — ~1.1 billion mirrors around the Sun, producing **~10
 - **Interstellar travel** — laser sails for acceleration to 20% of light speed
 - **Mars terraforming** — magnetic shield for atmosphere retention + heating + oxygen production
 
-> **Learn more:** [Why Mercury?](summaries/comparison.qmd), [Production](detailed/production.qmd), [Roadmap](summaries/roadmap.qmd)
+> **Learn more:** [Why Mercury?](summaries/comparison.qmd), [Production](summaries/production.qmd), [Roadmap](summaries/roadmap.qmd)
 
 ---
 
@@ -79,18 +79,18 @@ flowchart TB
     style SPACE fill:none,stroke:none
 
     click E1 "summaries/roadmap.html" "Roadmap"
-    click E2 "detailed/production/robots/overview.html" "Robot Bestiary"
+    click E2 "detailed/robots/overview.html" "Robot Bestiary"
     click E3 "summaries/roadmap.html" "Roadmap"
     click E4 "detailed/hub.html" "Energy Reception Hub"
     click L1 "summaries/roadmap.html" "Roadmap"
     click L2 "detailed/hub.html" "LSP Stations"
-    click L4 "detailed/production/railguns/overview.html" "Mass Driver"
-    click M1 "detailed/production.html" "Production and Self-replication"
-    click M2 "detailed/production.html" "Production and Self-replication"
-    click M3 "detailed/production/railguns/overview.html" "Mass Driver"
-    click M4 "detailed/mirrors.html" "Swarm Mirrors"
-    click R1 "detailed/mirrors.html" "Swarm Mirrors"
-    click S1 "detailed/mirrors.html" "Mirror Disposal"
+    click L4 "detailed/railguns/overview.html" "Mass Driver"
+    click M1 "summaries/production.html" "Production and Self-replication"
+    click M2 "summaries/production.html" "Production and Self-replication"
+    click M3 "detailed/railguns/overview.html" "Mass Driver"
+    click M4 "summaries/mirrors.html" "Swarm Mirrors"
+    click R1 "summaries/mirrors.html" "Swarm Mirrors"
+    click S1 "summaries/mirrors.html" "Mirror Disposal"
 ```
 
 **Reading the diagram:** top to bottom by time. Earth -> Moon -> Mercury + Swarm.
@@ -103,12 +103,12 @@ flowchart TB
 
 | Parameter | Value |
 |-----------|-------|
-| [Mirrors](detailed/mirrors.qmd) | **~1.1 billion** |
+| [Mirrors](summaries/mirrors.qmd) | **~1.1 billion** |
 | Mirror area | 1.1x10^13 m^2 (~11 million km^2) |
 | Swarm mass | ~128 million tons |
-| [Factories on Mercury](detailed/production/factories/overview.qmd) | ~1,650 (1,500 F-M + 150 F-R) |
-| [Mass Drivers](detailed/production/railguns/overview.qmd) on Mercury | ~1,000 |
-| [Import from Earth](detailed/delivery.qmd) | **~2,400 t** (96% localization) |
+| [Factories on Mercury](detailed/factories/overview.qmd) | ~1,650 (1,500 F-M + 150 F-R) |
+| [Mass Drivers](detailed/railguns/overview.qmd) on Mercury | ~1,000 |
+| [Import from Earth](summaries/delivery.qmd) | **~2,400 t** (96% localization) |
 | Construction timeline | **~9.5 years** (degradation included) |
 | Power on Earth | **1 PW** (phase 1) / up to 21 PW (full) |
 
@@ -137,7 +137,7 @@ For comparison: ISS — $150B, Apollo — $280B.
 | Rocket program | $40-100B | **$4-11B** | 89% |
 | Launch costs | $35-85B | **$8-20B** | 76% |
 
-**Savings: $95-230B** thanks to [self-replication](detailed/production/factories/assembly/replication.qmd) and local production.
+**Savings: $95-230B** thanks to [self-replication](detailed/factories/assembly/replication.qmd) and local production.
 
 > **Helios — the most efficient project in human history.**
 > Cost ~1.5x Apollo. Result — energy for the entire planet forever.
@@ -180,7 +180,7 @@ Everything starts on Earth.
 - First Mass Driver (horizontal tests)
 
 **Production:**
-- Gen-1 robots for [delivery](detailed/delivery.qmd) to Moon and Mercury
+- Gen-1 robots for [delivery](summaries/delivery.qmd) to Moon and Mercury
 - Electronics — "Vitamins" for the entire project
 
 **Launch vehicles:**
@@ -212,7 +212,7 @@ Prototype of Mercury MD for technology validation:
 | Track length | 2-3 km | 0.5-1 km |
 | Purpose | Mirror launch | Technology validation |
 
-> **Learn more:** [Moon](summaries/moon.qmd), [Mass Driver](detailed/production/railguns/theory.qmd)
+> **Learn more:** [Moon](summaries/moon.qmd), [Mass Driver](detailed/railguns/theory.qmd)
 
 ---
 
@@ -225,7 +225,7 @@ The main factory of the project. [Why Mercury, not the Moon?](summaries/comparis
 - **Orbit:** The Swarm orbits the Sun — doesn't occupy useful orbits around Earth
 - **Disposal:** failed mirrors fall into the Sun — no space debris
 
-### [Production Chain](detailed/production.qmd)
+### [Production Chain](summaries/production.qmd)
 
 ```{mermaid}
 flowchart LR
@@ -245,19 +245,19 @@ Robots build robots. Factories build factories.
 
 - **99% of mass** — from local resources (**iron** for frames, **aluminum** for bodies, silicon)
 - **1% of mass** — "Vitamins" from Earth (electronics, optics)
-- **[Gen-2 robots](detailed/production/robots/overview.qmd)** — optimized (~960 kg): Al frames + Fe critical components
+- **[Gen-2 robots](detailed/robots/overview.qmd)** — optimized (~960 kg): Al frames + Fe critical components
 - **Energy:** 168 MW (3 trips of GaAs panels) — bootstrap without waiting for Swarm
 - **Critical path:** First MD (month 6) -> first mirrors -> scaling
 
 Over **~9.5 years:** 1 factory -> ~1,650 factories (1,500 F-M + 150 F-R) -> 1.1 billion working mirrors (degradation already included)
 
-> **Learn more:** [Ground Zero Factory](detailed/production/factories/overview.qmd), [Robot Bestiary](detailed/production/robots/overview.qmd)
+> **Learn more:** [Ground Zero Factory](detailed/factories/overview.qmd), [Robot Bestiary](detailed/robots/overview.qmd)
 
 ---
 
 ## Dyson Swarm: Mirrors
 
-~1 billion [mirrors](detailed/mirrors.qmd) in heliocentric orbits.
+~1 billion [mirrors](summaries/mirrors.qmd) in heliocentric orbits.
 
 **Each mirror:**
 - Size: 100 x 100 m
@@ -275,7 +275,7 @@ Over **~9.5 years:** 1 factory -> ~1,650 factories (1,500 F-M + 150 F-R) -> 1.1 
 - Part of energy -> Moon (for continued construction)
 - Part of energy -> Mercury (for factories and Mass Drivers)
 
-> **Learn more:** [Swarm Mirrors](detailed/mirrors.qmd)
+> **Learn more:** [Swarm Mirrors](summaries/mirrors.qmd)
 
 ---
 
@@ -328,8 +328,8 @@ Microwaves pass through clouds — all-weather operation.
 ## Risks
 
 1. **[Factory self-replication](reference/technology-readiness.qmd#factory-self-replication) (TRL 4-5)** — subsystems proven (robots, casting, WAAM), integration requires R&D
-2. **[Iridium for anodes](detailed/production/materials/carbon.qmd)** — solved by carbon anodes from local feedstock (Mercury LRM zones)
-3. **[Mirror degradation](detailed/mirrors.qmd#degradation)** — 8-12 year lifespan, compensated by producing 219 million mirrors/year
+2. **[Iridium for anodes](detailed/materials/carbon.qmd)** — solved by carbon anodes from local feedstock (Mercury LRM zones)
+3. **[Mirror degradation](summaries/mirrors.qmd#degradation)** — 8-12 year lifespan, compensated by producing 219 million mirrors/year
 
 > **Learn more:** [Risks and Limitations](reference/risks.qmd)
 
@@ -361,12 +361,12 @@ Project Helios is the only known solution capable of providing humanity with ene
 
 - [Why Mercury?](summaries/comparison.qmd) — comparison with Mars and Moon
 - [Roadmap](summaries/roadmap.qmd) — project timeline
-- [Production](detailed/production.qmd) — complete production cycle
-- [Swarm Mirrors](detailed/mirrors.qmd) — mirror design and production
+- [Production](summaries/production.qmd) — complete production cycle
+- [Swarm Mirrors](summaries/mirrors.qmd) — mirror design and production
 - [Energy Reception Hub](detailed/hub.qmd) — LSP stations and Earth transmission
-- [Ground Zero Factory](detailed/production/factories/overview.qmd) — how self-replication works
-- [Robot Bestiary](detailed/production/robots/overview.qmd) — who builds the project
-- [Delivery](detailed/delivery.qmd) — logistics Earth -> Moon -> Mercury
+- [Ground Zero Factory](detailed/factories/overview.qmd) — how self-replication works
+- [Robot Bestiary](detailed/robots/overview.qmd) — who builds the project
+- [Delivery](summaries/delivery.qmd) — logistics Earth -> Moon -> Mercury
 - [Risks and Limitations](reference/risks.qmd) — technical risk analysis
 - [Technologies and Sources](reference/technology-readiness.qmd) — TRL of all technologies + bibliography
 - [Project Budget](summaries/budget.qmd) — project economics

@@ -1,0 +1,436 @@
+---
+title: "Mass Driver Theory"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+import { unitWidget } from "../../ojs-data.qmd"
+```
+
+> **TL;DR**
+>
+> - **Physics:** Electromagnetic acceleration to 5 km/s over **1 km track** (1275g, 0.4 sec)*
+> - **Energy:** 4.7 GJ per launch (115 kg container = 100 kg mirror)
+> - **Efficiency:** 35-40% (cryo-aluminum at -180C)
+> - **Survivability:** Proven to 25,000g (McCormick Stevenson) — 20x margin
+> - **Moon:** Prototype 0.5-1 km, ~640g
+>
+> *When reducing load, track can be extended to 2-3 km (acceleration 425-637g).
+
+> **Production:** How to build a Mass Driver see [Mass Driver Production](overview.qmd) and [Scaling](scaling.qmd)
+
+---
+
+## Basic Parameters
+
+### Launch Physics
+
+The Mercurian Mass Driver is an electromagnetic launcher that accelerates a 115 kg container with a mirror to **escape velocity** from Mercury.
+
+| Parameter | Value |
+|-----------|-------|
+| Mercury escape velocity | 4.3 km/s |
+| Target velocity | **5 km/s** (16% margin) |
+| Track length | **1 km** (base configuration)* |
+| Acceleration | **12,500 m/s² (1275g)** |
+| Acceleration time | **~0.4 sec** |
+
+*When reducing load: 2 km (637g) or 3 km (425g). All options have 20x+ margin vs proven 25,000g.
+
+### Track Length Options
+
+The base configuration (1 km) is chosen for maximum construction speed. If reducing load is needed, the track can be extended:
+
+| Parameter | **1 km (base)** | 2 km | 3 km |
+|-----------|-----------------|------|------|
+| Acceleration | **1275g** | 637g | 425g |
+| Acceleration time | 0.4 sec | 0.8 sec | 1.2 sec |
+| MD mass | **~450 t** | ~875 t | ~1300 t |
+| Construction time | **~25 days** | ~40 days | ~60 days |
+| Margin vs 25,000g | 20x | 39x | 59x |
+| Peak power | 11.8 GW | 5.9 GW | 3.9 GW |
+
+**Choice finalized during detailed design** considering:
+- Lunar prototype test results (~640g)
+- Actual packaging survivability at high g
+- Available production capacity
+
+**Why 5 km/s instead of 4.3 km/s?**
+
+- 4.3 km/s is the theoretical minimum to escape the gravity well
+- **+0.7 km/s margin** for trajectory correction, dispersion losses, maneuvering in the Swarm
+
+### Launch Energy
+
+```
+Container mass: 115 kg (100 kg mirror + 15 kg container)
+Velocity: 5000 m/s
+
+E = ½ × m × v²
+E = ½ × 115 × (5000)² = 1.44 GJ
+```
+
+**Energy per ton of mirrors:**
+- 1 container = 100 kg of mirror
+- 10 containers = 1 ton
+- **14.4 GJ/ton of mirrors**
+
+### Mass Driver Efficiency
+
+The electromagnetic accelerator has losses from:
+- Coil resistance (Joule heating)
+- Eddy currents in rails
+- Parasitic magnetic fields
+
+| Coil material | Efficiency at +20C | Efficiency at -180C |
+|---------------|-------------------|---------------------|
+| Copper (Cu) | 40-45% | — (not available on Mercury) |
+| Aluminum (Al) | 25-30% | **35-40%** |
+
+**Solution: Cryo-aluminum** (see [section below](#cryo-aluminum))
+
+### Energy Including Efficiency
+
+```
+Efficiency: 40% (cryo-aluminum -180C)
+Useful energy: 1.44 GJ
+Consumed energy: 1.44 / 0.40 = 3.6 GJ
+
+For capacitors (charge/discharge efficiency 77%):
+3.6 / 0.77 = 4.7 GJ per launch
+```
+
+**Average power consumption:**
+- 4.7 GJ over 0.4 seconds = **11.8 GW peak power** (from NaS capacitors)
+- 600 launches/day × 4.7 GJ = 2.82 TJ/day
+- **Average power: 33 MW**
+
+---
+
+## Mass Driver Construction
+
+### NASA Mass Driver Study (1977)
+
+The concept is based on NASA research from the late 20th century: a linear accelerator with **contactless electromagnetic acceleration**.
+
+**References:**
+- [NASA Mass Driver Concept (1977)](https://ntrs.nasa.gov/citations/19770010564)
+- [Electromagnetic Launch - Wikipedia](https://en.wikipedia.org/wiki/Mass_driver)
+
+### Adaptation for Mercury
+
+| Parameter | NASA Moon (1977) | Mercury (2025+) |
+|-----------|------------------|-----------------|
+| Target velocity | 2.4 km/s | **5 km/s** |
+| Track length | ~10 km | **1 km*** |
+| Acceleration | 25g | **1275g** |
+| Coil material | Copper | **Cryo-aluminum** |
+| Cooling | Passive | **Active radiators** |
+
+*Optionally 2-3 km when reducing acceleration to 425-637g.
+
+### Mass Driver Materials
+
+```{ojs}
+unitWidget("EQU-001")
+```
+
+**Main components:**
+- **Rails:** Steel Fe-6%Mn (wear resistance)
+- **Coils:** Aluminum (cooled to -180C)
+- **Frame:** Steel Fe-6%Mn (1 km tunnel)
+- **Capacitors:** Na + S + Al₂O₃ (100 GJ energy)
+- **Electronics:** Import from Earth (7 tons)
+
+Details:
+- [Rail production](elements/rails.qmd)
+- [Coil production](elements/coils.qmd)
+- [Frame production](elements/frame.qmd)
+
+### Spinning Platform
+
+**Problem:** The projectile must exit the accelerator on a precisely defined trajectory (±0.1°).
+
+**Solution:** Spinning platform at the tunnel exit:
+- Container is spun up to 60-120 rpm **before firing**
+- Centrifugal force stabilizes the container at exit
+- No need for gas thrusters on the container
+
+| Parameter | Value |
+|-----------|-------|
+| Platform diameter | 3-5 m |
+| Rotation speed | 60-120 rpm |
+| Spin-up time | 10-15 seconds |
+| Container moment of inertia | ~130 kg·m² |
+
+**Advantages:**
+- Container mass savings (no thrusters)
+- Trajectory stabilization (gyroscope)
+- Centrifugal mirror deployment
+
+---
+
+## Cryo-Aluminum {#cryo-aluminum}
+
+### Problem: No Copper on Mercury
+
+Mercury regolith contains **0.001% copper** — virtually zero concentration. Importing 1000 tons of copper for one Mass Driver is economically infeasible.
+
+| Material | Conductivity at +20C | Conductivity at -180C |
+|----------|---------------------|----------------------|
+| Copper (Cu) | 100% (58 MS/m) | 400% |
+| Aluminum (Al) | 60% (35 MS/m) | **360%** |
+
+**Conclusion:** At -180C, aluminum reaches 360% of room temperature conductivity, which is 6× higher than normal aluminum.
+
+### Solution: Stationary Placement in Shadow
+
+Mass Drivers are placed in stationary positions optimized by coordinates (latitude, longitude) for maximum time in shadow. Mercury's dark side has **-180C** — aluminum coils are naturally cooled:
+
+1. **Mass Driver coils** — aluminum (local production), naturally cryogenic in shadow
+2. **Solar panels** — nearby, on the sunlit side
+3. **NaK loop** — heat removal from launches (not for cryo-cooling coils)
+
+| Configuration | Efficiency | Conditions | Import |
+|---------------|------------|------------|--------|
+| Solar period (+20C) | 25-30% | Reduced effectiveness | 0 t |
+| **Shadow period (-180C)** | **35-40%** | Natural cooling | 0 t |
+| Copper import | 40-45% | Simple | **~1000 t/MD** |
+
+**Implications:**
+- Efficiency 35-40% for most of the Mercurian day (same as room-temperature copper)
+- Zero import of materials for coils
+- NaK loop needed only for launch heat removal, not for cryo-cooling
+
+---
+
+## Known Limitations
+
+> **Warning:** This section describes problems requiring solutions.
+
+### Critical Issues
+
+#### 1. Heat Dissipation During Launch
+
+| Parameter | Value |
+|-----------|-------|
+| Energy per launch | 4.7 GJ |
+| Efficiency | 40% |
+| Heat per shot | **2.8 GJ = 280 MW for 10 sec** |
+| Interval between shots | 2-3 minutes |
+
+**Problem:** 280 MW of heat must be removed in 2-3 minutes. At 600 shots/day — continuous heat dissipation ~40 MW.
+
+**Consequences:**
+- Coil overheating → efficiency drop → more heat
+- Thermal expansion of rails → projectile jamming
+- Coil insulation degradation
+
+**Solution:**
+- In shadow period (-180C): large delta-T simplifies heat radiation — radiators are more compact
+- NaK loop for launch heat removal (coils are already naturally cold)
+- In solar period: reduced firing rate or standby
+
+#### 2. No Copper on Mercury ✅ Solved
+
+See [Cryo-Aluminum section](#cryo-aluminum) above.
+
+### High Priority Issues
+
+#### 3. Rail Erosion Underestimated
+
+| Parameter | In calculations | Realistic estimate |
+|-----------|-----------------|-------------------|
+| Rail service life | 1-2 years | **3-6 months** |
+| Replacement per year | 100 t Al | **300-400 t Al** |
+
+**Causes:**
+- Electric arc at high currents
+- Mechanical wear at 1275g
+- Thermal cycling (cold → hot in seconds)
+
+**Annual replacement consumption (1 Mass Driver):**
+
+```
+Rails: 300-400 t aluminum
+Coils: 30 t aluminum
+Capacitors: 20 t
+Electronics: 0.5 t (import)
+
+TOTAL: ~350-450 t/year local + 0.5 t import
+```
+
+#### 4. Vibrations at 1275g
+
+| Parameter | Value |
+|-----------|-------|
+| Acceleration | 12,500 m/s² (1275g) |
+| Force on 115 kg carriage | **1.44 MN (144 tons)** |
+| Tunnel length | 1 km |
+
+**Problems:**
+- High dynamic loads on structure
+- Resonances at certain firing frequencies
+- Rapid guide wear
+
+**Solution:** Massive foundation, dampers, regular calibration. Short track (1 km) simplifies maintenance.
+
+### Requiring Research
+
+#### 5. Dust Protection in Tunnel
+
+- Mercury's electrostatic dust penetrates everywhere
+- Dielectric properties of dust → electrical breakdowns
+- Abrasiveness → carriage bearing wear
+
+**Requires:** Dust-proof airlocks, purging (with what?), electrostatic filters.
+
+#### 6. Payload Survivability at 1275g ✅ Solved
+
+Research confirms electronics operability at extreme accelerations:
+
+| System | Acceleration | Year | Source |
+|--------|--------------|------|--------|
+| HIBEX missile | 400g | 1960s | US Army MRE |
+| McCormick Stevenson GNC | **25,000g** | 2024 | AIAA |
+| SpinLaunch | 10,000g | 2024 | Flight tests |
+| Green Launch | 3,200g | 2025 | Satellite tests |
+
+**Conclusion:** 1275g acceleration has **20x margin** vs proven 25,000g (McCormick Stevenson).
+
+**Component protection:**
+
+| Component | Mass | Force at 1275g | Protection |
+|-----------|------|----------------|------------|
+| Aluminum foil | 100 kg | 127 t | Rolled into rigid Ti/Fe container |
+| Weights (4 pcs) | 3 kg | 3.8 t | Built into container |
+| Cables (4 pcs) | 2 kg | 2.5 t | Wound on spools |
+| Electronics | 0.05 kg | 64 kg | Ti/Al brackets + liquid glass (Na₂SiO₃) |
+
+**Deployment:** Centrifugal unfolding in space using IKAROS principle.
+
+---
+
+## Lunar Mass Driver
+
+### Purpose
+
+**Mass Driver technology testing** before Mercury deployment. The Moon is a proving ground where mistakes are cheaper: communication 1.3 sec (vs 8-20 min), delivery 3 days (vs months).
+
+### Comparison with Mercurian
+
+| Parameter | Mercury | Moon |
+|-----------|---------|------|
+| Escape velocity | 4.3 km/s | **2.4 km/s** |
+| Target velocity | 5 km/s | **2.5 km/s** |
+| Track length | **1 km** | **0.5-1 km** |
+| Energy per ton | 14.4 GJ | **3-4 GJ** |
+| Gravity | 0.38g | 0.16g |
+| Acceleration | **1275g** | **~640g** |
+
+**Conclusion:** The Lunar Mass Driver is comparable in length (0.5-1 km vs 1 km), with ~640g acceleration (~2x lower than Mercury) — suitable for technology development before transitioning to the high-g Mercurian version.
+
+### Launch Energy (Moon)
+
+```
+For 1 ton of cargo:
+E = 0.5 × 1000 × (2500)² = 3.125 GJ
+
+With 40% efficiency: 7.8 GJ/ton
+```
+
+### Orbital Mechanics
+
+| Route | Delta-V | Flight time |
+|-------|---------|-------------|
+| Moon → L1 | 2.5 km/s | 4-5 days |
+| Moon → GEO | 2.2-3.0 km/s | 5-7 days |
+| L1 → GEO | 0.7 km/s | ~1 day |
+
+The Mass Driver gives the module a velocity of ~2.5 km/s. A small correction (~0.3 km/s) directs the cargo to L1 point.
+
+### Applications
+
+- Prototype for Mercurian Mass Driver — design validation
+- Testing of cooling and electronics systems
+- Robot training on launch operations
+- Materials produced on the Moon from regolith
+
+::: {.callout-warning}
+## Historical Note
+
+Originally planned to use the Lunar Mass Driver to launch orbital Hub modules to L1 point. Concept rejected — instead of orbital Hub, we use LSP stations on the lunar surface.
+
+Details: [Energy Reception Hub](../../hub.qmd#alternative-architectures)
+:::
+
+### Construction
+
+The Lunar Mass Driver is built **before** Mercury factory deployment:
+
+1. The Moon is a proving ground for technology development
+2. Mass Driver on the Moon is a prototype for Mercury
+3. After successful tests — Mass Driver construction on Mercury
+
+---
+
+## Earth Prototypes: Maglev Technology
+
+Mass Drivers use the same technology as high-speed maglev trains — **linear electric motors**. The principle is identical: electromagnetic coils are sequentially energized, accelerating an object without physical contact.
+
+| Application | Acceleration | Speed | Passengers |
+|-------------|--------------|-------|------------|
+| Maglev train | 0.1-0.3g | 600 km/h | Yes |
+| Mass Driver | 20-50g | 5-10 km/s | No (cargo only) |
+
+::: {.callout-note}
+## China Breakthrough (December 2025)
+
+Researchers at China's National University of Defense Technology (NUDT) accelerated a 1-ton test car to **700 km/h in 2 seconds** — a world record for superconducting electrodynamic suspension.
+
+Key quote: *"Milestone opens up new possibilities for... aerospace boost launches"* — direct mention of space launch applications.
+
+**Sources:**
+
+- [CGTN: China sets world record in maglev tech](https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html)
+- [SCMP: China's record-smashing maglev](https://www.scmp.com/news/china/science/article/3337735/chinas-record-smashing-maglev-achieves-0-700km/h-acceleration-less-2-seconds)
+:::
+
+**Significance for the project:** Mass Driver technology is not a futuristic concept but an actively developing field. China explicitly mentions application for "aerospace boosters."
+
+### EMALS — Production Electromagnetic Catapult
+
+The Electromagnetic Aircraft Launch System (EMALS) is a linear induction motor **already deployed on production aircraft carriers**:
+
+| Platform | Country | Parameters |
+|----------|---------|------------|
+| USS Gerald R. Ford (CVN-78) | USA | 45-ton aircraft, 0 → 250 km/h in 100 m |
+| Fujian (CV-18) | China | Indigenous EMALS, 2024 |
+
+**Same physics:** A linear electric motor sequentially energizes sections, accelerating the object without contact. The difference is only in acceleration scale (0.3g for pilots vs 1275g for cargo).
+
+**Details:** [Technologies and References](../../reference/technology-readiness.qmd)
+
+---
+
+## See Also
+
+- [Mass Driver Production](overview.qmd) — overview of Mass Driver manufacturing
+- [Mass Driver Scaling](scaling.qmd) — throughput, energy balance, robots
+- [Rail Production](elements/rails.qmd) — wear-resistant Fe-6%Mn steel
+- [Coil Production](elements/coils.qmd) — cryo-aluminum -180C
+- [Track Assembly](assembly/track.qmd) — final assembly of 1 km tunnel
+- [Energy Systems](../../summaries/production.qmd#energy) — Mercury power supply system
+
+---
+
+## References
+
+- [NASA Mass Driver Concept](https://ntrs.nasa.gov/citations/19770010564)
+- [Electromagnetic Launch - Wikipedia](https://en.wikipedia.org/wiki/Mass_driver)
+- [NASA Mercury Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html)
+- [Coilgun Physics](https://en.wikipedia.org/wiki/Coilgun)
+- [Lagrange point - Wikipedia](https://en.wikipedia.org/wiki/Lagrange_point)

@@ -1,0 +1,766 @@
+---
+title: "Swarm Mirrors"
+sidebar: science
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+import { unitWidget } from "../ojs-data.qmd"
+```
+
+Swarm Mirrors are the core element of the Dyson Swarm project. Approximately 1.1 billion autonomous reflectors in orbit around the Sun collect and redirect solar energy to Earth.
+
+---
+
+## Mirror Design
+
+### Physical Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Size | 100 × 100 m (square) |
+| Area | 10,000 m² |
+| Foil thickness | 4 μm |
+
+### Material Composition
+
+```{ojs}
+unitWidget("PRD-001")
+```
+
+> **Technology baseline (2025):** Industrial production of 4.5 μm aluminum foil already exists ([Chalco](https://www.chalcoaluminum.com/knowledge/ultra-thin-aluminum-foil-2505-lx/)). Space sails [LightSail 2](https://www.planetary.org/articles/what-is-solar-sailing) (4.5 μm) and [NEA Scout](https://en.wikipedia.org/wiki/Solar_sail) (2.5 μm) operate successfully in orbit. By the 2030s, technologies will enable even thinner membranes.
+
+### Frameless Design (IKAROS Principle)
+
+The mirror **has no rigid frame**. The design is based on the Japanese solar sail [IKAROS](https://en.wikipedia.org/wiki/IKAROS) (JAXA, 2010).
+
+The mirror **rotates around its axis** (1-2 rpm). Centrifugal force tensions the foil through cables, turning it into a rigid square. Rotation also acts as a gyroscope, stabilizing orientation in space.
+
+- **Tip masses** — 4 units at corners, create centrifugal force and stabilize shape
+- **Cables** — connect corners to central hub, transmit tension
+
+### Electronics
+
+At the mirror's center is **one integrated chip** the size of a coin (~50 g), delivered from Earth. All functions are combined on a single die:
+
+- **Star tracker** — determines own orientation
+- **Radio beacons** — positioning relative to other mirrors
+- **Onboard processor** — calculates required pointing angle
+- **Photovoltaic power** — a few cm² of silicon, provides microwatts for operation
+
+> **Why from Earth?** Manufacturing highly integrated chips requires extremely complex lithographic processes. This is the only component that is impractical to produce in space.
+
+> **Technology baseline (2025):** The radiation-hardened electronics market is [$1.6 billion](https://www.marketsandmarkets.com/Market-Reports/radiation-hardened-electronics-market-44047967.html). Modern star trackers weigh [tens of grams](https://pressbooks-dev.oer.hawaii.edu/epet302/chapter/7-5/), solar sensors weigh less than 5 g. [Chip-scale satellites](https://spectrum.ieee.org/exploring-space-with-chipsized-satellites) (Sprites) weigh only 10 g total. By the 2030s, SoC solutions will combine processor, memory, and sensors in a single chip weighing ~10-20 g.
+
+---
+
+## Attitude Control
+
+### The Problem
+
+Billions of mirrors in space. Cannot use conventional thrusters (fuel runs out) or reaction wheels (heavy, fail).
+
+### Solution: Light Pressure + Electrochromics
+
+Technology proven by the Japanese solar sail [IKAROS](https://en.wikipedia.org/wiki/IKAROS) (JAXA, 2010).
+
+**Principle:**
+
+- The mirror is a solar sail
+- Light exerts pressure on the surface (~60 μPa at Mercury orbit)
+- If one part of the surface reflects better than another — a torque is created
+
+**Electrochromics:**
+
+Along the mirror edges are strips of electrochromic material (TiO₂, titanium oxide). Titanium is mined on Mercury (<1% of surface mass), making production 100% local:
+
+- Apply current → strip darkens → absorbs more light → pressure on opposite side increases → mirror rotates
+- No thrusters, no fuel
+- Energy: microwatts from integrated photovoltaic
+
+> **Why TiO₂, not WO₃?** Tungsten oxide (WO₃) is more efficient, but tungsten was not measured by MESSENGER and its availability is unknown. Titanium is confirmed (~0.5%), and at billion-mirror scale source reliability is critical. TiO₂ is less efficient (17% vs 60%), but production is 100% local.
+
+**Pointing Accuracy:**
+
+| Parameter | Value |
+|-----------|-------|
+| Light pressure | ~60 μPa |
+| Area | 10,000 m² |
+| Force | ~0.6 N |
+| Arm | 50 m |
+| Torque | ~30 N·m |
+
+For a 116 kg mirror, this is sufficient for precise positioning.
+
+### Pointing Speed
+
+The mirror and Hub move on different orbits — can electrochromics track the target fast enough?
+
+**Synodic period** (mirror relative to Hub): ~116 days. During this time, the reflection angle changes by ~360°.
+
+| Parameter | Value |
+|-----------|-------|
+| Angle change rate | ~0.13°/hour |
+| Required pointing rate | ~0.002°/min |
+| Achievable rate (electrochromics) | ~1-10°/min |
+| **Margin** | **500-5000×** |
+
+**Conclusion:** Electrochromic control rotates the mirror thousands of times faster than required. Hub tracking is not a problem.
+
+---
+
+## Energy
+
+### Single Mirror Power
+
+| Parameter | Value |
+|-----------|-------|
+| Solar flux (Mercury orbit) | 10,343 W/m² |
+| Mirror area | 10,000 m² |
+| Incident energy | 103 MW |
+| Transmission efficiency to Earth | 18% |
+| **Power on Earth** | **~19 MW** |
+
+### Target Power
+
+The project is designed for **~1000× global consumption** — this is **~20 petawatts** (20 × 10¹⁵ W) of electricity on Earth.
+
+With overall conversion efficiency of 18%, the required reflected power is:
+
+$$
+P_{refl} = \frac{20 \text{ PW}}{0.18} \approx 111 \text{ PW}
+$$
+
+### How Many Mirrors Are Needed?
+
+$$
+N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \times 10^{9} \approx \textbf{~1.1 billion}
+$$
+
+**Verification by powers of ten:**
+- 1 mirror = 19 MW to Earth (103 MW × 18%)
+- 1,000 mirrors = 19 GW
+- 1,000,000 mirrors = 19 TW (≈ global consumption)
+- 1,100,000,000 mirrors = **~21 PW** (~1000× global)
+
+### Swarm Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Number of mirrors | **~1.1 billion** |
+| Total area | 1.1×10¹³ m² (~11,000 km²) |
+| Total mass | ~128 million tons |
+| Mass Drivers | ~1,000 |
+| Production timeline | ~9.5 years |
+| Reflected power | ~100 petawatts |
+| Power on Earth | **~21 petawatts (~1000×)** |
+
+### Energy Cascade
+
+Energy passes through 8 stages from the Sun to the outlet:
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    SUN["☀️ Sun"] -->|"~114 PW"| SWARM["Swarm Mirrors"]
+    SWARM -->|"light"| LSP["LSP stations<br/>(Moon, limbs)"]
+    LSP -->|"microwaves<br/>2.45 GHz"| RECT["Rectenna<br/>(Earth)"]
+    RECT -->|"~21 PW"| GRID["Power grid"]
+
+    style SUN fill:#fff3cd
+    style SWARM fill:#e8e8a8
+    style LSP fill:#d4e8a8
+    style RECT fill:#a8d4e8
+```
+
+### Energy Transmission Efficiency (via Lunar LSP Stations)
+
+| Stage | Efficiency | Losses |
+|-------|------------|--------|
+| Mirror reflection | 90% | 10% |
+| Orbital geometry | 72% | 28% |
+| Concentration to Moon | 90% | 10% |
+| PV on lunar stations | 45% | 55% |
+| DC → Microwaves (Klystron) | 90% | 10% |
+| Moon → Earth transmission | 95% | 5% |
+| Atmospheric passage | 95% | 5% |
+| Rectenna on Earth | 85% | 15% |
+| **Total efficiency** | **18%** | **82%** |
+
+**Calculation:** $\eta = 0.90 \times 0.72 \times 0.90 \times 0.45 \times 0.90 \times 0.95 \times 0.95 \times 0.85 = 0.18$
+
+### Transmission Architecture
+
+The Swarm directs energy to **[Lunar Solar Power stations (LSP)](moon.qmd#lunar-solar-power)**.
+
+```
+Swarm Mirrors (Mercury) → Light to Moon → PV → Microwaves → Earth
+```
+
+**Why the Moon, not an orbital Hub?**
+
+| Parameter | Orbital Hub (L1) | Moon (LSP) |
+|-----------|------------------|------------|
+| Efficiency | 10% | **18%** |
+| Radiators | 7,900 km² in space | 0 (heat into ground) |
+| Structure mass | 15 million tons in orbit | On surface |
+| Construction | Zero gravity | Gravity |
+
+> **Conclusion:** An orbital Hub is [economically unfeasible](../detailed/hub.qmd) — half the efficiency and massive radiators in space.
+
+### Swarm Energy Distribution
+
+Not all mirrors direct energy to the Moon. Distribution:
+
+| Purpose | Mirrors | Method | Efficiency |
+|---------|---------|--------|------------|
+| **Moon → Earth** | ~99.5% | Light → PV → microwaves | 18% |
+| **Mercury (furnaces)** | ~0.3% | Direct heating | **~85%** |
+| **Mercury (PV)** | ~0.2% | Light → electricity | ~45% |
+
+#### Direct Solar Heating
+
+For metal smelting on Mercury and Moon, **direct sunlight** is used, not electricity:
+
+| Method | Stages | Efficiency |
+|--------|--------|------------|
+| **Direct** | Reflection (90%) × concentration (95%) | **~85%** |
+| Electrical | PV (45%) × control (95%) × heating (95%) | ~40% |
+
+**Direct heating is 2× more efficient.** That's why solar furnaces operate directly from concentrated light.
+
+#### Mercury Power Supply
+
+Mercury's polar craters are in eternal shadow. Factories receive energy:
+
+1. **Concentrators on crater rims** — local solar mirrors
+2. **~1,000-5,000 Swarm Mirrors** — direct light to polar factories
+
+> **Note:** Mercury's equator receives 10 kW/m² of direct sunlight, but polar factories require external illumination.
+
+### Mirror Clusters
+
+Mirrors are organized into **local clusters** of ~1,000 units:
+
+| Parameter | Value |
+|-----------|-------|
+| Cluster size | ~1,000 mirrors |
+| Virtual antenna diameter per cluster | ~100 km |
+| Communication delay within cluster | ~0.3 ms |
+| Beam spread at 100 million km | ~1 km |
+
+Each cluster synchronizes internally and directs reflected light to its section of lunar receivers.
+
+> **Why not a unified array?** Global synchronization of a billion mirrors is impossible — signal delay Mercury-Earth is ~670 seconds. Details: [Risks](../reference/risks.qmd#phased-array-synchronization).
+
+### Optical Cluster Control {#optical-cluster-control}
+
+The "Mother-Children" architecture **reduces electronics import by 98%**.
+
+#### The Problem
+
+With individual control, each mirror requires a full 50 g chip:
+- 1.1 billion mirrors × 50 g = **55,000 tons** of electronics from Earth
+- ~6,250 tons/year = ~125 Starship launches/year
+
+#### Solution: Mother Mirrors + Child Mirrors
+
+| Role | Electronics | Quantity | Mass/unit | Import |
+|------|-------------|----------|-----------|--------|
+| **Mother** (leader) | Full chip | 1.1 M | 50 g | **55 t** |
+| **Children** (followers) | Simple decoder | 1.1 B | 2 g | **2,200 t** |
+| **TOTAL** | | | | **2,255 t** |
+
+**Savings: 55,000 t → 2,255 t = 96%** (24× less)
+
+#### How It Works
+
+**Mother mirror** (1 per ~1,000 Children):
+- Star tracker — determines cluster orientation
+- Processor — calculates commands for Children
+- Laser transmitter — modulated beam to Children
+- Radio — communication with Earth/other Mothers
+
+**Child mirrors** (passive):
+- Photodiode (~2 g) — receives optical signal from Mother
+- Simple decoder — converts signal to electrochromic commands
+- No processor — only analog/digital logic
+
+```
+Control Protocol:
+
+Mother → [modulated light] → Children
+
+Commands (example):
+├─ 1 ms pulse: "edge A activate"
+├─ 2 ms pulse: "edge B activate"
+├─ 3 ms pulse: "all off"
+└─ Pulse series: encodes angle/speed
+```
+
+#### Hybrid Implementation
+
+| Phase | Years | Technology | Import |
+|-------|-------|------------|--------|
+| 1 | 7-10 | Import 2 g decoders | ~1,000 t |
+| 2 | 10+ | Local analog receivers | **0 t** |
+
+**Phase 2:** [Blue Alchemist](../reference/technology-readiness.qmd#in-situ-silicon-cells) technology (TRL 5-6) enables production of silicon photodiodes from lunar/Mercurian regolith. Resonant LC circuits (coils + capacitors) are made from local aluminum and Al₂O₃ ceramics.
+
+**Total import:** ~1,055 t (instead of 55,000 t) = **98% savings**
+
+> **Technology baseline:** [Laser inter-satellite links](https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/) (China, 2024-2025) — 400 Gbps optical communication between satellites. [Leader-follower formation](https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430) — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.
+
+---
+
+## Production Schedule
+
+::: {.callout-tip}
+## Result: ~9.5 years to 1.1 billion active mirrors
+Exponential factory growth (1->~1,650) and Mass Driver scaling (1->1,000) over 4 years, then full capacity of 219 million mirrors/year. Detailed calculation: [Scaling](../detailed/railguns/scaling.qmd), [Roadmap](roadmap.qmd).
+:::
+
+### Production Capacity Growth
+
+| Year | Factories | Mass Drivers | Mirrors/year |
+|------|-----------|--------------|--------------|
+| 1 | 25 | 12 | ~2.6 M |
+| 2 | 120 | 80 | ~17.5 M |
+| 3 | 500 | 400 | ~88 M |
+| 4+ | ~1,650 | 1,000 | 219 M |
+
+**At 1,000 Mass Drivers (full capacity):**
+```
+1 MD = 600 mirrors/day = 219,000 mirrors/year
+1,000 MD = 219 million mirrors/year
+Each MD is served by ~1.5 GZF (400 mirrors/day x 1.5 = 600)
+```
+
+### Mirror Accumulation
+
+With a 10-year service life, mirrors begin failing from year 11.
+
+| Year | Produced | Replaced | Total | Reflected | On Earth (18%) | × global |
+|------|----------|----------|-------|-----------|----------------|----------|
+| **1** | 2.6 M | — | 2.6 M | 0.24 PW | 0.04 PW | **2×** |
+| 2 | 17.5 M | — | 20 M | 1.9 PW | 0.34 PW | 17× |
+| 3 | 88 M | — | 108 M | 10 PW | 1.8 PW | 90× |
+| 4 | 219 M | — | 327 M | 30 PW | 5.5 PW | 275× |
+| 5 | 219 M | — | 546 M | 51 PW | 9.1 PW | 455× |
+| 6 | 219 M | — | 765 M | 71 PW | 12.8 PW | 640× |
+| 7 | 219 M | — | 984 M | 92 PW | 16.5 PW | 825× |
+| **8** | 219 M | — | 1.20 B | 112 PW | **20.1 PW** | **1005×** |
+| 9 | 219 M | — | 1.42 B | 132 PW | 23.8 PW | 1190× |
+| 10 | 219 M | — | 1.64 B | 153 PW | 27.4 PW | 1370× |
+| 11 | 219 M | 2.6 M | 1.86 B | 173 PW | 31.1 PW | 1555× |
+| 12 | 219 M | 17.5 M | 2.06 B | 192 PW | 34.5 PW | 1725× |
+
+> **Global energy consumption (2023):** ~0.02 PW (20 TW). Source: [IEA World Energy Outlook](https://www.iea.org/reports/world-energy-outlook-2023).
+>
+> In the first year, the project reflects 0.24 PW — on Earth this is 0.04 PW (2× global consumption).
+
+> **Note:** "Reflected" = mirrors × 93 MW. "On Earth" = × 0.18 (LSP chain efficiency). "Replaced" = mirrors that failed after 10 years.
+> Total = previous total + produced − replaced.
+
+### Key Milestones
+
+- **Year 1:** 0.24 PW reflected (0.04 on Earth) — 2× global consumption
+- **Year 8:** ~112 PW reflected (~20 on Earth) — 1000× global consumption, ~1.1 billion active mirrors
+- **Year 11+:** growth slows due to replacement
+
+### Long-term Balance
+
+After year 11, net increase = 219 M − (production 10 years ago). By year 15, we reach a **plateau of ~2.2 billion mirrors** (~40 PW on Earth), when replacement equals production (219 M/year).
+
+> **Why 1.1 billion?** ~20 PW on Earth = ~1000× global consumption — covers all civilization's energy needs, including Mars terraforming, fuel synthesis, and interstellar missions.
+
+---
+
+## Swarm Orbit
+
+### Location
+
+The Swarm is located on **heliocentric orbits** — around the Sun, NOT around Mercury.
+
+| Parameter | Value |
+|-----------|-------|
+| Distance from Sun | ~57.9 million km (Mercury orbit) |
+| Orbit type | Heliocentric |
+| Configuration | Dense cloud of ~1 billion mirrors |
+
+### How Mirrors Reach Orbit
+
+1. Mass Driver launches mirror at 4.3 km/s
+2. Mirror enters heliocentric orbit
+3. No "catching" required — standard ballistic trajectory
+4. Mirror deploys autonomously and takes its place in the Swarm
+
+### Spin-up and Launch
+
+**Key solution:** Spin-up occurs on the Mass Driver, NOT in space.
+
+| Stage | Where | Process |
+|-------|-------|---------|
+| 1 | Mass Driver | Container placed on rotating platform |
+| 2 | Mass Driver | Platform spins container to ~60-120 rpm |
+| 3 | Mass Driver | Launch — container already spinning |
+| 4 | Space | Container opens (spring mechanism) |
+| 5 | Space | Centrifugal force deploys membrane via cables |
+| 6 | Space | Tip masses stabilize shape, electronics activate |
+
+**Deployment time:** ~30-40 minutes after leaving Mass Driver.
+
+**Advantages:**
+- No gas thruster on mirror — simpler design
+- No balloon — mass savings
+- Spin-up energy from factory solar panels
+- Fewer failure points
+- Rotation is perpetual in vacuum (no friction)
+
+### Advantages
+
+- Doesn't threaten satellites in low Earth orbit (LEO)
+- Maximum proximity to Sun = maximum solar energy
+- Independent of Mercury's orbit
+- Simple launch — no complex capture maneuvers required
+
+---
+
+## Reflection Geometry
+
+### The Angle Problem
+
+A mirror orbiting the Sun cannot always efficiently reflect light to the Hub. Efficiency depends on orbital position:
+
+```
+         η=100%                Mirror is effective
+          180°                 when Hub is "behind the Sun"
+           ●                   (light reflects "forward")
+    210° ●   ● 150°
+
+ 240° ●───────● 120°           Mirror is ineffective
+                               when between Sun and Hub
+270° ●────☉────● 90°           (light must reflect "backward")
+
+ 300° ●───────● 60°
+
+   330° ●   ● 45°
+           ●
+          0°             ← Hub (L1) in this direction
+         η=0%
+```
+
+**Reason:** Law of reflection — angle of incidence equals angle of reflection. When the mirror is between Sun and Hub, to direct light "backward," the mirror must be nearly parallel to the beam, and effective area drops to zero.
+
+### Efficiency Calculation
+
+For a mirror at 0.39 AU orbit (Mercury), reflecting to Hub (L1, ~1 AU):
+
+| φ (orbital position) | Reflection angle θ | Efficiency η |
+|----------------------|--------------------|--------------|
+| 0° (between S and L1) | 180° | 0% |
+| 45° | 114° | 54% |
+| 90° (side) | 69° | 83% |
+| 135° | 33° | 96% |
+| 180° (L1 behind Sun) | 0° | 100% |
+
+::: {.callout-tip collapse="true"}
+## Full Mathematical Derivation
+
+### Problem Statement
+
+A mirror in Mercury's orbit (0.39 AU) must reflect sunlight to the Hub at L1 (~1 AU). Reflection efficiency depends on the mirror's position in its orbit.
+
+```
+         Mirror M
+            *
+           /|\
+          / | \
+  from   /  |  \   to
+Sun     /   |   \  Hub
+       /    |theta\
+      Sun---+-----o L1 (Hub)
+            |
+   theta = angle between directions
+       "from Sun" and "to Hub"
+```
+
+**Law of reflection:** angle of incidence = angle of reflection. To reflect light from the Sun to the Hub, the mirror is oriented at angle θ/2 to the incident ray. Effective area:
+
+$$
+\eta = \cos\left(\frac{\theta}{2}\right)
+$$
+
+### Calculating Angle θ
+
+Three points: **S** (Sun), **M** (mirror, r_M = 0.39 AU), **E** (Hub L1, r_E = 1 AU). Angle φ — orbital position (φ = 0° when mirror is between S and E).
+
+**Distance from mirror to Hub** (Law of Cosines):
+
+$$
+ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
+$$
+
+**Angle θ at vertex M:**
+
+$$
+\cos(\theta) = \frac{r_M^2 + ME^2 - r_E^2}{2 \cdot r_M \cdot ME}
+$$
+
+### Full Calculation Table
+
+| φ (degrees) | ME (AU) | θ (degrees) | θ/2 (degrees) | η = cos(θ/2) |
+|-------------|---------|-------------|---------------|--------------|
+| 0           | 0.610   | 180.0       | 90.0          | 0.00         |
+| 15          | 0.631   | 155.8       | 77.9          | 0.21         |
+| 30          | 0.690   | 133.6       | 66.8          | 0.39         |
+| 45          | 0.775   | 114.2       | 57.1          | 0.54         |
+| 60          | 0.873   | 97.2        | 48.6          | 0.66         |
+| 75          | 0.975   | 82.3        | 41.1          | 0.75         |
+| 90          | 1.073   | 68.7        | 34.3          | 0.83         |
+| 105         | 1.164   | 56.1        | 28.1          | 0.88         |
+| 120         | 1.242   | 44.2        | 22.1          | 0.93         |
+| 135         | 1.305   | 32.8        | 16.4          | 0.96         |
+| 150         | 1.352   | 21.7        | 10.9          | 0.98         |
+| 165         | 1.380   | 10.8        | 5.4           | 1.00         |
+| 180         | 1.390   | 0.0         | 0.0           | 1.00         |
+
+Symmetry: values for φ = 195°...345° are mirrored relative to 180°.
+
+### Average Efficiency
+
+With uniform distribution of mirrors across the orbit:
+
+$$
+\bar{\eta} = \frac{1}{2\pi} \int_0^{2\pi} \cos\left(\frac{\theta(\phi)}{2}\right) d\phi \approx 0.72
+$$
+
+**Sources:** [ESA Solar Polar Orbiter TRS](https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter), [NASA Solar Sail Trajectories](https://ntrs.nasa.gov/search.jsp?R=20000057299), [IKAROS (JAXA)](https://en.wikipedia.org/wiki/IKAROS)
+:::
+
+### Summary Metrics
+
+| Metric | Value |
+|--------|-------|
+| **Average efficiency** | **72%** |
+| Orbit fraction with η > 50% | 78% |
+| Orbit fraction with η > 80% | 53% |
+| "Dead zone" (η < 20%) | ~17% |
+
+### Solution Options
+
+#### Option 1: Baseline (72% efficiency)
+
+Accept geometric losses as given:
+
+- Mirrors remain in ecliptic plane
+- Average efficiency 72%
+- **Compensation:** increase mirror count by ~40%
+
+This is accounted for in transmission efficiency calculation (line "Concentration to Hub" = 95% × 0.72 ≈ 68%).
+
+#### Option 2: Orbit Cranking (improved)
+
+The mirror is a solar sail. After launch, it can **change its orbital inclination itself**, using solar light pressure.
+
+| Parameter | Value |
+|-----------|-------|
+| Initial inclination | ~5° (from Mass Driver launch) |
+| Target inclination | 45° |
+| Time to achieve | 1-2 years |
+| Sail acceleration | 4.4 mm/s² |
+| Final efficiency | ~95% |
+
+**How it works:**
+
+1. Mirror orients so light force pushes it perpendicular to orbital plane
+2. Direction changes on each half-orbit ("up" → "down")
+3. Cumulative effect gradually increases inclination
+
+**Why not launch directly at 45°?**
+
+The mirror on Mercury is already traveling at 47 km/s in the ecliptic plane. Mass Driver adds only 4.3 km/s:
+
+$$
+\text{Resulting angle} = \arctan\left(\frac{4.3}{47}\right) \approx 5°
+$$
+
+The only way to achieve 45° is orbit cranking after launch.
+
+> **Comparison with real projects:** ESA studied [Solar Polar Orbiter](https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter) — a 25,000 m² sail reaching 83° inclination in 4 years. Our mirror is lighter (sail loading 11.6 g/m² vs ~30 g/m²), so it's faster.
+
+---
+
+## Production
+
+### Where Mirrors Are Made
+
+Mirrors are produced on Mercury from local materials. But not all components can be made on-site.
+
+### Component Analysis
+
+```{ojs}
+unitWidget("PRD-001")
+```
+
+> **How TiO₂ is extracted:** Titanium (<1% in crust) is extracted from ilmenite (FeTiO₃) by magnetic separation, then separated from iron by oxidative roasting. Details: [Titanium Line](../detailed/materials/titanium.qmd).
+
+### Supply Chain
+
+```
+EARTH                              MERCURY
+  │                                    │
+  │ Mother chip (~50 g, 1 per 1000)    │ Aluminum (foil)
+  │ Child decoder (~2 g, years 7-10)   │ Titanium (TiO₂)
+  └────────────────────────────────────┤ Iron (tip masses)
+                                       │ Child receiver (years 10+)
+                                       ↓
+                                    MIRRORS
+                                       ↓
+                              LSP (Moon) → Earth
+```
+
+### Import from Earth
+
+With [Mother-Children architecture](#optical-cluster-control), import is reduced by 98%:
+
+| Component | Quantity | Mass/unit | Import |
+|-----------|----------|-----------|--------|
+| Mother chips | 1.1 M | 50 g | **55 t** |
+| Child decoders (phase 1) | ~500 M | 2 g | **~1,000 t** |
+| Child receivers (phase 2) | ~600 M | 0 g | **0 t** (local) |
+| **TOTAL** | | | **~1,055 t** |
+
+**Comparison:**
+- Without optimization: 1.1 B × 50 g = **55,000 t** = ~1,100 Starship
+- With Mother-Children architecture: **~1,055 t** = **~21 Starship**
+
+**Savings: 98%** (53× fewer launches)
+
+> **Note:** Phase 2 (years 10+) uses [Blue Alchemist](../reference/technology-readiness.qmd#in-situ-silicon-cells) technology for local production of silicon photoreceivers from regolith.
+
+### Production Process on Mercury
+
+1. **Aluminum smelting** — MRE electrolysis in solar furnace at 1500°C
+2. **Foil rolling** — compression to 4 μm thickness
+3. **Tip mass production** — iron casting or regolith pressing
+4. **Cable production** — steel wire drawing
+5. **Electronics assembly** — installing imported chip and electrochromic strips
+6. **Folding + packaging** — Z-fold membrane, rigid container for launch
+
+**Details:** [Ground Zero Factory](../detailed/factories/overview.qmd)
+
+---
+
+## Mass Driver Launch
+
+Mirrors are launched into space by electromagnetic catapult — [Mass Driver](../detailed/railguns/overview.qmd).
+
+### Launch Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Target velocity | 5 km/s (Mercury escape velocity + margin) |
+| Kinetic energy (116 kg) | 1.45 GJ |
+| With 40% efficiency | 3.6 GJ |
+| Acceleration | **1275g** (baseline)* |
+| Acceleration time | **~0.4 sec** |
+| Tunnel length | **1 km** |
+
+*At reduced load: 2-3 km (425-637g). See [MD Theory](../detailed/railguns/theory.qmd).
+
+### Throughput
+
+| Parameter | Value |
+|-----------|-------|
+| Launch cycle | 2-3 minutes |
+| Launches per day | **600** |
+| Mirrors per day | 600 × 116 kg = **70 tons** |
+| Mirrors per year | **219,000** |
+
+With 1,000 Mass Drivers: **600,000 mirrors/day**, **219 million mirrors/year** (with ~1,500 GZF available).
+
+For 1.1 billion mirrors at 219 M/year, ~5 years at full capacity are needed. Including factory and MD ramp-up — **~9.5 years** to target (degradation accounted for).
+
+---
+
+## Thermal Regime
+
+### Will the Foil Survive?
+
+| Parameter | Value |
+|-----------|-------|
+| Solar flux | 10,343 W/m² |
+| Reflectivity | 95% |
+| Absorption | 5% |
+| Absorbed power | ~520 W/m² |
+
+By Kirchhoff's law, a good reflector is a poor heat emitter. Solution — **black coating on reverse side**:
+
+| Side | Emissivity (ε) |
+|------|----------------|
+| Mirror (aluminum) | 0.05 |
+| Reverse (black coating) | 0.8 |
+
+**Equilibrium temperature:** +38°C
+
+| Parameter | Value |
+|-----------|-------|
+| Aluminum melting point | 660°C |
+| Calculated mirror temperature | +38°C |
+| **Margin** | **622°C** |
+
+---
+
+## Service Life and Degradation
+
+### Degradation Factors
+
+1. **Micrometeorites** — up to 400-800 impacts/month, but most are microscopic
+2. **Solar radiation** — 2-5% efficiency loss per year
+3. **Solar wind** — surface erosion (stronger at Mercury)
+
+### Estimate
+
+| Scenario | Time to failure | Efficiency loss/year |
+|----------|-----------------|----------------------|
+| Optimistic | 15-20 years | 2-3% |
+| Realistic | **8-12 years** | 5-10% |
+
+**Policy:** Mirror operates until complete failure. New mirrors are added, old ones continue operating at reduced capacity.
+
+---
+
+## Disposal
+
+### Space Debris Problem
+
+With 10-year service life and 1.1 billion mirrors, ~110 million units fail annually. Without a disposal mechanism, this could create a space debris problem.
+
+### Solution: Solar Descent
+
+The mirror is a solar sail. When tilted at an angle to the Sun, it creates a tangential force that slows orbital motion. The orbit spirals down until it burns up in the solar corona.
+
+### Disposal Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Disposal criterion | Complete failure (loss of control) |
+| Descent time | 6-12 months |
+| End point | Solar corona |
+
+**Failsafe:** The mirror design ensures that upon electronics failure, it automatically enters braking mode — through asymmetric coating or offset center of mass. Without active electrochromic control, the mirror begins spiraling toward the Sun.
+
+> **Why not replace at efficiency threshold?** Space in the swarm is unlimited. An old mirror at 30% efficiency produces less energy but still works. New mirrors are **added**, not replaced. Disposal occurs only at complete failure — when the mirror becomes uncontrollable.
+
+---
+
+## See Also
+
+- [Project in 5 Minutes](../executive-summary.qmd) — overall project scheme
+- [Production](production.qmd) — factory and self-replication
+- [Energy Reception Hub](../detailed/hub.qmd) — LSP stations and Earth transmission
+- [Mass Driver: Theory](../detailed/railguns/theory.qmd) — detailed launch calculations
+- [Roadmap](roadmap.qmd) — project timeline
