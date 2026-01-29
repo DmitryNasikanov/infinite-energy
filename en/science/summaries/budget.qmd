@@ -7,11 +7,10 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **Total budget:** $255–520 billion (with inflation $320–650 billion over 10 years)
-> - **Launch cost:** $2,500/kg (mix of current and future technologies)
-> - **Robot cost:** $200K (space-grade, autonomous, mass-produced)
-> - **Factory cost:** $30M at 1650-unit series (metallurgy, not semiconductors)
-> - **Import:** ~2,400 t total (96% localization on Mercury)
+> - **Total budget:** $190–470 billion (with inflation $240–590 billion over 10 years)
+> - **Self-replication savings:** ~$47 billion (factories and robots built on Mercury)
+> - **Import from Earth:** ~2,400 t electronics over ~11 years
+> - **Launches needed:** ~50-100 (instead of ~900 with full import)
 > - **References:** SpaceX, TSMC, OpenAI, Boston Dynamics — real market prices
 
 International project — calculated using average global prices.
@@ -30,9 +29,9 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 
 | Scenario | 2026 Nominal | With 10-year inflation |
 |----------|--------------|----------------------|
-| Optimistic | ~$255 billion | **~$320 billion** |
-| Baseline | ~$430 billion | **~$540 billion** |
-| Conservative | ~$520 billion | **~$650 billion** |
+| Optimistic | ~$190 billion | **~$240 billion** |
+| Baseline | ~$340 billion | **~$425 billion** |
+| Conservative | ~$470 billion | **~$590 billion** |
 
 ---
 
@@ -169,16 +168,22 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 | 2 years of operations | 2-4 billion | Management, iterations |
 | **Total Lunar Test Site** | **9-15 billion** | |
 
-### 5. Flight Hardware Production
+### 5. Production: Electronics for Self-Replication
+
+> **Principle:** On Mercury, factories and robots are built from local materials (Al, Fe, Si).
+> Only electronics (chips, boards, sensors) are imported from Earth.
 
 | Item | Calculation | Estimate |
 |------|-------------|----------|
-| 1650 factories | 1650 × $30M | 49.5 billion |
-| 60,000 robots | 60,000 × $200K | 12 billion |
-| Mass Driver electronics | | 2-3 billion |
-| Starter mirrors | | 1-2 billion |
-| Consumables ("Vitamins") | 4 years of operations | 1-2 billion |
-| **Total production** | | **66-69 billion** |
+| Bootstrap factory (E1) | Full import 140 t | 1.4 billion |
+| Electronics for 1649 factories | ~90 t × $10K/kg | 0.9 billion |
+| Electronics for 60K robots | ~765 t × $10K/kg | 7.7 billion |
+| Electronics for 1000 MDs | ~275 t × $10K/kg | 2.8 billion |
+| Chips for 1.1B mirrors | ~1,055 t × $10K/kg | 10.6 billion |
+| Vitamins (4 years) | ~509 t × $10K/kg | 5.1 billion |
+| **Total production** | ~2,834 t electronics | **~28.5 billion** |
+
+*Frames, structures, housings — local production from regolith. Details: [Delivery](delivery.qmd).*
 
 ### 6. Rocket Program
 
@@ -296,13 +301,13 @@ Instead of an orbital Hub at L1, **LSP (Lunar Solar Power) stations** on the Moo
 | 2. **AI Development** | 15 | 20 |
 | 3. **Earth Test Site (China)** | 8 | 10 |
 | 4. Lunar Test Site | 9 | 15 |
-| 5. Production (factories + robots) | 66 | 69 |
-| 6. Rocket program | 8 | 10 |
-| 7. Launches | 9 | 11 |
+| 5. Production (electronics) | 25 | 32 |
+| 6. **Rocket program** | **4** | **6** |
+| 7. **Launches** | **6** | **8** |
 | 8. Energy reception (rectenna) | 25 | 49 |
 | 9. **LSP stations on Moon** | 2 | 5 |
 | 10. Additional items | 22 | 33 |
-| **BASE TOTAL** | **167** | **227** |
+| **BASE TOTAL** | **~119** | **~183** |
 
 ---
 
@@ -314,11 +319,11 @@ Grouping by project phases and implementation locations.
 
 | # | Location | Min | Max | % |
 |---|----------|-----|-----|---|
-| 1 | Earth (R&D, AI, test site) | 39 | 52 | 18% |
-| 2 | Moon (test site + LSP) | 11 | 20 | 6% |
-| 3 | Mercury (production, rockets) | 138 | 157 | 53% |
-| 4 | Energy receiver (rectenna) | 25 | 49 | 13% |
-| | **TOTAL** | **213** | **278** | **~90%** |
+| 1 | Earth (R&D, AI, test site) | 39 | 52 | 32% |
+| 2 | Moon (test site + LSP) | 11 | 20 | 13% |
+| 3 | Mercury (electronics, rockets, launches) | 35 | 46 | 30% |
+| 4 | Energy receiver (rectenna) | 25 | 49 | 25% |
+| | **TOTAL** | **~110** | **~167** | **~90%** |
 
 > **Note:** ~10% of base budget — additional items (communications, propellant, training, insurance).
 
@@ -366,30 +371,31 @@ Technology validation and LSP station construction.
 | — Management and logistics | | 1-3 billion |
 | **Total Moon** | | **11-20 billion** |
 
-#### 3. Mercury (~57%)
+#### 3. Mercury (~30%)
 
-Production, rocket program, launches.
+Electronics for self-replication, rocket program, launches.
+
+> **Self-replication principle:** Factories and robots are built on Mercury from local materials.
+> Only electronics (chips, boards, sensors) are imported from Earth — ~2,400 t over 11 years.
 
 | Subcategory | Calculation | Amount |
 |-------------|-------------|--------|
-| **Production** | | **66-69 billion** |
-| — 1650 factories | 1650 × $30M | 49.5 billion |
-| — 60,000 robots | 60,000 × $200K | 12 billion |
-| — Mass Driver electronics | | 2-3 billion |
-| — Starter mirrors | | 1-2 billion |
-| — "Vitamins" consumables | 4 years of operations | 1-2 billion |
-| **Rocket Program** | | **8-10 billion** |
-| — Production of ~100 rockets | 100 × $50M | 5 billion |
-| — Spaceport upgrades | 1-2 sites | 2-3 billion |
-| — Infrastructure | | 1-2 billion |
-| **Launches and Delivery** | | **9-11 billion** |
-| — ~2,400 t to Mercury | 2,400 t × $2,500/kg | 6 billion |
-| — Mission control | 11 years of operations | 3-5 billion |
-| **Support** | | **7-11 billion** |
-| — Propellant production | ~50,000 t LOX+methane | 3-4 billion |
-| — DSN communication system | Network expansion | 2-4 billion |
-| — Mission insurance | | 2-3 billion |
-| **Total Mercury** | | **91-104 billion** |
+| **Electronics (import)** | | **~28.5 billion** |
+| — Bootstrap factory (E1) | Full import 140 t | 1.4 billion |
+| — Electronics for 1649 factories | ~90 t × $10K/kg | 0.9 billion |
+| — Electronics for 60K robots | ~765 t × $10K/kg | 7.7 billion |
+| — Electronics for 1000 MDs | ~275 t × $10K/kg | 2.8 billion |
+| — Chips for 1.1B mirrors | ~1,055 t × $10K/kg | 10.6 billion |
+| — Vitamins (4 years) | ~509 t × $10K/kg | 5.1 billion |
+| **Rocket Program** | | **4-6 billion** |
+| — Production of ~50-100 rockets | ~75 × $50M | 3.75 billion |
+| — Spaceport upgrades | 2 sites | 1-2 billion |
+| **Launches and Delivery** | | **6-8 billion** |
+| — ~2,400 t to Moon + Mercury | 2,400 t × $2,500/kg | 6 billion |
+| — Mission control | 4 years of operations | 0-2 billion |
+| **Total Mercury** | | **~38-43 billion** |
+
+*Support (propellant, communications, insurance) — in "Additional Items" section.*
 
 #### 4. Energy Receiver (~12%)
 
@@ -490,14 +496,14 @@ This increases the baseline scenario from ~$227 to ~$274 billion, and with ×1.5
 
 ## Three Scenarios (revised)
 
-### Optimistic Scenario (~$255 billion)
+### Optimistic Scenario (~$190 billion)
 
 **Conditions:**
 - Heavy rockets operational by 2028, price $1,000/kg
 - China and Russia take on 50% of production
 - AI reaches required level in 4-5 years (not 6-7)
 - Series effect reduces prices by 30%
-- 96% localization on Mercury (only ~2,400 t import)
+- Self-replication works — only electronics imported
 
 | Category | Estimate ($ billion) |
 |----------|---------------------|
@@ -505,24 +511,24 @@ This increases the baseline scenario from ~$227 to ~$274 billion, and with ×1.5
 | **AI Development** | 12 |
 | **Earth Test Site** | 6 |
 | Lunar Test Site | 8 |
-| Production | 50 |
-| Rockets | 4 |
-| Launches | 8 |
+| Electronics (self-replication) | 25 |
+| **Rockets** | **3** |
+| **Launches** | **5** |
 | Energy reception (rectenna) | 18 |
 | **LSP stations on Moon** | 2 |
-| Additional | 20 |
-| Reserve (+20%) | 26 |
-| **TOTAL** | **~157 billion** |
-| **With ×1.6 margin** | **~255 billion** |
+| Additional | 18 |
+| Reserve (+20%) | 20 |
+| **TOTAL** | **~120 billion** |
+| **With ×1.5 margin** | **~190 billion** |
 
-### Baseline Scenario (~$430 billion, or ~$540 billion with inflation)
+### Baseline Scenario (~$340 billion, or ~$425 billion with inflation)
 
 **Conditions:**
 - Launcher mix (Starship + Long March + Soyuz)
 - International cooperation works
 - AI requires 6-7 years of development
 - Moderate delays and overruns
-- 96% localization on Mercury (only ~2,400 t import)
+- Self-replication works — only electronics imported
 
 | Category | Estimate ($ billion) |
 |----------|---------------------|
@@ -530,25 +536,25 @@ This increases the baseline scenario from ~$227 to ~$274 billion, and with ×1.5
 | **AI Development** | 30 |
 | **Earth Test Site (China)** | 9 |
 | Lunar Test Site | 12 |
-| Production | 98 |
-| Rockets | 8 |
-| Launches | 14 |
+| Electronics (self-replication) | 30 |
+| **Rockets** | **5** |
+| **Launches** | **8** |
 | Energy reception (rectenna) | 30 |
 | **LSP stations on Moon** | 3 |
-| Additional | 30 |
-| Reserve (+30%) | 72 |
-| **TOTAL (USD 2026)** | **~310 billion** |
-| **With ×1.4 margin** | **~$430 billion** |
-| **With +25% inflation** | **~$540 billion** |
+| Additional | 28 |
+| Reserve (+30%) | 50 |
+| **TOTAL (USD 2026)** | **~209 billion** |
+| **With ×1.6 margin** | **~$340 billion** |
+| **With +25% inflation** | **~$425 billion** |
 
-### Conservative Scenario (~$520 billion, or ~$650 billion with inflation)
+### Conservative Scenario (~$470 billion, or ~$590 billion with inflation)
 
 **Conditions:**
 - Heavy rockets delayed until 2032
 - AI requires 8-10 years and additional iterations
 - Political complications increase costs
 - Technical problems require rework
-- 96% localization on Mercury (only ~2,400 t import)
+- Need to develop own super-heavy launcher
 
 | Category | Estimate ($ billion) |
 |----------|---------------------|
@@ -556,15 +562,16 @@ This increases the baseline scenario from ~$227 to ~$274 billion, and with ×1.5
 | **AI Development** | 50 |
 | **Earth Test Site** | 14 |
 | Lunar Test Site | 20 |
-| Production | 130 |
-| Rockets | 11 |
-| Launches | 20 |
+| Electronics (self-replication) | 40 |
+| **Rockets** | **8** |
+| **Launches** | **12** |
 | Energy reception (rectenna) | 45 |
 | **LSP stations on Moon** | 5 |
-| Additional | 45 |
-| Reserve (+50%) | 173 |
-| **TOTAL (USD 2026)** | **~520 billion** |
-| **With +25% inflation** | **~$650 billion** |
+| Additional | 40 |
+| Reserve (+50%) | 120 |
+| **TOTAL (USD 2026)** | **~360 billion** |
+| **With ×1.3 margin** | **~$470 billion** |
+| **With +25% inflation** | **~$590 billion** |
 
 ---
 
@@ -609,7 +616,7 @@ All amounts converted to USD 2026 (with inflation adjustment for historical proj
 | Three Gorges | ¥200 billion | **~$28-37 billion** | 17 years | 22.5 GW | [Wikipedia](https://en.wikipedia.org/wiki/Three_Gorges_Dam) |
 | Starship | $5-10 billion | **~$5-10 billion** | 10+ years | Rocket | [SpaceNews](https://spacenews.com/spacex-investment-in-starship-approaches-5-billion/) |
 | Tesla Gigafactories | $15+ billion | **~$15+ billion** | ~10 years | 6 factories | [Wikipedia](https://en.wikipedia.org/wiki/Gigafactory) |
-| **Helios (baseline)** | — | **~$430-540 billion** | **10-20 years** | **10,000 TW** | Our estimate |
+| **Helios (baseline)** | — | **~$340-425 billion** | **10-20 years** | **10,000 TW** | Our estimate |
 
 **Conclusion:** Helios costs approximately 1.5× Apollo but delivers 4000 times more energy than current planetary consumption. In terms of cost/benefit ratio — the most efficient project in history.
 
@@ -621,21 +628,21 @@ All amounts converted to USD 2026 (with inflation adjustment for historical proj
 
 | Scenario | Amount | Comment |
 |----------|--------|---------|
-| Optimistic | ~$255 billion | Heavy rockets work, AI in 5 years, 96% localization |
-| **Baseline** | **~$430 billion** | Realistic mix, AI in 6-7 years |
-| Conservative | ~$520 billion | Delays, AI in 8-10 years |
+| Optimistic | **~$190 billion** | Heavy rockets work, AI in 5 years |
+| **Baseline** | **~$340 billion** | Realistic mix, AI in 6-7 years |
+| Conservative | **~$470 billion** | Delays, AI in 8-10 years |
 
 ### With Inflation (+25% over 10 years)
 
 | Scenario | 2026 Nominal | With inflation | Comment |
 |----------|--------------|----------------|---------|
-| Optimistic | ~$255 billion | **~$320 billion** | Everything goes as planned |
-| **Baseline** | **~$430 billion** | **~$540 billion** | Moderate delays |
-| Conservative | ~$520 billion | **~$650 billion** | Serious problems |
+| Optimistic | ~$190 billion | **~$240 billion** | Everything goes as planned |
+| **Baseline** | **~$340 billion** | **~$425 billion** | Moderate delays |
+| Conservative | ~$470 billion | **~$590 billion** | Serious problems |
 
 **For comparison:**
 - Apollo: ~$280 billion (USD 2026) — 12 people on Moon
-- Helios (baseline): ~$430 billion — **energy for the entire planet forever**
+- Helios (baseline): ~$425 billion — **energy for the entire planet forever**
 - This is ~1.5× Apollo for a result millions of times greater
 
 ---
