@@ -103,12 +103,12 @@ flowchart TB
 
 | Parameter | Value |
 |-----------|-------|
-| Mirrors | **~1.1 billion** |
+| [Mirrors](detailed/mirrors.qmd) | **~1.1 billion** |
 | Mirror area | 1.1x10^13 m^2 (~11 million km^2) |
 | Swarm mass | ~128 million tons |
-| Factories on Mercury | ~1,650 (1,500 F-M + 150 F-R) |
-| Mass Drivers on Mercury | ~1,000 |
-| Import from Earth | **~2,400 t** (96% localization) |
+| [Factories on Mercury](detailed/production/factories/overview.qmd) | ~1,650 (1,500 F-M + 150 F-R) |
+| [Mass Drivers](detailed/production/railguns/overview.qmd) on Mercury | ~1,000 |
+| [Import from Earth](detailed/delivery.qmd) | **~2,400 t** (96% localization) |
 | Construction timeline | **~9.5 years** (degradation included) |
 | Power on Earth | **1 PW** (phase 1) / up to 21 PW (full) |
 
@@ -137,7 +137,7 @@ For comparison: ISS — $150B, Apollo — $280B.
 | Rocket program | $40-100B | **$4-11B** | 89% |
 | Launch costs | $35-85B | **$8-20B** | 76% |
 
-**Savings: $95-230B** thanks to self-replication and local production.
+**Savings: $95-230B** thanks to [self-replication](detailed/production/factories/assembly/replication.qmd) and local production.
 
 > **Helios — the most efficient project in human history.**
 > Cost ~1.5x Apollo. Result — energy for the entire planet forever.
@@ -209,7 +209,7 @@ Prototype of Mercury MD for technology validation:
 | Parameter | Mercury | Moon (test) |
 |-----------|---------|-------------|
 | Target velocity | 5 km/s | 2.5 km/s |
-| Track length | 2-3 km | 1-1.5 km |
+| Track length | 2-3 km | 0.5-1 km |
 | Purpose | Mirror launch | Technology validation |
 
 > **Learn more:** [Moon](summaries/moon.qmd), [Mass Driver](detailed/production/railguns/theory.qmd)
@@ -245,9 +245,9 @@ Robots build robots. Factories build factories.
 
 - **99% of mass** — from local resources (**iron** for frames, **aluminum** for bodies, silicon)
 - **1% of mass** — "Vitamins" from Earth (electronics, optics)
-- **Gen-2 robots** — optimized (~960 kg): Al frames + Fe critical components
+- **[Gen-2 robots](detailed/production/robots/overview.qmd)** — optimized (~960 kg): Al frames + Fe critical components
 - **Energy:** 168 MW (3 trips of GaAs panels) — bootstrap without waiting for Swarm
-- **Critical path:** First MD (~1 month) -> first mirrors -> scaling
+- **Critical path:** First MD (month 6) -> first mirrors -> scaling
 
 Over **~9.5 years:** 1 factory -> ~1,650 factories (1,500 F-M + 150 F-R) -> 1.1 billion working mirrors (degradation already included)
 
@@ -327,9 +327,9 @@ Microwaves pass through clouds — all-weather operation.
 
 ## Risks
 
-1. **Logistics:** ~50-100 launches over ~10 years — 1-2 launches/month at peak
-2. **Lunar production:** LSP station deployment on limbs — new technology
-3. **Mercury production:** factory self-replication — complex autonomous system
+1. **[Factory self-replication](reference/technology-readiness.qmd#factory-self-replication) (TRL 4-5)** — subsystems proven (robots, casting, WAAM), integration requires R&D
+2. **[Iridium for anodes](detailed/production/materials/carbon.qmd)** — solved by carbon anodes from local feedstock (Mercury LRM zones)
+3. **[Mirror degradation](detailed/mirrors.qmd#degradation)** — 8-12 year lifespan, compensated by producing 219 million mirrors/year
 
 > **Learn more:** [Risks and Limitations](reference/risks.qmd)
 

@@ -6,7 +6,7 @@ sidebar: science
 > **TL;DR**
 >
 > - **Technological:** 2 technologies at TRL 4-5 (subsystems proven), 1 critical issue (iridium for anodes — solvable with carbon anodes from local materials)
-> - **Budget:** testing underestimated, dependence on super-heavy rockets
+> - **Budget:** testing underestimated
 > - **Human:** 50,000 specialists needed, competition for AI talent
 > - **Political:** sanctions, government changes, legal status of resources
 > - **Resource:** electronics ~8%/year of world production
@@ -25,6 +25,7 @@ These issues initially appeared blocking but have solutions.
 | Copper not found on Mercury | Cryo-aluminum in shadow (-180C) | [Cryogenic Al](technology-readiness.qmd#cryogenic-aluminum-cable-gw) |
 | NaS batteries during night period | Cables + charging stations | [NaS TRL 9](technology-readiness.qmd#nas-batteries) |
 | **Payload survivability at high g** | Proven to 25,000g (McCormick Stevenson) | [MD Theory](../detailed/production/railguns/theory.qmd#payload-survivability-at-high-g) |
+| **Super-heavy rocket dependency** | Multi-rocket approach: 3-4 medium rockets + independent Mercury landings | [Delivery](../detailed/delivery.qmd) |
 
 ---
 
@@ -170,14 +171,42 @@ Baseline estimate ($15-30 billion) was conservative. By 2026:
 
 ---
 
-### Dependence on Super-Heavy Rockets
+### ~~Dependence on Super-Heavy Rockets~~ → RESOLVED
 
-Baseline scenario: $2,500/kg with Starship/Long March 9 availability by 2030.
+::: {.callout-tip}
+## Risk Eliminated
 
-| Scenario | Cost | Impact |
-|----------|------|--------|
-| Rockets on time | $2,500/kg | - |
-| 2-3 year delay | $3,500/kg | **+$30-50 billion** |
+Thanks to two factors:
+
+1. **96% localization** — imports reduced from ~22,000 t to ~2,400 t
+2. **Multi-rocket approach** — first expeditions split into 3-4 medium rocket launches
+:::
+
+**Before (old calculation):**
+- E1 (75 t) + E2 (65 t) required super-heavy launch vehicles
+- Dependence on specific rockets and countries
+
+**After (new approach):**
+- E1: 75 t = 4 × medium rockets (~20 t each)
+- E2: 65 t = 3-4 × medium rockets
+- Each rocket lands on Mercury independently
+- Surface assembly by Gen-1 robots
+
+**Why this works:**
+- Mercury has no atmosphere — landing is straightforward (deceleration burns only)
+- Gen-1 robots already know how to assemble (this is their main task — bootstrap)
+- Orbital assembly **not needed**
+
+**International fleet advantages:**
+
+| Factor | 1 super-heavy | 3-4 medium |
+|--------|---------------|------------|
+| Availability | Depends on 1 country | **International fleet** |
+| Loss risk | 100% of cargo | 25-33% of cargo |
+| Flexibility | Only one type | Any ≥20 t to Mercury |
+| Countries | 1-2 | USA, China, ESA, Russia, India, Japan |
+
+**Conclusion:** Project **does not depend** on any specific country or launch vehicle.
 
 ---
 
