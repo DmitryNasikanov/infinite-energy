@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -166,9 +368,11 @@ p:has(> em:first-child) { text-indent: 0; }
    
   <ul>
   <li><a href="#story" id="toc-story" class="nav-link active" data-scroll-target="#story">Story</a></li>
+  <li><a href="#education" id="toc-education" class="nav-link" data-scroll-target="#education">Education</a></li>
   <li><a href="#philosophy" id="toc-philosophy" class="nav-link" data-scroll-target="#philosophy">Philosophy</a></li>
+  <li><a href="#invitation-to-participate" id="toc-invitation-to-participate" class="nav-link" data-scroll-target="#invitation-to-participate">Invitation to Participate</a></li>
   <li><a href="#connection-to-the-book" id="toc-connection-to-the-book" class="nav-link" data-scroll-target="#connection-to-the-book">Connection to the Book</a></li>
-  <li><a href="#support" id="toc-support" class="nav-link" data-scroll-target="#support">Support</a></li>
+  <li><a href="#support-the-project" id="toc-support-the-project" class="nav-link" data-scroll-target="#support-the-project">Support the Project</a></li>
   </ul>
 </nav>
     </div>
@@ -196,27 +400,39 @@ p:has(> em:first-child) { text-indent: 0; }
 
 <section id="story" class="level2">
 <h2 class="anchored" data-anchor-id="story">Story</h2>
-<p>After a neck injury, Dmitry cannot walk. His fingers don’t work — only his hands. But this doesn’t stop him from writing.</p>
-<p>He is a father of three children. And the author of this book.</p>
+<p>Several years ago, Dmitry’s life changed in an instant. A cervical spine injury resulted in him losing control of his body — complete paralysis below the neck. He cannot walk, cannot use his hands, even his fingers don’t respond. The body that was once an obedient instrument has now become a prison.</p>
+<p>But a person is more than just a body. Dmitry has a loving wife and three children, for whom it’s worth living and fighting. They are his support, his source of strength, his hope that tomorrow will be better than today. It was his family that gave him the strength not to give up and to find new meaning in life, which manifested in this project.</p>
+</section>
+<section id="education" class="level2">
+<h2 class="anchored" data-anchor-id="education">Education</h2>
+<p>Dmitry doesn’t claim to be a scientist — he’s a practitioner with a technical mindset. Behind him is a mathematics degree from St.&nbsp;Petersburg State University and many years of experience as a programmer. This combination — mathematical thinking and an engineering approach — allows him to systematically analyze complex problems and find solutions where others see only obstacles.</p>
+<p>Project Helios was born not from academic research, but from persistent collection and systematization of knowledge. Years of work went into gathering scientific articles, engineering calculations, space mission data, and references to existing technologies. All of this came together into a picture that convinced Dmitry: the project is feasible. Not in a hundred years, not in the distant future — but in our lifetime, if humanity makes that decision.</p>
 </section>
 <section id="philosophy" class="level2">
 <h2 class="anchored" data-anchor-id="philosophy">Philosophy</h2>
-<p>Dmitry believes that humanity can unite for a great purpose. That science will solve fundamental problems — energy, resources, medicine. That progress cannot be stopped.</p>
-<p>Perhaps in his lifetime, medicine will advance far enough to help him too. Until then — he writes about a world where this has already happened.</p>
+<p>In 1964, Soviet astronomer Nikolai Kardashev proposed a scale of civilization development based on the amount of energy they can utilize. A Type I civilization uses all the energy of its planet. Type II — all the energy of its star. Type III — all the energy of its galaxy.</p>
+<p>Humanity today doesn’t even reach Type I. We burn fossil fuels like children playing with matches, while right next to us burns a thermonuclear reactor with a power output of 386 septillion watts — our Sun.</p>
+<p>Dmitry believes that we stand on the threshold of the greatest transition in history — from a civilization dependent on the finite resources of a single planet to a civilization drawing energy directly from a star. The technologies for this already exist or are within reach. All that’s missing is the will and understanding that this is possible.</p>
+<p>Perhaps in his lifetime, medicine will also advance far enough. For now — he writes about a world where this has already happened.</p>
+</section>
+<section id="invitation-to-participate" class="level2">
+<h2 class="anchored" data-anchor-id="invitation-to-participate">Invitation to Participate</h2>
+<p>This project is not a loner’s manifesto or a utopian fantasy. It’s an attempt to gather existing knowledge and show: the path to the stars is open, we just need to take the first step.</p>
+<p>Dmitry invites everyone who is interested to look at the proposed implementation with a critical eye. How sensible is it? Where are the weak points? What can be improved? What technologies have been overlooked?</p>
+<p>One person cannot build a Dyson Swarm — that’s a task for all of humanity. But one person can start a conversation. Can gather the first like-minded individuals. Can show that the dream of infinite energy is not fantasy, but an engineering challenge with specific parameters.</p>
+<p>If you’re an engineer, physicist, economist, programmer, or simply someone who cares about the future — join in. Study the materials, ask questions, suggest improvements. A common future is built together.</p>
 </section>
 <section id="connection-to-the-book" class="level2">
 <h2 class="anchored" data-anchor-id="connection-to-the-book">Connection to the Book</h2>
-<p>“Helios” is not just science fiction. It’s a manifesto of hope. A story about how people from different countries build a common future. About technologies that will change everything. About faith that tomorrow will be better than today.</p>
+<p>“Helios” is two things at once: a science fiction novel and technical documentation. The book tells the story of people who dared to attempt the impossible, while the “Science” section shows exactly how that impossible becomes possible.</p>
+<p>This is a manifesto of hope for those tired of apocalyptic scenarios. A story about how people of different countries and cultures can unite for a common goal. About technologies that will change everything. About faith that humanity’s best days are ahead.</p>
 </section>
-<section id="support" class="level2">
-<h2 class="anchored" data-anchor-id="support">Support</h2>
-<p>If you enjoyed the book — you can support the author:</p>
-<ul>
-<li><strong>Ko-fi</strong> — one-time donation</li>
-<li><strong>Patreon</strong> — monthly subscription</li>
-<li><strong>Boosty</strong> — for Russia</li>
-</ul>
-<p>Or just share the book with friends.</p>
+<section id="support-the-project" class="level2">
+<h2 class="anchored" data-anchor-id="support-the-project">Support the Project</h2>
+<p>If this project inspired you — you can support its development:</p>
+<p><strong>Cryptocurrency (Ethereum):</strong></p>
+<pre><code>0x4b241D18329982b268B13E729EDdF1D144235242</code></pre>
+<p>But the most valuable support is your participation. Share the project with those who might be interested. Leave a review. Point out errors. Suggest ideas. Together we can do more.</p>
 
 
 </section>
@@ -295,7 +511,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

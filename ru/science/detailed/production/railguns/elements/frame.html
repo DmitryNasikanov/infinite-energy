@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Каркас тоннеля 3 км – Проект Гелиос</title>
+<title>Каркас тоннеля – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../../../../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -201,20 +403,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -227,6 +417,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -248,20 +444,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -363,6 +547,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -608,14 +798,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -628,12 +818,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -655,7 +839,7 @@ p:has(> em:first-child) { text-indent: 0; }
    
   <ul>
   <li><a href="#обзор" id="toc-обзор" class="nav-link active" data-scroll-target="#обзор">Обзор</a></li>
-  <li><a href="#конструкция-каркаса" id="toc-конструкция-каркаса" class="nav-link" data-scroll-target="#конструкция-каркаса">Конструкция каркаса</a>
+  <li><a href="#конструкция-каркаса-базовый-1-км" id="toc-конструкция-каркаса-базовый-1-км" class="nav-link" data-scroll-target="#конструкция-каркаса-базовый-1-км">Конструкция каркаса (базовый 1 км)</a>
   <ul class="collapse">
   <li><a href="#схема-фермы-вид-сбоку" id="toc-схема-фермы-вид-сбоку" class="nav-link" data-scroll-target="#схема-фермы-вид-сбоку">Схема фермы (вид сбоку)</a></li>
   </ul></li>
@@ -697,7 +881,7 @@ p:has(> em:first-child) { text-indent: 0; }
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../../../ru/science/detailed/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../../../../ru/science/detailed/production/overview.html">Производство</a></li><li class="breadcrumb-item"><a href="../../../../../../ru/science/detailed/production/railguns/overview.html">Масс-драйверы</a></li><li class="breadcrumb-item"><a href="../../../../../../ru/science/detailed/production/railguns/elements/rails.html">Элементы МД</a></li><li class="breadcrumb-item"><a href="../../../../../../ru/science/detailed/production/railguns/elements/frame.html">Каркас</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Каркас тоннеля 3 км</h1>
+<h1 class="title">Каркас тоннеля</h1>
 </div>
 
 
@@ -719,18 +903,19 @@ p:has(> em:first-child) { text-indent: 0; }
 <ul>
 <li><strong>Назначение:</strong> Несущая конструкция масс-драйвера</li>
 <li><strong>Материал:</strong> Сталь Fe-6%Mn (прочность + низкая температура)</li>
-<li><strong>Масса:</strong> ~800 т на МД (3 км длина)</li>
+<li><strong>Масса:</strong> <strong>~270 т</strong> (базовый 1 км)*</li>
 <li><strong>Конструкция:</strong> Ферменный каркас + бетонные опоры</li>
 </ul>
+<p>*При удлинении: 2 км (~535 т), 3 км (~800 т).</p>
 </blockquote>
 <hr>
 <section id="обзор" class="level2">
 <h2 class="anchored" data-anchor-id="обзор">Обзор</h2>
-<p>Каркас тоннеля — это несущая конструкция, которая удерживает рельсы, катушки и электронику масс-драйвера. Каркас должен выдерживать огромные нагрузки при разгоне (43g ускорение).</p>
+<p>Каркас тоннеля — это несущая конструкция, которая удерживает рельсы, катушки и электронику масс-драйвера. Каркас должен выдерживать огромные нагрузки при разгоне (1275g ускорение).</p>
 <hr>
 </section>
-<section id="конструкция-каркаса" class="level2">
-<h2 class="anchored" data-anchor-id="конструкция-каркаса">Конструкция каркаса</h2>
+<section id="конструкция-каркаса-базовый-1-км" class="level2">
+<h2 class="anchored" data-anchor-id="конструкция-каркаса-базовый-1-км">Конструкция каркаса (базовый 1 км)</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -741,7 +926,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Длина</td>
-<td>3 км</td>
+<td><strong>1 км</strong> (базовый)*</td>
 </tr>
 <tr class="even">
 <td>Ширина</td>
@@ -759,12 +944,10 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>Тип конструкции</td>
 <td>Ферменный каркас</td>
 </tr>
-<tr class="even">
-<td>Масса</td>
-<td>~800 т</td>
-</tr>
 </tbody>
 </table>
+<p>*При необходимости: 2 км или 3 км.</p>
+<p><strong>Масса каркаса:</strong> ~270 т (1 км), ~535 т (2 км), ~800 т (3 км).</p>
 <section id="схема-фермы-вид-сбоку" class="level3">
 <h3 class="anchored" data-anchor-id="схема-фермы-вид-сбоку">Схема фермы (вид сбоку)</h3>
 <pre><code>     5 м
@@ -1013,7 +1196,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Рельсы (2 шт)</td>
-<td>200 т</td>
+<td>210 т</td>
 <td>0.07 т/м</td>
 </tr>
 <tr class="even">
@@ -1028,7 +1211,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
-<td><strong>507 т</strong></td>
+<td><strong>517 т</strong></td>
 <td><strong>~0.17 т/м</strong></td>
 </tr>
 </tbody>
@@ -1041,14 +1224,14 @@ p:has(> em:first-child) { text-indent: 0; }
 <tr class="header">
 <th>Источник</th>
 <th>Усилие</th>
-<th>Частота</th>
+<th>Время</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Разгон снаряда (43g)</td>
-<td>63 кН на каретку</td>
-<td>12 сек</td>
+<td>Разгон снаряда (1275g)</td>
+<td><strong>1.44 МН на каретку</strong></td>
+<td>0.4 сек</td>
 </tr>
 <tr class="even">
 <td>Магнитное поле</td>
@@ -1057,12 +1240,12 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="odd">
 <td>Вибрации</td>
-<td>~1 кН</td>
+<td>~5 кН</td>
 <td>Постоянно</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Запас прочности:</strong> каркас рассчитан на 3× нагрузки.</p>
+<p><strong>Запас прочности:</strong> каркас рассчитан на 3× нагрузки. Высокое ускорение (1275g) компенсируется коротким временем воздействия (0.4 сек).</p>
 <hr>
 </section>
 </section>
@@ -1154,25 +1337,25 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Прямолинейность</td>
-<td>Лазерный нивелир</td>
+<td>Лазерный датчик (импорт, витамин)</td>
 <td>±5 мм на 100 м</td>
 <td>Регулировка опор</td>
 </tr>
 <tr class="even">
 <td>Перпендикулярность</td>
-<td>Теодолит</td>
+<td>Лазерный датчик</td>
 <td>±0.1°</td>
 <td>Коррекция</td>
 </tr>
 <tr class="odd">
 <td>Сварные швы</td>
-<td>Ультразвук</td>
-<td>Нет дефектов</td>
+<td>Визуальный (камеры) + нагрузочный тест</td>
+<td>Нет видимых дефектов</td>
 <td>Переваривание</td>
 </tr>
 <tr class="even">
 <td>Болтовые соединения</td>
-<td>Динамометр</td>
+<td>Динамометрический ключ (местный)</td>
 <td>Момент 300 Нм</td>
 <td>Подтяжка</td>
 </tr>
@@ -1266,7 +1449,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

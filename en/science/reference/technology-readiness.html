@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Technologies and Sources – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Technologies and Sources</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Навигация</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#technology-readiness-and-bibliography-for-project-helios" id="toc-technology-readiness-and-bibliography-for-project-helios" class="nav-link active" data-scroll-target="#technology-readiness-and-bibliography-for-project-helios">Technology Readiness and Bibliography for Project Helios</a>
+  <ul class="collapse">
+  <li><a href="#technology-summary-table" id="toc-technology-summary-table" class="nav-link" data-scroll-target="#technology-summary-table">Technology Summary Table</a></li>
+  <li><a href="#technologies-trl-7-9-industrial-maturity" id="toc-technologies-trl-7-9-industrial-maturity" class="nav-link" data-scroll-target="#technologies-trl-7-9-industrial-maturity">Technologies TRL 7-9 (Industrial Maturity)</a>
+  <ul class="collapse">
+  <li><a href="#dark-factories-lights-off-manufacturing" id="toc-dark-factories-lights-off-manufacturing" class="nav-link" data-scroll-target="#dark-factories-lights-off-manufacturing">Dark Factories (Lights-off Manufacturing)</a></li>
+  <li><a href="#autonomous-mining" id="toc-autonomous-mining" class="nav-link" data-scroll-target="#autonomous-mining">Autonomous Mining</a></li>
+  <li><a href="#nas-batteries" id="toc-nas-batteries" class="nav-link" data-scroll-target="#nas-batteries">NaS Batteries</a></li>
+  <li><a href="#waam-wire-arc-additive-manufacturing" id="toc-waam-wire-arc-additive-manufacturing" class="nav-link" data-scroll-target="#waam-wire-arc-additive-manufacturing">WAAM (Wire Arc Additive Manufacturing)</a></li>
+  <li><a href="#electromagnetic-launch-mass-driver" id="toc-electromagnetic-launch-mass-driver" class="nav-link" data-scroll-target="#electromagnetic-launch-mass-driver">Electromagnetic Launch (Mass Driver)</a></li>
+  <li><a href="#ultra-thin-aluminum-foil" id="toc-ultra-thin-aluminum-foil" class="nav-link" data-scroll-target="#ultra-thin-aluminum-foil">Ultra-thin Aluminum Foil</a></li>
+  <li><a href="#solar-sails" id="toc-solar-sails" class="nav-link" data-scroll-target="#solar-sails">Solar Sails</a></li>
+  <li><a href="#integrated-servo-actuators-robot-joints" id="toc-integrated-servo-actuators-robot-joints" class="nav-link" data-scroll-target="#integrated-servo-actuators-robot-joints">Integrated Servo Actuators (Robot Joints)</a></li>
+  </ul></li>
+  <li><a href="#technologies-trl-6-7-demonstration" id="toc-technologies-trl-6-7-demonstration" class="nav-link" data-scroll-target="#technologies-trl-6-7-demonstration">Technologies TRL 6-7 (Demonstration)</a>
+  <ul class="collapse">
+  <li><a href="#mre-molten-regolith-electrolysis" id="toc-mre-molten-regolith-electrolysis" class="nav-link" data-scroll-target="#mre-molten-regolith-electrolysis">MRE (Molten Regolith Electrolysis)</a></li>
+  <li><a href="#microwave-power-transmission" id="toc-microwave-power-transmission" class="nav-link" data-scroll-target="#microwave-power-transmission">Microwave Power Transmission</a></li>
+  <li><a href="#autonomous-ai-for-robots" id="toc-autonomous-ai-for-robots" class="nav-link" data-scroll-target="#autonomous-ai-for-robots">Autonomous AI for Robots</a></li>
+  </ul></li>
+  <li><a href="#technologies-trl-4-5-open-questions" id="toc-technologies-trl-4-5-open-questions" class="nav-link" data-scroll-target="#technologies-trl-4-5-open-questions">Technologies TRL 4-5 (Open Questions)</a>
+  <ul class="collapse">
+  <li><a href="#factory-self-replication" id="toc-factory-self-replication" class="nav-link" data-scroll-target="#factory-self-replication">Factory Self-replication</a></li>
+  <li><a href="#coordination-of-1-billion-mirror-swarm" id="toc-coordination-of-1-billion-mirror-swarm" class="nav-link" data-scroll-target="#coordination-of-1-billion-mirror-swarm">Coordination of 1 Billion Mirror Swarm</a></li>
+  <li><a href="#in-situ-silicon-cells" id="toc-in-situ-silicon-cells" class="nav-link" data-scroll-target="#in-situ-silicon-cells">In-situ Silicon Cells</a></li>
+  <li><a href="#cryogenic-aluminum-cable-gw" id="toc-cryogenic-aluminum-cable-gw" class="nav-link" data-scroll-target="#cryogenic-aluminum-cable-gw">Cryogenic Aluminum Cable (GW)</a></li>
+  </ul></li>
+  <li><a href="#reference-bibliography" id="toc-reference-bibliography" class="nav-link" data-scroll-target="#reference-bibliography">Reference Bibliography</a>
+  <ul class="collapse">
+  <li><a href="#planetary-data" id="toc-planetary-data" class="nav-link" data-scroll-target="#planetary-data">Planetary Data</a></li>
+  <li><a href="#optics-and-materials" id="toc-optics-and-materials" class="nav-link" data-scroll-target="#optics-and-materials">Optics and Materials</a></li>
+  <li><a href="#semiconductors-and-microelectronics" id="toc-semiconductors-and-microelectronics" class="nav-link" data-scroll-target="#semiconductors-and-microelectronics">Semiconductors and Microelectronics</a></li>
+  <li><a href="#metallurgy-and-materials" id="toc-metallurgy-and-materials" class="nav-link" data-scroll-target="#metallurgy-and-materials">Metallurgy and Materials</a></li>
+  <li><a href="#economic-data" id="toc-economic-data" class="nav-link" data-scroll-target="#economic-data">Economic Data</a></li>
+  <li><a href="#space-agencies-and-programs-extended-list" id="toc-space-agencies-and-programs-extended-list" class="nav-link" data-scroll-target="#space-agencies-and-programs-extended-list">Space Agencies and Programs (Extended List)</a></li>
+  </ul></li>
+  <li><a href="#mars-terraforming-for-reference" id="toc-mars-terraforming-for-reference" class="nav-link" data-scroll-target="#mars-terraforming-for-reference">Mars Terraforming (For Reference)</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Technologies and Sources</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="technology-readiness-and-bibliography-for-project-helios" class="level1">
+<h1>Technology Readiness and Bibliography for Project Helios</h1>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<ul>
+<li><strong>All 25</strong> technologies have TRL 4+ (laboratory or higher)</li>
+<li><strong>18 technologies</strong> have TRL 7-9 (industrial maturity): electromagnetic launch, dark factories, autonomous mining, WAAM, NaS, foil, solar sails, continuous casting, rolling, CNC, servo actuators, etc.</li>
+<li><strong>2 technologies</strong> TRL 4-5 (self-replication, cryogenic Al cable) — subsystems proven, integration in progress</li>
+<li><strong>None</strong> of the technologies are fundamentally new — all are based on existing physical principles and industrial processes</li>
+<li><strong>Sources:</strong> USA, China, Japan, Europe (ESA, UK, Netherlands, Germany), Australia, Korea, India, Russia</li>
+</ul>
+</blockquote>
+<hr>
+<section id="technology-summary-table" class="level2">
+<h2 class="anchored" data-anchor-id="technology-summary-table">Technology Summary Table</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 18%">
+<col style="width: 7%">
+<col style="width: 22%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Technology</th>
+<th>TRL</th>
+<th>Current Status</th>
+<th>Key References (Geography)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Factory Self-replication</td>
+<td>4-5</td>
+<td>Subsystems TRL 9 (FANUC, Tesla), integration is engineering task</td>
+<td>🇯🇵 FANUC, 🇺🇸 Tesla, Von Neumann theory</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Cryogenic Al Cable (GW)</td>
+<td>4-5</td>
+<td>NIST physics, superconducting analogues TRL 5-6</td>
+<td>🇨🇭 CERN LHC, 🇷🇺 ITER cryogenic systems</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>In-situ Silicon Cells</td>
+<td>5-6</td>
+<td>Lab demonstration (Blue Alchemist CDR 2025)</td>
+<td>🇺🇸 Blue Origin, 🇪🇺 ESA/Maana Electric</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Microwave Power Transmission</td>
+<td>6-7</td>
+<td>Space demo (Caltech 2023)</td>
+<td>🇺🇸 Caltech, 🇯🇵 NTT/MHI, 🇪🇺 ESA SOLARIS</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>MRE Electrolysis</td>
+<td>6-7</td>
+<td>Blue Origin full cycle, NASA CDR</td>
+<td>🇺🇸 NASA/Blue Origin, 🇮🇳 ISRO (planned)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Rectenna (MW→DC)</td>
+<td>6-7</td>
+<td>85% efficiency proven</td>
+<td>🇯🇵 NTT/MHI, 🇺🇸 NASA SPS, 🇪🇺 ESA</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Electromagnetic Launch</td>
+<td>7-8</td>
+<td>EMALS serial, maglev commercial</td>
+<td>🇨🇳 China NUDT, 🇺🇸 EMALS, 🇯🇵 Chuo Shinkansen</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>WAAM 3D Printing</td>
+<td>7-8</td>
+<td>Industrial production</td>
+<td>🇬🇧 WAAM3D, 🇦🇺 AML3D, 🇨🇳 BLT</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Ultra-thin Foil</td>
+<td>7-8</td>
+<td>LightSail 2 in space (4.5 μm)</td>
+<td>🇨🇳 Chalco, 🇰🇷 SK Nexilis, 🇺🇸 Planetary Society</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Solar Sails</td>
+<td>7-8</td>
+<td>Flight demonstration</td>
+<td>🇯🇵 IKAROS, 🇺🇸 LightSail 2/NEA Scout</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Autonomous Robot AI</td>
+<td>7-8</td>
+<td>Mars + serial humanoids + L4 robotaxi</td>
+<td>🇺🇸 Mars Perseverance, 🇺🇸 Waymo, 🇨🇳 Baidu Apollo, 🇦🇺 Rio Tinto</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Autonomous Mining</td>
+<td>8-9</td>
+<td>690+ trucks in operation</td>
+<td>🇦🇺 Rio Tinto, 🇺🇸 Caterpillar, 🇨🇳 CHN Energy</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>NaS Batteries</td>
+<td>9</td>
+<td>5 GWh deployed</td>
+<td>🇯🇵 NGK, 🇩🇪 HH2E, 🇺🇸 Duke Energy</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>Dark Factories</td>
+<td>9</td>
+<td>Industrial operation</td>
+<td>🇯🇵 FANUC, 🇨🇳 Xiaomi/Foxconn, 🇳🇱 Philips</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>Integrated Servo Actuators</td>
+<td>9</td>
+<td>Automated mass production</td>
+<td>🇨🇳 EYOU (100K/yr), 🇨🇳 Leaderdrive, 🇯🇵 Harmonic Drive, 🇯🇵 Nabtesco</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>Si₃N₄ Ceramic Cutters</td>
+<td>8-9</td>
+<td>Industrial standard</td>
+<td>🇸🇪 Sandvik, 🇺🇸 3M, 🇩🇪 CeramTec</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>TRL Scale:</strong> 1-3 = research, 4-5 = laboratory, 6-7 = demonstration, 8-9 = operation</p>
+</blockquote>
+<hr>
+</section>
+<section id="technologies-trl-7-9-industrial-maturity" class="level2">
+<h2 class="anchored" data-anchor-id="technologies-trl-7-9-industrial-maturity">Technologies TRL 7-9 (Industrial Maturity)</h2>
+<section id="dark-factories-lights-off-manufacturing" class="level3">
+<h3 class="anchored" data-anchor-id="dark-factories-lights-off-manufacturing">Dark Factories (Lights-off Manufacturing)</h3>
+<p><strong>Project Application:</strong> Ground Zero Factory and replicating factories operate without humans 24/7 on Mercury.</p>
+<p><strong>Existing Implementations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Country</th>
+<th>Year</th>
+<th>Scale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://en.wikipedia.org/wiki/Lights_out_(manufacturing)">FANUC</a></td>
+<td>Japan</td>
+<td>2001</td>
+<td>Robots build robots, 50 units/day, <strong>30 days without humans</strong></td>
+</tr>
+<tr class="even">
+<td><a href="https://newatlas.com/robotics/xiaomi-dark-robotic-factory/">Xiaomi</a></td>
+<td>China</td>
+<td>2023</td>
+<td>81,000 m², 10M smartphones/year, <a href="https://www.trendforce.com/news/2024/07/09/news-featuring-mix-fold-4-xiaomis-smart-factory-opens-with-10-million-annual-flagship-smartphone-capacity/">1 unit/sec</a></td>
+</tr>
+<tr class="odd">
+<td>Foxconn</td>
+<td>China</td>
+<td>2016+</td>
+<td>60,000 robots replaced workers in Kunshan</td>
+</tr>
+<tr class="even">
+<td><a href="https://yourstory.com/2025/02/dark-factories-future-automation-manufacturing-trends">BYD + Saudi Aramco</a></td>
+<td>China/Saudi Arabia</td>
+<td>2025</td>
+<td>Joint dark factory project for EVs</td>
+</tr>
+<tr class="odd">
+<td>Philips</td>
+<td>Netherlands</td>
+<td>—</td>
+<td>128 robots, 9 controllers</td>
+</tr>
+<tr class="even">
+<td>Semiconductor fabs</td>
+<td>Global</td>
+<td>—</td>
+<td>300mm wafer — full automation (TSMC, Samsung, Intel)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dark factories market:</strong> <a href="https://www.grandviewresearch.com/industry-analysis/dark-factories-market-report">$119 billion (2024)</a>, CAGR 8.7%. By 2025 China has 1M+ industrial robots.</p>
+<p><strong>Conclusion:</strong> Helios factories are simpler than semiconductor fabs — metallurgy, not nanotechnology. Full automation is proven.</p>
+<hr>
+</section>
+<section id="autonomous-mining" class="level3">
+<h3 class="anchored" data-anchor-id="autonomous-mining">Autonomous Mining</h3>
+<p><strong>Project Application:</strong> Mole-M robots extract 600 tons of regolith/day without operators.</p>
+<p><strong>Existing Implementations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Location</th>
+<th>Scale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://im-mining.com/2024/08/12/komatsu-and-rio-tinto-herald-delivery-of-300th-autonomous-haul-truck/">Rio Tinto</a></td>
+<td>Pilbara, Australia</td>
+<td><strong>305 AHS</strong> (July 2025), <a href="https://www.mining.com/rio-tinto-autonomous-trucks-now-hauling-quarter-pilbara-material/">4.8 billion tons hauled</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://www.robotics247.com/article/rio_tinto_opens_gudai_darri_its_most_technologically_advanced_mine">Rio Tinto Gudai-Darri</a></td>
+<td>Australia</td>
+<td>Trucks + water carts + robotic lab + solar farm</td>
+</tr>
+<tr class="odd">
+<td><a href="https://im-mining.com/2025/11/07/caterpillar-sets-out-to-hit-over-2000-autonomous-mining-trucks-by-2030/">Caterpillar</a></td>
+<td>Global</td>
+<td><strong>690 autonomous trucks</strong> (2024), target 2,000+ by 2030</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.mining-technology.com/analyst-comment/china-global-leader-autonomous-surface-mining-trucks/">CHN Energy</a></td>
+<td>China</td>
+<td><strong>509 trucks</strong> — world’s largest autonomous fleet</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.cnbc.com/2019/10/23/caterpillar-and-nasa-developing-autonomous-vehicles-to-mine-the-moon.html">Caterpillar + NASA</a></td>
+<td>USA</td>
+<td>Joint development for lunar mining</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.mining-technology.com/news/zyfra-trials-5g-on-autonomous-mining-dump-trucks-in-russia/">SUEK + Zyfra</a></td>
+<td>Russia</td>
+<td>Autonomous BELAZ 130t, 5G quarry, +30% productivity</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Autonomous mining is a mature technology. Caterpillar + NASA are already working on lunar applications. Mercury Mole-Ms are the next step.</p>
+<hr>
+</section>
+<section id="nas-batteries" class="level3">
+<h3 class="anchored" data-anchor-id="nas-batteries">NaS Batteries</h3>
+<p><strong>Project Application:</strong> Power system for Gen-2 robots on Mercury.</p>
+<p><strong>Existing Implementations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Country</th>
+<th>Capacity</th>
+<th>Year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.energy-storage.news/nas-batteries-long-duration-energy-storage-proven-at-5gwh-of-deployments-worldwide/">NGK globally</a></td>
+<td>Japan</td>
+<td><strong>5 GWh</strong>, 250+ projects</td>
+<td>since 2003</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.energy-storage.news/ngk-sodium-sulfur-batteries-deployed-at-70mwh-japan-project-picked-for-pilot-by-us-utility-duke-energy/">Toho Gas</a></td>
+<td>Japan</td>
+<td>11.4 MW / 69.6 MWh</td>
+<td>2024</td>
+</tr>
+<tr class="odd">
+<td>HH2E</td>
+<td>Germany</td>
+<td>230+ MWh (green H₂)</td>
+<td>2024</td>
+</tr>
+<tr class="even">
+<td>Duke Energy</td>
+<td>USA</td>
+<td>Pilot project</td>
+<td>2025</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Characteristics:</strong> Operating temperature 300-350°C, <a href="https://www.basf.com/global/en/media/news-releases/2024/06/p-24-216"><strong>7,300 cycles</strong></a>, 20-year lifespan, &lt;1% degradation/year.</p>
+<p><strong>Ideal for Mercury:</strong> NaS requires heating to 300°C. On Mercury’s day side +400°C — <strong>free heating</strong>. In shadow (-180°C) heat from NaS helps robots operate. This is not a bug, it’s a feature.</p>
+<hr>
+</section>
+<section id="waam-wire-arc-additive-manufacturing" class="level3">
+<h3 class="anchored" data-anchor-id="waam-wire-arc-additive-manufacturing">WAAM (Wire Arc Additive Manufacturing)</h3>
+<p><strong>Project Application:</strong> Production of robot frames, factory parts, Mass Driver elements.</p>
+<p><strong>Existing Implementations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Country</th>
+<th>Technology</th>
+<th>Application</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.waam3d.com/">WAAM3D</a></td>
+<td>UK</td>
+<td>Industrial WAAM</td>
+<td>Large Al/Ti parts</td>
+</tr>
+<tr class="even">
+<td><a href="https://aml3d.com/technology">AML3D</a></td>
+<td>Australia</td>
+<td>WAM® — no chamber</td>
+<td><a href="https://www.metal-am.com/aml3ds-wire-arc-additive-manufacturing-selected-for-use-in-naval-shipbuilding/">First DNV-certification</a>, shipbuilding</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.ramlab.com/resources/waam-101/">RAMLAB</a></td>
+<td>Netherlands</td>
+<td>WAAM for ships</td>
+<td>Propellers, hulls</td>
+</tr>
+<tr class="even">
+<td>Lincoln Electric + MX3D</td>
+<td>USA/Netherlands</td>
+<td>Multi-wire WAAM</td>
+<td>Bridges, structures</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.blt3d.com/">BLT (Bright Laser Technologies)</a></td>
+<td>China</td>
+<td>Metal AM (WAAM/SLM)</td>
+<td>Aerospace, China market leader</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Characteristics:</strong> 1-10 kg/hour deposition rate, aluminum/steel/titanium, <strong>no vacuum chamber</strong> (important for Mercury — working in vacuum is even better!).</p>
+<p><strong>Conclusion:</strong> WAAM in Mercury’s vacuum = ideal conditions (no oxidation). Technology is mature and industrial.</p>
+<hr>
+</section>
+<section id="electromagnetic-launch-mass-driver" class="level3">
+<h3 class="anchored" data-anchor-id="electromagnetic-launch-mass-driver">Electromagnetic Launch (Mass Driver)</h3>
+<p><strong>Project Application:</strong> Launching mirrors from Mercury’s surface at 5 km/s.</p>
+<p><strong>Key Demonstrations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Speed</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html">China NUDT (Dec 2025)</a></td>
+<td><strong>700 km/h in 2 sec</strong></td>
+<td>400 m track, ton-class, <a href="https://www.scmp.com/news/china/science/article/3337735/chinas-record-smashing-maglev-achieves-0-700km/h-acceleration-less-2-seconds">superconducting</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://www.navair.navy.mil/product/Electromagnetic-Aircraft-Launch-System-EMALS">EMALS (US Navy)</a></td>
+<td><strong>23,000+ launches</strong></td>
+<td>Production catapult, <a href="https://www.flightglobal.com/fixed-wing/uss-gerald-r-fords-emals-cleared-for-all-aircraft/136773.article">combat deployment 2023-24</a></td>
+</tr>
+<tr class="odd">
+<td>Fujian (Chinese Navy)</td>
+<td>—</td>
+<td>Indigenous EMALS</td>
+</tr>
+<tr class="even">
+<td><a href="https://ntrs.nasa.gov/citations/19770010564">NASA Mass Driver (1977)</a></td>
+<td>Concept</td>
+<td>Original Gerard O’Neill idea</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quote from Professor Li Jie (NUDT):</strong> <em>“Going forward, we will focus on frontier fields such as high-speed maglev transport in pipelines, aerospace boost launches and experimental testing.”</em></p>
+<p><strong>Scaling for project:</strong> NUDT achieved 700 km/h (194 m/s) over 400 m. Project requires 5,000 m/s over 3 km. Same physics — need to scale power system and track length. Linear motor is an induction machine, principle is identical at any speed.</p>
+<p><strong>Conclusion:</strong> EMALS is in serial production for aircraft carriers, maglev is commercially operated in China and Japan. Scaling to 5 km/s is an engineering task, not a scientific one.</p>
+<hr>
+</section>
+<section id="ultra-thin-aluminum-foil" class="level3">
+<h3 class="anchored" data-anchor-id="ultra-thin-aluminum-foil">Ultra-thin Aluminum Foil</h3>
+<p><strong>Project Application:</strong> Swarm Mirrors — 4 μm aluminum foil, 110 kg per mirror.</p>
+<p><strong>Industrial Precedents:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project/Product</th>
+<th>Thickness</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.planetary.org/articles/what-is-solar-sailing">LightSail 2</a> (Planetary Society)</td>
+<td><strong>4.5 μm</strong></td>
+<td><a href="https://digitalcommons.usu.edu/smallsat/2023/all2023/59/">Flew in space (2019)</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://ntrs.nasa.gov/citations/20170012315">NEA Scout</a> (NASA)</td>
+<td><strong>2.5 μm</strong></td>
+<td><a href="https://www.planetary.org/space-missions/nea-scout">86 m² sail, launched 2022</a></td>
+</tr>
+<tr class="odd">
+<td>Chalco (China)</td>
+<td>6-8 μm</td>
+<td>Industrial production</td>
+</tr>
+<tr class="even">
+<td><a href="https://news.metal.com/newscontent/103271777/">Li-ion battery R&amp;D</a></td>
+<td>4-6 μm Al</td>
+<td>R&amp;D for batteries (2025)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.metal.com/en/newscontent/103281418">SK Nexilis</a> (Malaysia)</td>
+<td>Ultra-thin</td>
+<td>30,000 tons/year (new plant 2024)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> LightSail 2 proved 4.5 μm foil viability in space. NEA Scout used even thinner — 2.5 μm. This is no longer R&amp;D, but flight-proven technology.</p>
+<hr>
+</section>
+<section id="solar-sails" class="level3">
+<h3 class="anchored" data-anchor-id="solar-sails">Solar Sails</h3>
+<p><strong>Project Application:</strong> Orientation control for Swarm Mirrors (light pressure).</p>
+<p><strong>Flight Demonstrations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Country</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://en.wikipedia.org/wiki/IKAROS">IKAROS</a></td>
+<td>🇯🇵 Japan</td>
+<td>2010, <a href="https://global.jaxa.jp/projects/sat/ikaros/topics.html">196 m², 7.5 μm</a>, Venus flyby, <a href="https://www.space.com/25800-ikaros-solar-sail.html">+400 m/s delta-v</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://www.planetary.org/articles/what-is-solar-sailing">LightSail 2</a></td>
+<td>🇺🇸 USA</td>
+<td>2019, orbital maneuvering confirmed</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.planetary.org/space-missions/nea-scout">NEA Scout</a></td>
+<td>🇺🇸 USA</td>
+<td>2022, 86 m² sail</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Solar sails are mature space technology with multiple flight demonstrations.</p>
+</section>
+<section id="integrated-servo-actuators-robot-joints" class="level3">
+<h3 class="anchored" data-anchor-id="integrated-servo-actuators-robot-joints">Integrated Servo Actuators (Robot Joints)</h3>
+<p><strong>Project Application:</strong> Centaur-M (12 actuators per robot), 6-axis WAAM cell manipulators, all precision movements on assembly lines.</p>
+<p><strong>Existing Production:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Country</th>
+<th>Capacity</th>
+<th>Product</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.yicaiglobal.com/news/worlds-first-automated-production-line-for-humanoid-robot-joints-kicks-off-operation-in-shanghai">EYOU Robot Technology</a></td>
+<td>🇨🇳 China</td>
+<td>100,000 joints/yr (automated line from 01.2026)</td>
+<td>Servo modules for humanoids</td>
+</tr>
+<tr class="even">
+<td>Leaderdrive</td>
+<td>🇨🇳 China</td>
+<td>Mass production</td>
+<td>Harmonic drives</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.harmonicdrive.net/">Harmonic Drive</a></td>
+<td>🇯🇵 Japan</td>
+<td>Industrial standard</td>
+<td>Strain wave gears</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.nabtesco.com/">Nabtesco</a></td>
+<td>🇯🇵 Japan</td>
+<td>Industrial standard</td>
+<td>Cycloidal reducers</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Fact</th>
+<th>Year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.yicaiglobal.com/news/worlds-first-automated-production-line-for-humanoid-robot-joints-kicks-off-operation-in-shanghai">EYOU — Yicai Global</a></td>
+<td>World’s first automated humanoid joint production line, 100K/yr, Shanghai (Zhangjiang)</td>
+<td>2026</td>
+</tr>
+<tr class="even">
+<td>EYOU → AgiBot</td>
+<td>Designated supplier for A2 series since October 2024</td>
+<td>2024</td>
+</tr>
+<tr class="odd">
+<td>TrendForce</td>
+<td>Humanoid robot market CAGR 154% (2024-2027), joints = ~50% of robot cost</td>
+<td>2024</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Mass automated production of servo actuators — TRL 9. Mercury adaptation requires vacuum modifications (MoS₂ lubrication, NaK hydraulics), but base kinematics are fully ready. Details: <a href="../../../en/science/detailed/production/robots/elements/actuators.html">Actuators and Hydraulics</a>.</p>
+<hr>
+</section>
+</section>
+<section id="technologies-trl-6-7-demonstration" class="level2">
+<h2 class="anchored" data-anchor-id="technologies-trl-6-7-demonstration">Technologies TRL 6-7 (Demonstration)</h2>
+<section id="mre-molten-regolith-electrolysis" class="level3">
+<h3 class="anchored" data-anchor-id="mre-molten-regolith-electrolysis">MRE (Molten Regolith Electrolysis)</h3>
+<p><strong>Project Application:</strong> Primary process for extracting Al, Fe, Si from Mercury regolith.</p>
+<p><strong>Current Status (2024-2025):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Organization</th>
+<th>Achievement</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://ntrs.nasa.gov/api/citations/20240011100/downloads/MRE_FY24%20GCD%20APR.pdf">NASA KSC</a></td>
+<td>CDR passed, testing in ASSIST Chamber</td>
+<td>NASA GCD FY24</td>
+</tr>
+<tr class="even">
+<td><a href="https://ntrs.nasa.gov/citations/20250003730">Lunar Resources</a></td>
+<td>25 kg regolith in 36 h, O₂ measured</td>
+<td>NASA ISRU Progress 2025</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.blueorigin.com/news/blue-alchemist-powers-our-lunar-future">Blue Origin</a></td>
+<td>MRE + purification Fe/Si/Al + solar cells, <strong>Si purity &gt;99.999%</strong></td>
+<td><a href="https://www.blueorigin.com/news/blue-alchemist-hits-major-milestone-toward-permanent-sustainable-lunar-infrastructure">Blue Alchemist CDR 2025</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://www.sierraspace.com/press-releases/sierra-space-unveils-breakthrough-technology-designed-to-extract-oxygen-from-lunar-soil/">Sierra Space</a></td>
+<td>Carbothermal O₂ extraction in JSC thermal vacuum</td>
+<td>Sept 2024</td>
+</tr>
+<tr class="odd">
+<td><a href="https://ntrs.nasa.gov/citations/20240013999">NASA System Model</a></td>
+<td>~1 ton unit → 10 tons O₂/year</td>
+<td>Nov 2024</td>
+</tr>
+</tbody>
+</table>
+<p><strong>TRL:</strong> <em>“Both Carbothermal Reduction and Molten Regolith Electrolysis have demonstrated operation under simulated lunar environmental conditions to <strong>TRL 5/6</strong>.”</em> — <a href="https://ntrs.nasa.gov/citations/20250003730">NASA ISRU Progress Review 2025</a></p>
+<p><strong>Note:</strong> NASA’s TRL 5/6 rating covers MRE as a category, including early-stage projects (Lunar Resources — TRL 4→5). Blue Origin passed <a href="https://www.blueorigin.com/news/blue-alchemist-hits-major-milestone-toward-permanent-sustainable-lunar-infrastructure">CDR in September 2025</a> — per <a href="https://ntrs.nasa.gov/api/citations/20205003605/downloads/%20SP-20205003605%20TRA%20BP%20Guide%20FINAL.pdf">NASA standards</a>, CDR corresponds to ≥TRL 6. The summary table reflects the most mature implementation.</p>
+<p><strong>Principle:</strong> Regolith melts at ~1600°C, electric current separates oxides into oxygen (anode) and metals (cathode): Fe, Si, Al, Ti. Requires no reagents or additives from Earth.</p>
+<hr>
+</section>
+<section id="microwave-power-transmission" class="level3">
+<h3 class="anchored" data-anchor-id="microwave-power-transmission">Microwave Power Transmission</h3>
+<p><strong>Project Application:</strong> Power transmission from LSP stations on Moon to rectenna on Earth.</p>
+<p><strong>Key Demonstrations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Achievement</th>
+<th>Year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space">Caltech SSPP/MAPLE</a></td>
+<td><strong>First ever</strong> <a href="https://spectrum.ieee.org/space-based-solar-power">power transmission from space to Earth</a></td>
+<td>May 2023</td>
+</tr>
+<tr class="even">
+<td>NTT + MHI (Japan)</td>
+<td>152W over 1 km (world ground record)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><a href="https://eepower.com/news/beaming-a-look-back-at-space-based-solar-power/">Northrop Grumman SSPIDR</a></td>
+<td>Preparation for orbital test (AFRL)</td>
+<td>2025</td>
+</tr>
+<tr class="even">
+<td>JAXA SPS</td>
+<td>Orbital SPS program</td>
+<td>2025+</td>
+</tr>
+<tr class="odd">
+<td>ESA SOLARIS</td>
+<td>SBSP research</td>
+<td>2024+</td>
+</tr>
+<tr class="even">
+<td>Virtus Solis</td>
+<td>Commercial station</td>
+<td>2026</td>
+</tr>
+<tr class="odd">
+<td><a href="https://harvardtechnologyreview.com/2025/09/05/the-future-of-energy-unlocking-the-potential-of-space-based-solar-power/">China OMEGA</a></td>
+<td>Megawatt station</td>
+<td>2028</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rectenna efficiency:</strong> <a href="https://en.wikipedia.org/wiki/Rectenna">85-90%</a> (laboratory proven, record 90.6% at 2.45 GHz). <a href="https://ntrs.nasa.gov/citations/20060035829">NASA confirms &gt;85% RF-to-DC</a>. Microwaves at 2.45 GHz pass through clouds with &lt;5% loss.</p>
+<hr>
+</section>
+<section id="autonomous-ai-for-robots" class="level3">
+<h3 class="anchored" data-anchor-id="autonomous-ai-for-robots">Autonomous AI for Robots</h3>
+<p><strong>Project Application:</strong> Fully autonomous operation of Mole-M, Crab, and Centaur robots with 8-20 minute communication delay.</p>
+<p><strong>Key Demonstrations:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Achievement</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.jpl.nasa.gov/news/autonomous-systems-help-nasas-perseverance-do-more-science-on-mars/">Mars Perseverance</a></td>
+<td>90% of 32.1 km autonomous, 4-24 min delay</td>
+<td>NASA JPL</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.science.org/doi/10.1126/scirobotics.adi3099">Perseverance AutoNav</a></td>
+<td>Record: 411.7 m/day, 699.9 m without manual control</td>
+<td>Science Robotics</td>
+</tr>
+<tr class="odd">
+<td><a href="https://waymo.com/blog/2025/12/demonstrably-safe-ai-for-autonomous-driving">Waymo</a></td>
+<td>100+ million autonomous miles, SAE Level 4</td>
+<td>Waymo</td>
+</tr>
+<tr class="even">
+<td><a href="https://en.wikipedia.org/wiki/Waymo">Waymo</a></td>
+<td>450K+ rides/week in 5 cities</td>
+<td>Wikipedia</td>
+</tr>
+<tr class="odd">
+<td>Rio Tinto</td>
+<td>305 trucks, 8.9M hours autonomous operation</td>
+<td>See above</td>
+</tr>
+<tr class="even">
+<td><a href="https://apollo.baidu.com/">Baidu Apollo</a></td>
+<td>L4 robotaxi in 10+ cities, 100M+ km autonomous rides</td>
+<td>Baidu</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.ubtrobot.com/">UBTECH Walker S2</a></td>
+<td>Serial production of humanoids (500 units 2025), autonomous battery swap 24/7</td>
+<td>UBTECH</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.agibot.com/">AgiBot</a></td>
+<td>1000 humanoids with WorkGPT (embodied AI), target 5000 in 2025</td>
+<td>AgiBot</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Clarification:</strong> Regolith mining is <strong>SIMPLER</strong> than city driving or Mars navigation:</p>
+<ul>
+<li>No pedestrians, intersections, dynamic obstacles</li>
+<li>No atmosphere, dust storms (unlike Mars)</li>
+<li>Predictable environment: quarry with known terrain</li>
+<li>Rio Tinto already mines 24/7 autonomously</li>
+</ul>
+<p><strong>Conclusion:</strong> Perseverance demonstrates autonomy with 4-24 min delay on another planet — this is TRL 7-8. Waymo Level 4 in 5 cities — TRL 8-9. Mercury task is simpler than both. TRL 7-8 given Baidu Apollo L4, UBTECH and AgiBot serial deployments.</p>
+<hr>
+</section>
+</section>
+<section id="technologies-trl-4-5-open-questions" class="level2">
+<h2 class="anchored" data-anchor-id="technologies-trl-4-5-open-questions">Technologies TRL 4-5 (Open Questions)</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>These technologies require additional development
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Below are technologies that have no direct industrial precedent. For each, nearest analogues and validation plan are provided.</p>
+</div>
+</div>
+<section id="factory-self-replication" class="level3">
+<h3 class="anchored" data-anchor-id="factory-self-replication">Factory Self-replication</h3>
+<p><strong>Requirement:</strong> Factory produces components for building a new factory.</p>
+<p><strong>Nearest Analogues:</strong> - FANUC: robots build robots (50 units/day, 30 days without humans) - Semiconductor fabs produce lithographic equipment for new fabs - Tesla Gigafactory: contains equipment for producing equipment</p>
+<p><strong>Key Clarification:</strong> This is NOT replication in the Von Neumann sense. This is serial automated construction of standard modules. Dome, furnaces, rolling mill — all standard metallurgical equipment.</p>
+<p><strong>Critical Question:</strong> What % of factory equipment is produced on-site? Answer: ~99.95% by mass. “Vitamins” (chips, sensors, iridium) — &lt;0.05%.</p>
+<p><strong>TRL 4-5 Justification:</strong> All subsystems (dark factories, CNC, WAAM, induction furnaces, robots) are at TRL 9. In 2025-2026, industry is shifting to agentic autonomy — factories as integrated systems (Xiaomi: 100% automation, FANUC: 6,000+ robots/month without humans). Self-replication is an integration task of proven subsystems into one cycle, not creation of new technologies.</p>
+<hr>
+</section>
+<section id="coordination-of-1-billion-mirror-swarm" class="level3">
+<h3 class="anchored" data-anchor-id="coordination-of-1-billion-mirror-swarm">Coordination of 1 Billion Mirror Swarm</h3>
+<p><strong>Requirement:</strong> 1.1 billion mirrors in heliocentric orbit aim at LSP stations.</p>
+<p><strong>Solution:</strong> <a href="../../../en/science/detailed/mirrors.html#optical-cluster-control">Mother-Children architecture</a> — optical cluster control.</p>
+<section id="control-hierarchy" class="level4">
+<h4 class="anchored" data-anchor-id="control-hierarchy">Control Hierarchy</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Element</th>
+<th>Quantity</th>
+<th>Electronics</th>
+<th>TRL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cluster</td>
+<td>Mother mirror</td>
+<td>1.1 M</td>
+<td>Full chip (50 g)</td>
+<td>7-8</td>
+</tr>
+<tr class="even">
+<td>Followers</td>
+<td>Child mirrors</td>
+<td>1.1 B</td>
+<td>Simple decoder (2 g)</td>
+<td>6-7</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mother-mirrors-trl-7-8" class="level4">
+<h4 class="anchored" data-anchor-id="mother-mirrors-trl-7-8">Mother Mirrors (TRL 7-8)</h4>
+<p><strong>Functions:</strong> Star tracker + processor + laser transmitter + radio.</p>
+<p><strong>Analogues:</strong> - Starlink: 6,000+ satellites, autonomous orbit correction - GPS: 31 satellites with precision orbits - <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">China Laser ISL</a>: 400 Gbps optical communication between satellites (2024-2025)</p>
+</section>
+<section id="child-mirrors-trl-6-7" class="level4">
+<h4 class="anchored" data-anchor-id="child-mirrors-trl-6-7">Child Mirrors (TRL 6-7)</h4>
+<p><strong>Functions:</strong> Photodiode + simple decoder → electrochromic commands.</p>
+<p><strong>Principle:</strong> Mother modulates laser beam (analogous to TV remote). Children decode pulses into orientation commands.</p>
+<p><strong>Analogues:</strong> - <a href="https://en.wikipedia.org/wiki/IKAROS">IKAROS</a> (2010): electrochromic control of solar sail - <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a>: optical satellite navigation - TV IR remotes: ~5 transistors for decoding</p>
+<p><strong>Local Production Prospect:</strong> From phase 2 (years 10+) receivers are produced on Mercury: - Photodiodes: <a href="#in-situ-silicon-cells">Blue Alchemist</a> (TRL 5-6) - LC circuits: aluminum + Al₂O₃ ceramics (local materials)</p>
+<p><strong>Status:</strong> Engineering scaling problem. All components have industrial precedents.</p>
+<hr>
+</section>
+</section>
+<section id="in-situ-silicon-cells" class="level3">
+<h3 class="anchored" data-anchor-id="in-situ-silicon-cells">In-situ Silicon Cells</h3>
+<p><strong>Requirement:</strong> Production of solar cells from regolith silicon on Mercury.</p>
+<p><strong>Key Reference:</strong> Blue Origin <a href="https://www.blueorigin.com/news/blue-alchemist-technology/">Blue Alchemist</a> — complete cycle from regolith to solar cells:</p>
+<ol type="1">
+<li><strong>MRE</strong> (Molten Regolith Electrolysis) — electrolysis of molten regolith at ~1600°C</li>
+<li>Sequential extraction of <strong>Fe → Si → Al</strong> without toxic chemicals (electricity only)</li>
+<li>Solar cell fabrication + protective cover glass from byproducts</li>
+</ol>
+<p>Status: full cycle demonstration on simulant 2023, <a href="https://www.blueorigin.com/news/blue-alchemist-hits-major-milestone-toward-permanent-sustainable-lunar-infrastructure">CDR passed September 2025</a>, demonstration in simulated lunar conditions planned for 2026 (NASA $35M grant).</p>
+<p><strong>Second reference:</strong> <a href="https://maanaelectric.com/">Maana Electric</a> (Luxembourg/ESA) — TERRABOX (terrestrial testbench) and SOURCE (lunar demonstrator) projects. First fully ISRU solar panel from 99% local feedstock (2024). Participant in ESA Space Resource Challenge 2025.</p>
+<p><strong>Why low silicon purity is not a problem:</strong></p>
+<p>On Earth, solar flux is ~1.4 kW/m², requiring ≥20% efficiency and silicon purity of 99.9999% (six nines). At Mercury’s orbit, flux is ~10 kW/m² (7.6× higher), and 10-15% efficiency is sufficient. This efficiency is achieved with 99.99% purity (four nines) — a two-order-of-magnitude less stringent requirement that significantly simplifies production.</p>
+<p><strong>Zone melting in vacuum:</strong> A purification method where a molten zone slowly passes along a silicon ingot, pushing impurities to the edges. On Earth this requires vacuum chambers — on Mercury, vacuum is free (surface pressure ~10⁻¹⁵ atm).</p>
+<hr>
+</section>
+<section id="cryogenic-aluminum-cable-gw" class="level3">
+<h3 class="anchored" data-anchor-id="cryogenic-aluminum-cable-gw">Cryogenic Aluminum Cable (GW)</h3>
+<p><strong>Requirement:</strong> GW power transmission through Al cables at -180°C.</p>
+<p><strong>Physics:</strong> At -180°C Al conductivity increases <a href="https://nvlpubs.nist.gov/nistpubs/Legacy/TN/nbstechnicalnote218.pdf">10-100×</a> (depends on purity). This is not a hypothesis — this is NIST tabulated data.</p>
+<p><strong>Analogues:</strong> - <a href="https://home.web.cern.ch/science/engineering/cryogenics-low-temperatures-high-performance">LHC (CERN)</a>: kilometers of cables at 1.9K (NbTi) - <a href="https://cerncourier.com/a/new-superconducting-technologies-for-the-hl-lhc-and-beyond/">HL-LHC</a>: MgB₂ cables 100m, 120 kA at 25K - High-temperature superconductors: commercial cables at -196°C (liquid N₂)</p>
+<p><strong>Clarification:</strong> On Mercury’s night side temperature is -180°C — cables are cooled for free.</p>
+<p><strong>TRL 4-5 Justification:</strong> Superconducting cables (a more complex technology) are already at TRL 5-6: <a href="https://supernode.energy/technology/">SuperNode</a> demonstrated 500 MW at 50 kV (2025), <a href="https://www.sciencedirect.com/science/article/abs/pii/S0011227520302137">SCARLET project</a> (EU) targets 1 GW. Cryoresistive aluminum is fundamentally simpler: no superconductors needed, standard material. On Mercury, the primary complexity — cryogenic cooling infrastructure — is eliminated.</p>
+<hr>
+</section>
+</section>
+<section id="reference-bibliography" class="level2">
+<h2 class="anchored" data-anchor-id="reference-bibliography">Reference Bibliography</h2>
+<section id="planetary-data" class="level3">
+<h3 class="anchored" data-anchor-id="planetary-data">Planetary Data</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>URL</th>
+<th>Country</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NASA Mercury Fact Sheet</td>
+<td><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html">nssdc.gsfc.nasa.gov</a></td>
+<td>USA</td>
+<td>Mercury parameters</td>
+</tr>
+<tr class="even">
+<td>ESA BepiColombo</td>
+<td><a href="https://www.esa.int/Science_Exploration/Space_Science/BepiColombo">esa.int/BepiColombo</a></td>
+<td>Europe</td>
+<td>Mercury surface composition (2025+)</td>
+</tr>
+<tr class="odd">
+<td>MESSENGER (NASA)</td>
+<td><a href="https://messenger.jhuapl.edu/">messenger.jhuapl.edu</a></td>
+<td>USA</td>
+<td>Mercury regolith data</td>
+</tr>
+<tr class="even">
+<td>ISRO Chandrayaan-3</td>
+<td><a href="https://www.isro.gov.in/Chandrayaan3.html">isro.gov.in</a></td>
+<td>India</td>
+<td>First landing on lunar south pole (2023)</td>
+</tr>
+<tr class="odd">
+<td>JAXA SLIM</td>
+<td><a href="https://www.jaxa.jp/projects/sas/slim/">jaxa.jp</a></td>
+<td>Japan</td>
+<td>Precision lunar landing (2024)</td>
+</tr>
+<tr class="even">
+<td>KARI Danuri</td>
+<td><a href="https://www.kari.re.kr/">kari.re.kr</a></td>
+<td>Korea</td>
+<td>Lunar orbiter (2022)</td>
+</tr>
+<tr class="odd">
+<td>NASA Mars Fact Sheet</td>
+<td><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html">nssdc.gsfc.nasa.gov</a></td>
+<td>USA</td>
+<td>Mars parameters</td>
+</tr>
+<tr class="even">
+<td>NASA Sun Fact Sheet</td>
+<td><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html">nssdc.gsfc.nasa.gov</a></td>
+<td>USA</td>
+<td>Solar constant</td>
+</tr>
+<tr class="odd">
+<td>Atomic Rockets</td>
+<td><a href="http://www.projectrho.com/public_html/rocket/">projectrho.com</a></td>
+<td>USA</td>
+<td>Delta-v, orbital mechanics</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Historical lunar regolith data:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Program</th>
+<th>Country</th>
+<th>Year</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Apollo 11-17</td>
+<td>USA</td>
+<td>1969-1972</td>
+<td>382 kg of regolith samples</td>
+</tr>
+<tr class="even">
+<td>Luna-16, -20, -24</td>
+<td>USSR</td>
+<td>1970-1976</td>
+<td>Automated sample return</td>
+</tr>
+<tr class="odd">
+<td>Chang’e-5</td>
+<td>China</td>
+<td>2020</td>
+<td>1.7 kg samples</td>
+</tr>
+<tr class="even">
+<td>Chang’e-6</td>
+<td>China</td>
+<td>2024</td>
+<td>Samples from lunar far side</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="optics-and-materials" class="level3">
+<h3 class="anchored" data-anchor-id="optics-and-materials">Optics and Materials</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Source</th>
+<th>Country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aluminum reflectivity</td>
+<td><a href="https://www.pveducation.org/">PVEducation</a></td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td>MgF₂ coatings</td>
+<td><a href="https://univ-perp.hal.science/hal-03368709/document">HAL Science</a></td>
+<td>France</td>
+</tr>
+<tr class="odd">
+<td>Microwave power transmission</td>
+<td><a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/power-beaming">ScienceDirect</a></td>
+<td>Netherlands (Elsevier)</td>
+</tr>
+<tr class="even">
+<td>Atmospheric losses</td>
+<td><a href="https://scholar.afit.edu/cgi/viewcontent.cgi?article=3072&amp;context=etd">AFIT Scholar</a></td>
+<td>USA</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="semiconductors-and-microelectronics" class="level3">
+<h3 class="anchored" data-anchor-id="semiconductors-and-microelectronics">Semiconductors and Microelectronics</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Source</th>
+<th>Country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>World wafer production</td>
+<td><a href="https://www.semi.org/">SEMI</a></td>
+<td>Global</td>
+</tr>
+<tr class="even">
+<td>Fab costs</td>
+<td><a href="https://semiwiki.com/">SemiWiki</a></td>
+<td>USA</td>
+</tr>
+<tr class="odd">
+<td>Samsung Fabs</td>
+<td><a href="https://semiconductor.samsung.com/">samsung.com/semiconductor</a></td>
+<td>Korea</td>
+</tr>
+<tr class="even">
+<td>TSMC</td>
+<td><a href="https://www.tsmc.com/">tsmc.com</a></td>
+<td>Taiwan</td>
+</tr>
+</tbody>
+</table>
+<p><strong>European semiconductor projects:</strong> - ASML (Netherlands) — lithography equipment - Infineon (Germany) — chip manufacturing - STMicroelectronics (France/Italy) — semiconductors</p>
+<hr>
+</section>
+<section id="metallurgy-and-materials" class="level3">
+<h3 class="anchored" data-anchor-id="metallurgy-and-materials">Metallurgy and Materials</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Country</th>
+<th>Products</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://rusal.ru/">RUSAL</a></td>
+<td>Russia</td>
+<td>Aluminum</td>
+<td>2nd producer in world (outside China)</td>
+</tr>
+<tr class="even">
+<td><a href="http://www.chalco.com.cn/">Chalco</a></td>
+<td>China</td>
+<td>Aluminum, foil</td>
+<td>65% of world foil production</td>
+</tr>
+<tr class="odd">
+<td><a href="https://nornickel.ru/">Nornickel</a></td>
+<td>Russia</td>
+<td>Nickel, palladium</td>
+<td>World’s largest</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.tatasteel.com/">Tata Steel</a></td>
+<td>India</td>
+<td>Steel</td>
+<td>10th in world (2023)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.posco.co.kr/">POSCO</a></td>
+<td>Korea</td>
+<td>Steel</td>
+<td>6th in world</td>
+</tr>
+<tr class="even">
+<td><a href="https://corporate.arcelormittal.com/">ArcelorMittal</a></td>
+<td>Luxembourg</td>
+<td>Steel</td>
+<td>World’s largest</td>
+</tr>
+<tr class="odd">
+<td><a href="http://www.baosteel.com/">Baosteel</a></td>
+<td>China</td>
+<td>Steel</td>
+<td>2nd in world</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.jsw.in/steel">JSW Steel</a></td>
+<td>India</td>
+<td>Steel</td>
+<td>Largest in India</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Materials processing technologies:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Technology</th>
+<th>Source</th>
+<th>Country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Silicon zone melting</td>
+<td><a href="https://www.wacker.com/">Wacker Chemie</a></td>
+<td>Germany</td>
+</tr>
+<tr class="even">
+<td>Aluminum electrolysis</td>
+<td><a href="https://rusal.ru/development/technology/">Rusal technologies</a></td>
+<td>Russia</td>
+</tr>
+<tr class="odd">
+<td>Foil rolling</td>
+<td><a href="https://www.novelis.com/">Novelis</a></td>
+<td>USA (Hindalco/India)</td>
+</tr>
+<tr class="even">
+<td>Magnesium alloys</td>
+<td><a href="https://www.magontec.com/">Magontec</a></td>
+<td>Australia</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="economic-data" class="level3">
+<h3 class="anchored" data-anchor-id="economic-data">Economic Data</h3>
+<section id="launch-costs" class="level4">
+<h4 class="anchored" data-anchor-id="launch-costs">Launch Costs</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>URL</th>
+<th>Country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Space launch market competition</td>
+<td><a href="https://en.wikipedia.org/wiki/Space_launch_market_competition">Wikipedia</a></td>
+<td>Global</td>
+</tr>
+<tr class="even">
+<td>China-in-Space</td>
+<td><a href="https://www.china-in-space.com/">china-in-space.com</a></td>
+<td>China</td>
+</tr>
+<tr class="odd">
+<td>NextSpaceflight</td>
+<td><a href="https://nextspaceflight.com/">nextspaceflight.com</a></td>
+<td>Global</td>
+</tr>
+<tr class="even">
+<td>SpaceTechAsia</td>
+<td><a href="https://www.spacetechasia.com/">spacetechasia.com</a></td>
+<td>Asia</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="robotics" class="level4">
+<h4 class="anchored" data-anchor-id="robotics">Robotics</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>URL</th>
+<th>Country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>StandardBots (prices)</td>
+<td><a href="https://standardbots.com/blog/how-much-do-robots-cost">standardbots.com</a></td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td>Boston Dynamics Spot</td>
+<td><a href="https://venturebeat.com/ai/boston-dynamics-buy-spot-robot-74500">VentureBeat</a></td>
+<td>USA (owner: Korea Hyundai)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Additional sources:</strong> - ABB Robotics (Sweden/Switzerland) - KUKA (Germany) - FANUC (Japan) - Yaskawa (Japan) - <a href="https://www.siasun.com/">Siasun Robotics</a> (China — largest industrial robot manufacturer in PRC)</p>
+</section>
+<section id="energy" class="level4">
+<h4 class="anchored" data-anchor-id="energy">Energy</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>URL</th>
+<th>Usage</th>
+<th>Country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>IEA World Energy Outlook</td>
+<td><a href="https://www.iea.org/reports/world-energy-outlook-2023">iea.org</a></td>
+<td>World energy consumption (~20 TW)</td>
+<td>France (IEA)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="space-agencies-and-programs-extended-list" class="level3">
+<h3 class="anchored" data-anchor-id="space-agencies-and-programs-extended-list">Space Agencies and Programs (Extended List)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 19%">
+<col style="width: 53%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Agency</th>
+<th>Country</th>
+<th>Relevant Programs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NASA</td>
+<td>USA</td>
+<td>ISRU (In-Situ Resource Utilization), Artemis, Mars missions</td>
+</tr>
+<tr class="even">
+<td>ESA</td>
+<td>Europe</td>
+<td>SOLARIS (space solar power), ISRU research, ExoMars</td>
+</tr>
+<tr class="odd">
+<td>JAXA</td>
+<td>Japan</td>
+<td>IKAROS (solar sail), Hayabusa2 (asteroid mining)</td>
+</tr>
+<tr class="even">
+<td>CNSA</td>
+<td>China</td>
+<td>Chang’e lunar program, OMEGA (space solar power)</td>
+</tr>
+<tr class="odd">
+<td>ISRO</td>
+<td>India</td>
+<td>Chandrayaan (Moon), Mangalyaan (Mars), ISRU plans</td>
+</tr>
+<tr class="even">
+<td>Roscosmos</td>
+<td>Russia</td>
+<td>Lunar program, cryogenic systems</td>
+</tr>
+<tr class="odd">
+<td>KARI</td>
+<td>Korea</td>
+<td>Lunar program, satellites</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="mars-terraforming-for-reference" class="level2">
+<h2 class="anchored" data-anchor-id="mars-terraforming-for-reference">Mars Terraforming (For Reference)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 32%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Source</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Magnetic shield at L1</td>
+<td>NASA Planetary Science Division, 2017</td>
+<td>Swarm energy budget can support</td>
+</tr>
+<tr class="even">
+<td>Mars atmosphere loss</td>
+<td>MAVEN mission data</td>
+<td>Energy calculations</td>
+</tr>
+<tr class="odd">
+<td>CO₂ and water reserves</td>
+<td>Mars Reconnaissance Orbiter</td>
+<td>Resource base</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="../../../en/science/reference/risks.html">Risks and Limitations</a> — project technical risk analysis</li>
+<li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> — overall architecture</li>
+<li><a href="../../../en/science/detailed/production/overview.html">Production</a> — production technologies</li>
+<li><a href="../../../en/science/detailed/mirrors.html">Swarm Mirrors</a> — energy and efficiency</li>
+<li><a href="../../../en/science/summaries/budget.html">Budget</a> — project economics</li>
+</ul>
+<hr>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<ol type="1">
+<li>All prices are in USD 2026</li>
+<li>Historical data adjusted for inflation where applicable</li>
+<li>Official sources used where possible (NASA, ESA, JAXA, CNSA, ISRO, Roscosmos)</li>
+<li>Commercial data from public company reports</li>
+<li>Geographic diversity of sources: USA, China, Japan, Europe, Australia, Korea, India, Russia</li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

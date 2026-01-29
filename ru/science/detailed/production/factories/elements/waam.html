@@ -113,7 +113,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../../../../ru/science/data/widgets.css">
@@ -149,10 +340,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -205,20 +407,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -231,6 +421,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -252,20 +448,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -367,6 +551,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -612,14 +802,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -632,12 +822,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -668,9 +852,9 @@ p:has(> em:first-child) { text-indent: 0; }
   </ul></li>
   <li><a href="#материалы-для-waam" id="toc-материалы-для-waam" class="nav-link" data-scroll-target="#материалы-для-waam">Материалы для WAAM</a></li>
   <li><a href="#производительность" id="toc-производительность" class="nav-link" data-scroll-target="#производительность">Производительность</a></li>
-  <li><a href="#постобработка-cnc-фрезеровка" id="toc-постобработка-cnc-фрезеровка" class="nav-link" data-scroll-target="#постобработка-cnc-фрезеровка">Постобработка: CNC фрезеровка</a>
+  <li><a href="#постобработка-абразивная-шлифовка" id="toc-постобработка-абразивная-шлифовка" class="nav-link" data-scroll-target="#постобработка-абразивная-шлифовка">Постобработка: абразивная шлифовка</a>
   <ul class="collapse">
-  <li><a href="#осевой-обрабатывающий-центр" id="toc-осевой-обрабатывающий-центр" class="nav-link" data-scroll-target="#осевой-обрабатывающий-центр">5-осевой обрабатывающий центр</a></li>
+  <li><a href="#шлифовальная-ячейка" id="toc-шлифовальная-ячейка" class="nav-link" data-scroll-target="#шлифовальная-ячейка">Шлифовальная ячейка</a></li>
   </ul></li>
   <li><a href="#типичные-детали-производимые-waam" id="toc-типичные-детали-производимые-waam" class="nav-link" data-scroll-target="#типичные-детали-производимые-waam">Типичные детали, производимые WAAM</a></li>
   <li><a href="#преимущества-waam" id="toc-преимущества-waam" class="nav-link" data-scroll-target="#преимущества-waam">Преимущества WAAM</a></li>
@@ -709,7 +893,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <ul>
 <li><strong>Технология:</strong> Wire Arc Additive Manufacturing (наплавка проволоки дугой)</li>
 <li><strong>Материал:</strong> Проволока Ø1.6-2.0 мм (Al, Fe из прокатного стана)</li>
-<li><strong>Производительность:</strong> ~4 т металла/день → сложные детали</li>
+<li><strong>Производительность:</strong> ~60-180 кг/день (3 ячейки) → сложные детали</li>
 <li><strong>Применение:</strong> Корпуса роботов, кронштейны, рамы, оснастка</li>
 </ul>
 </blockquote>
@@ -735,12 +919,12 @@ p:has(> em:first-child) { text-indent: 0; }
         ROBOT["6-осевой робот"]
         TORCH["Сварочная горелка"]
         ARC["Электрическая дуга&lt;br/&gt;~5000°C"]
-        ARGON["Защитная среда Ar"]
+        FLUX["Флюсовая защита&lt;br/&gt;FCAW-S"]
         TABLE["Поворотный стол"]
     end
 
     subgraph POST["ПОСТОБРАБОТКА"]
-        CNC["5-осевой CNC&lt;br/&gt;фрезеровка"]
+        GRIND["Абразивная&lt;br/&gt;шлифовка"]
         FINISH["Чистовая обработка"]
     end
 
@@ -751,10 +935,10 @@ p:has(> em:first-child) { text-indent: 0; }
     WIRE --&gt; ROBOT
     ROBOT --&gt; TORCH
     TORCH --&gt; ARC
-    ARGON --&gt; ARC
+    FLUX --&gt; ARC
     ARC --&gt; TABLE
-    TABLE --&gt; CNC
-    CNC --&gt; FINISH
+    TABLE --&gt; GRIND
+    GRIND --&gt; FINISH
     FINISH --&gt; PARTS
 
     style INPUT fill:#f0e68c
@@ -804,7 +988,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<p><strong>Отличие от земных роботов:</strong> Лёгкая конструкция из Al (низкая гравитация 0.38g), отсутствие смазки (работает в азоте 0.1 атм).</p>
+<p><strong>Отличие от земных роботов:</strong> Лёгкая конструкция из Al (низкая гравитация 0.38g), отсутствие смазки (работает в 0.1 атм O₂).</p>
 <hr>
 </section>
 <section id="сварочная-горелка" class="level3">
@@ -819,7 +1003,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Тип</td>
-<td>MIG/MAG (Metal Inert Gas)</td>
+<td>FCAW-S (Flux-Cored Arc Welding — Self-shielded)</td>
 </tr>
 <tr class="even">
 <td>Ток</td>
@@ -838,13 +1022,13 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>3-8 м/мин</td>
 </tr>
 <tr class="even">
-<td>Защитный газ</td>
-<td>Аргон (Ar) — с Земли</td>
+<td>Проволока</td>
+<td>Порошковая с флюсовым сердечником (TiO₂+CaO+MgO+Fe)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Почему аргон?</strong> - Инертный газ — не реагирует с расплавом - Тяжелее воздуха — вытесняет азот из зоны сварки - Предотвращает окисление и пористость</p>
-<p><strong>Расход аргона:</strong> ~10 л/мин (200 м³/месяц на ячейку) → критический импорт с Земли</p>
+<p><strong>Почему FCAW-S?</strong> - Флюс при нагреве создаёт защитный газ и шлаковую корку - Не требует внешнего газа — аргон не импортируется - Компоненты флюса 100% местные: TiO₂ (линия титана), CaO (шлак MRE), MgO (магнезит), Fe - Земные аналоги: Lincoln Electric Innershield, ESAB Coreshield</p>
+<p><strong>Производство порошковой проволоки:</strong> стальная лента → формовка в трубку → заполнение флюсом → волочение до Ø1.6-2.0 мм</p>
 <hr>
 </section>
 <section id="поворотный-стол" class="level3">
@@ -929,22 +1113,22 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
-<td><strong>~120-180 кг/день на ячейку</strong></td>
+<td><strong>~20-60 кг/день на ячейку</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>На 3 ячейки</strong></td>
-<td><strong>~400-500 кг/день</strong></td>
+<td><strong>~60-180 кг/день</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Почему не больше?</strong> - WAAM медленнее литья, но позволяет делать сложные формы без оснастки - Используется для деталей, которые нельзя отлить (полые корпуса, сложные геометрии)</p>
 <hr>
 </section>
-<section id="постобработка-cnc-фрезеровка" class="level2">
-<h2 class="anchored" data-anchor-id="постобработка-cnc-фрезеровка">Постобработка: CNC фрезеровка</h2>
-<p>После WAAM деталь имеет шероховатую поверхность и избыточный материал. Требуется финишная обработка.</p>
-<section id="осевой-обрабатывающий-центр" class="level3">
-<h3 class="anchored" data-anchor-id="осевой-обрабатывающий-центр">5-осевой обрабатывающий центр</h3>
+<section id="постобработка-абразивная-шлифовка" class="level2">
+<h2 class="anchored" data-anchor-id="постобработка-абразивная-шлифовка">Постобработка: абразивная шлифовка</h2>
+<p>После WAAM деталь имеет шероховатую поверхность. Финишная обработка выполняется <strong>шлифовкой</strong> (не фрезеровкой).</p>
+<section id="шлифовальная-ячейка" class="level3">
+<h3 class="anchored" data-anchor-id="шлифовальная-ячейка">Шлифовальная ячейка</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -955,28 +1139,28 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Тип</td>
-<td>Вертикальный обрабатывающий центр</td>
+<td>Робот Кентавр-М с абразивной головкой</td>
 </tr>
 <tr class="even">
 <td>Количество осей</td>
-<td>5 (X, Y, Z + 2 поворотных)</td>
+<td>6 (манипулятор) + поворотный стол</td>
 </tr>
 <tr class="odd">
-<td>Мощность шпинделя</td>
-<td>10-20 кВт</td>
+<td>Мощность привода</td>
+<td>3-5 кВт</td>
 </tr>
 <tr class="even">
 <td>Скорость вращения</td>
-<td>10000-20000 об/мин</td>
+<td>3000-6000 об/мин</td>
 </tr>
 <tr class="odd">
 <td>Инструмент</td>
-<td>Твердосплавные фрезы (WC — с Земли)</td>
+<td>Абразивные круги Al₂O₃ (корунд, местное)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>СОЖ (смазочно-охлаждающая жидкость):</strong> - Масло в замкнутом контуре (рециркуляция) - Фильтрация через центрифугу - Охлаждение на радиаторах снаружи купола</p>
-<p><strong>Точность обработки:</strong> ±0.05 мм</p>
+<p><strong>Преимущества перед CNC:</strong> - Нет импортного высокооборотного шпинделя (20,000 об/мин) - Абразив Al₂O₃ производится из реголита (неограничен) - Тот же робот Кентавр-М, просто другой инструмент - Сухая обработка в вакууме (нет СОЖ)</p>
+<p><strong>Точность обработки:</strong> ±0.05 мм (достаточно для корпусов и рам)</p>
 <hr>
 </section>
 </section>
@@ -1062,6 +1246,10 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="ограничения-waam" class="level2">
 <h2 class="anchored" data-anchor-id="ограничения-waam">Ограничения WAAM</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 59%">
+<col style="width: 40%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Ограничение</th>
@@ -1075,15 +1263,11 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td>Шероховатость</td>
-<td>Постобработка на CNC</td>
+<td>Абразивная шлифовка (Al₂O₃)</td>
 </tr>
 <tr class="odd">
-<td>Импорт аргона</td>
-<td>Критический расходник — везём с Земли</td>
-</tr>
-<tr class="even">
-<td>Износ фрез</td>
-<td>Твердосплавные фрезы (WC) — импорт</td>
+<td>Износ абразива</td>
+<td>Al₂O₃ корунд — местное производство, замена каждые 1-2 дня</td>
 </tr>
 </tbody>
 </table>
@@ -1108,10 +1292,10 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>30 кВт</td>
 </tr>
 <tr class="even">
-<td>CNC обрабатывающий центр</td>
-<td>20 кВт</td>
+<td>Шлифовальная ячейка (робот + головка)</td>
+<td>5 кВт</td>
 <td>2</td>
-<td>40 кВт</td>
+<td>10 кВт</td>
 </tr>
 <tr class="odd">
 <td>Вытяжная вентиляция</td>
@@ -1129,7 +1313,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <td><strong>ИТОГО</strong></td>
 <td></td>
 <td></td>
-<td><strong>~80 кВт</strong></td>
+<td><strong>~50 кВт</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1152,8 +1336,8 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>Кентавр-М</td>
 </tr>
 <tr class="even">
-<td>Замена фрез CNC</td>
-<td>1 неделя</td>
+<td>Замена абразивного круга</td>
+<td>1-2 дня</td>
 <td>Кентавр-М</td>
 </tr>
 <tr class="odd">
@@ -1166,11 +1350,6 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>Еженедельно</td>
 <td>Автоматика</td>
 </tr>
-<tr class="odd">
-<td>Дозаправка масла СОЖ</td>
-<td>Еженедельно</td>
-<td>Кентавр-М</td>
-</tr>
 </tbody>
 </table>
 <hr>
@@ -1178,6 +1357,12 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="контроль-качества" class="level2">
 <h2 class="anchored" data-anchor-id="контроль-качества">Контроль качества</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 47%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Параметр</th>
@@ -1189,25 +1374,25 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Пористость</td>
-<td>Ультразвук</td>
+<td>In-process мониторинг (ток дуги, камеры WAAM)</td>
 <td>&lt;2%</td>
-<td>Отбраковка</td>
+<td>Коррекция параметров</td>
 </tr>
 <tr class="even">
 <td>Размеры</td>
-<td>Лазерный сканер 3D</td>
+<td>CNC-щуп (touch probe)</td>
 <td>±0.1 мм</td>
 <td>Доработка на CNC</td>
 </tr>
 <tr class="odd">
 <td>Трещины</td>
-<td>Капиллярная дефектоскопия</td>
-<td>Нет трещин</td>
+<td>Визуальный (камеры Кентавра-М)</td>
+<td>Нет видимых дефектов</td>
 <td>Отбраковка</td>
 </tr>
 <tr class="even">
 <td>Твёрдость</td>
-<td>Твердомер</td>
+<td>Механический твердомер</td>
 <td>По спецификации</td>
 <td>Термообработка</td>
 </tr>
@@ -1301,7 +1486,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

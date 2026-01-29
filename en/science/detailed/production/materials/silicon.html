@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Меркурий – Проект Гелиос</title>
+<title>Silicon Production for Solar Panels – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,10 +109,201 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
-<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -128,27 +319,38 @@ p:has(> em:first-child) { text-indent: 0; }
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
+    <a class="nav-link" href="../../../../../ru/index.html"> 
 <span class="menu-text">Проект Гелиос</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../ru/book/index.html"> 
+    <a class="nav-link" href="../../../../../ru/book/index.html"> 
 <span class="menu-text">Книга</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../../ru/science/index.html" aria-current="page"> 
+    <a class="nav-link active" href="../../../../../ru/science/index.html" aria-current="page"> 
 <span class="menu-text">Наука</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../ru/about.html"> 
+    <a class="nav-link" href="../../../../../ru/about.html"> 
 <span class="menu-text">Об авторе</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -160,7 +362,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Меркурий</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Silicon Production for Solar Panels</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -174,13 +376,13 @@ p:has(> em:first-child) { text-indent: 0; }
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
   </div>
 </li>
@@ -195,38 +397,32 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Почему Меркурий?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Бюджет проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -242,37 +438,25 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Зеркала Роя</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Производство</span></a>
   </div>
 </li>
@@ -287,7 +471,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Навигация</span></a>
   </div>
 </li>
@@ -302,49 +486,49 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Электролиз MRE</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дистилляция шлака</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Стекловолокно</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Линия титана</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Углерод (опц.)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Кремний</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Керамика MgO</span></a>
   </div>
 </li>
@@ -361,8 +545,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -376,25 +566,25 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Плавка</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Литье (МНЛЗ)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Прокат</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3D-печать (WAAM)</span></a>
   </div>
 </li>
@@ -411,19 +601,19 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Купола</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Оборудование</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Саморепликация</span></a>
   </div>
 </li>
@@ -442,19 +632,19 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Производство МД</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Теория и КПД</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Масштабирование</span></a>
   </div>
 </li>
@@ -469,19 +659,19 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Рельсы</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Катушки</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Каркас</span></a>
   </div>
 </li>
@@ -498,19 +688,19 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Трек</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Электроника</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Тестирование</span></a>
   </div>
 </li>
@@ -529,7 +719,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
   </div>
 </li>
@@ -544,19 +734,19 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Рамы</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Батареи (NaS)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Актуаторы</span></a>
   </div>
 </li>
@@ -573,19 +763,19 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Краб-М</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Кентавр-М</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Крот-М</span></a>
   </div>
 </li>
@@ -608,37 +798,31 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Глоссарий терминов</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Номенклатура</span></a>
   </div>
 </li>
@@ -654,15 +838,11 @@ p:has(> em:first-child) { text-indent: 0; }
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#содержание-план" id="toc-содержание-план" class="nav-link active" data-scroll-target="#содержание-план">Содержание (план)</a>
-  <ul class="collapse">
-  <li><a href="#почему-меркурий" id="toc-почему-меркурий" class="nav-link" data-scroll-target="#почему-меркурий">Почему Меркурий?</a></li>
-  <li><a href="#завод-точка-ноль-год-6" id="toc-завод-точка-ноль-год-6" class="nav-link" data-scroll-target="#завод-точка-ноль-год-6">Завод “Точка Ноль” (год 6)</a></li>
-  <li><a href="#саморепликация-годы-6-9" id="toc-саморепликация-годы-6-9" class="nav-link" data-scroll-target="#саморепликация-годы-6-9">Саморепликация (годы 6-9)</a></li>
-  <li><a href="#производство-зеркал" id="toc-производство-зеркал" class="nav-link" data-scroll-target="#производство-зеркал">Производство зеркал</a></li>
-  <li><a href="#рой-дайсона" id="toc-рой-дайсона" class="nav-link" data-scroll-target="#рой-дайсона">Рой Дайсона</a></li>
-  </ul></li>
-  <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#aluminothermic-reduction" id="toc-aluminothermic-reduction" class="nav-link" data-scroll-target="#aluminothermic-reduction">Aluminothermic Reduction</a></li>
+  <li><a href="#production-chain" id="toc-production-chain" class="nav-link" data-scroll-target="#production-chain">Production Chain</a></li>
+  <li><a href="#material-balance" id="toc-material-balance" class="nav-link" data-scroll-target="#material-balance">Material Balance</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   </ul>
 </nav>
     </div>
@@ -671,7 +851,7 @@ p:has(> em:first-child) { text-indent: 0; }
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Меркурий</h1>
+<h1 class="title">Silicon Production for Solar Panels</h1>
 </div>
 
 
@@ -688,76 +868,184 @@ p:has(> em:first-child) { text-indent: 0; }
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>В разработке
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Сводная статья о меркурианском этапе проекта.</p>
-</div>
-</div>
-<section id="содержание-план" class="level2">
-<h2 class="anchored" data-anchor-id="содержание-план">Содержание (план)</h2>
-<section id="почему-меркурий" class="level3">
-<h3 class="anchored" data-anchor-id="почему-меркурий">Почему Меркурий?</h3>
-<ul>
-<li>Солнечный поток: 10 кВт/м² (в 7× больше Земли)</li>
-<li>Нет атмосферы → масс-драйвер на поверхности</li>
-<li>Ресурсы: железо, алюминий, кремний</li>
-</ul>
-</section>
-<section id="завод-точка-ноль-год-6" class="level3">
-<h3 class="anchored" data-anchor-id="завод-точка-ноль-год-6">Завод “Точка Ноль” (год 6)</h3>
-<ul>
-<li>Первый завод, 100% с Земли</li>
-<li>Запуск саморепликации</li>
-</ul>
-</section>
-<section id="саморепликация-годы-6-9" class="level3">
-<h3 class="anchored" data-anchor-id="саморепликация-годы-6-9">Саморепликация (годы 6-9)</h3>
-<ul>
-<li>1 завод → ~1650 заводов</li>
-<li>60 000 роботов</li>
-<li>Экспоненциальный рост</li>
-</ul>
-</section>
-<section id="производство-зеркал" class="level3">
-<h3 class="anchored" data-anchor-id="производство-зеркал">Производство зеркал</h3>
-<ul>
-<li>Добыча руды (Кроты)</li>
-<li>Плавка (солнечные печи)</li>
-<li>Прокат фольги 4 мкм</li>
-<li>Сборка зеркал 100×100 м</li>
-<li>Запуск масс-драйвером</li>
-</ul>
-</section>
-<section id="рой-дайсона" class="level3">
-<h3 class="anchored" data-anchor-id="рой-дайсона">Рой Дайсона</h3>
-<ul>
-<li>~1 млрд зеркал</li>
-<li>Гелиоцентрическая орбита</li>
-<li>~100 петаватт отражённой мощности</li>
-<li>~21 петаватт на Земле (~1000× мирового потребления)</li>
-</ul>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Silicon (Si) is the foundation of local solar panel production on Mercury.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Feedstock</td>
+<td>Quartz sand SiO₂ (20% of Mercury’s crust)</td>
+</tr>
+<tr class="even">
+<td>Method</td>
+<td>Aluminothermic reduction</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>~70 t Si per year per complex</td>
+</tr>
+<tr class="even">
+<td>Application</td>
+<td>Solar panels (18% efficiency)</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
+<section id="aluminothermic-reduction" class="level2">
+<h2 class="anchored" data-anchor-id="aluminothermic-reduction">Aluminothermic Reduction</h2>
+<p><strong>Problem:</strong> The traditional method (SiO₂ + C → Si + CO₂) requires carbon, which Mercury lacks.</p>
+<p><strong>Solution:</strong> Aluminothermy — reduction using aluminum.</p>
+<pre><code>3SiO₂ + 4Al → 3Si + 2Al₂O₃</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Advantage</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Local aluminum</td>
+<td>From MRE electrolysis slag (see <a href="../../../../../en/science/detailed/production/materials/distillation.html">Distillation</a>)</td>
+</tr>
+<tr class="even">
+<td>No carbon import</td>
+<td>Full autonomy</td>
+</tr>
+<tr class="odd">
+<td>Byproduct</td>
+<td>Al₂O₃ (corundum) → ceramics, abrasives</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stoichiometry:</strong> - Per 1 kg silicon: 1.3 kg aluminum - Byproduct: 2.4 kg corundum (Al₂O₃)</p>
+<hr>
 </section>
-<section id="см.-также" class="level2">
-<h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
+<section id="production-chain" class="level2">
+<h2 class="anchored" data-anchor-id="production-chain">Production Chain</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Process</th>
+<th>Materials</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Quartz sand (SiO₂)</td>
+<td>Local</td>
+<td>20% of Mercury’s crust</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Aluminum</td>
+<td>MRE slag</td>
+<td>Already produced</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><strong>Aluminothermy</strong></td>
+<td>Local</td>
+<td>Solar furnace, 2000°C</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Zone melting</td>
+<td>—</td>
+<td>Purification to solar grade</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Czochralski method</td>
+<td>Quartz crucible</td>
+<td>Ingot ∅150 mm</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Wire cutting</td>
+<td>Diamond wire (Earth)</td>
+<td>200 μm wafers</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>P/B diffusion</td>
+<td>Phosphorus + Boron (Earth)</td>
+<td>p-n junction</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Screen printing</td>
+<td>Local aluminum</td>
+<td>Contacts</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>SiNx deposition</td>
+<td>Nitrogen (Earth) + Silane</td>
+<td>Anti-reflection</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Module assembly</td>
+<td>Local aluminum</td>
+<td>No glass needed (vacuum)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="material-balance" class="level2">
+<h2 class="anchored" data-anchor-id="material-balance">Material Balance</h2>
+<p><strong>For 35,000 m² of panels (1 complex):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Import from Earth</td>
+<td><strong>~210 kg</strong> (consumables)</td>
+</tr>
+<tr class="even">
+<td>Local aluminum</td>
+<td>~90 tons</td>
+</tr>
+<tr class="odd">
+<td>Silicon</td>
+<td>~70 tons</td>
+</tr>
+<tr class="even">
+<td>Corundum (byproduct)</td>
+<td>~170 tons → ceramics</td>
+</tr>
+<tr class="odd">
+<td>Finished panel mass</td>
+<td><strong>~120 tons</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
 <ul>
-<li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая архитектура проекта</li>
-<li><a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение с Марсом и Луной</li>
-<li><a href="../../../ru/science/detailed/production/factories/overview.html">Завод «Точка Ноль»</a> — технологическая карта производства</li>
-<li><a href="../../../ru/science/detailed/production/robots/overview.html">Бестиарий роботов</a> — роботы Gen-1 и Gen-2</li>
-<li><a href="../../../ru/science/summaries/energy.html">Расчёты энергии</a> — энергетика зеркал</li>
-<li><a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a> — саморепликация и рост</li>
-<li><a href="../../../ru/science/detailed/production/railguns/theory.html">Масс-драйвер</a> — запуск зеркал с поверхности</li>
-<li><a href="../../../ru/science/reference/risks.html">Риски</a> — ограничения проекта</li>
+<li><a href="../../../../../en/science/detailed/production.html#energy">Production</a> — energy supply and solar panels</li>
+<li><a href="../../../../../en/science/detailed/production/materials/distillation.html">Distillation</a> — aluminum production for aluminothermy</li>
+<li><a href="../../../../../en/science/detailed/production/materials/mre.html">MRE</a> — magnetic separation of elements</li>
 </ul>
 
 
@@ -837,7 +1125,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

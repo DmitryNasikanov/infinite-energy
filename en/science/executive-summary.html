@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Project Helios in 5 Minutes – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../ru/science/data/widgets.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Project Helios in 5 Minutes</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Навигация</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-idea" id="toc-the-idea" class="nav-link active" data-scroll-target="#the-idea">The Idea</a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#scale-and-budget" id="toc-scale-and-budget" class="nav-link" data-scroll-target="#scale-and-budget">Scale and Budget</a>
+  <ul class="collapse">
+  <li><a href="#scale" id="toc-scale" class="nav-link" data-scroll-target="#scale">Scale</a></li>
+  <li><a href="#budget-with-lsp-infrastructure" id="toc-budget-with-lsp-infrastructure" class="nav-link" data-scroll-target="#budget-with-lsp-infrastructure">Budget (with LSP infrastructure)</a></li>
+  <li><a href="#why-is-this-cheap" id="toc-why-is-this-cheap" class="nav-link" data-scroll-target="#why-is-this-cheap">Why is this cheap?</a></li>
+  </ul></li>
+  <li><a href="#technology-readiness" id="toc-technology-readiness" class="nav-link" data-scroll-target="#technology-readiness">Technology Readiness</a></li>
+  <li><a href="#earth-preparation" id="toc-earth-preparation" class="nav-link" data-scroll-target="#earth-preparation">Earth: Preparation</a></li>
+  <li><a href="#moon-testbed" id="toc-moon-testbed" class="nav-link" data-scroll-target="#moon-testbed">Moon: Testbed</a>
+  <ul class="collapse">
+  <li><a href="#technology-testing-years-4-6" id="toc-technology-testing-years-4-6" class="nav-link" data-scroll-target="#technology-testing-years-4-6">Technology Testing (years 4-6)</a></li>
+  <li><a href="#test-mass-driver" id="toc-test-mass-driver" class="nav-link" data-scroll-target="#test-mass-driver">Test Mass Driver</a></li>
+  </ul></li>
+  <li><a href="#mercury-production" id="toc-mercury-production" class="nav-link" data-scroll-target="#mercury-production">Mercury: Production</a>
+  <ul class="collapse">
+  <li><a href="#production-chain" id="toc-production-chain" class="nav-link" data-scroll-target="#production-chain">Production Chain</a></li>
+  <li><a href="#self-replication" id="toc-self-replication" class="nav-link" data-scroll-target="#self-replication">Self-replication</a></li>
+  </ul></li>
+  <li><a href="#dyson-swarm-mirrors" id="toc-dyson-swarm-mirrors" class="nav-link" data-scroll-target="#dyson-swarm-mirrors">Dyson Swarm: Mirrors</a></li>
+  <li><a href="#energy-to-earth-lsp-rectenna" id="toc-energy-to-earth-lsp-rectenna" class="nav-link" data-scroll-target="#energy-to-earth-lsp-rectenna">Energy to Earth: LSP + Rectenna</a>
+  <ul class="collapse">
+  <li><a href="#lsp-stations-lunar-solar-power" id="toc-lsp-stations-lunar-solar-power" class="nav-link" data-scroll-target="#lsp-stations-lunar-solar-power">LSP Stations (Lunar Solar Power)</a></li>
+  <li><a href="#rectenna-on-earth" id="toc-rectenna-on-earth" class="nav-link" data-scroll-target="#rectenna-on-earth">Rectenna on Earth</a></li>
+  </ul></li>
+  <li><a href="#risks" id="toc-risks" class="nav-link" data-scroll-target="#risks">Risks</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project Helios in 5 Minutes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-idea" class="level2">
+<h2 class="anchored" data-anchor-id="the-idea">The Idea</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Document Status
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This document is a <strong>conceptual design</strong> (feasibility study). The goal is to demonstrate the fundamental feasibility of the project and identify the critical path for implementation.</p>
+<p>All calculations presented are <strong>order-of-magnitude estimates</strong>. Transitioning to implementation will require:</p>
+<ul>
+<li>Detailed engineering development of each subsystem</li>
+<li>Work by research institutes and design bureaus</li>
+<li>Prototyping and field testing</li>
+</ul>
+<p>This is precisely why the first years of the project (1-4) are entirely dedicated to <strong>R&amp;D</strong> — research and development work.</p>
+</div>
+</div>
+<p>Build a <strong>Dyson Swarm</strong> — ~1.1 billion mirrors around the Sun, producing <strong>~100 petawatts</strong> of reflected energy. First phase: <strong>1 PW on Earth</strong> (50x global consumption). Full potential with LSP scaling: up to ~21 PW (18% transmission efficiency).</p>
+<p><strong>Problems this can solve:</strong></p>
+<ul>
+<li><strong>Global warming</strong> — fossil fuel replacement + CO2 capture + orbital cooling</li>
+<li><strong>Hunger</strong> — vertical farms, water desalination, fertilizer synthesis</li>
+<li><strong>Waste</strong> — recycling any waste through high-temperature plasma decomposition</li>
+<li><strong>Interstellar travel</strong> — laser sails for acceleration to 20% of light speed</li>
+<li><strong>Mars terraforming</strong> — magnetic shield for atmosphere retention + heating + oxygen production</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/summaries/comparison.html">Why Mercury?</a>, <a href="../../en/science/detailed/production.html">Production</a>, <a href="../../en/science/summaries/roadmap.html">Roadmap</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    subgraph EARTH["EARTH (years 1-4)"]
+        E1[R&amp;D] --&gt; E2[Gen-1 Robots&lt;br/&gt;+ electronics]
+        E2 --&gt; E3[Desert testbed]
+        E2 --&gt; E4[Rectenna&lt;br/&gt;Russia, Europe, USA,&lt;br/&gt;Gobi, Sahara, Atacama]
+    end
+
+    subgraph MOON["MOON (years 4-10)"]
+        L1[Testbed] --&gt; L2[LSP stations&lt;br/&gt;on limbs]
+        L1 --&gt; L4[Test MD]
+    end
+
+    subgraph SPACE[" "]
+        direction LR
+        subgraph MERCURY["MERCURY (years 6-15)"]
+            M1[Factory] --&gt; M2[Self-replication]
+            M2 --&gt; M3[1000 MDs]
+            M3 --&gt; M4[Mirrors]
+        end
+        subgraph SWARM["DYSON SWARM"]
+            R1[~1.1B mirrors]
+        end
+        subgraph SUN["SUN"]
+            S1[Disposal]
+        end
+    end
+
+    E3 --&gt;|rockets| L1
+    L4 -.-&gt;|experience| M1
+    E3 --&gt;|rockets| M1
+    M4 --&gt;|MD| R1
+    R1 --&gt;|light| L2
+    L2 --&gt;|microwaves| E4
+    R1 -.-&gt;|broken| S1
+
+    style SUN fill:#FFECB3,stroke:#FF8F00,stroke-width:2px,color:#E65100
+    style EARTH fill:#E3F2FD,stroke:#1976D2,stroke-width:2px,color:#0D47A1
+    style MOON fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#212121
+    style MERCURY fill:#FBE9E7,stroke:#E64A19,stroke-width:2px,color:#BF360C
+    style SWARM fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,color:#FF6F00
+    style SPACE fill:none,stroke:none
+
+    click E1 "summaries/roadmap.html" "Roadmap"
+    click E2 "detailed/production/robots/overview.html" "Robot Bestiary"
+    click E3 "summaries/roadmap.html" "Roadmap"
+    click E4 "detailed/hub.html" "Energy Reception Hub"
+    click L1 "summaries/roadmap.html" "Roadmap"
+    click L2 "detailed/hub.html" "LSP Stations"
+    click L4 "detailed/production/railguns/overview.html" "Mass Driver"
+    click M1 "detailed/production.html" "Production and Self-replication"
+    click M2 "detailed/production.html" "Production and Self-replication"
+    click M3 "detailed/production/railguns/overview.html" "Mass Driver"
+    click M4 "detailed/mirrors.html" "Swarm Mirrors"
+    click R1 "detailed/mirrors.html" "Swarm Mirrors"
+    click S1 "detailed/mirrors.html" "Mirror Disposal"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Reading the diagram:</strong> top to bottom by time. Earth -&gt; Moon -&gt; Mercury + Swarm.</p>
+<hr>
+</section>
+<section id="scale-and-budget" class="level2">
+<h2 class="anchored" data-anchor-id="scale-and-budget">Scale and Budget</h2>
+<section id="scale" class="level3">
+<h3 class="anchored" data-anchor-id="scale">Scale</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../en/science/detailed/mirrors.html">Mirrors</a></td>
+<td><strong>~1.1 billion</strong></td>
+</tr>
+<tr class="even">
+<td>Mirror area</td>
+<td>1.1x10^13 m^2 (~11 million km^2)</td>
+</tr>
+<tr class="odd">
+<td>Swarm mass</td>
+<td>~128 million tons</td>
+</tr>
+<tr class="even">
+<td><a href="../../en/science/detailed/production/factories/overview.html">Factories on Mercury</a></td>
+<td>~1,650 (1,500 F-M + 150 F-R)</td>
+</tr>
+<tr class="odd">
+<td><a href="../../en/science/detailed/production/railguns/overview.html">Mass Drivers</a> on Mercury</td>
+<td>~1,000</td>
+</tr>
+<tr class="even">
+<td><a href="../../en/science/detailed/delivery.html">Import from Earth</a></td>
+<td><strong>~2,400 t</strong> (96% localization)</td>
+</tr>
+<tr class="odd">
+<td>Construction timeline</td>
+<td><strong>~9.5 years</strong> (degradation included)</td>
+</tr>
+<tr class="even">
+<td>Power on Earth</td>
+<td><strong>1 PW</strong> (phase 1) / up to 21 PW (full)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phases:</strong> - R&amp;D (years 1-2) - Earth testbed (years 2-4) - Moon (years 4-10) - Mercury (years 6-18)</p>
+</section>
+<section id="budget-with-lsp-infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="budget-with-lsp-infrastructure">Budget (with LSP infrastructure)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Budget (USD 2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Optimistic</td>
+<td><strong>$255-320B</strong></td>
+</tr>
+<tr class="even">
+<td>Baseline</td>
+<td><strong>$430-540B</strong></td>
+</tr>
+<tr class="odd">
+<td>Conservative</td>
+<td><strong>$520-650B</strong></td>
+</tr>
+</tbody>
+</table>
+<p>For comparison: ISS — $150B, Apollo — $280B.</p>
+</section>
+<section id="why-is-this-cheap" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-this-cheap">Why is this cheap?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Would be</th>
+<th>Became</th>
+<th>Savings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Earth imports</td>
+<td>~10,000 t</td>
+<td><strong>~2,400 t</strong></td>
+<td>76%</td>
+</tr>
+<tr class="even">
+<td>Rockets needed</td>
+<td>~900</td>
+<td><strong>~100</strong></td>
+<td>89%</td>
+</tr>
+<tr class="odd">
+<td>Rocket program</td>
+<td>$40-100B</td>
+<td><strong>$4-11B</strong></td>
+<td>89%</td>
+</tr>
+<tr class="even">
+<td>Launch costs</td>
+<td>$35-85B</td>
+<td><strong>$8-20B</strong></td>
+<td>76%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Savings: $95-230B</strong> thanks to <a href="../../en/science/detailed/production/factories/assembly/replication.html">self-replication</a> and local production.</p>
+<blockquote class="blockquote">
+<p><strong>Helios — the most efficient project in human history.</strong> Cost ~1.5x Apollo. Result — energy for the entire planet forever.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/summaries/budget.html">Project Budget</a></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="technology-readiness" class="level2">
+<h2 class="anchored" data-anchor-id="technology-readiness">Technology Readiness</h2>
+<p>All key project technologies already exist and are being demonstrated:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Technology</th>
+<th>TRL</th>
+<th>Status (2025)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../en/science/reference/technology-readiness.html#electromagnetic-launch-mass-driver">Electromagnetic launch</a></td>
+<td>5-6</td>
+<td>China: 700 km/h in 2 sec</td>
+</tr>
+<tr class="even">
+<td><a href="../../en/science/reference/technology-readiness.html#lights-off-factories-lights-off-manufacturing">Lights-off factories</a></td>
+<td>9</td>
+<td>FANUC, Xiaomi: 24/7 without people</td>
+</tr>
+<tr class="odd">
+<td><a href="../../en/science/reference/technology-readiness.html#autonomous-mining">Autonomous mining</a></td>
+<td>8-9</td>
+<td>Rio Tinto: 690+ trucks</td>
+</tr>
+<tr class="even">
+<td><a href="../../en/science/reference/technology-readiness.html#mre-molten-regolith-electrolysis">MRE electrolysis</a></td>
+<td>5-6</td>
+<td>NASA, Blue Origin</td>
+</tr>
+<tr class="odd">
+<td><a href="../../en/science/reference/technology-readiness.html#microwave-power-transmission">Microwave transmission</a></td>
+<td>5-6</td>
+<td>Caltech: from space to Earth (2023)</td>
+</tr>
+<tr class="even">
+<td><a href="../../en/science/reference/technology-readiness.html#ultra-thin-aluminum-foil">Ultra-thin foil</a></td>
+<td>5-7</td>
+<td>IKAROS, LightSail 2</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/reference/technology-readiness.html">Technologies and Sources</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="earth-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="earth-preparation">Earth: Preparation</h2>
+<p>Everything starts on Earth.</p>
+<p><strong>R&amp;D (years 1-2):</strong> - Development of robots, factories, and AI systems - Mirror and Mass Driver prototypes - Factory prototypes and self-replication schemes - Planning for Moon and Mercury operations - Laser receiver development</p>
+<p><strong>Earth Testbed (years 3-6):</strong> - Test factory in Mercury-like conditions (desert) - Gen-1 robot testing in extreme conditions - First Mass Driver (horizontal tests)</p>
+<p><strong>Production:</strong> - Gen-1 robots for <a href="../../en/science/detailed/delivery.html">delivery</a> to Moon and Mercury - Electronics — “Vitamins” for the entire project</p>
+<p><strong>Launch vehicles:</strong> - ~50-100 launches over the entire project (thanks to 96% localization) - Payload capacity: ~50 tons to Mercury - Rocket industry grows organically (satellites, lunar programs)</p>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/summaries/roadmap.html">Roadmap</a>, <a href="../../en/science/summaries/budget.html">Budget</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="moon-testbed" class="level2">
+<h2 class="anchored" data-anchor-id="moon-testbed">Moon: Testbed</h2>
+<p>The Moon is a key stage between Earth and Mercury.</p>
+<section id="technology-testing-years-4-6" class="level3">
+<h3 class="anchored" data-anchor-id="technology-testing-years-4-6">Technology Testing (years 4-6)</h3>
+<ul>
+<li>Robots learn to mine, smelt, build</li>
+<li>Errors are cheaper: 1.3 sec communication (vs 8-20 min), 3-day delivery (vs months)</li>
+<li>Experience transfers to Mercury</li>
+</ul>
+</section>
+<section id="test-mass-driver" class="level3">
+<h3 class="anchored" data-anchor-id="test-mass-driver">Test Mass Driver</h3>
+<p>Prototype of Mercury MD for technology validation:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Mercury</th>
+<th>Moon (test)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Target velocity</td>
+<td>5 km/s</td>
+<td>2.5 km/s</td>
+</tr>
+<tr class="even">
+<td>Track length</td>
+<td>2-3 km</td>
+<td>0.5-1 km</td>
+</tr>
+<tr class="odd">
+<td>Purpose</td>
+<td>Mirror launch</td>
+<td>Technology validation</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/summaries/moon.html">Moon</a>, <a href="../../en/science/detailed/production/railguns/theory.html">Mass Driver</a></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="mercury-production" class="level2">
+<h2 class="anchored" data-anchor-id="mercury-production">Mercury: Production</h2>
+<p>The main factory of the project. <a href="../../en/science/summaries/comparison.html">Why Mercury, not the Moon?</a></p>
+<ul>
+<li><strong>Energy:</strong> solar flux 10 kW/m^2 — 7x more than on the Moon</li>
+<li><strong>Resources:</strong> the planet’s metallic core — the richest deposit of iron and aluminum in the Solar System</li>
+<li><strong>Orbit:</strong> The Swarm orbits the Sun — doesn’t occupy useful orbits around Earth</li>
+<li><strong>Disposal:</strong> failed mirrors fall into the Sun — no space debris</li>
+</ul>
+<section id="production-chain" class="level3">
+<h3 class="anchored" data-anchor-id="production-chain"><a href="../../en/science/detailed/production.html">Production Chain</a></h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Mining] --&gt; B[Smelting]
+    B --&gt; C[New factories]
+    B --&gt; D[New MDs]
+    B --&gt; E[Mirrors]
+    C --&gt; D
+    E --&gt; D
+    D --&gt; F[Launch]
+    F --&gt; G[Swarm]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="self-replication" class="level3">
+<h3 class="anchored" data-anchor-id="self-replication">Self-replication</h3>
+<p>Robots build robots. Factories build factories.</p>
+<ul>
+<li><strong>99% of mass</strong> — from local resources (<strong>iron</strong> for frames, <strong>aluminum</strong> for bodies, silicon)</li>
+<li><strong>1% of mass</strong> — “Vitamins” from Earth (electronics, optics)</li>
+<li><strong><a href="../../en/science/detailed/production/robots/overview.html">Gen-2 robots</a></strong> — optimized (~960 kg): Al frames + Fe critical components</li>
+<li><strong>Energy:</strong> 168 MW (3 trips of GaAs panels) — bootstrap without waiting for Swarm</li>
+<li><strong>Critical path:</strong> First MD (month 6) -&gt; first mirrors -&gt; scaling</li>
+</ul>
+<p>Over <strong>~9.5 years:</strong> 1 factory -&gt; ~1,650 factories (1,500 F-M + 150 F-R) -&gt; 1.1 billion working mirrors (degradation already included)</p>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/detailed/production/factories/overview.html">Ground Zero Factory</a>, <a href="../../en/science/detailed/production/robots/overview.html">Robot Bestiary</a></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="dyson-swarm-mirrors" class="level2">
+<h2 class="anchored" data-anchor-id="dyson-swarm-mirrors">Dyson Swarm: Mirrors</h2>
+<p>~1 billion <a href="../../en/science/detailed/mirrors.html">mirrors</a> in heliocentric orbits.</p>
+<p><strong>Each mirror:</strong> - Size: 100 x 100 m - Material: 4 um aluminum foil - Mass: ~116 kg - Power on Earth: ~19 MW (at 18% efficiency)</p>
+<p><strong>Organization:</strong> - Mirrors grouped into clusters of 1,000-10,000 units - Each cluster — a virtual antenna ~100 km - Clusters focus light on LSP stations (Moon)</p>
+<p><strong>After first mirrors launch:</strong> - Part of energy -&gt; Earth (via LSP) - Part of energy -&gt; Moon (for continued construction) - Part of energy -&gt; Mercury (for factories and Mass Drivers)</p>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/detailed/mirrors.html">Swarm Mirrors</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="energy-to-earth-lsp-rectenna" class="level2">
+<h2 class="anchored" data-anchor-id="energy-to-earth-lsp-rectenna">Energy to Earth: LSP + Rectenna</h2>
+<p>The final link in the chain: Swarm light -&gt; electricity on Earth.</p>
+<section id="lsp-stations-lunar-solar-power" class="level3">
+<h3 class="anchored" data-anchor-id="lsp-stations-lunar-solar-power">LSP Stations (Lunar Solar Power)</h3>
+<p><strong>Network of 20-40 stations on the Moon’s surface</strong> (instead of an orbital hub):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stations</td>
+<td>20-40</td>
+</tr>
+<tr class="even">
+<td>Location</td>
+<td>Moon limbs (eastern + western)</td>
+</tr>
+<tr class="odd">
+<td>Transmission</td>
+<td>Microwaves 2.45 GHz</td>
+</tr>
+<tr class="even">
+<td>Efficiency (Swarm to Earth)</td>
+<td>18%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How it works:</strong></p>
+<ol type="1">
+<li><strong>Reception</strong> — concentrated light from Swarm onto PV panels</li>
+<li><strong>Conversion</strong> — light -&gt; electricity -&gt; microwaves</li>
+<li><strong>Transmission</strong> — microwave beam to rectenna on Earth</li>
+</ol>
+<p><strong>LSP advantages:</strong> - Heat dissipates into ground — no radiators needed in space - 18% efficiency (vs 10% for orbital hub) - Built from lunar resources</p>
+</section>
+<section id="rectenna-on-earth" class="level3">
+<h3 class="anchored" data-anchor-id="rectenna-on-earth">Rectenna on Earth</h3>
+<p>Global network of microwave receivers:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Region</th>
+<th>Location</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Russia</strong></td>
+<td>Yakutia, Kazakhstan</td>
+<td>Sparsely populated areas</td>
+</tr>
+<tr class="even">
+<td><strong>Europe</strong></td>
+<td>Southern Spain</td>
+<td>Semi-desert, close to consumers</td>
+</tr>
+<tr class="odd">
+<td><strong>USA</strong></td>
+<td>Nevada/Arizona</td>
+<td>Desert, close to consumers</td>
+</tr>
+<tr class="even">
+<td>Africa</td>
+<td>Sahara</td>
+<td>Large-scale generation</td>
+</tr>
+<tr class="odd">
+<td>Asia</td>
+<td>Gobi (Mongolia)</td>
+<td>Large-scale generation</td>
+</tr>
+<tr class="even">
+<td>S. America</td>
+<td>Atacama (Chile)</td>
+<td>Large-scale generation</td>
+</tr>
+<tr class="odd">
+<td>Oceania</td>
+<td>Central Australia</td>
+<td>Large-scale generation</td>
+</tr>
+</tbody>
+</table>
+<p>Microwaves pass through clouds — all-weather operation.</p>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/detailed/hub.html">Energy Reception Hub</a></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="risks" class="level2">
+<h2 class="anchored" data-anchor-id="risks">Risks</h2>
+<ol type="1">
+<li><strong><a href="../../en/science/reference/technology-readiness.html#factory-self-replication">Factory self-replication</a> (TRL 4-5)</strong> — subsystems proven (robots, casting, WAAM), integration requires R&amp;D</li>
+<li><strong><a href="../../en/science/detailed/production/materials/carbon.html">Iridium for anodes</a></strong> — solved by carbon anodes from local feedstock (Mercury LRM zones)</li>
+<li><strong><a href="../../en/science/detailed/mirrors.html#degradation">Mirror degradation</a></strong> — 8-12 year lifespan, compensated by producing 219 million mirrors/year</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Learn more:</strong> <a href="../../en/science/reference/risks.html">Risks and Limitations</a></p>
+</blockquote>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Study Results
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This feasibility study confirms: <strong>the project is achievable with current technology levels</strong>.</p>
+<p><strong>Key facts:</strong></p>
+<ul>
+<li>All critical technologies exist (TRL 4-9) or are actively being developed</li>
+<li>Budget of $255-520B is comparable to Apollo ($280B) and ISS ($150B)</li>
+<li>Timeline of 10-15 years — realistic with international cooperation</li>
+<li>First energy on Earth — as early as year 8-9 from start</li>
+</ul>
+<p><strong>Why this matters:</strong> Project Helios is the only known solution capable of providing humanity with energy at a scale of <strong>1000x current consumption</strong>. This enables not only solving the climate crisis but also opening the path to Mars terraforming, interstellar travel, and sustainable civilization development.</p>
+<p><strong>Recommendation:</strong> The project deserves high priority and international attention as the most promising path to solving global energy problems.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="../../en/science/summaries/comparison.html">Why Mercury?</a> — comparison with Mars and Moon</li>
+<li><a href="../../en/science/summaries/roadmap.html">Roadmap</a> — project timeline</li>
+<li><a href="../../en/science/detailed/production.html">Production</a> — complete production cycle</li>
+<li><a href="../../en/science/detailed/mirrors.html">Swarm Mirrors</a> — mirror design and production</li>
+<li><a href="../../en/science/detailed/hub.html">Energy Reception Hub</a> — LSP stations and Earth transmission</li>
+<li><a href="../../en/science/detailed/production/factories/overview.html">Ground Zero Factory</a> — how self-replication works</li>
+<li><a href="../../en/science/detailed/production/robots/overview.html">Robot Bestiary</a> — who builds the project</li>
+<li><a href="../../en/science/detailed/delivery.html">Delivery</a> — logistics Earth -&gt; Moon -&gt; Mercury</li>
+<li><a href="../../en/science/reference/risks.html">Risks and Limitations</a> — technical risk analysis</li>
+<li><a href="../../en/science/reference/technology-readiness.html">Technologies and Sources</a> — TRL of all technologies + bibliography</li>
+<li><a href="../../en/science/summaries/budget.html">Project Budget</a> — project economics</li>
+<li><a href="../../en/science/reference/glossary.html">Glossary</a> — terminology</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

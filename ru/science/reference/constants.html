@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -160,7 +362,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/constants.html">Физические константы</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/technology-readiness.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/constants.html">Физические константы</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,20 +403,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -227,6 +417,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -248,20 +444,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -363,6 +547,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -608,14 +798,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -628,12 +818,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -682,7 +866,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/constants.html">Физические константы</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/technology-readiness.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/constants.html">Физические константы</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Физические константы</h1>
 </div>
@@ -749,7 +933,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Примечание:</strong> Значение 9 082 Вт/м² — это поток при среднем расстоянии (0.387 AU). Для энергетических расчётов используем среднее по орбите: (14 444 + 6 242) / 2 = <strong>10 343 Вт/м²</strong>.</p>
+<p><strong>Примечание:</strong> Значение 9 087 Вт/м² — это поток при среднем расстоянии (0.387 AU). Для энергетических расчётов используем среднее по орбите: (14 444 + 6 242) / 2 = <strong>10 343 Вт/м²</strong>.</p>
 </blockquote>
 </section>
 <section id="параметры-планет" class="level3">
@@ -794,7 +978,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="состав-реголита" class="level3">
 <h3 class="anchored" data-anchor-id="состав-реголита">Состав реголита</h3>
-<p>См. <a href="../../../ru/science/summaries/mercury.html">Состав поверхности планет</a> — детальные данные по Меркурию, Луне и Марсу.</p>
+<p>См. <a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение планет для проекта.</p>
 <hr>
 </section>
 </section>
@@ -849,7 +1033,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Плотность</td>
-<td>7 800 кг/м³</td>
+<td>7 850 кг/м³</td>
 </tr>
 <tr class="even">
 <td>Температура плавления</td>
@@ -884,6 +1068,11 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="физические-константы" class="level2">
 <h2 class="anchored" data-anchor-id="физические-константы">Физические константы</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 29%">
+<col style="width: 38%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Константа</th>
@@ -904,7 +1093,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="odd">
 <td>Давление света (на орбите Меркурия)</td>
-<td>~60 мкПа</td>
+<td>~60 мкПа (отражение, P=2S/c)</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -1000,7 +1189,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td>Общая площадь</td>
-<td>10¹³ м² (~10 000 км²)</td>
+<td>10¹³ м² (~10 млн км²)</td>
 <td>10⁹ × 10⁴ м²</td>
 </tr>
 <tr class="odd">
@@ -1044,6 +1233,11 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="масс-драйвер" class="level3">
 <h3 class="anchored" data-anchor-id="масс-драйвер">Масс-драйвер</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Параметр</th>
@@ -1059,31 +1253,37 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td>Длина тоннеля</td>
-<td>2–3 км</td>
-<td>Расчёт при 43g</td>
+<td><strong>1 км</strong> (базовый)*</td>
+<td>Максимальная скорость строительства</td>
 </tr>
 <tr class="odd">
 <td>Ускорение</td>
-<td>420 м/с² (43g)</td>
+<td><strong>12 500 м/с² (1275g)</strong></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>Время разгона</td>
-<td>~12 сек</td>
+<td><strong>~0.4 сек</strong></td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>Масса установки</td>
-<td>~1 300 т</td>
-<td><a href="https://ntrs.nasa.gov/">NASA Mass Driver Study</a></td>
+<td><strong>~450 т</strong></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>КПД (алюминиевые обмотки)</td>
 <td>40%</td>
 <td>Консервативная оценка</td>
 </tr>
+<tr class="odd">
+<td>Запас vs доказанных 25,000g</td>
+<td><strong>20×</strong></td>
+<td>McCormick Stevenson GNC</td>
+</tr>
 </tbody>
 </table>
+<p>*При снижении нагрузки: 2 км (637g, 875 т) или 3 км (425g, 1300 т).</p>
 </section>
 <section id="роботы-gen-2-оптимизированный-гибрид-feal" class="level3">
 <h3 class="anchored" data-anchor-id="роботы-gen-2-оптимизированный-гибрид-feal">Роботы Gen-2 (оптимизированный гибрид Fe/Al)</h3>
@@ -1173,11 +1373,11 @@ p:has(> em:first-child) { text-indent: 0; }
 <h2 class="anchored" data-anchor-id="использование-констант">Использование констант</h2>
 <p>Эти значения используются в расчётах:</p>
 <ul>
-<li><a href="../../../ru/science/summaries/energy.html">Расчёты энергии</a> — энергетика зеркал и энергомоста</li>
+<li><a href="../../../ru/science/detailed/mirrors.html">Зеркала Роя</a> — энергетика зеркал и энергомост</li>
 <li><a href="../../../ru/science/detailed/production/railguns/theory.html">Масс-драйвер</a> — физика запуска</li>
 <li><a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a> — экспоненциальный рост</li>
 <li><a href="../../../ru/science/executive-summary.html">Физика проекта</a> — основные технологии</li>
-<li><a href="../../../ru/science/reference/sources.html">Библиография</a> — источники данных</li>
+<li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL и библиография</li>
 </ul>
 
 
@@ -1257,7 +1457,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

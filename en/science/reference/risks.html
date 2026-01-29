@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Технологическая зрелость – Проект Гелиос</title>
+<title>Project Risks and Constraints – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -160,7 +362,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/trl.html">Технологическая зрелость</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Project Risks and Constraints</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,20 +403,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -227,6 +417,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -248,20 +444,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -363,6 +547,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -608,14 +798,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -628,12 +818,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -654,42 +838,50 @@ p:has(> em:first-child) { text-indent: 0; }
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#технологическая-зрелость-проекта-гелиос" id="toc-технологическая-зрелость-проекта-гелиос" class="nav-link active" data-scroll-target="#технологическая-зрелость-проекта-гелиос">Технологическая зрелость проекта Гелиос</a>
+  <li><a href="#resolved-risks" id="toc-resolved-risks" class="nav-link active" data-scroll-target="#resolved-risks">Resolved Risks</a></li>
+  <li><a href="#technological-risks" id="toc-technological-risks" class="nav-link" data-scroll-target="#technological-risks">Technological Risks</a>
   <ul class="collapse">
-  <li><a href="#сводная-таблица" id="toc-сводная-таблица" class="nav-link" data-scroll-target="#сводная-таблица">Сводная таблица</a></li>
-  <li><a href="#технологии-trl-7-9-промышленная-зрелость" id="toc-технологии-trl-7-9-промышленная-зрелость" class="nav-link" data-scroll-target="#технологии-trl-7-9-промышленная-зрелость">Технологии TRL 7-9 (промышленная зрелость)</a>
+  <li><a href="#trl-4-5-technologies" id="toc-trl-4-5-technologies" class="nav-link" data-scroll-target="#trl-4-5-technologies">TRL 4-5 Technologies</a></li>
+  <li><a href="#open-technical-issues" id="toc-open-technical-issues" class="nav-link" data-scroll-target="#open-technical-issues">Open Technical Issues</a></li>
+  </ul></li>
+  <li><a href="#budget-risks" id="toc-budget-risks" class="nav-link" data-scroll-target="#budget-risks">Budget Risks</a>
   <ul class="collapse">
-  <li><a href="#тёмные-заводы-lights-off-manufacturing" id="toc-тёмные-заводы-lights-off-manufacturing" class="nav-link" data-scroll-target="#тёмные-заводы-lights-off-manufacturing">Тёмные заводы (Lights-off Manufacturing)</a></li>
-  <li><a href="#автономная-добыча" id="toc-автономная-добыча" class="nav-link" data-scroll-target="#автономная-добыча">Автономная добыча</a></li>
-  <li><a href="#nas-батареи" id="toc-nas-батареи" class="nav-link" data-scroll-target="#nas-батареи">NaS батареи</a></li>
-  <li><a href="#waam-wire-arc-additive-manufacturing" id="toc-waam-wire-arc-additive-manufacturing" class="nav-link" data-scroll-target="#waam-wire-arc-additive-manufacturing">WAAM (Wire Arc Additive Manufacturing)</a></li>
+  <li><a href="#ai-cost-declining-risk-resolved" id="toc-ai-cost-declining-risk-resolved" class="nav-link" data-scroll-target="#ai-cost-declining-risk-resolved">AI Cost Declining (Risk Resolved)</a></li>
+  <li><a href="#dependence-on-super-heavy-rockets-resolved" id="toc-dependence-on-super-heavy-rockets-resolved" class="nav-link" data-scroll-target="#dependence-on-super-heavy-rockets-resolved"><del>Dependence on Super-Heavy Rockets</del> → RESOLVED</a></li>
+  <li><a href="#mission-insurance" id="toc-mission-insurance" class="nav-link" data-scroll-target="#mission-insurance">Mission Insurance</a></li>
+  <li><a href="#testing-underestimated" id="toc-testing-underestimated" class="nav-link" data-scroll-target="#testing-underestimated">Testing Underestimated</a></li>
   </ul></li>
-  <li><a href="#технологии-trl-5-7-демонстрация" id="toc-технологии-trl-5-7-демонстрация" class="nav-link" data-scroll-target="#технологии-trl-5-7-демонстрация">Технологии TRL 5-7 (демонстрация)</a>
+  <li><a href="#human-risks" id="toc-human-risks" class="nav-link" data-scroll-target="#human-risks">Human Risks</a>
   <ul class="collapse">
-  <li><a href="#электромагнитный-пуск-масс-драйвер" id="toc-электромагнитный-пуск-масс-драйвер" class="nav-link" data-scroll-target="#электромагнитный-пуск-масс-драйвер">Электромагнитный пуск (масс-драйвер)</a></li>
-  <li><a href="#mre-molten-regolith-electrolysis" id="toc-mre-molten-regolith-electrolysis" class="nav-link" data-scroll-target="#mre-molten-regolith-electrolysis">MRE (Molten Regolith Electrolysis)</a></li>
-  <li><a href="#микроволновая-передача-энергии" id="toc-микроволновая-передача-энергии" class="nav-link" data-scroll-target="#микроволновая-передача-энергии">Микроволновая передача энергии</a></li>
-  <li><a href="#ультратонкая-алюминиевая-фольга" id="toc-ультратонкая-алюминиевая-фольга" class="nav-link" data-scroll-target="#ультратонкая-алюминиевая-фольга">Ультратонкая алюминиевая фольга</a></li>
+  <li><a href="#personnel" id="toc-personnel" class="nav-link" data-scroll-target="#personnel">Personnel</a></li>
+  <li><a href="#competition-for-ai-specialists" id="toc-competition-for-ai-specialists" class="nav-link" data-scroll-target="#competition-for-ai-specialists">Competition for AI Specialists</a></li>
+  <li><a href="#international-teams" id="toc-international-teams" class="nav-link" data-scroll-target="#international-teams">International Teams</a></li>
+  <li><a href="#staff-retention" id="toc-staff-retention" class="nav-link" data-scroll-target="#staff-retention">Staff Retention</a></li>
   </ul></li>
-  <li><a href="#технологии-trl-3-4-открытые-вопросы" id="toc-технологии-trl-3-4-открытые-вопросы" class="nav-link" data-scroll-target="#технологии-trl-3-4-открытые-вопросы">Технологии TRL 3-4 (открытые вопросы)</a>
+  <li><a href="#political-risks" id="toc-political-risks" class="nav-link" data-scroll-target="#political-risks">Political Risks</a>
   <ul class="collapse">
-  <li><a href="#саморепликация-заводов" id="toc-саморепликация-заводов" class="nav-link" data-scroll-target="#саморепликация-заводов">Саморепликация заводов</a></li>
-  <li><a href="#автономный-ии-для-роботов" id="toc-автономный-ии-для-роботов" class="nav-link" data-scroll-target="#автономный-ии-для-роботов">Автономный ИИ для роботов</a></li>
-  <li><a href="#координация-роя-1-млрд-зеркал" id="toc-координация-роя-1-млрд-зеркал" class="nav-link" data-scroll-target="#координация-роя-1-млрд-зеркал">Координация роя 1 млрд зеркал</a></li>
-  <li><a href="#in-situ-кремниевые-ячейки" id="toc-in-situ-кремниевые-ячейки" class="nav-link" data-scroll-target="#in-situ-кремниевые-ячейки">In-situ кремниевые ячейки</a></li>
-  <li><a href="#криогенный-алюминиевый-кабель-гвт" id="toc-криогенный-алюминиевый-кабель-гвт" class="nav-link" data-scroll-target="#криогенный-алюминиевый-кабель-гвт">Криогенный алюминиевый кабель (ГВт)</a></li>
+  <li><a href="#sanctions-and-international-tensions" id="toc-sanctions-and-international-tensions" class="nav-link" data-scroll-target="#sanctions-and-international-tensions">Sanctions and International Tensions</a></li>
+  <li><a href="#government-changes" id="toc-government-changes" class="nav-link" data-scroll-target="#government-changes">Government Changes</a></li>
+  <li><a href="#competition-instead-of-cooperation" id="toc-competition-instead-of-cooperation" class="nav-link" data-scroll-target="#competition-instead-of-cooperation">Competition Instead of Cooperation</a></li>
+  <li><a href="#legal-status-of-resources" id="toc-legal-status-of-resources" class="nav-link" data-scroll-target="#legal-status-of-resources">Legal Status of Resources</a></li>
+  <li><a href="#public-opinion" id="toc-public-opinion" class="nav-link" data-scroll-target="#public-opinion">Public Opinion</a></li>
   </ul></li>
-  <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
+  <li><a href="#resource-constraints" id="toc-resource-constraints" class="nav-link" data-scroll-target="#resource-constraints">Resource Constraints</a>
+  <ul class="collapse">
+  <li><a href="#electronics" id="toc-electronics" class="nav-link" data-scroll-target="#electronics">Electronics</a></li>
+  <li><a href="#launch-capacity" id="toc-launch-capacity" class="nav-link" data-scroll-target="#launch-capacity">Launch Capacity</a></li>
   </ul></li>
+  <li><a href="#uncertainties" id="toc-uncertainties" class="nav-link" data-scroll-target="#uncertainties">Uncertainties</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/trl.html">Технологическая зрелость</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Технологическая зрелость</h1>
+<h1 class="title">Project Risks and Constraints</h1>
 </div>
 
 
@@ -706,566 +898,761 @@ p:has(> em:first-child) { text-indent: 0; }
 </header>
 
 
-<section id="технологическая-зрелость-проекта-гелиос" class="level1">
-<h1>Технологическая зрелость проекта Гелиос</h1>
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>9 из 14</strong> ключевых технологий имеют TRL 5+ (лабораторная демонстрация или выше)</li>
-<li><strong>4 технологии</strong> уже работают в промышленном масштабе (TRL 9): тёмные заводы, автономная добыча, NaS батареи, WAAM</li>
-<li><strong>5 технологий</strong> требуют дополнительной проработки (TRL 3-4): саморепликация, ИИ роботов, координация роя, in-situ кремний, крио-Al ГВт</li>
-<li><strong>Ни одна</strong> технология не является принципиально новой — все основаны на существующих физических принципах и промышленных процессах</li>
+<li><strong>Technological:</strong> 2 technologies at TRL 4-5 (subsystems proven), 1 critical issue (iridium for anodes — solvable with carbon anodes from local materials)</li>
+<li><strong>Budget:</strong> testing underestimated</li>
+<li><strong>Human:</strong> 50,000 specialists needed, competition for AI talent</li>
+<li><strong>Political:</strong> sanctions, government changes, legal status of resources</li>
+<li><strong>Resource:</strong> electronics ~8%/year of world production</li>
 </ul>
 </blockquote>
 <hr>
-<section id="сводная-таблица" class="level2">
-<h2 class="anchored" data-anchor-id="сводная-таблица">Сводная таблица</h2>
+<section id="resolved-risks" class="level2">
+<h2 class="anchored" data-anchor-id="resolved-risks">Resolved Risks</h2>
+<p>These issues initially appeared blocking but have solutions.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>#</th>
-<th>Технология</th>
-<th>TRL</th>
-<th>Текущий статус</th>
-<th>Ключевой референс</th>
+<th>Risk</th>
+<th>Solution</th>
+<th>Details</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>Электромагнитный пуск</td>
-<td>5-6</td>
-<td>Демонстрация 700 км/ч</td>
-<td><a href="https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html">China NUDT Dec 2025</a></td>
+<td>Phased array synchronization</td>
+<td>Optical control: Mother mirror → ~1000 Children</td>
+<td><a href="../../../en/science/detailed/mirrors.html#optical-cluster-control">Optical Cluster Control</a></td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>Тёмные заводы</td>
-<td>9</td>
-<td>Промышленная эксплуатация</td>
-<td><a href="https://en.wikipedia.org/wiki/Lights_out_(manufacturing)">FANUC</a>, <a href="https://www.faf.ae/home/2025/3/19/chinas-dark-factory-revolution-the-rise-of-fully-automated-manufacturing-without-workers-or-lights">Xiaomi</a></td>
+<td>Electrochromics too slow</td>
+<td>Sufficient for cluster architecture</td>
+<td><a href="../../../en/science/reference/technology-readiness.html#electrochromic-tio₂">Electrochromic TiO₂ TRL 7-8</a></td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td>Автономная добыча</td>
-<td>8-9</td>
-<td>690+ грузовиков в работе</td>
-<td><a href="https://im-mining.com/2025/11/07/caterpillar-sets-out-to-hit-over-2000-autonomous-mining-trucks-by-2030/">Caterpillar</a>, <a href="https://www.mining-technology.com/features/featurerio-tinto-rolling-out-the-worlds-first-fully-driverless-mines-4831021/">Rio Tinto</a></td>
+<td>Mirror electronics import (55,000 t)</td>
+<td>Mother-Children architecture: 98% savings</td>
+<td><a href="../../../en/science/detailed/mirrors.html#optical-cluster-control">Optical Cluster Control</a></td>
 </tr>
 <tr class="even">
-<td>4</td>
-<td>WAAM 3D-печать</td>
-<td>7-8</td>
-<td>Промышленное производство</td>
-<td><a href="https://www.waam3d.com/">WAAM3D</a>, <a href="https://aml3d.com/technology">AML3D</a></td>
+<td>Copper not found on Mercury</td>
+<td>Cryo-aluminum in shadow (-180C)</td>
+<td><a href="../../../en/science/reference/technology-readiness.html#cryogenic-aluminum-cable-gw">Cryogenic Al</a></td>
 </tr>
 <tr class="odd">
-<td>5</td>
-<td>NaS батареи</td>
-<td>9</td>
-<td>5 ГВт·ч развёрнуто</td>
-<td><a href="https://www.energy-storage.news/nas-batteries-long-duration-energy-storage-proven-at-5gwh-of-deployments-worldwide/">NGK</a></td>
+<td>NaS batteries during night period</td>
+<td>Cables + charging stations</td>
+<td><a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS TRL 9</a></td>
 </tr>
 <tr class="even">
-<td>6</td>
-<td>Микроволновая передача</td>
-<td>5-6</td>
-<td>Демо из космоса</td>
-<td><a href="https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space">Caltech SSPP 2023</a></td>
+<td><strong>Payload survivability at high g</strong></td>
+<td>Proven to 25,000g (McCormick Stevenson)</td>
+<td><a href="../../../en/science/detailed/production/railguns/theory.html#payload-survivability-at-high-g">MD Theory</a></td>
 </tr>
 <tr class="odd">
-<td>7</td>
-<td>MRE электролиз</td>
-<td>5-6</td>
-<td>Лабораторная демонстрация</td>
-<td><a href="https://ntrs.nasa.gov/citations/20250003730">NASA ISRU 2025</a></td>
+<td><strong>Super-heavy rocket dependency</strong></td>
+<td>Multi-rocket approach: 3-4 medium rockets + independent Mercury landings</td>
+<td><a href="../../../en/science/detailed/delivery.html">Delivery</a></td>
 </tr>
-<tr class="even">
-<td>8</td>
-<td>Ультратонкая фольга</td>
-<td>5-7</td>
-<td>R&amp;D + производство</td>
-<td><a href="https://www.planetary.org/sci-tech/lightsail">LightSail 2</a>, Chalco</td>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="technological-risks" class="level2">
+<h2 class="anchored" data-anchor-id="technological-risks">Technological Risks</h2>
+<section id="trl-4-5-technologies" class="level3">
+<h3 class="anchored" data-anchor-id="trl-4-5-technologies">TRL 4-5 Technologies</h3>
+<p>Require additional development but are not fundamentally new. All subsystems proven (TRL 9), the challenge is integration.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Technology</th>
+<th>TRL</th>
+<th>Status</th>
+<th>Closest Analog</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td>9</td>
-<td>Солнечные паруса</td>
-<td>7-8</td>
-<td>Лётная демонстрация</td>
-<td><a href="https://global.jaxa.jp/projects/sas/ikaros/">IKAROS 2010</a></td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>Rectenna (СВЧ→ток)</td>
-<td>6-7</td>
-<td>85% КПД доказан</td>
-<td><a href="https://www.ntt.co.jp/">NTT+MHI</a>, NASA SPS</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>Саморепликация заводов</td>
-<td>3-4</td>
-<td>Концепт + аналогии</td>
-<td>FANUC, Von Neumann</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>ИИ автономных роботов</td>
+<td><a href="../../../en/science/reference/technology-readiness.html#factory-self-replication">Factory self-replication</a></td>
 <td>4-5</td>
-<td>Промышленные аналоги</td>
-<td><a href="https://www.robotics247.com/article/rio_tinto_opens_gudai_darri_its_most_technologically_advanced_mine">Rio Tinto AHS</a>, Tesla FSD</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>In-situ кремниевые ячейки</td>
-<td>3-4</td>
-<td>R&amp;D</td>
-<td>Blue Origin Blue Alchemist</td>
+<td>Subsystems TRL 9, integration is engineering task</td>
+<td>FANUC: robots build robots</td>
 </tr>
 <tr class="even">
-<td>14</td>
-<td>Криогенный Al кабель (ГВт)</td>
-<td>4</td>
-<td>Физика подтверждена</td>
-<td>LHC криогенные системы</td>
+<td><a href="../../../en/science/reference/technology-readiness.html#cryogenic-aluminum-cable-gw">Cryogenic Al GW cable</a></td>
+<td>4-5</td>
+<td>NIST physics, superconducting analogues TRL 5-6</td>
+<td>CERN LHC cryogenics</td>
 </tr>
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Шкала TRL:</strong> 1-3 = исследование, 4-5 = лаборатория, 6-7 = демонстрация, 8-9 = эксплуатация</p>
+<p><strong>Note:</strong> Autonomous robot AI upgraded to TRL 7-8 based on Mars Perseverance, Waymo, Rio Tinto + Baidu Apollo L4, UBTECH, AgiBot serial deployments. In-situ silicon cells upgraded to TRL 5-6 (Blue Alchemist CDR 2025, Maana Electric ISRU panel 2024). Self-replication and cryogenic cable upgraded to TRL 4-5 (all subsystems have industrial precedents).</p>
 </blockquote>
+<p><strong>Details:</strong> <a href="../../../en/science/reference/technology-readiness.html#trl-4-5-technologies-open-questions">Technologies and Sources - TRL 4-5</a></p>
 <hr>
 </section>
-<section id="технологии-trl-7-9-промышленная-зрелость" class="level2">
-<h2 class="anchored" data-anchor-id="технологии-trl-7-9-промышленная-зрелость">Технологии TRL 7-9 (промышленная зрелость)</h2>
-<section id="тёмные-заводы-lights-off-manufacturing" class="level3">
-<h3 class="anchored" data-anchor-id="тёмные-заводы-lights-off-manufacturing">Тёмные заводы (Lights-off Manufacturing)</h3>
-<p><strong>Применение в проекте:</strong> Заводы Ф-З и Ф-Р работают без людей 24/7 на Меркурии.</p>
-<p><strong>Существующие реализации:</strong></p>
+<section id="open-technical-issues" class="level3">
+<h3 class="anchored" data-anchor-id="open-technical-issues">Open Technical Issues</h3>
+<section id="iridium-for-mre-anodes-critical" class="level4">
+<h4 class="anchored" data-anchor-id="iridium-for-mre-anodes-critical">Iridium for MRE Anodes (Critical)</h4>
+<p><strong>Problem:</strong> MRE anodes are consumed and require replacement every 6 months.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Компания</th>
-<th>Страна</th>
-<th>Год</th>
-<th>Масштаб</th>
+<th>Parameter</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://en.wikipedia.org/wiki/Lights_out_(manufacturing)">FANUC</a></td>
-<td>Япония</td>
-<td>2001</td>
-<td>Роботы строят роботов, 50 шт/сутки, <strong>30 дней без людей</strong></td>
+<td>Anode mass</td>
+<td>~20 kg iridium</td>
 </tr>
 <tr class="even">
-<td><a href="https://www.faf.ae/home/2025/3/19/chinas-dark-factory-revolution-the-rise-of-fully-automated-manufacturing-without-workers-or-lights">Xiaomi</a></td>
-<td>Китай</td>
-<td>2023</td>
-<td>81 000 м², 10M смартфонов/год, 24/7 без людей</td>
+<td>For 1000 factories over 10 years</td>
+<td>~400 tons</td>
 </tr>
 <tr class="odd">
-<td>Foxconn</td>
-<td>Китай</td>
-<td>2016+</td>
-<td>60 000 роботов заменили рабочих в Куньшане</td>
+<td>World production</td>
+<td>~7 t/year</td>
 </tr>
 <tr class="even">
-<td><a href="https://yourstory.com/2025/02/dark-factories-future-automation-manufacturing-trends">BYD + Saudi Aramco</a></td>
-<td>Китай/Сауд. Аравия</td>
-<td>2025</td>
-<td>Совместный проект dark factory для EV</td>
-</tr>
-<tr class="odd">
-<td>Philips</td>
-<td>Нидерланды</td>
-<td>—</td>
-<td>128 роботов, 9 контролёров</td>
-</tr>
-<tr class="even">
-<td>Полупроводниковые fabs</td>
-<td>Глобально</td>
-<td>—</td>
-<td>300mm wafer — полная автоматизация</td>
+<td><strong>Deficit</strong></td>
+<td><strong>~6x world production</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Рынок dark factories:</strong> <a href="https://www.grandviewresearch.com/industry-analysis/dark-factories-market-report">$119 млрд (2024)</a>, CAGR 8.7%. К 2025 в Китае 1M+ промышленных роботов.</p>
-<p><strong>Вывод:</strong> Заводы Гелиоса проще, чем полупроводниковые fabs — металлургия, не нанотехнологии. Полная автоматизация доказана.</p>
+<p><strong>Scale of the problem:</strong> At full scale of 1650 factories (20 MRE cells × 4 anodes × 2 kg), initial loading requires ~264 t of iridium and ~330 t/year for replacement — over 40x world production. Iridium import is feasible only in early stages (single-digit factories); at scale, transition to local anodes is <strong>mandatory</strong>.</p>
+<p><strong>Solutions (local materials):</strong></p>
+<ol type="1">
+<li><strong>Carbon anodes</strong> — consumable, ~10 kg/day per factory. Carbon is mined from Mercury’s LRM zones (<a href="../../../en/science/detailed/production/materials/carbon.html">details</a>). Full chain developed: graphite mining → mini-MD delivery → anodes. Demand is covered.</li>
+<li><strong>Cr-Fe-Co anodes</strong> — lower lifespan (replacement every 3 months), but materials available on Mercury. 80 t/year local production. TRL ~4, requires validation.</li>
+<li><strong>H₂ reduction</strong> — TRL ~2, prospective alternative.</li>
+</ol>
+<p><strong>Status:</strong> Problem is solvable — carbon anodes from local materials are the most developed path</p>
 <hr>
 </section>
-<section id="автономная-добыча" class="level3">
-<h3 class="anchored" data-anchor-id="автономная-добыча">Автономная добыча</h3>
-<p><strong>Применение в проекте:</strong> Роботы Крот-М добывают 600 т реголита/день без операторов.</p>
-<p><strong>Существующие реализации:</strong></p>
+<section id="energy-bridge-efficiency" class="level4">
+<h4 class="anchored" data-anchor-id="energy-bridge-efficiency">Energy Bridge Efficiency</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Компания</th>
-<th>Локация</th>
-<th>Масштаб</th>
+<th>Stage</th>
+<th>Calculated</th>
+<th>Pessimistic</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://www.mining-technology.com/features/featurerio-tinto-rolling-out-the-worlds-first-fully-driverless-mines-4831021/">Rio Tinto</a></td>
-<td>Pilbara, Австралия</td>
-<td>69 автономных грузовиков, управление <strong>из Перта (1200 км)</strong></td>
+<td>Light - laser</td>
+<td>60%</td>
+<td>40-50%</td>
 </tr>
 <tr class="even">
-<td><a href="https://www.robotics247.com/article/rio_tinto_opens_gudai_darri_its_most_technologically_advanced_mine">Rio Tinto Gudai-Darri</a></td>
-<td>Австралия</td>
-<td>Грузовики + водовозы + роботизированная лаборатория + солнечная ферма</td>
+<td>Receiver (PV)</td>
+<td>50%</td>
+<td>35-45%</td>
 </tr>
 <tr class="odd">
-<td><a href="https://im-mining.com/2025/11/07/caterpillar-sets-out-to-hit-over-2000-autonomous-mining-trucks-by-2030/">Caterpillar</a></td>
-<td>Глобально</td>
-<td><strong>690 автономных грузовиков</strong> (2024), цель 2000+ к 2030</td>
+<td>Atmosphere</td>
+<td>85%</td>
+<td>30-60%</td>
 </tr>
 <tr class="even">
-<td>CHN Energy</td>
-<td>Китай</td>
-<td>Крупнейший автономный парк в мире</td>
-</tr>
-<tr class="odd">
-<td><a href="https://www.cnbc.com/2019/10/23/caterpillar-and-nasa-developing-autonomous-vehicles-to-mine-the-moon.html">Caterpillar + NASA</a></td>
-<td>—</td>
-<td>Совместная разработка для лунной добычи</td>
+<td><strong>Total</strong></td>
+<td><strong>22-23%</strong></td>
+<td><strong>10-15%</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Вывод:</strong> Автономная добыча — зрелая технология. Caterpillar + NASA уже работают над лунным применением. Меркурианские Кроты-М — следующий шаг.</p>
+<p><strong>Compensation:</strong> 50-100x redundancy (even at 10% efficiency - 1000 TW = 50x world consumption)</p>
+<p><strong>Details:</strong> <a href="../../../en/science/detailed/mirrors.html#energy-transmission-efficiency-via-lunar-lsp-stations">Swarm Mirrors</a></p>
 <hr>
 </section>
-<section id="nas-батареи" class="level3">
-<h3 class="anchored" data-anchor-id="nas-батареи">NaS батареи</h3>
-<p><strong>Применение в проекте:</strong> Энергосистема роботов Gen-2 на Меркурии.</p>
-<p><strong>Существующие реализации:</strong></p>
+<section id="mirror-degradation" class="level4">
+<h4 class="anchored" data-anchor-id="mirror-degradation">Mirror Degradation</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Проект</th>
-<th>Мощность</th>
-<th>Год</th>
+<th>Parameter</th>
+<th>Calculated</th>
+<th>Pessimistic</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://www.energy-storage.news/nas-batteries-long-duration-energy-storage-proven-at-5gwh-of-deployments-worldwide/">NGK глобально</a></td>
-<td><strong>5 ГВт·ч</strong>, 250+ проектов</td>
-<td>с 2003</td>
+<td>Lifespan</td>
+<td>10-15 years</td>
+<td>5-8 years</td>
 </tr>
 <tr class="even">
-<td><a href="https://www.energy-storage.news/ngk-sodium-sulfur-batteries-deployed-at-70mwh-japan-project-picked-for-pilot-by-us-utility-duke-energy/">Toho Gas, Япония</a></td>
-<td>11.4 МВт / 69.6 МВт·ч</td>
-<td>2024</td>
-</tr>
-<tr class="odd">
-<td>HH2E, Германия</td>
-<td>230+ МВт·ч (зелёный H₂)</td>
-<td>2024</td>
-</tr>
-<tr class="even">
-<td>Duke Energy, США</td>
-<td>Пилотный проект</td>
-<td>2025</td>
+<td>Efficiency loss/year</td>
+<td>2-5%</td>
+<td>5-10%</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Характеристики:</strong> Рабочая температура 300-350°C, <strong>7300 циклов</strong>, 20 лет ресурс, &lt;1% деградации/год.</p>
-<p><strong>Идеальность для Меркурия:</strong> NaS требует подогрева до 300°C. На солнечной стороне Меркурия +400°C — <strong>бесплатный подогрев</strong>. В тени (-180°C) тепло от NaS помогает роботам работать. Это не баг, а фича.</p>
+<p><strong>Causes:</strong> Solar wind 10x, micrometeorites (JWST showed the problem), electrostatics.</p>
+<p><strong>Solution:</strong> “Add, don’t replace” strategy - production of 219 million/year compensates for degradation.</p>
 <hr>
 </section>
-<section id="waam-wire-arc-additive-manufacturing" class="level3">
-<h3 class="anchored" data-anchor-id="waam-wire-arc-additive-manufacturing">WAAM (Wire Arc Additive Manufacturing)</h3>
-<p><strong>Применение в проекте:</strong> Производство рам роботов, деталей заводов, элементов масс-драйвера.</p>
-<p><strong>Существующие реализации:</strong></p>
+<section id="mirror-thermal-expansion" class="level4">
+<h4 class="anchored" data-anchor-id="mirror-thermal-expansion">Mirror Thermal Expansion</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Компания</th>
-<th>Технология</th>
-<th>Применение</th>
+<th>Parameter</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://www.waam3d.com/">WAAM3D</a> (UK)</td>
-<td>Промышленная WAAM</td>
-<td>Крупногабаритные Al/Ti детали</td>
+<td>Delta-T during rotation</td>
+<td>up to 88 K</td>
 </tr>
 <tr class="even">
-<td><a href="https://aml3d.com/technology">AML3D</a> (Австралия)</td>
-<td>WAM® — без камеры</td>
-<td>Открытая среда, судостроение</td>
-</tr>
-<tr class="odd">
-<td><a href="https://www.ramlab.com/resources/waam-101/">RAMLAB</a> (Нидерланды)</td>
-<td>WAAM для судов</td>
-<td>Пропеллеры, корпуса</td>
-</tr>
-<tr class="even">
-<td>Lincoln Electric + MX3D</td>
-<td>Multi-wire WAAM</td>
-<td>Мосты, конструкции</td>
+<td>Edge displacement 100 m (Al)</td>
+<td>~20 cm</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Характеристики:</strong> 1-10 кг/час осаждения, алюминий/сталь/титан, <strong>без вакуумной камеры</strong> (важно для Меркурия — работа в вакууме даже лучше!).</p>
-<p><strong>Вывод:</strong> WAAM в вакууме Меркурия = идеальные условия (нет окисления). Технология зрелая и промышленная.</p>
+<p><strong>Solution:</strong> Carbon fiber frame (CTE ~1x10^-6) - displacement ~1 cm. Import ~0.5 t/factory.</p>
 <hr>
 </section>
-</section>
-<section id="технологии-trl-5-7-демонстрация" class="level2">
-<h2 class="anchored" data-anchor-id="технологии-trl-5-7-демонстрация">Технологии TRL 5-7 (демонстрация)</h2>
-<section id="электромагнитный-пуск-масс-драйвер" class="level3">
-<h3 class="anchored" data-anchor-id="электромагнитный-пуск-масс-драйвер">Электромагнитный пуск (масс-драйвер)</h3>
-<p><strong>Применение в проекте:</strong> Запуск зеркал с поверхности Меркурия на 5 км/с.</p>
-<p><strong>Ключевые демонстрации:</strong></p>
+<section id="mercury-resources-messenger-data" class="level4">
+<h4 class="anchored" data-anchor-id="mercury-resources-messenger-data">Mercury Resources (MESSENGER Data)</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 50%">
+<col style="width: 16%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Проект</th>
-<th>Скорость</th>
-<th>Деталь</th>
+<th>Element</th>
+<th>Demand</th>
+<th>In Regolith (MESSENGER)</th>
+<th>Status</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html">China NUDT (Dec 2025)</a></td>
-<td><strong>700 км/ч за 2 сек</strong></td>
-<td>400 м трек, тонна-класс, сверхпроводящий</td>
+<td>Al</td>
+<td>42 t/day (7%) — mirrors, windings</td>
+<td>~7% (from feldspars)</td>
+<td><strong>Sufficient</strong></td>
 </tr>
 <tr class="even">
-<td>EMALS (ВМС США)</td>
-<td>—</td>
-<td>Серийная катапульта на авианосце Gerald Ford</td>
+<td>Si</td>
+<td>25 t/day (4%) — solar panels</td>
+<td>~24.6%</td>
+<td>Sufficient with margin</td>
 </tr>
 <tr class="odd">
-<td>Fujian (ВМС Китая)</td>
-<td>—</td>
-<td>Собственная EMALS</td>
-</tr>
-<tr class="even">
-<td><a href="https://ntrs.nasa.gov/citations/19770010564">NASA Mass Driver (1977)</a></td>
-<td>Концепт</td>
-<td>Исходная идея Gerard O’Neill</td>
+<td>Fe</td>
+<td>10 t/day (~2%) — robot frames</td>
+<td>1.5-2%</td>
+<td>Sufficient (production designed for 2%)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Цитата профессора Ли Цзе (NUDT):</strong> <em>“Going forward, we will focus on frontier fields such as high-speed maglev transport in pipelines, <strong>aerospace boost launches</strong> and experimental testing.”</em></p>
-<p><strong>Масштабирование для проекта:</strong> NUDT достиг 700 км/ч (194 м/с) на 400 м. Проекту нужно 5000 м/с на 3 км. Физика та же — нужно масштабирование энергосистемы и длины трека. Линейный двигатель — это индукционная машина, принцип одинаков на любой скорости.</p>
+<p><strong>Conclusion:</strong> Primary material — aluminum (~95% of mirror mass). The production chain (<a href="../../../en/science/detailed/production/materials/distillation.html">distillation</a>) is designed around actual regolith composition per MESSENGER data. No deficit of bulk elements.</p>
 <hr>
 </section>
-<section id="mre-molten-regolith-electrolysis" class="level3">
-<h3 class="anchored" data-anchor-id="mre-molten-regolith-electrolysis">MRE (Molten Regolith Electrolysis)</h3>
-<p><strong>Применение в проекте:</strong> Основной процесс получения Al, Fe, Si из реголита Меркурия.</p>
-<p><strong>Текущий статус (2024-2025):</strong></p>
+<section id="first-factory-assembly-time" class="level4">
+<h4 class="anchored" data-anchor-id="first-factory-assembly-time">First Factory Assembly Time</h4>
+<p><strong>Critical checkpoint:</strong> Energy autonomy (12-24 hours)</p>
+<p>After checkpoint, assembly time is NOT critical — constraint is only Gen-1 lifespan (2-3 years).</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Организация</th>
-<th>Достижение</th>
-<th>Источник</th>
+<th>Scenario</th>
+<th>Before checkpoint</th>
+<th>After</th>
+<th><strong>Total</strong></th>
+<th>Rationale</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://ntrs.nasa.gov/api/citations/20240011100/downloads/MRE_FY24%20GCD%20APR.pdf">NASA KSC</a></td>
-<td>CDR пройден, тестирование в ASSIST Chamber</td>
-<td>NASA GCD FY24</td>
+<td>Optimistic</td>
+<td>12 h</td>
+<td>6 days</td>
+<td><strong>7 days</strong></td>
+<td>Everything works perfectly</td>
 </tr>
 <tr class="even">
-<td><a href="https://ntrs.nasa.gov/citations/20250003730">Lunar Resources</a></td>
-<td>25 кг реголита за 36 ч, O₂ измерен</td>
-<td>NASA ISRU Progress 2025</td>
+<td>Realistic</td>
+<td>24 h</td>
+<td>10-15 days</td>
+<td><strong>11-16 days</strong></td>
+<td>Typical delays</td>
 </tr>
 <tr class="odd">
-<td>Blue Origin</td>
-<td>MRE + очистка Fe/Si/Al + солнечные ячейки</td>
-<td>Blue Alchemist program</td>
-</tr>
-<tr class="even">
-<td><a href="https://www.sierraspace.com/press-releases/sierra-space-unveils-breakthrough-technology-designed-to-extract-oxygen-from-lunar-soil/">Sierra Space</a></td>
-<td>Карботермальная экстракция O₂ в термовакууме JSC</td>
-<td>Sept 2024</td>
-</tr>
-<tr class="odd">
-<td><a href="https://ntrs.nasa.gov/citations/20240013999">NASA System Model</a></td>
-<td>~1 т установка → 10 т O₂/год</td>
-<td>Nov 2024</td>
+<td>Pessimistic</td>
+<td>48 h</td>
+<td>20-30 days</td>
+<td><strong>22-32 days</strong></td>
+<td>Equipment issues</td>
 </tr>
 </tbody>
 </table>
-<p><strong>TRL:</strong> <em>“Both Carbothermal Reduction and Molten Regolith Electrolysis have demonstrated operation under simulated lunar environmental conditions to <strong>TRL 5/6</strong>.”</em> — <a href="https://ntrs.nasa.gov/citations/20250003730">NASA ISRU Progress Review 2025</a></p>
-<p><strong>Принцип:</strong> Реголит расплавляется при ~1600°C, электрический ток разделяет оксиды на кислород (анод) и металлы (катод): Fe, Si, Al, Ti. Не требует ни реагентов, ни добавок с Земли.</p>
+<p><strong>Key insight:</strong></p>
+<ul>
+<li><strong>Old model:</strong> “7 days critical, 30 = failure”</li>
+<li><strong>New model:</strong> “24 hours critical, rest = Gen-1 lifespan question”</li>
+</ul>
+<p>After charging infrastructure deployment (checkpoint), robots can work 24/7 with recharging. Even 30-day assembly keeps the project viable.</p>
+<p><strong>Detailed calculation:</strong> <a href="../../../en/science/detailed/bootstrap.html">First Factory Assembly (Bootstrap)</a></p>
 <hr>
 </section>
-<section id="микроволновая-передача-энергии" class="level3">
-<h3 class="anchored" data-anchor-id="микроволновая-передача-энергии">Микроволновая передача энергии</h3>
-<p><strong>Применение в проекте:</strong> Передача энергии с LSP-станций на Луне на rectenna на Земле.</p>
-<p><strong>Ключевые демонстрации:</strong></p>
+</section>
+</section>
+<section id="budget-risks" class="level2">
+<h2 class="anchored" data-anchor-id="budget-risks">Budget Risks</h2>
+<section id="ai-cost-declining-risk-resolved" class="level3">
+<h3 class="anchored" data-anchor-id="ai-cost-declining-risk-resolved">AI Cost Declining (Risk Resolved)</h3>
+<p>Baseline estimate ($15-30 billion) was conservative. By 2026:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Проект</th>
-<th>Достижение</th>
-<th>Год</th>
+<th>Factor</th>
+<th>Impact</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space">Caltech SSPP/MAPLE</a></td>
-<td><strong>Первая</strong> передача энергии из космоса на Землю</td>
-<td>2023</td>
+<td>Foundation models (Meta RoboLlama, Google RT-X)</td>
+<td>-50-70% development cost</td>
 </tr>
 <tr class="even">
-<td>NTT + MHI (Япония)</td>
-<td>152W на 1 км (мировой рекорд наземный)</td>
-<td>—</td>
+<td>Humanoid robots</td>
+<td>$6-20K (was $50-250K in 2023)</td>
 </tr>
 <tr class="odd">
-<td><a href="https://eepower.com/news/beaming-a-look-back-at-space-based-solar-power/">Northrop Grumman SSPIDR</a></td>
-<td>Подготовка к орбитальному тесту (AFRL)</td>
-<td>2025</td>
-</tr>
-<tr class="even">
-<td>JAXA SPS</td>
-<td>Программа орбитальных СЭС</td>
-<td>2025+</td>
-</tr>
-<tr class="odd">
-<td>ESA SOLARIS</td>
-<td>Исследование SBSP</td>
-<td>2024+</td>
-</tr>
-<tr class="even">
-<td>Virtus Solis</td>
-<td>Коммерческая станция</td>
-<td>2026</td>
-</tr>
-<tr class="odd">
-<td><a href="https://harvardtechnologyreview.com/2025/09/05/the-future-of-energy-unlocking-the-potential-of-space-based-solar-power/">Китай OMEGA</a></td>
-<td>Мегаваттная станция</td>
-<td>2028</td>
+<td>Autonomous mining</td>
+<td>TRL 8-9, ready infrastructure</td>
 </tr>
 </tbody>
 </table>
-<p><strong>КПД rectenna:</strong> 85% (доказано лабораторно). Микроволны 2.45 ГГц проходят через облака с потерями &lt;5%.</p>
+<p><strong>2026 References:</strong></p>
+<ul>
+<li>Boston Dynamics Atlas 3.0 + DeepMind: 30,000 units/year serial production</li>
+<li>Caterpillar: 690 autonomous trucks, target 2000+ by 2030</li>
+<li>Rio Tinto: 130 trucks + 1700 km autonomous rail (AutoHaul)</li>
+<li>Tesla Optimus Gen 3: $15-20K at mass production</li>
+<li>Unitree R1: <strong>$5,900</strong> per humanoid (July 2025), UBTECH Walker S2: 500+ unit series</li>
+<li>BYD: 1,500 humanoids in 2025, target 20,000 by 2026</li>
+<li>Baidu Apollo: L4 robotaxi in 10+ cities in China</li>
+</ul>
+<p><strong>Conclusion:</strong> AI budget of $15-30 billion is adequate or overestimated thanks to foundation models.</p>
 <hr>
 </section>
-<section id="ультратонкая-алюминиевая-фольга" class="level3">
-<h3 class="anchored" data-anchor-id="ультратонкая-алюминиевая-фольга">Ультратонкая алюминиевая фольга</h3>
-<p><strong>Применение в проекте:</strong> Зеркала Роя — 4 мкм алюминиевая фольга, 110 кг на зеркало.</p>
-<p><strong>Промышленные прецеденты:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Проект/Продукт</th>
-<th>Толщина</th>
-<th>Статус</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>LightSail 2 (Planetary Society)</td>
-<td><strong>4.5 мкм</strong></td>
-<td>Летал в космосе (2019)</td>
-</tr>
-<tr class="even">
-<td>NEA Scout (NASA)</td>
-<td><strong>2.5 мкм</strong></td>
-<td>Солнечный парус</td>
-</tr>
-<tr class="odd">
-<td>Chalco (Китай)</td>
-<td>6-8 мкм</td>
-<td>Промышленное производство</td>
-</tr>
-<tr class="even">
-<td><a href="https://news.metal.com/newscontent/103271777/">Li-ion battery R&amp;D</a></td>
-<td>4-6 мкм Al</td>
-<td>R&amp;D для батарей (2025)</td>
-</tr>
-<tr class="odd">
-<td><a href="https://www.metal.com/en/newscontent/103281418">SK Nexilis</a> (Малайзия)</td>
-<td>Ultra-thin</td>
-<td>30 000 т/год (новый завод 2024)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Текущее состояние:</strong> 8 мкм — массовое коммерческое производство. 4 мкм — на границе достижимого, активные R&amp;D (рынок Li-ion батарей толкает вниз). Китай = 65% мирового производства.</p>
-<p><strong>Вывод:</strong> Проект требует масштабирование 4 мкм прокатки. Физических барьеров нет — идёт инженерная оптимизация. LightSail 2 доказал работоспособность 4.5 мкм в космосе.</p>
-<hr>
-</section>
-</section>
-<section id="технологии-trl-3-4-открытые-вопросы" class="level2">
-<h2 class="anchored" data-anchor-id="технологии-trl-3-4-открытые-вопросы">Технологии TRL 3-4 (открытые вопросы)</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
+<section id="dependence-on-super-heavy-rockets-resolved" class="level3">
+<h3 class="anchored" data-anchor-id="dependence-on-super-heavy-rockets-resolved"><del>Dependence on Super-Heavy Rockets</del> → RESOLVED</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Эти технологии требуют дополнительной проработки
+<span class="screen-reader-only">Tip</span>Risk Eliminated
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Ниже перечислены технологии, которые не имеют прямого промышленного прецедента. Для каждой указаны ближайшие аналоги и план валидации.</p>
+<p>Thanks to two factors:</p>
+<ol type="1">
+<li><strong>96% localization</strong> — imports reduced from ~22,000 t to ~2,400 t</li>
+<li><strong>Multi-rocket approach</strong> — first expeditions split into 3-4 medium rocket launches</li>
+</ol>
 </div>
 </div>
-<section id="саморепликация-заводов" class="level3">
-<h3 class="anchored" data-anchor-id="саморепликация-заводов">Саморепликация заводов</h3>
-<p><strong>Требуется:</strong> Завод производит компоненты для строительства нового завода.</p>
-<p><strong>Ближайшие аналоги:</strong> - FANUC: роботы строят роботов (50 шт/сутки, 30 дней без людей) - Полупроводниковые fabs производят литографическое оборудование для новых fabs - Tesla Gigafactory: содержит оборудование для производства оборудования</p>
-<p><strong>Ключевое уточнение:</strong> Это НЕ репликация в смысле Von Neumann. Это серийное автоматизированное строительство стандартных модулей. Купол, печи, прокатный стан — всё это стандартное металлургическое оборудование.</p>
-<p><strong>Критический вопрос:</strong> Какой % оборудования завода производим на месте? Ответ: ~99.95% по массе. «Витамины» (чипы, датчики, иридий) — &lt;0.05%.</p>
-<p><strong>Статус:</strong> Требует инженерной проработки, но не научного прорыва.</p>
+<p><strong>Before (old calculation):</strong> - E1 (75 t) + E2 (65 t) required super-heavy launch vehicles - Dependence on specific rockets and countries</p>
+<p><strong>After (new approach):</strong> - E1: 75 t = 4 × medium rockets (~20 t each) - E2: 65 t = 3-4 × medium rockets - Each rocket lands on Mercury independently - Surface assembly by Gen-1 robots</p>
+<p><strong>Why this works:</strong> - Mercury has no atmosphere — landing is straightforward (deceleration burns only) - Gen-1 robots already know how to assemble (this is their main task — bootstrap) - Orbital assembly <strong>not needed</strong></p>
+<p><strong>International fleet advantages:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Factor</th>
+<th>1 super-heavy</th>
+<th>3-4 medium</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Availability</td>
+<td>Depends on 1 country</td>
+<td><strong>International fleet</strong></td>
+</tr>
+<tr class="even">
+<td>Loss risk</td>
+<td>100% of cargo</td>
+<td>25-33% of cargo</td>
+</tr>
+<tr class="odd">
+<td>Flexibility</td>
+<td>Only one type</td>
+<td>Any ≥20 t to Mercury</td>
+</tr>
+<tr class="even">
+<td>Countries</td>
+<td>1-2</td>
+<td>USA, China, ESA, Russia, India, Japan</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Project <strong>does not depend</strong> on any specific country or launch vehicle.</p>
 <hr>
 </section>
-<section id="автономный-ии-для-роботов" class="level3">
-<h3 class="anchored" data-anchor-id="автономный-ии-для-роботов">Автономный ИИ для роботов</h3>
-<p><strong>Требуется:</strong> Полностью автономная работа при задержке связи 8-20 минут.</p>
-<p><strong>Ближайшие аналоги:</strong> - Rio Tinto: управление из Перта (1200 км), но задержка 4 мс (не минуты) - Mars Perseverance: автономная навигация, но ~100 м/день - Tesla FSD: автономное вождение в реальном времени в сложной среде - Caterpillar Command: 690 грузовиков без водителей</p>
-<p><strong>Ключевое уточнение:</strong> Добыча реголита — ПРОЩЕ, чем вождение в городе. Нет пешеходов, нет перекрёстков, предсказуемая среда. Rio Tinto уже добывает 24/7 автономно. Разница — только в задержке связи.</p>
-<p><strong>Решение:</strong> Операторы задают задачи (маршрут, объём), роботы исполняют автономно. Обратная связь раз в 20 мин достаточна для мониторинга.</p>
+<section id="mission-insurance" class="level3">
+<h3 class="anchored" data-anchor-id="mission-insurance">Mission Insurance</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Estimate</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Baseline</td>
+<td>$2-4 billion</td>
+</tr>
+<tr class="even">
+<td>Realistic (5-10% of cargo)</td>
+<td><strong>$10-20 billion</strong></td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
-<section id="координация-роя-1-млрд-зеркал" class="level3">
-<h3 class="anchored" data-anchor-id="координация-роя-1-млрд-зеркал">Координация роя 1 млрд зеркал</h3>
-<p><strong>Требуется:</strong> 1.1 млрд зеркал на гелиоцентрической орбите наводятся на LSP-станции.</p>
-<p><strong>Ключевое уточнение:</strong> Это НЕ задача координации роя. Каждое зеркало — независимый контроллер. Задача сводится к: 1. Знать своё положение (солнечный датчик + эфемериды) 2. Знать направление на цель (загруженные таблицы) 3. Ориентироваться (электрохромика, давление света)</p>
-<p><strong>Аналоги:</strong> - Starlink: 6000+ спутников, автономная коррекция орбиты - GPS: 31 спутник с прецизионной орбитой - IoT: миллиарды устройств с автономными контроллерами</p>
-<p><strong>Статус:</strong> Инженерная задача масштабирования, не научная проблема.</p>
-<hr>
-</section>
-<section id="in-situ-кремниевые-ячейки" class="level3">
-<h3 class="anchored" data-anchor-id="in-situ-кремниевые-ячейки">In-situ кремниевые ячейки</h3>
-<p><strong>Требуется:</strong> Производство солнечных ячеек из реголитного кремния на Меркурии.</p>
-<p><strong>Ключевой референс:</strong> Blue Origin <a href="https://www.blueorigin.com/news/blue-alchemist-technology/">Blue Alchemist</a> — полный цикл: реголит → MRE → очистка Si → солнечные ячейки. Демонстрация 2023.</p>
-<p><strong>Уточнение:</strong> Для энергосистемы Меркурия достаточно КПД 10-15% (солнечный поток 10 кВт/м²). Это требует чистоту 99.99% (four nines), а не 99.9999% (six nines). Зонная плавка в вакууме Меркурия = идеальные условия.</p>
-<hr>
-</section>
-<section id="криогенный-алюминиевый-кабель-гвт" class="level3">
-<h3 class="anchored" data-anchor-id="криогенный-алюминиевый-кабель-гвт">Криогенный алюминиевый кабель (ГВт)</h3>
-<p><strong>Требуется:</strong> Передача ГВт мощности через Al кабели при -180°C.</p>
-<p><strong>Физика:</strong> При -180°C проводимость Al возрастает в 10× (до ~360% меди при +20°C). Это не гипотеза — это табличные данные.</p>
-<p><strong>Аналоги:</strong> - LHC (CERN): километры сверхпроводящих кабелей при -271°C - Высокотемпературные сверхпроводники: коммерческие кабели при -196°C (жидкий N₂)</p>
-<p><strong>Уточнение:</strong> На ночной стороне Меркурия температура -180°C — кабели охлаждаются бесплатно.</p>
-<hr>
-</section>
-</section>
-<section id="см.-также" class="level2">
-<h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
+<section id="testing-underestimated" class="level3">
+<h3 class="anchored" data-anchor-id="testing-underestimated">Testing Underestimated</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 25%">
+<col style="width: 28%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Baseline</th>
+<th>Realistic</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factory prototypes</td>
+<td>3-5 iterations</td>
+<td>5-10 iterations</td>
+<td>3-5 ground (Gansu) + 2-5 lunar</td>
+</tr>
+<tr class="even">
+<td>Robot prototypes</td>
+<td>$2 billion</td>
+<td>$5-10 billion</td>
+<td>Hundreds of versions, thousands of units</td>
+</tr>
+<tr class="odd">
+<td>Lunar testbed</td>
+<td>2 years</td>
+<td>1.5-2.5 years</td>
+<td>3-5 iterations × 3-5 months + deployment</td>
+</tr>
+</tbody>
+</table>
+<section id="testing-estimation-methodology" class="level4">
+<h4 class="anchored" data-anchor-id="testing-estimation-methodology">Estimation Methodology</h4>
+<p><strong>Lunar iteration cycle</strong> (with dedicated launches, independent of third-party launch windows):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Cycle stage</th>
+<th>Optimistic</th>
+<th>Realistic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Failure analysis (telemetry)</td>
+<td>1-2 weeks</td>
+<td>2-4 weeks</td>
+</tr>
+<tr class="even">
+<td>Fix design</td>
+<td>2-4 weeks</td>
+<td>4-8 weeks</td>
+</tr>
+<tr class="odd">
+<td>Component manufacturing</td>
+<td>2-4 weeks</td>
+<td>4-8 weeks</td>
+</tr>
+<tr class="even">
+<td>Prep + flight (3 days)</td>
+<td>1-2 weeks</td>
+<td>2-4 weeks</td>
+</tr>
+<tr class="odd">
+<td>Installation + retest</td>
+<td>1-2 weeks</td>
+<td>2-4 weeks</td>
+</tr>
+<tr class="even">
+<td><strong>Total cycle</strong></td>
+<td><strong>~2 months</strong></td>
+<td><strong>~4 months</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total testbed:</strong> 3-5 iterations × 3-5 months + 3-6 months deployment = <strong>12-31 months ≈ 1.5-2.5 years</strong></p>
+<p><strong>Why 5-10 factory iterations, not 10-20:</strong></p>
 <ul>
-<li><a href="../../../ru/science/reference/risks.html">Риски и ограничения</a> — анализ технических рисков проекта</li>
-<li><a href="../../../ru/science/reference/sources.html">Библиография</a> — полный список источников</li>
-<li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая архитектура</li>
-<li><a href="../../../ru/science/detailed/production/overview.html">Производство</a> — технологии производства</li>
+<li>Ground test site (Gansu) — vacuum chambers, thermal simulators (-180°C to +430°C) — allows 3-5 iterations before going to the Moon (TRL 4→6)</li>
+<li>The Moon validates in the real environment (TRL 6→7-8): 2-5 iterations</li>
+<li>Reference: JPL Mars Rover — 7+ Rocky prototypes before Sojourner, but without a ground facility simulating target conditions</li>
+</ul>
+<p><strong>Why 1.5-2.5 years on the Moon, not 3-5 years:</strong></p>
+<ul>
+<li>Earth-Moon transit: ~3 days (not months like deep space)</li>
+<li>Dedicated launches: independent of third-party windows (cf.&nbsp;NASA CLPS: ~2 flights/year)</li>
+<li>Ground R&amp;D (years 3-4) reduces the number of lunar iterations — a proven system goes to the Moon</li>
+</ul>
+<p><strong>Methodology sources:</strong></p>
+<ul>
+<li>NASA Software Engineering Handbook, <a href="https://swehb.nasa.gov/display/SWEHBVB/7.6+-+Software+Test+Estimation+and+Testing+Levels">§7.6</a>: integration &amp; test = 22-40% of total schedule</li>
+<li>Aerospace Corp, <a href="https://aerospace.org/sites/default/files/2024-06/TOR-2014-02537-REV%20A%20-%20The%20Test%20Like%20You%20Fly%20Process%20Guide%20for%20Space,%20Launch,%20and%20Ground%20Systems.pdf">“Test Like You Fly” Process Guide</a>, TOR-2014-02537</li>
+<li>JPL Mars Rover: <a href="https://www-robotics.jpl.nasa.gov/media/documents/iros96.pdf">7+ Rocky prototypes before Sojourner</a></li>
+<li><a href="https://sebokwiki.org/wiki/INCOSE_Systems_Engineering_Handbook">INCOSE Systems Engineering Handbook v5.0</a> — V-model, verification &amp; validation</li>
+<li>NASA CLPS: <a href="https://www.nasa.gov/reference/commercial-lunar-payload-services/">~2 flights/year</a> as lunar mission cadence reference</li>
+<li>NASA <a href="https://ntrs.nasa.gov/api/citations/20205003605/downloads/%20SP-20205003605%20TRA%20BP%20Guide%20FINAL.pdf">TRA Best Practices Guide SP-20205003605</a></li>
+</ul>
+<p><strong>Details:</strong> <a href="../../../en/science/summaries/budget.html#known-limitations">Budget - Known Limitations</a></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="human-risks" class="level2">
+<h2 class="anchored" data-anchor-id="human-risks">Human Risks</h2>
+<section id="personnel" class="level3">
+<h3 class="anchored" data-anchor-id="personnel">Personnel</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Total specialists</td>
+<td>~50,000 people</td>
+</tr>
+<tr class="even">
+<td>AI/ML engineers</td>
+<td>~4,000</td>
+</tr>
+<tr class="odd">
+<td>Mission control operators</td>
+<td>~10,000</td>
+</tr>
+<tr class="even">
+<td>Training time</td>
+<td>5 years</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="competition-for-ai-specialists" class="level3">
+<h3 class="anchored" data-anchor-id="competition-for-ai-specialists">Competition for AI Specialists</h3>
+<ul>
+<li>OpenAI salaries: median $875K/year</li>
+<li>Top researchers: $10-20M/year</li>
+<li>Project competes with Google, Meta, OpenAI for the same people</li>
+</ul>
+</section>
+<section id="international-teams" class="level3">
+<h3 class="anchored" data-anchor-id="international-teams">International Teams</h3>
+<ul>
+<li><strong>Language barrier:</strong> China, Russia, India, USA, EU</li>
+<li><strong>Time zones:</strong> 24/7 coordination</li>
+<li><strong>Cultural differences:</strong> Management styles, decision-making</li>
+<li><strong>Visa restrictions:</strong> Specialist mobility</li>
+</ul>
+</section>
+<section id="staff-retention" class="level3">
+<h3 class="anchored" data-anchor-id="staff-retention">Staff Retention</h3>
+<ul>
+<li>10+ year project - people leave</li>
+<li>Unique skills - few market analogs</li>
+<li>Burnout on long projects</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="political-risks" class="level2">
+<h2 class="anchored" data-anchor-id="political-risks">Political Risks</h2>
+<section id="sanctions-and-international-tensions" class="level3">
+<h3 class="anchored" data-anchor-id="sanctions-and-international-tensions">Sanctions and International Tensions</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>US-China sanctions expand</td>
+<td>Electronics cooperation breakdown</td>
+</tr>
+<tr class="even">
+<td>Sanctions against Russia</td>
+<td>Loss of rocket capacity</td>
+</tr>
+<tr class="odd">
+<td>Chip export controls</td>
+<td>Component shortage</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="government-changes" class="level3">
+<h3 class="anchored" data-anchor-id="government-changes">Government Changes</h3>
+<ul>
+<li><strong>10+ year project</strong> - minimum 2-3 electoral cycles</li>
+<li>New administrations may reconsider priorities</li>
+<li>Reference: Artemis cancelled/restored programs</li>
+</ul>
+</section>
+<section id="competition-instead-of-cooperation" class="level3">
+<h3 class="anchored" data-anchor-id="competition-instead-of-cooperation">Competition Instead of Cooperation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Cooperation</th>
+<th>Competition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 project, shared budget</td>
+<td>2-3 parallel projects</td>
+</tr>
+<tr class="even">
+<td>~$500-700 billion</td>
+<td>~$1.5-2 trillion total</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="legal-status-of-resources" class="level3">
+<h3 class="anchored" data-anchor-id="legal-status-of-resources">Legal Status of Resources</h3>
+<ul>
+<li><strong>Outer Space Treaty 1967:</strong> Celestial bodies not subject to appropriation</li>
+<li><strong>Artemis Accords (2020):</strong> USA recognizes right to extraction</li>
+<li><strong>China/Russia:</strong> Did not sign Artemis Accords</li>
+<li><strong>Risk:</strong> Disputes over rights to Mercury resources</li>
+</ul>
+</section>
+<section id="public-opinion" class="level3">
+<h3 class="anchored" data-anchor-id="public-opinion">Public Opinion</h3>
+<ul>
+<li>“Why not solve Earth problems?”</li>
+<li>Environmental protests against rectenna stations</li>
+<li>NIMBYism with receiver placement</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="resource-constraints" class="level2">
+<h2 class="anchored" data-anchor-id="resource-constraints">Resource Constraints</h2>
+<section id="electronics" class="level3">
+<h3 class="anchored" data-anchor-id="electronics">Electronics</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Chips for 1 trillion mirrors</td>
+<td>~1 trillion</td>
+</tr>
+<tr class="even">
+<td>World production</td>
+<td>~1.2 trillion/year</td>
+</tr>
+<tr class="odd">
+<td><strong>Share (over 10 years)</strong></td>
+<td><strong>~8%/year</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="launch-capacity" class="level3">
+<h3 class="anchored" data-anchor-id="launch-capacity">Launch Capacity</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cargo to Mercury</td>
+<td>~2,400 t (96% localization)</td>
+</tr>
+<tr class="even">
+<td>At 25-50 t/launch</td>
+<td>~48-96 launches over ~10 years</td>
+</tr>
+<tr class="odd">
+<td><strong>Launches/year</strong></td>
+<td><strong>~5-10</strong> (average, ~15-30 at peak)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="uncertainties" class="level2">
+<h2 class="anchored" data-anchor-id="uncertainties">Uncertainties</h2>
+<p>Require additional research:</p>
+<ol type="1">
+<li><strong>Venus gravity influence</strong> on swarm orbits - not modeled</li>
+<li><strong>Hydrogen extraction from poles</strong> - ice confirmed, logistics not designed</li>
+<li><strong>Aluminothermy in vacuum</strong> - laboratory data, industrial scale not proven</li>
+</ol>
+<hr>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="../../../en/science/reference/technology-readiness.html">Technologies and Sources</a> - TRL of all technologies</li>
+<li><a href="../../../en/science/summaries/budget.html">Budget</a> - financial constraints</li>
+<li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> - overall architecture</li>
+<li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> - timeline constraints</li>
+<li><a href="../../../en/science/detailed/production/overview.html">Production</a> - production technologies</li>
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1342,7 +1729,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

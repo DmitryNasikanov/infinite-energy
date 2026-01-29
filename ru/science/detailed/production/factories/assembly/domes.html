@@ -113,7 +113,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../../../../ru/science/data/widgets.css">
@@ -149,10 +340,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -205,20 +407,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -231,6 +421,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -252,20 +448,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -367,6 +551,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -612,14 +802,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -632,12 +822,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -659,8 +843,13 @@ p:has(> em:first-child) { text-indent: 0; }
    
   <ul>
   <li><a href="#обзор" id="toc-обзор" class="nav-link active" data-scroll-target="#обзор">Обзор</a></li>
-  <li><a href="#конструкция-купола" id="toc-конструкция-купола" class="nav-link" data-scroll-target="#конструкция-купола">Конструкция купола</a>
+  <li><a href="#вариант-1-предсобранный-надувной-модуль-bootstrap" id="toc-вариант-1-предсобранный-надувной-модуль-bootstrap" class="nav-link" data-scroll-target="#вариант-1-предсобранный-надувной-модуль-bootstrap">Вариант 1: Предсобранный надувной модуль (Bootstrap)</a>
   <ul class="collapse">
+  <li><a href="#процесс-развёртывания" id="toc-процесс-развёртывания" class="nav-link" data-scroll-target="#процесс-развёртывания">Процесс развёртывания</a></li>
+  </ul></li>
+  <li><a href="#вариант-2-сборка-на-месте-штатный-режим" id="toc-вариант-2-сборка-на-месте-штатный-режим" class="nav-link" data-scroll-target="#вариант-2-сборка-на-месте-штатный-режим">Вариант 2: Сборка на месте (Штатный режим)</a>
+  <ul class="collapse">
+  <li><a href="#конструкция-купола" id="toc-конструкция-купола" class="nav-link" data-scroll-target="#конструкция-купола">Конструкция купола</a></li>
   <li><a href="#многослойная-структура" id="toc-многослойная-структура" class="nav-link" data-scroll-target="#многослойная-структура">Многослойная структура</a></li>
   </ul></li>
   <li><a href="#процесс-сборки" id="toc-процесс-сборки" class="nav-link" data-scroll-target="#процесс-сборки">Процесс сборки</a>
@@ -717,12 +906,132 @@ p:has(> em:first-child) { text-indent: 0; }
 <hr>
 <section id="обзор" class="level2">
 <h2 class="anchored" data-anchor-id="обзор">Обзор</h2>
-<p>Купол — это герметичная оболочка завода, создающая атмосферу 0.1 атм N₂ для работы оборудования. Каждый новый завод нуждается в куполе перед запуском.</p>
-<p><strong>Где производится:</strong> На <a href="../../../../../../ru/science/detailed/production/factories/overview.html#завод-репликатор-ф-р">заводе-репликаторе (Ф-Р)</a> в зоне «Раскрой + сварка куполов» (200 м²). Ткань поступает через шлюз с внешнего склада бобин. Готовые панели выходят через шлюз и доставляются Крабами-М к месту монтажа.</p>
+<p>Купол — это герметичная оболочка завода, создающая атмосферу 0.1 атм O₂ для работы оборудования. Каждый новый завод нуждается в куполе перед запуском.</p>
+<p><strong>Два варианта купола:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Вариант</th>
+<th>Применение</th>
+<th>Время монтажа</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Предсобранный надувной</strong></td>
+<td>Первый завод (bootstrap)</td>
+<td>4-8 часов</td>
+</tr>
+<tr class="even">
+<td><strong>Сборка на месте</strong></td>
+<td>Штатное производство</td>
+<td>4 дня</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Где производится (штатный режим):</strong> На <a href="../../../../../../ru/science/detailed/production/factories/overview.html#завод-репликатор-ф-р">заводе-репликаторе (Ф-Р)</a> в зоне «Раскрой + сварка куполов» (200 м²). Ткань поступает через шлюз с внешнего склада бобин. Готовые панели выходят через шлюз и доставляются Крабами-М к месту монтажа.</p>
 <hr>
 </section>
-<section id="конструкция-купола" class="level2">
-<h2 class="anchored" data-anchor-id="конструкция-купола">Конструкция купола</h2>
+<section id="вариант-1-предсобранный-надувной-модуль-bootstrap" class="level2">
+<h2 class="anchored" data-anchor-id="вариант-1-предсобранный-надувной-модуль-bootstrap">Вариант 1: Предсобранный надувной модуль (Bootstrap)</h2>
+<p>Для <a href="../../../../../../ru/science/detailed/bootstrap.html">сборки первого завода</a> — привезти готовый надувной модуль с Земли. Это критично для checkpoint энерго-автономии.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Сборка на месте</th>
+<th>Надувной модуль</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Время</td>
+<td>4 дня</td>
+<td><strong>4-8 часов</strong></td>
+</tr>
+<tr class="even">
+<td>Масса</td>
+<td>~8 т</td>
+<td>10-12 т (+2-3 т)</td>
+</tr>
+<tr class="odd">
+<td>Роботы</td>
+<td>6 Кротов-М (Gen-2!)</td>
+<td>6 Кентавров-З (Gen-1)</td>
+</tr>
+<tr class="even">
+<td>Риск</td>
+<td>Высокий</td>
+<td>Низкий</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Аналог:</strong> <a href="https://www.nasa.gov/mission_pages/station/research/experiments/1804.html">Bigelow Aerospace BEAM</a> модуль на МКС (16 м³, 1.4 т) — успешно работает с 2016 года.</p>
+<section id="процесс-развёртывания" class="level3">
+<h3 class="anchored" data-anchor-id="процесс-развёртывания">Процесс развёртывания</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Операция</th>
+<th>Роботы</th>
+<th>Время</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Разгрузка модуля</td>
+<td>Краб-З ×4</td>
+<td>1 час</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Позиционирование на площадке</td>
+<td>Кентавр-З ×6</td>
+<td>1 час</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Наддув N₂ (0.1 атм, привезён с Земли)</td>
+<td>Автоматически</td>
+<td>30 мин</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Подключение шлюза</td>
+<td>Кентавр-З ×4</td>
+<td>1 час</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Проверка герметичности</td>
+<td>Кентавр-З ×2</td>
+<td>30 мин</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><strong>Итого</strong></td>
+<td></td>
+<td><strong>4 часа</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Почему надувной модуль для bootstrap:</strong></p>
+<ul>
+<li>Не требует Gen-2 роботов (Кроты-М ещё не произведены)</li>
+<li>Время развёртывания совместимо с checkpoint энерго-автономии (12-24 ч)</li>
+<li>Проверенная технология (BEAM на МКС с 2016)</li>
+</ul>
+<p><strong>Подробности:</strong> <a href="../../../../../../ru/science/detailed/bootstrap.html">Сборка первого завода (Bootstrap)</a></p>
+<hr>
+</section>
+</section>
+<section id="вариант-2-сборка-на-месте-штатный-режим" class="level2">
+<h2 class="anchored" data-anchor-id="вариант-2-сборка-на-месте-штатный-режим">Вариант 2: Сборка на месте (Штатный режим)</h2>
+<p>Для всех заводов после первого — производство куполов из местных материалов.</p>
+<section id="конструкция-купола" class="level3">
+<h3 class="anchored" data-anchor-id="конструкция-купола">Конструкция купола</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -745,7 +1054,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td>Атмосфера внутри</td>
-<td>0.1 атм N₂</td>
+<td>0.1 атм O₂</td>
 </tr>
 <tr class="odd">
 <td>Слои</td>
@@ -757,6 +1066,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
+</section>
 <section id="многослойная-структура" class="level3">
 <h3 class="anchored" data-anchor-id="многослойная-структура">Многослойная структура</h3>
 <p>Купол состоит из 8 чередующихся слоёв:</p>
@@ -990,7 +1300,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="герметизация-стыков" class="level3">
 <h3 class="anchored" data-anchor-id="герметизация-стыков">3. Герметизация стыков</h3>
-<p>Дополнительная герметизация швов для обеспечения атмосферы 0.1 атм N₂.</p>
+<p>Дополнительная герметизация швов для обеспечения атмосферы 0.1 атм O₂.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1039,7 +1349,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<p><strong>Процесс:</strong> 1. Купол надувается азотом до 0.15 атм 2. Все клапаны закрываются 3. Через 1 час проверяется давление 4. Если падение &gt;1% — поиск утечки</p>
+<p><strong>Процесс:</strong> 1. Купол надувается кислородом до 0.15 атм 2. Все клапаны закрываются 3. Через 1 час проверяется давление 4. Если падение &gt;1% — поиск утечки</p>
 </section>
 <section id="контроль-утечек" class="level4">
 <h4 class="anchored" data-anchor-id="контроль-утечек">Контроль утечек</h4>
@@ -1066,7 +1376,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<p><strong>Процесс:</strong> 1. Купол наполняется смесью N₂ + 10% He 2. Снаружи обходят масс-спектрометром 3. При обнаружении гелия — найдена утечка 4. Утечка заделывается заплаткой + герметик</p>
+<p><strong>Процесс:</strong> 1. Купол наполняется смесью O₂ + 10% He 2. Снаружи обходят масс-спектрометром 3. При обнаружении гелия — найдена утечка 4. Утечка заделывается заплаткой + герметик</p>
 <hr>
 </section>
 </section>
@@ -1207,7 +1517,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>Кентавр-М + камера</td>
 </tr>
 <tr class="even">
-<td>Подкачка азота</td>
+<td>Подкачка кислорода</td>
 <td>По необходимости</td>
 <td>Автоматика</td>
 </tr>
@@ -1312,7 +1622,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

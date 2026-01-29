@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -160,7 +362,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/glossary.html">Глоссарий терминов</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/technology-readiness.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/glossary.html">Глоссарий терминов</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,20 +403,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -227,6 +417,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -248,20 +444,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -363,6 +547,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -608,14 +798,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -628,12 +818,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -654,65 +838,92 @@ p:has(> em:first-child) { text-indent: 0; }
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#р" id="toc-р" class="nav-link active" data-scroll-target="#р">Р</a>
+  <li><a href="#а" id="toc-а" class="nav-link active" data-scroll-target="#а">А</a>
   <ul class="collapse">
-  <li><a href="#рой-дайсона-dyson-swarm" id="toc-рой-дайсона-dyson-swarm" class="nav-link" data-scroll-target="#рой-дайсона-dyson-swarm">Рой Дайсона (Dyson Swarm)</a></li>
+  <li><a href="#алюмотермия" id="toc-алюмотермия" class="nav-link" data-scroll-target="#алюмотермия">Алюмотермия</a></li>
+  </ul></li>
+  <li><a href="#б" id="toc-б" class="nav-link" data-scroll-target="#б">Б</a>
+  <ul class="collapse">
+  <li><a href="#bootstrap-блиц-монтаж" id="toc-bootstrap-блиц-монтаж" class="nav-link" data-scroll-target="#bootstrap-блиц-монтаж">Bootstrap (Блиц-монтаж)</a></li>
+  </ul></li>
+  <li><a href="#в" id="toc-в" class="nav-link" data-scroll-target="#в">В</a>
+  <ul class="collapse">
+  <li><a href="#витамины" id="toc-витамины" class="nav-link" data-scroll-target="#витамины">«Витамины»</a></li>
+  </ul></li>
+  <li><a href="#г" id="toc-г" class="nav-link" data-scroll-target="#г">Г</a>
+  <ul class="collapse">
+  <li><a href="#gaas-панели-арсенид-галлиевые" id="toc-gaas-панели-арсенид-галлиевые" class="nav-link" data-scroll-target="#gaas-панели-арсенид-галлиевые">GaAs панели (арсенид-галлиевые)</a></li>
+  <li><a href="#гелиоцентрическая-орбита" id="toc-гелиоцентрическая-орбита" class="nav-link" data-scroll-target="#гелиоцентрическая-орбита">Гелиоцентрическая орбита</a></li>
+  </ul></li>
+  <li><a href="#д" id="toc-д" class="nav-link" data-scroll-target="#д">Д</a>
+  <ul class="collapse">
+  <li><a href="#дистилляция-шлака" id="toc-дистилляция-шлака" class="nav-link" data-scroll-target="#дистилляция-шлака">Дистилляция шлака</a></li>
   </ul></li>
   <li><a href="#з" id="toc-з" class="nav-link" data-scroll-target="#з">З</a>
   <ul class="collapse">
   <li><a href="#зеркала-роя" id="toc-зеркала-роя" class="nav-link" data-scroll-target="#зеркала-роя">Зеркала Роя</a></li>
   </ul></li>
-  <li><a href="#э" id="toc-э" class="nav-link" data-scroll-target="#э">Э</a>
+  <li><a href="#к" id="toc-к" class="nav-link" data-scroll-target="#к">К</a>
   <ul class="collapse">
-  <li><a href="#энергомост-power-beam" id="toc-энергомост-power-beam" class="nav-link" data-scroll-target="#энергомост-power-beam">Энергомост (Power Beam)</a></li>
-  <li><a href="#электрохромика" id="toc-электрохромика" class="nav-link" data-scroll-target="#электрохромика">Электрохромика</a></li>
+  <li><a href="#криогенный-кабель" id="toc-криогенный-кабель" class="nav-link" data-scroll-target="#криогенный-кабель">Криогенный кабель</a></li>
   </ul></li>
   <li><a href="#м" id="toc-м" class="nav-link" data-scroll-target="#м">М</a>
   <ul class="collapse">
   <li><a href="#масс-драйвер-mass-driver" id="toc-масс-драйвер-mass-driver" class="nav-link" data-scroll-target="#масс-драйвер-mass-driver">Масс-драйвер (Mass Driver)</a></li>
-  </ul></li>
-  <li><a href="#в" id="toc-в" class="nav-link" data-scroll-target="#в">В</a>
-  <ul class="collapse">
-  <li><a href="#витамины" id="toc-витамины" class="nav-link" data-scroll-target="#витамины">«Витамины»</a></li>
+  <li><a href="#мнлз-непрерывная-разливка" id="toc-мнлз-непрерывная-разливка" class="nav-link" data-scroll-target="#мнлз-непрерывная-разливка">МНЛЗ (непрерывная разливка)</a></li>
+  <li><a href="#mre-molten-regolith-electrolysis" id="toc-mre-molten-regolith-electrolysis" class="nav-link" data-scroll-target="#mre-molten-regolith-electrolysis">MRE (Molten Regolith Electrolysis)</a></li>
   </ul></li>
   <li><a href="#п" id="toc-п" class="nav-link" data-scroll-target="#п">П</a>
   <ul class="collapse">
   <li><a href="#поколение-1-gen-1" id="toc-поколение-1-gen-1" class="nav-link" data-scroll-target="#поколение-1-gen-1">Поколение 1 (Gen-1)</a></li>
   <li><a href="#поколение-2-gen-2" id="toc-поколение-2-gen-2" class="nav-link" data-scroll-target="#поколение-2-gen-2">Поколение 2 (Gen-2)</a></li>
   </ul></li>
-  <li><a href="#т" id="toc-т" class="nav-link" data-scroll-target="#т">Т</a>
+  <li><a href="#р" id="toc-р" class="nav-link" data-scroll-target="#р">Р</a>
   <ul class="collapse">
-  <li><a href="#точка-ноль-ground-zero" id="toc-точка-ноль-ground-zero" class="nav-link" data-scroll-target="#точка-ноль-ground-zero">Точка Ноль (Ground Zero)</a></li>
+  <li><a href="#реголит" id="toc-реголит" class="nav-link" data-scroll-target="#реголит">Реголит</a></li>
+  <li><a href="#rectenna-антенна-выпрямитель" id="toc-rectenna-антенна-выпрямитель" class="nav-link" data-scroll-target="#rectenna-антенна-выпрямитель">Rectenna (антенна-выпрямитель)</a></li>
+  <li><a href="#рой-дайсона-dyson-swarm" id="toc-рой-дайсона-dyson-swarm" class="nav-link" data-scroll-target="#рой-дайсона-dyson-swarm">Рой Дайсона (Dyson Swarm)</a></li>
   </ul></li>
   <li><a href="#с" id="toc-с" class="nav-link" data-scroll-target="#с">С</a>
   <ul class="collapse">
   <li><a href="#саморепликация" id="toc-саморепликация" class="nav-link" data-scroll-target="#саморепликация">Саморепликация</a></li>
   <li><a href="#солнечная-постоянная" id="toc-солнечная-постоянная" class="nav-link" data-scroll-target="#солнечная-постоянная">Солнечная постоянная</a></li>
   </ul></li>
-  <li><a href="#н" id="toc-н" class="nav-link" data-scroll-target="#н">Н</a>
+  <li><a href="#т" id="toc-т" class="nav-link" data-scroll-target="#т">Т</a>
   <ul class="collapse">
-  <li><a href="#nas-батарея-натрий-серная" id="toc-nas-батарея-натрий-серная" class="nav-link" data-scroll-target="#nas-батарея-натрий-серная">NaS-батарея (натрий-серная)</a></li>
+  <li><a href="#тёмные-заводы-lights-off-manufacturing" id="toc-тёмные-заводы-lights-off-manufacturing" class="nav-link" data-scroll-target="#тёмные-заводы-lights-off-manufacturing">Тёмные заводы (Lights-off Manufacturing)</a></li>
+  <li><a href="#точка-ноль-ground-zero" id="toc-точка-ноль-ground-zero" class="nav-link" data-scroll-target="#точка-ноль-ground-zero">Точка Ноль (Ground Zero)</a></li>
+  <li><a href="#trl-technology-readiness-level" id="toc-trl-technology-readiness-level" class="nav-link" data-scroll-target="#trl-technology-readiness-level">TRL (Technology Readiness Level)</a></li>
   </ul></li>
   <li><a href="#ф" id="toc-ф" class="nav-link" data-scroll-target="#ф">Ф</a>
   <ul class="collapse">
   <li><a href="#фазированная-решётка" id="toc-фазированная-решётка" class="nav-link" data-scroll-target="#фазированная-решётка">Фазированная решётка</a></li>
+  <li><a href="#ф-з-ф-р-типы-заводов" id="toc-ф-з-ф-р-типы-заводов" class="nav-link" data-scroll-target="#ф-з-ф-р-типы-заводов">Ф-З / Ф-Р (типы заводов)</a></li>
   </ul></li>
-  <li><a href="#г" id="toc-г" class="nav-link" data-scroll-target="#г">Г</a>
+  <li><a href="#ч" id="toc-ч" class="nav-link" data-scroll-target="#ч">Ч</a>
   <ul class="collapse">
-  <li><a href="#гелиоцентрическая-орбита" id="toc-гелиоцентрическая-орбита" class="nav-link" data-scroll-target="#гелиоцентрическая-орбита">Гелиоцентрическая орбита</a></li>
+  <li><a href="#checkpoint-контрольная-точка" id="toc-checkpoint-контрольная-точка" class="nav-link" data-scroll-target="#checkpoint-контрольная-точка">Checkpoint (контрольная точка)</a></li>
   </ul></li>
-  <li><a href="#а" id="toc-а" class="nav-link" data-scroll-target="#а">А</a>
+  <li><a href="#э" id="toc-э" class="nav-link" data-scroll-target="#э">Э</a>
   <ul class="collapse">
-  <li><a href="#алюмотермия" id="toc-алюмотермия" class="nav-link" data-scroll-target="#алюмотермия">Алюмотермия</a></li>
+  <li><a href="#электрохромика" id="toc-электрохромика" class="nav-link" data-scroll-target="#электрохромика">Электрохромика</a></li>
+  <li><a href="#энергомост-power-beam" id="toc-энергомост-power-beam" class="nav-link" data-scroll-target="#энергомост-power-beam">Энергомост (Power Beam)</a></li>
   </ul></li>
-  <li><a href="#х" id="toc-х" class="nav-link" data-scroll-target="#х">Х</a>
+  <li><a href="#i" id="toc-i" class="nav-link" data-scroll-target="#i">I</a>
   <ul class="collapse">
-  <li><a href="#станция-хаб" id="toc-станция-хаб" class="nav-link" data-scroll-target="#станция-хаб">Станция-Хаб</a></li>
+  <li><a href="#isru-in-situ-resource-utilization" id="toc-isru-in-situ-resource-utilization" class="nav-link" data-scroll-target="#isru-in-situ-resource-utilization">ISRU (In-Situ Resource Utilization)</a></li>
   </ul></li>
-  <li><a href="#л" id="toc-л" class="nav-link" data-scroll-target="#л">Л</a>
+  <li><a href="#l" id="toc-l" class="nav-link" data-scroll-target="#l">L</a>
   <ul class="collapse">
-  <li><a href="#точка-l1-лагранжа" id="toc-точка-l1-лагранжа" class="nav-link" data-scroll-target="#точка-l1-лагранжа">Точка L1 (Лагранжа)</a></li>
-  <li><a href="#лунный-масс-драйвер" id="toc-лунный-масс-драйвер" class="nav-link" data-scroll-target="#лунный-масс-драйвер">Лунный масс-драйвер</a></li>
+  <li><a href="#lsp-станция-lunar-solar-power" id="toc-lsp-станция-lunar-solar-power" class="nav-link" data-scroll-target="#lsp-станция-lunar-solar-power">LSP-станция (Lunar Solar Power)</a></li>
+  </ul></li>
+  <li><a href="#n" id="toc-n" class="nav-link" data-scroll-target="#n">N</a>
+  <ul class="collapse">
+  <li><a href="#nas-батарея-натрий-серная" id="toc-nas-батарея-натрий-серная" class="nav-link" data-scroll-target="#nas-батарея-натрий-серная">NaS-батарея (натрий-серная)</a></li>
+  </ul></li>
+  <li><a href="#w" id="toc-w" class="nav-link" data-scroll-target="#w">W</a>
+  <ul class="collapse">
+  <li><a href="#waam-wire-arc-additive-manufacturing" id="toc-waam-wire-arc-additive-manufacturing" class="nav-link" data-scroll-target="#waam-wire-arc-additive-manufacturing">WAAM (Wire Arc Additive Manufacturing)</a></li>
   </ul></li>
   <li><a href="#навигация" id="toc-навигация" class="nav-link" data-scroll-target="#навигация">Навигация</a></li>
   </ul>
@@ -721,7 +932,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/glossary.html">Глоссарий терминов</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/technology-readiness.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/glossary.html">Глоссарий терминов</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Глоссарий терминов</h1>
 </div>
@@ -740,51 +951,23 @@ p:has(> em:first-child) { text-indent: 0; }
 </header>
 
 
-<section id="р" class="level2">
-<h2 class="anchored" data-anchor-id="р">Р</h2>
-<section id="рой-дайсона-dyson-swarm" class="level3">
-<h3 class="anchored" data-anchor-id="рой-дайсона-dyson-swarm">Рой Дайсона (Dyson Swarm)</h3>
-<p>Облако из ~1.1 миллиарда независимых спутников-зеркал вокруг звезды. НЕ сплошная сфера (это «Сфера Дайсона» — фантастика), а рой автономных элементов на гелиоцентрических орбитах.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a></p>
+<section id="а" class="level2">
+<h2 class="anchored" data-anchor-id="а">А</h2>
+<section id="алюмотермия" class="level3">
+<h3 class="anchored" data-anchor-id="алюмотермия">Алюмотермия</h3>
+<p>Метод восстановления кремния алюминием вместо углерода. Используется на Меркурии, где углерода почти нет.</p>
+<pre><code>3SiO₂ + 4Al → 3Si + 2Al₂O₃</code></pre>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a></p>
 <hr>
 </section>
 </section>
-<section id="з" class="level2">
-<h2 class="anchored" data-anchor-id="з">З</h2>
-<section id="зеркала-роя" class="level3">
-<h3 class="anchored" data-anchor-id="зеркала-роя">Зеркала Роя</h3>
-<p>Ультралёгкие отражающие диски 100×100 м из алюминиевой фольги (4 мкм). Управляются давлением света через электрохромное покрытие. Масса ~116 кг, мощность на Земле ~19 МВт (при КПД 18%).</p>
-<p><strong>Референс:</strong> IKAROS (JAXA, 2010) — первый межпланетный солнечный парус.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a>, <a href="../../../ru/science/summaries/energy.html">Расчёты энергии</a></p>
-<hr>
-</section>
-</section>
-<section id="э" class="level2">
-<h2 class="anchored" data-anchor-id="э">Э</h2>
-<section id="энергомост-power-beam" class="level3">
-<h3 class="anchored" data-anchor-id="энергомост-power-beam">Энергомост (Power Beam)</h3>
-<p>Система передачи энергии от Роя к Земле через 3 каскада:</p>
-<ol type="1">
-<li><strong>Сбор:</strong> Рой организован в <a href="../../../ru/science/summaries/energy.html#координация-миллиарда-зеркал">локальные кластеры</a>, концентрирует свет</li>
-<li><strong>Транзит:</strong> Свет идёт через вакуум к Станции-Хаб в точке L1</li>
-<li><strong>Спуск:</strong> Хаб преобразует в лазер и перенаправляет на наземный приёмник</li>
-</ol>
-<p><strong>КПД:</strong> 18% (<a href="../../../ru/science/summaries/moon.html#кпд-передачи-энергии">расчёт</a>), компенсируется избыточностью 100×.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a></p>
-</section>
-<section id="электрохромика" class="level3">
-<h3 class="anchored" data-anchor-id="электрохромика">Электрохромика</h3>
-<p>Материал, меняющий отражательность при подаче напряжения (как в старых ЖК-часах). Используется для управления ориентацией зеркал без двигателей.</p>
-<hr>
-</section>
-</section>
-<section id="м" class="level2">
-<h2 class="anchored" data-anchor-id="м">М</h2>
-<section id="масс-драйвер-mass-driver" class="level3">
-<h3 class="anchored" data-anchor-id="масс-драйвер-mass-driver">Масс-драйвер (Mass Driver)</h3>
-<p>Электромагнитная катапульта для запуска грузов в космос. На Меркурии нет атмосферы → нет сопротивления воздуха → можно разгонять до орбитальной скорости на поверхности.</p>
-<p><strong>Параметры:</strong> длина 2–3 км, скорость 5 км/с, масса установки ~1300 т.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a>, <a href="../../../ru/science/detailed/production/railguns/theory.html">Расчёты рельсотрона</a></p>
+<section id="б" class="level2">
+<h2 class="anchored" data-anchor-id="б">Б</h2>
+<section id="bootstrap-блиц-монтаж" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrap-блиц-монтаж">Bootstrap (Блиц-монтаж)</h3>
+<p>Сборка первого завода на Меркурии из 100% импортных материалов роботами Gen-1. Уникальный этап проекта: до запуска саморепликации всё зависит от привезённого оборудования.</p>
+<p><strong>Ключевое:</strong> Критический checkpoint — энерго-автономия за 12-24 часа. После checkpoint время сборки не критично.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Сборка первого завода</a> | <strong>См. также:</strong> <a href="#точка-ноль-ground-zero">Точка Ноль</a> — сам завод</p>
 <hr>
 </section>
 </section>
@@ -804,11 +987,75 @@ p:has(> em:first-child) { text-indent: 0; }
 <hr>
 </section>
 </section>
+<section id="г" class="level2">
+<h2 class="anchored" data-anchor-id="г">Г</h2>
+<section id="gaas-панели-арсенид-галлиевые" class="level3">
+<h3 class="anchored" data-anchor-id="gaas-панели-арсенид-галлиевые">GaAs панели (арсенид-галлиевые)</h3>
+<p>Высокоэффективные солнечные панели (КПД 30%+) для начальной фазы bootstrap. Импортируются с Земли, обеспечивают 168 МВт для первого завода до появления энергии от Роя.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Сборка первого завода</a></p>
+</section>
+<section id="гелиоцентрическая-орбита" class="level3">
+<h3 class="anchored" data-anchor-id="гелиоцентрическая-орбита">Гелиоцентрическая орбита</h3>
+<p>Орбита вокруг Солнца (не вокруг планеты). Зеркала Роя находятся на гелиоцентрических орбитах на расстоянии ~57.9 млн км от Солнца.</p>
+<hr>
+</section>
+</section>
+<section id="д" class="level2">
+<h2 class="anchored" data-anchor-id="д">Д</h2>
+<section id="дистилляция-шлака" class="level3">
+<h3 class="anchored" data-anchor-id="дистилляция-шлака">Дистилляция шлака</h3>
+<p>Метод переработки побочных продуктов MRE-электролиза. Шлак содержит оксиды полезных металлов, которые извлекаются термической дистилляцией при различных температурах кипения.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/materials/distillation.html">Дистилляция</a></p>
+<hr>
+</section>
+</section>
+<section id="з" class="level2">
+<h2 class="anchored" data-anchor-id="з">З</h2>
+<section id="зеркала-роя" class="level3">
+<h3 class="anchored" data-anchor-id="зеркала-роя">Зеркала Роя</h3>
+<p>Ультралёгкие отражающие диски 100×100 м из алюминиевой фольги (4 мкм). Управляются давлением света через электрохромное покрытие. Масса ~116 кг, мощность на Земле ~19 МВт (при КПД 18%).</p>
+<p><strong>Референс:</strong> IKAROS (JAXA, 2010) — первый межпланетный солнечный парус.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/mirrors.html">Зеркала Роя</a></p>
+<hr>
+</section>
+</section>
+<section id="к" class="level2">
+<h2 class="anchored" data-anchor-id="к">К</h2>
+<section id="криогенный-кабель" class="level3">
+<h3 class="anchored" data-anchor-id="криогенный-кабель">Криогенный кабель</h3>
+<p>Алюминиевый кабель, охлаждённый до -180°C в постоянной тени Меркурия, для передачи энергии ГВт-класса. Заменяет медные кабели (меди на Меркурии нет). При криогенных температурах сопротивление Al падает в ~20×.</p>
+<p><strong>TRL:</strong> 4-5 (физика NIST доказана, аналоги — криогеника CERN LHC).</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/technology-readiness.html#криогенный-алюминиевый-кабель-гвт">Технологии и источники</a></p>
+<hr>
+</section>
+</section>
+<section id="м" class="level2">
+<h2 class="anchored" data-anchor-id="м">М</h2>
+<section id="масс-драйвер-mass-driver" class="level3">
+<h3 class="anchored" data-anchor-id="масс-драйвер-mass-driver">Масс-драйвер (Mass Driver)</h3>
+<p>Электромагнитная катапульта для запуска грузов в космос. На Меркурии нет атмосферы → нет сопротивления воздуха → можно разгонять до орбитальной скорости на поверхности.</p>
+<p><strong>Параметры:</strong> длина 2–3 км, скорость 5 км/с, масса установки ~1300 т.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/railguns/theory.html">Теория и КПД масс-драйвера</a></p>
+</section>
+<section id="мнлз-непрерывная-разливка" class="level3">
+<h3 class="anchored" data-anchor-id="мнлз-непрерывная-разливка">МНЛЗ (непрерывная разливка)</h3>
+<p>Машина непрерывного литья заготовок. Промышленный метод получения металлических слябов из расплава (SMS Group, Danieli). Используется для производства алюминиевых заготовок для зеркал.</p>
+<p><strong>TRL:</strong> 9 (мировой стандарт металлургии).</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/factories/elements/casting.html">Литьё</a></p>
+</section>
+<section id="mre-molten-regolith-electrolysis" class="level3">
+<h3 class="anchored" data-anchor-id="mre-molten-regolith-electrolysis">MRE (Molten Regolith Electrolysis)</h3>
+<p>Электролиз расплавленного реголита — метод извлечения металлов и кислорода из лунного/меркурианского грунта. Реголит плавится при ~1600°C, электрический ток разделяет оксиды на металл (катод) и кислород (анод).</p>
+<p><strong>TRL:</strong> 5-6 (NASA, Blue Origin).</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/materials/mre.html">Электролиз MRE</a></p>
+<hr>
+</section>
+</section>
 <section id="п" class="level2">
 <h2 class="anchored" data-anchor-id="п">П</h2>
 <section id="поколение-1-gen-1" class="level3">
 <h3 class="anchored" data-anchor-id="поколение-1-gen-1">Поколение 1 (Gen-1)</h3>
-<p>Роботы земного производства, оптимизированные по массе для доставки. Материалы: титан, карбон, кевлар. Высокотехнологичные, дорогие, ограниченный ресурс.</p>
+<p>Роботы земного производства, оптимизированные по массе для доставки. Материалы: титан, карбон, кевлар. Высокотехнологичные, дорогие, ограниченный ресурс (2-3 года).</p>
 <p><strong>Классы:</strong> Паук-З, Краб-З, Кентавр-З, Манипулятор Ф-А1, Крот-З</p>
 <p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/robots/overview.html">Бестиарий роботов</a></p>
 </section>
@@ -820,13 +1067,24 @@ p:has(> em:first-child) { text-indent: 0; }
 <hr>
 </section>
 </section>
-<section id="т" class="level2">
-<h2 class="anchored" data-anchor-id="т">Т</h2>
-<section id="точка-ноль-ground-zero" class="level3">
-<h3 class="anchored" data-anchor-id="точка-ноль-ground-zero">Точка Ноль (Ground Zero)</h3>
-<p>Первый завод на Меркурии. 100% компонентов доставлено с Земли. Задача — запустить саморепликацию и построить следующие заводы из местных ресурсов.</p>
-<p><strong>Энергопотребление:</strong> 55 МВт.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/factories/overview.html">Завод “Точка Ноль”</a></p>
+<section id="р" class="level2">
+<h2 class="anchored" data-anchor-id="р">Р</h2>
+<section id="реголит" class="level3">
+<h3 class="anchored" data-anchor-id="реголит">Реголит</h3>
+<p>Рыхлый обломочный грунт на поверхности Меркурия и Луны. Основной источник сырья: содержит оксиды алюминия, кремния, железа, кальция, магния. Перерабатывается методом MRE.</p>
+<p><strong>Состав (Меркурий, MESSENGER):</strong> Si ~24.6%, Al ~7%, Fe 1.5-2%, Ca ~6%, Mg ~9%.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/constants.html">Физические константы</a></p>
+</section>
+<section id="rectenna-антенна-выпрямитель" class="level3">
+<h3 class="anchored" data-anchor-id="rectenna-антенна-выпрямитель">Rectenna (антенна-выпрямитель)</h3>
+<p>Наземная станция на Земле, принимающая микроволновое излучение от LSP-станций на Луне и преобразующая в постоянный ток. КПД 85-90%. Размещение: пустыни (Сахара, Гоби, Атакама, Невада, Якутия).</p>
+<p><strong>Ключевое:</strong> Работает в любую погоду — микроволны проходят через облака.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/hub.html">LSP-станции</a></p>
+</section>
+<section id="рой-дайсона-dyson-swarm" class="level3">
+<h3 class="anchored" data-anchor-id="рой-дайсона-dyson-swarm">Рой Дайсона (Dyson Swarm)</h3>
+<p>Облако из ~1.1 миллиарда независимых спутников-зеркал вокруг звезды. НЕ сплошная сфера (это «Сфера Дайсона» — фантастика), а рой автономных элементов на гелиоцентрических орбитах.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a></p>
 <hr>
 </section>
 </section>
@@ -834,8 +1092,9 @@ p:has(> em:first-child) { text-indent: 0; }
 <h2 class="anchored" data-anchor-id="с">С</h2>
 <section id="саморепликация" class="level3">
 <h3 class="anchored" data-anchor-id="саморепликация">Саморепликация</h3>
-<p>Способность системы строить свои копии. Роботы Gen-2 строят роботов Gen-2, заводы строят заводы. Экспоненциальный рост.</p>
+<p>Способность системы строить свои копии. Роботы Gen-2 строят роботов Gen-2, заводы строят заводы. Экспоненциальный рост: 1 завод → ~1650 за ~9.5 лет.</p>
 <p><strong>Ограничение:</strong> Требует «витаминов» с Земли (1–3% массы).</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/factories/assembly/replication.html">Саморепликация</a></p>
 </section>
 <section id="солнечная-постоянная" class="level3">
 <h3 class="anchored" data-anchor-id="солнечная-постоянная">Солнечная постоянная</h3>
@@ -844,16 +1103,29 @@ p:has(> em:first-child) { text-indent: 0; }
 <li>Земля: 1 361 Вт/м²</li>
 <li>Меркурий (среднее по орбите): 10 343 Вт/м² (в 7.6× больше)</li>
 </ul>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/constants.html">Физические константы</a></p>
 <hr>
 </section>
 </section>
-<section id="н" class="level2">
-<h2 class="anchored" data-anchor-id="н">Н</h2>
-<section id="nas-батарея-натрий-серная" class="level3">
-<h3 class="anchored" data-anchor-id="nas-батарея-натрий-серная">NaS-батарея (натрий-серная)</h3>
-<p>Аккумулятор для <a href="../../../ru/science/detailed/production/robots/overview.html">роботов Gen-2</a>. Натрий и сера добываются из реголита Меркурия. Рабочая температура +300°C.</p>
-<p><strong>Преимущество:</strong> Не требует лития (которого нет на Меркурии).</p>
-<p><strong>Проблема:</strong> Требует постоянного подогрева → <a href="../../../ru/science/reference/risks.html#ресурс-nas-батарей-в-ночной-период">решение через кабели и станции</a>.</p>
+<section id="т" class="level2">
+<h2 class="anchored" data-anchor-id="т">Т</h2>
+<section id="тёмные-заводы-lights-off-manufacturing" class="level3">
+<h3 class="anchored" data-anchor-id="тёмные-заводы-lights-off-manufacturing">Тёмные заводы (Lights-off Manufacturing)</h3>
+<p>Полностью автоматизированные заводы, работающие 24/7 без присутствия людей. Промышленный стандарт: FANUC (Япония), Xiaomi (Китай).</p>
+<p><strong>TRL:</strong> 9. <strong>Применение:</strong> основа производственной модели на Меркурии.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/technology-readiness.html#тёмные-заводы-lights-off-manufacturing">Технологии и источники</a></p>
+</section>
+<section id="точка-ноль-ground-zero" class="level3">
+<h3 class="anchored" data-anchor-id="точка-ноль-ground-zero">Точка Ноль (Ground Zero)</h3>
+<p>Первый завод на Меркурии. 100% компонентов доставлено с Земли. Задача — запустить саморепликацию и построить следующие заводы из местных ресурсов.</p>
+<p><strong>Энергопотребление:</strong> 55 МВт.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/factories/overview.html">Завод «Точка Ноль»</a> | <strong>См. также:</strong> <a href="#bootstrap-блиц-монтаж">Bootstrap</a> — процесс сборки первого завода</p>
+</section>
+<section id="trl-technology-readiness-level" class="level3">
+<h3 class="anchored" data-anchor-id="trl-technology-readiness-level">TRL (Technology Readiness Level)</h3>
+<p>Шкала зрелости технологий от 1 (базовые принципы) до 9 (серийное производство). Используется NASA, ESA, DoD для оценки готовности. Все технологии проекта имеют TRL 4-9.</p>
+<p><strong>Ключевые уровни:</strong> TRL 4-5 = подсистемы доказаны, интеграция не завершена. TRL 9 = серийное производство.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a></p>
 <hr>
 </section>
 </section>
@@ -861,73 +1133,86 @@ p:has(> em:first-child) { text-indent: 0; }
 <h2 class="anchored" data-anchor-id="ф">Ф</h2>
 <section id="фазированная-решётка" class="level3">
 <h3 class="anchored" data-anchor-id="фазированная-решётка">Фазированная решётка</h3>
-<p>Массив излучателей, работающих синхронно как одна антенна. Рой зеркал формирует виртуальную антенну диаметром ~100 км для передачи энергии.</p>
+<p>Массив излучателей, работающих синхронно как одна антенна. Рой зеркал формирует виртуальную антенну диаметром ~100 км для фокусировки света на LSP-станции.</p>
+</section>
+<section id="ф-з-ф-р-типы-заводов" class="level3">
+<h3 class="anchored" data-anchor-id="ф-з-ф-р-типы-заводов">Ф-З / Ф-Р (типы заводов)</h3>
+<p>Два типа заводов на Меркурии:</p>
+<ul>
+<li><strong>Ф-З (Фабрика-Зеркальная)</strong> — производит алюминиевые зеркала для Роя. ~400 зеркал/день. Всего ~1500.</li>
+<li><strong>Ф-Р (Фабрика-Репликатор)</strong> — производит роботов, купола, оборудование, новые заводы. Всего ~150.</li>
+</ul>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production.html">Производство</a></p>
 <hr>
 </section>
 </section>
-<section id="г" class="level2">
-<h2 class="anchored" data-anchor-id="г">Г</h2>
-<section id="гелиоцентрическая-орбита" class="level3">
-<h3 class="anchored" data-anchor-id="гелиоцентрическая-орбита">Гелиоцентрическая орбита</h3>
-<p>Орбита вокруг Солнца (не вокруг планеты). Зеркала Роя находятся на гелиоцентрических орбитах на расстоянии ~57.9 млн км от Солнца.</p>
+<section id="ч" class="level2">
+<h2 class="anchored" data-anchor-id="ч">Ч</h2>
+<section id="checkpoint-контрольная-точка" class="level3">
+<h3 class="anchored" data-anchor-id="checkpoint-контрольная-точка">Checkpoint (контрольная точка)</h3>
+<p>Момент достижения энерго-автономии при сборке первого завода. Развёрнута зарядная инфраструктура (кабели + зарядные станции), роботы могут работать 24/7 с перезарядкой. Должен быть достигнут за 12-24 часа.</p>
+<p><strong>Ключевое:</strong> После checkpoint время полной сборки завода не критично — хоть 30 дней.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Сборка первого завода</a></p>
 <hr>
 </section>
 </section>
-<section id="а" class="level2">
-<h2 class="anchored" data-anchor-id="а">А</h2>
-<section id="алюмотермия" class="level3">
-<h3 class="anchored" data-anchor-id="алюмотермия">Алюмотермия</h3>
-<p>Метод восстановления кремния алюминием вместо углерода. Используется на Меркурии, где углерода почти нет.</p>
-<pre><code>3SiO₂ + 4Al → 3Si + 2Al₂O₃</code></pre>
+<section id="э" class="level2">
+<h2 class="anchored" data-anchor-id="э">Э</h2>
+<section id="электрохромика" class="level3">
+<h3 class="anchored" data-anchor-id="электрохромика">Электрохромика</h3>
+<p>Материал, меняющий отражательность при подаче напряжения (как в старых ЖК-часах). Используется для управления ориентацией зеркал без двигателей — разная отражательность создаёт дисбаланс давления света.</p>
+<p><strong>TRL:</strong> 6-7 (TiO₂).</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/reference/technology-readiness.html#электрохромика-tio₂">Технологии и источники</a></p>
+</section>
+<section id="энергомост-power-beam" class="level3">
+<h3 class="anchored" data-anchor-id="энергомост-power-beam">Энергомост (Power Beam)</h3>
+<p>Система передачи энергии от Роя к Земле через 3 каскада:</p>
+<ol type="1">
+<li><strong>Сбор:</strong> Рой организован в <a href="../../../ru/science/detailed/mirrors.html#кластеры-зеркал">локальные кластеры</a> по 1000-10000 зеркал, концентрирует свет</li>
+<li><strong>Транзит:</strong> Свет идёт через вакуум к LSP-станциям на лимбах Луны</li>
+<li><strong>Спуск:</strong> LSP-станции преобразуют свет в микроволны и передают на rectenna на Земле</li>
+</ol>
+<p><strong>КПД:</strong> 18% (<a href="../../../ru/science/detailed/hub.html">расчёт</a>), компенсируется избыточностью 50-100×.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/hub.html">LSP-станции</a></p>
 <hr>
 </section>
 </section>
-<section id="х" class="level2">
-<h2 class="anchored" data-anchor-id="х">Х</h2>
-<section id="станция-хаб" class="level3">
-<h3 class="anchored" data-anchor-id="станция-хаб">Станция-Хаб</h3>
-<p>Орбитальная станция в точке L1 (Земля-Луна), принимающая свет от Роя Дайсона и преобразующая его в лазерный луч для передачи на Землю.</p>
-<p><strong>Параметры:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Характеристика</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Диаметр</td>
-<td>5-10 км</td>
-</tr>
-<tr class="even">
-<td>Масса</td>
-<td>1-2 млн тонн</td>
-</tr>
-<tr class="odd">
-<td>Орбита</td>
-<td>L1 (326 000 км от Земли)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Строительство:</strong> Модули производятся на Луне и запускаются лунным масс-драйвером к точке L1.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/summaries/budget.html#орбитальная-инфраструктура">Бюджет</a></p>
+<section id="i" class="level2">
+<h2 class="anchored" data-anchor-id="i">I</h2>
+<section id="isru-in-situ-resource-utilization" class="level3">
+<h3 class="anchored" data-anchor-id="isru-in-situ-resource-utilization">ISRU (In-Situ Resource Utilization)</h3>
+<p>Использование местных ресурсов вместо импорта с Земли. Ключевой принцип проекта: 97-99% массы заводов и роботов производится из реголита Меркурия.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production.html">Производство</a></p>
 <hr>
 </section>
 </section>
-<section id="л" class="level2">
-<h2 class="anchored" data-anchor-id="л">Л</h2>
-<section id="точка-l1-лагранжа" class="level3">
-<h3 class="anchored" data-anchor-id="точка-l1-лагранжа">Точка L1 (Лагранжа)</h3>
-<p>Точка гравитационного равновесия между Землёй и Луной, примерно 326 000 км от Земли (58 000 км от Луны). Объект в L1 сохраняет положение относительно обоих тел с минимальной коррекцией (~50 м/с в год).</p>
-<p><strong>Применение в проекте:</strong> Размещение Станции-Хаба. L1 ближе к Луне, чем GEO (геостационарная орбита), что удешевляет доставку материалов лунным масс-драйвером.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/railguns/theory.html#лунный-масс-драйвер">Лунный масс-драйвер</a></p>
+<section id="l" class="level2">
+<h2 class="anchored" data-anchor-id="l">L</h2>
+<section id="lsp-станция-lunar-solar-power" class="level3">
+<h3 class="anchored" data-anchor-id="lsp-станция-lunar-solar-power">LSP-станция (Lunar Solar Power)</h3>
+<p>Наземная солнечная электростанция на поверхности Луны. Принимает концентрированный свет от Роя, преобразует в микроволны 2.45 ГГц и передаёт на rectenna на Земле. Сеть из 20-40 станций на лимбах Луны.</p>
+<p><strong>Преимущество:</strong> Тепло уходит в грунт (не нужны космические радиаторы), КПД 18%.</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/hub.html">LSP-станции</a></p>
+<hr>
 </section>
-<section id="лунный-масс-драйвер" class="level3">
-<h3 class="anchored" data-anchor-id="лунный-масс-драйвер">Лунный масс-драйвер</h3>
-<p>Адаптация меркурианского масс-драйвера для Луны. Запускает модули Станции-Хаба к точке L1.</p>
-<p><strong>Преимущества перед Меркурием:</strong> - Длина трека: 1-1.5 км (vs 2-3 км) - Энергия: 3-4 ГДж/т (vs 12.5 ГДж/т) - В 2× короче и 3× экономичнее</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/railguns/theory.html#лунный-масс-драйвер">Расчёты</a></p>
+</section>
+<section id="n" class="level2">
+<h2 class="anchored" data-anchor-id="n">N</h2>
+<section id="nas-батарея-натрий-серная" class="level3">
+<h3 class="anchored" data-anchor-id="nas-батарея-натрий-серная">NaS-батарея (натрий-серная)</h3>
+<p>Аккумулятор для <a href="../../../ru/science/detailed/production/robots/overview.html">роботов Gen-2</a>. Натрий и сера добываются из реголита Меркурия. Рабочая температура +300°C.</p>
+<p><strong>Преимущество:</strong> Не требует лития (которого нет на Меркурии).</p>
+<p><strong>Проблема:</strong> Требует постоянного подогрева → <a href="../../../ru/science/reference/risks.html">решение через кабели и станции</a>.</p>
+<hr>
+</section>
+</section>
+<section id="w" class="level2">
+<h2 class="anchored" data-anchor-id="w">W</h2>
+<section id="waam-wire-arc-additive-manufacturing" class="level3">
+<h3 class="anchored" data-anchor-id="waam-wire-arc-additive-manufacturing">WAAM (Wire Arc Additive Manufacturing)</h3>
+<p>3D-печать металлом с помощью электродуговой сварки. Робот наплавляет металлическую проволоку слой за слоем, создавая детали любой формы. Основной метод производства корпусов роботов Gen-2 и оборудования заводов.</p>
+<p><strong>TRL:</strong> 7-8 (Gefertec, WAAM3D, Lincoln Electric).</p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/production/factories/elements/waam.html">3D-печать WAAM</a></p>
 <hr>
 </section>
 </section>
@@ -936,7 +1221,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <ul>
 <li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — краткий обзор проекта</li>
 <li><a href="../../../ru/science/reference/constants.html">Физические константы</a> — справочные данные</li>
-<li><a href="../../../ru/science/reference/sources.html">Библиография</a> — источники</li>
+<li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL и библиография</li>
 </ul>
 
 
@@ -1016,7 +1301,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

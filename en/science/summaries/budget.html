@@ -1,0 +1,3641 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Project Budget – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Project Budget</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Навигация</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-helios-budget" id="toc-project-helios-budget" class="nav-link active" data-scroll-target="#project-helios-budget">Project Helios Budget</a>
+  <ul class="collapse">
+  <li><a href="#currency-and-inflation" id="toc-currency-and-inflation" class="nav-link" data-scroll-target="#currency-and-inflation">Currency and Inflation</a></li>
+  <li><a href="#international-references-2026" id="toc-international-references-2026" class="nav-link" data-scroll-target="#international-references-2026">International References (2026)</a>
+  <ul class="collapse">
+  <li><a href="#launch-costs-kg-to-leo" id="toc-launch-costs-kg-to-leo" class="nav-link" data-scroll-target="#launch-costs-kg-to-leo">Launch Costs ($/kg to LEO)</a></li>
+  <li><a href="#industrial-robot-costs" id="toc-industrial-robot-costs" class="nav-link" data-scroll-target="#industrial-robot-costs">Industrial Robot Costs</a></li>
+  <li><a href="#factory-costs" id="toc-factory-costs" class="nav-link" data-scroll-target="#factory-costs">Factory Costs</a></li>
+  <li><a href="#rocket-production-costs" id="toc-rocket-production-costs" class="nav-link" data-scroll-target="#rocket-production-costs">Rocket Production Costs</a></li>
+  <li><a href="#ai-development-2026-references" id="toc-ai-development-2026-references" class="nav-link" data-scroll-target="#ai-development-2026-references">AI Development (2026 references)</a></li>
+  <li><a href="#construction-in-china-references" id="toc-construction-in-china-references" class="nav-link" data-scroll-target="#construction-in-china-references">Construction in China (references)</a></li>
+  </ul></li>
+  <li><a href="#base-calculations-international-prices" id="toc-base-calculations-international-prices" class="nav-link" data-scroll-target="#base-calculations-international-prices">Base Calculations (international prices)</a>
+  <ul class="collapse">
+  <li><a href="#rd-excluding-ai" id="toc-rd-excluding-ai" class="nav-link" data-scroll-target="#rd-excluding-ai">1. R&amp;D (excluding AI)</a></li>
+  <li><a href="#ai-development-for-robots" id="toc-ai-development-for-robots" class="nav-link" data-scroll-target="#ai-development-for-robots">2. AI Development for Robots</a></li>
+  <li><a href="#earth-test-site-china" id="toc-earth-test-site-china" class="nav-link" data-scroll-target="#earth-test-site-china">3. Earth Test Site (China)</a></li>
+  <li><a href="#lunar-test-site" id="toc-lunar-test-site" class="nav-link" data-scroll-target="#lunar-test-site">4. Lunar Test Site</a></li>
+  <li><a href="#flight-hardware-production" id="toc-flight-hardware-production" class="nav-link" data-scroll-target="#flight-hardware-production">5. Flight Hardware Production</a></li>
+  <li><a href="#rocket-program" id="toc-rocket-program" class="nav-link" data-scroll-target="#rocket-program">6. Rocket Program</a></li>
+  <li><a href="#launches-and-delivery" id="toc-launches-and-delivery" class="nav-link" data-scroll-target="#launches-and-delivery">7. Launches and Delivery</a></li>
+  <li><a href="#energy-reception-system-microwave-rectenna" id="toc-energy-reception-system-microwave-rectenna" class="nav-link" data-scroll-target="#energy-reception-system-microwave-rectenna">8. Energy Reception System (Microwave + Rectenna)</a></li>
+  <li><a href="#additional-items" id="toc-additional-items" class="nav-link" data-scroll-target="#additional-items">9. Additional Items</a></li>
+  <li><a href="#lsp-stations-on-moon" id="toc-lsp-stations-on-moon" class="nav-link" data-scroll-target="#lsp-stations-on-moon">9. LSP Stations on Moon</a></li>
+  </ul></li>
+  <li><a href="#summary-base-estimates" id="toc-summary-base-estimates" class="nav-link" data-scroll-target="#summary-base-estimates">Summary: Base Estimates</a></li>
+  <li><a href="#structure-by-location" id="toc-structure-by-location" class="nav-link" data-scroll-target="#structure-by-location">Structure by Location</a>
+  <ul class="collapse">
+  <li><a href="#summary-level-1" id="toc-summary-level-1" class="nav-link" data-scroll-target="#summary-level-1">Summary (Level 1)</a></li>
+  <li><a href="#breakdown-level-2" id="toc-breakdown-level-2" class="nav-link" data-scroll-target="#breakdown-level-2">Breakdown (Level 2)</a></li>
+  </ul></li>
+  <li><a href="#analysis-which-items-are-underestimated" id="toc-analysis-which-items-are-underestimated" class="nav-link" data-scroll-target="#analysis-which-items-are-underestimated">Analysis: Which Items Are Underestimated?</a>
+  <ul class="collapse">
+  <li><a href="#ai-development-was-15-20-billion-revised-25-40-billion" id="toc-ai-development-was-15-20-billion-revised-25-40-billion" class="nav-link" data-scroll-target="#ai-development-was-15-20-billion-revised-25-40-billion">1. AI Development (was: $15-20 billion → revised: $25-40 billion)</a></li>
+  <li><a href="#rocket-program-was-8-10-billion-revised-10-14-billion" id="toc-rocket-program-was-8-10-billion-revised-10-14-billion" class="nav-link" data-scroll-target="#rocket-program-was-8-10-billion-revised-10-14-billion">2. Rocket Program (was: $8-10 billion → revised: $10-14 billion)</a></li>
+  <li><a href="#factory-production-was-46-49-billion-revised-60-80-billion" id="toc-factory-production-was-46-49-billion-revised-60-80-billion" class="nav-link" data-scroll-target="#factory-production-was-46-49-billion-revised-60-80-billion">3. Factory Production (was: $46-49 billion → revised: $60-80 billion)</a></li>
+  <li><a href="#launches-55-billion-2500kg" id="toc-launches-55-billion-2500kg" class="nav-link" data-scroll-target="#launches-55-billion-2500kg">4. Launches ($55 billion = $2,500/kg) ✓</a></li>
+  <li><a href="#adjustment-summary" id="toc-adjustment-summary" class="nav-link" data-scroll-target="#adjustment-summary">Adjustment Summary</a></li>
+  </ul></li>
+  <li><a href="#three-scenarios-revised" id="toc-three-scenarios-revised" class="nav-link" data-scroll-target="#three-scenarios-revised">Three Scenarios (revised)</a>
+  <ul class="collapse">
+  <li><a href="#optimistic-scenario-255-billion" id="toc-optimistic-scenario-255-billion" class="nav-link" data-scroll-target="#optimistic-scenario-255-billion">Optimistic Scenario (~$255 billion)</a></li>
+  <li><a href="#baseline-scenario-430-billion-or-540-billion-with-inflation" id="toc-baseline-scenario-430-billion-or-540-billion-with-inflation" class="nav-link" data-scroll-target="#baseline-scenario-430-billion-or-540-billion-with-inflation">Baseline Scenario (~$430 billion, or ~$540 billion with inflation)</a></li>
+  <li><a href="#conservative-scenario-520-billion-or-650-billion-with-inflation" id="toc-conservative-scenario-520-billion-or-650-billion-with-inflation" class="nav-link" data-scroll-target="#conservative-scenario-520-billion-or-650-billion-with-inflation">Conservative Scenario (~$520 billion, or ~$650 billion with inflation)</a></li>
+  </ul></li>
+  <li><a href="#why-not-a-trillion" id="toc-why-not-a-trillion" class="nav-link" data-scroll-target="#why-not-a-trillion">Why Not a Trillion?</a>
+  <ul class="collapse">
+  <li><a href="#american-projects-are-inflated-due-to" id="toc-american-projects-are-inflated-due-to" class="nav-link" data-scroll-target="#american-projects-are-inflated-due-to">American projects are inflated due to:</a></li>
+  <li><a href="#examples-of-budget-inflation" id="toc-examples-of-budget-inflation" class="nav-link" data-scroll-target="#examples-of-budget-inflation">Examples of budget inflation:</a></li>
+  <li><a href="#why-helios-is-different" id="toc-why-helios-is-different" class="nav-link" data-scroll-target="#why-helios-is-different">Why Helios is different:</a></li>
+  <li><a href="#comparison-with-real-projects" id="toc-comparison-with-real-projects" class="nav-link" data-scroll-target="#comparison-with-real-projects">Comparison with Real Projects</a></li>
+  </ul></li>
+  <li><a href="#final-estimate" id="toc-final-estimate" class="nav-link" data-scroll-target="#final-estimate">Final Estimate</a>
+  <ul class="collapse">
+  <li><a href="#without-inflation-usd-2026" id="toc-without-inflation-usd-2026" class="nav-link" data-scroll-target="#without-inflation-usd-2026">Without Inflation (USD 2026)</a></li>
+  <li><a href="#with-inflation-25-over-10-years" id="toc-with-inflation-25-over-10-years" class="nav-link" data-scroll-target="#with-inflation-25-over-10-years">With Inflation (+25% over 10 years)</a></li>
+  </ul></li>
+  <li><a href="#year-by-year-distribution-baseline-scenario" id="toc-year-by-year-distribution-baseline-scenario" class="nav-link" data-scroll-target="#year-by-year-distribution-baseline-scenario">Year-by-Year Distribution (baseline scenario)</a></li>
+  <li><a href="#known-limitations" id="toc-known-limitations" class="nav-link" data-scroll-target="#known-limitations">Known Limitations</a>
+  <ul class="collapse">
+  <li><a href="#critical-issues" id="toc-critical-issues" class="nav-link" data-scroll-target="#critical-issues">Critical Issues</a></li>
+  <li><a href="#high-priority-issues" id="toc-high-priority-issues" class="nav-link" data-scroll-target="#high-priority-issues">High-Priority Issues</a></li>
+  <li><a href="#require-research" id="toc-require-research" class="nav-link" data-scroll-target="#require-research">Require Research</a></li>
+  <li><a href="#final-adjustment" id="toc-final-adjustment" class="nav-link" data-scroll-target="#final-adjustment">Final Adjustment</a></li>
+  </ul></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project Budget</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="project-helios-budget" class="level1">
+<h1>Project Helios Budget</h1>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<ul>
+<li><strong>Total budget:</strong> $255–520 billion (with inflation $320–650 billion over 10 years)</li>
+<li><strong>Launch cost:</strong> $2,500/kg (mix of current and future technologies)</li>
+<li><strong>Robot cost:</strong> $200K (space-grade, autonomous, mass-produced)</li>
+<li><strong>Factory cost:</strong> $30M at 1650-unit series (metallurgy, not semiconductors)</li>
+<li><strong>Import:</strong> ~2,400 t total (96% localization on Mercury)</li>
+<li><strong>References:</strong> SpaceX, TSMC, OpenAI, Boston Dynamics — real market prices</li>
+</ul>
+</blockquote>
+<p>International project — calculated using average global prices.</p>
+<hr>
+<section id="currency-and-inflation" class="level2">
+<h2 class="anchored" data-anchor-id="currency-and-inflation">Currency and Inflation</h2>
+<p><strong>All amounts are in 2026 US dollars</strong> (USD 2026).</p>
+<p>Historical projects are adjusted for inflation. For a 10-year project we account for:</p>
+<ul>
+<li>Average US inflation (2015-2026): ~2.5%/year</li>
+<li>Over 10 years: (1.023)^10 = 1.255 ≈ <strong>+25%</strong></li>
+<li>This is a conservative estimate; actual inflation may be higher</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>2026 Nominal</th>
+<th>With 10-year inflation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Optimistic</td>
+<td>~$255 billion</td>
+<td><strong>~$320 billion</strong></td>
+</tr>
+<tr class="even">
+<td>Baseline</td>
+<td>~$430 billion</td>
+<td><strong>~$540 billion</strong></td>
+</tr>
+<tr class="odd">
+<td>Conservative</td>
+<td>~$520 billion</td>
+<td><strong>~$650 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="international-references-2026" class="level2">
+<h2 class="anchored" data-anchor-id="international-references-2026">International References (2026)</h2>
+<section id="launch-costs-kg-to-leo" class="level3">
+<h3 class="anchored" data-anchor-id="launch-costs-kg-to-leo">Launch Costs ($/kg to LEO)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Country</th>
+<th>Vehicle</th>
+<th>$/kg</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>USA</td>
+<td>SpaceX Falcon 9</td>
+<td>$2,700-5,000</td>
+<td><a href="https://en.wikipedia.org/wiki/Space_launch_market_competition">Wikipedia</a></td>
+</tr>
+<tr class="even">
+<td>China</td>
+<td>Long March 5</td>
+<td>$3,000</td>
+<td><a href="https://www.china-in-space.com/p/what-is-the-cost-of-a-long-march">China-in-Space</a></td>
+</tr>
+<tr class="odd">
+<td>China</td>
+<td>Long March 8</td>
+<td>$3,550</td>
+<td><a href="https://nextspaceflight.com/rockets/126/">NextSpaceflight</a></td>
+</tr>
+<tr class="even">
+<td>Russia</td>
+<td>Soyuz-2</td>
+<td>$3,800-5,300</td>
+<td><a href="https://tass.com/science/1024055">TASS</a></td>
+</tr>
+<tr class="odd">
+<td>India</td>
+<td>PSLV</td>
+<td>$8,400-15,000</td>
+<td><a href="https://www.spacetechasia.com/isro-launch-vehicle-budgets-and-revenues/">SpaceTechAsia</a></td>
+</tr>
+<tr class="even">
+<td><strong>Future</strong></td>
+<td>Starship, Long March 9</td>
+<td>$1,000-1,500</td>
+<td>2030+ projections</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For calculations:</strong> $2,500/kg (mix of current and future technologies)</p>
+</section>
+<section id="industrial-robot-costs" class="level3">
+<h3 class="anchored" data-anchor-id="industrial-robot-costs">Industrial Robot Costs</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Price</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Chinese basic</td>
+<td>$6,000-12,000</td>
+<td><a href="https://www.made-in-china.com/">Made-in-China</a></td>
+</tr>
+<tr class="even">
+<td>Chinese advanced</td>
+<td>$20,000-50,000</td>
+<td><a href="https://www.indexbox.io/">IndexBox</a></td>
+</tr>
+<tr class="odd">
+<td>Collaborative (UR)</td>
+<td>$25,000-45,000</td>
+<td><a href="https://standardbots.com/blog/how-much-do-robots-cost">StandardBots</a></td>
+</tr>
+<tr class="even">
+<td>Industrial (ABB, KUKA)</td>
+<td>$50,000-200,000</td>
+<td>StandardBots</td>
+</tr>
+<tr class="odd">
+<td>Boston Dynamics Spot</td>
+<td>$75,000</td>
+<td><a href="https://venturebeat.com/ai/boston-dynamics-buy-spot-robot-74500">VentureBeat</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>For calculations:</strong> $200,000/robot (space-grade, autonomous, mass-produced)</p>
+</section>
+<section id="factory-costs" class="level3">
+<h3 class="anchored" data-anchor-id="factory-costs">Factory Costs</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Price</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Semiconductor fab (USA)</td>
+<td>$20-40 billion</td>
+<td><a href="https://semiwiki.com/">SemiWiki</a></td>
+</tr>
+<tr class="even">
+<td>Semiconductor fab (Taiwan)</td>
+<td>$12-20 billion</td>
+<td>TSMC</td>
+</tr>
+<tr class="odd">
+<td>Semiconductor fab (China)</td>
+<td>$10-15 billion</td>
+<td>GlobalTimes</td>
+</tr>
+<tr class="even">
+<td>Tesla Gigafactory Shanghai</td>
+<td>~$2 billion</td>
+<td>Public data</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Project factory is NOT a semiconductor fab!</strong> It’s metallurgy + assembly (<a href="../../../en/science/reference/technology-readiness.html#lights-out-manufacturing">lights-out factories TRL 9</a>). <strong>For calculations:</strong> $30M/factory (at 1000-unit series)</p>
+</section>
+<section id="rocket-production-costs" class="level3">
+<h3 class="anchored" data-anchor-id="rocket-production-costs">Rocket Production Costs</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Vehicle</th>
+<th>Unit Price</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Starship</td>
+<td>~$100M (estimate)</td>
+<td>SpaceX</td>
+</tr>
+<tr class="even">
+<td>Falcon 9</td>
+<td>~$50M</td>
+<td>SpaceX</td>
+</tr>
+<tr class="odd">
+<td>Long March</td>
+<td>$30-50M</td>
+<td>CASC</td>
+</tr>
+<tr class="even">
+<td>Soyuz-2</td>
+<td>~$35M</td>
+<td>Roscosmos</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For calculations:</strong> $50M/rocket (international fleet)</p>
+</section>
+<section id="ai-development-2026-references" class="level3">
+<h3 class="anchored" data-anchor-id="ai-development-2026-references">AI Development (2026 references)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Budget/year</th>
+<th>Employees</th>
+<th>Total spent</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenAI</td>
+<td>$7 billion</td>
+<td>1,500</td>
+<td>~$20+ billion</td>
+<td><a href="https://www.datacenterdynamics.com/">DCD</a></td>
+</tr>
+<tr class="even">
+<td>DeepMind</td>
+<td>$12 billion</td>
+<td>~3,000</td>
+<td>~$50+ billion</td>
+<td><a href="https://en.wikipedia.org/wiki/Google_DeepMind">Wikipedia</a></td>
+</tr>
+<tr class="odd">
+<td>Waymo</td>
+<td>~$2 billion</td>
+<td>1,500</td>
+<td>$11 billion over 15 years</td>
+<td><a href="https://venturebeat.com/">VentureBeat</a></td>
+</tr>
+<tr class="even">
+<td>Tesla FSD</td>
+<td>$10 billion</td>
+<td>800+</td>
+<td>~$15 billion over 8 years</td>
+<td><a href="https://cleantechnica.com/">CleanTechnica</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>AI specialist salaries:</strong> - OpenAI median: $875K/year - Top researchers: $10-20M/year - International teams (China/Russia): $100-200K/year</p>
+</section>
+<section id="construction-in-china-references" class="level3">
+<h3 class="anchored" data-anchor-id="construction-in-china-references">Construction in China (references)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Cost</th>
+<th>Area</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BYD Shenzhen Phase 2</td>
+<td>$2.87 billion</td>
+<td>3.79 million m²</td>
+<td><a href="https://www.scmp.com/">SCMP</a></td>
+</tr>
+<tr class="even">
+<td>Tesla Gigafactory Shanghai</td>
+<td>~$2 billion</td>
+<td>860,000 m²</td>
+<td>Public data</td>
+</tr>
+<tr class="odd">
+<td>Average construction cost</td>
+<td>~$580/m²</td>
+<td>—</td>
+<td><a href="https://www.statista.com/">Statista</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="base-calculations-international-prices" class="level2">
+<h2 class="anchored" data-anchor-id="base-calculations-international-prices">Base Calculations (international prices)</h2>
+<section id="rd-excluding-ai" class="level3">
+<h3 class="anchored" data-anchor-id="rd-excluding-ai">1. R&amp;D (excluding AI)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 37%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Estimate</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Swarm management software</td>
+<td>1-2 billion</td>
+<td>Distributed system</td>
+</tr>
+<tr class="even">
+<td>VR simulators and training</td>
+<td>0.5-1 billion</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Scientific research</td>
+<td>1-2 billion</td>
+<td>Materials science, thermodynamics</td>
+</tr>
+<tr class="even">
+<td><strong>Total R&amp;D</strong></td>
+<td><strong>3-5 billion</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ai-development-for-robots" class="level3">
+<h3 class="anchored" data-anchor-id="ai-development-for-robots">2. AI Development for Robots</h3>
+<p><strong>Why a separate line item:</strong> - Autonomous robots in extreme conditions (vacuum, radiation, +430°C/-180°C) - Harder than Waymo: no GPS, 5-20 minute communication delay to Earth - Unpredictable timelines — this is frontier AI research</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 44%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Team (4,000 people × $150K × 6 years)</td>
+<td>ML engineers, roboticists, labelers</td>
+<td>3.6 billion</td>
+</tr>
+<tr class="even">
+<td>Compute (GPU, data centers)</td>
+<td>$1.5 billion/year × 6 years</td>
+<td>9 billion</td>
+</tr>
+<tr class="odd">
+<td>Robot prototypes for training</td>
+<td>Thousands of units for data collection</td>
+<td>2 billion</td>
+</tr>
+<tr class="even">
+<td>Data labeling</td>
+<td>Labeling millions of scenarios</td>
+<td>1 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>Total AI</strong></td>
+<td></td>
+<td><strong>15-20 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risks:</strong> Timelines are unpredictable. Waymo spent 15 years and $11 billion and still hasn’t achieved full autonomy.</p>
+</section>
+<section id="earth-test-site-china" class="level3">
+<h3 class="anchored" data-anchor-id="earth-test-site-china">3. Earth Test Site (China)</h3>
+<p><strong>Why China:</strong> - Construction 2-3× cheaper than USA - Faster construction (Tesla Shanghai in 1 year) - Developed industrial base and logistics</p>
+<p><strong>Location:</strong> Gansu Province — simulating Mercury conditions.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 44%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Construction</td>
+<td>2 million m² × $580/m²</td>
+<td>1.2 billion</td>
+</tr>
+<tr class="even">
+<td>Vacuum chambers</td>
+<td>10 large chambers × $50M</td>
+<td>0.5 billion</td>
+</tr>
+<tr class="odd">
+<td>Thermal-vacuum chambers (-180°C…+430°C)</td>
+<td></td>
+<td>0.3 billion</td>
+</tr>
+<tr class="even">
+<td>Radiation simulators</td>
+<td></td>
+<td>0.2 billion</td>
+</tr>
+<tr class="odd">
+<td>Factory prototypes</td>
+<td>3-5 full cycle iterations</td>
+<td>2 billion</td>
+</tr>
+<tr class="even">
+<td>Robot prototypes</td>
+<td>Thousands of units, dozens of versions</td>
+<td>1.5 billion</td>
+</tr>
+<tr class="odd">
+<td>Housing and infrastructure</td>
+<td>10,000-15,000 people</td>
+<td>0.5 billion</td>
+</tr>
+<tr class="even">
+<td>Personnel</td>
+<td>10,000 × $30K × 4 years</td>
+<td>1.2 billion</td>
+</tr>
+<tr class="odd">
+<td>Logistics and materials</td>
+<td></td>
+<td>1 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total Earth Test Site</strong></td>
+<td></td>
+<td><strong>8-10 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lunar-test-site" class="level3">
+<h3 class="anchored" data-anchor-id="lunar-test-site">4. Lunar Test Site</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Estimate</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Delivery of 60 t to Moon</td>
+<td>4-6 billion</td>
+<td>10-20 launches</td>
+</tr>
+<tr class="even">
+<td>Test site equipment</td>
+<td>3-5 billion</td>
+<td>Factory, robots, concentrators</td>
+</tr>
+<tr class="odd">
+<td>2 years of operations</td>
+<td>2-4 billion</td>
+<td>Management, iterations</td>
+</tr>
+<tr class="even">
+<td><strong>Total Lunar Test Site</strong></td>
+<td><strong>9-15 billion</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="flight-hardware-production" class="level3">
+<h3 class="anchored" data-anchor-id="flight-hardware-production">5. Flight Hardware Production</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1650 factories</td>
+<td>1650 × $30M</td>
+<td>49.5 billion</td>
+</tr>
+<tr class="even">
+<td>60,000 robots</td>
+<td>60,000 × $200K</td>
+<td>12 billion</td>
+</tr>
+<tr class="odd">
+<td>Mass Driver electronics</td>
+<td></td>
+<td>2-3 billion</td>
+</tr>
+<tr class="even">
+<td>Starter mirrors</td>
+<td></td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>Consumables (“Vitamins”)</td>
+<td>4 years of operations</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total production</strong></td>
+<td></td>
+<td><strong>66-69 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rocket-program" class="level3">
+<h3 class="anchored" data-anchor-id="rocket-program">6. Rocket Program</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Production of ~100 rockets</td>
+<td>100 × $50M</td>
+<td>5 billion</td>
+</tr>
+<tr class="even">
+<td>Spaceport upgrades</td>
+<td></td>
+<td>2-3 billion</td>
+</tr>
+<tr class="odd">
+<td>Infrastructure</td>
+<td></td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total rockets</strong></td>
+<td></td>
+<td><strong>8-10 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="launches-and-delivery" class="level3">
+<h3 class="anchored" data-anchor-id="launches-and-delivery">7. Launches and Delivery</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>~2,400 tons (total)</td>
+<td>2,400 t × $2,500/kg</td>
+<td>6 billion</td>
+</tr>
+<tr class="even">
+<td>Mission control</td>
+<td>11 years of operations</td>
+<td>3-5 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>Total launches</strong></td>
+<td></td>
+<td><strong>9-11 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Includes: Moon (80 t) + factories (~230 t) + MD boards (~275 t) + mirrors (1,055 t) + vitamins (765 t). NaS capacitors — local production. See <a href="../../../en/science/detailed/delivery.html#project-summary">Import Summary</a>.</em></p>
+</section>
+<section id="energy-reception-system-microwave-rectenna" class="level3">
+<h3 class="anchored" data-anchor-id="energy-reception-system-microwave-rectenna">8. Energy Reception System (Microwave + Rectenna)</h3>
+<p><strong>Technology:</strong> LSP stations on Moon receive Swarm light → PV → 2.45 GHz microwaves → rectenna on Earth.</p>
+<p><strong>References (2026):</strong> - Caltech SSPP: first space-to-Earth power transmission demo (2023) - JAXA SPS: orbital solar power station program - ESA SOLARIS: space power transmission research - NTT + MHI: 152W transmitted over 1 km via microwaves (world record) - Rectenna efficiency: 85% (current technology)</p>
+<section id="receiver-technology-rd" class="level4">
+<h4 class="anchored" data-anchor-id="receiver-technology-rd">8.1 Receiver Technology R&amp;D</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 44%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>High-power klystron development</td>
+<td>90% efficiency, scaling</td>
+<td>2-3 billion</td>
+</tr>
+<tr class="even">
+<td>Rectenna panel development</td>
+<td>2.45 GHz antenna-rectifiers</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>Tracking/pointing system</td>
+<td>Phased arrays, beam steering</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td>Earth prototyping</td>
+<td>Test site testing</td>
+<td>0.5-1 billion</td>
+</tr>
+<tr class="odd">
+<td>Space demonstration</td>
+<td>Pilot Moon→Earth transmission</td>
+<td>0.5-1 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total Receiver R&amp;D</strong></td>
+<td></td>
+<td><strong>5-9 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ground-infrastructure" class="level4">
+<h4 class="anchored" data-anchor-id="ground-infrastructure">8.2 Ground Infrastructure</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rectenna panel production</td>
+<td>~100 stations, GW scale</td>
+<td>8-15 billion</td>
+</tr>
+<tr class="even">
+<td>Station construction</td>
+<td>Site preparation (deserts)</td>
+<td>5-10 billion</td>
+</tr>
+<tr class="odd">
+<td>Control system</td>
+<td>Tracking, distribution</td>
+<td>1-3 billion</td>
+</tr>
+<tr class="even">
+<td>Grid integration</td>
+<td>HVDC, operator coordination</td>
+<td>3-6 billion</td>
+</tr>
+<tr class="odd">
+<td>Energy storage (buffer)</td>
+<td>For night interruptions</td>
+<td>3-6 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total ground infrastructure</strong></td>
+<td></td>
+<td><strong>20-40 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="total-reception-system" class="level4">
+<h4 class="anchored" data-anchor-id="total-reception-system">8.3 Total Reception System</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Subcategory</th>
+<th>Minimum</th>
+<th>Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Receiver R&amp;D</td>
+<td>5</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>Ground infrastructure</td>
+<td>20</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL energy reception</strong></td>
+<td><strong>25</strong></td>
+<td><strong>49</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="additional-items" class="level3">
+<h3 class="anchored" data-anchor-id="additional-items">9. Additional Items</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 44%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Communication system (DSN)</td>
+<td>Expansion of existing networks</td>
+<td>2-4 billion</td>
+</tr>
+<tr class="even">
+<td>Propellant production</td>
+<td>450,000 t LOX+methane</td>
+<td>5-8 billion</td>
+</tr>
+<tr class="odd">
+<td>Personnel training</td>
+<td>50,000 people × $50K × 5 years</td>
+<td>12-15 billion</td>
+</tr>
+<tr class="even">
+<td>International coordination</td>
+<td>Lawyers, diplomats</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>Mission insurance</td>
+<td></td>
+<td>2-4 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total additional</strong></td>
+<td></td>
+<td><strong>22-33 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="lsp-stations-on-moon" class="level3">
+<h3 class="anchored" data-anchor-id="lsp-stations-on-moon">9. LSP Stations on Moon</h3>
+<p>Instead of an orbital Hub at L1, <strong>LSP (Lunar Solar Power) stations</strong> on the Moon’s surface are used. Details: <a href="../../../en/science/detailed/hub.html">Energy Reception Hub</a>.</p>
+<section id="why-lsp-not-hub" class="level4">
+<h4 class="anchored" data-anchor-id="why-lsp-not-hub">Why LSP, not Hub?</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Orbital Hub (L1)</th>
+<th>LSP (Moon)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Efficiency</td>
+<td>10%</td>
+<td><strong>18%</strong></td>
+</tr>
+<tr class="even">
+<td>Radiators</td>
+<td>7,900 km² in space</td>
+<td>0 (heat to ground)</td>
+</tr>
+<tr class="odd">
+<td>Mass</td>
+<td>15 million t in orbit</td>
+<td>~178,000 t on surface</td>
+</tr>
+<tr class="even">
+<td>Resources</td>
+<td>Delivery from Moon</td>
+<td><strong>In-situ</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lsp-characteristics" class="level4">
+<h4 class="anchored" data-anchor-id="lsp-characteristics">LSP Characteristics</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stations</td>
+<td>20-40 on lunar limbs</td>
+</tr>
+<tr class="even">
+<td>Total mass</td>
+<td>~178,000 t (per data.json HUB-001)</td>
+</tr>
+<tr class="odd">
+<td>Materials</td>
+<td>Al 60%, Cu 28%, Si 9%, Fe 0.3% — local</td>
+</tr>
+<tr class="even">
+<td>Electronics from Earth</td>
+<td>~100-200 t (1-2 launches)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lsp-cost" class="level4">
+<h4 class="anchored" data-anchor-id="lsp-cost">LSP Cost</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 44%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Calculation</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Production (ISRU)</td>
+<td>Robots and equipment already counted in “Lunar Test Site”</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Electronics from Earth</td>
+<td>~150 t × $10,000/kg</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>Management and logistics</td>
+<td>Construction coordination</td>
+<td>1-3 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total LSP</strong></td>
+<td></td>
+<td><strong>2-5 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> LSP stations are essentially free because production is from lunar materials by robots already counted in other budget items</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary-base-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="summary-base-estimates">Summary: Base Estimates</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Minimum</th>
+<th>Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. R&amp;D (excluding AI)</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>2. <strong>AI Development</strong></td>
+<td>15</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>3. <strong>Earth Test Site (China)</strong></td>
+<td>8</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>4. Lunar Test Site</td>
+<td>9</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>5. Production (factories + robots)</td>
+<td>66</td>
+<td>69</td>
+</tr>
+<tr class="even">
+<td>6. Rocket program</td>
+<td>8</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>7. Launches</td>
+<td>9</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td>8. Energy reception (rectenna)</td>
+<td>25</td>
+<td>49</td>
+</tr>
+<tr class="odd">
+<td>9. <strong>LSP stations on Moon</strong></td>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>10. Additional items</td>
+<td>22</td>
+<td>33</td>
+</tr>
+<tr class="odd">
+<td><strong>BASE TOTAL</strong></td>
+<td><strong>167</strong></td>
+<td><strong>227</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="structure-by-location" class="level2">
+<h2 class="anchored" data-anchor-id="structure-by-location">Structure by Location</h2>
+<p>Grouping by project phases and implementation locations.</p>
+<section id="summary-level-1" class="level3">
+<h3 class="anchored" data-anchor-id="summary-level-1">Summary (Level 1)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Location</th>
+<th>Min</th>
+<th>Max</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Earth (R&amp;D, AI, test site)</td>
+<td>39</td>
+<td>52</td>
+<td>18%</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Moon (test site + LSP)</td>
+<td>11</td>
+<td>20</td>
+<td>6%</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Mercury (production, rockets)</td>
+<td>138</td>
+<td>157</td>
+<td>53%</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Energy receiver (rectenna)</td>
+<td>25</td>
+<td>49</td>
+<td>13%</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><strong>TOTAL</strong></td>
+<td><strong>213</strong></td>
+<td><strong>278</strong></td>
+<td><strong>~90%</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> ~10% of base budget — additional items (communications, propellant, training, insurance).</p>
+</blockquote>
+</section>
+<section id="breakdown-level-2" class="level3">
+<h3 class="anchored" data-anchor-id="breakdown-level-2">Breakdown (Level 2)</h3>
+<section id="earth-17" class="level4">
+<h4 class="anchored" data-anchor-id="earth-17">1. Earth (~17%)</h4>
+<p>R&amp;D, AI development, test site, personnel training.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 38%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Subcategory</th>
+<th>Calculation</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>R&amp;D (excluding AI)</strong></td>
+<td></td>
+<td><strong>3-5 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— Swarm management software</td>
+<td>Distributed system</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>— VR simulators</td>
+<td>Operator training</td>
+<td>0.5-1 billion</td>
+</tr>
+<tr class="even">
+<td>— Scientific research</td>
+<td>Materials science, thermodynamics</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>AI Development</strong></td>
+<td></td>
+<td><strong>15-20 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— AI team</td>
+<td>4,000 people × $150K × 6 years</td>
+<td>3.6 billion</td>
+</tr>
+<tr class="odd">
+<td>— Compute</td>
+<td>$1.5 billion/year × 6 years</td>
+<td>9 billion</td>
+</tr>
+<tr class="even">
+<td>— Robot prototypes</td>
+<td>Thousands of units for training</td>
+<td>2 billion</td>
+</tr>
+<tr class="odd">
+<td>— Data labeling</td>
+<td>Millions of scenarios</td>
+<td>1 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Earth Test Site (China)</strong></td>
+<td></td>
+<td><strong>8-10 billion</strong></td>
+</tr>
+<tr class="odd">
+<td>— Construction</td>
+<td>2 million m² × $580/m²</td>
+<td>1.2 billion</td>
+</tr>
+<tr class="even">
+<td>— Test equipment</td>
+<td>Chambers, simulators</td>
+<td>1 billion</td>
+</tr>
+<tr class="odd">
+<td>— Factory prototypes</td>
+<td>3-5 iterations</td>
+<td>2 billion</td>
+</tr>
+<tr class="even">
+<td>— Robot prototypes</td>
+<td>Dozens of versions</td>
+<td>1.5 billion</td>
+</tr>
+<tr class="odd">
+<td>— Test site personnel</td>
+<td>10,000 × $30K × 4 years</td>
+<td>1.2 billion</td>
+</tr>
+<tr class="even">
+<td>— Housing and logistics</td>
+<td></td>
+<td>1.5 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>Personnel Training</strong></td>
+<td></td>
+<td><strong>13-17 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— Staff training</td>
+<td>50,000 people × $50K × 5 years</td>
+<td>12-15 billion</td>
+</tr>
+<tr class="odd">
+<td>— International coordination</td>
+<td>Lawyers, diplomats</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total Earth</strong></td>
+<td></td>
+<td><strong>39-52 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="moon-5" class="level4">
+<h4 class="anchored" data-anchor-id="moon-5">2. Moon (~5%)</h4>
+<p>Technology validation and LSP station construction.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Subcategory</th>
+<th>Calculation</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Test Site</strong></td>
+<td></td>
+<td><strong>9-15 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— Delivery of 60 t to Moon</td>
+<td>10-20 launches</td>
+<td>4-6 billion</td>
+</tr>
+<tr class="odd">
+<td>— Test site equipment</td>
+<td>Factory, robots, concentrators</td>
+<td>3-5 billion</td>
+</tr>
+<tr class="even">
+<td>— 2 years of operations</td>
+<td>Management, iterations</td>
+<td>2-4 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>LSP Stations</strong></td>
+<td></td>
+<td><strong>2-5 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— Electronics from Earth</td>
+<td>~150 t × $10,000/kg</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>— Management and logistics</td>
+<td></td>
+<td>1-3 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total Moon</strong></td>
+<td></td>
+<td><strong>11-20 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mercury-57" class="level4">
+<h4 class="anchored" data-anchor-id="mercury-57">3. Mercury (~57%)</h4>
+<p>Production, rocket program, launches.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Subcategory</th>
+<th>Calculation</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Production</strong></td>
+<td></td>
+<td><strong>66-69 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— 1650 factories</td>
+<td>1650 × $30M</td>
+<td>49.5 billion</td>
+</tr>
+<tr class="odd">
+<td>— 60,000 robots</td>
+<td>60,000 × $200K</td>
+<td>12 billion</td>
+</tr>
+<tr class="even">
+<td>— Mass Driver electronics</td>
+<td></td>
+<td>2-3 billion</td>
+</tr>
+<tr class="odd">
+<td>— Starter mirrors</td>
+<td></td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td>— “Vitamins” consumables</td>
+<td>4 years of operations</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>Rocket Program</strong></td>
+<td></td>
+<td><strong>8-10 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— Production of ~100 rockets</td>
+<td>100 × $50M</td>
+<td>5 billion</td>
+</tr>
+<tr class="odd">
+<td>— Spaceport upgrades</td>
+<td>1-2 sites</td>
+<td>2-3 billion</td>
+</tr>
+<tr class="even">
+<td>— Infrastructure</td>
+<td></td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td><strong>Launches and Delivery</strong></td>
+<td></td>
+<td><strong>9-11 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— ~2,400 t to Mercury</td>
+<td>2,400 t × $2,500/kg</td>
+<td>6 billion</td>
+</tr>
+<tr class="odd">
+<td>— Mission control</td>
+<td>11 years of operations</td>
+<td>3-5 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Support</strong></td>
+<td></td>
+<td><strong>7-11 billion</strong></td>
+</tr>
+<tr class="odd">
+<td>— Propellant production</td>
+<td>~50,000 t LOX+methane</td>
+<td>3-4 billion</td>
+</tr>
+<tr class="even">
+<td>— DSN communication system</td>
+<td>Network expansion</td>
+<td>2-4 billion</td>
+</tr>
+<tr class="odd">
+<td>— Mission insurance</td>
+<td></td>
+<td>2-3 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total Mercury</strong></td>
+<td></td>
+<td><strong>91-104 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="energy-receiver-12" class="level4">
+<h4 class="anchored" data-anchor-id="energy-receiver-12">4. Energy Receiver (~12%)</h4>
+<p>Ground infrastructure for energy reception.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 38%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Subcategory</th>
+<th>Calculation</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Receiver R&amp;D</strong></td>
+<td></td>
+<td><strong>5-9 billion</strong></td>
+</tr>
+<tr class="even">
+<td>— Klystron development</td>
+<td>90% efficiency</td>
+<td>2-3 billion</td>
+</tr>
+<tr class="odd">
+<td>— Rectenna development</td>
+<td>2.45 GHz antenna-rectifiers</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td>— Pointing system</td>
+<td>Phased arrays</td>
+<td>1-2 billion</td>
+</tr>
+<tr class="odd">
+<td>— Prototypes and demos</td>
+<td></td>
+<td>1-2 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Ground Infrastructure (rectenna)</strong></td>
+<td></td>
+<td><strong>20-40 billion</strong></td>
+</tr>
+<tr class="odd">
+<td>— Rectenna (~100 stations × 100 km²)</td>
+<td>10,000 km² × $0.8-1.5M/km²</td>
+<td>8-15 billion</td>
+</tr>
+<tr class="even">
+<td>— Station construction</td>
+<td>Site preparation</td>
+<td>5-10 billion</td>
+</tr>
+<tr class="odd">
+<td>— Energy storage</td>
+<td>Buffers</td>
+<td>3-6 billion</td>
+</tr>
+<tr class="even">
+<td>— Grid integration</td>
+<td>HVDC and coordination</td>
+<td>3-6 billion</td>
+</tr>
+<tr class="odd">
+<td>— Control system</td>
+<td>Tracking, distribution</td>
+<td>1-3 billion</td>
+</tr>
+<tr class="even">
+<td><strong>Total Receiver</strong></td>
+<td></td>
+<td><strong>25-49 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+</section>
+<section id="analysis-which-items-are-underestimated" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-which-items-are-underestimated">Analysis: Which Items Are Underestimated?</h2>
+<p>Comparison with real projects shows some estimates may be optimistic.</p>
+<section id="ai-development-was-15-20-billion-revised-25-40-billion" class="level3">
+<h3 class="anchored" data-anchor-id="ai-development-was-15-20-billion-revised-25-40-billion">1. AI Development (was: $15-20 billion → revised: $25-40 billion)</h3>
+<p><strong>References:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Company</th>
+<th>Spent</th>
+<th>Result</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenAI</td>
+<td>$20+ billion</td>
+<td>GPT-4, no AGI</td>
+<td><a href="https://www.datacenterdynamics.com/">DCD</a></td>
+</tr>
+<tr class="even">
+<td>Waymo</td>
+<td>$11 billion over 15 years</td>
+<td>No full autonomy</td>
+<td><a href="https://venturebeat.com/">VentureBeat</a></td>
+</tr>
+<tr class="odd">
+<td>Tesla FSD</td>
+<td>$15 billion over 8 years</td>
+<td>Level 2 autopilot</td>
+<td><a href="https://cleantechnica.com/">CleanTechnica</a></td>
+</tr>
+<tr class="even">
+<td>DeepMind</td>
+<td>$50+ billion</td>
+<td>Research</td>
+<td><a href="https://en.wikipedia.org/wiki/Google_DeepMind">Wikipedia</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Problem:</strong> Helios requires fully autonomous robots in conditions where Waymo/Tesla would fail: - Vacuum, radiation, +430°C/-180°C - 5-20 minute communication delay (no GPS, no real-time) - Unpredictable regolith and conditions</p>
+<p><strong>Adjustment for baseline scenario:</strong> $18 → $30 billion (+$12 billion)</p>
+</section>
+<section id="rocket-program-was-8-10-billion-revised-10-14-billion" class="level3">
+<h3 class="anchored" data-anchor-id="rocket-program-was-8-10-billion-revised-10-14-billion">2. Rocket Program (was: $8-10 billion → revised: $10-14 billion)</h3>
+<p><strong>References:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Program</th>
+<th>Cost</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SLS</td>
+<td>$35 billion</td>
+<td>1 rocket (expendable)</td>
+</tr>
+<tr class="even">
+<td>Starship</td>
+<td>$5-10 billion</td>
+<td>Development (no serial production)</td>
+</tr>
+<tr class="odd">
+<td>Long March 9 (planned)</td>
+<td>$10-15 billion</td>
+<td>Chinese super-heavy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Thanks to 96% localization:</strong> Only ~100 rockets needed (not 900). $50M/rocket × 100 = $5 billion — realistic.</p>
+<p><strong>If a new rocket is needed (Russia+China):</strong> +$5-8 billion for contribution to joint launcher development.</p>
+<p><strong>Adjustment for baseline scenario:</strong> $55 → $75 billion (+$20 billion)</p>
+</section>
+<section id="factory-production-was-46-49-billion-revised-60-80-billion" class="level3">
+<h3 class="anchored" data-anchor-id="factory-production-was-46-49-billion-revised-60-80-billion">3. Factory Production (was: $46-49 billion → revised: $60-80 billion)</h3>
+<p><strong>References:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Factory</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tesla Gigafactory Shanghai</td>
+<td>~$2 billion</td>
+</tr>
+<tr class="even">
+<td>Tesla Gigafactory Nevada</td>
+<td>~$5 billion</td>
+</tr>
+<tr class="odd">
+<td>Semiconductor fab (Taiwan)</td>
+<td>$12-20 billion</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Counterargument:</strong> Helios factories are simple metallurgy, not semiconductors. At 1650-unit series, price drops.</p>
+<p><strong>However:</strong> These are <strong>autonomous space factories on Mercury</strong>. $30M/unit at 1650 series — optimistic.</p>
+<p><strong>Adjustment:</strong> $30M → $50M/factory = $82.5 billion (×1.7)</p>
+</section>
+<section id="launches-55-billion-2500kg" class="level3">
+<h3 class="anchored" data-anchor-id="launches-55-billion-2500kg">4. Launches ($55 billion = $2,500/kg) ✓</h3>
+<p>This estimate is realistic assuming operational <a href="../../../en/science/summaries/roadmap.html#next-generation-super-heavy-launchers">100+ t heavy rockets</a>: - SpaceX Falcon 9: $2,700-5,000/kg (today) - Heavy rockets (target): $1,000-1,500/kg - Long March: $3,000/kg</p>
+<p><strong>With developed infrastructure and launcher mix — $2,500/kg is achievable.</strong></p>
+</section>
+<section id="adjustment-summary" class="level3">
+<h3 class="anchored" data-anchor-id="adjustment-summary">Adjustment Summary</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Was (baseline)</th>
+<th>Became</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AI Development</td>
+<td>18</td>
+<td>30</td>
+<td>+12</td>
+</tr>
+<tr class="even">
+<td>Rocket program</td>
+<td>9</td>
+<td>12</td>
+<td>+3</td>
+</tr>
+<tr class="odd">
+<td>Production</td>
+<td>68</td>
+<td>100</td>
+<td>+32</td>
+</tr>
+<tr class="even">
+<td><strong>Total adjustment</strong></td>
+<td></td>
+<td></td>
+<td><strong>+47</strong></td>
+</tr>
+</tbody>
+</table>
+<p>This increases the baseline scenario from ~$227 to ~$274 billion, and with ×1.5 reserve — to ~$430 billion.</p>
+<hr>
+</section>
+</section>
+<section id="three-scenarios-revised" class="level2">
+<h2 class="anchored" data-anchor-id="three-scenarios-revised">Three Scenarios (revised)</h2>
+<section id="optimistic-scenario-255-billion" class="level3">
+<h3 class="anchored" data-anchor-id="optimistic-scenario-255-billion">Optimistic Scenario (~$255 billion)</h3>
+<p><strong>Conditions:</strong> - Heavy rockets operational by 2028, price $1,000/kg - China and Russia take on 50% of production - AI reaches required level in 4-5 years (not 6-7) - Series effect reduces prices by 30% - 96% localization on Mercury (only ~2,400 t import)</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Estimate ($ billion)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R&amp;D (excluding AI)</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td><strong>AI Development</strong></td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td><strong>Earth Test Site</strong></td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>Lunar Test Site</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Production</td>
+<td>50</td>
+</tr>
+<tr class="even">
+<td>Rockets</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Launches</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>Energy reception (rectenna)</td>
+<td>18</td>
+</tr>
+<tr class="odd">
+<td><strong>LSP stations on Moon</strong></td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Additional</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>Reserve (+20%)</td>
+<td>26</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL</strong></td>
+<td><strong>~157 billion</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>With ×1.6 margin</strong></td>
+<td><strong>~255 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="baseline-scenario-430-billion-or-540-billion-with-inflation" class="level3">
+<h3 class="anchored" data-anchor-id="baseline-scenario-430-billion-or-540-billion-with-inflation">Baseline Scenario (~$430 billion, or ~$540 billion with inflation)</h3>
+<p><strong>Conditions:</strong> - Launcher mix (Starship + Long March + Soyuz) - International cooperation works - AI requires 6-7 years of development - Moderate delays and overruns - 96% localization on Mercury (only ~2,400 t import)</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Estimate ($ billion)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R&amp;D (excluding AI)</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td><strong>AI Development</strong></td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td><strong>Earth Test Site (China)</strong></td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>Lunar Test Site</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>Production</td>
+<td>98</td>
+</tr>
+<tr class="even">
+<td>Rockets</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Launches</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>Energy reception (rectenna)</td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td><strong>LSP stations on Moon</strong></td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>Additional</td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td>Reserve (+30%)</td>
+<td>72</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL (USD 2026)</strong></td>
+<td><strong>~310 billion</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>With ×1.4 margin</strong></td>
+<td><strong>~$430 billion</strong></td>
+</tr>
+<tr class="even">
+<td><strong>With +25% inflation</strong></td>
+<td><strong>~$540 billion</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="conservative-scenario-520-billion-or-650-billion-with-inflation" class="level3">
+<h3 class="anchored" data-anchor-id="conservative-scenario-520-billion-or-650-billion-with-inflation">Conservative Scenario (~$520 billion, or ~$650 billion with inflation)</h3>
+<p><strong>Conditions:</strong> - Heavy rockets delayed until 2032 - AI requires 8-10 years and additional iterations - Political complications increase costs - Technical problems require rework - 96% localization on Mercury (only ~2,400 t import)</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Estimate ($ billion)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R&amp;D (excluding AI)</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td><strong>AI Development</strong></td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td><strong>Earth Test Site</strong></td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>Lunar Test Site</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>Production</td>
+<td>130</td>
+</tr>
+<tr class="even">
+<td>Rockets</td>
+<td>11</td>
+</tr>
+<tr class="odd">
+<td>Launches</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Energy reception (rectenna)</td>
+<td>45</td>
+</tr>
+<tr class="odd">
+<td><strong>LSP stations on Moon</strong></td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>Additional</td>
+<td>45</td>
+</tr>
+<tr class="odd">
+<td>Reserve (+50%)</td>
+<td>173</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL (USD 2026)</strong></td>
+<td><strong>~520 billion</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>With +25% inflation</strong></td>
+<td><strong>~$650 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="why-not-a-trillion" class="level2">
+<h2 class="anchored" data-anchor-id="why-not-a-trillion">Why Not a Trillion?</h2>
+<section id="american-projects-are-inflated-due-to" class="level3">
+<h3 class="anchored" data-anchor-id="american-projects-are-inflated-due-to">American projects are inflated due to:</h3>
+<ol type="1">
+<li><strong>Cost-plus contracts</strong> — contractor benefits from spending more</li>
+<li><strong>Bureaucracy</strong> — approvals, reviews, reports</li>
+<li><strong>Contractor monopoly</strong> — Boeing, Lockheed without competition</li>
+<li><strong>Legal costs</strong> — lawsuits, patents, insurance</li>
+</ol>
+</section>
+<section id="examples-of-budget-inflation" class="level3">
+<h3 class="anchored" data-anchor-id="examples-of-budget-inflation">Examples of budget inflation:</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Initial budget</th>
+<th>Final</th>
+<th>Growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>James Webb</td>
+<td>$1 billion</td>
+<td>$10 billion</td>
+<td>×10</td>
+</tr>
+<tr class="even">
+<td>SLS</td>
+<td>$9 billion</td>
+<td>$23+ billion</td>
+<td>×2.5</td>
+</tr>
+<tr class="odd">
+<td>F-35</td>
+<td>$233 billion</td>
+<td>$400+ billion</td>
+<td>×1.7</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="why-helios-is-different" class="level3">
+<h3 class="anchored" data-anchor-id="why-helios-is-different">Why Helios is different:</h3>
+<ol type="1">
+<li><strong>International competition</strong> — China, Russia, India are cheaper</li>
+<li><strong>Mass production</strong> — 1650 factories, 60,000 robots, economies of scale</li>
+<li><strong>Fixed-price contracts</strong> — not cost-plus</li>
+<li><strong>Common goal</strong> — fewer political games</li>
+</ol>
+</section>
+<section id="comparison-with-real-projects" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-with-real-projects">Comparison with Real Projects</h3>
+<p>All amounts converted to USD 2026 (with inflation adjustment for historical projects).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Nominal</th>
+<th>USD 2026</th>
+<th>Duration</th>
+<th>Result</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Manhattan</td>
+<td>$1.9 billion</td>
+<td><strong>~$30 billion</strong></td>
+<td>3 years</td>
+<td>Nuclear weapons</td>
+<td><a href="https://www.brookings.edu/articles/50-facts-about-u-s-nuclear-weapons-today/">Brookings</a></td>
+</tr>
+<tr class="even">
+<td>Apollo</td>
+<td>$25-28 billion</td>
+<td><strong>~$280 billion</strong></td>
+<td>11 years</td>
+<td>12 people on Moon</td>
+<td><a href="https://www.planetary.org/space-policy/cost-of-apollo">Planetary Society</a></td>
+</tr>
+<tr class="odd">
+<td>GPS (initial)</td>
+<td>—</td>
+<td><strong>~$12 billion</strong></td>
+<td>ongoing</td>
+<td>31 satellites</td>
+<td><a href="https://nation.time.com/2012/05/21/how-much-does-gps-cost/">Time</a></td>
+</tr>
+<tr class="even">
+<td>James Webb</td>
+<td>$10 billion</td>
+<td><strong>~$10 billion</strong></td>
+<td>24 years</td>
+<td>1 telescope</td>
+<td><a href="https://www.planetary.org/articles/cost-of-the-jwst">Planetary Society</a></td>
+</tr>
+<tr class="odd">
+<td>SLS (development)</td>
+<td>$29-35 billion</td>
+<td><strong>~$35 billion</strong></td>
+<td>13+ years</td>
+<td>1 rocket</td>
+<td><a href="https://www.planetary.org/space-policy/cost-of-sls-and-orion">Planetary Society</a></td>
+</tr>
+<tr class="even">
+<td>ISS</td>
+<td>$100-150 billion</td>
+<td><strong>~$150-250 billion</strong></td>
+<td>26 years</td>
+<td>1 station</td>
+<td><a href="https://en.wikipedia.org/wiki/International_Space_Station_programme">Wikipedia</a></td>
+</tr>
+<tr class="odd">
+<td>Tiangong</td>
+<td>~$8 billion</td>
+<td><strong>~$8 billion</strong></td>
+<td>~10 years</td>
+<td>1 station</td>
+<td>Estimate</td>
+</tr>
+<tr class="even">
+<td>Artemis</td>
+<td>$93 billion</td>
+<td><strong>~$93 billion</strong> (by 2025)</td>
+<td>14+ years</td>
+<td>3 flights</td>
+<td><a href="https://www.space.com/nasa-artemis-moon-program-93-billion-2025">Space.com</a></td>
+</tr>
+<tr class="odd">
+<td>Three Gorges</td>
+<td>¥200 billion</td>
+<td><strong>~$28-37 billion</strong></td>
+<td>17 years</td>
+<td>22.5 GW</td>
+<td><a href="https://en.wikipedia.org/wiki/Three_Gorges_Dam">Wikipedia</a></td>
+</tr>
+<tr class="even">
+<td>Starship</td>
+<td>$5-10 billion</td>
+<td><strong>~$5-10 billion</strong></td>
+<td>10+ years</td>
+<td>Rocket</td>
+<td><a href="https://spacenews.com/spacex-investment-in-starship-approaches-5-billion/">SpaceNews</a></td>
+</tr>
+<tr class="odd">
+<td>Tesla Gigafactories</td>
+<td>$15+ billion</td>
+<td><strong>~$15+ billion</strong></td>
+<td>~10 years</td>
+<td>6 factories</td>
+<td><a href="https://en.wikipedia.org/wiki/Gigafactory">Wikipedia</a></td>
+</tr>
+<tr class="even">
+<td><strong>Helios (baseline)</strong></td>
+<td>—</td>
+<td><strong>~$430-540 billion</strong></td>
+<td><strong>10-20 years</strong></td>
+<td><strong>10,000 TW</strong></td>
+<td>Our estimate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Helios costs approximately 1.5× Apollo but delivers 4000 times more energy than current planetary consumption. In terms of cost/benefit ratio — the most efficient project in history.</p>
+<hr>
+</section>
+</section>
+<section id="final-estimate" class="level2">
+<h2 class="anchored" data-anchor-id="final-estimate">Final Estimate</h2>
+<section id="without-inflation-usd-2026" class="level3">
+<h3 class="anchored" data-anchor-id="without-inflation-usd-2026">Without Inflation (USD 2026)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 29%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Amount</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Optimistic</td>
+<td>~$255 billion</td>
+<td>Heavy rockets work, AI in 5 years, 96% localization</td>
+</tr>
+<tr class="even">
+<td><strong>Baseline</strong></td>
+<td><strong>~$430 billion</strong></td>
+<td>Realistic mix, AI in 6-7 years</td>
+</tr>
+<tr class="odd">
+<td>Conservative</td>
+<td>~$520 billion</td>
+<td>Delays, AI in 8-10 years</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="with-inflation-25-over-10-years" class="level3">
+<h3 class="anchored" data-anchor-id="with-inflation-25-over-10-years">With Inflation (+25% over 10 years)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 28%">
+<col style="width: 32%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>2026 Nominal</th>
+<th>With inflation</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Optimistic</td>
+<td>~$255 billion</td>
+<td><strong>~$320 billion</strong></td>
+<td>Everything goes as planned</td>
+</tr>
+<tr class="even">
+<td><strong>Baseline</strong></td>
+<td><strong>~$430 billion</strong></td>
+<td><strong>~$540 billion</strong></td>
+<td>Moderate delays</td>
+</tr>
+<tr class="odd">
+<td>Conservative</td>
+<td>~$520 billion</td>
+<td><strong>~$650 billion</strong></td>
+<td>Serious problems</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For comparison:</strong> - Apollo: ~$280 billion (USD 2026) — 12 people on Moon - Helios (baseline): ~$430 billion — <strong>energy for the entire planet forever</strong> - This is ~1.5× Apollo for a result millions of times greater</p>
+<hr>
+</section>
+</section>
+<section id="year-by-year-distribution-baseline-scenario" class="level2">
+<h2 class="anchored" data-anchor-id="year-by-year-distribution-baseline-scenario">Year-by-Year Distribution (baseline scenario)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 32%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>Phase</th>
+<th>Main expenses</th>
+<th>Amount (billion)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-2</td>
+<td>R&amp;D, AI start</td>
+<td>AI team, design</td>
+<td>35-45</td>
+</tr>
+<tr class="even">
+<td>3-4</td>
+<td>Earth Test Site, AI</td>
+<td>Construction in China, model training</td>
+<td>65-80</td>
+</tr>
+<tr class="odd">
+<td>5-6</td>
+<td>Lunar Test Site, production</td>
+<td>Lunar missions, mass production</td>
+<td>85-100</td>
+</tr>
+<tr class="even">
+<td>7-10</td>
+<td>Mercury: deployment</td>
+<td>First expeditions, Mass Drivers</td>
+<td>80-100</td>
+</tr>
+<tr class="odd">
+<td>11-15</td>
+<td>Mercury: scaling</td>
+<td>Vitamins, energy reception</td>
+<td>65-80</td>
+</tr>
+<tr class="even">
+<td><strong>Total (USD 2026)</strong></td>
+<td></td>
+<td></td>
+<td><strong>330-405</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>With inflation</strong></td>
+<td></td>
+<td></td>
+<td><strong>~410-510</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="known-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="known-limitations">Known Limitations</h2>
+<blockquote class="blockquote">
+<p><strong>Attention:</strong> This section describes problems requiring solutions.</p>
+</blockquote>
+<section id="critical-issues" class="level3">
+<h3 class="anchored" data-anchor-id="critical-issues">Critical Issues</h3>
+<section id="ai-budget-underestimated" class="level4">
+<h4 class="anchored" data-anchor-id="ai-budget-underestimated">1. AI Budget Underestimated</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>In calculations</th>
+<th>Realistic estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AI Development</td>
+<td>$15–30 billion</td>
+<td><strong>$50–100 billion</strong></td>
+</tr>
+<tr class="even">
+<td>Development time</td>
+<td>5–7 years</td>
+<td><strong>8–12 years</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reasons:</strong> - Waymo spent $11 billion over 15 years and hasn’t achieved full autonomy - Tesla FSD: $15+ billion over 8 years — level 2 (not full autonomy) - Mercury conditions are harder: vacuum, radiation, no GPS, 670 sec delay</p>
+<p><strong>Reference:</strong> OpenAI spent $20+ billion and hasn’t achieved AGI. Autonomous robots in extreme conditions are harder than language models.</p>
+</section>
+<section id="launch-costs-depend-on-launcher-development-pace" class="level4">
+<h4 class="anchored" data-anchor-id="launch-costs-depend-on-launcher-development-pace">2. Launch Costs Depend on Launcher Development Pace</h4>
+<p>By 2030, next-generation super-heavy launchers are expected:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Launcher</th>
+<th>Country</th>
+<th>Payload</th>
+<th>Status (2025)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Starship</td>
+<td>USA</td>
+<td>150–200 t</td>
+<td>Testing</td>
+</tr>
+<tr class="even">
+<td>Long March 9</td>
+<td>China</td>
+<td>150 t</td>
+<td>Development</td>
+</tr>
+<tr class="odd">
+<td>Yenisei</td>
+<td>Russia</td>
+<td>100 t</td>
+<td>Development</td>
+</tr>
+<tr class="even">
+<td>New Glenn</td>
+<td>USA</td>
+<td>45 t</td>
+<td>Testing</td>
+</tr>
+<tr class="odd">
+<td>SHLV</td>
+<td>India</td>
+<td>~100 t</td>
+<td>Concept</td>
+</tr>
+<tr class="even">
+<td>Ariane Next</td>
+<td>EU</td>
+<td>~100 t</td>
+<td>Concept</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 34%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Launch cost</th>
+<th>Budget impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Launchers reach $1,000–1,500/kg by 2030</td>
+<td>Baseline scenario</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Delay to $2,500–3,500/kg</td>
+<td>Launchers 2–3 years late</td>
+<td><strong>+$30–50 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risk:</strong> Baseline scenario assumes $2,500/kg. Delays in super-heavy launcher development increase budget by 10–15%.</p>
+</section>
+</section>
+<section id="high-priority-issues" class="level3">
+<h3 class="anchored" data-anchor-id="high-priority-issues">High-Priority Issues</h3>
+<section id="testing-and-debugging-underestimated" class="level4">
+<h4 class="anchored" data-anchor-id="testing-and-debugging-underestimated">3. Testing and Debugging Underestimated</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 31%">
+<col style="width: 35%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Current estimate</th>
+<th>Realistic estimate</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factory prototypes</td>
+<td>3–5 iterations</td>
+<td><strong>5–10 iterations</strong></td>
+<td>3-5 ground (Gansu) + 2-5 lunar</td>
+</tr>
+<tr class="even">
+<td>Robot prototypes</td>
+<td>$2 billion</td>
+<td><strong>$5–10 billion</strong></td>
+<td>Hundreds of versions, thousands of units</td>
+</tr>
+<tr class="odd">
+<td>Lunar Test Site</td>
+<td>2 years</td>
+<td><strong>1.5–2.5 years</strong></td>
+<td>3-5 iterations × 3-5 months + deployment</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reason:</strong> The ground test site (Gansu) allows completing major iterations before going to the Moon (TRL 4→6). The Moon validates in the real environment (TRL 6→7-8). Lunar iteration cycle with dedicated launches: ~2-4 months (3-day flight; main time is analysis and fix manufacturing).</p>
+<p><strong>Detailed methodology:</strong> <a href="../../../en/science/reference/risks.html#testing-estimation-methodology">Risks → Testing Estimation Methodology</a></p>
+</section>
+<section id="ground-reception-infrastructure" class="level4">
+<h4 class="anchored" data-anchor-id="ground-reception-infrastructure">4. Ground Reception Infrastructure</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Current estimate</th>
+<th>Realistic estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Station construction</td>
+<td>$3–5 billion</td>
+<td><strong>$10–20 billion</strong></td>
+</tr>
+<tr class="even">
+<td>Approvals (land, frequencies)</td>
+<td>Not counted</td>
+<td><strong>$2–5 billion</strong></td>
+</tr>
+<tr class="odd">
+<td>Environmental reviews</td>
+<td>Not counted</td>
+<td><strong>$0.5–2 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reason:</strong> Placing hundreds of receiving stations requires international agreements, land rights, frequency regulation.</p>
+</section>
+</section>
+<section id="require-research" class="level3">
+<h3 class="anchored" data-anchor-id="require-research">Require Research</h3>
+<section id="mission-insurance" class="level4">
+<h4 class="anchored" data-anchor-id="mission-insurance">5. Mission Insurance</h4>
+<ul>
+<li>$2–4 billion — optimistic for 10,000 tons of cargo</li>
+<li>At real risk rates, may be 5–10% of cargo value</li>
+<li><strong>Realistic:</strong> $5–10 billion for insurance</li>
+</ul>
+</section>
+<section id="political-risks" class="level4">
+<h4 class="anchored" data-anchor-id="political-risks">6. Political Risks</h4>
+<ul>
+<li>Sanctions between countries → cooperation breakdown</li>
+<li>Government changes → priority shifts</li>
+<li>Competition instead of cooperation → cost duplication</li>
+</ul>
+<p><strong>Cannot be estimated, but potentially +50–100% to budget.</strong></p>
+</section>
+</section>
+<section id="final-adjustment" class="level3">
+<h3 class="anchored" data-anchor-id="final-adjustment">Final Adjustment</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Current estimate</th>
+<th>With limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Optimistic</td>
+<td>$320 billion</td>
+<td><strong>$400–450 billion</strong></td>
+</tr>
+<tr class="even">
+<td>Baseline</td>
+<td>$500 billion</td>
+<td><strong>$700–800 billion</strong></td>
+</tr>
+<tr class="odd">
+<td>Conservative</td>
+<td>$700 billion</td>
+<td><strong>$1,000–1,200 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Realistic budget is closer to $700–800 billion (not $500 billion), and conservative may reach a trillion.</p>
+<hr>
+</section>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="../../../en/science/reference/technology-readiness.html">Technologies and Sources</a> — TRL and bibliography</li>
+<li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> — what we’re funding</li>
+<li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> — spending timeline</li>
+<li><a href="../../../en/science/detailed/production/railguns/theory.html">Mass Driver</a> — infrastructure costs</li>
+<li><a href="../../../en/science/detailed/production/railguns/scaling.html">Scaling</a> — production growth</li>
+<li><a href="../../../en/science/reference/risks.html">Risks</a> — financial risks</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

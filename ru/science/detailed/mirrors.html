@@ -105,6 +105,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script type="module" src="../../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="../../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<meta name="mermaid-theme" content="neutral">
+<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
 <script>
@@ -146,7 +150,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -211,10 +406,21 @@ window.Quarto = {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -267,20 +473,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -293,6 +487,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -314,20 +514,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -429,6 +617,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -674,14 +868,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -694,12 +888,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -739,10 +927,12 @@ window.Quarto = {
   <li><a href="#целевая-мощность" id="toc-целевая-мощность" class="nav-link" data-scroll-target="#целевая-мощность">Целевая мощность</a></li>
   <li><a href="#сколько-зеркал-нужно" id="toc-сколько-зеркал-нужно" class="nav-link" data-scroll-target="#сколько-зеркал-нужно">Сколько зеркал нужно?</a></li>
   <li><a href="#параметры-роя" id="toc-параметры-роя" class="nav-link" data-scroll-target="#параметры-роя">Параметры Роя</a></li>
+  <li><a href="#энергетический-каскад" id="toc-энергетический-каскад" class="nav-link" data-scroll-target="#энергетический-каскад">Энергетический каскад</a></li>
   <li><a href="#кпд-передачи-энергии-через-лунные-lsp-станции" id="toc-кпд-передачи-энергии-через-лунные-lsp-станции" class="nav-link" data-scroll-target="#кпд-передачи-энергии-через-лунные-lsp-станции">КПД передачи энергии (через Лунные LSP станции)</a></li>
   <li><a href="#архитектура-передачи" id="toc-архитектура-передачи" class="nav-link" data-scroll-target="#архитектура-передачи">Архитектура передачи</a></li>
   <li><a href="#распределение-энергии-роя" id="toc-распределение-энергии-роя" class="nav-link" data-scroll-target="#распределение-энергии-роя">Распределение энергии Роя</a></li>
   <li><a href="#кластеры-зеркал" id="toc-кластеры-зеркал" class="nav-link" data-scroll-target="#кластеры-зеркал">Кластеры зеркал</a></li>
+  <li><a href="#optical-cluster-control" id="toc-optical-cluster-control" class="nav-link" data-scroll-target="#optical-cluster-control">Кластерное оптическое управление</a></li>
   </ul></li>
   <li><a href="#график-производства" id="toc-график-производства" class="nav-link" data-scroll-target="#график-производства">График производства</a>
   <ul class="collapse">
@@ -822,200 +1012,11 @@ window.Quarto = {
 <div class="cell hidden">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="12" data-source-offset="-28"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 11;"><span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dataScript <span class="op">=</span> <span class="fu">FileAttachment</span>(<span class="st">"../data/db/data.json"</span>)<span class="op">.</span><span class="fu">json</span>()</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Материалы доступные на Меркурии (две версии для совместимости)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>mercuryProduction <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  dataScript<span class="op">.</span><span class="at">materialProduction</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(mp <span class="kw">=&gt;</span> mp<span class="op">.</span><span class="at">planet_id</span> <span class="op">===</span> <span class="st">"mercury"</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(mp <span class="kw">=&gt;</span> mp<span class="op">.</span><span class="at">material_id</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>mercuryMaterials <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span>(</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  dataScript<span class="op">.</span><span class="at">planetMaterials</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(pm <span class="kw">=&gt;</span> pm<span class="op">.</span><span class="at">planet_id</span> <span class="op">===</span> <span class="st">"mercury"</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(pm <span class="kw">=&gt;</span> pm<span class="op">.</span><span class="at">material_id</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">// Словари для быстрого поиска</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>materialsById <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(dataScript<span class="op">.</span><span class="at">materials</span><span class="op">.</span><span class="fu">map</span>(m <span class="kw">=&gt;</span> [m<span class="op">.</span><span class="at">id</span><span class="op">,</span> m]))</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>unitsById <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(dataScript<span class="op">.</span><span class="at">units</span><span class="op">.</span><span class="fu">map</span>(u <span class="kw">=&gt;</span> [u<span class="op">.</span><span class="at">id</span><span class="op">,</span> u]))</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>planetsById <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(dataScript<span class="op">.</span><span class="at">planets</span><span class="op">.</span><span class="fu">map</span>(p <span class="kw">=&gt;</span> [p<span class="op">.</span><span class="at">id</span><span class="op">,</span> p]))</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">// Функция для получения материалов компонента</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getComponentMaterials</span>(componentId) {</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dataScript<span class="op">.</span><span class="at">unitMaterials</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(um <span class="kw">=&gt;</span> um<span class="op">.</span><span class="at">unit_id</span> <span class="op">===</span> componentId)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(um <span class="kw">=&gt;</span> {</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> material <span class="op">=</span> materialsById<span class="op">.</span><span class="fu">get</span>(um<span class="op">.</span><span class="at">material_id</span>)<span class="op">;</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="dt">symbol</span><span class="op">:</span> material<span class="op">?.</span><span class="at">symbol</span><span class="op">,</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="dt">name</span><span class="op">:</span> material<span class="op">?.</span><span class="at">name</span> <span class="op">||</span> um<span class="op">.</span><span class="at">material_id</span><span class="op">,</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fraction_pct</span><span class="op">:</span> um<span class="op">.</span><span class="at">fraction_pct</span><span class="op">,</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="dt">isLocal</span><span class="op">:</span> mercuryProduction<span class="op">.</span><span class="fu">has</span>(um<span class="op">.</span><span class="at">material_id</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">// Функция для отображения виджета единицы</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">unitWidget</span>(unitId) {</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> unit <span class="op">=</span> unitsById<span class="op">.</span><span class="fu">get</span>(unitId)<span class="op">;</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>unit) <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div class="db-widget"&gt;Единица </span><span class="sc">${</span>unitId<span class="sc">}</span><span class="vs"> не найдена&lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> planet <span class="op">=</span> planetsById<span class="op">.</span><span class="fu">get</span>(unit<span class="op">.</span><span class="at">production_planet_id</span>)<span class="op">;</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Материалы базового юнита</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> materials <span class="op">=</span> dataScript<span class="op">.</span><span class="at">unitMaterials</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(um <span class="kw">=&gt;</span> um<span class="op">.</span><span class="at">unit_id</span> <span class="op">===</span> unitId)</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(um <span class="kw">=&gt;</span> {</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> material <span class="op">=</span> materialsById<span class="op">.</span><span class="fu">get</span>(um<span class="op">.</span><span class="at">material_id</span>)<span class="op">;</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> isLocal <span class="op">=</span> mercuryProduction<span class="op">.</span><span class="fu">has</span>(um<span class="op">.</span><span class="at">material_id</span>)<span class="op">;</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> massKg <span class="op">=</span> unit<span class="op">.</span><span class="at">mass_kg</span> <span class="op">?</span> (unit<span class="op">.</span><span class="at">mass_kg</span> <span class="op">*</span> um<span class="op">.</span><span class="at">fraction_pct</span> <span class="op">/</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>) <span class="op">:</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> { <span class="op">...</span>um<span class="op">,</span> material<span class="op">,</span> isLocal<span class="op">,</span> massKg }<span class="op">;</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Компоненты (подсборки)</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> components <span class="op">=</span> dataScript<span class="op">.</span><span class="at">unitComponents</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(uc <span class="kw">=&gt;</span> uc<span class="op">.</span><span class="at">assembly_id</span> <span class="op">===</span> unitId)</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(uc <span class="kw">=&gt;</span> {</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> component <span class="op">=</span> unitsById<span class="op">.</span><span class="fu">get</span>(uc<span class="op">.</span><span class="at">component_id</span>)<span class="op">;</span></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> totalMassKg <span class="op">=</span> component<span class="op">?.</span><span class="at">mass_kg</span> <span class="op">?</span> (component<span class="op">.</span><span class="at">mass_kg</span> <span class="op">*</span> uc<span class="op">.</span><span class="at">quantity</span>) <span class="op">:</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> isLocal <span class="op">=</span> component<span class="op">?.</span><span class="at">production_planet_id</span> <span class="op">===</span> unit<span class="op">.</span><span class="at">production_planet_id</span><span class="op">;</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> componentMaterials <span class="op">=</span> <span class="fu">getComponentMaterials</span>(uc<span class="op">.</span><span class="at">component_id</span>)<span class="op">;</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>        <span class="dt">id</span><span class="op">:</span> uc<span class="op">.</span><span class="at">component_id</span><span class="op">,</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="dt">name</span><span class="op">:</span> component<span class="op">?.</span><span class="at">name</span> <span class="op">||</span> uc<span class="op">.</span><span class="at">component_id</span><span class="op">,</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>        <span class="dt">quantity</span><span class="op">:</span> uc<span class="op">.</span><span class="at">quantity</span><span class="op">,</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>        <span class="dt">massKg</span><span class="op">:</span> totalMassKg<span class="op">,</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>        isLocal<span class="op">,</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>        <span class="dt">materials</span><span class="op">:</span> componentMaterials</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Итого считаем ТОЛЬКО по материалам (не компонентам!)</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> localPct <span class="op">=</span> materials<span class="op">.</span><span class="fu">filter</span>(m <span class="kw">=&gt;</span> m<span class="op">.</span><span class="at">isLocal</span>)<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> m) <span class="kw">=&gt;</span> sum <span class="op">+</span> m<span class="op">.</span><span class="at">fraction_pct</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> importPct <span class="op">=</span> materials<span class="op">.</span><span class="fu">filter</span>(m <span class="kw">=&gt;</span> <span class="op">!</span>m<span class="op">.</span><span class="at">isLocal</span>)<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> m) <span class="kw">=&gt;</span> sum <span class="op">+</span> m<span class="op">.</span><span class="at">fraction_pct</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> hasCriticalImports <span class="op">=</span> components<span class="op">.</span><span class="fu">some</span>(c <span class="kw">=&gt;</span> <span class="op">!</span>c<span class="op">.</span><span class="at">isLocal</span>)<span class="op">;</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Строки таблицы компонентов</span></span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> componentRows <span class="op">=</span> components<span class="op">.</span><span class="fu">map</span>(c <span class="kw">=&gt;</span> <span class="fu">html</span><span class="vs">`</span></span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr class="component-row"&gt;</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;strong&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs">&lt;/strong&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">quantity</span> <span class="op">&gt;</span> <span class="dv">1</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">` ×</span><span class="sc">${</span>c<span class="op">.</span><span class="at">quantity</span><span class="sc">}</span><span class="vs">`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="component-materials"&gt;</span></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>c<span class="op">.</span><span class="at">materials</span><span class="op">.</span><span class="fu">map</span>(m <span class="kw">=&gt;</span> <span class="fu">html</span><span class="vs">`&lt;span class="</span><span class="sc">${</span>m<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'local'</span> <span class="op">:</span> <span class="st">'import'</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">symbol</span> <span class="op">||</span> m<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>m<span class="op">.</span><span class="at">fraction_pct</span><span class="sc">}</span><span class="vs">%&lt;/span&gt;`</span>)<span class="sc">}</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/td&gt;</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">massKg</span> <span class="op">?</span> c<span class="op">.</span><span class="at">massKg</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>) <span class="op">:</span> <span class="st">'—'</span><span class="sc">}</span><span class="vs"> кг&lt;/td&gt;</span></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td class="</span><span class="sc">${</span>c<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'local'</span> <span class="op">:</span> <span class="st">'import'</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>c<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'✓'</span> <span class="op">:</span> <span class="st">'⚠ импорт'</span><span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span>)<span class="op">;</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Строки таблицы материалов</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> materialRows <span class="op">=</span> materials<span class="op">.</span><span class="fu">map</span>(m <span class="kw">=&gt;</span> <span class="fu">html</span><span class="vs">`</span></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span></span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>m<span class="op">.</span><span class="at">material</span><span class="op">?.</span><span class="at">symbol</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;strong&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">material</span><span class="op">.</span><span class="at">symbol</span><span class="sc">}</span><span class="vs">&lt;/strong&gt; `</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>m<span class="op">.</span><span class="at">material</span><span class="op">?.</span><span class="at">name</span> <span class="op">||</span> m<span class="op">.</span><span class="at">material_id</span><span class="sc">}</span></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/td&gt;</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">fraction_pct</span><span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">massKg</span> <span class="op">||</span> <span class="st">'—'</span><span class="sc">}</span><span class="vs"> кг&lt;/td&gt;</span></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td class="</span><span class="sc">${</span>m<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'local'</span> <span class="op">:</span> <span class="st">'import'</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>m<span class="op">.</span><span class="at">isLocal</span> <span class="op">?</span> <span class="st">'✓ местный'</span> <span class="op">:</span> <span class="st">'⚠ импорт'</span><span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span>)<span class="op">;</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`</span></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;div class="db-widget"&gt;</span></span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;h4&gt;</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> &lt;span style="color: #6c757d; font-weight: normal;"&gt;(</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">id</span><span class="sc">}</span><span class="vs">)&lt;/span&gt;&lt;/h4&gt;</span></span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class="meta"&gt;</span></span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>unit<span class="op">.</span><span class="at">mass_kg</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;strong&gt;</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">mass_kg</span><span class="op">.</span><span class="fu">toLocaleString</span>()<span class="sc">}</span><span class="vs">&lt;/strong&gt; кг`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>unit<span class="op">.</span><span class="at">power_kw</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">` | &lt;strong&gt;</span><span class="sc">${</span>unit<span class="op">.</span><span class="at">power_kw</span><span class="op">.</span><span class="fu">toLocaleString</span>()<span class="sc">}</span><span class="vs">&lt;/strong&gt; кВт`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span>planet <span class="op">?</span> <span class="fu">html</span><span class="vs">` | Производство: </span><span class="sc">${</span>planet<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs">`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span>components<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`</span></span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="section-header"&gt;Компоненты&lt;/div&gt;</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;table class="components-table"&gt;</span></span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Компонент&lt;/th&gt;&lt;th&gt;Масса&lt;/th&gt;&lt;th&gt;Источник&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;tbody&gt;</span><span class="sc">${</span>componentRows<span class="sc">}</span><span class="vs">&lt;/tbody&gt;</span></span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/table&gt;</span></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="vs">      `</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span>materials<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`</span></span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="section-header"&gt;Материалы&lt;/div&gt;</span></span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;table class="materials-table"&gt;</span></span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Материал&lt;/th&gt;&lt;th&gt;%&lt;/th&gt;&lt;th&gt;Масса&lt;/th&gt;&lt;th&gt;Источник&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;tbody&gt;</span><span class="sc">${</span>materialRows<span class="sc">}</span><span class="vs">&lt;/tbody&gt;</span></span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/table&gt;</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class="summary"&gt;</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="vs">          Итого: &lt;span class="local-pct"&gt;</span><span class="sc">${</span>localPct<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">% местное&lt;/span&gt; |</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;span class="import-pct"&gt;</span><span class="sc">${</span>importPct<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">% импорт&lt;/span&gt;</span></span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>hasCriticalImports <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;br/&gt;&lt;strong&gt;⚠ Содержит импортные компоненты&lt;/strong&gt;`</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="vs">      `</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span></span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class="link"&gt;</span></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;a href="data/nomenclature.html?unit=</span><span class="sc">${</span>unitId<span class="sc">}</span><span class="vs">"&gt;Подробнее →&lt;/a&gt;</span></span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
-<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/div&gt;</span></span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">;</span></span>
-<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="9" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 8;"><span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { unitWidget } <span class="im">from</span> <span class="st">"../ojs-data.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-1" data-nodetype="declaration">
+<div id="ojs-cell-1" data-nodetype="declaration">
 
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-3" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-4" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-5" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-6" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-7" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display hidden">
-<div>
-<div id="ojs-cell-1-8" data-nodetype="declaration">
-
-</div>
 </div>
 </div>
 </div>
@@ -1053,7 +1054,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="169" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 168;"><span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="29" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 28;"><span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
@@ -1115,7 +1116,7 @@ window.Quarto = {
 <li>Энергия: микроватты от встроенного фотодиода</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Почему TiO₂, а не WO₃?</strong> Оксид вольфрама (WO₃) эффективнее, но вольфрама на Меркурии нет. При миллиарде зеркал импорт WO₃ нереален. TiO₂ менее эффективен (17% vs 60%), но титан добывается на месте.</p>
+<p><strong>Почему TiO₂, а не WO₃?</strong> Оксид вольфрама (WO₃) эффективнее, но вольфрам не измерялся MESSENGER и его доступность неизвестна. Титан подтверждён (~0.5%), и при миллиарде зеркал надёжность источника критична. TiO₂ менее эффективен (17% vs 60%), но производство 100% местное.</p>
 </blockquote>
 <p><strong>Точность наведения:</strong></p>
 <table class="caption-top table">
@@ -1250,7 +1251,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </tr>
 <tr class="even">
 <td>Общая площадь</td>
-<td>1.1×10¹³ м² (~11 000 км²)</td>
+<td>1.1×10¹³ м² (~11 млн км²)</td>
 </tr>
 <tr class="odd">
 <td>Общая масса</td>
@@ -1274,6 +1275,31 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </tr>
 </tbody>
 </table>
+</section>
+<section id="энергетический-каскад" class="level3">
+<h3 class="anchored" data-anchor-id="энергетический-каскад">Энергетический каскад</h3>
+<p>Энергия проходит 8 этапов от Солнца до розетки:</p>
+<div class="cell" data-fig-width="10" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    SUN["☀️ Солнце"] --&gt;|"~114 ПВт"| SWARM["Рой зеркал"]
+    SWARM --&gt;|"свет"| LSP["LSP станции&lt;br/&gt;(Луна, лимбы)"]
+    LSP --&gt;|"микроволны&lt;br/&gt;2.45 ГГц"| RECT["Rectenna&lt;br/&gt;(Земля)"]
+    RECT --&gt;|"~21 ПВт"| GRID["Электросеть"]
+
+    style SUN fill:#fff3cd
+    style SWARM fill:#e8e8a8
+    style LSP fill:#d4e8a8
+    style RECT fill:#a8d4e8
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </section>
 <section id="кпд-передачи-энергии-через-лунные-lsp-станции" class="level3">
 <h3 class="anchored" data-anchor-id="кпд-передачи-энергии-через-лунные-lsp-станции">КПД передачи энергии (через Лунные LSP станции)</h3>
@@ -1448,7 +1474,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </section>
 <section id="кластеры-зеркал" class="level3">
 <h3 class="anchored" data-anchor-id="кластеры-зеркал">Кластеры зеркал</h3>
-<p>Зеркала организованы в <strong>локальные кластеры</strong> по 1000–10 000 единиц:</p>
+<p>Зеркала организованы в <strong>локальные кластеры</strong> по ~1 000 единиц:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1458,14 +1484,18 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </thead>
 <tbody>
 <tr class="odd">
+<td>Размер кластера</td>
+<td>~1 000 зеркал</td>
+</tr>
+<tr class="even">
 <td>Диаметр виртуальной антенны кластера</td>
 <td>~100 км</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Задержка связи внутри кластера</td>
 <td>~0.3 мс</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Расширение луча на 100 млн км</td>
 <td>~1 км</td>
 </tr>
@@ -1475,22 +1505,114 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <blockquote class="blockquote">
 <p><strong>Почему не единая решётка?</strong> Глобальная синхронизация миллиарда зеркал невозможна — задержка сигнала Меркурий-Земля ~670 секунд. Подробности: <a href="../../../ru/science/reference/risks.html#синхронизация-фазированной-решётки">Риски</a>.</p>
 </blockquote>
+</section>
+<section id="optical-cluster-control" class="level3">
+<h3 class="anchored" data-anchor-id="optical-cluster-control">Кластерное оптическое управление</h3>
+<p>Архитектура «Мать-Дети» позволяет <strong>сократить импорт электроники на 98%</strong>.</p>
+<section id="проблема-1" class="level4">
+<h4 class="anchored" data-anchor-id="проблема-1">Проблема</h4>
+<p>При индивидуальном управлении каждое зеркало требует полный чип 50 г: - 1.1 млрд зеркал × 50 г = <strong>55 000 тонн</strong> электроники с Земли - ~6 250 тонн/год = ~125 запусков Starship/год</p>
+</section>
+<section id="решение-мать-зеркала-дети-зеркала" class="level4">
+<h4 class="anchored" data-anchor-id="решение-мать-зеркала-дети-зеркала">Решение: Мать-зеркала + Дети-зеркала</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Роль</th>
+<th>Электроника</th>
+<th>Количество</th>
+<th>Масса/шт</th>
+<th>Импорт</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Мать</strong> (лидер)</td>
+<td>Полный чип</td>
+<td>1.1 млн</td>
+<td>50 г</td>
+<td><strong>55 т</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Дети</strong> (ведомые)</td>
+<td>Простой декодер</td>
+<td>1.1 млрд</td>
+<td>2 г</td>
+<td><strong>2 200 т</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>ИТОГО</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>2 255 т</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Экономия: 55 000 т → 2 255 т = 96%</strong> (24× меньше)</p>
+</section>
+<section id="как-это-работает" class="level4">
+<h4 class="anchored" data-anchor-id="как-это-работает">Как это работает</h4>
+<p><strong>Мать-зеркало</strong> (1 на ~1 000 Детей): - Star tracker — определяет ориентацию кластера - Процессор — рассчитывает команды для Детей - Лазерный передатчик — модулированный луч на Детей - Радио — связь с Землёй/другими Матерями</p>
+<p><strong>Дети-зеркала</strong> (пассивные): - Фотодиод (~2 г) — принимает оптический сигнал от Матери - Простой декодер — преобразует сигнал в команды электрохромики - Без процессора — только аналоговая/цифровая логика</p>
+<pre><code>Протокол управления:
+
+Мать → [модулированный свет] → Дети
+
+Команды (пример):
+├─ Импульс 1 мс: "край A включить"
+├─ Импульс 2 мс: "край B включить"
+├─ Импульс 3 мс: "всё выключить"
+└─ Серия импульсов: кодирует угол/скорость</code></pre>
+</section>
+<section id="гибридная-реализация" class="level4">
+<h4 class="anchored" data-anchor-id="гибридная-реализация">Гибридная реализация</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Фаза</th>
+<th>Годы</th>
+<th>Технология</th>
+<th>Импорт</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>7-10</td>
+<td>Импорт 2 г декодеров</td>
+<td>~1 000 т</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>10+</td>
+<td>Местные аналоговые приёмники</td>
+<td><strong>0 т</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Фаза 2:</strong> Технология <a href="../../../ru/science/reference/technology-readiness.html#in-situ-кремниевые-ячейки">Blue Alchemist</a> (TRL 5-6) позволяет производить кремниевые фотодиоды из лунного/меркурианского реголита. Резонансные LC-контуры (катушки + конденсаторы) изготавливаются из местного алюминия и керамики Al₂O₃.</p>
+<p><strong>Итого импорт:</strong> ~1 055 т (вместо 55 000 т) = <strong>98% экономия</strong></p>
+<blockquote class="blockquote">
+<p><strong>Технологическая база:</strong> <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">Laser inter-satellite links</a> (Китай, 2024-2025) — 400 Gbps оптическая связь между спутниками. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a> — управление роем через оптическую навигацию. IKAROS (2010) — электрохромика на солнечных парусах.</p>
+</blockquote>
 <hr>
+</section>
 </section>
 </section>
 <section id="график-производства" class="level2">
 <h2 class="anchored" data-anchor-id="график-производства">График производства</h2>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Сроки требуют отдельного расчёта
+<span class="screen-reader-only">Tip</span>Итог: ~9.5 лет до 1.1 млрд активных зеркал
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Точный график зависит от скорости клонирования заводов и производства масс-драйверов. Приведены предварительные оценки.</p>
+<p>Экспоненциальный рост заводов (1→~1 650) и масс-драйверов (1→1 000) за 4 года, затем полная мощность 219 млн зеркал/год. Подробный расчёт: <a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a>, <a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a>.</p>
 </div>
 </div>
 <section id="рост-производственных-мощностей" class="level3">
@@ -1499,7 +1621,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <thead>
 <tr class="header">
 <th>Год</th>
-<th>Ф-З</th>
+<th>Заводов</th>
 <th>Масс-драйверов</th>
 <th>Зеркал/год</th>
 </tr>
@@ -1507,33 +1629,27 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>10-20</td>
-<td>~50</td>
-<td>~11 млн</td>
+<td>25</td>
+<td>12</td>
+<td>~2.6 млн</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>50-100</td>
-<td>~150</td>
-<td>~33 млн</td>
+<td>120</td>
+<td>80</td>
+<td>~17.5 млн</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>200-400</td>
-<td>~400</td>
+<td>500</td>
+<td>400</td>
 <td>~88 млн</td>
 </tr>
 <tr class="even">
-<td>4</td>
-<td>800-1200</td>
-<td>~900</td>
-<td>~197 млн</td>
-</tr>
-<tr class="odd">
-<td>5+</td>
-<td><strong>~1 500</strong></td>
-<td><strong>1 000</strong></td>
-<td><strong>219 млн</strong></td>
+<td>4+</td>
+<td>~1 650</td>
+<td>1 000</td>
+<td>219 млн</td>
 </tr>
 </tbody>
 </table>
@@ -1547,12 +1663,13 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <p>При сроке службы 10 лет зеркала начинают выходить из строя с года 11.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 7%">
-<col style="width: 19%">
-<col style="width: 15%">
-<col style="width: 10%">
-<col style="width: 28%">
-<col style="width: 18%">
+<col style="width: 6%">
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 16%">
+<col style="width: 21%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1560,130 +1677,143 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <th>Произведено</th>
 <th>Заменено</th>
 <th>Всего</th>
-<th>Мощность на Земле</th>
+<th>Отражённая</th>
+<th>На Земле (18%)</th>
 <th>× мирового</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>1</strong></td>
-<td>11 млн</td>
+<td>2.6 млн</td>
 <td>—</td>
-<td>11 млн</td>
-<td>0.21 ПВт</td>
-<td><strong>10×</strong></td>
+<td>2.6 млн</td>
+<td>0.24 ПВт</td>
+<td>0.04 ПВт</td>
+<td><strong>2×</strong></td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>33 млн</td>
+<td>17.5 млн</td>
 <td>—</td>
-<td>44 млн</td>
-<td>0.84 ПВт</td>
-<td>42×</td>
+<td>20 млн</td>
+<td>1.9 ПВт</td>
+<td>0.34 ПВт</td>
+<td>17×</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>88 млн</td>
 <td>—</td>
-<td>132 млн</td>
-<td>2.5 ПВт</td>
-<td>125×</td>
+<td>108 млн</td>
+<td>10 ПВт</td>
+<td>1.8 ПВт</td>
+<td>90×</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>197 млн</td>
+<td>219 млн</td>
 <td>—</td>
-<td>329 млн</td>
-<td>6.3 ПВт</td>
-<td>315×</td>
+<td>327 млн</td>
+<td>30 ПВт</td>
+<td>5.5 ПВт</td>
+<td>275×</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>219 млн</td>
 <td>—</td>
-<td>548 млн</td>
-<td>10 ПВт</td>
-<td>500×</td>
+<td>546 млн</td>
+<td>51 ПВт</td>
+<td>9.1 ПВт</td>
+<td>455×</td>
 </tr>
 <tr class="even">
 <td>6</td>
 <td>219 млн</td>
 <td>—</td>
-<td>767 млн</td>
-<td>15 ПВт</td>
-<td>750×</td>
+<td>765 млн</td>
+<td>71 ПВт</td>
+<td>12.8 ПВт</td>
+<td>640×</td>
 </tr>
 <tr class="odd">
-<td><strong>7</strong></td>
+<td>7</td>
 <td>219 млн</td>
 <td>—</td>
-<td>986 млн</td>
-<td><strong>~19 ПВт</strong></td>
-<td><strong>~1000×</strong></td>
+<td>984 млн</td>
+<td>92 ПВт</td>
+<td>16.5 ПВт</td>
+<td>825×</td>
 </tr>
 <tr class="even">
-<td>8</td>
+<td><strong>8</strong></td>
 <td>219 млн</td>
 <td>—</td>
-<td>1.21 млрд</td>
-<td>23 ПВт</td>
-<td>1150×</td>
+<td>1.20 млрд</td>
+<td>112 ПВт</td>
+<td><strong>20.1 ПВт</strong></td>
+<td><strong>1005×</strong></td>
 </tr>
 <tr class="odd">
 <td>9</td>
 <td>219 млн</td>
 <td>—</td>
 <td>1.42 млрд</td>
-<td>27 ПВт</td>
-<td>1350×</td>
+<td>132 ПВт</td>
+<td>23.8 ПВт</td>
+<td>1190×</td>
 </tr>
 <tr class="even">
 <td>10</td>
 <td>219 млн</td>
 <td>—</td>
 <td>1.64 млрд</td>
-<td>31 ПВт</td>
-<td>1550×</td>
+<td>153 ПВт</td>
+<td>27.4 ПВт</td>
+<td>1370×</td>
 </tr>
 <tr class="odd">
 <td>11</td>
 <td>219 млн</td>
-<td>11 млн</td>
-<td>1.85 млрд</td>
-<td>35 ПВт</td>
-<td>1750×</td>
+<td>2.6 млн</td>
+<td>1.86 млрд</td>
+<td>173 ПВт</td>
+<td>31.1 ПВт</td>
+<td>1555×</td>
 </tr>
 <tr class="even">
 <td>12</td>
 <td>219 млн</td>
-<td>33 млн</td>
-<td>2.04 млрд</td>
-<td>39 ПВт</td>
-<td>~2000×</td>
+<td>17.5 млн</td>
+<td>2.06 млрд</td>
+<td>192 ПВт</td>
+<td>34.5 ПВт</td>
+<td>1725×</td>
 </tr>
 </tbody>
 </table>
 <blockquote class="blockquote">
 <p><strong>Мировое потребление энергии (2023):</strong> ~0.02 ПВт (20 ТВт). Источник: <a href="https://www.iea.org/reports/world-energy-outlook-2023">IEA World Energy Outlook</a>.</p>
-<p><strong>Уже в первый год</strong> (0.21 ПВт) проект производит в 10× больше мирового потребления!</p>
+<p>В первый год проект отражает 0.24 ПВт — на Земле это 0.04 ПВт (2× мирового потребления).</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>Примечание:</strong> «Заменено» = зеркала, вышедшие из строя через 10 лет (равно производству того года). Всего = предыдущий итог + произведено − заменено.</p>
+<p><strong>Примечание:</strong> «Отражённая» = зеркал × 93 МВт. «На Земле» = × 0.18 (КПД цепочки LSP). «Заменено» = зеркала, вышедшие из строя через 10 лет. Всего = предыдущий итог + произведено − заменено.</p>
 </blockquote>
 </section>
 <section id="ключевые-вехи" class="level3">
 <h3 class="anchored" data-anchor-id="ключевые-вехи">Ключевые вехи</h3>
 <ul>
-<li><strong>Год 1:</strong> 0.21 ПВт — уже 10× мирового потребления</li>
-<li><strong>Год 7:</strong> ~19 ПВт — 1000× мирового потребления, цель <strong>~1.1 млрд зеркал</strong> достигнута</li>
+<li><strong>Год 1:</strong> 0.24 ПВт отражённая (0.04 на Земле) — 2× мирового потребления</li>
+<li><strong>Год 8:</strong> ~112 ПВт отражённая (~20 на Земле) — 1000× мирового потребления, ~1.1 млрд активных зеркал</li>
 <li><strong>Год 11+:</strong> рост замедляется из-за замены</li>
 </ul>
 </section>
 <section id="долгосрочный-баланс" class="level3">
 <h3 class="anchored" data-anchor-id="долгосрочный-баланс">Долгосрочный баланс</h3>
-<p>После года 11 чистый прирост = 219 млн − (производство 10 лет назад). К году 15 выходим на <strong>плато ~2.2 млрд зеркал</strong> (~42 ПВт), когда замена равна производству (219 млн/год).</p>
+<p>После года 11 чистый прирост = 219 млн − (производство 10 лет назад). К году 15 выходим на <strong>плато ~2.2 млрд зеркал</strong> (~40 ПВт на Земле), когда замена равна производству (219 млн/год).</p>
 <blockquote class="blockquote">
-<p><strong>Почему 1.1 миллиарда?</strong> ~21 ПВт = ~1000× мирового потребления — покрывает все энергетические нужды цивилизации, включая терраформирование Марса, синтез топлива и межзвёздные миссии.</p>
+<p><strong>Почему 1.1 миллиарда?</strong> ~20 ПВт на Земле = ~1000× мирового потребления — покрывает все энергетические нужды цивилизации, включая терраформирование Марса, синтез топлива и межзвёздные миссии.</p>
 </blockquote>
 <hr>
 </section>
@@ -1849,7 +1979,169 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </tr>
 </tbody>
 </table>
-<p>Подробные расчёты: <a href="../../../ru/science/detailed/geometry.html">Геометрия отражения</a></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Полный математический вывод
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="постановка-задачи" class="level3">
+<h3 class="anchored" data-anchor-id="постановка-задачи">Постановка задачи</h3>
+<p>Зеркало на орбите Меркурия (0.39 AU) должно отражать солнечный свет на Хаб в точке L1 (~1 AU). Эффективность отражения зависит от положения зеркала на орбите.</p>
+<pre><code>         Зеркало M
+            ●
+           /│\
+          / │ \
+  от     /  │  \   на
+Солнца  /   │   \  Хаб
+       /    │θ   \
+      ☉─────┼─────○ L1 (Хаб)
+   Солнце   │
+            │
+   θ = угол между направлениями
+       "от Солнца" и "на Хаб"</code></pre>
+<p><strong>Закон отражения:</strong> угол падения = угол отражения. Чтобы отразить свет от Солнца на Хаб, зеркало ориентируется под углом θ/2 к падающему лучу. Эффективная площадь:</p>
+<p><span class="math display">\[
+\eta = \cos\left(\frac{\theta}{2}\right)
+\]</span></p>
+</section>
+<section id="расчёт-угла-θ" class="level3">
+<h3 class="anchored" data-anchor-id="расчёт-угла-θ">Расчёт угла θ</h3>
+<p>Три точки: <strong>S</strong> (Солнце), <strong>M</strong> (зеркало, r_M = 0.39 AU), <strong>E</strong> (Хаб L1, r_E = 1 AU). Угол φ — положение на орбите (φ = 0° когда зеркало между S и E).</p>
+<p><strong>Расстояние от зеркала до Хаба</strong> (теорема косинусов):</p>
+<p><span class="math display">\[
+ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
+\]</span></p>
+<p><strong>Угол θ при вершине M:</strong></p>
+<p><span class="math display">\[
+\cos(\theta) = \frac{r_M^2 + ME^2 - r_E^2}{2 \cdot r_M \cdot ME}
+\]</span></p>
+</section>
+<section id="полная-таблица-расчётов" class="level3">
+<h3 class="anchored" data-anchor-id="полная-таблица-расчётов">Полная таблица расчётов</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>φ (градусы)</th>
+<th>ME (AU)</th>
+<th>θ (градусы)</th>
+<th>θ/2 (градусы)</th>
+<th>η = cos(θ/2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.610</td>
+<td>180.0</td>
+<td>90.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>0.631</td>
+<td>155.8</td>
+<td>77.9</td>
+<td>0.21</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>0.690</td>
+<td>133.6</td>
+<td>66.8</td>
+<td>0.39</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td>0.775</td>
+<td>114.2</td>
+<td>57.1</td>
+<td>0.54</td>
+</tr>
+<tr class="odd">
+<td>60</td>
+<td>0.873</td>
+<td>97.2</td>
+<td>48.6</td>
+<td>0.66</td>
+</tr>
+<tr class="even">
+<td>75</td>
+<td>0.975</td>
+<td>82.3</td>
+<td>41.1</td>
+<td>0.75</td>
+</tr>
+<tr class="odd">
+<td>90</td>
+<td>1.073</td>
+<td>68.7</td>
+<td>34.3</td>
+<td>0.83</td>
+</tr>
+<tr class="even">
+<td>105</td>
+<td>1.164</td>
+<td>56.1</td>
+<td>28.1</td>
+<td>0.88</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td>1.242</td>
+<td>44.2</td>
+<td>22.1</td>
+<td>0.93</td>
+</tr>
+<tr class="even">
+<td>135</td>
+<td>1.305</td>
+<td>32.8</td>
+<td>16.4</td>
+<td>0.96</td>
+</tr>
+<tr class="odd">
+<td>150</td>
+<td>1.352</td>
+<td>21.7</td>
+<td>10.9</td>
+<td>0.98</td>
+</tr>
+<tr class="even">
+<td>165</td>
+<td>1.380</td>
+<td>10.8</td>
+<td>5.4</td>
+<td>1.00</td>
+</tr>
+<tr class="odd">
+<td>180</td>
+<td>1.390</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.00</td>
+</tr>
+</tbody>
+</table>
+<p>Симметрия: значения для φ = 195°…345° зеркальны относительно 180°.</p>
+</section>
+<section id="средняя-эффективность" class="level3">
+<h3 class="anchored" data-anchor-id="средняя-эффективность">Средняя эффективность</h3>
+<p>При равномерном распределении зеркал по орбите:</p>
+<p><span class="math display">\[
+\bar{\eta} = \frac{1}{2\pi} \int_0^{2\pi} \cos\left(\frac{\theta(\phi)}{2}\right) d\phi \approx 0.72
+\]</span></p>
+<p><strong>Источники:</strong> <a href="https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter">ESA Solar Polar Orbiter TRS</a>, <a href="https://ntrs.nasa.gov/search.jsp?R=20000057299">NASA Solar Sail Trajectories</a>, <a href="https://en.wikipedia.org/wiki/IKAROS">IKAROS (JAXA)</a></p>
+</section>
+</div>
+</div>
+</div>
 </section>
 <section id="итоговые-метрики" class="level3">
 <h3 class="anchored" data-anchor-id="итоговые-метрики">Итоговые метрики</h3>
@@ -1955,7 +2247,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="596" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 595;"><span id="cb6-596"><a href="#cb6-596" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="605" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 604;"><span id="cb8-605"><a href="#cb8-605" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">
@@ -1971,23 +2263,59 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <h3 class="anchored" data-anchor-id="цепочка-поставок">Цепочка поставок</h3>
 <pre><code>ЗЕМЛЯ                              МЕРКУРИЙ
   │                                    │
-  │ Чип управления (~50 г)             │ Алюминий (фольга)
-  │                                    │ Титан (TiO₂)
+  │ Мать-чип (~50 г, 1 на 1000)        │ Алюминий (фольга)
+  │ Дети-декодер (~2 г, годы 7-10)     │ Титан (TiO₂)
   └────────────────────────────────────┤ Железо (грузики)
+                                       │ Дети-приёмник (годы 10+)
                                        ↓
                                     ЗЕРКАЛА
                                        ↓
-                              L1 (Хаб) → Земля</code></pre>
+                              LSP (Луна) → Земля</code></pre>
 </section>
 <section id="импорт-с-земли" class="level3">
 <h3 class="anchored" data-anchor-id="импорт-с-земли">Импорт с Земли</h3>
-<p>При производстве 1 млрд зеркал общая масса импорта (только чипы):</p>
-<p><span class="math display">\[
-1 \times 10^{9} \times 50 \text{ г} = 5 \times 10^{7} \text{ кг} = 50\,000 \text{ тонн}
-\]</span></p>
-<p>За 8 лет производства: <strong>~6 250 тонн/год</strong> = <strong>~125 пусков/год</strong> (Starship 50 т).</p>
-<p><strong>Постоянный темп (после года 1):</strong> - Производство: 219 млн зеркал/год (включая замену выбывших) - Импорт чипов: 219 млн × 50 г = <strong>~11 000 тонн/год</strong> = <strong>~219 пусков/год</strong></p>
-<p>Это <strong>легко достижимо</strong> — менее 1 пуска в день.</p>
+<p>С <a href="#optical-cluster-control">архитектурой Мать-Дети</a> импорт сокращается на 98%:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Количество</th>
+<th>Масса/шт</th>
+<th>Импорт</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Мать-чипы</td>
+<td>1.1 млн</td>
+<td>50 г</td>
+<td><strong>55 т</strong></td>
+</tr>
+<tr class="even">
+<td>Дети-декодеры (фаза 1)</td>
+<td>~500 млн</td>
+<td>2 г</td>
+<td><strong>~1 000 т</strong></td>
+</tr>
+<tr class="odd">
+<td>Дети-приёмники (фаза 2)</td>
+<td>~600 млн</td>
+<td>0 г</td>
+<td><strong>0 т</strong> (местное)</td>
+</tr>
+<tr class="even">
+<td><strong>ИТОГО</strong></td>
+<td></td>
+<td></td>
+<td><strong>~1 055 т</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Сравнение:</strong> - Без оптимизации: 1.1 млрд × 50 г = <strong>55 000 т</strong> = ~1 100 Starship - С архитектурой Мать-Дети: <strong>~1 055 т</strong> = <strong>~21 Starship</strong></p>
+<p><strong>Экономия: 98%</strong> (53× меньше запусков)</p>
+<blockquote class="blockquote">
+<p><strong>Примечание:</strong> Фаза 2 (годы 10+) использует технологию <a href="../../../ru/science/reference/technology-readiness.html#in-situ-кремниевые-ячейки">Blue Alchemist</a> для местного производства кремниевых фотоприёмников из реголита.</p>
+</blockquote>
 </section>
 <section id="процесс-производства-на-меркурии" class="level3">
 <h3 class="anchored" data-anchor-id="процесс-производства-на-меркурии">Процесс производства на Меркурии</h3>
@@ -2030,18 +2358,19 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </tr>
 <tr class="even">
 <td>Ускорение</td>
-<td>43g</td>
+<td><strong>1275g</strong> (базовый)*</td>
 </tr>
 <tr class="odd">
 <td>Время разгона</td>
-<td>~12 сек</td>
+<td><strong>~0.4 сек</strong></td>
 </tr>
 <tr class="even">
 <td>Длина тоннеля</td>
-<td>2-3 км</td>
+<td><strong>1 км</strong></td>
 </tr>
 </tbody>
 </table>
+<p>*При снижении нагрузки: 2-3 км (425-637g). См. <a href="../../../ru/science/detailed/production/railguns/theory.html">Теория МД</a>.</p>
 </section>
 <section id="производительность" class="level3">
 <h3 class="anchored" data-anchor-id="производительность">Производительность</h3>
@@ -2233,8 +2562,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
 <ul>
 <li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая схема проекта</li>
-<li><a href="../../../ru/science/detailed/energy.html">Энергобаланс</a> — производство и потребление энергии</li>
-<li><a href="../../../ru/science/summaries/mercury.html">Меркурий</a> — завод и саморепликация</li>
+<li><a href="../../../ru/science/detailed/production.html">Производство</a> — завод и саморепликация</li>
 <li><a href="../../../ru/science/detailed/hub.html">Хаб приёма энергии</a> — LSP станции и передача на Землю</li>
 <li><a href="../../../ru/science/detailed/production/railguns/theory.html">Масс-драйвер: теория</a> — детальные расчёты запуска</li>
 <li><a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a> — хронология проекта</li>
@@ -2245,7 +2573,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8g0JfQsNCz0YDRg9C30LrQsCDQtNCw0L3QvdGL0YUg0LjQtyBKU09OXG5kYXRhU2NyaXB0ID0gRmlsZUF0dGFjaG1lbnQoXCIuLi9kYXRhL2RiL2RhdGEuanNvblwiKS5qc29uKClcblxuLy8g0JzQsNGC0LXRgNC40LDQu9GLINC00L7RgdGC0YPQv9C90YvQtSDQvdCwINCc0LXRgNC60YPRgNC40LggKNC00LLQtSDQstC10YDRgdC40Lgg0LTQu9GPINGB0L7QstC80LXRgdGC0LjQvNC+0YHRgtC4KVxubWVyY3VyeVByb2R1Y3Rpb24gPSBuZXcgU2V0KFxuICBkYXRhU2NyaXB0Lm1hdGVyaWFsUHJvZHVjdGlvblxuICAgIC5maWx0ZXIobXAgPT4gbXAucGxhbmV0X2lkID09PSBcIm1lcmN1cnlcIilcbiAgICAubWFwKG1wID0+IG1wLm1hdGVyaWFsX2lkKVxuKVxuXG5tZXJjdXJ5TWF0ZXJpYWxzID0gbmV3IFNldChcbiAgZGF0YVNjcmlwdC5wbGFuZXRNYXRlcmlhbHNcbiAgICAuZmlsdGVyKHBtID0+IHBtLnBsYW5ldF9pZCA9PT0gXCJtZXJjdXJ5XCIpXG4gICAgLm1hcChwbSA9PiBwbS5tYXRlcmlhbF9pZClcbilcblxuLy8g0KHQu9C+0LLQsNGA0Lgg0LTQu9GPINCx0YvRgdGC0YDQvtCz0L4g0L/QvtC40YHQutCwXG5tYXRlcmlhbHNCeUlkID0gbmV3IE1hcChkYXRhU2NyaXB0Lm1hdGVyaWFscy5tYXAobSA9PiBbbS5pZCwgbV0pKVxudW5pdHNCeUlkID0gbmV3IE1hcChkYXRhU2NyaXB0LnVuaXRzLm1hcCh1ID0+IFt1LmlkLCB1XSkpXG5wbGFuZXRzQnlJZCA9IG5ldyBNYXAoZGF0YVNjcmlwdC5wbGFuZXRzLm1hcChwID0+IFtwLmlkLCBwXSkpXG5cbi8vINCk0YPQvdC60YbQuNGPINC00LvRjyDQv9C+0LvRg9GH0LXQvdC40Y8g0LzQsNGC0LXRgNC40LDQu9C+0LIg0LrQvtC80L/QvtC90LXQvdGC0LBcbmZ1bmN0aW9uIGdldENvbXBvbmVudE1hdGVyaWFscyhjb21wb25lbnRJZCkge1xuICByZXR1cm4gZGF0YVNjcmlwdC51bml0TWF0ZXJpYWxzXG4gICAgLmZpbHRlcih1bSA9PiB1bS51bml0X2lkID09PSBjb21wb25lbnRJZClcbiAgICAubWFwKHVtID0+IHtcbiAgICAgIGNvbnN0IG1hdGVyaWFsID0gbWF0ZXJpYWxzQnlJZC5nZXQodW0ubWF0ZXJpYWxfaWQpO1xuICAgICAgcmV0dXJuIHtcbiAgICAgICAgc3ltYm9sOiBtYXRlcmlhbD8uc3ltYm9sLFxuICAgICAgICBuYW1lOiBtYXRlcmlhbD8ubmFtZSB8fCB1bS5tYXRlcmlhbF9pZCxcbiAgICAgICAgZnJhY3Rpb25fcGN0OiB1bS5mcmFjdGlvbl9wY3QsXG4gICAgICAgIGlzTG9jYWw6IG1lcmN1cnlQcm9kdWN0aW9uLmhhcyh1bS5tYXRlcmlhbF9pZClcbiAgICAgIH07XG4gICAgfSk7XG59XG5cbi8vINCk0YPQvdC60YbQuNGPINC00LvRjyDQvtGC0L7QsdGA0LDQttC10L3QuNGPINCy0LjQtNC20LXRgtCwINC10LTQuNC90LjRhtGLXG5mdW5jdGlvbiB1bml0V2lkZ2V0KHVuaXRJZCkge1xuICBjb25zdCB1bml0ID0gdW5pdHNCeUlkLmdldCh1bml0SWQpO1xuICBpZiAoIXVuaXQpIHJldHVybiBodG1sYDxkaXYgY2xhc3M9XCJkYi13aWRnZXRcIj7QldC00LjQvdC40YbQsCAke3VuaXRJZH0g0L3QtSDQvdCw0LnQtNC10L3QsDwvZGl2PmA7XG5cbiAgY29uc3QgcGxhbmV0ID0gcGxhbmV0c0J5SWQuZ2V0KHVuaXQucHJvZHVjdGlvbl9wbGFuZXRfaWQpO1xuXG4gIC8vINCc0LDRgtC10YDQuNCw0LvRiyDQsdCw0LfQvtCy0L7Qs9C+INGO0L3QuNGC0LBcbiAgY29uc3QgbWF0ZXJpYWxzID0gZGF0YVNjcmlwdC51bml0TWF0ZXJpYWxzXG4gICAgLmZpbHRlcih1bSA9PiB1bS51bml0X2lkID09PSB1bml0SWQpXG4gICAgLm1hcCh1bSA9PiB7XG4gICAgICBjb25zdCBtYXRlcmlhbCA9IG1hdGVyaWFsc0J5SWQuZ2V0KHVtLm1hdGVyaWFsX2lkKTtcbiAgICAgIGNvbnN0IGlzTG9jYWwgPSBtZXJjdXJ5UHJvZHVjdGlvbi5oYXModW0ubWF0ZXJpYWxfaWQpO1xuICAgICAgY29uc3QgbWFzc0tnID0gdW5pdC5tYXNzX2tnID8gKHVuaXQubWFzc19rZyAqIHVtLmZyYWN0aW9uX3BjdCAvIDEwMCkudG9GaXhlZCgwKSA6IG51bGw7XG4gICAgICByZXR1cm4geyAuLi51bSwgbWF0ZXJpYWwsIGlzTG9jYWwsIG1hc3NLZyB9O1xuICAgIH0pO1xuXG4gIC8vINCa0L7QvNC/0L7QvdC10L3RgtGLICjQv9C+0LTRgdCx0L7RgNC60LgpXG4gIGNvbnN0IGNvbXBvbmVudHMgPSBkYXRhU2NyaXB0LnVuaXRDb21wb25lbnRzXG4gICAgLmZpbHRlcih1YyA9PiB1Yy5hc3NlbWJseV9pZCA9PT0gdW5pdElkKVxuICAgIC5tYXAodWMgPT4ge1xuICAgICAgY29uc3QgY29tcG9uZW50ID0gdW5pdHNCeUlkLmdldCh1Yy5jb21wb25lbnRfaWQpO1xuICAgICAgY29uc3QgdG90YWxNYXNzS2cgPSBjb21wb25lbnQ/Lm1hc3Nfa2cgPyAoY29tcG9uZW50Lm1hc3Nfa2cgKiB1Yy5xdWFudGl0eSkgOiBudWxsO1xuICAgICAgY29uc3QgaXNMb2NhbCA9IGNvbXBvbmVudD8ucHJvZHVjdGlvbl9wbGFuZXRfaWQgPT09IHVuaXQucHJvZHVjdGlvbl9wbGFuZXRfaWQ7XG4gICAgICBjb25zdCBjb21wb25lbnRNYXRlcmlhbHMgPSBnZXRDb21wb25lbnRNYXRlcmlhbHModWMuY29tcG9uZW50X2lkKTtcblxuICAgICAgcmV0dXJuIHtcbiAgICAgICAgaWQ6IHVjLmNvbXBvbmVudF9pZCxcbiAgICAgICAgbmFtZTogY29tcG9uZW50Py5uYW1lIHx8IHVjLmNvbXBvbmVudF9pZCxcbiAgICAgICAgcXVhbnRpdHk6IHVjLnF1YW50aXR5LFxuICAgICAgICBtYXNzS2c6IHRvdGFsTWFzc0tnLFxuICAgICAgICBpc0xvY2FsLFxuICAgICAgICBtYXRlcmlhbHM6IGNvbXBvbmVudE1hdGVyaWFsc1xuICAgICAgfTtcbiAgICB9KTtcblxuICAvLyDQmNGC0L7Qs9C+INGB0YfQuNGC0LDQtdC8INCi0J7Qm9Cs0JrQniDQv9C+INC80LDRgtC10YDQuNCw0LvQsNC8ICjQvdC1INC60L7QvNC/0L7QvdC10L3RgtCw0LwhKVxuICBjb25zdCBsb2NhbFBjdCA9IG1hdGVyaWFscy5maWx0ZXIobSA9PiBtLmlzTG9jYWwpLnJlZHVjZSgoc3VtLCBtKSA9PiBzdW0gKyBtLmZyYWN0aW9uX3BjdCwgMCk7XG4gIGNvbnN0IGltcG9ydFBjdCA9IG1hdGVyaWFscy5maWx0ZXIobSA9PiAhbS5pc0xvY2FsKS5yZWR1Y2UoKHN1bSwgbSkgPT4gc3VtICsgbS5mcmFjdGlvbl9wY3QsIDApO1xuICBjb25zdCBoYXNDcml0aWNhbEltcG9ydHMgPSBjb21wb25lbnRzLnNvbWUoYyA9PiAhYy5pc0xvY2FsKTtcblxuICAvLyDQodGC0YDQvtC60Lgg0YLQsNCx0LvQuNGG0Ysg0LrQvtC80L/QvtC90LXQvdGC0L7QslxuICBjb25zdCBjb21wb25lbnRSb3dzID0gY29tcG9uZW50cy5tYXAoYyA9PiBodG1sYFxuICAgIDx0ciBjbGFzcz1cImNvbXBvbmVudC1yb3dcIj5cbiAgICAgIDx0ZD5cbiAgICAgICAgPHN0cm9uZz4ke2MubmFtZX08L3N0cm9uZz4ke2MucXVhbnRpdHkgPiAxID8gaHRtbGAgw5cke2MucXVhbnRpdHl9YCA6ICcnfVxuICAgICAgICA8ZGl2IGNsYXNzPVwiY29tcG9uZW50LW1hdGVyaWFsc1wiPlxuICAgICAgICAgICR7Yy5tYXRlcmlhbHMubWFwKG0gPT4gaHRtbGA8c3BhbiBjbGFzcz1cIiR7bS5pc0xvY2FsID8gJ2xvY2FsJyA6ICdpbXBvcnQnfVwiPiR7bS5zeW1ib2wgfHwgbS5uYW1lfSAke20uZnJhY3Rpb25fcGN0fSU8L3NwYW4+YCl9XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC90ZD5cbiAgICAgIDx0ZD4ke2MubWFzc0tnID8gYy5tYXNzS2cudG9GaXhlZCgwKSA6ICfigJQnfSDQutCzPC90ZD5cbiAgICAgIDx0ZCBjbGFzcz1cIiR7Yy5pc0xvY2FsID8gJ2xvY2FsJyA6ICdpbXBvcnQnfVwiPiR7Yy5pc0xvY2FsID8gJ+KckycgOiAn4pqgINC40LzQv9C+0YDRgid9PC90ZD5cbiAgICA8L3RyPlxuICBgKTtcblxuICAvLyDQodGC0YDQvtC60Lgg0YLQsNCx0LvQuNGG0Ysg0LzQsNGC0LXRgNC40LDQu9C+0LJcbiAgY29uc3QgbWF0ZXJpYWxSb3dzID0gbWF0ZXJpYWxzLm1hcChtID0+IGh0bWxgXG4gICAgPHRyPlxuICAgICAgPHRkPlxuICAgICAgICAke20ubWF0ZXJpYWw/LnN5bWJvbCA/IGh0bWxgPHN0cm9uZz4ke20ubWF0ZXJpYWwuc3ltYm9sfTwvc3Ryb25nPiBgIDogJyd9XG4gICAgICAgICR7bS5tYXRlcmlhbD8ubmFtZSB8fCBtLm1hdGVyaWFsX2lkfVxuICAgICAgPC90ZD5cbiAgICAgIDx0ZD4ke20uZnJhY3Rpb25fcGN0fSU8L3RkPlxuICAgICAgPHRkPiR7bS5tYXNzS2cgfHwgJ+KAlCd9INC60LM8L3RkPlxuICAgICAgPHRkIGNsYXNzPVwiJHttLmlzTG9jYWwgPyAnbG9jYWwnIDogJ2ltcG9ydCd9XCI+JHttLmlzTG9jYWwgPyAn4pyTINC80LXRgdGC0L3Ri9C5JyA6ICfimqAg0LjQvNC/0L7RgNGCJ308L3RkPlxuICAgIDwvdHI+XG4gIGApO1xuXG4gIHJldHVybiBodG1sYFxuICAgIDxkaXYgY2xhc3M9XCJkYi13aWRnZXRcIj5cbiAgICAgIDxoND4ke3VuaXQubmFtZX0gPHNwYW4gc3R5bGU9XCJjb2xvcjogIzZjNzU3ZDsgZm9udC13ZWlnaHQ6IG5vcm1hbDtcIj4oJHt1bml0LmlkfSk8L3NwYW4+PC9oND5cbiAgICAgIDxkaXYgY2xhc3M9XCJtZXRhXCI+XG4gICAgICAgICR7dW5pdC5tYXNzX2tnID8gaHRtbGA8c3Ryb25nPiR7dW5pdC5tYXNzX2tnLnRvTG9jYWxlU3RyaW5nKCl9PC9zdHJvbmc+INC60LNgIDogJyd9XG4gICAgICAgICR7dW5pdC5wb3dlcl9rdyA/IGh0bWxgIHwgPHN0cm9uZz4ke3VuaXQucG93ZXJfa3cudG9Mb2NhbGVTdHJpbmcoKX08L3N0cm9uZz4g0LrQktGCYCA6ICcnfVxuICAgICAgICAke3BsYW5ldCA/IGh0bWxgIHwg0J/RgNC+0LjQt9Cy0L7QtNGB0YLQstC+OiAke3BsYW5ldC5uYW1lfWAgOiAnJ31cbiAgICAgIDwvZGl2PlxuXG4gICAgICAke2NvbXBvbmVudHMubGVuZ3RoID4gMCA/IGh0bWxgXG4gICAgICAgIDxkaXYgY2xhc3M9XCJzZWN0aW9uLWhlYWRlclwiPtCa0L7QvNC/0L7QvdC10L3RgtGLPC9kaXY+XG4gICAgICAgIDx0YWJsZSBjbGFzcz1cImNvbXBvbmVudHMtdGFibGVcIj5cbiAgICAgICAgICA8dGhlYWQ+PHRyPjx0aD7QmtC+0LzQv9C+0L3QtdC90YI8L3RoPjx0aD7QnNCw0YHRgdCwPC90aD48dGg+0JjRgdGC0L7Rh9C90LjQujwvdGg+PC90cj48L3RoZWFkPlxuICAgICAgICAgIDx0Ym9keT4ke2NvbXBvbmVudFJvd3N9PC90Ym9keT5cbiAgICAgICAgPC90YWJsZT5cbiAgICAgIGAgOiAnJ31cblxuICAgICAgJHttYXRlcmlhbHMubGVuZ3RoID4gMCA/IGh0bWxgXG4gICAgICAgIDxkaXYgY2xhc3M9XCJzZWN0aW9uLWhlYWRlclwiPtCc0LDRgtC10YDQuNCw0LvRizwvZGl2PlxuICAgICAgICA8dGFibGUgY2xhc3M9XCJtYXRlcmlhbHMtdGFibGVcIj5cbiAgICAgICAgICA8dGhlYWQ+PHRyPjx0aD7QnNCw0YLQtdGA0LjQsNC7PC90aD48dGg+JTwvdGg+PHRoPtCc0LDRgdGB0LA8L3RoPjx0aD7QmNGB0YLQvtGH0L3QuNC6PC90aD48L3RyPjwvdGhlYWQ+XG4gICAgICAgICAgPHRib2R5PiR7bWF0ZXJpYWxSb3dzfTwvdGJvZHk+XG4gICAgICAgIDwvdGFibGU+XG4gICAgICAgIDxkaXYgY2xhc3M9XCJzdW1tYXJ5XCI+XG4gICAgICAgICAg0JjRgtC+0LPQvjogPHNwYW4gY2xhc3M9XCJsb2NhbC1wY3RcIj4ke2xvY2FsUGN0LnRvRml4ZWQoMCl9JSDQvNC10YHRgtC90L7QtTwvc3Bhbj4gfFxuICAgICAgICAgIDxzcGFuIGNsYXNzPVwiaW1wb3J0LXBjdFwiPiR7aW1wb3J0UGN0LnRvRml4ZWQoMCl9JSDQuNC80L/QvtGA0YI8L3NwYW4+XG4gICAgICAgICAgJHtoYXNDcml0aWNhbEltcG9ydHMgPyBodG1sYDxici8+PHN0cm9uZz7imqAg0KHQvtC00LXRgNC20LjRgiDQuNC80L/QvtGA0YLQvdGL0LUg0LrQvtC80L/QvtC90LXQvdGC0Ys8L3N0cm9uZz5gIDogJyd9XG4gICAgICAgIDwvZGl2PlxuICAgICAgYCA6ICcnfVxuXG4gICAgICA8ZGl2IGNsYXNzPVwibGlua1wiPlxuICAgICAgICA8YSBocmVmPVwiZGF0YS9ub21lbmNsYXR1cmUuaHRtbD91bml0PSR7dW5pdElkfVwiPtCf0L7QtNGA0L7QsdC90LXQtSDihpI8L2E+XG4gICAgICA8L2Rpdj5cbiAgICA8L2Rpdj5cbiAgYDtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InVuaXRXaWRnZXQoXCJQUkQtMDAxXCIpXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ1bml0V2lkZ2V0KFwiUFJELTAwMVwiKVxuIn1dfQ==
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IHVuaXRXaWRnZXQgfSBmcm9tIFwiLi4vb2pzLWRhdGEucW1kXCJcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InVuaXRXaWRnZXQoXCJQUkQtMDAxXCIpXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ1bml0V2lkZ2V0KFwiUFJELTAwMVwiKVxuIn1dfQ==
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
@@ -2328,7 +2656,7 @@ window._ojs.runtime.interpretFromScriptTags();
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

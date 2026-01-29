@@ -113,7 +113,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
@@ -149,10 +340,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -205,20 +407,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -231,6 +421,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -252,20 +448,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -367,6 +551,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -612,14 +802,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -632,12 +822,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -660,9 +844,9 @@ p:has(> em:first-child) { text-indent: 0; }
   <ul>
   <li><a href="#обзор-производственной-системы" id="toc-обзор-производственной-системы" class="nav-link active" data-scroll-target="#обзор-производственной-системы">Обзор производственной системы</a>
   <ul class="collapse">
-  <li><a href="#фаза-1-2-земля-луна-полигон" id="toc-фаза-1-2-земля-луна-полигон" class="nav-link" data-scroll-target="#фаза-1-2-земля-луна-полигон">Фаза 1-2: Земля → Луна (полигон)</a></li>
-  <li><a href="#фаза-3-4-меркурий-масштабирование" id="toc-фаза-3-4-меркурий-масштабирование" class="nav-link" data-scroll-target="#фаза-3-4-меркурий-масштабирование">Фаза 3-4: Меркурий (масштабирование)</a></li>
-  <li><a href="#фаза-5-замкнутый-энергетический-цикл" id="toc-фаза-5-замкнутый-энергетический-цикл" class="nav-link" data-scroll-target="#фаза-5-замкнутый-энергетический-цикл">Фаза 5: Замкнутый энергетический цикл</a></li>
+  <li><a href="#подготовка-земля-луна-годы-1-6" id="toc-подготовка-земля-луна-годы-1-6" class="nav-link" data-scroll-target="#подготовка-земля-луна-годы-1-6">Подготовка: Земля → Луна (годы 1-6)</a></li>
+  <li><a href="#масштабирование-меркурий-с-года-6" id="toc-масштабирование-меркурий-с-года-6" class="nav-link" data-scroll-target="#масштабирование-меркурий-с-года-6">Масштабирование: Меркурий (с года 6)</a></li>
+  <li><a href="#результат-замкнутый-энергетический-цикл-с-года-7" id="toc-результат-замкнутый-энергетический-цикл-с-года-7" class="nav-link" data-scroll-target="#результат-замкнутый-энергетический-цикл-с-года-7">Результат: Замкнутый энергетический цикл (с года 7)</a></li>
   <li><a href="#почему-два-места-а-не-одно" id="toc-почему-два-места-а-не-одно" class="nav-link" data-scroll-target="#почему-два-места-а-не-одно">Почему два места, а не одно?</a></li>
   </ul></li>
   <li><a href="#производство-на-меркурии" id="toc-производство-на-меркурии" class="nav-link" data-scroll-target="#производство-на-меркурии">Производство на Меркурии</a>
@@ -680,7 +864,7 @@ p:has(> em:first-child) { text-indent: 0; }
   <li><a href="#этап-8.-сборка" id="toc-этап-8.-сборка" class="nav-link" data-scroll-target="#этап-8.-сборка">Этап 8. Сборка</a></li>
   <li><a href="#инфраструктура-энергоснабжения-роботов" id="toc-инфраструктура-энергоснабжения-роботов" class="nav-link" data-scroll-target="#инфраструктура-энергоснабжения-роботов">Инфраструктура энергоснабжения роботов</a></li>
   <li><a href="#манифест-первой-экспедиции" id="toc-манифест-первой-экспедиции" class="nav-link" data-scroll-target="#манифест-первой-экспедиции">Манифест первой экспедиции</a></li>
-  <li><a href="#оптимизация-сборки-блиц-монтаж" id="toc-оптимизация-сборки-блиц-монтаж" class="nav-link" data-scroll-target="#оптимизация-сборки-блиц-монтаж">Оптимизация сборки: «Блиц-монтаж»</a></li>
+  <li><a href="#сборка-первого-завода-bootstrap" id="toc-сборка-первого-завода-bootstrap" class="nav-link" data-scroll-target="#сборка-первого-завода-bootstrap">Сборка первого завода (Bootstrap)</a></li>
   <li><a href="#саморепликация" id="toc-саморепликация" class="nav-link" data-scroll-target="#саморепликация">Саморепликация</a></li>
   <li><a href="#меркурианский-масс-драйвер" id="toc-меркурианский-масс-драйвер" class="nav-link" data-scroll-target="#меркурианский-масс-драйвер">Меркурианский масс-драйвер</a></li>
   <li><a href="#реальные-прототипы-автоматизированных-заводов" id="toc-реальные-прототипы-автоматизированных-заводов" class="nav-link" data-scroll-target="#реальные-прототипы-автоматизированных-заводов">Реальные прототипы автоматизированных заводов</a></li>
@@ -769,8 +953,8 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="обзор-производственной-системы" class="level2">
 <h2 class="anchored" data-anchor-id="обзор-производственной-системы">Обзор производственной системы</h2>
 <p>Проект использует <strong>два производственных центра</strong> с разными задачами и условиями. Это не дублирование, а специализация — каждая локация делает то, что у неё получается лучше. Производство развивается в три фазы:</p>
-<section id="фаза-1-2-земля-луна-полигон" class="level3">
-<h3 class="anchored" data-anchor-id="фаза-1-2-земля-луна-полигон">Фаза 1-2: Земля → Луна (полигон)</h3>
+<section id="подготовка-земля-луна-годы-1-6" class="level3">
+<h3 class="anchored" data-anchor-id="подготовка-земля-луна-годы-1-6">Подготовка: Земля → Луна (годы 1-6)</h3>
 <div class="cell" data-fig-width="10" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -801,8 +985,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </div>
 </div>
 </section>
-<section id="фаза-3-4-меркурий-масштабирование" class="level3">
-<h3 class="anchored" data-anchor-id="фаза-3-4-меркурий-масштабирование">Фаза 3-4: Меркурий (масштабирование)</h3>
+<section id="масштабирование-меркурий-с-года-6" class="level3">
+<h3 class="anchored" data-anchor-id="масштабирование-меркурий-с-года-6">Масштабирование: Меркурий (с года 6)</h3>
 <div class="cell" data-fig-width="10" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -846,8 +1030,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </div>
 </div>
 </section>
-<section id="фаза-5-замкнутый-энергетический-цикл" class="level3">
-<h3 class="anchored" data-anchor-id="фаза-5-замкнутый-энергетический-цикл">Фаза 5: Замкнутый энергетический цикл</h3>
+<section id="результат-замкнутый-энергетический-цикл-с-года-7" class="level3">
+<h3 class="anchored" data-anchor-id="результат-замкнутый-энергетический-цикл-с-года-7">Результат: Замкнутый энергетический цикл (с года 7)</h3>
 <div class="cell" data-fig-width="10" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -880,9 +1064,9 @@ p:has(> em:first-child) { text-indent: 0; }
 </div>
 <p><strong>Логика производства:</strong></p>
 <ol type="1">
-<li><p><strong>Фаза 1-2 (годы 4-6):</strong> Земля запускает лунный полигон. Луна отрабатывает технологии добычи, плавки, сборки в условиях вакуума и низкой гравитации.</p></li>
-<li><p><strong>Фаза 3-4 (годы 6-10):</strong> Знания с Луны применяются на Меркурии. Завод «Точка Ноль» копирует себя экспоненциально, достигая ~1650 заводов (~1500 Ф-З + ~150 Ф-Р). Производятся зеркала, которые отправляются в Рой.</p></li>
-<li><p><strong>Фаза 5 (годы 7+):</strong> Рой зеркал отражает свет на лунные LSP станции. LSP преобразует свет в микроволны и передает на Землю. Замкнутый цикл: энергия → производство → больше энергии.</p></li>
+<li><p><strong>Подготовка (годы 1-6):</strong> НИОКР и прототипирование (годы 1-4), лунный полигон (годы 4-6). Луна отрабатывает технологии добычи, плавки, сборки в условиях вакуума и низкой гравитации.</p></li>
+<li><p><strong>Масштабирование (с года 6):</strong> Знания с Луны применяются на Меркурии. Завод «Точка Ноль» копирует себя экспоненциально, достигая ~1650 заводов (~1500 Ф-З + ~150 Ф-Р). Производятся зеркала, которые отправляются в Рой.</p></li>
+<li><p><strong>Энергоцикл (с года 7):</strong> Рой зеркал отражает свет на лунные LSP станции. LSP преобразует свет в микроволны и передает на Землю. Замкнутый цикл: энергия → производство → больше энергии.</p></li>
 </ol>
 <p><strong>Почему Луна не отправляет роботов на Меркурий?</strong></p>
 <p>Меркурий производит роботов сам — это часть саморепликации заводов. Луна передает только знания и опыт (программное обеспечение, процедуры, отладку). Физическая доставка роботов с Луны на Меркурий экономически нецелесообразна (Δv ~13 км/с).</p>
@@ -915,18 +1099,18 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="odd">
 <td><strong>Специализация</strong></td>
-<td>Массовое производство зеркал</td>
-<td>Высокотехнологичная электроника</td>
+<td>Зеркала + саморепликация</td>
+<td>Полигон + LSP станции</td>
 </tr>
 <tr class="even">
 <td><strong>Стратегия</strong></td>
 <td>Экспоненциальный рост</td>
-<td>Прямая доставка + сборка</td>
+<td>Валидация → производство LSP</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Меркурий</strong> — это энергетическая машина. 7× больше солнечного света означает, что солнечные печи плавят металл быстрее, панели дают больше энергии, а завод может копировать сам себя без ограничений по мощности.</p>
-<p><strong>Луна</strong> — это ворота в космос. Задержка связи 1.3 секунды позволяет операторам на Земле контролировать процесс почти в реальном времени. Идеально для отработки технологий и производства сложной электроники.</p>
+<p><strong>Луна</strong> — это ворота в космос. Задержка связи 1.3 секунды позволяет операторам контролировать процесс почти в реальном времени — идеально для отработки технологий (годы 4-6). После валидации Луна переключается на производство LSP станций из местных ресурсов (кремний, алюминий).</p>
 <hr>
 </section>
 </section>
@@ -983,13 +1167,17 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="завод-точка-ноль" class="level3">
 <h3 class="anchored" data-anchor-id="завод-точка-ноль">Завод «Точка Ноль»</h3>
+<blockquote class="blockquote">
+<p><strong>Детальная статья:</strong> <a href="../../../ru/science/detailed/production/factories/overview.html">Производство заводов</a> — компоновки Ф-Р и Ф-З, типы заводов, материальные потоки</p>
+<p><strong>Сборка первого завода:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Bootstrap</a> — checkpoint-модель, сценарии сборки</p>
+</blockquote>
 <p><strong>Проект:</strong> Helios Prime <strong>Документ:</strong> Технологическая карта первого завода <strong>Статус:</strong> 100% компонентов доставлено с Земли</p>
 <hr>
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Концепция:</strong> Саморепликирующийся завод на Меркурии, строящий себе подобных из местных ресурсов</li>
-<li><strong>Производительность:</strong> 600 т реголита/день → <strong>42 т Al</strong> + <strong>18 т Fe</strong> → <strong>~407 зеркал/день</strong> (Ф-З)</li>
+<li><strong>Производительность:</strong> 600 т реголита/день → <strong>42 т Al</strong> + <strong>~11 т Fe-Mn стали</strong> → <strong>~407 зеркал/день</strong> (Ф-З)</li>
 <li><strong>Энергопотребление:</strong> 55 МВт на комплекс — <strong>168 МВт доступно</strong> (3 рейса с панелями GaAs)</li>
 <li><strong>8 этапов:</strong> геология → энергия → панели → силикатная ткань → гидравлика → плавка → формовка → сборка</li>
 <li><strong>Местное производство:</strong> кремниевые панели (алюмотермия), силикатные куполы, NaS батареи, <strong>гибридные роботы Fe/Al</strong></li>
@@ -1025,7 +1213,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Среда внутри купола</td>
-<td style="text-align: left;">Инертный газ (азот) 0.1 атм</td>
+<td style="text-align: left;">Кислород 0.1 атм (местный, из MRE)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Размеры купола</strong></td>
@@ -1051,7 +1239,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="размеры-и-layout-купола" class="level3">
 <h3 class="anchored" data-anchor-id="размеры-и-layout-купола">Размеры и layout купола</h3>
-<p><strong>Общая площадь:</strong> ~1500 м² (~50×30 м) — под давлением 0.1 атм азота.</p>
+<p><strong>Общая площадь:</strong> ~1500 м² (~50×30 м) — под давлением 0.1 атм кислорода.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1191,9 +1379,19 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">Провода из алюминия или натрия в стальных трубках</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Вольфрам (W)</td>
-<td style="text-align: left;">Критичен для резцов</td>
-<td style="text-align: left;">Везём с Земли</td>
+<td style="text-align: left;">Фильеры стекловолокна</td>
+<td style="text-align: left;">Al₂O₃ (местный)</td>
+<td style="text-align: left;"><strong>Керамика Al₂O₃</strong> — <a href="https://www.sciencedirect.com/science/article/abs/pii/0261306981900510">доказанная альтернатива Pt-Rh</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Фрезы CNC</td>
+<td style="text-align: left;">Нужен режущий инструмент</td>
+<td style="text-align: left;"><strong>Керамика Si₃N₄</strong> из Si + N₂ (минимальный импорт азота)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Иридий (Ir)</td>
+<td style="text-align: left;">Отсутствует</td>
+<td style="text-align: left;">Импорт с Земли (аноды MRE)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Редкоземы</td>
@@ -1206,9 +1404,9 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">Защитный газ для WAAM и рафинирования — везём с Земли</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Азот (N₂)</td>
-<td style="text-align: left;">Отсутствует</td>
-<td style="text-align: left;">Атмосфера внутри купола — везём с Земли</td>
+<td style="text-align: left;">Кислород (O₂)</td>
+<td style="text-align: left;">Из MRE (~1500 т/день)</td>
+<td style="text-align: left;">Атмосфера внутри купола (0.1 атм)</td>
 </tr>
 </tbody>
 </table>
@@ -1275,11 +1473,97 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="этап-1.-энергетика" class="level3">
 <h3 class="anchored" data-anchor-id="этап-1.-энергетика">Этап 1. Энергетика</h3>
-<blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/energy.html">Энергетика производства</a></p>
-</blockquote>
-<p>Solar Boost (9-14 кВт/м²), Power Towers с GaAs-ячейками, криогенная ЛЭП, производство кремниевых панелей (алюмотермия) и силикатных куполов.</p>
+<p><em>Генерация. Без этого этапа завод — груда металла.</em></p>
+<section id="solar-boost" class="level4">
+<h4 class="anchored" data-anchor-id="solar-boost">Solar Boost</h4>
+<p>Меркурий получает <strong>9-14 кВт/м²</strong> солнечного потока (vs 1.3 кВт/м² на Земле) — фундаментальное преимущество для энергетики.</p>
+</section>
+<section id="гелио-башни-power-towers" class="level4">
+<h4 class="anchored" data-anchor-id="гелио-башни-power-towers">Гелио-Башни (Power Towers)</h4>
+<p>Устанавливаются на «Пиках вечного света» (края кратера):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Зеркала</strong></td>
+<td>Каптон с Al напылением, 50 г/м², разворачиваются на углепластиковых спицах</td>
+</tr>
+<tr class="even">
+<td><strong>Фотоячейки</strong></td>
+<td>Многопереходные GaAs (30-40% КПД)</td>
+</tr>
+<tr class="odd">
+<td><strong>Охлаждение</strong></td>
+<td>NaK циркулирует внутри мачты → радиатор в тень (−150°C)</td>
+</tr>
+<tr class="even">
+<td><strong>Криогенная ЛЭП</strong></td>
+<td>Алюминий при −150°C — сопротивление в 10× ниже</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/reference/technology-readiness.html#криогенный-алюминиевый-кабель-гвт">Криогенный алюминиевый кабель</a></p>
+</section>
+<section id="энергопотребление-1-комплекса" class="level4">
+<h4 class="anchored" data-anchor-id="энергопотребление-1-комплекса">Энергопотребление 1 комплекса</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Потребитель</th>
+<th>Мощность</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Масс-драйвер (средняя)</td>
+<td>33 МВт</td>
+<td>600 запусков/день × 4.8 ГДж</td>
+</tr>
+<tr class="even">
+<td>Солнечные печи (плавка)</td>
+<td>10 МВт</td>
+<td>Концентраторы</td>
+</tr>
+<tr class="odd">
+<td>Производство зеркал</td>
+<td>5 МВт</td>
+<td>Прокатка, сварка, упаковка</td>
+</tr>
+<tr class="even">
+<td>Роботы (~50 шт × 5 кВт)</td>
+<td>0.3 МВт</td>
+<td>Батарейные</td>
+</tr>
+<tr class="odd">
+<td>Системы управления и связь</td>
+<td>2 МВт</td>
+<td>ИТ-инфраструктура</td>
+</tr>
+<tr class="even">
+<td><strong>ИТОГО</strong></td>
+<td><strong>~55 МВт</strong></td>
+<td>С запасом 10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Энергобаланс при запуске:</strong> - 3 рейса GaAs панелей = <strong>168 МВт</strong> (5.25 т) - Запас = 113 МВт для масштабирования</p>
+</section>
+<section id="местное-производство-панелей" class="level4">
+<h4 class="anchored" data-anchor-id="местное-производство-панелей">Местное производство панелей</h4>
+<p>Для масштабирования — кремниевые панели из местных материалов (алюмотермия).</p>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/production/materials/silicon.html">Производство кремния</a></p>
 <hr>
+</section>
 </section>
 <section id="этап-2.-гидравлика-и-жидкости" class="level3">
 <h3 class="anchored" data-anchor-id="этап-2.-гидравлика-и-жидкости">Этап 2. Гидравлика и жидкости</h3>
@@ -1308,7 +1592,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="этап-7.-формовка" class="level3">
 <h3 class="anchored" data-anchor-id="этап-7.-формовка">Этап 7. Формовка</h3>
 <p><em>Чистая зона — ВНУТРИ КУПОЛА.</em></p>
-<p>Здесь уже есть газовая среда (азот 0.1 атм).</p>
+<p>Здесь уже есть газовая среда (кислород 0.1 атм).</p>
 <section id="машина-непрерывного-литья-заготовок-мнлз" class="level4">
 <h4 class="anchored" data-anchor-id="машина-непрерывного-литья-заготовок-мнлз">Машина непрерывного литья заготовок (МНЛЗ)</h4>
 <p>Жидкий металл из промковша застывает в форме профиля.</p>
@@ -1326,7 +1610,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td style="text-align: left;">Материал кристаллизатора</td>
-<td style="text-align: left;">Медь (с Земли) — высокая теплопроводность</td>
+<td style="text-align: left;">Сталь + MgO футеровка (местное)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Охлаждение</td>
@@ -1343,6 +1627,10 @@ p:has(> em:first-child) { text-indent: 0; }
 <h4 class="anchored" data-anchor-id="прокатный-передел">Прокатный передел</h4>
 <p>Превращение слитков в пруток и проволоку для WAAM.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Этап</th>
@@ -1360,7 +1648,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Волочильный стан</td>
-<td style="text-align: left;">Фильеры вольфрамовые, выход Ø1.6–2.0 мм</td>
+<td style="text-align: left;">Керамические фильеры Si₃N₄ (местное, 3x срок службы), выход Ø1.6–2.0 мм</td>
 </tr>
 </tbody>
 </table>
@@ -1401,6 +1689,10 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="фрезеровка-cnc" class="level4">
 <h4 class="anchored" data-anchor-id="фрезеровка-cnc">Фрезеровка (CNC)</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Параметр</th>
@@ -1418,11 +1710,11 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="odd">
 <td style="text-align: left;">СОЖ</td>
-<td style="text-align: left;">Масло (рециркуляция в замкнутом контуре)</td>
+<td style="text-align: left;">Не требуется (вакуум, керамика работает в сухих условиях)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Инструмент</td>
-<td style="text-align: left;">Твердосплавные фрезы (вольфрам-кобальт, с Земли)</td>
+<td style="text-align: left;"><strong>Керамические фрезы Si₃N₄</strong> (местное производство из Si + N₂)</td>
 </tr>
 </tbody>
 </table>
@@ -1487,9 +1779,9 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>600 × 7%</td>
 </tr>
 <tr class="even">
-<td>Выход железа</td>
-<td><strong>18 т/день</strong></td>
-<td>600 × 3%</td>
+<td>Выход Fe-Mn стали</td>
+<td><strong>~11 т/день</strong></td>
+<td>MRE + линия титана</td>
 </tr>
 <tr class="odd">
 <td>Прокат фольги (Ф-З)</td>
@@ -1677,46 +1969,41 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="общая-схема-инфраструктуры-комплекса" class="level4">
 <h4 class="anchored" data-anchor-id="общая-схема-инфраструктуры-комплекса">Общая схема инфраструктуры комплекса</h4>
-<pre><code>                              ┌─────────────────────────────────────────┐
-                              │         МАСС-ДРАЙВЕР (3 км)             │
-                              │  ⚡ вход   ═══════════════════  выход → │
-                              └─────────────────────────────────────────┘
-                                   │
-                              ⚡ станция Крабов
-                                   │
-                              ┌────────────┐
-                              │   БУФЕР    │ ⚡ станция Крабов
-                              │ (1500 шт)  │
-                              └────────────┘
-                                   │
-          ┌────────────────────────┼────────────────────────┐
-          │                        │                        │
-     ⚡ промежуточная         ⚡ станция              ⚡ промежуточная
-          │                        │                        │
-          │                 ┌──────────────┐                │
-          │                 │              │                │
-    [Карьер 1]              │    ЗАВОД     │          [Карьер 2]
-     ●═══════╗              │   (купол)    │              ╔═══════●
-    Крот-М   ║              │              │              ║   Крот-М
-    (кабель) ║    ⚡⚡⚡⚡    │  ┌────────┐  │    ⚡⚡⚡⚡    ║   (кабель)
-             ║    Крабы     │  │Кентавры│  │    Крабы     ║
-             ║    вход      │  │(кабель │  │    выход     ║
-             ║              │  │ 50м)   │  │              ║
-             ║              │  └────────┘  │              ║
-             ╚══════════════╪══════════════╪══════════════╝
-                            │   ⚡⚡⚡⚡⚡⚡  │
-                            │  шлюз+зарядка │
-                            └──────────────┘
-                                   │
-                            ⚡ станция снаружи
-                                   │
-                            [Карьер 3]
-                               ●═══════ Крот-М (кабель)
+<div class="cell" data-fig-width="10" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    subgraph MD["МАСС-ДРАЙВЕР (1 км)"]
+        MD_IN["⚡ вход"] --&gt; MD_TRACK["трек 1 км"] --&gt; MD_OUT["выход →"]
+    end
 
-ЛЕГЕНДА:
-  ⚡  = зарядная станция (Крабы, Кентавры снаружи)
-  ●═══ = кабельная точка + кабель (Кроты)
-  ⚡⚡⚡ = кластер станций</code></pre>
+    MD_IN --&gt; CS1["⚡ станция Крабов"]
+    CS1 --&gt; BUF["БУФЕР (1500 шт)&lt;br/&gt;⚡ станция Крабов"]
+
+    BUF --&gt; INT1["⚡ промежуточная"]
+    BUF --&gt; ST["⚡ станция"]
+    BUF --&gt; INT2["⚡ промежуточная"]
+
+    INT1 --&gt; Q1["Карьер 1&lt;br/&gt;Крот-М (кабель)"]
+    INT2 --&gt; Q2["Карьер 2&lt;br/&gt;Крот-М (кабель)"]
+
+    ST --&gt; FAC["ЗАВОД (купол)&lt;br/&gt;⚡⚡⚡⚡ Крабы вход&lt;br/&gt;Кентавры (кабель 50м)&lt;br/&gt;⚡⚡⚡⚡ Крабы выход&lt;br/&gt;⚡⚡⚡⚡⚡⚡ шлюз+зарядка"]
+
+    FAC --&gt; EXT["⚡ станция снаружи"]
+    EXT --&gt; Q3["Карьер 3&lt;br/&gt;Крот-М (кабель)"]
+
+    style MD fill:#f0f0f0,stroke:#333
+    style FAC fill:#e8f4e8,stroke:#2a2
+    style BUF fill:#f4f4e8,stroke:#aa2
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Легенда:</strong> ⚡ = зарядная станция | Кабель = силовое подключение Кротов</p>
 </section>
 <section id="сводка-инфраструктуры-на-1-комплекс" class="level4">
 <h4 class="anchored" data-anchor-id="сводка-инфраструктуры-на-1-комплекс">Сводка инфраструктуры на 1 комплекс</h4>
@@ -1885,10 +2172,10 @@ p:has(> em:first-child) { text-indent: 0; }
 <td style="text-align: left;">4 комплекта на робота</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Батареи NaS (Gen-1)</td>
+<td style="text-align: left;"><strong>Батареи Li-S (Gen-1)</strong></td>
 <td style="text-align: left;">15</td>
 <td style="text-align: left;">750 кг</td>
-<td style="text-align: left;">Резерв</td>
+<td style="text-align: left;">Резерв (работа от -60°C)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Блоки управления</td>
@@ -1989,38 +2276,23 @@ p:has(> em:first-child) { text-indent: 0; }
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Газы (Ar, N₂ сжатые)</td>
-<td style="text-align: left;">0.5 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Фильеры + фрезы (W/WC)</td>
-<td style="text-align: left;">0.1 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Медный кристаллизатор (запасной)</td>
-<td style="text-align: left;">0.3 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Аноды MRE (запас)</td>
 <td style="text-align: left;">0.2 т</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Масла, смазки</td>
 <td style="text-align: left;">0.1 т</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">β-Al₂O₃ электролиты</td>
 <td style="text-align: left;">0.3 т</td>
 <td style="text-align: left;">Для первых 50 батарей</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><strong>Итого расходники</strong></td>
-<td style="text-align: left;"><strong>~1.5 т</strong></td>
+<td style="text-align: left;"><strong>~0.6 т</strong></td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>
@@ -2089,7 +2361,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td style="text-align: left;">Расходники (1 год)</td>
-<td style="text-align: left;">1.5 т</td>
+<td style="text-align: left;">0.6 т</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Витамины (электроника)</td>
@@ -2097,66 +2369,54 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>ИТОГО первая экспедиция</strong></td>
-<td style="text-align: left;"><strong>~62 т</strong></td>
+<td style="text-align: left;"><strong>~61 т</strong></td>
 </tr>
 </tbody>
 </table>
 <hr>
 </section>
 </section>
-<section id="оптимизация-сборки-блиц-монтаж" class="level3">
-<h3 class="anchored" data-anchor-id="оптимизация-сборки-блиц-монтаж">Оптимизация сборки: «Блиц-монтаж»</h3>
-<p><em>7 дней от посадки до первого робота Gen-2.</em></p>
-<p>Gen-1 роботы — лёгкие, но хрупкие (титан, углепластик). Ресурс ограничен. Чем дольше сборка — тем выше риск поломки до запуска завода.</p>
-<p><strong>Решение:</strong> Сжать сборку до 7 дней за счёт предсборки и параллелизма.</p>
-<section id="критический-путь-7-дней" class="level4">
-<h4 class="anchored" data-anchor-id="критический-путь-7-дней">Критический путь: 7 дней</h4>
+<section id="сборка-первого-завода-bootstrap" class="level3">
+<h3 class="anchored" data-anchor-id="сборка-первого-завода-bootstrap">Сборка первого завода (Bootstrap)</h3>
+<blockquote class="blockquote">
+<p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Сборка первого завода (Bootstrap)</a></p>
+</blockquote>
+<p><em>Критический checkpoint: энерго-автономия за 12-24 часа.</em></p>
+<p>Gen-1 роботы — лёгкие, но ограничены батареями (Li-S, автономия 15-24 часа). До развёртывания зарядной инфраструктуры время критично.</p>
+<p><strong>Решение:</strong> Checkpoint-модель — достичь энерго-автономии за 12-24 часа, после чего время сборки упирается только в ресурс Gen-1 (2-3 года).</p>
+<section id="сценарии-сборки" class="level4">
+<h4 class="anchored" data-anchor-id="сценарии-сборки">Сценарии сборки</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">День</th>
-<th style="text-align: left;">Основная работа</th>
-<th style="text-align: left;">Результат</th>
+<th>Сценарий</th>
+<th>До checkpoint</th>
+<th>После</th>
+<th><strong>Итого</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">Разгрузка + развёртывание зеркал</td>
-<td style="text-align: left;">Модули на позициях</td>
+<td>Оптимистичный</td>
+<td>12 ч</td>
+<td>6 дней</td>
+<td><strong>7 дней</strong></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">Зеркала + MRE на площадке</td>
-<td style="text-align: left;">MRE готов к работе</td>
+<td>Реалистичный</td>
+<td>24 ч</td>
+<td>10-15 дней</td>
+<td><strong>11-16 дней</strong></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">Надув купола + подача энергии</td>
-<td style="text-align: left;"><strong>Энергия есть!</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">МНЛЗ и прокат в купол</td>
-<td style="text-align: left;">Металл пошёл</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: left;">Финиш-модуль + пуско-наладка</td>
-<td style="text-align: left;">Линия готова</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">6</td>
-<td style="text-align: left;">Первая плавка → литьё → прокат</td>
-<td style="text-align: left;">Материал для WAAM</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">7</td>
-<td style="text-align: left;">WAAM + CNC + сборка</td>
-<td style="text-align: left;"><strong>Первый Gen-2</strong></td>
+<td>Пессимистичный</td>
+<td>48 ч</td>
+<td>20-30 дней</td>
+<td><strong>22-32 дня</strong></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Ключевой вывод:</strong> После checkpoint (24 ч) время не критично.</p>
 <hr>
 </section>
 </section>
@@ -2310,7 +2570,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tbody>
 </table>
 <p><strong>Failsafe:</strong> При полном отказе электроники зеркало теряет управление → хаотичное вращение → нулевая тяга → остаётся на орбите, но не мешает (расстояния ~км между зеркалами).</p>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/energy.html#mirror-disposal">Расчёты энергии</a></p>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/mirrors.html#орбитальная-механика-и-утилизация">Зеркала Роя</a></p>
 <hr>
 </section>
 <section id="известные-ограничения-завода" class="level3">
@@ -2320,30 +2580,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </blockquote>
 <section id="критические-проблемы" class="level4">
 <h4 class="anchored" data-anchor-id="критические-проблемы">Критические проблемы</h4>
-<p><strong>1. Дефицит вольфрама</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Потребность на 1000 заводов</td>
-<td>~18 000 тонн (за 10 лет)</td>
-</tr>
-<tr class="even">
-<td>Мировое производство</td>
-<td>~85 000 т/год</td>
-</tr>
-<tr class="odd">
-<td>Доля мирового производства</td>
-<td><strong>~2%/год</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>2. Дефицит иридия</strong></p>
+<p><strong>1. Дефицит иридия</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2617,7 +2854,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Длина</td>
-<td>1-1.5 км</td>
+<td>0.5-1 км</td>
 </tr>
 <tr class="even">
 <td>Скорость вылета</td>
@@ -2727,7 +2964,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <tr class="odd">
 <td><strong>Масс-драйвер</strong></td>
 <td>5 км/с, 2-3 км</td>
-<td>2.5 км/с, 1-1.5 км (тест)</td>
+<td>2.5 км/с, 0.5-1 км (тест)</td>
 </tr>
 <tr class="even">
 <td><strong>Назначение</strong></td>
@@ -2803,8 +3040,8 @@ p:has(> em:first-child) { text-indent: 0; }
         H1["Rectenna"]
     end
 
-    E1 --&gt;|"год 0"| M1
-    E2 --&gt;|"годы 1-10"| M1
+    E1 --&gt;|"год 6"| M1
+    E2 --&gt;|"годы 6+"| M1
     M1 --&gt; M2
     M2 --&gt; M3
     M3 --&gt; R1
@@ -2842,13 +3079,56 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>62 т</td>
 </tr>
 <tr class="even">
-<td>Витамины</td>
+<td>Витамины (заводы)</td>
 <td>Годы 1-10</td>
-<td>~30 кг/завод/год</td>
+<td>~77 кг/завод/год</td>
+</tr>
+<tr class="odd">
+<td>Электроника зеркал</td>
+<td>Годы 7-15</td>
+<td><strong>~1 055 т</strong> (всего)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Витамины</strong> — это то, чего нет на Меркурии: вольфрам (фильеры), иридий (аноды), редкоземы (магниты), углерод (смазки).</p>
+<p><strong>Витамины</strong> — это то, чего нет на Меркурии: электроника (контроллеры, сенсоры), иридий (аноды MRE), редкоземы (магниты).</p>
+<p><strong>Электроника зеркал</strong> — благодаря <a href="../../../ru/science/detailed/mirrors.html#optical-cluster-control">архитектуре Мать-Дети</a> импорт сокращён на <strong>98%</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Количество</th>
+<th>Масса/шт</th>
+<th>Импорт</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Мать-чипы</td>
+<td>1.1 млн</td>
+<td>50 г</td>
+<td>55 т</td>
+</tr>
+<tr class="even">
+<td>Дети-декодеры (фаза 1)</td>
+<td>~500 млн</td>
+<td>2 г</td>
+<td>~1 000 т</td>
+</tr>
+<tr class="odd">
+<td>Дети-приёмники (фаза 2)</td>
+<td>~600 млн</td>
+<td>0 г</td>
+<td>0 т (местное)</td>
+</tr>
+<tr class="even">
+<td><strong>Итого</strong></td>
+<td>1.1 млрд</td>
+<td></td>
+<td><strong>~1 055 т</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Без оптимизации потребовалось бы 55 000 т (1 100 Starship). С Мать-Дети: 21 Starship.</em></p>
 </section>
 <section id="меркурий-рой" class="level3">
 <h3 class="anchored" data-anchor-id="меркурий-рой">Меркурий → Рой</h3>
@@ -2945,7 +3225,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <section id="см.-также" class="level2">
 <h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
 <ul>
-<li><a href="../../../ru/science/reference/trl.html">Технологическая зрелость</a> — TRL-анализ технологий</li>
+<li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL и библиография</li>
 <li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая архитектура проекта</li>
 <li><a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение локаций</li>
 <li><a href="../../../ru/science/detailed/production/factories/overview.html">Завод «Точка Ноль»</a> — технологическая карта меркурианского производства</li>
@@ -3034,7 +3314,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

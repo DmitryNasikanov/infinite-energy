@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -160,7 +362,7 @@ p:has(> em:first-child) { text-indent: 0; }
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Риски и ограничения проекта</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/technology-readiness.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Риски и ограничения проекта</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,20 +403,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -227,6 +417,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -248,20 +444,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -363,6 +547,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -608,14 +798,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -628,12 +818,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -654,41 +838,40 @@ p:has(> em:first-child) { text-indent: 0; }
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#решённые-критические-риски" id="toc-решённые-критические-риски" class="nav-link active" data-scroll-target="#решённые-критические-риски">Решённые критические риски</a>
+  <li><a href="#решённые-риски" id="toc-решённые-риски" class="nav-link active" data-scroll-target="#решённые-риски">Решённые риски</a></li>
+  <li><a href="#технологические-риски" id="toc-технологические-риски" class="nav-link" data-scroll-target="#технологические-риски">Технологические риски</a>
   <ul class="collapse">
-  <li><a href="#синхронизация-фазированной-решётки" id="toc-синхронизация-фазированной-решётки" class="nav-link" data-scroll-target="#синхронизация-фазированной-решётки">1. Синхронизация фазированной решётки</a></li>
-  <li><a href="#электрохромика-для-управления-ориентацией" id="toc-электрохромика-для-управления-ориентацией" class="nav-link" data-scroll-target="#электрохромика-для-управления-ориентацией">2. Электрохромика для управления ориентацией</a></li>
-  <li><a href="#медь-на-меркурии-не-найдена" id="toc-медь-на-меркурии-не-найдена" class="nav-link" data-scroll-target="#медь-на-меркурии-не-найдена">3. Медь на Меркурии не найдена</a></li>
-  <li><a href="#ресурс-nas-батарей-в-ночной-период" id="toc-ресурс-nas-батарей-в-ночной-период" class="nav-link" data-scroll-target="#ресурс-nas-батарей-в-ночной-период">4. Ресурс NaS-батарей в ночной период</a></li>
+  <li><a href="#технологии-trl-4-5" id="toc-технологии-trl-4-5" class="nav-link" data-scroll-target="#технологии-trl-4-5">Технологии TRL 4-5</a></li>
+  <li><a href="#открытые-технические-проблемы" id="toc-открытые-технические-проблемы" class="nav-link" data-scroll-target="#открытые-технические-проблемы">Открытые технические проблемы</a></li>
   </ul></li>
-  <li><a href="#открытые-критические-риски" id="toc-открытые-критические-риски" class="nav-link" data-scroll-target="#открытые-критические-риски">Открытые критические риски</a>
+  <li><a href="#бюджетные-риски" id="toc-бюджетные-риски" class="nav-link" data-scroll-target="#бюджетные-риски">Бюджетные риски</a>
   <ul class="collapse">
-  <li><a href="#иридий-для-анодов-mre" id="toc-иридий-для-анодов-mre" class="nav-link" data-scroll-target="#иридий-для-анодов-mre">5. Иридий для анодов MRE</a></li>
+  <li><a href="#стоимость-ии-снижается-риск-снят" id="toc-стоимость-ии-снижается-риск-снят" class="nav-link" data-scroll-target="#стоимость-ии-снижается-риск-снят">Стоимость ИИ снижается (риск снят)</a></li>
+  <li><a href="#зависимость-от-сверхтяжёлых-ракет-решено" id="toc-зависимость-от-сверхтяжёлых-ракет-решено" class="nav-link" data-scroll-target="#зависимость-от-сверхтяжёлых-ракет-решено"><del>Зависимость от сверхтяжёлых ракет</del> → РЕШЕНО</a></li>
+  <li><a href="#страхование-миссий" id="toc-страхование-миссий" class="nav-link" data-scroll-target="#страхование-миссий">Страхование миссий</a></li>
+  <li><a href="#тестирование-недооценено" id="toc-тестирование-недооценено" class="nav-link" data-scroll-target="#тестирование-недооценено">Тестирование недооценено</a></li>
   </ul></li>
-  <li><a href="#высокие-технические-риски" id="toc-высокие-технические-риски" class="nav-link" data-scroll-target="#высокие-технические-риски">Высокие технические риски</a>
+  <li><a href="#человеческие-риски" id="toc-человеческие-риски" class="nav-link" data-scroll-target="#человеческие-риски">Человеческие риски</a>
   <ul class="collapse">
-  <li><a href="#кпд-энергомоста-завышен" id="toc-кпд-энергомоста-завышен" class="nav-link" data-scroll-target="#кпд-энергомоста-завышен">6. КПД энергомоста завышен</a></li>
-  <li><a href="#деградация-зеркал-занижена" id="toc-деградация-зеркал-занижена" class="nav-link" data-scroll-target="#деградация-зеркал-занижена">7. Деградация зеркал занижена</a></li>
-  <li><a href="#мощность-мгд-насоса-занижена-снят" id="toc-мощность-мгд-насоса-занижена-снят" class="nav-link" data-scroll-target="#мощность-мгд-насоса-занижена-снят"><del>8. Мощность МГД-насоса занижена</del> → Снят</a></li>
-  <li><a href="#thermal-expansion" id="toc-thermal-expansion" class="nav-link" data-scroll-target="#thermal-expansion">9. Тепловое расширение зеркал</a></li>
-  <li><a href="#орбитальная-механика-роя" id="toc-орбитальная-механика-роя" class="nav-link" data-scroll-target="#орбитальная-механика-роя">10. Орбитальная механика Роя</a></li>
-  <li><a href="#ресурсы-меркурия-валидация-по-данным-messenger" id="toc-ресурсы-меркурия-валидация-по-данным-messenger" class="nav-link" data-scroll-target="#ресурсы-меркурия-валидация-по-данным-messenger">11. Ресурсы Меркурия — валидация по данным MESSENGER</a></li>
-  <li><a href="#время-сборки-завода-7-дней-оптимистично" id="toc-время-сборки-завода-7-дней-оптимистично" class="nav-link" data-scroll-target="#время-сборки-завода-7-дней-оптимистично">12. Время сборки завода (7 дней) — оптимистично</a></li>
+  <li><a href="#кадры" id="toc-кадры" class="nav-link" data-scroll-target="#кадры">Кадры</a></li>
+  <li><a href="#конкуренция-за-ai-специалистов" id="toc-конкуренция-за-ai-специалистов" class="nav-link" data-scroll-target="#конкуренция-за-ai-специалистов">Конкуренция за AI-специалистов</a></li>
+  <li><a href="#международные-команды" id="toc-международные-команды" class="nav-link" data-scroll-target="#международные-команды">Международные команды</a></li>
+  <li><a href="#удержание-кадров" id="toc-удержание-кадров" class="nav-link" data-scroll-target="#удержание-кадров">Удержание кадров</a></li>
+  </ul></li>
+  <li><a href="#политические-риски" id="toc-политические-риски" class="nav-link" data-scroll-target="#политические-риски">Политические риски</a>
+  <ul class="collapse">
+  <li><a href="#санкции-и-международная-напряжённость" id="toc-санкции-и-международная-напряжённость" class="nav-link" data-scroll-target="#санкции-и-международная-напряжённость">Санкции и международная напряжённость</a></li>
+  <li><a href="#смена-правительств" id="toc-смена-правительств" class="nav-link" data-scroll-target="#смена-правительств">Смена правительств</a></li>
+  <li><a href="#конкуренция-вместо-кооперации" id="toc-конкуренция-вместо-кооперации" class="nav-link" data-scroll-target="#конкуренция-вместо-кооперации">Конкуренция вместо кооперации</a></li>
+  <li><a href="#правовой-статус-ресурсов" id="toc-правовой-статус-ресурсов" class="nav-link" data-scroll-target="#правовой-статус-ресурсов">Правовой статус ресурсов</a></li>
+  <li><a href="#общественное-мнение" id="toc-общественное-мнение" class="nav-link" data-scroll-target="#общественное-мнение">Общественное мнение</a></li>
   </ul></li>
   <li><a href="#ресурсные-ограничения" id="toc-ресурсные-ограничения" class="nav-link" data-scroll-target="#ресурсные-ограничения">Ресурсные ограничения</a>
   <ul class="collapse">
-  <li><a href="#вольфрам" id="toc-вольфрам" class="nav-link" data-scroll-target="#вольфрам">Вольфрам</a></li>
   <li><a href="#электроника" id="toc-электроника" class="nav-link" data-scroll-target="#электроника">Электроника</a></li>
   <li><a href="#пусковые-мощности" id="toc-пусковые-мощности" class="nav-link" data-scroll-target="#пусковые-мощности">Пусковые мощности</a></li>
   </ul></li>
-  <li><a href="#валидация-расчёта-добычи-58-60-роботов-на-комплекс" id="toc-валидация-расчёта-добычи-58-60-роботов-на-комплекс" class="nav-link" data-scroll-target="#валидация-расчёта-добычи-58-60-роботов-на-комплекс">Валидация расчёта добычи (58-60 роботов на комплекс)</a>
-  <ul class="collapse">
-  <li><a href="#производственная-цепочка-на-1-комплекс" id="toc-производственная-цепочка-на-1-комплекс" class="nav-link" data-scroll-target="#производственная-цепочка-на-1-комплекс">Производственная цепочка (на 1 комплекс)</a></li>
-  <li><a href="#почему-33-выход-а-не-8-al" id="toc-почему-33-выход-а-не-8-al" class="nav-link" data-scroll-target="#почему-33-выход-а-не-8-al">Почему 33% выход (а не 8% Al)?</a></li>
-  <li><a href="#расчёт-роботов" id="toc-расчёт-роботов" class="nav-link" data-scroll-target="#расчёт-роботов">Расчёт роботов</a></li>
-  <li><a href="#производительность-крота-м" id="toc-производительность-крота-м" class="nav-link" data-scroll-target="#производительность-крота-м">Производительность Крота-М</a></li>
-  </ul></li>
-  <li><a href="#неопределённости-требуют-исследований" id="toc-неопределённости-требуют-исследований" class="nav-link" data-scroll-target="#неопределённости-требуют-исследований">Неопределённости (требуют исследований)</a></li>
+  <li><a href="#неопределённости" id="toc-неопределённости" class="nav-link" data-scroll-target="#неопределённости">Неопределённости</a></li>
   <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
   </ul>
 </nav>
@@ -696,7 +879,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Риски и ограничения проекта</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/reference/technology-readiness.html">Справочники</a></li><li class="breadcrumb-item"><a href="../../../ru/science/reference/risks.html">Риски и ограничения проекта</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Риски и ограничения проекта</h1>
 </div>
@@ -718,191 +901,105 @@ p:has(> em:first-child) { text-indent: 0; }
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>Решённых рисков:</strong> 5
-<ul>
-<li>Синхронизация фазированной решётки → <a href="../../../ru/science/summaries/energy.html#координация-миллиарда-зеркал">локальные кластеры</a></li>
-<li>Электрохромика → <a href="../../../ru/science/summaries/energy.html#решение-электрохромное-покрытие--давление-света">достаточна для задачи</a></li>
-<li>Медь на Меркурии → <a href="../../../ru/science/detailed/production/railguns/theory.html#криоалюминий">криоалюминий в тени</a></li>
-<li>NaS-батареи → <a href="../../../ru/science/detailed/production/robots/overview.html">кабели + станции</a></li>
-<li>Орбитальная механика → <a href="../../../ru/science/detailed/mirrors.html">давление света + эфемериды</a></li>
-</ul></li>
-<li><strong>Открытых критических:</strong> 1 (иридий для анодов → Cr-Fe-Co как основной путь)</li>
-<li><strong>Высоких рисков:</strong> 5 (влияют на параметры, не блокируют проект)
-<ul>
-<li>КПД энергомоста → избыточность 100×</li>
-<li>Деградация зеркал → стратегия “добавляй, не заменяй”</li>
-<li><del>МГД-насос</del> → снят (ошибка в оценке)</li>
-<li>Тепловое расширение → углепластик (импорт)</li>
-<li>Ресурсы Меркурия → MESSENGER подтверждает</li>
-<li>Время сборки → задержка ~2% графика</li>
-</ul></li>
-<li><strong>Ресурсных ограничений:</strong> 3 (лимиты мировой промышленности)</li>
-<li><strong>Неопределённостей:</strong> 6 (требуют исследований)</li>
+<li><strong>Технологические:</strong> 2 технологии TRL 4-5 (подсистемы доказаны), 1 критическая проблема (иридий для анодов — решается углеродными анодами из местного сырья)</li>
+<li><strong>Бюджетные:</strong> тестирование занижено</li>
+<li><strong>Человеческие:</strong> 50,000 специалистов, конкуренция за AI-кадры</li>
+<li><strong>Политические:</strong> санкции, смена правительств, правовой статус ресурсов</li>
+<li><strong>Ресурсные:</strong> электроника ~8%/год от мирового производства</li>
 </ul>
 </blockquote>
 <hr>
-<section id="решённые-критические-риски" class="level2">
-<h2 class="anchored" data-anchor-id="решённые-критические-риски">Решённые критические риски</h2>
-<p>Эти проблемы изначально блокировали проект, но теперь имеют решения.</p>
-<section id="синхронизация-фазированной-решётки" class="level3">
-<h3 class="anchored" data-anchor-id="синхронизация-фазированной-решётки">1. Синхронизация фазированной решётки</h3>
-<p><strong>Проблема:</strong> Для коллимированного лазерного луча на 100 млн км нужна синхронизация миллиарда зеркал с точностью в наносекунды. Задержка сигнала туда-обратно: ~670 секунд — невозможно замкнуть feedback loop.</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a>, <a href="../../../ru/science/summaries/energy.html">Передача энергии</a></p>
-<p><strong>Решение: Локальные кластеры</strong></p>
-<p>Вместо глобальной когерентности используем <strong>группы из 1000–10 000 зеркал</strong>, синхронизированные внутри кластера:</p>
+<section id="решённые-риски" class="level2">
+<h2 class="anchored" data-anchor-id="решённые-риски">Решённые риски</h2>
+<p>Эти проблемы изначально казались блокирующими, но имеют решения.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Параметр</th>
-<th>Глобальная решётка</th>
-<th>Локальный кластер</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>База D</td>
-<td>10⁶ км</td>
-<td>100 км</td>
-</tr>
-<tr class="even">
-<td>Задержка связи</td>
-<td>670 сек</td>
-<td>0.3 мс</td>
-</tr>
-<tr class="odd">
-<td>Синхронизация</td>
-<td>Невозможна</td>
-<td>✅ Реализуема</td>
-</tr>
-<tr class="even">
-<td>Расширение луча</td>
-<td>~1 м</td>
-<td>~1 км</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/summaries/energy.html#координация-миллиарда-зеркал">Координация миллиарда зеркал</a></p>
-<p><strong>Статус:</strong> ✅ Решено (локальные кластеры)</p>
-<hr>
-</section>
-<section id="электрохромика-для-управления-ориентацией" class="level3">
-<h3 class="anchored" data-anchor-id="электрохромика-для-управления-ориентацией">2. Электрохромика для управления ориентацией</h3>
-<p><strong>Проблема:</strong> IKAROS использовал электрохромику для грубого управления (~1°). Для фазированной решётки нужна наносекундная синхронизация — физически невозможно с электрохромикой (время отклика ~100 мс).</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/summaries/energy.html">Передача энергии</a></p>
-<p><strong>Решение: Электрохромика достаточна</strong></p>
-<p>При переходе на локальные кластеры (см. #1) требования к точности снижаются:</p>
-<ul>
-<li>Нужна ориентация ~0.01° (не наносекундная синхронизация)</li>
-<li>Электрохромика IKAROS обеспечивала ~1° — с запасом</li>
-<li>Давление света: ~60 мкПа на орбите Меркурия → достаточно для точного позиционирования</li>
-</ul>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/summaries/energy.html#решение-электрохромное-покрытие--давление-света">Система наведения</a></p>
-<p><strong>Статус:</strong> ✅ Решено (электрохромика достаточна для кластерной архитектуры)</p>
-<hr>
-</section>
-<section id="медь-на-меркурии-не-найдена" class="level3">
-<h3 class="anchored" data-anchor-id="медь-на-меркурии-не-найдена">3. Медь на Меркурии не найдена</h3>
-<p><strong>Проблема:</strong> Для масс-драйверов нужны обмотки с высокой проводимостью. Меди на Меркурии не обнаружено (MESSENGER).</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a>, <a href="../../../ru/science/detailed/production/railguns/theory.html">Масс-драйвер</a></p>
-<p><strong>Расчёт влияния:</strong></p>
-<ul>
-<li>Алюминий: 60% проводимости меди → КПД падает с 40% до ~30%</li>
-<li>Натрий в стальных трубках: ~40% проводимости меди, но реактивен</li>
-</ul>
-<p><strong>Решение: Криоалюминий (естественное охлаждение)</strong></p>
-<p>Масс-драйверы размещены стационарно с оптимизацией по максимальному времени в тени. Большую часть меркурианского дня (176 земных суток) конструкция находится в тени при -180°C — алюминий естественно криогенный без активной системы охлаждения:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Конфигурация</th>
-<th>КПД</th>
-<th>Условия</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Алюминий при +20°C (солнечный период)</td>
-<td>25-30%</td>
-<td>Простой</td>
-</tr>
-<tr class="even">
-<td><strong>Алюминий при -180°C (теневой период)</strong></td>
-<td><strong>35-40%</strong></td>
-<td>Естественное охлаждение</td>
-</tr>
-<tr class="odd">
-<td>Импорт меди</td>
-<td>40%</td>
-<td>Дорого</td>
-</tr>
-</tbody>
-</table>
-<p>При -180°C проводимость алюминия возрастает до <strong>360%</strong> от номинала — сопоставимо с медью при комнатной температуре. Солнечные панели размещены рядом, на освещённой стороне.</p>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/production/railguns/theory.html#криоалюминий">Криоалюминий</a></p>
-<p><strong>Статус:</strong> ✅ Решено (стационарное размещение в тени)</p>
-<hr>
-</section>
-<section id="ресурс-nas-батарей-в-ночной-период" class="level3">
-<h3 class="anchored" data-anchor-id="ресурс-nas-батарей-в-ночной-период">4. Ресурс NaS-батарей в ночной период</h3>
-<p><strong>Проблема:</strong> Ночь Меркурия = 88 земных суток. NaS-батареи требуют подогрева (300°C), потребляя ~5-10 кВт постоянно.</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/detailed/production/robots/overview.html">Бестиарий роботов</a></p>
-<p><strong>Расчёт:</strong></p>
-<pre><code>Энергия на подогрев: 10 кВт × 88 × 24 ч = 21 МВт·ч
-Ёмкость батареи робота: ~10-15 кВт·ч
-Результат: Батарея разряжается за 1-2 часа</code></pre>
-<p><strong>Решение: СИСТЕМА ЭНЕРГОСНАБЖЕНИЯ ДЛЯ ВСЕХ GEN-2 РОБОТОВ</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 28%">
-<col style="width: 36%">
-<col style="width: 36%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Робот</th>
+<th>Риск</th>
 <th>Решение</th>
-<th>Принцип</th>
+<th>Подробности</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Крот-М</strong></td>
-<td>Кабель 10 км + автономия</td>
-<td>Радиальная добыча от завода</td>
+<td>Синхронизация фазированной решётки</td>
+<td>Оптическое управление: Мать-зеркало → ~1000 Детей</td>
+<td><a href="../../../ru/science/detailed/mirrors.html#optical-cluster-control">Оптическое управление</a></td>
 </tr>
 <tr class="even">
-<td><strong>Краб-М</strong></td>
-<td>Зарядные станции</td>
-<td>Маршрутная логистика, зарядка при погрузке</td>
+<td>Электрохромика слишком медленная</td>
+<td>Достаточна для кластерной архитектуры</td>
+<td><a href="../../../ru/science/reference/technology-readiness.html#электрохромика-tio₂">Электрохромика TiO₂ TRL 7-8</a></td>
 </tr>
 <tr class="odd">
-<td><strong>Кентавр-М</strong></td>
-<td>Кабель 50 м (внутри) + станции (снаружи)</td>
-<td>Две зоны работы, вахтовый режим</td>
+<td>Импорт электроники для зеркал (55 000 т)</td>
+<td>Архитектура Мать-Дети: 98% экономия</td>
+<td><a href="../../../ru/science/detailed/mirrors.html#optical-cluster-control">Оптическое управление</a></td>
+</tr>
+<tr class="even">
+<td>Медь не найдена на Меркурии</td>
+<td>Криоалюминий в тени (-180°C)</td>
+<td><a href="../../../ru/science/reference/technology-readiness.html#криогенный-алюминиевый-кабель-гвт">Криогенный Al</a></td>
+</tr>
+<tr class="odd">
+<td>NaS-батареи в ночной период</td>
+<td>Кабели + зарядные станции</td>
+<td><a href="../../../ru/science/reference/technology-readiness.html#nas-батареи">NaS TRL 9</a></td>
+</tr>
+<tr class="even">
+<td><strong>Выживаемость груза при высоком g</strong></td>
+<td>Доказано до 25,000g (McCormick Stevenson)</td>
+<td><a href="../../../ru/science/detailed/production/railguns/theory.html#выживаемость-груза-при-1275g--решено">Теория МД</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Зависимость от сверхтяжёлых ракет</strong></td>
+<td>Мульти-ракетный подход: 3-4 средних ракеты + независимые посадки на Меркурий</td>
+<td><a href="../../../ru/science/detailed/delivery.html">Доставка</a></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Физика терминатора:</strong> - Скорость терминатора: ~3 м/с (медленнее пешехода) - Температура в зоне терминатора: 0–100°C (идеально для роботов)</p>
-<p><strong>Инфраструктура на 1 комплекс:</strong> ~35–37 точек (кабельные + зарядные станции)</p>
-<p><strong>Подробности:</strong> - <a href="../../../ru/science/detailed/production/robots/overview.html">Операционная модель Крот-М</a> - <a href="../../../ru/science/detailed/production/robots/overview.html">Операционная модель Краб-М</a> - <a href="../../../ru/science/detailed/production/robots/overview.html">Операционная модель Кентавр-М</a> - <a href="../../../ru/science/detailed/production/factories/overview.html">Инфраструктура энергоснабжения</a></p>
-<p><strong>Статус:</strong> ✓ Решено для всех Gen-2 роботов</p>
 <hr>
 </section>
+<section id="технологические-риски" class="level2">
+<h2 class="anchored" data-anchor-id="технологические-риски">Технологические риски</h2>
+<section id="технологии-trl-4-5" class="level3">
+<h3 class="anchored" data-anchor-id="технологии-trl-4-5">Технологии TRL 4-5</h3>
+<p>Требуют дополнительной проработки, но не являются принципиально новыми. Все подсистемы доказаны (TRL 9), задача — интеграция.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Технология</th>
+<th>TRL</th>
+<th>Статус</th>
+<th>Ближайший аналог</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../../ru/science/reference/technology-readiness.html#саморепликация-заводов">Саморепликация заводов</a></td>
+<td>4-5</td>
+<td>Подсистемы TRL 9, интеграция — инженерная задача</td>
+<td>FANUC: роботы строят роботов</td>
+</tr>
+<tr class="even">
+<td><a href="../../../ru/science/reference/technology-readiness.html#криогенный-алюминиевый-кабель-гвт">Криогенный Al кабель ГВт</a></td>
+<td>4-5</td>
+<td>Физика NIST, сверхпроводящие аналоги TRL 5-6</td>
+<td>CERN LHC криогеника</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Примечание:</strong> ИИ автономных роботов повышен до TRL 7-8 благодаря Mars Perseverance, Waymo, Rio Tinto + Baidu Apollo L4, UBTECH, AgiBot. In-situ кремниевые ячейки повышены до TRL 5-6 (Blue Alchemist CDR 2025, Maana Electric ISRU панель 2024). Саморепликация и криогенный кабель повышены до TRL 4-5 (все подсистемы имеют промышленные прецеденты).</p>
+</blockquote>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/reference/technology-readiness.html#технологии-trl-4-5-открытые-вопросы">Технологии и источники → TRL 4-5</a></p>
+<hr>
 </section>
-<section id="открытые-критические-риски" class="level2">
-<h2 class="anchored" data-anchor-id="открытые-критические-риски">Открытые критические риски</h2>
-<p>Требуют дополнительной проработки.</p>
-<section id="иридий-для-анодов-mre" class="level3">
-<h3 class="anchored" data-anchor-id="иридий-для-анодов-mre">5. Иридий для анодов MRE</h3>
+<section id="открытые-технические-проблемы" class="level3">
+<h3 class="anchored" data-anchor-id="открытые-технические-проблемы">Открытые технические проблемы</h3>
+<section id="иридий-для-анодов-mre-критический" class="level4">
+<h4 class="anchored" data-anchor-id="иридий-для-анодов-mre-критический">Иридий для анодов MRE (критический)</h4>
 <p><strong>Проблема:</strong> Аноды MRE расходуются и требуют замены каждые 6 месяцев.</p>
-<p><strong>Статус технологии MRE:</strong> TRL 5/6 (NASA KSC 2024, Blue Origin Blue Alchemist, Lunar Resources — 25 кг реголита переработано). Сама технология электролиза подтверждена, проблема — <strong>только в ресурсе анодов</strong>.</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/detailed/production/factories/overview.html">Завод “Точка Ноль”</a>, <a href="../../../ru/science/reference/trl.html">Технологическая зрелость</a></p>
-<p><strong>Расчёт:</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -916,82 +1013,37 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>~20 кг иридия</td>
 </tr>
 <tr class="even">
-<td>Замен за 10 лет</td>
-<td>20</td>
+<td>На 1000 заводов за 10 лет</td>
+<td>~400 тонн</td>
 </tr>
 <tr class="odd">
-<td>На 1000 заводов</td>
-<td><strong>~400 тонн</strong></td>
-</tr>
-<tr class="even">
 <td>Мировое производство</td>
 <td>~7 т/год</td>
 </tr>
-<tr class="odd">
-<td>Дефицит</td>
+<tr class="even">
+<td><strong>Дефицит</strong></td>
 <td><strong>~6× мирового производства</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Альтернативы (ранжированы по реалистичности):</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Альтернатива</th>
-<th>TRL</th>
-<th>Ресурс анода</th>
-<th>Импорт</th>
-<th>Рекомендация</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Cr-Fe-Co аноды</strong></td>
-<td>~4</td>
-<td>3 мес</td>
-<td>0 (Cr, Fe на Меркурии)</td>
-<td><strong>Основной путь</strong></td>
-</tr>
-<tr class="even">
-<td>Углеродные расходуемые</td>
-<td>~3</td>
-<td>Одноразовые</td>
-<td>C с полюсов (1-3% в LRM)</td>
-<td>Резерв</td>
-</tr>
-<tr class="odd">
-<td>H₂ восстановление</td>
-<td>~2</td>
-<td>Не нужны</td>
-<td>H₂O с полюсов</td>
-<td>Долгосрочно</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Основной путь — Cr-Fe-Co:</strong> - Ресурс ниже (замена каждые 3 мес вместо 6), но материалы доступны на Меркурии - Масса анода ~20 кг → 80 кг/год/завод × 1000 заводов = 80 т/год (местное производство) - Хром: содержание в реголите достаточное для масштаба</p>
-<p><strong>Статус:</strong> ⚠️ Серьёзная проблема — Cr-Fe-Co наиболее вероятное решение, требует валидации TRL</p>
+<p><strong>Масштаб проблемы:</strong> При полном масштабировании до 1650 заводов (20 MRE-ячеек × 4 анода × 2 кг) потребуется ~264 т иридия на начальную загрузку и ~330 т/год на замену — это ×40+ мирового производства. Импорт иридия возможен только на ранних этапах (единицы заводов), при масштабировании переход на местные аноды <strong>обязателен</strong>.</p>
+<p><strong>Решения (местное сырьё):</strong></p>
+<ol type="1">
+<li><strong>Углеродные аноды</strong> — расходуемые, ~10 кг/день на завод. Углерод добывается из LRM-зон Меркурия (<a href="../../../ru/science/detailed/production/materials/carbon.html">подробнее</a>). Проработана полная цепочка: добыча графита → доставка мини-МД → аноды. Потребность покрывается.</li>
+<li><strong>Cr-Fe-Co аноды</strong> — ресурс ниже (замена каждые 3 мес), но материалы есть на Меркурии. 80 т/год местного производства. TRL ~4, требует валидации.</li>
+<li><strong>H₂ восстановление</strong> — TRL ~2, перспективная альтернатива.</li>
+</ol>
+<p><strong>Статус:</strong> Проблема решаема — углеродные аноды из местного сырья наиболее проработанный путь</p>
 <hr>
 </section>
-</section>
-<section id="высокие-технические-риски" class="level2">
-<h2 class="anchored" data-anchor-id="высокие-технические-риски">Высокие технические риски</h2>
-<p>Влияют на параметры проекта, но не блокируют реализацию.</p>
-<section id="кпд-энергомоста-завышен" class="level3">
-<h3 class="anchored" data-anchor-id="кпд-энергомоста-завышен">6. КПД энергомоста завышен</h3>
-<p><strong>В расчётах:</strong> 22-23% <strong>Реальная оценка:</strong> 10-15%</p>
+<section id="кпд-энергомоста" class="level4">
+<h4 class="anchored" data-anchor-id="кпд-энергомоста">КПД энергомоста</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Этап</th>
 <th>Расчётный</th>
-<th>Реальный</th>
+<th>Пессимистичный</th>
 </tr>
 </thead>
 <tbody>
@@ -1006,66 +1058,36 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>35-45%</td>
 </tr>
 <tr class="odd">
-<td>Атмосфера (с облачностью)</td>
+<td>Атмосфера</td>
 <td>85%</td>
 <td>30-60%</td>
 </tr>
-</tbody>
-</table>
-<p><strong>Последствие:</strong> Реальная мощность на Земле в 1.5-2× ниже расчётной</p>
-<p><strong>Компенсация: Избыточность 100×</strong></p>
-<p>Проект изначально рассчитан с запасом:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Отражённая мощность</td>
-<td>10 ПВт</td>
-</tr>
 <tr class="even">
-<td>При КПД 18%</td>
-<td>1.8 ПВт = 1800 ТВт</td>
-</tr>
-<tr class="odd">
-<td>При КПД 10%</td>
-<td>1 ПВт = 1000 ТВт</td>
-</tr>
-<tr class="even">
-<td>Мировое потребление</td>
-<td>20 ТВт</td>
-</tr>
-<tr class="odd">
-<td><strong>Запас</strong></td>
-<td><strong>50-100×</strong></td>
+<td><strong>Итого</strong></td>
+<td><strong>22-23%</strong></td>
+<td><strong>10-15%</strong></td>
 </tr>
 </tbody>
 </table>
-<p>Даже при пессимистичном КПД 10% → мощность = 50× мирового потребления.</p>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/summaries/energy.html#итоговый-кпд">Итоговый КПД</a></p>
-<p><strong>Статус:</strong> ⚠️ Учтённое ограничение (компенсируется избыточностью)</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a>, <a href="../../../ru/science/summaries/energy.html">Передача энергии</a></p>
+<p><strong>Компенсация:</strong> Избыточность 50-100× (даже при КПД 10% → 1000 ТВт = 50× мирового потребления)</p>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/mirrors.html#кпд-передачи-энергии-через-лунные-lsp-станции">Зеркала Роя</a></p>
 <hr>
 </section>
-<section id="деградация-зеркал-занижена" class="level3">
-<h3 class="anchored" data-anchor-id="деградация-зеркал-занижена">7. Деградация зеркал занижена</h3>
+<section id="деградация-зеркал" class="level4">
+<h4 class="anchored" data-anchor-id="деградация-зеркал">Деградация зеркал</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Параметр</th>
-<th>В расчётах</th>
-<th>Реальная оценка</th>
+<th>Расчёт</th>
+<th>Пессимистично</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Срок службы</td>
 <td>10-15 лет</td>
-<td><strong>5-8 лет</strong></td>
+<td>5-8 лет</td>
 </tr>
 <tr class="even">
 <td>Потери КПД/год</td>
@@ -1074,102 +1096,12 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<p><strong>Причины:</strong> - Солнечный ветер на орбите Меркурия в 10× сильнее - Микрометеориты (JWST показал проблему) - Электростатика</p>
-<p><strong>Решение: Стратегия “добавляй, не заменяй”</strong></p>
-<p>Место в рое не ограничено. Старые зеркала продолжают работать на сниженном КПД, новые добавляются:</p>
-<ul>
-<li>При полном отказе → автоматическая утилизация (<a href="../../../ru/science/detailed/mirrors.html">падение на Солнце</a> через солнечный парус)</li>
-<li>Производство 219 млн/год компенсирует ускоренную деградацию</li>
-</ul>
-<p><strong>Пересчёт при сроке 7 лет (пессимистичный):</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Год</th>
-<th>Произведено</th>
-<th>Выбыло</th>
-<th>Всего активных</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1–6</td>
-<td>548 млн</td>
-<td>0</td>
-<td>548 млн</td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>219 млн</td>
-<td>11 млн</td>
-<td>756 млн</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>219 млн</td>
-<td>33 млн</td>
-<td>942 млн</td>
-</tr>
-<tr class="even">
-<td>9</td>
-<td>219 млн</td>
-<td>88 млн</td>
-<td>1073 млн</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>219 млн</td>
-<td>197 млн</td>
-<td>1095 млн</td>
-</tr>
-</tbody>
-</table>
-<p>Пиковый дефицит vs.&nbsp;план: ~15%. Целевая мощность 10 ПВт достигается к году 5 (без изменений), дальнейшее накопление замедляется.</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/summaries/energy.html">Передача энергии</a>, <a href="../../../ru/science/detailed/mirrors.html">Зеркала</a></p>
-<p><strong>Статус:</strong> ⚠️ Влияет на темп накопления после года 7, не блокирует проект</p>
+<p><strong>Причины:</strong> Солнечный ветер 10×, микрометеориты (JWST показал проблему), электростатика.</p>
+<p><strong>Решение:</strong> Стратегия «добавляй, не заменяй» — производство 219 млн/год компенсирует деградацию.</p>
 <hr>
 </section>
-<section id="мощность-мгд-насоса-занижена-снят" class="level3">
-<h3 class="anchored" data-anchor-id="мощность-мгд-насоса-занижена-снят"><del>8. Мощность МГД-насоса занижена</del> → Снят</h3>
-<p><strong>Исходная формулировка:</strong> “20 кВт в документе → 500 кВт реально, занижение 25×”</p>
-<p><strong>Причина снятия:</strong> Путаница компонентов. По данным <a href="../../../ru/science/detailed/production/factories/elements/melting.html">секции плавки</a>:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Компонент</th>
-<th>Мощность</th>
-<th>Что это</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Магнитный сепаратор</td>
-<td>20 кВт</td>
-<td>Исходные “20 кВт”</td>
-</tr>
-<tr class="even">
-<td>МГД-каналы</td>
-<td>100 кВт (2×50)</td>
-<td>Собственно насос</td>
-</tr>
-<tr class="odd">
-<td>Вся секция плавки</td>
-<td>225 кВт</td>
-<td>МГД + индукция + NaK + автоматика</td>
-</tr>
-<tr class="even">
-<td>Электролиз MRE</td>
-<td>500 кВт</td>
-<td>Исходные “500 кВт” (другой узел)</td>
-</tr>
-</tbody>
-</table>
-<p>При бюджете завода ~50 МВт секция плавки = <strong>0.45%</strong> потребления. Не является риском.</p>
-<p><strong>Статус:</strong> ❌ Снят (ошибка в исходной оценке)</p>
-<hr>
-</section>
-<section id="thermal-expansion" class="level3">
-<h3 class="anchored" data-anchor-id="thermal-expansion">9. Тепловое расширение зеркал</h3>
+<section id="тепловое-расширение-зеркал" class="level4">
+<h4 class="anchored" data-anchor-id="тепловое-расширение-зеркал">Тепловое расширение зеркал</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1178,249 +1110,352 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>Температура освещённой стороны</td>
-<td>+38°C</td>
-</tr>
-<tr class="even">
-<td>Температура в тени</td>
-<td>−50°C</td>
-</tr>
 <tr class="odd">
 <td>ΔT при вращении</td>
 <td>до 88 K</td>
 </tr>
 <tr class="even">
-<td>Коэффициент Al</td>
-<td>23×10⁻⁶ K⁻¹</td>
-</tr>
-<tr class="odd">
-<td>Смещение края 100 м зеркала</td>
-<td><strong>~20 см</strong></td>
+<td>Смещение края 100 м (Al)</td>
+<td>~20 см</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Расчёт:</strong> 100 м × 23×10⁻⁶ K⁻¹ × 88 K = 0.20 м</p>
-<p><strong>Последствие:</strong> Тепловые деформации нарушают плоскостность и точность наведения. Для фазированной решётки критично.</p>
-<p><strong>Решение: Композитный каркас с низким КТР</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Материал каркаса</th>
-<th>CTE (K⁻¹)</th>
-<th>Смещение на 100 м</th>
-<th>Импорт</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Алюминий (текущий)</td>
-<td>23×10⁻⁶</td>
-<td>20 см</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td><strong>Углепластик (CFRP)</strong></td>
-<td><strong>~1×10⁻⁶</strong></td>
-<td><strong>0.9 см</strong></td>
-<td>~0.5 т/завод</td>
-</tr>
-<tr class="odd">
-<td>Инвар (Fe-36Ni)</td>
-<td>~1.2×10⁻⁶</td>
-<td>1.1 см</td>
-<td>Ni с полюсов?</td>
-</tr>
-</tbody>
-</table>
-<p>Углепластик уменьшает деформацию в 23× → остаточное смещение ~1 см на 100 м, допустимо для кластерной архитектуры. Входит в категорию “витаминов” (импорт с Земли).</p>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/summaries/energy.html#thermal-balance">Расчёт температуры зеркала</a></p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a>, <a href="../../../ru/science/summaries/energy.html">Энергия</a></p>
-<p><strong>Статус:</strong> ⚠️ Решаемо импортом углепластика (~0.5 т/завод)</p>
+<p><strong>Решение:</strong> Углепластиковый каркас (CTE ~1×10⁻⁶) → смещение ~1 см. Импорт ~0.5 т/завод.</p>
 <hr>
 </section>
-<section id="орбитальная-механика-роя" class="level3">
-<h3 class="anchored" data-anchor-id="орбитальная-механика-роя">10. Орбитальная механика Роя</h3>
-<p><strong>Исходные опасения:</strong></p>
-<ul>
-<li>Нет модели возмущений от Венеры, Юпитера, Земли</li>
-<li>Нет расчёта энергии на коррекцию орбит миллиарда объектов</li>
-<li>Микрометеориты смещают центр масс зеркал</li>
-</ul>
-<p><strong>Решение: Давление света + эфемериды</strong></p>
-<p>Каждое зеркало — солнечный парус с автономной коррекцией:</p>
+<section id="ресурсы-меркурия-данные-messenger" class="level4">
+<h4 class="anchored" data-anchor-id="ресурсы-меркурия-данные-messenger">Ресурсы Меркурия (данные MESSENGER)</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 52%">
-<col style="width: 47%">
+<col style="width: 16%">
+<col style="width: 24%">
+<col style="width: 44%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Механизм</th>
-<th>Принцип</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Давление света</strong></td>
-<td>~60 мкПа на орбите Меркурия → микрокоррекции без топлива</td>
-</tr>
-<tr class="even">
-<td><strong>Электрохромика</strong></td>
-<td>Разница отражательности → крутящий момент</td>
-</tr>
-<tr class="odd">
-<td><strong>Предсказуемые орбиты</strong></td>
-<td>Эфемериды рассчитываются заранее</td>
-</tr>
-<tr class="even">
-<td><strong>Кластерная структура</strong></td>
-<td>Возмущения воздействуют на весь кластер равномерно</td>
-</tr>
-</tbody>
-</table>
-<p>Зеркала на гелиоцентрических орбитах стабилизированы гравитацией Солнца. Возмущения от планет — медленные и предсказуемые.</p>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/mirrors.html">Удержание на орбите</a></p>
-<p><strong>Статус:</strong> ✅ Решено (давление света + эфемериды)</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a></p>
-<hr>
-</section>
-<section id="ресурсы-меркурия-валидация-по-данным-messenger" class="level3">
-<h3 class="anchored" data-anchor-id="ресурсы-меркурия-валидация-по-данным-messenger">11. Ресурсы Меркурия — валидация по данным MESSENGER</h3>
-<p><strong>Источники:</strong> MESSENGER XRS/GRS (2011-2015), Science, JGR Planets</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
 <th>Элемент</th>
-<th>В проекте</th>
-<th>MESSENGER</th>
+<th>Потребность</th>
+<th>В реголите (MESSENGER)</th>
 <th>Статус</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Железо (Fe)</strong></td>
-<td>~5%</td>
-<td><strong>1.5–2%</strong></td>
-<td>⚠️ В 2.5× меньше</td>
+<td>Al</td>
+<td>42 т/день (7%) — зеркала, обмотки</td>
+<td>~7% (из полевых шпатов)</td>
+<td><strong>Достаточно</strong></td>
 </tr>
 <tr class="even">
-<td><strong>Кремний (Si)</strong></td>
-<td>~20%</td>
+<td>Si</td>
+<td>25 т/день (4%) — солнечные панели</td>
 <td>~24.6%</td>
-<td>✓ Достаточно</td>
+<td>Достаточно с запасом</td>
 </tr>
 <tr class="odd">
-<td><strong>Сера (S)</strong></td>
-<td>Высокое</td>
-<td><strong>2.5–4%</strong></td>
-<td>✓ Идеально (10× Земли)</td>
-</tr>
-<tr class="even">
-<td><strong>Натрий (Na)</strong></td>
-<td>Достаточно</td>
-<td><strong>2.6–4.9%</strong></td>
-<td>✓ Достаточно</td>
-</tr>
-<tr class="odd">
-<td><strong>Алюминий (Al)</strong></td>
-<td>Достаточно</td>
-<td>Ниже Луны</td>
-<td>⚠️ Умеренно</td>
-</tr>
-<tr class="even">
-<td><strong>Магний (Mg)</strong></td>
-<td>Достаточно</td>
-<td>Доминирует</td>
-<td>✓ Бонус</td>
-</tr>
-<tr class="odd">
-<td><strong>Медь (Cu)</strong></td>
-<td>Нет</td>
-<td><strong>Нет</strong></td>
-<td>✓ Учтено</td>
-</tr>
-<tr class="even">
-<td><strong>Углерод (C)</strong></td>
-<td>Почти нет</td>
-<td><strong>1-3% в LRM</strong></td>
-<td>✓ <a href="https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/">Переоценён!</a></td>
+<td>Fe</td>
+<td>10 т/день (~2%) — рамы роботов</td>
+<td>1.5-2%</td>
+<td>Достаточно (пр-во рассчитано на 2%)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Железо в деталях:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Локация</th>
-<th>Содержание</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Ядро</td>
-<td>~70% (недоступно, глубина 400+ км)</td>
-</tr>
-<tr class="even">
-<td>Кора/поверхность</td>
-<td><strong>1.5–2%</strong></td>
-</tr>
-<tr class="odd">
-<td>Сравнение: Луна</td>
-<td>~10%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Последствие:</strong> Нужно перерабатывать в 2.5–3× больше реголита для получения железа. НО: зеркала делаются из <strong>алюминия</strong>, железо нужно только для роботов и заводов (~1 млн тонн на весь проект).</p>
-<p><strong>Главное преимущество Меркурия — энергия (7×), не минералы.</strong></p>
-<p><strong>Источник:</strong> <a href="https://science.nasa.gov/mission/messenger/">NASA MESSENGER</a>, исправлено в <a href="../../../ru/science/executive-summary.html">Проекте</a></p>
+<p><strong>Вывод:</strong> Основной материал — алюминий (~95% массы зеркал). Производственная цепочка (<a href="../../../ru/science/detailed/production/materials/distillation.html">дистилляция</a>) спроектирована под реальный состав реголита по MESSENGER. Дефицита базовых элементов нет.</p>
 <hr>
 </section>
-<section id="время-сборки-завода-7-дней-оптимистично" class="level3">
-<h3 class="anchored" data-anchor-id="время-сборки-завода-7-дней-оптимистично">12. Время сборки завода (7 дней) — оптимистично</h3>
-<p><strong>В документе:</strong> 7 дней “блиц-монтаж” <strong>Реальная оценка:</strong> 30-60 дней</p>
-<p><strong>Причины:</strong> - Предсборка на Земле минимизирует, но не устраняет работу на месте - Непредвиденные проблемы при первой посадке - Калибровка и тестирование</p>
-<p><strong>Анализ последствий:</strong></p>
+<section id="время-сборки-первого-завода" class="level4">
+<h4 class="anchored" data-anchor-id="время-сборки-первого-завода">Время сборки первого завода</h4>
+<p><strong>Критический checkpoint:</strong> Энерго-автономия (12-24 часа)</p>
+<p>После checkpoint время сборки НЕ критично — ограничение только ресурс Gen-1 (2-3 года).</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 26%">
+<col style="width: 12%">
+<col style="width: 19%">
+<col style="width: 23%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Сценарий</th>
-<th>Сборка</th>
-<th>Первый МД</th>
-<th>Сдвиг графика</th>
+<th>До checkpoint</th>
+<th>После</th>
+<th><strong>Итого</strong></th>
+<th>Обоснование</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Оптимистичный</td>
-<td>7 дней</td>
-<td>Месяц 6</td>
-<td>0</td>
+<td>12 ч</td>
+<td>6 дней</td>
+<td><strong>7 дней</strong></td>
+<td>Всё идеально</td>
 </tr>
 <tr class="even">
 <td>Реалистичный</td>
-<td>30 дней</td>
-<td>Месяц 7</td>
-<td>+1 мес</td>
+<td>24 ч</td>
+<td>10-15 дней</td>
+<td><strong>11-16 дней</strong></td>
+<td>Типичные задержки</td>
 </tr>
 <tr class="odd">
 <td>Пессимистичный</td>
-<td>60 дней</td>
-<td>Месяц 8</td>
-<td>+2 мес</td>
+<td>48 ч</td>
+<td>20-30 дней</td>
+<td><strong>22-32 дня</strong></td>
+<td>Проблемы с оборудованием</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Почему не критично:</strong> - Задержка одноразовая — только первый завод собирается Gen-1 роботами - Последующие заводы собираются Gen-2 роботами (быстрее, опытнее) - Экспедиция 2 стартует через 1 месяц, прибывает через 4-5 — задержка не влияет на неё - Сдвиг 1-2 мес при 10-летнем проекте = ~2% графика</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/detailed/production/factories/overview.html">Завод</a>, <a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a></p>
-<p><strong>Статус:</strong> ⚠️ Учтённое ограничение (не блокирует проект)</p>
+<p><strong>Ключевой вывод:</strong></p>
+<ul>
+<li><strong>Старая модель:</strong> “7 дней критично, 30 — провал”</li>
+<li><strong>Новая модель:</strong> “24 часа критично, дальше — вопрос ресурса Gen-1”</li>
+</ul>
+<p>После развёртывания зарядной инфраструктуры (checkpoint) роботы могут работать 24/7 с перезарядкой. Даже при 30-дневной сборке проект остаётся выполнимым.</p>
+<p><strong>Детальный расчёт:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Сборка первого завода (Bootstrap)</a></p>
 <hr>
 </section>
 </section>
-<section id="ресурсные-ограничения" class="level2">
-<h2 class="anchored" data-anchor-id="ресурсные-ограничения">Ресурсные ограничения</h2>
-<section id="вольфрам" class="level3">
-<h3 class="anchored" data-anchor-id="вольфрам">Вольфрам</h3>
+</section>
+<section id="бюджетные-риски" class="level2">
+<h2 class="anchored" data-anchor-id="бюджетные-риски">Бюджетные риски</h2>
+<section id="стоимость-ии-снижается-риск-снят" class="level3">
+<h3 class="anchored" data-anchor-id="стоимость-ии-снижается-риск-снят">Стоимость ИИ снижается (риск снят)</h3>
+<p>Базовая оценка ($15-30 млрд) была консервативной. К 2026 году:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Фактор</th>
+<th>Влияние</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Foundation models (Meta RoboLlama, Google RT-X)</td>
+<td>-50-70% стоимости разработки</td>
+</tr>
+<tr class="even">
+<td>Гуманоидные роботы</td>
+<td>$6-20K (было $50-250K в 2023)</td>
+</tr>
+<tr class="odd">
+<td>Автономная добыча</td>
+<td>TRL 8-9, готовая инфраструктура</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Референсы 2026:</strong></p>
+<ul>
+<li>Boston Dynamics Atlas 3.0 + DeepMind: 30,000 ед/год серийное производство</li>
+<li>Caterpillar: 690 автономных грузовиков, цель 2000+ к 2030</li>
+<li>Rio Tinto: 130 грузовиков + 1700 км автономной ж/д (AutoHaul)</li>
+<li>Tesla Optimus Gen 3: $15-20K при массовом производстве</li>
+<li>Unitree R1: <strong>$5,900</strong> за гуманоида (июль 2025), UBTECH Walker S2: серия 500+ ед.</li>
+<li>BYD: 1500 гуманоидов в 2025, цель 20,000 к 2026</li>
+<li>Baidu Apollo: L4 robotaxi в 10+ городах Китая</li>
+</ul>
+<p><strong>Вывод:</strong> Бюджет ИИ $15-30 млрд адекватен или завышен благодаря foundation models.</p>
+<hr>
+</section>
+<section id="зависимость-от-сверхтяжёлых-ракет-решено" class="level3">
+<h3 class="anchored" data-anchor-id="зависимость-от-сверхтяжёлых-ракет-решено"><del>Зависимость от сверхтяжёлых ракет</del> → РЕШЕНО</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Риск устранён
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Благодаря двум факторам:</p>
+<ol type="1">
+<li><strong>96% локализация</strong> — импорт сократился с ~22,000 т до ~2,400 т</li>
+<li><strong>Мульти-ракетный подход</strong> — первые экспедиции разбиваются на 3-4 пуска средних ракет</li>
+</ol>
+</div>
+</div>
+<p><strong>Было (старый расчёт):</strong> - Э1 (75 т) + Э2 (65 т) требовали сверхтяжёлых носителей - Зависимость от конкретных ракет и стран</p>
+<p><strong>Стало (новый подход):</strong> - Э1: 75 т = 4 × средних ракеты (~20 т каждая) - Э2: 65 т = 3-4 × средних ракеты - Каждая ракета садится на Меркурий независимо - Сборка на поверхности роботами Gen-1</p>
+<p><strong>Почему это работает:</strong> - Меркурий без атмосферы — посадка простая (тормозные импульсы) - Роботы Gen-1 уже умеют собирать (это их основная задача — bootstrap) - Орбитальная сборка <strong>не нужна</strong></p>
+<p><strong>Преимущества международного парка:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Фактор</th>
+<th>1 сверхтяжёлая</th>
+<th>3-4 средних</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Доступность</td>
+<td>Зависит от 1 страны</td>
+<td><strong>Международный парк</strong></td>
+</tr>
+<tr class="even">
+<td>Риск потери</td>
+<td>100% груза</td>
+<td>25-33% груза</td>
+</tr>
+<tr class="odd">
+<td>Гибкость</td>
+<td>Только один тип</td>
+<td>Любая ≥20 т до Меркурия</td>
+</tr>
+<tr class="even">
+<td>Страны</td>
+<td>1-2</td>
+<td>США, Китай, ESA, Россия, Индия, Япония</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Проект <strong>не зависит</strong> от конкретной страны или носителя.</p>
+<hr>
+</section>
+<section id="страхование-миссий" class="level3">
+<h3 class="anchored" data-anchor-id="страхование-миссий">Страхование миссий</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Оценка</th>
+<th>Сумма</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Базовая</td>
+<td>$2-4 млрд</td>
+</tr>
+<tr class="even">
+<td>Реалистичная (5-10% от груза)</td>
+<td><strong>$10-20 млрд</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="тестирование-недооценено" class="level3">
+<h3 class="anchored" data-anchor-id="тестирование-недооценено">Тестирование недооценено</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 21%">
+<col style="width: 33%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Этап</th>
+<th>Базовый</th>
+<th>Реалистичный</th>
+<th>Обоснование</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Прототипы заводов</td>
+<td>3-5 итераций</td>
+<td>5-10 итераций</td>
+<td>3-5 наземных (Ганьсу) + 2-5 лунных</td>
+</tr>
+<tr class="even">
+<td>Прототипы роботов</td>
+<td>$2 млрд</td>
+<td>$5-10 млрд</td>
+<td>Сотни версий, тысячи единиц</td>
+</tr>
+<tr class="odd">
+<td>Полигон Луна</td>
+<td>2 года</td>
+<td>1.5-2.5 года</td>
+<td>3-5 итераций × 3-5 мес + развёртывание</td>
+</tr>
+</tbody>
+</table>
+<section id="методология-оценки-тестирования" class="level4">
+<h4 class="anchored" data-anchor-id="методология-оценки-тестирования">Методология оценки</h4>
+<p><strong>Цикл итерации на Луне</strong> (при собственных запусках, не зависим от чужих окон):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Этап цикла</th>
+<th>Оптимист.</th>
+<th>Реалист.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Анализ отказа (телеметрия)</td>
+<td>1-2 нед</td>
+<td>2-4 нед</td>
+</tr>
+<tr class="even">
+<td>Проектирование исправления</td>
+<td>2-4 нед</td>
+<td>4-8 нед</td>
+</tr>
+<tr class="odd">
+<td>Изготовление компонента</td>
+<td>2-4 нед</td>
+<td>4-8 нед</td>
+</tr>
+<tr class="even">
+<td>Подготовка + полёт (3 дня)</td>
+<td>1-2 нед</td>
+<td>2-4 нед</td>
+</tr>
+<tr class="odd">
+<td>Установка + повторный тест</td>
+<td>1-2 нед</td>
+<td>2-4 нед</td>
+</tr>
+<tr class="even">
+<td><strong>Итого цикл</strong></td>
+<td><strong>~2 мес</strong></td>
+<td><strong>~4 мес</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Итого полигон:</strong> 3-5 итераций × 3-5 мес + 3-6 мес развёртывание = <strong>12-31 мес ≈ 1.5-2.5 года</strong></p>
+<p><strong>Почему 5-10 итераций заводов, а не 10-20:</strong></p>
+<ul>
+<li>Наземный полигон (Ганьсу) — вакуумные камеры, термальные симуляторы (-180°C…+430°C) — позволяет отработать 3-5 итераций до выхода на Луну (TRL 4→6)</li>
+<li>На Луне остаётся валидация в реальной среде (TRL 6→7-8): 2-5 итераций</li>
+<li>Референс: JPL Mars Rover — 7+ прототипов Rocky до Sojourner, но без наземного полигона с аналогичными условиями</li>
+</ul>
+<p><strong>Почему 1.5-2.5 года на Луне, а не 3-5 лет:</strong></p>
+<ul>
+<li>Полёт Земля-Луна: ~3 дня (не месяцы как для дальнего космоса)</li>
+<li>Собственные запуски: не зависим от чужих пусковых окон (для сравнения: NASA CLPS — ~2 полёта/год)</li>
+<li>Наземный НИОКР (годы 3-4) снижает число лунных итераций — на Луну уезжает уже отработанная система</li>
+</ul>
+<p><strong>Источники методологии:</strong></p>
+<ul>
+<li>NASA Software Engineering Handbook, <a href="https://swehb.nasa.gov/display/SWEHBVB/7.6+-+Software+Test+Estimation+and+Testing+Levels">§7.6</a>: интеграция и тестирование = 22-40% от общего графика</li>
+<li>Aerospace Corp, <a href="https://aerospace.org/sites/default/files/2024-06/TOR-2014-02537-REV%20A%20-%20The%20Test%20Like%20You%20Fly%20Process%20Guide%20for%20Space,%20Launch,%20and%20Ground%20Systems.pdf">«Test Like You Fly» Process Guide</a>, TOR-2014-02537</li>
+<li>JPL Mars Rover: <a href="https://www-robotics.jpl.nasa.gov/media/documents/iros96.pdf">7+ прототипов Rocky до Sojourner</a></li>
+<li><a href="https://sebokwiki.org/wiki/INCOSE_Systems_Engineering_Handbook">INCOSE Systems Engineering Handbook v5.0</a> — V-модель, верификация и валидация</li>
+<li>NASA CLPS: <a href="https://www.nasa.gov/reference/commercial-lunar-payload-services/">~2 полёта/год</a> как референс каденции лунных миссий</li>
+<li>NASA <a href="https://ntrs.nasa.gov/api/citations/20205003605/downloads/%20SP-20205003605%20TRA%20BP%20Guide%20FINAL.pdf">TRA Best Practices Guide SP-20205003605</a></li>
+</ul>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/summaries/budget.html#известные-ограничения">Бюджет → Известные ограничения</a></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="человеческие-риски" class="level2">
+<h2 class="anchored" data-anchor-id="человеческие-риски">Человеческие риски</h2>
+<section id="кадры" class="level3">
+<h3 class="anchored" data-anchor-id="кадры">Кадры</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1430,23 +1465,128 @@ p:has(> em:first-child) { text-indent: 0; }
 </thead>
 <tbody>
 <tr class="odd">
-<td>Потребность (10 лет)</td>
-<td>~18 000 т</td>
+<td>Всего специалистов</td>
+<td>~50,000 человек</td>
 </tr>
 <tr class="even">
-<td>Мировое производство</td>
-<td>85 000 т/год</td>
+<td>AI/ML инженеры</td>
+<td>~4,000</td>
 </tr>
 <tr class="odd">
-<td>Доля</td>
-<td><strong>~2%/год</strong></td>
+<td>Операторы ЦУП</td>
+<td>~10,000</td>
+</tr>
+<tr class="even">
+<td>Время подготовки</td>
+<td>5 лет</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Статус:</strong> Реалистично ✓</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/detailed/production/factories/overview.html">Завод</a>, <a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a></p>
+</section>
+<section id="конкуренция-за-ai-специалистов" class="level3">
+<h3 class="anchored" data-anchor-id="конкуренция-за-ai-специалистов">Конкуренция за AI-специалистов</h3>
+<ul>
+<li>Зарплаты OpenAI: медиана $875K/год</li>
+<li>Топ-исследователи: $10-20M/год</li>
+<li>Проект конкурирует с Google, Meta, OpenAI за тех же людей</li>
+</ul>
+</section>
+<section id="международные-команды" class="level3">
+<h3 class="anchored" data-anchor-id="международные-команды">Международные команды</h3>
+<ul>
+<li><strong>Языковой барьер:</strong> Китай, Россия, Индия, США, ЕС</li>
+<li><strong>Часовые пояса:</strong> Координация 24/7</li>
+<li><strong>Культурные различия:</strong> Стили управления, принятие решений</li>
+<li><strong>Визовые ограничения:</strong> Перемещение специалистов</li>
+</ul>
+</section>
+<section id="удержание-кадров" class="level3">
+<h3 class="anchored" data-anchor-id="удержание-кадров">Удержание кадров</h3>
+<ul>
+<li>10+ лет проект — люди уходят</li>
+<li>Уникальные навыки — мало аналогов на рынке</li>
+<li>Выгорание на длинных проектах</li>
+</ul>
 <hr>
 </section>
+</section>
+<section id="политические-риски" class="level2">
+<h2 class="anchored" data-anchor-id="политические-риски">Политические риски</h2>
+<section id="санкции-и-международная-напряжённость" class="level3">
+<h3 class="anchored" data-anchor-id="санкции-и-международная-напряжённость">Санкции и международная напряжённость</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Сценарий</th>
+<th>Последствие</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Санкции США-Китай расширяются</td>
+<td>Разрыв кооперации по электронике</td>
+</tr>
+<tr class="even">
+<td>Санкции против России</td>
+<td>Потеря ракетных мощностей</td>
+</tr>
+<tr class="odd">
+<td>Экспортный контроль чипов</td>
+<td>Дефицит компонентов</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="смена-правительств" class="level3">
+<h3 class="anchored" data-anchor-id="смена-правительств">Смена правительств</h3>
+<ul>
+<li><strong>10+ лет проект</strong> — минимум 2-3 избирательных цикла</li>
+<li>Новые администрации могут пересмотреть приоритеты</li>
+<li>Референс: Artemis отменяла/восстанавливала программы</li>
+</ul>
+</section>
+<section id="конкуренция-вместо-кооперации" class="level3">
+<h3 class="anchored" data-anchor-id="конкуренция-вместо-кооперации">Конкуренция вместо кооперации</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Кооперация</th>
+<th>Конкуренция</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 проект, общий бюджет</td>
+<td>2-3 параллельных проекта</td>
+</tr>
+<tr class="even">
+<td>~$500-700 млрд</td>
+<td>~$1.5-2 трлн суммарно</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="правовой-статус-ресурсов" class="level3">
+<h3 class="anchored" data-anchor-id="правовой-статус-ресурсов">Правовой статус ресурсов</h3>
+<ul>
+<li><strong>Договор о космосе 1967:</strong> Небесные тела не подлежат присвоению</li>
+<li><strong>Artemis Accords (2020):</strong> США признают право на добычу</li>
+<li><strong>Китай/Россия:</strong> Не подписали Artemis Accords</li>
+<li><strong>Риск:</strong> Споры о праве на ресурсы Меркурия</li>
+</ul>
+</section>
+<section id="общественное-мнение" class="level3">
+<h3 class="anchored" data-anchor-id="общественное-мнение">Общественное мнение</h3>
+<ul>
+<li>«Почему не решаем земные проблемы?»</li>
+<li>Экологические протесты против rectenna-станций</li>
+<li>NIMBYизм при размещении приёмников</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="ресурсные-ограничения" class="level2">
+<h2 class="anchored" data-anchor-id="ресурсные-ограничения">Ресурсные ограничения</h2>
 <section id="электроника" class="level3">
 <h3 class="anchored" data-anchor-id="электроника">Электроника</h3>
 <table class="caption-top table">
@@ -1466,14 +1606,11 @@ p:has(> em:first-child) { text-indent: 0; }
 <td>~1.2 трлн/год</td>
 </tr>
 <tr class="odd">
-<td>Доля (за 10 лет)</td>
+<td><strong>Доля (за 10 лет)</strong></td>
 <td><strong>~8%/год</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Статус:</strong> Реалистично при наращивании мощностей ✓</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a></p>
-<hr>
 </section>
 <section id="пусковые-мощности" class="level3">
 <h3 class="anchored" data-anchor-id="пусковые-мощности">Пусковые мощности</h3>
@@ -1487,212 +1624,39 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Груз на Меркурий</td>
-<td>~20 000 т (витамины + роботы)</td>
+<td>~2,400 т (96% локализация)</td>
 </tr>
 <tr class="even">
-<td>При 200 т/пуск</td>
-<td>~100 пусков за 10 лет</td>
+<td>При 25-50 т/пуск</td>
+<td>~48-96 пусков за ~10 лет</td>
 </tr>
 <tr class="odd">
-<td>Пусков/год</td>
-<td>~10-20</td>
+<td><strong>Пусков/год</strong></td>
+<td><strong>~5-10</strong> (в среднем, ~15-30 в пиковые годы)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Статус:</strong> Реалистично при <a href="../../../ru/science/summaries/roadmap.html#сверхтяжёлые-носители-нового-поколения">тяжёлых ракетах 2027+</a> ✓</p>
-<p><strong>Источник:</strong> <a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a></p>
 <hr>
 </section>
 </section>
-<section id="валидация-расчёта-добычи-58-60-роботов-на-комплекс" class="level2">
-<h2 class="anchored" data-anchor-id="валидация-расчёта-добычи-58-60-роботов-на-комплекс">Валидация расчёта добычи (58-60 роботов на комплекс)</h2>
-<blockquote class="blockquote">
-<p><strong>Вопрос:</strong> Реалистично ли 60 роботов на завод при требуемом объёме добычи?</p>
-<p><strong>Ответ:</strong> Да, расчёт корректен.</p>
-</blockquote>
-<section id="производственная-цепочка-на-1-комплекс" class="level3">
-<h3 class="anchored" data-anchor-id="производственная-цепочка-на-1-комплекс">Производственная цепочка (на 1 комплекс)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-<th>Источник</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Зеркал/день</td>
-<td>600</td>
-<td>railgun.qmd</td>
-</tr>
-<tr class="even">
-<td>Масса зеркал</td>
-<td>90 т/день</td>
-<td>600 × 150 кг</td>
-</tr>
-<tr class="odd">
-<td>Руды для MRE</td>
-<td>270 т/день</td>
-<td>90 т ÷ 33% выход</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="почему-33-выход-а-не-8-al" class="level3">
-<h3 class="anchored" data-anchor-id="почему-33-выход-а-не-8-al">Почему 33% выход (а не 8% Al)?</h3>
-<p>Используется <strong>MRE (Molten Regolith Electrolysis)</strong> — электролиз ВСЕГО расплавленного реголита:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Элемент</th>
-<th>В реголите (MESSENGER)</th>
-<th>После электролиза</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Al</td>
-<td>~8%</td>
-<td>✓ Алюминий</td>
-</tr>
-<tr class="even">
-<td>Fe</td>
-<td>~2%</td>
-<td>✓ Железо</td>
-</tr>
-<tr class="odd">
-<td>Si</td>
-<td>~25%</td>
-<td>✓ Кремний</td>
-</tr>
-<tr class="even">
-<td>Mg</td>
-<td>~10%</td>
-<td>✓ Магний</td>
-</tr>
-<tr class="odd">
-<td><strong>Итого полезных</strong></td>
-<td><strong>~45%</strong></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>С КПД 70%</strong></td>
-<td>—</td>
-<td><strong>~32-33%</strong></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="расчёт-роботов" class="level3">
-<h3 class="anchored" data-anchor-id="расчёт-роботов">Расчёт роботов</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Этап</th>
-<th>Роботов</th>
-<th>Задачи</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Добыча (Кроты)</td>
-<td>6</td>
-<td>270 т/день ÷ 50 т/Крот</td>
-</tr>
-<tr class="even">
-<td>Транспорт руды</td>
-<td>4</td>
-<td>К заводу</td>
-</tr>
-<tr class="odd">
-<td>Производство</td>
-<td>21</td>
-<td>Плавка → прокат → сборка</td>
-</tr>
-<tr class="even">
-<td>Логистика</td>
-<td>10</td>
-<td>Зеркала → МД → буфер</td>
-</tr>
-<tr class="odd">
-<td>Обслуживание МД</td>
-<td>7</td>
-<td>Установка, ремонт</td>
-</tr>
-<tr class="even">
-<td><strong>Итого</strong></td>
-<td><strong>48</strong></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>+ резерв 20%</strong></td>
-<td><strong>~58</strong></td>
-<td>Поломки, обслуживание</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="производительность-крота-м" class="level3">
-<h3 class="anchored" data-anchor-id="производительность-крота-м">Производительность Крота-М</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Масса</td>
-<td>1200 кг</td>
-</tr>
-<tr class="even">
-<td>Отвал</td>
-<td>3.5 м ширина</td>
-</tr>
-<tr class="odd">
-<td>Теоретическая производительность</td>
-<td>10-20 т/час</td>
-</tr>
-<tr class="even">
-<td>Эффективное время работы</td>
-<td>~50% (зарядка, навигация)</td>
-</tr>
-<tr class="odd">
-<td><strong>Реальная производительность</strong></td>
-<td><strong>~50 т/день</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Вывод:</strong> Расчёт 58-60 роботов на комплекс <strong>валиден</strong>.</p>
-<hr>
-</section>
-</section>
-<section id="неопределённости-требуют-исследований" class="level2">
-<h2 class="anchored" data-anchor-id="неопределённости-требуют-исследований">Неопределённости (требуют исследований)</h2>
+<section id="неопределённости" class="level2">
+<h2 class="anchored" data-anchor-id="неопределённости">Неопределённости</h2>
+<p>Требуют дополнительных исследований:</p>
 <ol type="1">
-<li><strong>Влияние гравитации Венеры на орбиты Роя</strong> — не смоделировано</li>
-<li><strong>Производство электроники на Меркурии</strong> — теоретически возможно, не спроектировано</li>
-<li><strong>Добыча водорода с полюсов</strong> — подтверждено наличие льда, не спроектирована логистика</li>
-<li><strong>Точность алюмотермии в вакууме</strong> — лабораторные данные, промышленный масштаб не доказан</li>
-<li><strong>Поведение NaS-батарей при 176-суточном цикле</strong> — нет данных о таких режимах</li>
-<li><strong>Стоимость ИИ-разработки в Индии/Китае</strong> — $1-20 млрд (широкий диапазон)</li>
+<li><strong>Влияние гравитации Венеры</strong> на орбиты роя — не смоделировано</li>
+<li><strong>Добыча водорода с полюсов</strong> — лёд подтверждён, логистика не спроектирована</li>
+<li><strong>Алюмотермия в вакууме</strong> — лабораторные данные, промышленный масштаб не доказан</li>
 </ol>
-<hr>
 <hr>
 </section>
 <section id="см.-также" class="level2">
 <h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
 <ul>
-<li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — базовые расчёты</li>
-<li><a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение локаций</li>
-<li><a href="../../../ru/science/detailed/production/factories/overview.html">Завод «Точка Ноль»</a> — производственные ограничения</li>
-<li><a href="../../../ru/science/detailed/production/robots/overview.html">Бестиарий роботов</a> — проблемы роботов</li>
-<li><a href="../../../ru/science/detailed/production/railguns/scaling.html">Масштабирование</a> — честная оценка ресурсов</li>
-<li><a href="../../../ru/science/summaries/energy.html">Расчёты энергии</a> — детали рисков КПД</li>
+<li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL всех технологий</li>
 <li><a href="../../../ru/science/summaries/budget.html">Бюджет</a> — финансовые ограничения</li>
+<li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая архитектура</li>
 <li><a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a> — временные ограничения</li>
+<li><a href="../../../ru/science/detailed/production/overview.html">Производство</a> — технологии производства</li>
 </ul>
 
 
@@ -1772,7 +1736,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

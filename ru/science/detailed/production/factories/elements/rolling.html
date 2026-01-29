@@ -113,7 +113,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../../../../../ru/science/data/widgets.css">
@@ -149,10 +340,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -205,20 +407,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -231,6 +421,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -252,20 +448,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -367,6 +551,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -612,14 +802,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -632,12 +822,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -665,11 +849,16 @@ p:has(> em:first-child) { text-indent: 0; }
   <ul class="collapse">
   <li><a href="#последовательность-клетей" id="toc-последовательность-клетей" class="nav-link" data-scroll-target="#последовательность-клетей">Последовательность клетей</a></li>
   </ul></li>
-  <li><a href="#три-направления-финишной-обработки" id="toc-три-направления-финишной-обработки" class="nav-link" data-scroll-target="#три-направления-финишной-обработки">Три направления финишной обработки</a>
+  <li><a href="#финишная-обработка-алюминий" id="toc-финишная-обработка-алюминий" class="nav-link" data-scroll-target="#финишная-обработка-алюминий">Финишная обработка: алюминий</a>
   <ul class="collapse">
-  <li><a href="#фольгопрокат-60-потока-25-т-alдень" id="toc-фольгопрокат-60-потока-25-т-alдень" class="nav-link" data-scroll-target="#фольгопрокат-60-потока-25-т-alдень">1. Фольгопрокат (60% потока, ~25 т Al/день)</a></li>
-  <li><a href="#листовой-прокат-30-потока-13-т-alдень" id="toc-листовой-прокат-30-потока-13-т-alдень" class="nav-link" data-scroll-target="#листовой-прокат-30-потока-13-т-alдень">2. Листовой прокат (30% потока, ~13 т Al/день)</a></li>
-  <li><a href="#волочение-проволоки-10-потока-4-т-alдень" id="toc-волочение-проволоки-10-потока-4-т-alдень" class="nav-link" data-scroll-target="#волочение-проволоки-10-потока-4-т-alдень">3. Волочение проволоки (10% потока, ~4 т Al/день)</a></li>
+  <li><a href="#фольгопрокат-60-потока-al-25-тдень" id="toc-фольгопрокат-60-потока-al-25-тдень" class="nav-link" data-scroll-target="#фольгопрокат-60-потока-al-25-тдень">1. Фольгопрокат (60% потока Al, ~25 т/день)</a></li>
+  <li><a href="#листовой-прокат-30-потока-al-13-тдень" id="toc-листовой-прокат-30-потока-al-13-тдень" class="nav-link" data-scroll-target="#листовой-прокат-30-потока-al-13-тдень">2. Листовой прокат (30% потока Al, ~13 т/день)</a></li>
+  <li><a href="#волочение-проволоки-al-10-потока-al-4-тдень" id="toc-волочение-проволоки-al-10-потока-al-4-тдень" class="nav-link" data-scroll-target="#волочение-проволоки-al-10-потока-al-4-тдень">3. Волочение проволоки Al (10% потока Al, ~4 т/день)</a></li>
+  </ul></li>
+  <li><a href="#финишная-обработка-fe-mn-сталь" id="toc-финишная-обработка-fe-mn-сталь" class="nav-link" data-scroll-target="#финишная-обработка-fe-mn-сталь">Финишная обработка: Fe-Mn сталь</a>
+  <ul class="collapse">
+  <li><a href="#профили-60-потока-fe-6.4-тдень" id="toc-профили-60-потока-fe-6.4-тдень" class="nav-link" data-scroll-target="#профили-60-потока-fe-6.4-тдень">4. Профили (60% потока Fe, ~6.4 т/день)</a></li>
+  <li><a href="#волочение-проволоки-fe-40-потока-fe-4.3-тдень" id="toc-волочение-проволоки-fe-40-потока-fe-4.3-тдень" class="nav-link" data-scroll-target="#волочение-проволоки-fe-40-потока-fe-4.3-тдень">5. Волочение проволоки Fe (40% потока Fe, ~4.3 т/день)</a></li>
   </ul></li>
   <li><a href="#материальный-баланс" id="toc-материальный-баланс" class="nav-link" data-scroll-target="#материальный-баланс">Материальный баланс</a></li>
   <li><a href="#энергопотребление" id="toc-энергопотребление" class="nav-link" data-scroll-target="#энергопотребление">Энергопотребление</a></li>
@@ -705,7 +894,7 @@ p:has(> em:first-child) { text-indent: 0; }
 <ul>
 <li><strong>Назначение:</strong> Превращение слитков в листы, профили, проволоку</li>
 <li><strong>Оборудование:</strong> 6-клетьевой стан + волочильный стан</li>
-<li><strong>Производительность:</strong> 41 т Al + 34 т Fe → фольга, листы, проволока</li>
+<li><strong>Производительность:</strong> 41 т Al + 10.7 т Fe-Mn стали → фольга, листы, проволока, профили</li>
 <li><strong>Выход:</strong> Фольга 50 мкм, листы 1-3 мм, проволока Ø1.6-2.0 мм</li>
 </ul>
 </blockquote>
@@ -724,45 +913,45 @@ p:has(> em:first-child) { text-indent: 0; }
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
     subgraph INPUT["ВХОД"]
-        BILLETS["Слитки 100×100 мм&lt;br/&gt;с МНЛЗ"]
+        BILLETS_AL["Слитки Al 41 т/день&lt;br/&gt;с МНЛЗ-Al"]
+        BILLETS_FE["Слитки Fe-Mn 10.7 т/день&lt;br/&gt;с МНЛЗ-Fe"]
     end
 
     subgraph HEATING["НАГРЕВ"]
-        FURNACE["Индукционная печь&lt;br/&gt;1100-1200°C"]
+        FURNACE_AL["Инд. печь Al&lt;br/&gt;400-500°C"]
+        FURNACE_FE["Инд. печь Fe&lt;br/&gt;1100-1200°C"]
     end
 
     subgraph ROLLING["ПРОКАТКА"]
         MILL["6-клетьевой стан&lt;br/&gt;100 мм → Ø20 мм"]
-        SPLIT["Разделение потока"]
     end
 
-    subgraph FINISHING["ФИНИШНАЯ ОБРАБОТКА"]
+    subgraph AL_FINISH["АЛЮМИНИЙ"]
         FOIL["Фольгопрокат&lt;br/&gt;→ 50 мкм"]
         SHEET["Листовой прокат&lt;br/&gt;→ 1-3 мм"]
-        WIRE["Волочение&lt;br/&gt;→ Ø1.6-2.0 мм"]
+        WIRE_AL["Волочение Al&lt;br/&gt;→ Ø1.6 мм"]
     end
 
-    subgraph OUTPUT["ВЫХОД"]
-        FOIL_OUT["Фольга для зеркал"]
-        SHEET_OUT["Листы для корпусов"]
-        WIRE_OUT["Проволока для WAAM"]
+    subgraph FE_FINISH["СТАЛЬ Fe-Mn"]
+        PROFILE["Профили&lt;br/&gt;Ø20 мм"]
+        WIRE_FE["Волочение Fe&lt;br/&gt;→ Ø1.6-2.0 мм"]
     end
 
-    BILLETS --&gt; FURNACE
-    FURNACE --&gt; MILL
-    MILL --&gt; SPLIT
-    SPLIT --&gt;|"60%"| FOIL
-    SPLIT --&gt;|"30%"| SHEET
-    SPLIT --&gt;|"10%"| WIRE
-    FOIL --&gt; FOIL_OUT
-    SHEET --&gt; SHEET_OUT
-    WIRE --&gt; WIRE_OUT
+    BILLETS_AL --&gt; FURNACE_AL
+    BILLETS_FE --&gt; FURNACE_FE
+    FURNACE_AL --&gt; MILL
+    FURNACE_FE --&gt; MILL
+    MILL --&gt;|"Al 60%"| FOIL
+    MILL --&gt;|"Al 30%"| SHEET
+    MILL --&gt;|"Al 10%"| WIRE_AL
+    MILL --&gt;|"Fe 60%"| PROFILE
+    MILL --&gt;|"Fe 40%"| WIRE_FE
 
     style INPUT fill:#f0e68c
     style HEATING fill:#fff3cd
     style ROLLING fill:#d4edda
-    style FINISHING fill:#b8e0d2
-    style OUTPUT fill:#cce5ff
+    style AL_FINISH fill:#b8e0d2
+    style FE_FINISH fill:#cce5ff
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -847,7 +1036,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 <tr class="even">
 <td>Материал валков</td>
-<td>Сталь (закалённая) с WC покрытием</td>
+<td>Сталь (закалённая) с Al₂O₃ покрытием</td>
 </tr>
 </tbody>
 </table>
@@ -905,11 +1094,11 @@ p:has(> em:first-child) { text-indent: 0; }
 <hr>
 </section>
 </section>
-<section id="три-направления-финишной-обработки" class="level2">
-<h2 class="anchored" data-anchor-id="три-направления-финишной-обработки">Три направления финишной обработки</h2>
-<p>После 6-клетьевого стана металл разделяется на три потока.</p>
-<section id="фольгопрокат-60-потока-25-т-alдень" class="level3">
-<h3 class="anchored" data-anchor-id="фольгопрокат-60-потока-25-т-alдень">1. Фольгопрокат (60% потока, ~25 т Al/день)</h3>
+<section id="финишная-обработка-алюминий" class="level2">
+<h2 class="anchored" data-anchor-id="финишная-обработка-алюминий">Финишная обработка: алюминий</h2>
+<p>После 6-клетьевого стана алюминий разделяется на три потока.</p>
+<section id="фольгопрокат-60-потока-al-25-тдень" class="level3">
+<h3 class="anchored" data-anchor-id="фольгопрокат-60-потока-al-25-тдень">1. Фольгопрокат (60% потока Al, ~25 т/день)</h3>
 <p>Алюминиевая фольга толщиной 50 мкм для зеркал.</p>
 <table class="caption-top table">
 <thead>
@@ -946,8 +1135,8 @@ p:has(> em:first-child) { text-indent: 0; }
 <p><strong>Применение:</strong> <a href="../../../../../../ru/science/detailed/mirrors.html">Зеркала</a></p>
 <hr>
 </section>
-<section id="листовой-прокат-30-потока-13-т-alдень" class="level3">
-<h3 class="anchored" data-anchor-id="листовой-прокат-30-потока-13-т-alдень">2. Листовой прокат (30% потока, ~13 т Al/день)</h3>
+<section id="листовой-прокат-30-потока-al-13-тдень" class="level3">
+<h3 class="anchored" data-anchor-id="листовой-прокат-30-потока-al-13-тдень">2. Листовой прокат (30% потока Al, ~13 т/день)</h3>
 <p>Алюминиевые листы толщиной 1-3 мм для корпусов роботов.</p>
 <table class="caption-top table">
 <thead>
@@ -979,8 +1168,8 @@ p:has(> em:first-child) { text-indent: 0; }
 <p><strong>Применение:</strong> <a href="../../../../../../ru/science/detailed/production/robots/overview.html">Сборка роботов</a>, корпуса, радиаторы</p>
 <hr>
 </section>
-<section id="волочение-проволоки-10-потока-4-т-alдень" class="level3">
-<h3 class="anchored" data-anchor-id="волочение-проволоки-10-потока-4-т-alдень">3. Волочение проволоки (10% потока, ~4 т Al/день)</h3>
+<section id="волочение-проволоки-al-10-потока-al-4-тдень" class="level3">
+<h3 class="anchored" data-anchor-id="волочение-проволоки-al-10-потока-al-4-тдень">3. Волочение проволоки Al (10% потока Al, ~4 т/день)</h3>
 <p>Проволока Ø1.6-2.0 мм для WAAM 3D-печати.</p>
 <table class="caption-top table">
 <thead>
@@ -1019,6 +1208,82 @@ p:has(> em:first-child) { text-indent: 0; }
 <hr>
 </section>
 </section>
+<section id="финишная-обработка-fe-mn-сталь" class="level2">
+<h2 class="anchored" data-anchor-id="финишная-обработка-fe-mn-сталь">Финишная обработка: Fe-Mn сталь</h2>
+<p>После 6-клетьевого стана Fe-Mn сталь разделяется на два потока.</p>
+<section id="профили-60-потока-fe-6.4-тдень" class="level3">
+<h3 class="anchored" data-anchor-id="профили-60-потока-fe-6.4-тдень">4. Профили (60% потока Fe, ~6.4 т/день)</h3>
+<p>Стальные профили Ø20 мм для каркасов и рам.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Вход</td>
+<td>Профиль Ø20 мм (после 6-клетьевого стана)</td>
+</tr>
+<tr class="even">
+<td>Выход</td>
+<td>Квадрат 20×20 мм / круг Ø20 мм</td>
+</tr>
+<tr class="odd">
+<td>Длина отрезков</td>
+<td>3-6 м</td>
+</tr>
+<tr class="even">
+<td>Резка</td>
+<td>Газовая / плазменная</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Процесс:</strong> - Профиль после 6-клетьевого стана уже имеет финальное сечение Ø20 мм - Правка на роликоправильной машине - Резка на мерные длины 3-6 м - Маркировка и складирование</p>
+<p><strong>Применение:</strong> Каркасы роботов, рамы оборудования, несущие конструкции</p>
+<hr>
+</section>
+<section id="волочение-проволоки-fe-40-потока-fe-4.3-тдень" class="level3">
+<h3 class="anchored" data-anchor-id="волочение-проволоки-fe-40-потока-fe-4.3-тдень">5. Волочение проволоки Fe (40% потока Fe, ~4.3 т/день)</h3>
+<p>Проволока Ø1.6-2.0 мм для WAAM 3D-печати стальных деталей.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Вход</td>
+<td>Профиль Ø20 мм</td>
+</tr>
+<tr class="even">
+<td>Выход</td>
+<td>Проволока Ø1.6-2.0 мм</td>
+</tr>
+<tr class="odd">
+<td>Количество проходов</td>
+<td>5-7</td>
+</tr>
+<tr class="even">
+<td>Скорость волочения</td>
+<td>3-5 м/с</td>
+</tr>
+<tr class="odd">
+<td>Фильеры</td>
+<td>Вольфрамовые (с Земли)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Процесс:</strong> - Аналогичен волочению алюминиевой проволоки - Более высокое усилие волочения (сталь твёрже Al) - Промежуточный отжиг после 2-3 проходов (снятие наклёпа)</p>
+<p><strong>Смазка:</strong> MoS₂ (дисульфид молибдена)</p>
+<p><strong>Намотка:</strong> Бобины по 50-100 кг</p>
+<p><strong>Применение:</strong> <a href="../../../../../../ru/science/detailed/production/factories/elements/waam.html">WAAM 3D-печать</a> стальных деталей</p>
+<hr>
+</section>
+</section>
 <section id="материальный-баланс" class="level2">
 <h2 class="anchored" data-anchor-id="материальный-баланс">Материальный баланс</h2>
 <p><strong>Распределение потоков алюминия (41 т/день):</strong></p>
@@ -1052,7 +1317,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </tr>
 </tbody>
 </table>
-<p><strong>Распределение потоков железа (34 т/день):</strong></p>
+<p><strong>Распределение потоков Fe-Mn стали (10.7 т/день):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1065,13 +1330,13 @@ p:has(> em:first-child) { text-indent: 0; }
 <tbody>
 <tr class="odd">
 <td>Профиль (квадрат/круг)</td>
-<td>~20 т</td>
+<td>~6.4 т</td>
 <td>60%</td>
 <td>Каркасы, рамы</td>
 </tr>
 <tr class="even">
 <td>Проволока Ø1.6-2.0 мм</td>
-<td>~14 т</td>
+<td>~4.3 т</td>
 <td>40%</td>
 <td>WAAM</td>
 </tr>
@@ -1266,7 +1531,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Геометрия отражения – Проект Гелиос</title>
+<title>Mars Terraforming – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,37 +109,199 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
       }
     }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
   }
-}
-window.Quarto = {
-  typesetMath
-};
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
 </script>
+
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
 </head>
@@ -174,10 +336,21 @@ window.Quarto = {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -189,7 +362,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/detailed/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../ru/science/detailed/geometry.html">Геометрия отражения</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Mars Terraforming</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -230,20 +403,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -256,6 +417,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -277,20 +444,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -392,6 +547,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -637,14 +798,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -657,12 +818,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -683,29 +838,44 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#расчёты-геометрия-отражения-зеркал-на-хаб" id="toc-расчёты-геометрия-отражения-зеркал-на-хаб" class="nav-link active" data-scroll-target="#расчёты-геометрия-отражения-зеркал-на-хаб">Расчёты: геометрия отражения зеркал на Хаб</a>
+  <li><a href="#calculations-mars-terraforming" id="toc-calculations-mars-terraforming" class="nav-link active" data-scroll-target="#calculations-mars-terraforming">Calculations: Mars Terraforming</a>
   <ul class="collapse">
-  <li><a href="#постановка-задачи" id="toc-постановка-задачи" class="nav-link" data-scroll-target="#постановка-задачи">Постановка задачи</a></li>
-  <li><a href="#расчёт-угла-θ" id="toc-расчёт-угла-θ" class="nav-link" data-scroll-target="#расчёт-угла-θ">Расчёт угла θ</a>
+  <li><a href="#the-mars-problem" id="toc-the-mars-problem" class="nav-link" data-scroll-target="#the-mars-problem">The Mars Problem</a></li>
+  <li><a href="#why-heat-the-planet" id="toc-why-heat-the-planet" class="nav-link" data-scroll-target="#why-heat-the-planet">Why Heat the Planet?</a>
   <ul class="collapse">
-  <li><a href="#геометрия" id="toc-геометрия" class="nav-link" data-scroll-target="#геометрия">Геометрия</a></li>
-  <li><a href="#формулы" id="toc-формулы" class="nav-link" data-scroll-target="#формулы">Формулы</a></li>
+  <li><a href="#terraforming-logic" id="toc-terraforming-logic" class="nav-link" data-scroll-target="#terraforming-logic">Terraforming Logic</a></li>
+  <li><a href="#what-mars-has" id="toc-what-mars-has" class="nav-link" data-scroll-target="#what-mars-has">What Mars Has</a></li>
   </ul></li>
-  <li><a href="#таблица-расчётов" id="toc-таблица-расчётов" class="nav-link" data-scroll-target="#таблица-расчётов">Таблица расчётов</a></li>
-  <li><a href="#диаграмма-эффективности" id="toc-диаграмма-эффективности" class="nav-link" data-scroll-target="#диаграмма-эффективности">Диаграмма эффективности</a></li>
-  <li><a href="#итоговые-метрики" id="toc-итоговые-метрики" class="nav-link" data-scroll-target="#итоговые-метрики">Итоговые метрики</a>
+  <li><a href="#magnetic-shield-the-serious-option" id="toc-magnetic-shield-the-serious-option" class="nav-link" data-scroll-target="#magnetic-shield-the-serious-option">Magnetic Shield: The Serious Option</a>
   <ul class="collapse">
-  <li><a href="#средняя-эффективность" id="toc-средняя-эффективность" class="nav-link" data-scroll-target="#средняя-эффективность">Средняя эффективность</a></li>
-  <li><a href="#распределение-по-эффективности" id="toc-распределение-по-эффективности" class="nav-link" data-scroll-target="#распределение-по-эффективности">Распределение по эффективности</a></li>
+  <li><a href="#why-not-a-dipole-at-l1" id="toc-why-not-a-dipole-at-l1" class="nav-link" data-scroll-target="#why-not-a-dipole-at-l1">Why Not a Dipole at L1</a></li>
+  <li><a href="#full-magnetosphere" id="toc-full-magnetosphere" class="nav-link" data-scroll-target="#full-magnetosphere">Full Magnetosphere</a></li>
+  <li><a href="#shield-power-consumption" id="toc-shield-power-consumption" class="nav-link" data-scroll-target="#shield-power-consumption">Shield Power Consumption</a></li>
   </ul></li>
-  <li><a href="#влияние-на-проект" id="toc-влияние-на-проект" class="nav-link" data-scroll-target="#влияние-на-проект">Влияние на проект</a>
+  <li><a href="#heating-the-planet" id="toc-heating-the-planet" class="nav-link" data-scroll-target="#heating-the-planet">Heating the Planet</a>
   <ul class="collapse">
-  <li><a href="#вариант-1-принять-72-эффективность" id="toc-вариант-1-принять-72-эффективность" class="nav-link" data-scroll-target="#вариант-1-принять-72-эффективность">Вариант 1: Принять 72% эффективность</a></li>
-  <li><a href="#вариант-2-orbit-cranking" id="toc-вариант-2-orbit-cranking" class="nav-link" data-scroll-target="#вариант-2-orbit-cranking">Вариант 2: Orbit Cranking</a></li>
+  <li><a href="#goal-sublimate-polar-caps" id="toc-goal-sublimate-polar-caps" class="nav-link" data-scroll-target="#goal-sublimate-polar-caps">Goal: Sublimate Polar Caps</a></li>
+  <li><a href="#how-to-direct-heat" id="toc-how-to-direct-heat" class="nav-link" data-scroll-target="#how-to-direct-heat">How to Direct Heat</a></li>
   </ul></li>
-  <li><a href="#сравнение-вариантов" id="toc-сравнение-вариантов" class="nav-link" data-scroll-target="#сравнение-вариантов">Сравнение вариантов</a></li>
-  <li><a href="#источники" id="toc-источники" class="nav-link" data-scroll-target="#источники">Источники</a></li>
-  <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
+  <li><a href="#greenhouse-effect" id="toc-greenhouse-effect" class="nav-link" data-scroll-target="#greenhouse-effect">Greenhouse Effect</a>
+  <ul class="collapse">
+  <li><a href="#after-co₂-sublimation" id="toc-after-co₂-sublimation" class="nav-link" data-scroll-target="#after-co₂-sublimation">After CO₂ Sublimation</a></li>
+  <li><a href="#enhancing-greenhouse-effect" id="toc-enhancing-greenhouse-effect" class="nav-link" data-scroll-target="#enhancing-greenhouse-effect">Enhancing Greenhouse Effect</a></li>
+  </ul></li>
+  <li><a href="#terraforming-timeline" id="toc-terraforming-timeline" class="nav-link" data-scroll-target="#terraforming-timeline">Terraforming Timeline</a></li>
+  <li><a href="#terraforming-energy-budget" id="toc-terraforming-energy-budget" class="nav-link" data-scroll-target="#terraforming-energy-budget">Terraforming Energy Budget</a></li>
+  <li><a href="#comparison-with-swarm" id="toc-comparison-with-swarm" class="nav-link" data-scroll-target="#comparison-with-swarm">Comparison with Swarm</a></li>
+  <li><a href="#realistic-expectations" id="toc-realistic-expectations" class="nav-link" data-scroll-target="#realistic-expectations">Realistic Expectations</a>
+  <ul class="collapse">
+  <li><a href="#whats-possible-in-100-years" id="toc-whats-possible-in-100-years" class="nav-link" data-scroll-target="#whats-possible-in-100-years">What’s Possible in 100 Years</a></li>
+  <li><a href="#whats-needed-for-breathable-atmosphere" id="toc-whats-needed-for-breathable-atmosphere" class="nav-link" data-scroll-target="#whats-needed-for-breathable-atmosphere">What’s Needed for “Breathable” Atmosphere</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#why-not-sooner" id="toc-why-not-sooner" class="nav-link" data-scroll-target="#why-not-sooner">Why Not Sooner?</a></li>
+  </ul></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -713,9 +883,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/detailed/mirrors.html">Детальные темы</a></li><li class="breadcrumb-item"><a href="../../../ru/science/detailed/geometry.html">Геометрия отражения</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Геометрия отражения</h1>
+<h1 class="title">Mars Terraforming</h1>
 </div>
 
 
@@ -732,377 +902,518 @@ window.Quarto = {
 </header>
 
 
-<section id="расчёты-геометрия-отражения-зеркал-на-хаб" class="level1">
-<h1>Расчёты: геометрия отражения зеркал на Хаб</h1>
+<section id="calculations-mars-terraforming" class="level1">
+<h1>Calculations: Mars Terraforming</h1>
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>Средняя геометрическая эффективность:</strong> 72% при размещении зеркал в плоскости эклиптики</li>
-<li><strong>“Мёртвая зона”:</strong> ~17% орбиты (зеркало между Солнцем и Хабом)</li>
-<li><strong>Компенсация:</strong> либо +40% зеркал, либо orbit cranking (наклон орбиты за 1-2 года)</li>
+<li><strong>Main problem:</strong> Mars lost its magnetic field 4 billion years ago -&gt; atmosphere is stripped by solar wind</li>
+<li><strong>Solution:</strong> Orbital ring of superconducting magnets (100-1000 satellites, ~10<sup>21-10</sup>22 A·m²)</li>
+<li><strong>Shield power consumption:</strong> ~100 GW continuous (comparable to Dyson Swarm output)</li>
+<li><strong>Sequence:</strong> magnetic shield -&gt; heating -&gt; greenhouse effect -&gt; liquid water -&gt; biosphere</li>
+<li><strong>Conclusion:</strong> Mars terraforming is a separate megaproject after completing Helios</li>
 </ul>
 </blockquote>
 <hr>
-<section id="постановка-задачи" class="level2">
-<h2 class="anchored" data-anchor-id="постановка-задачи">Постановка задачи</h2>
-<p>Зеркало на орбите Меркурия (0.39 AU) должно отражать солнечный свет на Хаб в точке L1 (~1 AU). Эффективность отражения зависит от положения зеркала на орбите.</p>
-<pre><code>         Зеркало M
-            ●
-           /│\
-          / │ \
-  от     /  │  \   на
-Солнца  /   │   \  Хаб
-       /    │θ   \
-      ☉─────┼─────○ L1 (Хаб)
-   Солнце   │
-            │
-   θ = угол между направлениями
-       "от Солнца" и "на Хаб"</code></pre>
-<p><strong>Закон отражения:</strong> угол падения = угол отражения.</p>
-<p>Чтобы отразить свет от Солнца на Хаб, зеркало должно быть ориентировано под углом θ/2 к падающему лучу. Эффективная площадь зеркала:</p>
-<p><span class="math display">\[
-\eta = \cos\left(\frac{\theta}{2}\right)
-\]</span></p>
-<p>Когда θ → 180° (зеркало между Солнцем и Хабом), эффективность η → 0.</p>
-<hr>
-</section>
-<section id="расчёт-угла-θ" class="level2">
-<h2 class="anchored" data-anchor-id="расчёт-угла-θ">Расчёт угла θ</h2>
-<section id="геометрия" class="level3">
-<h3 class="anchored" data-anchor-id="геометрия">Геометрия</h3>
-<p>Три точки в пространстве: - <strong>S</strong> — Солнце (центр) - <strong>M</strong> — Зеркало на орбите радиусом r_M = 0.39 AU - <strong>E</strong> — Хаб (L1) на расстоянии r_E = 1 AU от Солнца</p>
-<p>Угол φ — положение зеркала на орбите (φ = 0° когда зеркало между S и E).</p>
-</section>
-<section id="формулы" class="level3">
-<h3 class="anchored" data-anchor-id="формулы">Формулы</h3>
-<p><strong>Расстояние от зеркала до Хаба</strong> (теорема косинусов):</p>
-<p><span class="math display">\[
-ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
-\]</span></p>
-<p><strong>Угол θ при вершине M</strong> (угол SME):</p>
-<p><span class="math display">\[
-\cos(\theta) = \frac{SM^2 + ME^2 - SE^2}{2 \cdot SM \cdot ME} = \frac{r_M^2 + ME^2 - r_E^2}{2 \cdot r_M \cdot ME}
-\]</span></p>
-<p><strong>Эффективность:</strong></p>
-<p><span class="math display">\[
-\eta = \cos\left(\frac{\theta}{2}\right)
-\]</span></p>
-<hr>
-</section>
-</section>
-<section id="таблица-расчётов" class="level2">
-<h2 class="anchored" data-anchor-id="таблица-расчётов">Таблица расчётов</h2>
+<section id="the-mars-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-mars-problem">The Mars Problem</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>φ (градусы)</th>
-<th>ME (AU)</th>
-<th>θ (градусы)</th>
-<th>θ/2 (градусы)</th>
-<th>η = cos(θ/2)</th>
+<th>Parameter</th>
+<th>Mars</th>
+<th>Earth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Magnetic field</td>
+<td><strong>None</strong> (lost 4 billion years ago)</td>
+<td>25-65 µT</td>
+</tr>
+<tr class="even">
+<td>Atmosphere</td>
+<td>0.6% of Earth’s</td>
+<td>100%</td>
+</tr>
+<tr class="odd">
+<td>Temperature</td>
+<td>-60°C average</td>
+<td>+15°C</td>
+</tr>
+<tr class="even">
+<td>Water</td>
+<td>Frozen</td>
+<td>Liquid</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Without a magnetic field:</strong> - Solar wind strips atmosphere (~100 g/s) - Surface is irradiated - Any created atmosphere will escape</p>
+<hr>
+</section>
+<section id="why-heat-the-planet" class="level2">
+<h2 class="anchored" data-anchor-id="why-heat-the-planet">Why Heat the Planet?</h2>
+<section id="terraforming-logic" class="level3">
+<h3 class="anchored" data-anchor-id="terraforming-logic">Terraforming Logic</h3>
+<pre><code>Step 1: Magnetic shield
+        ↓
+Atmosphere stops escaping
+        ↓
+Step 2: Heating with mirrors
+        ↓
+CO₂ in polar caps sublimates
+        ↓
+Step 3: Greenhouse effect
+        ↓
+Temperature rises -&gt; more CO₂ sublimates
+        ↓
+Step 4: Ice melts
+        ↓
+Liquid water on surface
+        ↓
+Step 5: Biosphere
+        ↓
+Plants produce oxygen</code></pre>
+</section>
+<section id="what-mars-has" class="level3">
+<h3 class="anchored" data-anchor-id="what-mars-has">What Mars Has</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Resource</th>
+<th>Amount</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CO₂ (frozen)</td>
+<td>~4 trillion tons</td>
+<td>Polar caps</td>
+</tr>
+<tr class="even">
+<td>Water ice</td>
+<td>~5 million km³</td>
+<td>Poles + subsurface</td>
+</tr>
+<tr class="odd">
+<td>CO₂ (bound)</td>
+<td>~100 trillion tons</td>
+<td>In rocks</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Problem:</strong> All of this is frozen at -60°C. Heating required.</p>
+<hr>
+</section>
+</section>
+<section id="magnetic-shield-the-serious-option" class="level2">
+<h2 class="anchored" data-anchor-id="magnetic-shield-the-serious-option">Magnetic Shield: The Serious Option</h2>
+<section id="why-not-a-dipole-at-l1" class="level3">
+<h3 class="anchored" data-anchor-id="why-not-a-dipole-at-l1">Why Not a Dipole at L1</h3>
+<p>NASA concept (2017) - minimalist dipole at L1 point: - Power: ~150 MW - Problem: This is an “umbrella”, not a full magnetosphere - Does not protect from cosmic rays - Does not create radiation belts</p>
+</section>
+<section id="full-magnetosphere" class="level3">
+<h3 class="anchored" data-anchor-id="full-magnetosphere">Full Magnetosphere</h3>
+<p><strong>Option: Orbital ring of superconducting magnets</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Orbit</td>
+<td>Equatorial, 400-1000 km</td>
+</tr>
+<tr class="even">
+<td>Number of satellites</td>
+<td>100-1000</td>
+</tr>
+<tr class="odd">
+<td>Magnetic moment (total)</td>
+<td>~10<sup>21-10</sup>22 A·m²</td>
+</tr>
+<tr class="even">
+<td>Surface field</td>
+<td>~10-50 µT</td>
+</tr>
+</tbody>
+</table>
+<pre><code>Comparison:
+Earth: 8 × 10²² A·m² (at core) -&gt; 25-65 µT at surface
+Our shield: orbital ring closer to surface
+
+Refined calculation:
+For 10 µT field at surface from 500 km orbit:
+m ≈ 3×10²¹ A·m² (30× higher than initial estimate)</code></pre>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Calculation requires refinement - geometry differs from point dipole for orbital ring. Order of magnitude: 10<sup>21-10</sup>22 A·m².</p>
+</blockquote>
+</section>
+<section id="shield-power-consumption" class="level3">
+<h3 class="anchored" data-anchor-id="shield-power-consumption">Shield Power Consumption</h3>
+<pre><code>Each satellite:
+- Superconducting coil: current ~10⁶ A
+- Cryogenic cooling: ~10-100 MW
+- Mass: ~50-100 tons
+
+1000 satellites:
+- Total cooling power: 10-100 GW
+- Total mass: 50,000 - 100,000 tons</code></pre>
+<p><strong>Shield energy: ~100 GW</strong> (continuous)</p>
+<hr>
+</section>
+</section>
+<section id="heating-the-planet" class="level2">
+<h2 class="anchored" data-anchor-id="heating-the-planet">Heating the Planet</h2>
+<section id="goal-sublimate-polar-caps" class="level3">
+<h3 class="anchored" data-anchor-id="goal-sublimate-polar-caps">Goal: Sublimate Polar Caps</h3>
+<pre><code>CO₂ mass in caps: 4 × 10¹⁵ kg
+Heat of sublimation CO₂: 571 kJ/kg
+Energy for sublimation: 4 × 10¹⁵ × 571 × 10³ = 2.3 × 10²¹ J
+
+At 500 TW power:
+Time = 2.3 × 10²¹ / 5 × 10¹⁴ = 4.6 × 10⁶ seconds ≈ 53 days
+
+BUT: also need to heat ice from -120°C to -78°C (sublimation point)
+Add ~30% -&gt; ~70 days</code></pre>
+<p><strong>Conclusion:</strong> At 500 TW of directed heat - polar caps sublimate in ~2-3 months.</p>
+</section>
+<section id="how-to-direct-heat" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-direct-heat">How to Direct Heat</h3>
+<pre><code>Dyson Swarm mirrors redirect sunlight to Mars poles:
+- 500 TW = ~6 million mirrors (100×100 m each)
+- This is ~2.5% of the Swarm by year 3</code></pre>
+<hr>
+</section>
+</section>
+<section id="greenhouse-effect" class="level2">
+<h2 class="anchored" data-anchor-id="greenhouse-effect">Greenhouse Effect</h2>
+<section id="after-co₂-sublimation" class="level3">
+<h3 class="anchored" data-anchor-id="after-co₂-sublimation">After CO₂ Sublimation</h3>
+<pre><code>Current Mars pressure: 0.6 kPa (0.6% of Earth's)
++ 4 trillion tons CO₂: +10-20 kPa
+New pressure: ~10-20 kPa (10-20% of Earth's)
+
+CO₂ greenhouse effect:
+Δt ≈ 5-10°C per doubling of concentration
+At 10-20 kPa CO₂: +30-50°C
+
+New average temperature: -60 + 40 = -20°C</code></pre>
+<p><strong>Still cold, but ice at equator will start melting in summer.</strong></p>
+</section>
+<section id="enhancing-greenhouse-effect" class="level3">
+<h3 class="anchored" data-anchor-id="enhancing-greenhouse-effect">Enhancing Greenhouse Effect</h3>
+<p>For further heating: 1. Continue heating with mirrors (+10°C) 2. Add other greenhouse gases (SF₆, CF₄) 3. Release bound CO₂ from rocks (heating)</p>
+<hr>
+</section>
+</section>
+<section id="terraforming-timeline" class="level2">
+<h2 class="anchored" data-anchor-id="terraforming-timeline">Terraforming Timeline</h2>
+<p><em>Aligned with prologue events (2075).</em></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project Year</th>
+<th>Calendar</th>
+<th>Event</th>
+<th>Result</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td>0.610</td>
-<td>180.0</td>
-<td>90.0</td>
-<td>0.00</td>
+<td>~2030</td>
+<td>Landing on Mercury</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td>15</td>
-<td>0.631</td>
-<td>155.8</td>
-<td>77.9</td>
-<td>0.21</td>
+<td>3</td>
+<td>~2033</td>
+<td>Swarm operational (9,500 TW)</td>
+<td>Energy available</td>
+</tr>
+<tr class="odd">
+<td>3-25</td>
+<td>2033-2055</td>
+<td>Priority: Earth</td>
+<td>Energy bridge, infrastructure</td>
+</tr>
+<tr class="even">
+<td>25-30</td>
+<td>~2055-2060</td>
+<td>Shield construction</td>
+<td>100,000 t delivered</td>
 </tr>
 <tr class="odd">
 <td>30</td>
-<td>0.690</td>
-<td>133.6</td>
-<td>66.8</td>
-<td>0.39</td>
+<td>~2060</td>
+<td>Shield activation</td>
+<td>Atmosphere stops escaping</td>
+</tr>
+<tr class="even">
+<td>30-35</td>
+<td>2060-2065</td>
+<td>Polar heating</td>
+<td>CO₂ sublimates</td>
+</tr>
+<tr class="odd">
+<td>35-40</td>
+<td>2065-2070</td>
+<td>Greenhouse acceleration</td>
+<td>Temperature rises</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>~2070</td>
+<td>Mask instead of spacesuit</td>
+<td>Pressure 10-15 kPa</td>
+</tr>
+<tr class="odd">
+<td><strong>42</strong></td>
+<td><strong>2072</strong></td>
+<td><strong>First lake</strong></td>
+<td>Liquid water!</td>
 </tr>
 <tr class="even">
 <td>45</td>
-<td>0.775</td>
-<td>114.2</td>
-<td>57.1</td>
-<td>0.54</td>
+<td>2075</td>
+<td>200,000 colonists</td>
+<td>Domed cities</td>
 </tr>
 <tr class="odd">
-<td>60</td>
-<td>0.873</td>
-<td>97.2</td>
-<td>48.6</td>
-<td>0.66</td>
+<td>70-100</td>
+<td>2100-2130</td>
+<td>Comfortable climate</td>
+<td>0°C average</td>
 </tr>
 <tr class="even">
-<td>75</td>
-<td>0.975</td>
-<td>82.3</td>
-<td>41.1</td>
-<td>0.75</td>
-</tr>
-<tr class="odd">
-<td>90</td>
-<td>1.073</td>
-<td>68.7</td>
-<td>34.3</td>
-<td>0.83</td>
-</tr>
-<tr class="even">
-<td>105</td>
-<td>1.164</td>
-<td>56.1</td>
-<td>28.1</td>
-<td>0.88</td>
-</tr>
-<tr class="odd">
-<td>120</td>
-<td>1.242</td>
-<td>44.2</td>
-<td>22.1</td>
-<td>0.93</td>
-</tr>
-<tr class="even">
-<td>135</td>
-<td>1.305</td>
-<td>32.8</td>
-<td>16.4</td>
-<td>0.96</td>
-</tr>
-<tr class="odd">
-<td>150</td>
-<td>1.352</td>
-<td>21.7</td>
-<td>10.9</td>
-<td>0.98</td>
-</tr>
-<tr class="even">
-<td>165</td>
-<td>1.380</td>
-<td>10.8</td>
-<td>5.4</td>
-<td>1.00</td>
-</tr>
-<tr class="odd">
-<td>180</td>
-<td>1.390</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>1.00</td>
+<td>150-300</td>
+<td>2180-2330</td>
+<td>Breathable atmosphere</td>
+<td>21% O₂</td>
 </tr>
 </tbody>
 </table>
-<p>Симметрия: значения для φ = 195°…345° зеркальны относительно 180°.</p>
 <hr>
 </section>
-<section id="диаграмма-эффективности" class="level2">
-<h2 class="anchored" data-anchor-id="диаграмма-эффективности">Диаграмма эффективности</h2>
-<pre><code>Эффективность η по орбите (вид сверху на эклиптику):
+<section id="terraforming-energy-budget" class="level2">
+<h2 class="anchored" data-anchor-id="terraforming-energy-budget">Terraforming Energy Budget</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Power</th>
+<th>% of Swarm</th>
+<th>Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Magnetic shield</td>
+<td>100 GW</td>
+<td>0.001%</td>
+<td>Continuous</td>
+</tr>
+<tr class="even">
+<td>Cap sublimation</td>
+<td>500 TW</td>
+<td>5%</td>
+<td>2-3 months</td>
+</tr>
+<tr class="odd">
+<td>Heat maintenance</td>
+<td>500-1000 TW</td>
+<td>5-10%</td>
+<td>100+ years</td>
+</tr>
+<tr class="even">
+<td>Water electrolysis (O₂)</td>
+<td>100 TW</td>
+<td>1%</td>
+<td>Continuous</td>
+</tr>
+<tr class="odd">
+<td>Industry</td>
+<td>50 TW</td>
+<td>0.5%</td>
+<td>Continuous</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total for Mars: ~15-17% of Swarm power</strong></p>
+<hr>
+</section>
+<section id="comparison-with-swarm" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-with-swarm">Comparison with Swarm</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Swarm power (year 3)</td>
+<td>9,500 TW</td>
+</tr>
+<tr class="even">
+<td>Mars consumption</td>
+<td>~1,500 TW</td>
+</tr>
+<tr class="odd">
+<td><strong>Remainder for other projects</strong></td>
+<td><strong>~8,000 TW</strong></td>
+</tr>
+</tbody>
+</table>
+<pre><code>Mars consumes 15% of the Swarm.
+The remaining 85% available for:
+- Earth energy supply
+- Other planets (Venus, moons)
+- Interplanetary logistics
+- Space industry</code></pre>
+<hr>
+</section>
+<section id="realistic-expectations" class="level2">
+<h2 class="anchored" data-anchor-id="realistic-expectations">Realistic Expectations</h2>
+<section id="whats-possible-in-100-years" class="level3">
+<h3 class="anchored" data-anchor-id="whats-possible-in-100-years">What’s Possible in 100 Years</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Now</th>
+<th>In 100 years</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pressure</td>
+<td>0.6 kPa</td>
+<td>30-50 kPa</td>
+</tr>
+<tr class="even">
+<td>Temperature</td>
+<td>-60°C</td>
+<td>0 - +10°C</td>
+</tr>
+<tr class="odd">
+<td>Water</td>
+<td>Ice</td>
+<td>Lakes, rivers</td>
+</tr>
+<tr class="even">
+<td>Atmosphere</td>
+<td>95% CO₂</td>
+<td>95% CO₂, trace O₂</td>
+</tr>
+<tr class="odd">
+<td>Life</td>
+<td>None</td>
+<td>Plants under domes</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="whats-needed-for-breathable-atmosphere" class="level3">
+<h3 class="anchored" data-anchor-id="whats-needed-for-breathable-atmosphere">What’s Needed for “Breathable” Atmosphere</h3>
+<pre><code>Needed: 21% O₂ at 100 kPa = 21 kPa oxygen
+Mass: ~5 × 10¹⁶ kg O₂
 
-                       180° (η=100%)
-                          ●
-                    165° /|\ 195°
-                   (100%)/|(100%)
-                150° ●   |   ● 210°
-               (98%)  \  |  /  (98%)
-           135° ●──────\─┼─/──────● 225°
-          (96%)         \|/        (96%)
-       120° ●────────────☉────────────● 240°
-      (93%)           Солнце          (93%)
-    105° ●───────────────────────────● 255°
-   (88%)                              (88%)
-  90° ●───────────────────────────────● 270°
- (83%)                                 (83%)
-   75° ●                             ● 285°
-  (75%)                               (75%)
-    60° ●                          ● 300°
-   (66%)                            (66%)
-      45° ●                     ● 315°
-     (54%)                       (54%)
-        30° ●              ● 330°
-       (39%)                (39%)
-           15° ●       ● 345°
-          (21%)         (21%)
-                 ● 0°
-               (η=0%)
-                 ↓
-             к Хабу (L1)</code></pre>
+Source: Water electrolysis
+2H₂O -&gt; 2H₂ + O₂
+Energy: 286 kJ/mol O₂ = 9 MJ/kg O₂
+
+For 5 × 10¹⁶ kg:
+E = 5 × 10¹⁶ × 9 × 10⁶ = 4.5 × 10²³ J
+
+At 100 TW: time = 4.5 × 10²³ / 10¹⁴ = 4.5 × 10⁹ s ≈ 140 years</code></pre>
+<p><strong>Conclusion:</strong> Even with a Dyson Swarm, creating a breathable atmosphere takes ~150-500 years.</p>
 <hr>
 </section>
-<section id="итоговые-метрики" class="level2">
-<h2 class="anchored" data-anchor-id="итоговые-метрики">Итоговые метрики</h2>
-<section id="средняя-эффективность" class="level3">
-<h3 class="anchored" data-anchor-id="средняя-эффективность">Средняя эффективность</h3>
-<p>При равномерном распределении зеркал по орбите:</p>
-<p><span class="math display">\[
-\bar{\eta} = \frac{1}{2\pi} \int_0^{2\pi} \cos\left(\frac{\theta(\phi)}{2}\right) d\phi \approx 0.72
-\]</span></p>
-<p><strong>Средняя геометрическая эффективность: 72%</strong></p>
 </section>
-<section id="распределение-по-эффективности" class="level3">
-<h3 class="anchored" data-anchor-id="распределение-по-эффективности">Распределение по эффективности</h3>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 31%">
+<col style="width: 22%">
+<col style="width: 31%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Диапазон η</th>
-<th>Доля орбиты</th>
+<th>Stage</th>
+<th>Project Year</th>
+<th>Calendar</th>
+<th>Requirements</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>η &gt; 90%</td>
-<td>39%</td>
+<td>Magnetic shield</td>
+<td>25-30</td>
+<td>2055-2060</td>
+<td>100 GW + 100,000 t</td>
 </tr>
 <tr class="even">
-<td>η &gt; 80%</td>
-<td>53%</td>
+<td>CO₂ sublimation</td>
+<td>30-35</td>
+<td>2060-2065</td>
+<td>500 TW × years</td>
 </tr>
 <tr class="odd">
-<td>η &gt; 50%</td>
-<td>78%</td>
+<td><strong>First lake</strong></td>
+<td><strong>42</strong></td>
+<td><strong>2072</strong></td>
+<td>Greenhouse effect</td>
 </tr>
 <tr class="even">
-<td>η &lt; 20%</td>
-<td>17% (“мёртвая зона”)</td>
+<td>Comfortable climate</td>
+<td>70-100</td>
+<td>2100-2130</td>
+<td>1000 TW continuous</td>
+</tr>
+<tr class="odd">
+<td>Breathable atmosphere</td>
+<td>150-300</td>
+<td>2180-2330</td>
+<td>100 TW for electrolysis</td>
 </tr>
 </tbody>
 </table>
+<section id="why-not-sooner" class="level3">
+<h3 class="anchored" data-anchor-id="why-not-sooner">Why Not Sooner?</h3>
+<p>First 25 years (2033-2055) priority is <strong>Earth</strong>: - Building photoreceiver stations - Deploying Energy Bridge - Solving Earth’s problems (hunger, energy, ecology)</p>
+<p>Mars is the second priority. Only after Earth stabilization does large-scale terraforming begin.</p>
+<p><strong>Key conclusion:</strong> Mars terraforming is a centuries-long project, but the Dyson Swarm makes it <em>possible</em>. First lake in 2072 - 42 years after project start.</p>
+<hr>
 <hr>
 </section>
 </section>
-<section id="влияние-на-проект" class="level2">
-<h2 class="anchored" data-anchor-id="влияние-на-проект">Влияние на проект</h2>
-<section id="вариант-1-принять-72-эффективность" class="level3">
-<h3 class="anchored" data-anchor-id="вариант-1-принять-72-эффективность">Вариант 1: Принять 72% эффективность</h3>
-<p>Геометрические потери учитываются в общем КПД:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Этап</th>
-<th>Текущий КПД</th>
-<th>С учётом геометрии</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Отражение зеркал</td>
-<td>90%</td>
-<td>90%</td>
-</tr>
-<tr class="even">
-<td>Концентрация на Хаб</td>
-<td>95%</td>
-<td><strong>68%</strong> (95% × 0.72)</td>
-</tr>
-<tr class="odd">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Компенсация:</strong> увеличить количество зеркал на ~40% (1.4 млрд вместо 1 млрд).</p>
-</section>
-<section id="вариант-2-orbit-cranking" class="level3">
-<h3 class="anchored" data-anchor-id="вариант-2-orbit-cranking">Вариант 2: Orbit Cranking</h3>
-<p>Зеркало может использовать давление солнечного света для изменения наклона орбиты.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Площадь паруса</td>
-<td>10 000 м²</td>
-</tr>
-<tr class="even">
-<td>Масса</td>
-<td>116 кг</td>
-</tr>
-<tr class="odd">
-<td>Sail loading</td>
-<td>11.6 г/м²</td>
-</tr>
-<tr class="even">
-<td>Ускорение на 0.39 AU</td>
-<td>4.4 мм/с²</td>
-</tr>
-<tr class="odd">
-<td>ΔV для наклона 45°</td>
-<td>~32.6 км/с</td>
-</tr>
-<tr class="even">
-<td><strong>Время</strong></td>
-<td><strong>1-2 года</strong></td>
-</tr>
-</tbody>
-</table>
-<p>При наклоне 45° к эклиптике зеркало может отражать на Хаб из любой точки орбиты с эффективностью ~95%.</p>
-<hr>
-</section>
-</section>
-<section id="сравнение-вариантов" class="level2">
-<h2 class="anchored" data-anchor-id="сравнение-вариантов">Сравнение вариантов</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Базовый (72%)</th>
-<th>Orbit Cranking</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Наклон орбиты</td>
-<td>0° (эклиптика)</td>
-<td>45°</td>
-</tr>
-<tr class="even">
-<td>Средняя эффективность</td>
-<td>72%</td>
-<td>95%</td>
-</tr>
-<tr class="odd">
-<td>Количество зеркал</td>
-<td>+40%</td>
-<td>—</td>
-</tr>
-<tr class="even">
-<td>Время до работы</td>
-<td>сразу</td>
-<td>1-2 года</td>
-</tr>
-<tr class="odd">
-<td>Сложность</td>
-<td>низкая</td>
-<td>средняя</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="источники" class="level2">
-<h2 class="anchored" data-anchor-id="источники">Источники</h2>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
 <ul>
-<li>ESA Solar Polar Orbiter TRS: <a href="https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter">sci.esa.int</a></li>
-<li>NASA Solar Sail Trajectories: <a href="https://ntrs.nasa.gov/search.jsp?R=20000057299">ntrs.nasa.gov</a></li>
-<li>IKAROS mission (JAXA): <a href="https://en.wikipedia.org/wiki/IKAROS">en.wikipedia.org/wiki/IKAROS</a></li>
+<li><a href="../../../en/science/reference/technology-readiness.html">Technologies and Sources</a> - TRL of technologies, including magnetic shield references</li>
+<li><a href="../../../en/science/summaries/comparison.html">Why Mercury?</a> - location comparison</li>
+<li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> - Swarm technologies</li>
+<li><a href="../../../en/science/detailed/mirrors.html">Swarm Mirrors</a> - energetics and efficiency</li>
+<li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> - project timeline</li>
 </ul>
 <hr>
 </section>
-<section id="см.-также" class="level2">
-<h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
+<section id="sources" class="level2">
+<h2 class="anchored" data-anchor-id="sources">Sources</h2>
 <ul>
-<li><a href="../../../ru/science/detailed/mirrors.html">Зеркала Роя</a> — конструкция и параметры</li>
-<li><a href="../../../ru/science/detailed/energy.html">Энергобаланс</a> — расчёты мощности</li>
-<li><a href="../../../ru/science/detailed/production/railguns/overview.html">Масс-драйвер</a> — запуск зеркал</li>
+<li><a href="https://www.hou.usra.edu/meetings/V2050/pdf/8250.pdf">NASA Planetary Science Vision 2050: Mars Magnetic Shield</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Terraforming_of_Mars">Terraforming Mars - Wikipedia</a></li>
+<li><a href="https://mars.nasa.gov/all-about-mars/facts/">Mars Polar Ice Caps - NASA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Greenhouse_effect">Greenhouse Effect Calculations</a></li>
 </ul>
 
 
@@ -1183,7 +1494,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

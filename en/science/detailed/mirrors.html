@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Swarm Mirrors – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="module" src="../../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<meta name="mermaid-theme" content="neutral">
+<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Swarm Mirrors</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Навигация</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#mirror-design" id="toc-mirror-design" class="nav-link active" data-scroll-target="#mirror-design">Mirror Design</a>
+  <ul class="collapse">
+  <li><a href="#physical-parameters" id="toc-physical-parameters" class="nav-link" data-scroll-target="#physical-parameters">Physical Parameters</a></li>
+  <li><a href="#material-composition" id="toc-material-composition" class="nav-link" data-scroll-target="#material-composition">Material Composition</a></li>
+  <li><a href="#frameless-design-ikaros-principle" id="toc-frameless-design-ikaros-principle" class="nav-link" data-scroll-target="#frameless-design-ikaros-principle">Frameless Design (IKAROS Principle)</a></li>
+  <li><a href="#electronics" id="toc-electronics" class="nav-link" data-scroll-target="#electronics">Electronics</a></li>
+  </ul></li>
+  <li><a href="#attitude-control" id="toc-attitude-control" class="nav-link" data-scroll-target="#attitude-control">Attitude Control</a>
+  <ul class="collapse">
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem">The Problem</a></li>
+  <li><a href="#solution-light-pressure-electrochromics" id="toc-solution-light-pressure-electrochromics" class="nav-link" data-scroll-target="#solution-light-pressure-electrochromics">Solution: Light Pressure + Electrochromics</a></li>
+  <li><a href="#pointing-speed" id="toc-pointing-speed" class="nav-link" data-scroll-target="#pointing-speed">Pointing Speed</a></li>
+  </ul></li>
+  <li><a href="#energy" id="toc-energy" class="nav-link" data-scroll-target="#energy">Energy</a>
+  <ul class="collapse">
+  <li><a href="#single-mirror-power" id="toc-single-mirror-power" class="nav-link" data-scroll-target="#single-mirror-power">Single Mirror Power</a></li>
+  <li><a href="#target-power" id="toc-target-power" class="nav-link" data-scroll-target="#target-power">Target Power</a></li>
+  <li><a href="#how-many-mirrors-are-needed" id="toc-how-many-mirrors-are-needed" class="nav-link" data-scroll-target="#how-many-mirrors-are-needed">How Many Mirrors Are Needed?</a></li>
+  <li><a href="#swarm-parameters" id="toc-swarm-parameters" class="nav-link" data-scroll-target="#swarm-parameters">Swarm Parameters</a></li>
+  <li><a href="#energy-cascade" id="toc-energy-cascade" class="nav-link" data-scroll-target="#energy-cascade">Energy Cascade</a></li>
+  <li><a href="#energy-transmission-efficiency-via-lunar-lsp-stations" id="toc-energy-transmission-efficiency-via-lunar-lsp-stations" class="nav-link" data-scroll-target="#energy-transmission-efficiency-via-lunar-lsp-stations">Energy Transmission Efficiency (via Lunar LSP Stations)</a></li>
+  <li><a href="#transmission-architecture" id="toc-transmission-architecture" class="nav-link" data-scroll-target="#transmission-architecture">Transmission Architecture</a></li>
+  <li><a href="#swarm-energy-distribution" id="toc-swarm-energy-distribution" class="nav-link" data-scroll-target="#swarm-energy-distribution">Swarm Energy Distribution</a></li>
+  <li><a href="#mirror-clusters" id="toc-mirror-clusters" class="nav-link" data-scroll-target="#mirror-clusters">Mirror Clusters</a></li>
+  <li><a href="#optical-cluster-control" id="toc-optical-cluster-control" class="nav-link" data-scroll-target="#optical-cluster-control">Optical Cluster Control</a></li>
+  </ul></li>
+  <li><a href="#production-schedule" id="toc-production-schedule" class="nav-link" data-scroll-target="#production-schedule">Production Schedule</a>
+  <ul class="collapse">
+  <li><a href="#production-capacity-growth" id="toc-production-capacity-growth" class="nav-link" data-scroll-target="#production-capacity-growth">Production Capacity Growth</a></li>
+  <li><a href="#mirror-accumulation" id="toc-mirror-accumulation" class="nav-link" data-scroll-target="#mirror-accumulation">Mirror Accumulation</a></li>
+  <li><a href="#key-milestones" id="toc-key-milestones" class="nav-link" data-scroll-target="#key-milestones">Key Milestones</a></li>
+  <li><a href="#long-term-balance" id="toc-long-term-balance" class="nav-link" data-scroll-target="#long-term-balance">Long-term Balance</a></li>
+  </ul></li>
+  <li><a href="#swarm-orbit" id="toc-swarm-orbit" class="nav-link" data-scroll-target="#swarm-orbit">Swarm Orbit</a>
+  <ul class="collapse">
+  <li><a href="#location" id="toc-location" class="nav-link" data-scroll-target="#location">Location</a></li>
+  <li><a href="#how-mirrors-reach-orbit" id="toc-how-mirrors-reach-orbit" class="nav-link" data-scroll-target="#how-mirrors-reach-orbit">How Mirrors Reach Orbit</a></li>
+  <li><a href="#spin-up-and-launch" id="toc-spin-up-and-launch" class="nav-link" data-scroll-target="#spin-up-and-launch">Spin-up and Launch</a></li>
+  <li><a href="#advantages" id="toc-advantages" class="nav-link" data-scroll-target="#advantages">Advantages</a></li>
+  </ul></li>
+  <li><a href="#reflection-geometry" id="toc-reflection-geometry" class="nav-link" data-scroll-target="#reflection-geometry">Reflection Geometry</a>
+  <ul class="collapse">
+  <li><a href="#the-angle-problem" id="toc-the-angle-problem" class="nav-link" data-scroll-target="#the-angle-problem">The Angle Problem</a></li>
+  <li><a href="#efficiency-calculation" id="toc-efficiency-calculation" class="nav-link" data-scroll-target="#efficiency-calculation">Efficiency Calculation</a></li>
+  <li><a href="#summary-metrics" id="toc-summary-metrics" class="nav-link" data-scroll-target="#summary-metrics">Summary Metrics</a></li>
+  <li><a href="#solution-options" id="toc-solution-options" class="nav-link" data-scroll-target="#solution-options">Solution Options</a></li>
+  </ul></li>
+  <li><a href="#production" id="toc-production" class="nav-link" data-scroll-target="#production">Production</a>
+  <ul class="collapse">
+  <li><a href="#where-mirrors-are-made" id="toc-where-mirrors-are-made" class="nav-link" data-scroll-target="#where-mirrors-are-made">Where Mirrors Are Made</a></li>
+  <li><a href="#component-analysis" id="toc-component-analysis" class="nav-link" data-scroll-target="#component-analysis">Component Analysis</a></li>
+  <li><a href="#supply-chain" id="toc-supply-chain" class="nav-link" data-scroll-target="#supply-chain">Supply Chain</a></li>
+  <li><a href="#import-from-earth" id="toc-import-from-earth" class="nav-link" data-scroll-target="#import-from-earth">Import from Earth</a></li>
+  <li><a href="#production-process-on-mercury" id="toc-production-process-on-mercury" class="nav-link" data-scroll-target="#production-process-on-mercury">Production Process on Mercury</a></li>
+  </ul></li>
+  <li><a href="#mass-driver-launch" id="toc-mass-driver-launch" class="nav-link" data-scroll-target="#mass-driver-launch">Mass Driver Launch</a>
+  <ul class="collapse">
+  <li><a href="#launch-parameters" id="toc-launch-parameters" class="nav-link" data-scroll-target="#launch-parameters">Launch Parameters</a></li>
+  <li><a href="#throughput" id="toc-throughput" class="nav-link" data-scroll-target="#throughput">Throughput</a></li>
+  </ul></li>
+  <li><a href="#thermal-regime" id="toc-thermal-regime" class="nav-link" data-scroll-target="#thermal-regime">Thermal Regime</a>
+  <ul class="collapse">
+  <li><a href="#will-the-foil-survive" id="toc-will-the-foil-survive" class="nav-link" data-scroll-target="#will-the-foil-survive">Will the Foil Survive?</a></li>
+  </ul></li>
+  <li><a href="#service-life-and-degradation" id="toc-service-life-and-degradation" class="nav-link" data-scroll-target="#service-life-and-degradation">Service Life and Degradation</a>
+  <ul class="collapse">
+  <li><a href="#degradation-factors" id="toc-degradation-factors" class="nav-link" data-scroll-target="#degradation-factors">Degradation Factors</a></li>
+  <li><a href="#estimate" id="toc-estimate" class="nav-link" data-scroll-target="#estimate">Estimate</a></li>
+  </ul></li>
+  <li><a href="#disposal" id="toc-disposal" class="nav-link" data-scroll-target="#disposal">Disposal</a>
+  <ul class="collapse">
+  <li><a href="#space-debris-problem" id="toc-space-debris-problem" class="nav-link" data-scroll-target="#space-debris-problem">Space Debris Problem</a></li>
+  <li><a href="#solution-solar-descent" id="toc-solution-solar-descent" class="nav-link" data-scroll-target="#solution-solar-descent">Solution: Solar Descent</a></li>
+  <li><a href="#disposal-parameters" id="toc-disposal-parameters" class="nav-link" data-scroll-target="#disposal-parameters">Disposal Parameters</a></li>
+  </ul></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Swarm Mirrors</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell hidden">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="9" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 8;"><span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { unitWidget } <span class="im">from</span> <span class="st">"../ojs-data.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display hidden">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>Swarm Mirrors are the core element of the Dyson Swarm project. Approximately 1.1 billion autonomous reflectors in orbit around the Sun collect and redirect solar energy to Earth.</p>
+<hr>
+<section id="mirror-design" class="level2">
+<h2 class="anchored" data-anchor-id="mirror-design">Mirror Design</h2>
+<section id="physical-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="physical-parameters">Physical Parameters</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Size</td>
+<td>100 × 100 m (square)</td>
+</tr>
+<tr class="even">
+<td>Area</td>
+<td>10,000 m²</td>
+</tr>
+<tr class="odd">
+<td>Foil thickness</td>
+<td>4 μm</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="material-composition" class="level3">
+<h3 class="anchored" data-anchor-id="material-composition">Material Composition</h3>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="29" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 28;"><span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Technology baseline (2025):</strong> Industrial production of 4.5 μm aluminum foil already exists (<a href="https://www.chalcoaluminum.com/knowledge/ultra-thin-aluminum-foil-2505-lx/">Chalco</a>). Space sails <a href="https://www.planetary.org/articles/what-is-solar-sailing">LightSail 2</a> (4.5 μm) and <a href="https://en.wikipedia.org/wiki/Solar_sail">NEA Scout</a> (2.5 μm) operate successfully in orbit. By the 2030s, technologies will enable even thinner membranes.</p>
+</blockquote>
+</section>
+<section id="frameless-design-ikaros-principle" class="level3">
+<h3 class="anchored" data-anchor-id="frameless-design-ikaros-principle">Frameless Design (IKAROS Principle)</h3>
+<p>The mirror <strong>has no rigid frame</strong>. The design is based on the Japanese solar sail <a href="https://en.wikipedia.org/wiki/IKAROS">IKAROS</a> (JAXA, 2010).</p>
+<p>The mirror <strong>rotates around its axis</strong> (1-2 rpm). Centrifugal force tensions the foil through cables, turning it into a rigid square. Rotation also acts as a gyroscope, stabilizing orientation in space.</p>
+<ul>
+<li><strong>Tip masses</strong> — 4 units at corners, create centrifugal force and stabilize shape</li>
+<li><strong>Cables</strong> — connect corners to central hub, transmit tension</li>
+</ul>
+</section>
+<section id="electronics" class="level3">
+<h3 class="anchored" data-anchor-id="electronics">Electronics</h3>
+<p>At the mirror’s center is <strong>one integrated chip</strong> the size of a coin (~50 g), delivered from Earth. All functions are combined on a single die:</p>
+<ul>
+<li><strong>Star tracker</strong> — determines own orientation</li>
+<li><strong>Radio beacons</strong> — positioning relative to other mirrors</li>
+<li><strong>Onboard processor</strong> — calculates required pointing angle</li>
+<li><strong>Photovoltaic power</strong> — a few cm² of silicon, provides microwatts for operation</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Why from Earth?</strong> Manufacturing highly integrated chips requires extremely complex lithographic processes. This is the only component that is impractical to produce in space.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Technology baseline (2025):</strong> The radiation-hardened electronics market is <a href="https://www.marketsandmarkets.com/Market-Reports/radiation-hardened-electronics-market-44047967.html">$1.6 billion</a>. Modern star trackers weigh <a href="https://pressbooks-dev.oer.hawaii.edu/epet302/chapter/7-5/">tens of grams</a>, solar sensors weigh less than 5 g. <a href="https://spectrum.ieee.org/exploring-space-with-chipsized-satellites">Chip-scale satellites</a> (Sprites) weigh only 10 g total. By the 2030s, SoC solutions will combine processor, memory, and sensors in a single chip weighing ~10-20 g.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="attitude-control" class="level2">
+<h2 class="anchored" data-anchor-id="attitude-control">Attitude Control</h2>
+<section id="the-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem">The Problem</h3>
+<p>Billions of mirrors in space. Cannot use conventional thrusters (fuel runs out) or reaction wheels (heavy, fail).</p>
+</section>
+<section id="solution-light-pressure-electrochromics" class="level3">
+<h3 class="anchored" data-anchor-id="solution-light-pressure-electrochromics">Solution: Light Pressure + Electrochromics</h3>
+<p>Technology proven by the Japanese solar sail <a href="https://en.wikipedia.org/wiki/IKAROS">IKAROS</a> (JAXA, 2010).</p>
+<p><strong>Principle:</strong></p>
+<ul>
+<li>The mirror is a solar sail</li>
+<li>Light exerts pressure on the surface (~60 μPa at Mercury orbit)</li>
+<li>If one part of the surface reflects better than another — a torque is created</li>
+</ul>
+<p><strong>Electrochromics:</strong></p>
+<p>Along the mirror edges are strips of electrochromic material (TiO₂, titanium oxide). Titanium is mined on Mercury (&lt;1% of surface mass), making production 100% local:</p>
+<ul>
+<li>Apply current → strip darkens → absorbs more light → pressure on opposite side increases → mirror rotates</li>
+<li>No thrusters, no fuel</li>
+<li>Energy: microwatts from integrated photovoltaic</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Why TiO₂, not WO₃?</strong> Tungsten oxide (WO₃) is more efficient, but tungsten was not measured by MESSENGER and its availability is unknown. Titanium is confirmed (~0.5%), and at billion-mirror scale source reliability is critical. TiO₂ is less efficient (17% vs 60%), but production is 100% local.</p>
+</blockquote>
+<p><strong>Pointing Accuracy:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Light pressure</td>
+<td>~60 μPa</td>
+</tr>
+<tr class="even">
+<td>Area</td>
+<td>10,000 m²</td>
+</tr>
+<tr class="odd">
+<td>Force</td>
+<td>~0.6 N</td>
+</tr>
+<tr class="even">
+<td>Arm</td>
+<td>50 m</td>
+</tr>
+<tr class="odd">
+<td>Torque</td>
+<td>~30 N·m</td>
+</tr>
+</tbody>
+</table>
+<p>For a 116 kg mirror, this is sufficient for precise positioning.</p>
+</section>
+<section id="pointing-speed" class="level3">
+<h3 class="anchored" data-anchor-id="pointing-speed">Pointing Speed</h3>
+<p>The mirror and Hub move on different orbits — can electrochromics track the target fast enough?</p>
+<p><strong>Synodic period</strong> (mirror relative to Hub): ~116 days. During this time, the reflection angle changes by ~360°.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Angle change rate</td>
+<td>~0.13°/hour</td>
+</tr>
+<tr class="even">
+<td>Required pointing rate</td>
+<td>~0.002°/min</td>
+</tr>
+<tr class="odd">
+<td>Achievable rate (electrochromics)</td>
+<td>~1-10°/min</td>
+</tr>
+<tr class="even">
+<td><strong>Margin</strong></td>
+<td><strong>500-5000×</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Electrochromic control rotates the mirror thousands of times faster than required. Hub tracking is not a problem.</p>
+<hr>
+</section>
+</section>
+<section id="energy" class="level2">
+<h2 class="anchored" data-anchor-id="energy">Energy</h2>
+<section id="single-mirror-power" class="level3">
+<h3 class="anchored" data-anchor-id="single-mirror-power">Single Mirror Power</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Solar flux (Mercury orbit)</td>
+<td>10,343 W/m²</td>
+</tr>
+<tr class="even">
+<td>Mirror area</td>
+<td>10,000 m²</td>
+</tr>
+<tr class="odd">
+<td>Incident energy</td>
+<td>103 MW</td>
+</tr>
+<tr class="even">
+<td>Transmission efficiency to Earth</td>
+<td>18%</td>
+</tr>
+<tr class="odd">
+<td><strong>Power on Earth</strong></td>
+<td><strong>~19 MW</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="target-power" class="level3">
+<h3 class="anchored" data-anchor-id="target-power">Target Power</h3>
+<p>The project is designed for <strong>~1000× global consumption</strong> — this is <strong>~20 petawatts</strong> (20 × 10¹⁵ W) of electricity on Earth.</p>
+<p>With overall conversion efficiency of 18%, the required reflected power is:</p>
+<p><span class="math display">\[
+P_{refl} = \frac{20 \text{ PW}}{0.18} \approx 111 \text{ PW}
+\]</span></p>
+</section>
+<section id="how-many-mirrors-are-needed" class="level3">
+<h3 class="anchored" data-anchor-id="how-many-mirrors-are-needed">How Many Mirrors Are Needed?</h3>
+<p><span class="math display">\[
+N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \times 10^{9} \approx \textbf{~1.1 billion}
+\]</span></p>
+<p><strong>Verification by powers of ten:</strong> - 1 mirror = 19 MW to Earth (103 MW × 18%) - 1,000 mirrors = 19 GW - 1,000,000 mirrors = 19 TW (≈ global consumption) - 1,100,000,000 mirrors = <strong>~21 PW</strong> (~1000× global)</p>
+</section>
+<section id="swarm-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="swarm-parameters">Swarm Parameters</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Number of mirrors</td>
+<td><strong>~1.1 billion</strong></td>
+</tr>
+<tr class="even">
+<td>Total area</td>
+<td>1.1×10¹³ m² (~11,000 km²)</td>
+</tr>
+<tr class="odd">
+<td>Total mass</td>
+<td>~128 million tons</td>
+</tr>
+<tr class="even">
+<td>Mass Drivers</td>
+<td>~1,000</td>
+</tr>
+<tr class="odd">
+<td>Production timeline</td>
+<td>~9.5 years</td>
+</tr>
+<tr class="even">
+<td>Reflected power</td>
+<td>~100 petawatts</td>
+</tr>
+<tr class="odd">
+<td>Power on Earth</td>
+<td><strong>~21 petawatts (~1000×)</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="energy-cascade" class="level3">
+<h3 class="anchored" data-anchor-id="energy-cascade">Energy Cascade</h3>
+<p>Energy passes through 8 stages from the Sun to the outlet:</p>
+<div class="cell" data-fig-width="10" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    SUN["☀️ Sun"] --&gt;|"~114 PW"| SWARM["Swarm Mirrors"]
+    SWARM --&gt;|"light"| LSP["LSP stations&lt;br/&gt;(Moon, limbs)"]
+    LSP --&gt;|"microwaves&lt;br/&gt;2.45 GHz"| RECT["Rectenna&lt;br/&gt;(Earth)"]
+    RECT --&gt;|"~21 PW"| GRID["Power grid"]
+
+    style SUN fill:#fff3cd
+    style SWARM fill:#e8e8a8
+    style LSP fill:#d4e8a8
+    style RECT fill:#a8d4e8
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="energy-transmission-efficiency-via-lunar-lsp-stations" class="level3">
+<h3 class="anchored" data-anchor-id="energy-transmission-efficiency-via-lunar-lsp-stations">Energy Transmission Efficiency (via Lunar LSP Stations)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Efficiency</th>
+<th>Losses</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mirror reflection</td>
+<td>90%</td>
+<td>10%</td>
+</tr>
+<tr class="even">
+<td>Orbital geometry</td>
+<td>72%</td>
+<td>28%</td>
+</tr>
+<tr class="odd">
+<td>Concentration to Moon</td>
+<td>90%</td>
+<td>10%</td>
+</tr>
+<tr class="even">
+<td>PV on lunar stations</td>
+<td>45%</td>
+<td>55%</td>
+</tr>
+<tr class="odd">
+<td>DC → Microwaves (Klystron)</td>
+<td>90%</td>
+<td>10%</td>
+</tr>
+<tr class="even">
+<td>Moon → Earth transmission</td>
+<td>95%</td>
+<td>5%</td>
+</tr>
+<tr class="odd">
+<td>Atmospheric passage</td>
+<td>95%</td>
+<td>5%</td>
+</tr>
+<tr class="even">
+<td>Rectenna on Earth</td>
+<td>85%</td>
+<td>15%</td>
+</tr>
+<tr class="odd">
+<td><strong>Total efficiency</strong></td>
+<td><strong>18%</strong></td>
+<td><strong>82%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Calculation:</strong> <span class="math inline">\(\eta = 0.90 \times 0.72 \times 0.90 \times 0.45 \times 0.90 \times 0.95 \times 0.95 \times 0.85 = 0.18\)</span></p>
+</section>
+<section id="transmission-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="transmission-architecture">Transmission Architecture</h3>
+<p>The Swarm directs energy to <strong><a href="../../../en/science/summaries/moon.html#lunar-solar-power">Lunar Solar Power stations (LSP)</a></strong>.</p>
+<pre><code>Swarm Mirrors (Mercury) → Light to Moon → PV → Microwaves → Earth</code></pre>
+<p><strong>Why the Moon, not an orbital Hub?</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Orbital Hub (L1)</th>
+<th>Moon (LSP)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Efficiency</td>
+<td>10%</td>
+<td><strong>18%</strong></td>
+</tr>
+<tr class="even">
+<td>Radiators</td>
+<td>7,900 km² in space</td>
+<td>0 (heat into ground)</td>
+</tr>
+<tr class="odd">
+<td>Structure mass</td>
+<td>15 million tons in orbit</td>
+<td>On surface</td>
+</tr>
+<tr class="even">
+<td>Construction</td>
+<td>Zero gravity</td>
+<td>Gravity</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Conclusion:</strong> An orbital Hub is <a href="../../../en/science/detailed/hub.html">economically unfeasible</a> — half the efficiency and massive radiators in space.</p>
+</blockquote>
+</section>
+<section id="swarm-energy-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="swarm-energy-distribution">Swarm Energy Distribution</h3>
+<p>Not all mirrors direct energy to the Moon. Distribution:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Purpose</th>
+<th>Mirrors</th>
+<th>Method</th>
+<th>Efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Moon → Earth</strong></td>
+<td>~99.5%</td>
+<td>Light → PV → microwaves</td>
+<td>18%</td>
+</tr>
+<tr class="even">
+<td><strong>Mercury (furnaces)</strong></td>
+<td>~0.3%</td>
+<td>Direct heating</td>
+<td><strong>~85%</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Mercury (PV)</strong></td>
+<td>~0.2%</td>
+<td>Light → electricity</td>
+<td>~45%</td>
+</tr>
+</tbody>
+</table>
+<section id="direct-solar-heating" class="level4">
+<h4 class="anchored" data-anchor-id="direct-solar-heating">Direct Solar Heating</h4>
+<p>For metal smelting on Mercury and Moon, <strong>direct sunlight</strong> is used, not electricity:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Stages</th>
+<th>Efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Direct</strong></td>
+<td>Reflection (90%) × concentration (95%)</td>
+<td><strong>~85%</strong></td>
+</tr>
+<tr class="even">
+<td>Electrical</td>
+<td>PV (45%) × control (95%) × heating (95%)</td>
+<td>~40%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Direct heating is 2× more efficient.</strong> That’s why solar furnaces operate directly from concentrated light.</p>
+</section>
+<section id="mercury-power-supply" class="level4">
+<h4 class="anchored" data-anchor-id="mercury-power-supply">Mercury Power Supply</h4>
+<p>Mercury’s polar craters are in eternal shadow. Factories receive energy:</p>
+<ol type="1">
+<li><strong>Concentrators on crater rims</strong> — local solar mirrors</li>
+<li><strong>~1,000-5,000 Swarm Mirrors</strong> — direct light to polar factories</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Mercury’s equator receives 10 kW/m² of direct sunlight, but polar factories require external illumination.</p>
+</blockquote>
+</section>
+</section>
+<section id="mirror-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="mirror-clusters">Mirror Clusters</h3>
+<p>Mirrors are organized into <strong>local clusters</strong> of ~1,000 units:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cluster size</td>
+<td>~1,000 mirrors</td>
+</tr>
+<tr class="even">
+<td>Virtual antenna diameter per cluster</td>
+<td>~100 km</td>
+</tr>
+<tr class="odd">
+<td>Communication delay within cluster</td>
+<td>~0.3 ms</td>
+</tr>
+<tr class="even">
+<td>Beam spread at 100 million km</td>
+<td>~1 km</td>
+</tr>
+</tbody>
+</table>
+<p>Each cluster synchronizes internally and directs reflected light to its section of lunar receivers.</p>
+<blockquote class="blockquote">
+<p><strong>Why not a unified array?</strong> Global synchronization of a billion mirrors is impossible — signal delay Mercury-Earth is ~670 seconds. Details: <a href="../../../en/science/reference/risks.html#phased-array-synchronization">Risks</a>.</p>
+</blockquote>
+</section>
+<section id="optical-cluster-control" class="level3">
+<h3 class="anchored" data-anchor-id="optical-cluster-control">Optical Cluster Control</h3>
+<p>The “Mother-Children” architecture <strong>reduces electronics import by 98%</strong>.</p>
+<section id="the-problem-1" class="level4">
+<h4 class="anchored" data-anchor-id="the-problem-1">The Problem</h4>
+<p>With individual control, each mirror requires a full 50 g chip: - 1.1 billion mirrors × 50 g = <strong>55,000 tons</strong> of electronics from Earth - ~6,250 tons/year = ~125 Starship launches/year</p>
+</section>
+<section id="solution-mother-mirrors-child-mirrors" class="level4">
+<h4 class="anchored" data-anchor-id="solution-mother-mirrors-child-mirrors">Solution: Mother Mirrors + Child Mirrors</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 27%">
+<col style="width: 20%">
+<col style="width: 22%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Electronics</th>
+<th>Quantity</th>
+<th>Mass/unit</th>
+<th>Import</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Mother</strong> (leader)</td>
+<td>Full chip</td>
+<td>1.1 M</td>
+<td>50 g</td>
+<td><strong>55 t</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Children</strong> (followers)</td>
+<td>Simple decoder</td>
+<td>1.1 B</td>
+<td>2 g</td>
+<td><strong>2,200 t</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>2,255 t</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Savings: 55,000 t → 2,255 t = 96%</strong> (24× less)</p>
+</section>
+<section id="how-it-works" class="level4">
+<h4 class="anchored" data-anchor-id="how-it-works">How It Works</h4>
+<p><strong>Mother mirror</strong> (1 per ~1,000 Children): - Star tracker — determines cluster orientation - Processor — calculates commands for Children - Laser transmitter — modulated beam to Children - Radio — communication with Earth/other Mothers</p>
+<p><strong>Child mirrors</strong> (passive): - Photodiode (~2 g) — receives optical signal from Mother - Simple decoder — converts signal to electrochromic commands - No processor — only analog/digital logic</p>
+<pre><code>Control Protocol:
+
+Mother → [modulated light] → Children
+
+Commands (example):
+├─ 1 ms pulse: "edge A activate"
+├─ 2 ms pulse: "edge B activate"
+├─ 3 ms pulse: "all off"
+└─ Pulse series: encodes angle/speed</code></pre>
+</section>
+<section id="hybrid-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="hybrid-implementation">Hybrid Implementation</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Phase</th>
+<th>Years</th>
+<th>Technology</th>
+<th>Import</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>7-10</td>
+<td>Import 2 g decoders</td>
+<td>~1,000 t</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>10+</td>
+<td>Local analog receivers</td>
+<td><strong>0 t</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phase 2:</strong> <a href="../../../en/science/reference/technology-readiness.html#in-situ-silicon-cells">Blue Alchemist</a> technology (TRL 5-6) enables production of silicon photodiodes from lunar/Mercurian regolith. Resonant LC circuits (coils + capacitors) are made from local aluminum and Al₂O₃ ceramics.</p>
+<p><strong>Total import:</strong> ~1,055 t (instead of 55,000 t) = <strong>98% savings</strong></p>
+<blockquote class="blockquote">
+<p><strong>Technology baseline:</strong> <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">Laser inter-satellite links</a> (China, 2024-2025) — 400 Gbps optical communication between satellites. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a> — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="production-schedule" class="level2">
+<h2 class="anchored" data-anchor-id="production-schedule">Production Schedule</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Result: ~9.5 years to 1.1 billion active mirrors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Exponential factory growth (1-&gt;~1,650) and Mass Driver scaling (1-&gt;1,000) over 4 years, then full capacity of 219 million mirrors/year. Detailed calculation: <a href="../../../en/science/detailed/production/railguns/scaling.html">Scaling</a>, <a href="../../../en/science/summaries/roadmap.html">Roadmap</a>.</p>
+</div>
+</div>
+<section id="production-capacity-growth" class="level3">
+<h3 class="anchored" data-anchor-id="production-capacity-growth">Production Capacity Growth</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>Factories</th>
+<th>Mass Drivers</th>
+<th>Mirrors/year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>25</td>
+<td>12</td>
+<td>~2.6 M</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>120</td>
+<td>80</td>
+<td>~17.5 M</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>500</td>
+<td>400</td>
+<td>~88 M</td>
+</tr>
+<tr class="even">
+<td>4+</td>
+<td>~1,650</td>
+<td>1,000</td>
+<td>219 M</td>
+</tr>
+</tbody>
+</table>
+<p><strong>At 1,000 Mass Drivers (full capacity):</strong></p>
+<pre><code>1 MD = 600 mirrors/day = 219,000 mirrors/year
+1,000 MD = 219 million mirrors/year
+Each MD is served by ~1.5 GZF (400 mirrors/day x 1.5 = 600)</code></pre>
+</section>
+<section id="mirror-accumulation" class="level3">
+<h3 class="anchored" data-anchor-id="mirror-accumulation">Mirror Accumulation</h3>
+<p>With a 10-year service life, mirrors begin failing from year 11.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 22%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>Produced</th>
+<th>Replaced</th>
+<th>Total</th>
+<th>Reflected</th>
+<th>On Earth (18%)</th>
+<th>× global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td>2.6 M</td>
+<td>—</td>
+<td>2.6 M</td>
+<td>0.24 PW</td>
+<td>0.04 PW</td>
+<td><strong>2×</strong></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>17.5 M</td>
+<td>—</td>
+<td>20 M</td>
+<td>1.9 PW</td>
+<td>0.34 PW</td>
+<td>17×</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>88 M</td>
+<td>—</td>
+<td>108 M</td>
+<td>10 PW</td>
+<td>1.8 PW</td>
+<td>90×</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>219 M</td>
+<td>—</td>
+<td>327 M</td>
+<td>30 PW</td>
+<td>5.5 PW</td>
+<td>275×</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>219 M</td>
+<td>—</td>
+<td>546 M</td>
+<td>51 PW</td>
+<td>9.1 PW</td>
+<td>455×</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>219 M</td>
+<td>—</td>
+<td>765 M</td>
+<td>71 PW</td>
+<td>12.8 PW</td>
+<td>640×</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>219 M</td>
+<td>—</td>
+<td>984 M</td>
+<td>92 PW</td>
+<td>16.5 PW</td>
+<td>825×</td>
+</tr>
+<tr class="even">
+<td><strong>8</strong></td>
+<td>219 M</td>
+<td>—</td>
+<td>1.20 B</td>
+<td>112 PW</td>
+<td><strong>20.1 PW</strong></td>
+<td><strong>1005×</strong></td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>219 M</td>
+<td>—</td>
+<td>1.42 B</td>
+<td>132 PW</td>
+<td>23.8 PW</td>
+<td>1190×</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>219 M</td>
+<td>—</td>
+<td>1.64 B</td>
+<td>153 PW</td>
+<td>27.4 PW</td>
+<td>1370×</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>219 M</td>
+<td>2.6 M</td>
+<td>1.86 B</td>
+<td>173 PW</td>
+<td>31.1 PW</td>
+<td>1555×</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>219 M</td>
+<td>17.5 M</td>
+<td>2.06 B</td>
+<td>192 PW</td>
+<td>34.5 PW</td>
+<td>1725×</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Global energy consumption (2023):</strong> ~0.02 PW (20 TW). Source: <a href="https://www.iea.org/reports/world-energy-outlook-2023">IEA World Energy Outlook</a>.</p>
+<p>In the first year, the project reflects 0.24 PW — on Earth this is 0.04 PW (2× global consumption).</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> “Reflected” = mirrors × 93 MW. “On Earth” = × 0.18 (LSP chain efficiency). “Replaced” = mirrors that failed after 10 years. Total = previous total + produced − replaced.</p>
+</blockquote>
+</section>
+<section id="key-milestones" class="level3">
+<h3 class="anchored" data-anchor-id="key-milestones">Key Milestones</h3>
+<ul>
+<li><strong>Year 1:</strong> 0.24 PW reflected (0.04 on Earth) — 2× global consumption</li>
+<li><strong>Year 8:</strong> ~112 PW reflected (~20 on Earth) — 1000× global consumption, ~1.1 billion active mirrors</li>
+<li><strong>Year 11+:</strong> growth slows due to replacement</li>
+</ul>
+</section>
+<section id="long-term-balance" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-balance">Long-term Balance</h3>
+<p>After year 11, net increase = 219 M − (production 10 years ago). By year 15, we reach a <strong>plateau of ~2.2 billion mirrors</strong> (~40 PW on Earth), when replacement equals production (219 M/year).</p>
+<blockquote class="blockquote">
+<p><strong>Why 1.1 billion?</strong> ~20 PW on Earth = ~1000× global consumption — covers all civilization’s energy needs, including Mars terraforming, fuel synthesis, and interstellar missions.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="swarm-orbit" class="level2">
+<h2 class="anchored" data-anchor-id="swarm-orbit">Swarm Orbit</h2>
+<section id="location" class="level3">
+<h3 class="anchored" data-anchor-id="location">Location</h3>
+<p>The Swarm is located on <strong>heliocentric orbits</strong> — around the Sun, NOT around Mercury.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Distance from Sun</td>
+<td>~57.9 million km (Mercury orbit)</td>
+</tr>
+<tr class="even">
+<td>Orbit type</td>
+<td>Heliocentric</td>
+</tr>
+<tr class="odd">
+<td>Configuration</td>
+<td>Dense cloud of ~1 billion mirrors</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-mirrors-reach-orbit" class="level3">
+<h3 class="anchored" data-anchor-id="how-mirrors-reach-orbit">How Mirrors Reach Orbit</h3>
+<ol type="1">
+<li>Mass Driver launches mirror at 4.3 km/s</li>
+<li>Mirror enters heliocentric orbit</li>
+<li>No “catching” required — standard ballistic trajectory</li>
+<li>Mirror deploys autonomously and takes its place in the Swarm</li>
+</ol>
+</section>
+<section id="spin-up-and-launch" class="level3">
+<h3 class="anchored" data-anchor-id="spin-up-and-launch">Spin-up and Launch</h3>
+<p><strong>Key solution:</strong> Spin-up occurs on the Mass Driver, NOT in space.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Where</th>
+<th>Process</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Mass Driver</td>
+<td>Container placed on rotating platform</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Mass Driver</td>
+<td>Platform spins container to ~60-120 rpm</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Mass Driver</td>
+<td>Launch — container already spinning</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Space</td>
+<td>Container opens (spring mechanism)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Space</td>
+<td>Centrifugal force deploys membrane via cables</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Space</td>
+<td>Tip masses stabilize shape, electronics activate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deployment time:</strong> ~30-40 minutes after leaving Mass Driver.</p>
+<p><strong>Advantages:</strong> - No gas thruster on mirror — simpler design - No balloon — mass savings - Spin-up energy from factory solar panels - Fewer failure points - Rotation is perpetual in vacuum (no friction)</p>
+</section>
+<section id="advantages" class="level3">
+<h3 class="anchored" data-anchor-id="advantages">Advantages</h3>
+<ul>
+<li>Doesn’t threaten satellites in low Earth orbit (LEO)</li>
+<li>Maximum proximity to Sun = maximum solar energy</li>
+<li>Independent of Mercury’s orbit</li>
+<li>Simple launch — no complex capture maneuvers required</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="reflection-geometry" class="level2">
+<h2 class="anchored" data-anchor-id="reflection-geometry">Reflection Geometry</h2>
+<section id="the-angle-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-angle-problem">The Angle Problem</h3>
+<p>A mirror orbiting the Sun cannot always efficiently reflect light to the Hub. Efficiency depends on orbital position:</p>
+<pre><code>         η=100%                Mirror is effective
+          180°                 when Hub is "behind the Sun"
+           ●                   (light reflects "forward")
+    210° ●   ● 150°
+
+ 240° ●───────● 120°           Mirror is ineffective
+                               when between Sun and Hub
+270° ●────☉────● 90°           (light must reflect "backward")
+
+ 300° ●───────● 60°
+
+   330° ●   ● 45°
+           ●
+          0°             ← Hub (L1) in this direction
+         η=0%</code></pre>
+<p><strong>Reason:</strong> Law of reflection — angle of incidence equals angle of reflection. When the mirror is between Sun and Hub, to direct light “backward,” the mirror must be nearly parallel to the beam, and effective area drops to zero.</p>
+</section>
+<section id="efficiency-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="efficiency-calculation">Efficiency Calculation</h3>
+<p>For a mirror at 0.39 AU orbit (Mercury), reflecting to Hub (L1, ~1 AU):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>φ (orbital position)</th>
+<th>Reflection angle θ</th>
+<th>Efficiency η</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0° (between S and L1)</td>
+<td>180°</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td>45°</td>
+<td>114°</td>
+<td>54%</td>
+</tr>
+<tr class="odd">
+<td>90° (side)</td>
+<td>69°</td>
+<td>83%</td>
+</tr>
+<tr class="even">
+<td>135°</td>
+<td>33°</td>
+<td>96%</td>
+</tr>
+<tr class="odd">
+<td>180° (L1 behind Sun)</td>
+<td>0°</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Full Mathematical Derivation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="problem-statement" class="level3">
+<h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
+<p>A mirror in Mercury’s orbit (0.39 AU) must reflect sunlight to the Hub at L1 (~1 AU). Reflection efficiency depends on the mirror’s position in its orbit.</p>
+<pre><code>         Mirror M
+            *
+           /|\
+          / | \
+  from   /  |  \   to
+Sun     /   |   \  Hub
+       /    |theta\
+      Sun---+-----o L1 (Hub)
+            |
+   theta = angle between directions
+       "from Sun" and "to Hub"</code></pre>
+<p><strong>Law of reflection:</strong> angle of incidence = angle of reflection. To reflect light from the Sun to the Hub, the mirror is oriented at angle θ/2 to the incident ray. Effective area:</p>
+<p><span class="math display">\[
+\eta = \cos\left(\frac{\theta}{2}\right)
+\]</span></p>
+</section>
+<section id="calculating-angle-θ" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-angle-θ">Calculating Angle θ</h3>
+<p>Three points: <strong>S</strong> (Sun), <strong>M</strong> (mirror, r_M = 0.39 AU), <strong>E</strong> (Hub L1, r_E = 1 AU). Angle φ — orbital position (φ = 0° when mirror is between S and E).</p>
+<p><strong>Distance from mirror to Hub</strong> (Law of Cosines):</p>
+<p><span class="math display">\[
+ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
+\]</span></p>
+<p><strong>Angle θ at vertex M:</strong></p>
+<p><span class="math display">\[
+\cos(\theta) = \frac{r_M^2 + ME^2 - r_E^2}{2 \cdot r_M \cdot ME}
+\]</span></p>
+</section>
+<section id="full-calculation-table" class="level3">
+<h3 class="anchored" data-anchor-id="full-calculation-table">Full Calculation Table</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>φ (degrees)</th>
+<th>ME (AU)</th>
+<th>θ (degrees)</th>
+<th>θ/2 (degrees)</th>
+<th>η = cos(θ/2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.610</td>
+<td>180.0</td>
+<td>90.0</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>0.631</td>
+<td>155.8</td>
+<td>77.9</td>
+<td>0.21</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>0.690</td>
+<td>133.6</td>
+<td>66.8</td>
+<td>0.39</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td>0.775</td>
+<td>114.2</td>
+<td>57.1</td>
+<td>0.54</td>
+</tr>
+<tr class="odd">
+<td>60</td>
+<td>0.873</td>
+<td>97.2</td>
+<td>48.6</td>
+<td>0.66</td>
+</tr>
+<tr class="even">
+<td>75</td>
+<td>0.975</td>
+<td>82.3</td>
+<td>41.1</td>
+<td>0.75</td>
+</tr>
+<tr class="odd">
+<td>90</td>
+<td>1.073</td>
+<td>68.7</td>
+<td>34.3</td>
+<td>0.83</td>
+</tr>
+<tr class="even">
+<td>105</td>
+<td>1.164</td>
+<td>56.1</td>
+<td>28.1</td>
+<td>0.88</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td>1.242</td>
+<td>44.2</td>
+<td>22.1</td>
+<td>0.93</td>
+</tr>
+<tr class="even">
+<td>135</td>
+<td>1.305</td>
+<td>32.8</td>
+<td>16.4</td>
+<td>0.96</td>
+</tr>
+<tr class="odd">
+<td>150</td>
+<td>1.352</td>
+<td>21.7</td>
+<td>10.9</td>
+<td>0.98</td>
+</tr>
+<tr class="even">
+<td>165</td>
+<td>1.380</td>
+<td>10.8</td>
+<td>5.4</td>
+<td>1.00</td>
+</tr>
+<tr class="odd">
+<td>180</td>
+<td>1.390</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.00</td>
+</tr>
+</tbody>
+</table>
+<p>Symmetry: values for φ = 195°…345° are mirrored relative to 180°.</p>
+</section>
+<section id="average-efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="average-efficiency">Average Efficiency</h3>
+<p>With uniform distribution of mirrors across the orbit:</p>
+<p><span class="math display">\[
+\bar{\eta} = \frac{1}{2\pi} \int_0^{2\pi} \cos\left(\frac{\theta(\phi)}{2}\right) d\phi \approx 0.72
+\]</span></p>
+<p><strong>Sources:</strong> <a href="https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter">ESA Solar Polar Orbiter TRS</a>, <a href="https://ntrs.nasa.gov/search.jsp?R=20000057299">NASA Solar Sail Trajectories</a>, <a href="https://en.wikipedia.org/wiki/IKAROS">IKAROS (JAXA)</a></p>
+</section>
+</div>
+</div>
+</div>
+</section>
+<section id="summary-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="summary-metrics">Summary Metrics</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Average efficiency</strong></td>
+<td><strong>72%</strong></td>
+</tr>
+<tr class="even">
+<td>Orbit fraction with η &gt; 50%</td>
+<td>78%</td>
+</tr>
+<tr class="odd">
+<td>Orbit fraction with η &gt; 80%</td>
+<td>53%</td>
+</tr>
+<tr class="even">
+<td>“Dead zone” (η &lt; 20%)</td>
+<td>~17%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="solution-options" class="level3">
+<h3 class="anchored" data-anchor-id="solution-options">Solution Options</h3>
+<section id="option-1-baseline-72-efficiency" class="level4">
+<h4 class="anchored" data-anchor-id="option-1-baseline-72-efficiency">Option 1: Baseline (72% efficiency)</h4>
+<p>Accept geometric losses as given:</p>
+<ul>
+<li>Mirrors remain in ecliptic plane</li>
+<li>Average efficiency 72%</li>
+<li><strong>Compensation:</strong> increase mirror count by ~40%</li>
+</ul>
+<p>This is accounted for in transmission efficiency calculation (line “Concentration to Hub” = 95% × 0.72 ≈ 68%).</p>
+</section>
+<section id="option-2-orbit-cranking-improved" class="level4">
+<h4 class="anchored" data-anchor-id="option-2-orbit-cranking-improved">Option 2: Orbit Cranking (improved)</h4>
+<p>The mirror is a solar sail. After launch, it can <strong>change its orbital inclination itself</strong>, using solar light pressure.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Initial inclination</td>
+<td>~5° (from Mass Driver launch)</td>
+</tr>
+<tr class="even">
+<td>Target inclination</td>
+<td>45°</td>
+</tr>
+<tr class="odd">
+<td>Time to achieve</td>
+<td>1-2 years</td>
+</tr>
+<tr class="even">
+<td>Sail acceleration</td>
+<td>4.4 mm/s²</td>
+</tr>
+<tr class="odd">
+<td>Final efficiency</td>
+<td>~95%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How it works:</strong></p>
+<ol type="1">
+<li>Mirror orients so light force pushes it perpendicular to orbital plane</li>
+<li>Direction changes on each half-orbit (“up” → “down”)</li>
+<li>Cumulative effect gradually increases inclination</li>
+</ol>
+<p><strong>Why not launch directly at 45°?</strong></p>
+<p>The mirror on Mercury is already traveling at 47 km/s in the ecliptic plane. Mass Driver adds only 4.3 km/s:</p>
+<p><span class="math display">\[
+\text{Resulting angle} = \arctan\left(\frac{4.3}{47}\right) \approx 5°
+\]</span></p>
+<p>The only way to achieve 45° is orbit cranking after launch.</p>
+<blockquote class="blockquote">
+<p><strong>Comparison with real projects:</strong> ESA studied <a href="https://sci.esa.int/web/trs/-/36025-the-solar-polar-orbiter">Solar Polar Orbiter</a> — a 25,000 m² sail reaching 83° inclination in 4 years. Our mirror is lighter (sail loading 11.6 g/m² vs ~30 g/m²), so it’s faster.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="production" class="level2">
+<h2 class="anchored" data-anchor-id="production">Production</h2>
+<section id="where-mirrors-are-made" class="level3">
+<h3 class="anchored" data-anchor-id="where-mirrors-are-made">Where Mirrors Are Made</h3>
+<p>Mirrors are produced on Mercury from local materials. But not all components can be made on-site.</p>
+</section>
+<section id="component-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="component-analysis">Component Analysis</h3>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="604" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 603;"><span id="cb8-604"><a href="#cb8-604" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>How TiO₂ is extracted:</strong> Titanium (&lt;1% in crust) is extracted from ilmenite (FeTiO₃) by magnetic separation, then separated from iron by oxidative roasting. Details: <a href="../../../en/science/detailed/production/materials/titanium.html">Titanium Line</a>.</p>
+</blockquote>
+</section>
+<section id="supply-chain" class="level3">
+<h3 class="anchored" data-anchor-id="supply-chain">Supply Chain</h3>
+<pre><code>EARTH                              MERCURY
+  │                                    │
+  │ Mother chip (~50 g, 1 per 1000)    │ Aluminum (foil)
+  │ Child decoder (~2 g, years 7-10)   │ Titanium (TiO₂)
+  └────────────────────────────────────┤ Iron (tip masses)
+                                       │ Child receiver (years 10+)
+                                       ↓
+                                    MIRRORS
+                                       ↓
+                              LSP (Moon) → Earth</code></pre>
+</section>
+<section id="import-from-earth" class="level3">
+<h3 class="anchored" data-anchor-id="import-from-earth">Import from Earth</h3>
+<p>With <a href="#optical-cluster-control">Mother-Children architecture</a>, import is reduced by 98%:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Quantity</th>
+<th>Mass/unit</th>
+<th>Import</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mother chips</td>
+<td>1.1 M</td>
+<td>50 g</td>
+<td><strong>55 t</strong></td>
+</tr>
+<tr class="even">
+<td>Child decoders (phase 1)</td>
+<td>~500 M</td>
+<td>2 g</td>
+<td><strong>~1,000 t</strong></td>
+</tr>
+<tr class="odd">
+<td>Child receivers (phase 2)</td>
+<td>~600 M</td>
+<td>0 g</td>
+<td><strong>0 t</strong> (local)</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td></td>
+<td><strong>~1,055 t</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Comparison:</strong> - Without optimization: 1.1 B × 50 g = <strong>55,000 t</strong> = ~1,100 Starship - With Mother-Children architecture: <strong>~1,055 t</strong> = <strong>~21 Starship</strong></p>
+<p><strong>Savings: 98%</strong> (53× fewer launches)</p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Phase 2 (years 10+) uses <a href="../../../en/science/reference/technology-readiness.html#in-situ-silicon-cells">Blue Alchemist</a> technology for local production of silicon photoreceivers from regolith.</p>
+</blockquote>
+</section>
+<section id="production-process-on-mercury" class="level3">
+<h3 class="anchored" data-anchor-id="production-process-on-mercury">Production Process on Mercury</h3>
+<ol type="1">
+<li><strong>Aluminum smelting</strong> — MRE electrolysis in solar furnace at 1500°C</li>
+<li><strong>Foil rolling</strong> — compression to 4 μm thickness</li>
+<li><strong>Tip mass production</strong> — iron casting or regolith pressing</li>
+<li><strong>Cable production</strong> — steel wire drawing</li>
+<li><strong>Electronics assembly</strong> — installing imported chip and electrochromic strips</li>
+<li><strong>Folding + packaging</strong> — Z-fold membrane, rigid container for launch</li>
+</ol>
+<p><strong>Details:</strong> <a href="../../../en/science/detailed/production/factories/overview.html">Ground Zero Factory</a></p>
+<hr>
+</section>
+</section>
+<section id="mass-driver-launch" class="level2">
+<h2 class="anchored" data-anchor-id="mass-driver-launch">Mass Driver Launch</h2>
+<p>Mirrors are launched into space by electromagnetic catapult — <a href="../../../en/science/detailed/production/railguns/overview.html">Mass Driver</a>.</p>
+<section id="launch-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="launch-parameters">Launch Parameters</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Target velocity</td>
+<td>5 km/s (Mercury escape velocity + margin)</td>
+</tr>
+<tr class="even">
+<td>Kinetic energy (116 kg)</td>
+<td>1.45 GJ</td>
+</tr>
+<tr class="odd">
+<td>With 40% efficiency</td>
+<td>3.6 GJ</td>
+</tr>
+<tr class="even">
+<td>Acceleration</td>
+<td><strong>1275g</strong> (baseline)*</td>
+</tr>
+<tr class="odd">
+<td>Acceleration time</td>
+<td><strong>~0.4 sec</strong></td>
+</tr>
+<tr class="even">
+<td>Tunnel length</td>
+<td><strong>1 km</strong></td>
+</tr>
+</tbody>
+</table>
+<p>*At reduced load: 2-3 km (425-637g). See <a href="../../../en/science/detailed/production/railguns/theory.html">MD Theory</a>.</p>
+</section>
+<section id="throughput" class="level3">
+<h3 class="anchored" data-anchor-id="throughput">Throughput</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Launch cycle</td>
+<td>2-3 minutes</td>
+</tr>
+<tr class="even">
+<td>Launches per day</td>
+<td><strong>600</strong></td>
+</tr>
+<tr class="odd">
+<td>Mirrors per day</td>
+<td>600 × 116 kg = <strong>70 tons</strong></td>
+</tr>
+<tr class="even">
+<td>Mirrors per year</td>
+<td><strong>219,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>With 1,000 Mass Drivers: <strong>600,000 mirrors/day</strong>, <strong>219 million mirrors/year</strong> (with ~1,500 GZF available).</p>
+<p>For 1.1 billion mirrors at 219 M/year, ~5 years at full capacity are needed. Including factory and MD ramp-up — <strong>~9.5 years</strong> to target (degradation accounted for).</p>
+<hr>
+</section>
+</section>
+<section id="thermal-regime" class="level2">
+<h2 class="anchored" data-anchor-id="thermal-regime">Thermal Regime</h2>
+<section id="will-the-foil-survive" class="level3">
+<h3 class="anchored" data-anchor-id="will-the-foil-survive">Will the Foil Survive?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Solar flux</td>
+<td>10,343 W/m²</td>
+</tr>
+<tr class="even">
+<td>Reflectivity</td>
+<td>95%</td>
+</tr>
+<tr class="odd">
+<td>Absorption</td>
+<td>5%</td>
+</tr>
+<tr class="even">
+<td>Absorbed power</td>
+<td>~520 W/m²</td>
+</tr>
+</tbody>
+</table>
+<p>By Kirchhoff’s law, a good reflector is a poor heat emitter. Solution — <strong>black coating on reverse side</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Side</th>
+<th>Emissivity (ε)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mirror (aluminum)</td>
+<td>0.05</td>
+</tr>
+<tr class="even">
+<td>Reverse (black coating)</td>
+<td>0.8</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Equilibrium temperature:</strong> +38°C</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aluminum melting point</td>
+<td>660°C</td>
+</tr>
+<tr class="even">
+<td>Calculated mirror temperature</td>
+<td>+38°C</td>
+</tr>
+<tr class="odd">
+<td><strong>Margin</strong></td>
+<td><strong>622°C</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="service-life-and-degradation" class="level2">
+<h2 class="anchored" data-anchor-id="service-life-and-degradation">Service Life and Degradation</h2>
+<section id="degradation-factors" class="level3">
+<h3 class="anchored" data-anchor-id="degradation-factors">Degradation Factors</h3>
+<ol type="1">
+<li><strong>Micrometeorites</strong> — up to 400-800 impacts/month, but most are microscopic</li>
+<li><strong>Solar radiation</strong> — 2-5% efficiency loss per year</li>
+<li><strong>Solar wind</strong> — surface erosion (stronger at Mercury)</li>
+</ol>
+</section>
+<section id="estimate" class="level3">
+<h3 class="anchored" data-anchor-id="estimate">Estimate</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Time to failure</th>
+<th>Efficiency loss/year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Optimistic</td>
+<td>15-20 years</td>
+<td>2-3%</td>
+</tr>
+<tr class="even">
+<td>Realistic</td>
+<td><strong>8-12 years</strong></td>
+<td>5-10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Policy:</strong> Mirror operates until complete failure. New mirrors are added, old ones continue operating at reduced capacity.</p>
+<hr>
+</section>
+</section>
+<section id="disposal" class="level2">
+<h2 class="anchored" data-anchor-id="disposal">Disposal</h2>
+<section id="space-debris-problem" class="level3">
+<h3 class="anchored" data-anchor-id="space-debris-problem">Space Debris Problem</h3>
+<p>With 10-year service life and 1.1 billion mirrors, ~110 million units fail annually. Without a disposal mechanism, this could create a space debris problem.</p>
+</section>
+<section id="solution-solar-descent" class="level3">
+<h3 class="anchored" data-anchor-id="solution-solar-descent">Solution: Solar Descent</h3>
+<p>The mirror is a solar sail. When tilted at an angle to the Sun, it creates a tangential force that slows orbital motion. The orbit spirals down until it burns up in the solar corona.</p>
+</section>
+<section id="disposal-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="disposal-parameters">Disposal Parameters</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Disposal criterion</td>
+<td>Complete failure (loss of control)</td>
+</tr>
+<tr class="even">
+<td>Descent time</td>
+<td>6-12 months</td>
+</tr>
+<tr class="odd">
+<td>End point</td>
+<td>Solar corona</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Failsafe:</strong> The mirror design ensures that upon electronics failure, it automatically enters braking mode — through asymmetric coating or offset center of mass. Without active electrochromic control, the mirror begins spiraling toward the Sun.</p>
+<blockquote class="blockquote">
+<p><strong>Why not replace at efficiency threshold?</strong> Space in the swarm is unlimited. An old mirror at 30% efficiency produces less energy but still works. New mirrors are <strong>added</strong>, not replaced. Disposal occurs only at complete failure — when the mirror becomes uncontrollable.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> — overall project scheme</li>
+<li><a href="../../../en/science/detailed/production.html">Production</a> — factory and self-replication</li>
+<li><a href="../../../en/science/detailed/hub.html">Energy Reception Hub</a> — LSP stations and Earth transmission</li>
+<li><a href="../../../en/science/detailed/production/railguns/theory.html">Mass Driver: Theory</a> — detailed launch calculations</li>
+<li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> — project timeline</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IHVuaXRXaWRnZXQgfSBmcm9tIFwiLi4vb2pzLWRhdGEucW1kXCJcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InVuaXRXaWRnZXQoXCJQUkQtMDAxXCIpXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ1bml0V2lkZ2V0KFwiUFJELTAwMVwiKVxuIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../en/science/detailed";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "../../..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

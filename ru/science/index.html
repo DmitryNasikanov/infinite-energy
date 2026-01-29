@@ -109,7 +109,198 @@ p:has(> em:first-child) { text-indent: 0; }
   background: #0d6efd;
   color: #fff;
 }
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
 </style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
 
 
 <link rel="stylesheet" href="../../ru/science/data/widgets.css">
@@ -145,10 +336,21 @@ p:has(> em:first-child) { text-indent: 0; }
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../ru/index.html"> 
-<span class="menu-text">RU</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -201,20 +403,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/summaries/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергобаланс</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Луна</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Терраформирование Марса</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -227,6 +417,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
   </div>
 </li>
       </ul>
@@ -248,20 +444,8 @@ p:has(> em:first-child) { text-indent: 0; }
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/detailed/geometry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Геометрия отражения</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/detailed/energy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Энергосистема Меркурия</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -363,6 +547,12 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Первый завод (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -608,14 +798,14 @@ p:has(> em:first-child) { text-indent: 0; }
       <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Риски и ограничения проекта</span></a>
+  <a href="../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../ru/science/reference/trl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Технологическая зрелость</span></a>
+  <a href="../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -628,12 +818,6 @@ p:has(> em:first-child) { text-indent: 0; }
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Физические константы</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/reference/sources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Библиография</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -660,30 +844,30 @@ p:has(> em:first-child) { text-indent: 0; }
   <li><a href="#быстрый-старт" id="toc-быстрый-старт" class="nav-link" data-scroll-target="#быстрый-старт">Быстрый старт</a>
   <ul class="collapse">
   <li><a href="#проект-за-5-минут" id="toc-проект-за-5-минут" class="nav-link" data-scroll-target="#проект-за-5-минут">Проект за 5 минут</a></li>
-  <li><a href="#сравнение-с-другими-проектами" id="toc-сравнение-с-другими-проектами" class="nav-link" data-scroll-target="#сравнение-с-другими-проектами">Сравнение с другими проектами</a></li>
+  <li><a href="#почему-меркурий" id="toc-почему-меркурий" class="nav-link" data-scroll-target="#почему-меркурий">Почему Меркурий?</a></li>
+  <li><a href="#риски-и-ограничения" id="toc-риски-и-ограничения" class="nav-link" data-scroll-target="#риски-и-ограничения">Риски и ограничения</a></li>
+  </ul></li>
+  <li><a href="#расчёты-и-обзоры" id="toc-расчёты-и-обзоры" class="nav-link" data-scroll-target="#расчёты-и-обзоры">Расчёты и обзоры</a>
+  <ul class="collapse">
+  <li><a href="#дорожная-карта" id="toc-дорожная-карта" class="nav-link" data-scroll-target="#дорожная-карта">Дорожная карта</a></li>
+  <li><a href="#бюджет" id="toc-бюджет" class="nav-link" data-scroll-target="#бюджет">Бюджет</a></li>
+  <li><a href="#луна" id="toc-луна" class="nav-link" data-scroll-target="#луна">Луна</a></li>
+  <li><a href="#марс-перспектива" id="toc-марс-перспектива" class="nav-link" data-scroll-target="#марс-перспектива">Марс <em>(перспектива)</em></a></li>
   </ul></li>
   <li><a href="#детальные-темы" id="toc-детальные-темы" class="nav-link" data-scroll-target="#детальные-темы">Детальные темы</a>
   <ul class="collapse">
   <li><a href="#зеркала-роя" id="toc-зеркала-роя" class="nav-link" data-scroll-target="#зеркала-роя">Зеркала Роя</a></li>
   <li><a href="#lsp-станции" id="toc-lsp-станции" class="nav-link" data-scroll-target="#lsp-станции">LSP-станции</a></li>
-  <li><a href="#доставка-энергии" id="toc-доставка-энергии" class="nav-link" data-scroll-target="#доставка-энергии">Доставка энергии</a></li>
   <li><a href="#производство" id="toc-производство" class="nav-link" data-scroll-target="#производство">Производство</a></li>
-  </ul></li>
-  <li><a href="#расчёты-и-обзоры" id="toc-расчёты-и-обзоры" class="nav-link" data-scroll-target="#расчёты-и-обзоры">Расчёты и обзоры</a>
-  <ul class="collapse">
-  <li><a href="#энергия" id="toc-энергия" class="nav-link" data-scroll-target="#энергия">Энергия</a></li>
-  <li><a href="#бюджет" id="toc-бюджет" class="nav-link" data-scroll-target="#бюджет">Бюджет</a></li>
-  <li><a href="#дорожная-карта" id="toc-дорожная-карта" class="nav-link" data-scroll-target="#дорожная-карта">Дорожная карта</a></li>
-  <li><a href="#марс" id="toc-марс" class="nav-link" data-scroll-target="#марс">Марс</a></li>
-  <li><a href="#луна" id="toc-луна" class="nav-link" data-scroll-target="#луна">Луна</a></li>
+  <li><a href="#доставка" id="toc-доставка" class="nav-link" data-scroll-target="#доставка">Доставка</a></li>
+  <li><a href="#сборка-первого-завода-bootstrap" id="toc-сборка-первого-завода-bootstrap" class="nav-link" data-scroll-target="#сборка-первого-завода-bootstrap">Сборка первого завода (Bootstrap)</a></li>
   </ul></li>
   <li><a href="#справочники" id="toc-справочники" class="nav-link" data-scroll-target="#справочники">Справочники</a>
   <ul class="collapse">
-  <li><a href="#риски-и-ограничения" id="toc-риски-и-ограничения" class="nav-link" data-scroll-target="#риски-и-ограничения">Риски и ограничения</a></li>
-  <li><a href="#технологическая-зрелость" id="toc-технологическая-зрелость" class="nav-link" data-scroll-target="#технологическая-зрелость">Технологическая зрелость</a></li>
+  <li><a href="#технологии-и-источники" id="toc-технологии-и-источники" class="nav-link" data-scroll-target="#технологии-и-источники">Технологии и источники</a></li>
+  <li><a href="#риски-и-ограничения-1" id="toc-риски-и-ограничения-1" class="nav-link" data-scroll-target="#риски-и-ограничения-1">Риски и ограничения</a></li>
   <li><a href="#глоссарий" id="toc-глоссарий" class="nav-link" data-scroll-target="#глоссарий">Глоссарий</a></li>
   <li><a href="#физические-константы" id="toc-физические-константы" class="nav-link" data-scroll-target="#физические-константы">Физические константы</a></li>
-  <li><a href="#библиография" id="toc-библиография" class="nav-link" data-scroll-target="#библиография">Библиография</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -726,80 +910,100 @@ p:has(> em:first-child) { text-indent: 0; }
 <p>Этот раздел содержит детальное описание технологий из книги. Рекомендуем читать после знакомства с основным сюжетом.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>О статусе проекта
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Это — <strong>исследование осуществимости</strong> (feasibility study). Все расчёты являются оценками порядка величин и требуют детальной инженерной проработки на этапе НИОКР.</p>
+<p><strong>Вывод исследования:</strong> Принципиальная осуществимость подтверждена. Все необходимые технологии существуют или находятся на высоком уровне готовности (TRL 4-9). Бюджет ($255-520 млрд) и сроки (10-15 лет) сопоставимы с другими мегапроектами человечества.</p>
+<p><strong><a href="../../ru/science/executive-summary.html">Подробнее о статусе →</a></strong></p>
+</div>
+</div>
 <section id="рекомендуемый-порядок-чтения" class="level2">
 <h2 class="anchored" data-anchor-id="рекомендуемый-порядок-чтения">Рекомендуемый порядок чтения</h2>
 <ol type="1">
-<li><a href="../../ru/science/executive-summary.html">Проект за 5 минут</a> — высокоуровневая схема</li>
-<li><a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a> — последовательность реализации</li>
-<li><a href="../../ru/science/summaries/budget.html">Бюджет</a> — сколько стоит</li>
-<li><a href="../../ru/science/summaries/comparison.html">Сравнение с другими проектами</a> — почему Меркурий</li>
-<li><a href="../../ru/science/detailed/mirrors.html">Зеркала Роя</a> — основной продукт</li>
-<li><a href="../../ru/science/detailed/hub.html">LSP-станции</a> — как энергия попадает на Землю</li>
-<li><a href="../../ru/science/detailed/production.html">Производство</a> — как всё это построить</li>
+<li><a href="../../ru/science/executive-summary.html">Проект за 5 минут</a> — высокоуровневая схема <em>(5-10 мин)</em></li>
+<li><a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a> — последовательность реализации <em>(10-15 мин)</em></li>
+<li><a href="../../ru/science/summaries/budget.html">Бюджет</a> — сколько стоит <em>(5 мин)</em></li>
+<li><a href="../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение локаций <em>(5 мин)</em></li>
+<li><a href="../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL всех технологий + библиография <em>(10 мин)</em></li>
+<li><a href="../../ru/science/detailed/mirrors.html">Зеркала Роя</a> — основной продукт + <strong>энергетика</strong> <em>(15-20 мин)</em></li>
+<li><a href="../../ru/science/detailed/hub.html">LSP-станции</a> — как энергия попадает на Землю <em>(10 мин)</em></li>
+<li><a href="../../ru/science/detailed/production.html">Производство</a> — как всё это построить <em>(15-20 мин)</em></li>
 </ol>
 </section>
 <section id="быстрый-старт" class="level2">
 <h2 class="anchored" data-anchor-id="быстрый-старт">Быстрый старт</h2>
 <section id="проект-за-5-минут" class="level3">
 <h3 class="anchored" data-anchor-id="проект-за-5-минут"><a href="../../ru/science/executive-summary.html">Проект за 5 минут</a></h3>
-<p>Полный обзор проекта: Рой из 1.1 млрд зеркал → 100 ПВт отражённой энергии → 21 ПВт на Земле (1000× мирового потребления). Четыре фазы развёртывания, ключевые технологии, бюджет $350-750 млрд.</p>
+<p>Полный обзор проекта: Рой из 1.1 млрд зеркал → 100 ПВт отражённой энергии → 21 ПВт на Земле (1000× мирового потребления). Четыре фазы развёртывания, ключевые технологии, бюджет $255-520 млрд.</p>
 </section>
-<section id="сравнение-с-другими-проектами" class="level3">
-<h3 class="anchored" data-anchor-id="сравнение-с-другими-проектами"><a href="../../ru/science/summaries/comparison.html">Сравнение с другими проектами</a></h3>
+<section id="почему-меркурий" class="level3">
+<h3 class="anchored" data-anchor-id="почему-меркурий"><a href="../../ru/science/summaries/comparison.html">Почему Меркурий?</a></h3>
 <p>Почему Меркурий, а не Луна или Марс? Сравнение по солнечному потоку (10 vs 1.4 кВт/м²), проблемам масс-драйвера, утилизации отработавших зеркал. Анализ политических и технических рисков каждой локации.</p>
+</section>
+<section id="риски-и-ограничения" class="level3">
+<h3 class="anchored" data-anchor-id="риски-и-ограничения"><a href="../../ru/science/reference/risks.html">Риски и ограничения</a></h3>
+<p>Честный анализ: 5 решённых критических рисков, 6 открытых технических проблем (деградация зеркал, дефицит иридия). Что может пойти не так и как это учтено.</p>
+</section>
+</section>
+<section id="расчёты-и-обзоры" class="level2">
+<h2 class="anchored" data-anchor-id="расчёты-и-обзоры">Расчёты и обзоры</h2>
+<section id="дорожная-карта" class="level3">
+<h3 class="anchored" data-anchor-id="дорожная-карта"><a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a></h3>
+<p>Хронология 4 фаз: НИОКР (годы 1-4) → Луна (4-6) → Меркурий (6-10) → Рой. Критический путь: блиц-монтаж завода за 7 дней, первый МД через 6 месяцев. Год 1: 47 ТВт на Землю, год 3: 1000 масс-драйверов.</p>
+</section>
+<section id="бюджет" class="level3">
+<h3 class="anchored" data-anchor-id="бюджет"><a href="../../ru/science/summaries/budget.html">Бюджет</a></h3>
+<p>Три сценария: $255 млрд (оптимистичный), $430 млрд (базовый), $520 млрд (консервативный). Сравнение с Apollo ($280 млрд), МКС ($150-250 млрд). Анализ возможных занижений: ИИ, инфраструктура, непредвиденные расходы.</p>
+</section>
+<section id="луна" class="level3">
+<h3 class="anchored" data-anchor-id="луна"><a href="../../ru/science/summaries/moon.html">Луна</a></h3>
+<p>Двойная роль: полигон для отработки технологий + LSP-станции для приёма энергии. Преимущества лимбов (непрерывность работы, цикл 14.75 дней). Задержка связи 1.3 сек позволяет операторам управлять почти в реальном времени.</p>
+</section>
+<section id="марс-перспектива" class="level3">
+<h3 class="anchored" data-anchor-id="марс-перспектива"><a href="../../ru/science/summaries/mars.html">Марс</a> <em>(перспектива)</em></h3>
+<p>Терраформирование как побочный проект после завершения основного: магнитный щит (100-1000 спутников, 100 ГВт), нагрев полюсов (500 ТВт, 2-3 месяца), парниковый эффект. Первое озеро к 2072, дышащая атмосфера через 150-300 лет. Потребляет только 15% мощности Роя.</p>
 </section>
 </section>
 <section id="детальные-темы" class="level2">
 <h2 class="anchored" data-anchor-id="детальные-темы">Детальные темы</h2>
 <section id="зеркала-роя" class="level3">
 <h3 class="anchored" data-anchor-id="зеркала-роя"><a href="../../ru/science/detailed/mirrors.html">Зеркала Роя</a></h3>
-<p>Конструкция бескаркасного зеркала 100×100 м (116 кг, алюминиевая фольга 4 мкм). Управление ориентацией без топлива через электрохромику и давление света. Тепловой баланс (+38°C), деградация (8-12 лет ресурс), “Orbit Cranking” для изменения наклона орбиты.</p>
+<p>Конструкция бескаркасного зеркала 100×100 м (116 кг). <strong><a href="../../ru/science/detailed/mirrors.html#энергетический-каскад">Энергетика проекта</a>:</strong> КПД каскада 18%, мощность на Земле ~21 ПВт. Управление ориентацией без топлива через электрохромику и давление света. Тепловой баланс (+38°C), деградация (8-12 лет ресурс), “Orbit Cranking” для изменения наклона орбиты.</p>
 </section>
 <section id="lsp-станции" class="level3">
 <h3 class="anchored" data-anchor-id="lsp-станции"><a href="../../ru/science/detailed/hub.html">LSP-станции</a></h3>
 <p>Почему лунные LSP-станции (Lunar Surface Power — наземные солнечные электростанции на Луне) вместо орбитального Хаба (КПД 18% vs 10%, нет проблемы радиаторов 7900 км²). Размещение 20-40 станций на лимбах Луны, передача микроволнами 230 Вт/м². Глобальная сеть rectenna — антенн-выпрямителей (Сахара, Гоби, Атакама, Австралия).</p>
 </section>
-<section id="доставка-энергии" class="level3">
-<h3 class="anchored" data-anchor-id="доставка-энергии"><a href="../../ru/science/detailed/delivery.html">Доставка энергии</a></h3>
-<p>Логистика Земля → Луна → Меркурий: ~900 пусков за 4 года, 200-275 пусков в пиковый год. Требования к носителям (Starship 2027+, Long March 9 2033+), стоимость $55-165 млрд. Синергия с программами Artemis, Chang’e, ILRS.</p>
-</section>
 <section id="производство" class="level3">
 <h3 class="anchored" data-anchor-id="производство"><a href="../../ru/science/detailed/production.html">Производство</a></h3>
-<p>Два центра: Меркурий (зеркала, саморепликация 1→~1650 заводов) и Луна (полигон + LSP). Ф-З (~400 зеркал/день), Ф-Р (роботы, купола, оборудование). Роботы Gen-2 (Крот-М, Краб-М, Кентавр-М). Критичные ресурсы: иридий, углерод, «витамины» (электроника и редкие элементы с Земли).</p>
+<p>Два центра: Меркурий (зеркала, <a href="../../ru/science/reference/technology-readiness.html#саморепликация-заводов">саморепликация</a> 1→~1650 заводов) и Луна (полигон + LSP). Ф-З (~400 зеркал/день), Ф-Р (роботы, купола, оборудование). Роботы Gen-2 (Крот-М, Краб-М, Кентавр-М). Критичные ресурсы: иридий, углерод, «витамины» (электроника и редкие элементы с Земли).</p>
 </section>
+<section id="доставка" class="level3">
+<h3 class="anchored" data-anchor-id="доставка"><a href="../../ru/science/detailed/delivery.html">Доставка</a></h3>
+<p>Логистика Земля → Луна → Меркурий: ~50-100 пусков за ~10 лет (благодаря 96% локализации), 15-30 пусков в пиковый год. Требования к носителям (Starship 2027+, Long March 9 2033+), стоимость $8-20 млрд. Синергия с программами Artemis, Chang’e, ILRS.</p>
 </section>
-<section id="расчёты-и-обзоры" class="level2">
-<h2 class="anchored" data-anchor-id="расчёты-и-обзоры">Расчёты и обзоры</h2>
-<section id="энергия" class="level3">
-<h3 class="anchored" data-anchor-id="энергия"><a href="../../ru/science/summaries/energy.html">Энергия</a></h3>
-<p>Энергетический баланс проекта: производство ~100 ПВт, потребление инфраструктуры ~61 ГВт, передача на Землю ~21 ПВт. Расчёты мощности и КПД на каждом этапе.</p>
-</section>
-<section id="бюджет" class="level3">
-<h3 class="anchored" data-anchor-id="бюджет"><a href="../../ru/science/summaries/budget.html">Бюджет</a></h3>
-<p>Три сценария: $350 млрд (оптимистичный), $570 млрд (базовый), $750 млрд (консервативный). Сравнение с Apollo ($280 млрд), МКС ($150-250 млрд). Анализ возможных занижений: ИИ, инфраструктура, непредвиденные расходы.</p>
-</section>
-<section id="дорожная-карта" class="level3">
-<h3 class="anchored" data-anchor-id="дорожная-карта"><a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a></h3>
-<p>Хронология 4 фаз: НИОКР (годы 1-4) → Луна (4-6) → Меркурий (6-10) → Рой. Критический путь: блиц-монтаж завода за 7 дней, первый МД через 6 месяцев. Год 1: 47 ТВт на Землю, год 3: 1000 масс-драйверов.</p>
-</section>
-<section id="марс" class="level3">
-<h3 class="anchored" data-anchor-id="марс"><a href="../../ru/science/summaries/mars.html">Марс</a></h3>
-<p>Терраформирование как побочный проект: магнитный щит (100-1000 спутников, 100 ГВт), нагрев полюсов (500 ТВт, 2-3 месяца), парниковый эффект. Первое озеро к 2072, дышащая атмосфера через 150-300 лет. Потребляет только 15% мощности Роя.</p>
-</section>
-<section id="луна" class="level3">
-<h3 class="anchored" data-anchor-id="луна"><a href="../../ru/science/summaries/moon.html">Луна</a></h3>
-<p>Двойная роль: полигон для отработки технологий + LSP-станции для приёма энергии. Преимущества лимбов (непрерывность работы, цикл 14.75 дней). Задержка связи 1.3 сек позволяет операторам управлять почти в реальном времени.</p>
+<section id="сборка-первого-завода-bootstrap" class="level3">
+<h3 class="anchored" data-anchor-id="сборка-первого-завода-bootstrap"><a href="../../ru/science/detailed/bootstrap.html">Сборка первого завода (Bootstrap)</a></h3>
+<p>Уникальный этап проекта: роботы Gen-1 (Li-S батареи, 15-24 ч автономии) собирают первый завод из 100% импортных материалов. <strong>Критический checkpoint:</strong> энерго-автономия за 12-24 часа. После checkpoint время сборки не критично — упираемся только в ресурс Gen-1 (2-3 года). Три сценария: 7/11-16/22-32 дня.</p>
 </section>
 </section>
 <section id="справочники" class="level2">
 <h2 class="anchored" data-anchor-id="справочники">Справочники</h2>
-<section id="риски-и-ограничения" class="level3">
-<h3 class="anchored" data-anchor-id="риски-и-ограничения"><a href="../../ru/science/reference/risks.html">Риски и ограничения</a></h3>
-<p>5 решённых критических рисков (синхронизация, медь→криоалюминий, батареи), 6 высоких технических (деградация зеркал, дефицит иридия ×6 мирового производства), 4 ресурсных ограничения. Валидация ключевых расчётов.</p>
+<section id="технологии-и-источники" class="level3">
+<h3 class="anchored" data-anchor-id="технологии-и-источники"><a href="../../ru/science/reference/technology-readiness.html">Технологии и источники</a></h3>
+<p>TRL-анализ всех технологий проекта + полная библиография. Сводная таблица зрелости, промышленные реализации (США, Китай, Япония, Европа, Австралия, Корея, Индия, Россия). Электромагнитный пуск, тёмные заводы, автономная добыча, NaS-батареи, MRE электролиз, микроволновая передача энергии.</p>
 </section>
-<section id="технологическая-зрелость" class="level3">
-<h3 class="anchored" data-anchor-id="технологическая-зрелость"><a href="../../ru/science/reference/trl.html">Технологическая зрелость</a></h3>
-<p>TRL-анализ всех технологий проекта: сводная таблица зрелости, ссылки на промышленные реализации, открытые вопросы. Электромагнитный пуск, тёмные заводы, автономная добыча, NaS-батареи, MRE электролиз, микроволновая передача энергии.</p>
+<section id="риски-и-ограничения-1" class="level3">
+<h3 class="anchored" data-anchor-id="риски-и-ограничения-1"><a href="../../ru/science/reference/risks.html">Риски и ограничения</a></h3>
+<p>5 решённых критических рисков (синхронизация, медь→криоалюминий, электрохромика, батареи, выживаемость груза при 25 000g), 6 высоких технических (деградация зеркал, дефицит иридия ×6 мирового производства), 4 ресурсных ограничения. Валидация ключевых расчётов.</p>
 </section>
 <section id="глоссарий" class="level3">
 <h3 class="anchored" data-anchor-id="глоссарий"><a href="../../ru/science/reference/glossary.html">Глоссарий</a></h3>
@@ -807,11 +1011,7 @@ p:has(> em:first-child) { text-indent: 0; }
 </section>
 <section id="физические-константы" class="level3">
 <h3 class="anchored" data-anchor-id="физические-константы"><a href="../../ru/science/reference/constants.html">Физические константы</a></h3>
-<p>Справочные таблицы для расчётов: солнечная постоянная (Земля 1361, Меркурий 10343 Вт/м²), параметры планет, состав реголита, свойства материалов, характеристики зеркал (116 кг, 93 МВт), масс-драйвера (5 км/с, 43g).</p>
-</section>
-<section id="библиография" class="level3">
-<h3 class="anchored" data-anchor-id="библиография"><a href="../../ru/science/reference/sources.html">Библиография</a></h3>
-<p>Источники: NASA Fact Sheets, миссии IKAROS и LightSail 2, проекты Caltech SSPP и ESA SOLARIS, исследования масс-драйверов O’Neill. Современные технологии: Xiaomi Dark Factory, Tesla FSD, Waymo ($11 млрд на ИИ).</p>
+<p>Справочные таблицы для расчётов: солнечная постоянная (Земля 1361, Меркурий 10343 Вт/м²), параметры планет, состав реголита, свойства материалов, характеристики зеркал (116 кг, 93 МВт), масс-драйвера (5 км/с, 1275g).</p>
 
 
 </section>
@@ -892,7 +1092,7 @@ p:has(> em:first-child) { text-indent: 0; }
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy\/");
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
