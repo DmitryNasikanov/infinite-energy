@@ -138,20 +138,53 @@ Mercury produces its own robots - this is part of factory self-replication. The 
 
 ---
 
+## Materials Requirements
+
+> **Key Takeaway:** 94% of all materials are aluminum. Maximizing Al production line throughput is critical for project success.
+
+### Production Scale
+
+| Object | Quantity | Unit Mass | Total Mass |
+|--------|----------|-----------|------------|
+| Mirrors | 1.1 billion | 116 kg | **127.5 million t** |
+| Mass Drivers | 1,000 | 450 t | **0.45 million t** |
+| Robots | 60,000 | 370–1,500 kg | **67,000 t** |
+| Factories | 1,000 | 33 t | **33,000 t** |
+| **TOTAL** | | | **~128 million t** |
+
+### Material Distribution
+
+| Material | Mass | Share | Primary Consumer |
+|----------|------|-------|-----------------|
+| **Aluminum (Al)** | ~121 million t | **94.5%** | Mirrors (110 kg Al per mirror) |
+| **Iron (Fe)** | ~5.8 million t | **4.5%** | Mirrors (5 kg Fe per mirror) |
+| Titanium Dioxide (TiO₂) | 1.1 million t | 0.85% | Electrochromic mirror coating |
+| Na, S, Si | 8,660 t | <0.01% | Robot batteries |
+
+### Project Mass Structure
+
+```{mermaid}
+%%| fig-width: 8
+pie showData
+    title Mass Distribution (128 million t)
+    "Mirrors" : 99.6
+    "Mass Drivers" : 0.35
+    "Robots + Factories" : 0.08
+```
+
+### Production Priorities
+
+1. **Aluminum is the bottleneck.** 121 million tons of Al require maximum throughput from MRE and rolling mill lines.
+
+2. **Mirrors = 99% of mass.** Optimizing mirror production has the greatest impact on Swarm construction speed.
+
+3. **Robots and factories are a drop in the bucket.** 100,000 tons out of 129 million — less than 0.1%. Their production is not a limiting factor.
+
+---
+
 ## Production on Mercury
 
-### Preparatory Phases (pre-launch)
-
-Before launching the factory to Mercury, the project goes through three preparatory phases:
-
-| Phase | Years | Objective | Result |
-|-------|-------|-----------|--------|
-| **R&D** | 1-2 | Technology development | Robot prototypes, MRE cells, Mass Driver |
-| **Earth Testbed** | 2-4 | Testing in controlled environment | Assembly line, lights-out factory |
-| **Moon Testbed** | 4-6 | Space validation (1.3 sec delay) | Robots learn to dig, smelt, assemble |
-| **Mercury** | 6+ | Production launch | Ground Zero Factory |
-
-**"Faith in success" strategy:** Expedition 2 (robots + materials) launches one month after Expedition 1 lands - before receiving full results. This shortens total project time by ~2 years.
+Preparatory phases (R&D, Earth and Moon testbeds) are described in the [Roadmap](roadmap.qmd).
 
 **Details:** [Roadmap](roadmap.qmd)
 
