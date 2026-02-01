@@ -63,7 +63,7 @@ The Swarm is organized into **clusters of ~1,000 mirrors**. Within each cluster 
 - **Simple decoder** — converts light pulses into electrochromic signals
 - **No radio, no processor** — pure analog/digital logic
 
-> **Why this architecture?** With individual chips on each mirror, electronics import = 1.1 billion × 50 g = **55,000 tons**. With Mother-Children architecture: 1.1 million × 50 g + 1.1 billion × 2 g = **~2,255 tons** — **96% savings**.
+> **Why this architecture?** Individual chips per mirror = 55,000 t import. With Mother-Children architecture: **~1,055 t** — **98% savings**. Details: [Earth Import](#earth-import).
 
 > **Technology baseline (2025):** [Laser inter-satellite links](https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/) (China, 2024-2025) — optical communication between satellites. [Leader-follower formation](https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430) — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.
 
@@ -99,19 +99,21 @@ Along the mirror edges are strips of electrochromic material (TiO₂, titanium o
 
 Children mirrors have no onboard processor. Electrochromic commands come from the Mother via optical channel:
 
-```
-Control Protocol:
+| Parameter | Value |
+|-----------|-------|
+| Carrier frequency | 1-10 kHz (filters solar noise) |
+| Encoding | Manchester or FSK (noise resistance) |
+| Speed | 100-1000 bps |
+| Commands | 4-8 bits (16-256 electrochromic states) |
 
-Mother → [modulated laser] → Children
+**Decoder on Child (~2 g):**
 
-Commands (example):
-├─ 1 ms pulse: "edge A on"
-├─ 2 ms pulse: "edge B on"
-├─ 3 ms pulse: "all off"
-└─ Pulse series: encodes angle/speed
-```
+- Photodiode + bandpass filter
+- Comparator + simple digital logic
+- Electrochromic strip drivers
+- **No processor** — hardware decoder
 
-The photodiode on the Child decodes pulses and directly controls electrochromic strips — no processor needed.
+> **Technology baseline:** [NASA DSOC](https://www.nasa.gov/mission/deep-space-optical-communications-dsoc/) (2024) — optical communication at 140 million miles. [Sprites](https://spectrum.ieee.org/exploring-space-with-chipsized-satellites) (Cornell) — 4g satellite for $50.
 
 **Pointing Accuracy:**
 
@@ -230,26 +232,20 @@ The Swarm directs energy to **[Lunar Solar Power stations (LSP)](../reference/te
 Swarm Mirrors (Mercury) → Light to Moon → PV → Microwaves → Earth
 ```
 
-**Why the Moon, not an orbital Hub?**
-
-| Parameter | Orbital Hub (L1) | Moon (LSP) |
-|-----------|------------------|------------|
-| Efficiency | 10% | **18%** |
-| Radiators | 7,900 km² in space | 0 (heat into ground) |
-| Structure mass | 15 million tons in orbit | On surface |
-| Construction | Zero gravity | Gravity |
-
-> **Conclusion:** An orbital Hub is [economically unfeasible](../detailed/hub.qmd) — half the efficiency and massive radiators in space.
+> **Why the Moon, not an orbital hub?** See [detailed analysis](../detailed/hub.qmd#why-on-the-moon-not-in-orbit) — 18% vs 10% efficiency, no radiators in space.
 
 ### Swarm Energy Distribution
 
-Not all mirrors direct energy to the Moon. Distribution:
+The Swarm produces ~20 PW. Distribution:
 
-| Purpose | Mirrors | Method | Efficiency |
-|---------|---------|--------|------------|
-| **Moon → Earth** | ~99.5% | Light → PV → microwaves | 18% |
-| **Mercury (furnaces)** | ~0.3% | Direct heating | **~85%** |
-| **Mercury (PV)** | ~0.2% | Light → electricity | ~45% |
+| Purpose | Power | % of Swarm | Note |
+|---------|-------|------------|------|
+| **Earth** | 1 PW | 5% | **50× current consumption** (20 TW) |
+| **Mars** | 1-5 PW | 5-25% | Terraforming (future) |
+| **Moon** | 0.5 PW | 2.5% | Local production |
+| **Reserve** | 13-17 PW | 65-85% | Expansion, buffer |
+
+> **Details:** [Energy Distribution](../detailed/hub.qmd#energy-distribution)
 
 #### Direct Solar Heating
 
@@ -285,23 +281,6 @@ Mirrors are organized into **local clusters** of ~1,000 units:
 Each cluster synchronizes internally and directs reflected light to its section of lunar receivers.
 
 > **Why not a unified array?** Global synchronization of a billion mirrors is impossible — signal delay Mercury-Earth is ~670 seconds. Details: [Risks](../reference/risks.qmd#phased-array-synchronization).
-
-### Transition to Local Electronics Production {#optical-cluster-control}
-
-The Mother-Children architecture (described in [Construction](#two-types-of-mirrors-mother-and-children) section) enables gradual phase-out of imports:
-
-#### Deployment Phases
-
-| Phase | Years | Technology | Import |
-|-------|-------|------------|--------|
-| 1 | 7-10 | Import 2 g decoders | ~1,000 t |
-| 2 | 10+ | Local analog receivers | **0 t** |
-
-**Phase 2:** [Blue Alchemist](../reference/technology-readiness.qmd#in-situ-silicon-cells) technology (TRL 5-6) enables production of silicon photodiodes from lunar/Mercurian regolith. Resonant LC circuits (coils + capacitors) are made from local aluminum and Al₂O₃ ceramics.
-
-**Total import:** ~1,055 t (instead of 55,000 t) = **98% savings**
-
-> **Technology baseline:** [Laser inter-satellite links](https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/) (China, 2024-2025) — 400 Gbps optical communication between satellites. [Leader-follower formation](https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430) — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.
 
 ---
 
