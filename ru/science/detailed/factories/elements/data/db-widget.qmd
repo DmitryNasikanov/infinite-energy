@@ -1,0 +1,32 @@
+---
+title: "Виджет базы данных"
+execute:
+  echo: false
+---
+
+```{ojs}
+//| output: false
+
+import { dataScript, mercuryMaterials, materialsById, unitsById, planetsById, unitWidget }
+from "../ojs-data.qmd"
+```
+
+## Пример использования
+
+Виджет для **BLDC мотор Al (CMP-011)**:
+
+```{ojs}
+unitWidget("CMP-011")
+```
+
+Виджет для **MRE-ячейка (EQU-002)**:
+
+```{ojs}
+unitWidget("EQU-002")
+```
+
+Виджет для **Робот Gen-2 (PRD-002)**:
+
+```{ojs}
+unitWidget("PRD-002")
+```
