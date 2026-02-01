@@ -9,7 +9,7 @@ sidebar: science
 >
 > - **Total budget:** $190–470 billion (with inflation $240–590 billion over 10 years)
 > - **Self-replication savings:** ~$47 billion (factories and robots built on Mercury)
-> - **Import from Earth:** ~2,400 t electronics over ~11 years
+> - **Import from Earth:** ~2,550 t electronics over ~11 years
 > - **Launches needed:** ~50-100 (instead of ~900 with full import)
 > - **References:** SpaceX, TSMC, OpenAI, Boston Dynamics — real market prices
 
@@ -46,7 +46,7 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 | China | Long March 8 | $3,550 | [NextSpaceflight](https://nextspaceflight.com/rockets/126/) |
 | Russia | Soyuz-2 | $3,800-5,300 | [TASS](https://tass.com/science/1024055) |
 | India | PSLV | $8,400-15,000 | [SpaceTechAsia](https://www.spacetechasia.com/isro-launch-vehicle-budgets-and-revenues/) |
-| **Future** | Starship, Long March 9 | $1,000-1,500 | 2030+ projections |
+| **Future** | Starship, Long March 9, Yenisei | $1,000-1,500 | 2030+ projections |
 
 **For calculations:** $2,500/kg (mix of current and future technologies)
 
@@ -122,20 +122,25 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 
 ### 2. AI Development for Robots
 
-**Why a separate line item:**
-- Autonomous robots in extreme conditions (vacuum, radiation, +430°C/-180°C)
-- Harder than Waymo: no GPS, 5-20 minute communication delay to Earth
-- Unpredictable timelines — this is frontier AI research
+**Why easier than Waymo/Tesla:**
+- No pedestrians, cyclists, unpredictable people
+- No traffic rules, signs, intersections — only factory tasks
+- Fixed operations (mining, assembly) vs infinite driving scenarios
+- Can fail and retry — not real-time safety-critical
+
+**Characteristics:**
+- Autonomy due to 5-20 min communication delay
+- Extreme conditions require reliable hardware
 
 | Item | Calculation | Estimate |
 |------|-------------|----------|
 | Team (4,000 people × $150K × 6 years) | ML engineers, roboticists, labelers | 3.6 billion |
-| Compute (GPU, data centers) | $1.5 billion/year × 6 years | 9 billion |
+| Compute (GPU, data centers) | $0.75 billion/year × 6 years | 4.5 billion |
 | Robot prototypes for training | Thousands of units for data collection | 2 billion |
 | Data labeling | Labeling millions of scenarios | 1 billion |
-| **Total AI** | | **15-20 billion** |
+| **Total AI** | | **10-12 billion** |
 
-**Risks:** Timelines are unpredictable. Waymo spent 15 years and $11 billion and still hasn't achieved full autonomy.
+**Risks:** With scaling (more data, complex models) budget may grow to $15-20 billion.
 
 ### 3. Earth Test Site (China)
 
@@ -175,13 +180,13 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 
 | Item | Calculation | Estimate |
 |------|-------------|----------|
-| [Bootstrap](../reference/glossary.qmd#bootstrap-blitz-assembly) factory (E1) | Full import 140 t | 1.4 billion |
+| [Bootstrap](../reference/glossary.qmd#bootstrap-blitz-assembly) factories (E1 × 2) | Full import 280 t | 2.8 billion |
 | Electronics for 1649 factories | ~90 t × $3K/kg | 0.27 billion |
 | Electronics for 60K robots | ~765 t × $3K/kg | 2.3 billion |
 | Electronics for 1000 MDs | ~275 t × $5K/kg | 1.4 billion |
 | Chips for 1.1B mirrors | ~1,055 t × $10K/kg | 10.6 billion |
 | [Vitamins](../reference/glossary.qmd#vitamins) (4 years) | ~509 t × $10K/kg | 5.1 billion |
-| **Total production** | ~2,834 t electronics | **~21 billion** |
+| **Total production** | ~2,974 t electronics | **~22.4 billion** |
 
 **Price justification (international sources 2026):**
 
@@ -216,11 +221,11 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 
 | Item | Calculation | Estimate |
 |------|-------------|----------|
-| ~2,400 tons (total) | 2,400 t × $2,500/kg | 6 billion |
+| ~2,550 tons (total) | 2,550 t × $2,500/kg | 6.4 billion |
 | Mission control | 11 years of operations | 3-5 billion |
 | **Total launches** | | **9-11 billion** |
 
-*Includes: Moon (80 t) + factories (~230 t) + MD boards (~275 t) + mirrors (1,055 t) + vitamins (765 t). [NaS](../reference/technology-readiness.qmd#nas-batteries) capacitors — local production. See [Import Summary](delivery.qmd#project-summary).*
+*Includes: Moon (80 t) + factories (~370 t) + MD boards (~275 t) + mirrors (1,055 t) + vitamins (765 t). [NaS](../reference/technology-readiness.qmd#nas-batteries) capacitors — local production. See [Import Summary](delivery.qmd#project-summary).*
 
 ### 8. Energy Reception System (Microwave + Rectenna)
 
@@ -276,7 +281,7 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 
 ---
 
-### 9. LSP Stations on Moon
+### 10. LSP Stations on Moon
 
 Instead of an orbital Hub at L1, **LSP (Lunar Solar Power) stations** on the Moon's surface are used. Details: [Energy Reception Hub](../detailed/hub.qmd).
 
@@ -316,7 +321,7 @@ Instead of an orbital Hub at L1, **LSP (Lunar Solar Power) stations** on the Moo
 | Category | Minimum | Maximum |
 |----------|---------|---------|
 | 1. R&D (excluding AI) | 3 | 5 |
-| 2. **AI Development** | 15 | 20 |
+| 2. **AI Development** | 10 | 12 |
 | 3. **Earth Test Site (China)** | 8 | 10 |
 | 4. Lunar Test Site | 9 | 15 |
 | 5. Production (electronics) | 25 | 32 |
@@ -337,13 +342,12 @@ Grouping by project phases and implementation locations.
 
 | # | Location | Min | Max | % |
 |---|----------|-----|-----|---|
-| 1 | Earth (R&D, AI, test site) | 39 | 52 | 32% |
+| 1 | Earth (R&D, AI, test site) | 34 | 44 | 28% |
 | 2 | Moon (test site + LSP) | 11 | 20 | 13% |
-| 3 | Mercury (electronics, rockets, launches) | 35 | 46 | 30% |
+| 3 | Mercury (electronics, rockets, launches) | 38 | 43 | 30% |
 | 4 | Energy receiver (rectenna) | 25 | 49 | 25% |
-| | **TOTAL** | **~110** | **~167** | **~90%** |
-
-> **Note:** ~10% of base budget — additional items (communications, propellant, training, insurance).
+| 5 | Additional items (communications, propellant, training) | 22 | 33 | ~10% |
+| | **TOTAL** | **~130** | **~189** | **100%** |
 
 ### Breakdown (Level 2)
 
@@ -357,9 +361,9 @@ R&D, AI development, test site, personnel training.
 | — Swarm management software | Distributed system | 1-2 billion |
 | — VR simulators | Operator training | 0.5-1 billion |
 | — Scientific research | Materials science, thermodynamics | 1-2 billion |
-| **AI Development** | | **15-20 billion** |
+| **AI Development** | | **10-12 billion** |
 | — AI team | 4,000 people × $150K × 6 years | 3.6 billion |
-| — Compute | $1.5 billion/year × 6 years | 9 billion |
+| — Compute | $0.75 billion/year × 6 years | 4.5 billion |
 | — Robot prototypes | Thousands of units for training | 2 billion |
 | — Data labeling | Millions of scenarios | 1 billion |
 | **Earth Test Site (China)** | | **8-10 billion** |
@@ -372,7 +376,7 @@ R&D, AI development, test site, personnel training.
 | **Personnel Training** | | **13-17 billion** |
 | — Staff training | 50,000 people × $50K × 5 years | 12-15 billion |
 | — International coordination | Lawyers, diplomats | 1-2 billion |
-| **Total Earth** | | **39-52 billion** |
+| **Total Earth** | | **34-44 billion** |
 
 #### 2. Moon (~5%)
 
@@ -394,12 +398,12 @@ Technology validation and LSP station construction.
 Electronics for self-replication, rocket program, launches.
 
 > **Self-replication principle:** Factories and robots are built on Mercury from local materials.
-> Only electronics (chips, boards, sensors) are imported from Earth — ~2,400 t over 11 years.
+> Only electronics (chips, boards, sensors) are imported from Earth — ~2,550 t over 11 years.
 
 | Subcategory | Calculation | Amount |
 |-------------|-------------|--------|
 | **Electronics (import)** | | **~21 billion** |
-| — Bootstrap factory (E1) | Full import 140 t | 1.4 billion |
+| — Bootstrap factories (E1 × 2) | Full import 280 t | 2.8 billion |
 | — Electronics for 1649 factories | ~90 t × $3K/kg | 0.27 billion |
 | — Electronics for 60K robots | ~765 t × $3K/kg | 2.3 billion |
 | — Electronics for 1000 MDs | ~275 t × $5K/kg | 1.4 billion |
@@ -409,7 +413,7 @@ Electronics for self-replication, rocket program, launches.
 | — Production of ~50-100 rockets | ~75 × $50M | 3.75 billion |
 | — Spaceport upgrades | 2 sites | 1-2 billion |
 | **Launches and Delivery** | | **6-8 billion** |
-| — ~2,400 t to Moon + Mercury | 2,400 t × $2,500/kg | 6 billion |
+| — ~2,550 t to Moon + Mercury | 2,550 t × $2,500/kg | 6.4 billion |
 | — Mission control | 4 years of operations | 0-2 billion |
 | **Total Mercury** | | **~38-43 billion** |
 
@@ -640,31 +644,6 @@ All amounts converted to USD 2026 (with inflation adjustment for historical proj
 
 ---
 
-## Final Estimate
-
-### Without Inflation (USD 2026)
-
-| Scenario | Amount | Comment |
-|----------|--------|---------|
-| Optimistic | **~$190 billion** | Heavy rockets work, AI in 5 years |
-| **Baseline** | **~$340 billion** | Realistic mix, AI in 6-7 years |
-| Conservative | **~$470 billion** | Delays, AI in 8-10 years |
-
-### With Inflation (+25% over 10 years)
-
-| Scenario | 2026 Nominal | With inflation | Comment |
-|----------|--------------|----------------|---------|
-| Optimistic | ~$190 billion | **~$240 billion** | Everything goes as planned |
-| **Baseline** | **~$340 billion** | **~$425 billion** | Moderate delays |
-| Conservative | ~$470 billion | **~$590 billion** | Serious problems |
-
-**For comparison:**
-- Apollo: ~$280 billion (USD 2026) — 12 people on Moon
-- Helios (baseline): ~$425 billion — **energy for the entire planet forever** ([Dyson Swarm](../reference/glossary.qmd#dyson-swarm))
-- This is ~1.5× Apollo for a result millions of times greater
-
----
-
 ## Year-by-Year Distribution (baseline scenario)
 
 | Year | Phase | Main expenses | Amount (billion) |
@@ -683,45 +662,9 @@ All amounts converted to USD 2026 (with inflation adjustment for historical proj
 
 > **Attention:** This section describes problems requiring solutions.
 
-### Critical Issues
-
-#### 1. AI Budget Underestimated
-
-| Parameter | In calculations | Realistic estimate |
-|-----------|----------------|-------------------|
-| AI Development | $15–30 billion | **$50–100 billion** |
-| Development time | 5–7 years | **8–12 years** |
-
-**Reasons:**
-- Waymo spent $11 billion over 15 years and hasn't achieved full autonomy
-- Tesla FSD: $15+ billion over 8 years — level 2 (not full autonomy)
-- Mercury conditions are harder: vacuum, radiation, no GPS, 670 sec delay
-
-**Reference:** OpenAI spent $20+ billion and hasn't achieved AGI. Autonomous robots in extreme conditions are harder than language models.
-
-#### 2. Launch Costs Depend on Launcher Development Pace
-
-By 2030, next-generation super-heavy launchers are expected:
-
-| Launcher | Country | Payload | Status (2025) |
-|----------|---------|---------|---------------|
-| Starship | USA | 150–200 t | Testing |
-| Long March 9 | China | 150 t | Development |
-| Yenisei | Russia | 100 t | Development |
-| New Glenn | USA | 45 t | Testing |
-| SHLV | India | ~100 t | Concept |
-| Ariane Next | EU | ~100 t | Concept |
-
-| Scenario | Launch cost | Budget impact |
-|----------|-------------|---------------|
-| Launchers reach $1,000–1,500/kg by 2030 | Baseline scenario | — |
-| Delay to $2,500–3,500/kg | Launchers 2–3 years late | **+$30–50 billion** |
-
-**Risk:** Baseline scenario assumes $2,500/kg. Delays in super-heavy launcher development increase budget by 10–15%.
-
 ### High-Priority Issues
 
-#### 3. Testing and Debugging Underestimated
+#### 1. Testing and Debugging Underestimated
 
 | Stage | Current estimate | Realistic estimate | Rationale |
 |-------|-----------------|-------------------|-----------|
@@ -733,7 +676,7 @@ By 2030, next-generation super-heavy launchers are expected:
 
 **Detailed methodology:** [Risks → Testing Estimation Methodology](../reference/risks.qmd#testing-estimation-methodology)
 
-#### 4. Ground Reception Infrastructure
+#### 2. Ground Reception Infrastructure
 
 | Parameter | Current estimate | Realistic estimate |
 |-----------|-----------------|-------------------|
@@ -745,29 +688,19 @@ By 2030, next-generation super-heavy launchers are expected:
 
 ### Require Research
 
-#### 5. Mission Insurance
+#### 3. Mission Insurance
 
 - $2–4 billion — optimistic for 10,000 tons of cargo
 - At real risk rates, may be 5–10% of cargo value
 - **Realistic:** $5–10 billion for insurance
 
-#### 6. Political Risks
+#### 4. Political Risks
 
 - Sanctions between countries → cooperation breakdown
 - Government changes → priority shifts
 - Competition instead of cooperation → cost duplication
 
 **Cannot be estimated, but potentially +50–100% to budget.**
-
-### Final Adjustment
-
-| Scenario | Current estimate | With limitations |
-|----------|-----------------|-----------------|
-| Optimistic | $320 billion | **$400–450 billion** |
-| Baseline | $500 billion | **$700–800 billion** |
-| Conservative | $700 billion | **$1,000–1,200 billion** |
-
-**Conclusion:** Realistic budget is closer to $700–800 billion (not $500 billion), and conservative may reach a trillion.
 
 ---
 

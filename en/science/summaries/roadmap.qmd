@@ -12,6 +12,7 @@ sidebar: science
 > - **Launches to Moon:** 10-20 (technology validation)
 > - **Launches to Mercury:** ~50-100 (99.998% localization, electronics only)
 > - **Key risk:** Track 1 (robots and factories) - new technologies; Track 2 (rockets) - proven experience
+> - **Energy reception:** 30 LSP stations (Moon) + 100 rectennas (Earth); rectenna budget $10-20B
 
 From first blueprints to 1000 Mass Drivers on Mercury.
 
@@ -487,19 +488,21 @@ The project's key unit is the **replicator factory (F-R)**, fully self-sufficien
 
 ---
 
-## Mercury Strategy: Test + Reinforcement
+## Mercury Strategy: Redundancy + Reinforcement
 
-**Principle:** First we verify, then we scale.
+**Principle:** Redundancy in E1, feedback before E2.
 
-| Stage | Cargo | Goal | Risk |
-|-------|-------|------|------|
-| Expedition 1 | 75 t | Test: 1 factory + 1 MD | If failure - lost 75 t |
-| Expedition 2 | 150 t | Reinforcement: +3 factories | Only after E1 success |
+| Stage | Cargo | Goal | Risk mitigation |
+|-------|-------|------|-----------------|
+| Expedition 1 | 150 t | 2 factories + 2 MDs (redundancy) | One fails - other works |
+| Expedition 2 | 150 t | Reinforcement: +2 factories | Decision after E1 feedback |
+| E3+ (optional) | As needed | Fixing critical issues | Only if self-replication fails |
 
 **Advantages:**
-- Risk reduction: not putting all eggs in one basket
-- Acceleration: 4 factories instead of 1 = 4x faster growth
-- Technology verification: first factory validates the concept
+- Redundancy: 2 factories in E1 - one fails, other works
+- Feedback: 1 month of data from E1 before E2 decision
+- E2 correction: can adjust cargo based on E1 results
+- E3+ insurance: critical fixes if needed
 
 ---
 
@@ -530,21 +533,21 @@ The project is not tied to a specific rocket. Delivery options:
 
 *Payload capacity to Mercury trajectory - estimate (~30-35% of LEO). High delta-v (~12.5 km/s) due to braking near the Sun.
 
-### E1 Delivery Scenarios (75 t)
+### E1 Delivery Scenarios (150 t)
 
 | Scenario | Carriers | Flights | Note |
 |----------|----------|---------|------|
-| Minimum launches | Starship | 1-2 | After 2027 |
-| Available now | Falcon Heavy + Long March 5B | 5-6 | Multi-launch scheme |
-| International | Mixed fleet | 3-4 | Distributed risk |
+| Minimum launches | Starship (2027+) | 2-3 | ~50-70 t/flight to Mercury |
+| International fleet | FH + LM5B + A5 | 5-8 | Distributed risk |
+| Mixed approach | Starship + medium carriers | 3-5 | Optimization |
 
 **Conclusion:** By project start (2030s) next-generation heavy carriers will be operational. Average payload ~40-50 t to Mercury.
 
 ---
 
-## Expedition 1: Ground Zero Factory - Final Deployment
+## Expedition 1: Ground Zero Factories - Final Deployment
 
-**Cargo: 75 tons** (see carrier options above)
+**Cargo: 150 tons** (see carrier options above)
 
 #### Differences from Lunar Version
 
@@ -555,45 +558,70 @@ The project is not tied to a specific rocket. Delivery options:
 
 | Component | Mass | Purpose |
 |-----------|------|---------|
-| Ground Zero Factory (modules) | 35 t | Gen-2 robot production |
-| Gen-1 robots | 15 t | Factory assembly (56 pcs) |
-| Starter concentrators | 1 t | 30 MW for first days |
-| MD components | 20 t | Accelerated first Mass Driver assembly |
-| Consumables | 4 t | Vitamins for one year |
+| 2 factories (modules) | 70 t | Redundancy: one fails - other works |
+| Gen-1 robots (2×56) | 30 t | Factory assembly at 2 sites |
+| Starter concentrators | 2 t | 60 MW for 2 factories |
+| MD components (×2) | 40 t | Parallel MD construction |
+| Consumables | 8 t | Vitamins for one year (×2 sites) |
 
 **Key milestones:**
-- **Day 7: Factory operational!** Begins Gen-2 robot production
-- **Month 6: First MD ready** -> Dyson Swarm begins
+- **Day 7-14: Factories #1 and #2 operational!** Begin Gen-2 production
+- **Month 3-5: First MDs ready** -> Dyson Swarm begins
 
 **Success criteria (by month 3):**
-- Factory produces 15 Gen-2 robots/month
-- Local concentrators provide 100+ MW energy
-- MD under construction (60% complete)
+- Both factories produce 15 Gen-2 robots/month each (30 total)
+- Local concentrators provide 120+ MW energy
+- MDs under construction (50%+ complete)
 
 ---
 
-## Expedition 2: Reinforcement (Month 4-5)
+## Expedition 2: Reinforcement (Month 9-10)
 
-**"Leap of faith" strategy:**
-- Day 7: Factory #1 operational -> data to Earth
-- Month 1: E2 launches (not waiting for full confirmation)
-- Transit: ~3-4 months (direct trajectory)
-- **Month 4-5: E2 arrives**
+**"Leap of faith" with feedback strategy:**
+- Day 7-14: Factories #1 and #2 operational -> data to Earth
+- Month 4-5: 1 month of feedback collected
+- **Month 5: E2 launch decision** (based on E1 data)
+- Transit: ~4 months
+- **Month 9-10: E2 arrives**
+
+**Decision options:**
+- Everything OK or minor issues → E2 launches with corrections
+- Critical issues → E2 delayed, analyze, prepare fixes
 
 **Cargo: 150 tons** (see carrier options)
 
 | Component | Mass | Purpose |
 |-----------|------|---------|
-| 3 factories (modules) | 105 t | Production scaling |
+| 2 factories (modules) | 70 t | Production scaling (total 4) |
 | Gen-1 robots | 30 t | Assembly acceleration (112 pcs) |
-| MD components | 10 t | Spare parts for MD #2-4 |
-| Consumables | 5 t | Vitamins for 2 years |
+| MD components | 40 t | Spare parts for MD #3-4 |
+| Consumables | 10 t | Vitamins for 2 years |
 
 **Result:**
-- Month 5: 4 factories operational
-- Production: 60 robots/month (instead of 15)
-- 4x faster growth
-- First MD ready by month 6 (no delays)
+- Month 10: 4 factories operational
+- Production: 60 robots/month (instead of 30)
+- 2x faster growth from this point
+- First MDs ready by month 6-8 (from E1)
+
+---
+
+## Expedition 3+ (Optional)
+
+**Condition:** Only if self-replication is impossible.
+
+**When decided:** Months 6-9, based on E1+E2 data.
+
+**Cargo:**
+- Spare parts for real (not theoretical) failures
+- Corrected modules based on feedback
+- Additional resources for problem areas
+
+**If needed:**
+- Launch: Month 7-10
+- Arrival: Month 11-14
+- Goal: Enable self-replication
+
+**If not needed:** Project continues with E1+E2 resources only.
 
 ---
 
@@ -784,7 +812,7 @@ This covers base consumption 500 times over.
 
 ---
 
-## Months 5-12: Expansion (with 4 factories)
+## Months 10-15: Expansion (with 4 factories)
 
 ### Now the Only Constraint - Robot Production
 
@@ -797,61 +825,61 @@ This covers base consumption 500 times over.
 ### 4 Factory Advantage
 
 ```
-With 1 factory: 15 robots/month -> slow growth
-With 4 factories: 60 robots/month -> 4x faster
+With 2 factories (E1): 30 robots/month
+With 4 factories (E1+E2): 60 robots/month -> 2x faster from this point
 ```
 
 ### Strategy: Build Factories and MDs in Parallel
 
 ```
-Month 5: 4 factories (60 robots/month) - E2 arrived
-Month 6: First MD ready!
-Month 7: 8 factories (120 robots/month)
-Month 9: 16 factories (240 robots/month)
-Month 12: 25 factories (375 robots/month)
+Month 4: 2 factories working (E1)
+Month 6-8: First MDs ready (from E1)!
+Month 10: 4 factories (E2 arrived) - 60 robots/month
+Month 12: 6 factories (90 robots/month)
+Month 15: 8 factories (120 robots/month)
 ```
 
 ### Parallel: More MDs
 
 ```
-Month 6: 1 MD (first!)
-Month 8: 3 MDs
-Month 10: 6 MDs
-Month 12: 12 MDs
+Month 6-8: 2 MDs (first, from E1!)
+Month 10: 4 MDs
+Month 12: 6 MDs
+Month 15: 8 MDs
 ```
 
 ---
 
-## Year 1: Results (E2 arrived by month 5)
+## Year 1: Results (E2 arrived by month 10)
 
 | Metric | Value |
 |--------|-------|
-| Factories | 25 |
-| Robots | 375/month |
-| Mass Drivers | 12 |
-| Mirrors in Swarm | ~2.5M |
-| Swarm power | ~227 TW (solar) |
-| To Earth (23% efficiency) | **47 TW** |
+| Factories | 8 |
+| Robots | 120/month |
+| Mass Drivers | 6 |
+| Mirrors in Swarm | ~1M |
+| Swarm power | ~93 TW (solar) |
+| To Earth (18% efficiency) | **16 TW** |
 
 **For comparison:** World consumption = 2.3 TW
 
-**Already in one year - 20 times world consumption!**
+**Already in one year - 7 times world consumption!**
 
-*(Early E2 launch gives +2 months head start)*
+*(Redundancy + feedback strategy adds ~5 months vs aggressive approach, but reduces risk significantly)*
 
 ---
 
-## Years 2-3: Exponential Growth
+## Years 2-4: Exponential Growth
 
 | Year | Factories | MDs | Mirrors in Swarm | To Earth |
 |------|-----------|-----|------------------|----------|
-| 1 | 25 | 12 | 2.5M | 47 TW |
-| 2 | 120 | 80 | 40M | 750 TW |
-| 3 | 500 | 400 | 250M | 4,700 TW |
-| 3.5 | 1,000 | 800 | 500M | 9,500 TW |
-| 4 | **~1,650** | **1,000** | 700M | 13,300 TW |
+| 1 | 8 | 6 | 1M | 16 TW |
+| 2 | 60 | 40 | 20M | 370 TW |
+| 3 | 250 | 200 | 100M | 1,900 TW |
+| 4 | 800 | 600 | 350M | 6,500 TW |
+| **4.5** | **~1,650** | **1,000** | 700M | **13,300 TW** |
 
-**Conclusion:** Early E2 launch -> reach ~1650 factories and 1000 MDs in **~4 years**.
+**Conclusion:** Redundancy + feedback -> reach ~1650 factories and 1000 MDs in **~4.5 years** (+0.5 years vs aggressive approach).
 
 ---
 
@@ -862,12 +890,12 @@ Month 12: 12 MDs
 - Robots build new factories and MDs in parallel
 - Exponential growth limited only by robot production
 
-**Growth schedule:**
-- **Year 1:** 25 factories, 12 MDs (after E2)
-- **Year 2:** 120 factories, 80 MDs
-- **Year 3:** 500 factories, 400 MDs
-- **Year 3.5:** 1000 factories, 800 MDs
-- **Year 4:** **~1650 factories, 1000 MDs**
+**Growth schedule (with redundancy + feedback):**
+- **Year 1:** 8 factories, 6 MDs
+- **Year 2:** 60 factories, 40 MDs
+- **Year 3:** 250 factories, 200 MDs
+- **Year 4:** 800 factories, 600 MDs
+- **Year 4.5:** **~1650 factories, 1000 MDs**
 
 **99.998% local materials (~129M t):**
 - Robot frames: Al (local)
@@ -875,7 +903,7 @@ Month 12: 12 MDs
 - Mirrors: 4 um Al foil (local)
 - Factory domes: silicate composite (local)
 
-**0.002% import from Earth** (~2,400 t "Vitamins"):
+**0.002% import from Earth** (~2,550 t "Vitamins"):
 - Electronics: control boards, sensors
 - Rare earths: Nd, Sm for magnets
 - Iridium: MRE anodes
@@ -941,7 +969,7 @@ Month 12: 12 MDs
 
 ---
 
-## Year 3: Goal Achieved
+## Year 4.5: Goal Achieved
 
 ### 1000 Mass Drivers
 
@@ -952,8 +980,8 @@ Productivity: 1000 x 600 = 600,000 mirrors/day
 Energy to Earth:
 219M x 93 MW x 0.20 = 4,073 TW/year added
 
-By year 4 in Swarm: ~134M active mirrors
-Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW
+By year 4.5 in Swarm: ~700M active mirrors
+Power: 700M x 93 MW x 0.20 ≈ 13,000 TW ≈ 13 PW
 ```
 
 ### Comparison
@@ -961,8 +989,8 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW
 | Metric | Value |
 |--------|-------|
 | World consumption 2026 | 2.3 TW |
-| Dyson Swarm (year 3) | 9,430 TW |
-| **Ratio** | **4,100x** |
+| Dyson Swarm (year 4.5) | 13,300 TW |
+| **Ratio** | **5,800x** |
 
 ---
 
@@ -976,18 +1004,18 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW
 
 | Parameter | Value |
 |-----------|-------|
-| Target power | ~10,000 TW |
+| Target power | ~13,000 TW |
 | World consumption | 2.3 TW |
-| Margin | 4,000x |
-| Time to achieve | **3 years** |
+| Margin | ~5,800x |
+| Time to achieve | **4.5 years** |
 
-**Why 4000x margin?**
+**Why ~6000x margin?**
 - Mars terraforming (magnetic field)
 - Interplanetary logistics
 - Population and consumption growth (100 years ahead)
 - Space industry
 
-### After Year 3: Maintenance Mode
+### After Year 4.5: Maintenance Mode
 
 ```
 Growth STOPS after reaching goal:
@@ -1001,10 +1029,56 @@ Growth STOPS after reaching goal:
 
 | Phase | Years | Mode | Goal |
 |-------|-------|------|------|
-| Ramp-up | 0-3 | Exponential growth | Reach 1000 MDs |
-| Plateau | 3+ | Maintenance | System operation |
+| Ramp-up | 0–4.5 | Exponential growth | Reach 1000 MDs |
+| Plateau | 4.5+ | Maintenance | System operation |
 
-**Main conclusion:** We're not building an infinite machine. We're building infrastructure with a finite goal. Exponential is only needed to reach the goal in reasonable time (3 years instead of 30).
+**Main conclusion:** We're not building an infinite machine. We're building infrastructure with a finite goal. Exponential is only needed to reach the goal in reasonable time (4.5 years instead of 30).
+
+---
+
+## Energy Reception Infrastructure (years 4-10)
+
+In parallel with Mercury operations, infrastructure for receiving and transmitting energy to Earth is being built.
+
+### LSP Stations (Moon)
+
+[LSP](../reference/technology-readiness.qmd#lsp-station) (Lunar Solar Power) — a network of stations on lunar limbs receiving light from the Swarm and transmitting energy to Earth via microwaves.
+
+| Parameter | Value |
+|-----------|-------|
+| Stations | 30 |
+| Location | Lunar limbs (eastern + western) |
+| Mass | ~178,000 t |
+| Production | From lunar materials (Si, Al) |
+| Construction time | 3-5 years |
+| Rate | ~50,000 t/year |
+
+### Rectennas (Earth)
+
+Global network of microwave receivers for 24/7 energy reception from LSP stations.
+
+| Parameter | Value |
+|-----------|-------|
+| Count | ~100 stations |
+| Area each | ~100 km² (10×10 km) |
+| Materials | Al/Cu dipoles, Si diodes |
+| Production | Earth-based |
+| Budget | $10-20B |
+| Timeline | 3-5 years (parallel with Mercury) |
+
+**Rectenna locations:** sparsely populated regions — Yakutia, Kazakhstan, Nevada, Gobi, Sahara, Atacama.
+
+### Construction Timeline
+
+| Year | LSP (Moon) | Rectennas (Earth) |
+|------|------------|-------------------|
+| 4-6 | Test station | Pilot rectenna (1-2 units) |
+| 6-8 | 10 stations | 30 rectennas |
+| 8-10 | 30 stations | 100 rectennas |
+
+**Synchronization with Mercury:** By year 8 (when the Swarm starts producing significant energy) reception infrastructure is ready to receive 1+ PW.
+
+> **More details:** [Energy Reception Hub](../detailed/hub.qmd) — efficiency, safety, alternative architectures
 
 ---
 
@@ -1021,18 +1095,18 @@ Growth STOPS after reaching goal:
 | 5 | Lunar factory operational, producing robots |
 | 6 | Lunar proving ground validated, Mercury readiness |
 
-### Mercury Phase (years 6-10)
+### Mercury Phase (years 6–10.5)
 
 | Moment | Event |
 |--------|-------|
 | Year 6, Day 0 | Expedition 1 landing on Mercury |
-| Day 7 | Factory #1 operational |
-| Month 1 | E2 launches from Earth ("leap of faith") |
-| **Month 4-5** | **Expedition 2 arrival (+3 factories)** |
-| **Month 6** | **First MD - energy export begins** |
-| Year 7 | 2x world consumption on receivers |
-| Year 8 | 16x world consumption |
-| **Year 10** | **1000 MDs, 100x world consumption** |
+| Day 7–14 | Factories #1 and #2 operational (redundancy) |
+| Month 5 | E2 launch decision (after 1 month feedback) |
+| **Month 9–10** | **Expedition 2 arrival (+2 factories, total 4)** |
+| **Month 6–8** | **First MDs - energy export begins** |
+| Year 7 | 16 TW on receivers (8x world consumption) |
+| Year 8 | 370 TW (160x world consumption) |
+| **Year 10.5** | **1000 MDs, ~5800x world consumption** |
 
 ---
 
@@ -1040,30 +1114,34 @@ Growth STOPS after reaching goal:
 
 ```
 PREPARATION (years 1-6):
-+---------------------------------------------------------+
-| Phase 1: R&D (years 1-6+) -------------------------+    |
-|           |                                        |    |
-|           +---> Phase 2: Earth Proving (years 2-4) |    |
-|           |            |                           |    |
-|           +---> Phase 3: Moon (years 4-6) ---> Validation
-+---------------------------------------------------------+
++-------------------------------------------------------------+
+| Phase 1: R&D (years 1-6+) ---------------------------+      |
+|           |                                          |      |
+|           +---> Phase 2: Earth Proving (years 2-4)   |      |
+|           |            |                             |      |
+|           +---> Phase 3: Moon (years 4-6) ---> Validation   |
++-------------------------------------------------------------+
                               |
-MERCURY (years 6-10):
-+---------------------------------------------------------+
-| Phase 4: E1: Landing -> Factory (7 days) -> First MD (6 mo) -+
-|                   |                              |           |
-|            Concentrators (parallel)              v           |
-|                                            +-- Expansion     |
-|         E2: Launch (mo 1) -> Arrival (mo 4-5) -----+         |
-|          ^                                                   |
-|     "Leap of faith"                                          |
-+---------------------------------------------------------+
+MERCURY (years 6–10.5):
++-------------------------------------------------------------+
+| Phase 4: E1 (150 t, 2 factories):                           |
+|   Landing (mo 4) -> 2 factories (7-14 d) -> 2 MDs (mo 3-5) -+
+|                   |                                   |     |
+|            Concentrators (parallel)                   v     |
+|                                             +-- Expansion   |
+|   Decision (mo 5) -> E2 (mo 9-10) -----------+              |
+|          ^                                                  |
+|     After 1 mo feedback                                     |
+|                                                             |
+|   E3+ (optional): only if self-replication impossible       |
++-------------------------------------------------------------+
 ```
 
 **Key decisions:**
-- Moon as proving ground reduces Mercury risk
-- "Leap of faith" on Mercury accelerates by ~1 year
+- Redundancy in E1: 2 factories instead of 1
+- E2 decision: after 1 month of data from Mercury (not blind launch)
 - After first MD - energy is infinite, growth limited only by robots
+- E3+: insurance for critical systemic errors
 
 ---
 
@@ -1088,16 +1166,20 @@ MERCURY (years 6-10):
 - AI development is unpredictable (Waymo: 15 years, no full autonomy)
 - Political delays not accounted for
 
-#### 2. "Leap of Faith" - High Risk
+#### 2. Mercury Expeditions - Risk Mitigation
 
-Launching E2 one month after E1 landing (not waiting for full validation):
+**Old approach (rejected):** E2 launched before E1 landing ("blind launch").
 
-| Scenario | Consequences |
-|----------|--------------|
-| E1 successful | 3 months gained |
-| E1 failed | E2 useless (~$1-2B lost) |
+**New approach:** Redundancy + feedback before decision.
 
-**E1 failure probability:** 10-30% (first mission to new planet).
+| Mitigation | Effect |
+|------------|--------|
+| 2 factories in E1 (redundancy) | One fails - other works |
+| E2 decision after E1 landing | 1 month of data before launch |
+| E2 correction possible | Spare parts for real failures |
+| E3+ as insurance | If self-replication impossible |
+
+**Residual risk:** If both factories fail systemically (e.g., MRE doesn't work in Mercury conditions) - ~$3-4B lost. Probability: <5% after lunar validation.
 
 ### High Issues
 
