@@ -53,7 +53,7 @@ for entry in "${SYMLINKS[@]}"; do
 
     # Если симлинк уже существует и валиден - пропускаем
     if [[ -L "$link" ]] && [[ -d "$link" ]]; then
-        ((skipped++))
+        skipped=$((skipped + 1))
         continue
     fi
 
@@ -65,10 +65,10 @@ for entry in "${SYMLINKS[@]}"; do
     # Создаем симлинк
     if ln -s "$target" "$link" 2>/dev/null; then
         echo "Created: $link -> $target"
-        ((created++))
+        created=$((created + 1))
     else
         echo "ERROR: Failed to create $link" >&2
-        ((errors++))
+        errors=$((errors + 1))
     fi
 done
 
