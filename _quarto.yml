@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: _output
+  pre-render: scripts/ensure-data-symlinks.sh
   render:
     - "*.qmd"
     - "ru/"
