@@ -2,6 +2,7 @@ project:
   type: website
   output-dir: _output
   pre-render: scripts/ensure-data-symlinks.sh
+  post-render: scripts/copy-data-to-output.sh
   render:
     - "*.qmd"
     - "ru/"
