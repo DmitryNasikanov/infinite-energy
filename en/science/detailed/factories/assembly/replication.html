@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Factory Self-Replication – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../../../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Factory Self-Replication</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Сборка первого завода (Bootstrap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/detailed/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#energy-bootstrap-phase-0" id="toc-energy-bootstrap-phase-0" class="nav-link" data-scroll-target="#energy-bootstrap-phase-0">Energy Bootstrap (Phase 0)</a>
+  <ul class="collapse">
+  <li><a href="#energy-reserve-calculation" id="toc-energy-reserve-calculation" class="nav-link" data-scroll-target="#energy-reserve-calculation">Energy Reserve Calculation</a></li>
+  </ul></li>
+  <li><a href="#phase-0-first-mass-driver-month-0-1" id="toc-phase-0-first-mass-driver-month-0-1" class="nav-link" data-scroll-target="#phase-0-first-mass-driver-month-0-1">Phase 0: First Mass Driver (Month 0-1)</a>
+  <ul class="collapse">
+  <li><a href="#first-mass-driver-timeline-1-km-baseline" id="toc-first-mass-driver-timeline-1-km-baseline" class="nav-link" data-scroll-target="#first-mass-driver-timeline-1-km-baseline">First Mass Driver Timeline (1 km baseline)</a></li>
+  <li><a href="#mini-swarm-for-mercury-energy" id="toc-mini-swarm-for-mercury-energy" class="nav-link" data-scroll-target="#mini-swarm-for-mercury-energy">Mini-Swarm for Mercury Energy</a></li>
+  </ul></li>
+  <li><a href="#phase-1-exponential-factory-growth-months-2-6" id="toc-phase-1-exponential-factory-growth-months-2-6" class="nav-link" data-scroll-target="#phase-1-exponential-factory-growth-months-2-6">Phase 1: Exponential Factory Growth (Months 2-6)</a>
+  <ul class="collapse">
+  <li><a href="#replication-timeline" id="toc-replication-timeline" class="nav-link" data-scroll-target="#replication-timeline">Replication Timeline</a></li>
+  <li><a href="#what-does-a-ground-zero-factory-produce-for-a-new-factory" id="toc-what-does-a-ground-zero-factory-produce-for-a-new-factory" class="nav-link" data-scroll-target="#what-does-a-ground-zero-factory-produce-for-a-new-factory">What Does a Ground Zero Factory Produce for a New Factory?</a></li>
+  </ul></li>
+  <li><a href="#phase-2-infrastructure-deployment-months-6-7" id="toc-phase-2-infrastructure-deployment-months-6-7" class="nav-link" data-scroll-target="#phase-2-infrastructure-deployment-months-6-7">Phase 2: Infrastructure Deployment (Months 6-7)</a>
+  <ul class="collapse">
+  <li><a href="#timeline-for-1000-mass-drivers-1-km-baseline" id="toc-timeline-for-1000-mass-drivers-1-km-baseline" class="nav-link" data-scroll-target="#timeline-for-1000-mass-drivers-1-km-baseline">Timeline for 1,000 Mass Drivers (1 km baseline)</a></li>
+  <li><a href="#robot-deployment" id="toc-robot-deployment" class="nav-link" data-scroll-target="#robot-deployment">Robot Deployment</a></li>
+  </ul></li>
+  <li><a href="#phase-3-mirror-production-months-7-114" id="toc-phase-3-mirror-production-months-7-114" class="nav-link" data-scroll-target="#phase-3-mirror-production-months-7-114">Phase 3: Mirror Production (Months 7-114)</a>
+  <ul class="collapse">
+  <li><a href="#timeline-for-1-billion-mirrors" id="toc-timeline-for-1-billion-mirrors" class="nav-link" data-scroll-target="#timeline-for-1-billion-mirrors">Timeline for 1 Billion Mirrors</a></li>
+  </ul></li>
+  <li><a href="#resource-allocation-by-phase" id="toc-resource-allocation-by-phase" class="nav-link" data-scroll-target="#resource-allocation-by-phase">Resource Allocation by Phase</a></li>
+  <li><a href="#phase-0-critical-path-1-km-baseline" id="toc-phase-0-critical-path-1-km-baseline" class="nav-link" data-scroll-target="#phase-0-critical-path-1-km-baseline">Phase 0 Critical Path (1 km baseline)</a></li>
+  <li><a href="#bottlenecks-and-risks" id="toc-bottlenecks-and-risks" class="nav-link" data-scroll-target="#bottlenecks-and-risks">Bottlenecks and Risks</a></li>
+  <li><a href="#bottleneck-vitamins-delivery" id="toc-bottleneck-vitamins-delivery" class="nav-link" data-scroll-target="#bottleneck-vitamins-delivery">Bottleneck: “Vitamins” Delivery</a>
+  <ul class="collapse">
+  <li><a href="#theoretical-vs-practical-growth-rate" id="toc-theoretical-vs-practical-growth-rate" class="nav-link" data-scroll-target="#theoretical-vs-practical-growth-rate">Theoretical vs Practical Growth Rate</a></li>
+  <li><a href="#bottleneck-calculation" id="toc-bottleneck-calculation" class="nav-link" data-scroll-target="#bottleneck-calculation">Bottleneck Calculation</a></li>
+  <li><a href="#optimization-strategies" id="toc-optimization-strategies" class="nav-link" data-scroll-target="#optimization-strategies">Optimization Strategies</a></li>
+  </ul></li>
+  <li><a href="#material-balance-of-self-replication" id="toc-material-balance-of-self-replication" class="nav-link" data-scroll-target="#material-balance-of-self-replication">Material Balance of Self-Replication</a></li>
+  <li><a href="#system-performance" id="toc-system-performance" class="nav-link" data-scroll-target="#system-performance">System Performance</a>
+  <ul class="collapse">
+  <li><a href="#after-phase-1-1000-factories" id="toc-after-phase-1-1000-factories" class="nav-link" data-scroll-target="#after-phase-1-1000-factories">After Phase 1 (1,000 factories)</a></li>
+  </ul></li>
+  <li><a href="#final-numbers" id="toc-final-numbers" class="nav-link" data-scroll-target="#final-numbers">Final Numbers</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Factory Self-Replication</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<ul>
+<li><strong>Concept:</strong> Each factory builds new factories from local materials</li>
+<li><strong>Rate:</strong> Self-replication in ~3 weeks/factory, but practical growth 1 → 1000 takes ~4 years (bottleneck: “Vitamins” delivery from Earth)</li>
+<li><strong>Key:</strong> Energy independence (168 MW from day one)</li>
+<li><strong>Phases:</strong> Bootstrap (2 months) → Factory Growth (4 months) → Infrastructure (1 month) → Mirrors (9 years)</li>
+</ul>
+</blockquote>
+<hr>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Self-replication is a factory’s ability to produce copies of itself. This is the key technology for achieving exponential growth of production capacity on Mercury.</p>
+<hr>
+</section>
+<section id="energy-bootstrap-phase-0" class="level2">
+<h2 class="anchored" data-anchor-id="energy-bootstrap-phase-0">Energy Bootstrap (Phase 0)</h2>
+<p><strong>Problem:</strong> How to start production without energy from the Dyson Swarm?</p>
+<p><strong>Solution:</strong> 3 cargo runs of GaAs panels provide <strong>168 MW</strong> — a <strong>113 MW</strong> surplus above the first factory’s consumption (55 MW).</p>
+<section id="energy-reserve-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="energy-reserve-calculation">Energy Reserve Calculation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 factory consumption</td>
+<td>55 MW</td>
+</tr>
+<tr class="even">
+<td>Available (3 GaAs runs)</td>
+<td>168 MW</td>
+</tr>
+<tr class="odd">
+<td><strong>Reserve</strong></td>
+<td><strong>113 MW</strong></td>
+</tr>
+<tr class="even">
+<td>Supports</td>
+<td>2-3 additional factories</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> The factory is energy-independent from day one. No need to wait for the Dyson Swarm to begin replication.</p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/summaries/production.html#energy">Production</a></p>
+<hr>
+</section>
+</section>
+<section id="phase-0-first-mass-driver-month-0-1" class="level2">
+<h2 class="anchored" data-anchor-id="phase-0-first-mass-driver-month-0-1">Phase 0: First Mass Driver (Month 0-1)</h2>
+<p>Before factory replication, we need to build the first Mass Driver for launching mirrors.</p>
+<section id="first-mass-driver-timeline-1-km-baseline" class="level3">
+<h3 class="anchored" data-anchor-id="first-mass-driver-timeline-1-km-baseline">First Mass Driver Timeline (1 km baseline)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mass Driver mass</td>
+<td><strong>450 tons</strong>*</td>
+</tr>
+<tr class="even">
+<td>Al production</td>
+<td>42 t/day</td>
+</tr>
+<tr class="odd">
+<td>Fe production</td>
+<td>18 t/day</td>
+</tr>
+<tr class="even">
+<td>Time for Al (~170 t)</td>
+<td><strong>4 days</strong></td>
+</tr>
+<tr class="odd">
+<td>Time for Fe (~270 t)</td>
+<td><strong>15 days</strong></td>
+</tr>
+<tr class="even">
+<td>Assembly and testing</td>
+<td>5-7 days</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL first Mass Driver (1 km)</strong></td>
+<td><strong>~25 days</strong></td>
+</tr>
+</tbody>
+</table>
+<p>*Baseline 1 km variant. For extended 2-3 km tracks: mass 875-1,300 t, time 40-60 days.</p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/overview.html">Mass Driver Production</a></p>
+<hr>
+</section>
+<section id="mini-swarm-for-mercury-energy" class="level3">
+<h3 class="anchored" data-anchor-id="mini-swarm-for-mercury-energy">Mini-Swarm for Mercury Energy</h3>
+<p>After launching the first Mass Driver, we build a minimal set of mirrors to power new factories.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 mirror reflects</td>
+<td>93 MW</td>
+</tr>
+<tr class="even">
+<td>Needed for 10 factories</td>
+<td>550 MW</td>
+</tr>
+<tr class="odd">
+<td>Energy transmission efficiency</td>
+<td>~10%</td>
+</tr>
+<tr class="even">
+<td>Required reflected power</td>
+<td>5.5 GW = 60 mirrors</td>
+</tr>
+<tr class="odd">
+<td>With 10x margin</td>
+<td><strong>600 mirrors</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Producing 600 mirrors:</strong> The first Ground Zero Factory can produce mirrors on the rolling mill (foil) with manual assembly, though not optimized for this. Estimate: ~50 mirrors/day → <strong>~12 days</strong> for 600 units.</p>
+<p><strong>Logic:</strong> 600 mirrors power 10 factories. This is sufficient for Phase 1 (growth to 1,000 factories over 4 months).</p>
+<hr>
+</section>
+</section>
+<section id="phase-1-exponential-factory-growth-months-2-6" class="level2">
+<h2 class="anchored" data-anchor-id="phase-1-exponential-factory-growth-months-2-6">Phase 1: Exponential Factory Growth (Months 2-6)</h2>
+<p><a href="../../../../../en/science/detailed/factories/overview.html#ground-zero-factory">Replicator factories (Ground Zero Factory)</a> build new factories. First — new Ground Zero Factories (for exponential growth), then — <a href="../../../../../en/science/detailed/factories/overview.html#mirror-factory">mirror factories</a> (for mirror production). At 100% Ground Zero Factory allocation to replication:</p>
+<section id="replication-timeline" class="level3">
+<h3 class="anchored" data-anchor-id="replication-timeline">Replication Timeline</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Factories</th>
+<th>Growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>2</td>
+<td>+1</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>4</td>
+<td>+2</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>16</td>
+<td>+12</td>
+</tr>
+<tr class="odd">
+<td>16</td>
+<td>~1,000</td>
+<td>+984</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Doubling time:</strong> ~3 weeks (at 50% allocation to replication)</p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/scaling.html">Production Scaling</a></p>
+<hr>
+</section>
+<section id="what-does-a-ground-zero-factory-produce-for-a-new-factory" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-a-ground-zero-factory-produce-for-a-new-factory">What Does a Ground Zero Factory Produce for a New Factory?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Mass</th>
+<th>Time</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dome (8 t)</td>
+<td>8 t</td>
+<td>2-3 days</td>
+<td><a href="../../../../../en/science/detailed/factories/assembly/domes.html">Dome Assembly</a></td>
+</tr>
+<tr class="even">
+<td>Equipment (51 t)</td>
+<td>51 t</td>
+<td>10-15 days</td>
+<td><a href="../../../../../en/science/detailed/factories/assembly/equipment.html">Equipment Production</a></td>
+</tr>
+<tr class="odd">
+<td>Robots (15 units x 960 kg)</td>
+<td>14 t</td>
+<td>3 days</td>
+<td><a href="../../../../../en/science/detailed/robots/overview.html">Robot Production</a></td>
+</tr>
+<tr class="even">
+<td>Energy system (panels)</td>
+<td>10 t</td>
+<td>5 days</td>
+<td><a href="../../../../../en/science/summaries/production.html#energy">Production</a></td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL</strong></td>
+<td><strong>~83 t</strong></td>
+<td><strong>~3 weeks</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Growth Strategy:</strong></p>
+<ol type="1">
+<li><strong>Exponential growth phase:</strong> All Ground Zero Factories at 100% build new Ground Zero Factories (doubling every 3 weeks)</li>
+<li><strong>Switch to mirror factories:</strong> After reaching target Ground Zero Factory count (~100 units) — transition to building mirror factories</li>
+<li><strong>Mirror factories are simpler:</strong> No WAAM/CNC, cutting table, or assembly jigs needed → equipment kit is lighter and faster to manufacture</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="phase-2-infrastructure-deployment-months-6-7" class="level2">
+<h2 class="anchored" data-anchor-id="phase-2-infrastructure-deployment-months-6-7">Phase 2: Infrastructure Deployment (Months 6-7)</h2>
+<p>After reaching 1,000 factories, focus shifts to building Mass Drivers.</p>
+<section id="timeline-for-1000-mass-drivers-1-km-baseline" class="level3">
+<h3 class="anchored" data-anchor-id="timeline-for-1000-mass-drivers-1-km-baseline">Timeline for 1,000 Mass Drivers (1 km baseline)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factories</td>
+<td>1,000</td>
+</tr>
+<tr class="even">
+<td>Al production</td>
+<td>42 t/day x 1,000 = 42,000 t/day</td>
+</tr>
+<tr class="odd">
+<td>Fe production</td>
+<td>18 t/day x 1,000 = 18,000 t/day</td>
+</tr>
+<tr class="even">
+<td>Mass of 1 Mass Driver (1 km)</td>
+<td><strong>450 t</strong> (170 t Al + 270 t Fe)</td>
+</tr>
+<tr class="odd">
+<td>Materials for 1,000 Mass Drivers</td>
+<td>450,000 t</td>
+</tr>
+<tr class="even">
+<td>Time for 1,000 Mass Drivers</td>
+<td><strong>~15 days</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> 1,000 factories build 1,000 Mass Drivers in <strong>~2 weeks</strong> (1 km baseline track).</p>
+<p>*For 3 km tracks: mass 1,300 t, time ~30 days.</p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/overview.html">Mass Driver Production</a></p>
+<hr>
+</section>
+<section id="robot-deployment" class="level3">
+<h3 class="anchored" data-anchor-id="robot-deployment">Robot Deployment</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factories</td>
+<td>1,000</td>
+</tr>
+<tr class="even">
+<td>Robots per factory</td>
+<td>60 (20 Moles, 20 Crabs, 20 Centaurs)</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL robots</strong></td>
+<td><strong>60,000</strong></td>
+</tr>
+<tr class="even">
+<td>Robot production</td>
+<td>5 robots/day x 1,000 factories = 5,000 robots/day</td>
+</tr>
+<tr class="odd">
+<td>Time for 60,000 robots</td>
+<td><strong>~12 days</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="phase-3-mirror-production-months-7-114" class="level2">
+<h2 class="anchored" data-anchor-id="phase-3-mirror-production-months-7-114">Phase 3: Mirror Production (Months 7-114)</h2>
+<p>After infrastructure deployment, all 1,000 factories switch to mirror production.</p>
+<section id="timeline-for-1-billion-mirrors" class="level3">
+<h3 class="anchored" data-anchor-id="timeline-for-1-billion-mirrors">Timeline for 1 Billion Mirrors</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factories</td>
+<td>1,000</td>
+</tr>
+<tr class="even">
+<td>Mirrors/day per factory</td>
+<td>~392</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL mirrors/day</strong></td>
+<td><strong>~392,000</strong></td>
+</tr>
+<tr class="even">
+<td>Target</td>
+<td>1 billion mirrors</td>
+</tr>
+<tr class="odd">
+<td>Time</td>
+<td><strong>~2,555 days (~7 years)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Details:</strong> <a href="../../../../../en/science/summaries/mirrors.html">Dyson Swarm Mirrors</a></p>
+<hr>
+</section>
+</section>
+<section id="resource-allocation-by-phase" class="level2">
+<h2 class="anchored" data-anchor-id="resource-allocation-by-phase">Resource Allocation by Phase</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">gantt
+    title Deployment Phases (months) — 1 km baseline
+    dateFormat  YYYY-MM
+    section Phase 0: Bootstrap
+    First Mass Driver (~25 days)      :2025-01, 25d
+    600 mirrors (2 days)              :2025-02, 2d
+    section Phase 1: Factory Growth
+    Replication 1→1000                :2025-02, 120d
+    section Phase 2: Infrastructure
+    1000 Mass Drivers                 :2025-06, 15d
+    60,000 robots                     :2025-06, 12d
+    section Phase 3: Mirrors
+    Production of 1 billion mirrors   :2025-07, 2555d
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="phase-0-critical-path-1-km-baseline" class="level2">
+<h2 class="anchored" data-anchor-id="phase-0-critical-path-1-km-baseline">Phase 0 Critical Path (1 km baseline)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 38%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Day</th>
+<th>Stage</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-7</td>
+<td>Factory deployment</td>
+<td>Blitz assembly (Gen-1 robots)</td>
+</tr>
+<tr class="even">
+<td>8-25</td>
+<td>First Mass Driver production</td>
+<td>Fe 15 days, Al 4 days, assembly 5-7 days</td>
+</tr>
+<tr class="odd">
+<td>26-27</td>
+<td>600 mirrors production</td>
+<td>392 mirrors/day x 1.5 days</td>
+</tr>
+<tr class="even">
+<td>28+</td>
+<td>Mini-Swarm launch</td>
+<td>Energy to Mercury (550 MW)</td>
+</tr>
+</tbody>
+</table>
+<p>*For 3 km track: days 8-60, first launch on day ~62.</p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/summaries/roadmap.html">Roadmap</a></p>
+<hr>
+</section>
+<section id="bottlenecks-and-risks" class="level2">
+<h2 class="anchored" data-anchor-id="bottlenecks-and-risks">Bottlenecks and Risks</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 21%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Bottleneck</th>
+<th>Risk</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Energy for first factories</td>
+<td>Energy shortage during replication</td>
+<td>Mini-Swarm of 600 mirrors powers 10 factories</td>
+</tr>
+<tr class="even">
+<td>“Vitamins” import</td>
+<td>Electronics, rare metals</td>
+<td>Regular runs from Earth (once per 3 months)</td>
+</tr>
+<tr class="odd">
+<td>Gen-1 robot failures</td>
+<td>Fragile titanium robots</td>
+<td>Quick transition to Gen-2 (local Fe/Al)</td>
+</tr>
+<tr class="even">
+<td>Equipment wear</td>
+<td>Continuous caster, rolling mill</td>
+<td>Spare parts in first expedition</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="bottleneck-vitamins-delivery" class="level2">
+<h2 class="anchored" data-anchor-id="bottleneck-vitamins-delivery">Bottleneck: “Vitamins” Delivery</h2>
+<section id="theoretical-vs-practical-growth-rate" class="level3">
+<h3 class="anchored" data-anchor-id="theoretical-vs-practical-growth-rate">Theoretical vs Practical Growth Rate</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 37%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Theoretical</th>
+<th>Practical</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Self-replication rate</td>
+<td>1 factory → 2 factories in 3 weeks</td>
+<td>Same (local materials)</td>
+</tr>
+<tr class="even">
+<td>Growth 1 → 1,000</td>
+<td><strong>~4 months</strong> (exponential)</td>
+<td><strong>~4 years</strong> (delivery-limited)</td>
+</tr>
+<tr class="odd">
+<td>Bottleneck</td>
+<td>None (with “Vitamins” available)</td>
+<td><strong>“Vitamins” delivery from Earth</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bottleneck-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="bottleneck-calculation">Bottleneck Calculation</h3>
+<p><strong>“Vitamins” requirements:</strong> - Per factory: ~2 t (electronics, Cu, rare earths) - For 1,000 factories: <strong>2,000 t</strong></p>
+<p><strong>Delivery constraints:</strong> - Flight time Earth → Mercury: 3-12 months - Launch rate: 200-275 launches/year (peak capacity of all spaceports) - Payload capacity: 30-70 t/launch on Mercury trajectory</p>
+<p><strong>Realistic scenario</strong> (from <a href="../../../../../en/science/summaries/delivery.html">delivery.qmd</a>): - Year 7: 25 factories (800 t cargo, 16-32 launches) - Year 8: 120 factories (2,200 t, 44-88 launches) - Year 9: 500 factories (7,200 t, 144-288 launches) - Year 10: 1,000 factories (11,600 t, 232-464 launches)</p>
+<p><strong>Conclusion:</strong> Exponential growth 1 → 1,000 in 4 months is TECHNICALLY possible (local materials available), but LOGISTICALLY constrained by “Vitamins” delivery and stretches to ~4 years.</p>
+</section>
+<section id="optimization-strategies" class="level3">
+<h3 class="anchored" data-anchor-id="optimization-strategies">Optimization Strategies</h3>
+<p><strong>Option 1: Pre-staging “Vitamins”</strong> - Send 3,000 t of “Vitamins” BEFORE growth begins - Requires ~100 launches in the year before replication starts - Enables theoretical 4-month pace - <strong>Problem:</strong> Too large an upfront investment</p>
+<p><strong>Option 2: Parallel Delivery (baseline scenario)</strong> - Factory growth synchronized with “Vitamins” delivery - ~4 years from 1 to 1,000 factories - ~2,400 t total cargo (thanks to 96% localization) - <strong>Advantage:</strong> Investment distributed over time</p>
+<p><strong>Option 3: Hybrid</strong> - First 100 factories: rapid growth (pre-stage “Vitamins”) - Then: synchronize with delivery - <strong>Compromise:</strong> 1 → 100 in ~1 year, 100 → 1,000 in 3 years</p>
+<hr>
+</section>
+</section>
+<section id="material-balance-of-self-replication" class="level2">
+<h2 class="anchored" data-anchor-id="material-balance-of-self-replication">Material Balance of Self-Replication</h2>
+<p><strong>Material consumption (1 factory over 3 weeks):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Material</th>
+<th>Consumption</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aluminum (Al)</td>
+<td>~50 t</td>
+<td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
+</tr>
+<tr class="even">
+<td>Iron (Fe)</td>
+<td>~30 t</td>
+<td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
+</tr>
+<tr class="odd">
+<td>Silicon (Si)</td>
+<td>~10 t</td>
+<td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
+</tr>
+<tr class="even">
+<td>Imports (electronics, Cu)</td>
+<td>~2 t</td>
+<td><strong>Earth</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Localization:</strong> ~97% by mass</p>
+<hr>
+</section>
+<section id="system-performance" class="level2">
+<h2 class="anchored" data-anchor-id="system-performance">System Performance</h2>
+<section id="after-phase-1-1000-factories" class="level3">
+<h3 class="anchored" data-anchor-id="after-phase-1-1000-factories">After Phase 1 (1,000 factories)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Al production</td>
+<td>42,000 t/day</td>
+</tr>
+<tr class="even">
+<td>Fe production</td>
+<td>18,000 t/day</td>
+</tr>
+<tr class="odd">
+<td>Mirror production</td>
+<td>~392,000 units/day</td>
+</tr>
+<tr class="even">
+<td>Robot production</td>
+<td>5,000 units/day</td>
+</tr>
+<tr class="odd">
+<td>Energy consumption</td>
+<td>55 GW (55 MW x 1,000)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Energy supply:</strong> 600 mini-Swarm mirrors are insufficient. Continuous Swarm expansion is required in parallel with factory growth.</p>
+<hr>
+</section>
+</section>
+<section id="final-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="final-numbers">Final Numbers</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 25%">
+<col style="width: 36%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Timeline (practical)</th>
+<th>Factories/Mass Drivers/Robots</th>
+<th><strong>MIRRORS</strong> (main goal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Phase 0</strong></td>
+<td>2 months</td>
+<td>1 factory + 1 Mass Driver</td>
+<td><strong>600 mirrors</strong> (energy for growth)</td>
+</tr>
+<tr class="even">
+<td><strong>Phase 1</strong></td>
+<td><strong>~4 years</strong></td>
+<td>1 → 1,000 factories</td>
+<td><strong>~30M mirrors</strong> (50% capacity on replication, 50% on mirrors)</td>
+</tr>
+<tr class="odd">
+<td><strong>Phase 2</strong></td>
+<td>1-2 months</td>
+<td>1,000 Mass Drivers + 60,000 robots</td>
+<td><strong>~25M mirrors</strong> (parallel with Mass Drivers)</td>
+</tr>
+<tr class="even">
+<td><strong>Phase 3</strong></td>
+<td>~7 years</td>
+<td>Infrastructure ready</td>
+<td><strong>~945M mirrors</strong> (100% capacity on mirrors)</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL</strong></td>
+<td><strong>~11 years</strong></td>
+<td>Full infrastructure</td>
+<td><strong>~1 billion mirrors in Dyson Swarm</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key point:</strong> Mirrors are the MAIN GOAL of the project. They are produced <strong>from the very beginning</strong>, not just in Phase 3: - <strong>Phase 1:</strong> Factories grow AND produce mirrors (50/50 allocation) - <strong>Phase 2:</strong> Build Mass Drivers AND continue producing mirrors - <strong>Phase 3:</strong> ALL capacity (100%) on mirror production</p>
+<p><strong>Note:</strong> Phase 1 stretches from 4 months (theoretical) to 4 years (practical) due to the bottleneck — “Vitamins” delivery (electronics, rare materials) from Earth. The self-replication rate (~3 weeks per factory) is limited not by local materials, but by import logistics.</p>
+<p><strong>Phase 1 mirror calculation:</strong> - Average factories during growth: ~500 (from 1 to 1,000) - Output: 500 factories x 210 mirrors/day x 50% = ~52,500 mirrors/day - Over 4 years (1,460 days): ~52,500 x 1,460 = <strong>~76M mirrors</strong> (more precise calculation)</p>
+<hr>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="../../../../../en/science/detailed/factories/overview.html">Factory Production</a> — production overview</li>
+<li><a href="../../../../../en/science/detailed/factories/assembly/equipment.html">Equipment Production</a> — kit for a new factory</li>
+<li><a href="../../../../../en/science/detailed/factories/assembly/domes.html">Dome Assembly</a> — factory shells</li>
+<li><a href="../../../../../en/science/detailed/railguns/scaling.html">Scaling</a> — detailed growth calculations</li>
+<li><a href="../../../../../en/science/summaries/roadmap.html">Roadmap</a> — project phases</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

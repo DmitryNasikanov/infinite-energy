@@ -302,35 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
 </head>
@@ -391,7 +362,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/summaries/comparison.html">Сводные статьи</a></li><li class="breadcrumb-item"><a href="../../../ru/science/summaries/moon.html">Луна</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/summaries/roadmap.html">Сводные статьи</a></li><li class="breadcrumb-item"><a href="../../../ru/science/summaries/moon.html">Луна</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -426,14 +397,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Почему Меркурий?</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Луна</span></a>
+  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -444,8 +409,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Дорожная карта</span></a>
+  <a href="../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -467,32 +456,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/mirrors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Зеркала Роя</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Хаб приёма энергии</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/delivery.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство</span></a>
+  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Сборка первого завода (Bootstrap)</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
- <span class="menu-text">Производство</span></a>
+ <span class="menu-text">Переработка реголита</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -500,64 +477,49 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Навигация</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Переработка реголита</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Обзор</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/mre.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/mre.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Электролиз MRE</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/distillation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/distillation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Дистилляция шлака</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Стекловолокно</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/titanium.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/titanium.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Линия титана</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/carbon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/carbon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Углерод (опц.)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/silicon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/silicon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Кремний</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Керамика MgO</span></a>
   </div>
 </li>
@@ -565,8 +527,23 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -574,46 +551,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Обзор</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Первый завод (Bootstrap)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
- <span class="menu-text">Элементы</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth4 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Плавка</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Литье (МНЛЗ)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Прокат</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3D-печать (WAAM)</span></a>
   </div>
 </li>
@@ -621,28 +577,28 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Сборка</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth4 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Купола</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Оборудование</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Саморепликация</span></a>
   </div>
 </li>
@@ -652,8 +608,35 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство МД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Теория и КПД</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масштабирование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -661,46 +644,19 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
- <span class="menu-text">Элементы МД</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth4 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Рельсы</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Катушки</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Каркас</span></a>
   </div>
 </li>
@@ -708,28 +664,28 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
  <span class="menu-text">Сборка МД</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth4 ">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Трек</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Электроника</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Тестирование</span></a>
   </div>
 </li>
@@ -739,8 +695,23 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
  <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ru/science/detailed/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -748,34 +719,19 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Обзор</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
- <span class="menu-text">Элементы</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth4 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Рамы</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Батареи (NaS)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Актуаторы</span></a>
   </div>
 </li>
@@ -783,28 +739,28 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
  <span class="menu-text">Сборка роботов</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth4 ">  
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Краб-М</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Кентавр-М</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/production/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../ru/science/detailed/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Крот-М</span></a>
   </div>
 </li>
@@ -814,17 +770,15 @@ window.Quarto = {
   </li>
       </ul>
   </li>
-      </ul>
-  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
  <span class="menu-text">Справочники</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
@@ -867,24 +821,20 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lunar-solar-power" id="toc-lunar-solar-power" class="nav-link active" data-scroll-target="#lunar-solar-power">Lunar Solar Power (LSP)</a>
+  <li><a href="#зачем-луна" id="toc-зачем-луна" class="nav-link active" data-scroll-target="#зачем-луна">Зачем Луна?</a>
   <ul class="collapse">
-  <li><a href="#схема-передачи" id="toc-схема-передачи" class="nav-link" data-scroll-target="#схема-передачи">Схема передачи</a></li>
-  <li><a href="#почему-луна-а-не-орбитальный-хаб" id="toc-почему-луна-а-не-орбитальный-хаб" class="nav-link" data-scroll-target="#почему-луна-а-не-орбитальный-хаб">Почему Луна, а не орбитальный Хаб?</a></li>
-  <li><a href="#кпд-передачи-энергии" id="toc-кпд-передачи-энергии" class="nav-link" data-scroll-target="#кпд-передачи-энергии">КПД передачи энергии</a></li>
-  <li><a href="#геометрия-почему-лимбы" id="toc-геометрия-почему-лимбы" class="nav-link" data-scroll-target="#геометрия-почему-лимбы">Геометрия: почему лимбы?</a></li>
-  <li><a href="#цикл-работы-лимбов" id="toc-цикл-работы-лимбов" class="nav-link" data-scroll-target="#цикл-работы-лимбов">Цикл работы лимбов</a></li>
-  <li><a href="#непрерывность-энергоснабжения" id="toc-непрерывность-энергоснабжения" class="nav-link" data-scroll-target="#непрерывность-энергоснабжения">Непрерывность энергоснабжения</a></li>
-  <li><a href="#rectenna-на-земле" id="toc-rectenna-на-земле" class="nav-link" data-scroll-target="#rectenna-на-земле">Rectenna на Земле</a></li>
-  <li><a href="#безопасность-микроволн" id="toc-безопасность-микроволн" class="nav-link" data-scroll-target="#безопасность-микроволн">Безопасность микроволн</a></li>
+  <li><a href="#преимущества-полигона-на-луне" id="toc-преимущества-полигона-на-луне" class="nav-link" data-scroll-target="#преимущества-полигона-на-луне">Преимущества полигона на Луне</a></li>
   </ul></li>
-  <li><a href="#содержание-план" id="toc-содержание-план" class="nav-link" data-scroll-target="#содержание-план">Содержание (план)</a>
-  <ul class="collapse">
-  <li><a href="#зачем-луна" id="toc-зачем-луна" class="nav-link" data-scroll-target="#зачем-луна">Зачем Луна?</a></li>
   <li><a href="#полигон-годы-4-6" id="toc-полигон-годы-4-6" class="nav-link" data-scroll-target="#полигон-годы-4-6">Полигон (годы 4-6)</a></li>
   <li><a href="#тестовый-масс-драйвер" id="toc-тестовый-масс-драйвер" class="nav-link" data-scroll-target="#тестовый-масс-драйвер">Тестовый масс-драйвер</a></li>
   <li><a href="#энергия-для-луны" id="toc-энергия-для-луны" class="nav-link" data-scroll-target="#энергия-для-луны">Энергия для Луны</a></li>
+  <li><a href="#lsp-станции" id="toc-lsp-станции" class="nav-link" data-scroll-target="#lsp-станции">LSP станции</a>
+  <ul class="collapse">
+  <li><a href="#схема-передачи" id="toc-схема-передачи" class="nav-link" data-scroll-target="#схема-передачи">Схема передачи</a></li>
+  <li><a href="#почему-на-луне-а-не-на-орбите" id="toc-почему-на-луне-а-не-на-орбите" class="nav-link" data-scroll-target="#почему-на-луне-а-не-на-орбите">Почему на Луне, а не на орбите?</a></li>
+  <li><a href="#расположение-лимбы-луны" id="toc-расположение-лимбы-луны" class="nav-link" data-scroll-target="#расположение-лимбы-луны">Расположение: лимбы Луны</a></li>
   </ul></li>
+  <li><a href="#альтернатива-меркурию" id="toc-альтернатива-меркурию" class="nav-link" data-scroll-target="#альтернатива-меркурию">Альтернатива Меркурию</a></li>
   <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
   </ul>
 </nav>
@@ -892,7 +842,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/summaries/comparison.html">Сводные статьи</a></li><li class="breadcrumb-item"><a href="../../../ru/science/summaries/moon.html">Луна</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ru/science/summaries/roadmap.html">Сводные статьи</a></li><li class="breadcrumb-item"><a href="../../../ru/science/summaries/moon.html">Луна</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Луна</h1>
 </div>
@@ -911,22 +861,166 @@ window.Quarto = {
 </header>
 
 
-<p>Луна — ключевой элемент проекта. Здесь располагаются <strong>Solar Power станции (LSP)</strong>, которые принимают энергию от Роя зеркал и передают её на Землю <a href="../../../ru/science/reference/technology-readiness.html#микроволновая-передача-энергии">микроволнами</a>.</p>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong></p>
+<ul>
+<li><strong>Роль 1:</strong> Тестовый полигон перед Меркурием (годы 4-6)</li>
+<li><strong>Роль 2:</strong> LSP-станции для передачи энергии на Землю</li>
+<li><strong>Роль 3:</strong> Резервная площадка — менее рискованная альтернатива Меркурию</li>
+<li><strong>Преимущество:</strong> связь 1.3 сек (vs 8-20 мин до Меркурия), ошибки дешевле</li>
+<li><strong>Тестовый МД:</strong> 0.5-1 км, 2.5 км/с — обкатка технологии</li>
+</ul>
+</blockquote>
 <hr>
-<section id="lunar-solar-power" class="level2">
-<h2 class="anchored" data-anchor-id="lunar-solar-power">Lunar Solar Power (LSP)</h2>
-<section id="схема-передачи" class="level3">
-<h3 class="anchored" data-anchor-id="схема-передачи">Схема передачи</h3>
-<pre><code>Рой зеркал (Меркурий) → Свет на Луну → PV станции → Микроволны → Земля</code></pre>
-</section>
-<section id="почему-луна-а-не-орбитальный-хаб" class="level3">
-<h3 class="anchored" data-anchor-id="почему-луна-а-не-орбитальный-хаб">Почему Луна, а не орбитальный Хаб?</h3>
+<section id="зачем-луна" class="level2">
+<h2 class="anchored" data-anchor-id="зачем-луна">Зачем Луна?</h2>
+<p>Луна выполняет <strong>три роли</strong> в проекте:</p>
+<ol type="1">
+<li><strong>Тестовый полигон</strong> (годы 4-6) — отработка технологий перед Меркурием</li>
+<li><strong>LSP-станции</strong> (годы 6+) — приём энергии от Роя и передача на Землю</li>
+<li><strong>Резервная площадка</strong> — менее рискованная альтернатива Меркурию</li>
+</ol>
+<section id="преимущества-полигона-на-луне" class="level3">
+<h3 class="anchored" data-anchor-id="преимущества-полигона-на-луне">Преимущества полигона на Луне</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Параметр</th>
-<th>Орбитальный Хаб (L1)</th>
-<th>Луна (LSP)</th>
+<th>Луна</th>
+<th>Меркурий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Задержка связи</td>
+<td><strong>1.3 сек</strong></td>
+<td>8-20 мин</td>
+</tr>
+<tr class="even">
+<td>Доставка грузов</td>
+<td>3 дня</td>
+<td>Месяцы</td>
+</tr>
+<tr class="odd">
+<td>Стоимость ошибки</td>
+<td>Низкая</td>
+<td>Высокая</td>
+</tr>
+<tr class="even">
+<td>Возврат образцов</td>
+<td>Возможен</td>
+<td>Сложен</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Вывод:</strong> Ошибки на Луне дешевле. Лучше отладить технологии здесь.</p>
+<hr>
+</section>
+</section>
+<section id="полигон-годы-4-6" class="level2">
+<h2 class="anchored" data-anchor-id="полигон-годы-4-6">Полигон (годы 4-6)</h2>
+<p>Роботы учатся работать в космосе:</p>
+<ul>
+<li><strong>Добыча:</strong> экскаваторы Крот-М копают реголит</li>
+<li><strong>Плавка:</strong> MRE электролиз для получения металлов</li>
+<li><strong>Строительство:</strong> WAAM 3D-печать, сборка конструкций</li>
+<li><strong>Энергия:</strong> развёртывание солнечных панелей</li>
+</ul>
+<p><strong>Опыт переносится:</strong> Роботы, отработанные на Луне, адаптируются для Меркурия. Подробное сравнение условий: <a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a></p>
+<hr>
+</section>
+<section id="тестовый-масс-драйвер" class="level2">
+<h2 class="anchored" data-anchor-id="тестовый-масс-драйвер">Тестовый масс-драйвер</h2>
+<p>Прототип меркурианского МД для <strong>обкатки технологии</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Луна (тест)</th>
+<th>Меркурий</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Длина</td>
+<td>0.5-1 км</td>
+<td>2-3 км</td>
+</tr>
+<tr class="even">
+<td>Скорость</td>
+<td>2.5 км/с</td>
+<td>5 км/с</td>
+</tr>
+<tr class="odd">
+<td>Ускорение</td>
+<td>~640g</td>
+<td>1275g</td>
+</tr>
+<tr class="even">
+<td>Энергия</td>
+<td>3-4 ГДж/т</td>
+<td>12.5 ГДж/т</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Назначение:</strong> Отработка конструкции, системы охлаждения, автоматики запуска.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Историческая справка
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Изначально планировалось запускать модули лунным МД для строительства орбитального Хаба в L1. Концепция отклонена — вместо этого используем <strong>LSP станции на поверхности</strong> (КПД 18% vs 10%).</p>
+<p>Подробнее: <a href="../../../ru/science/detailed/hub.html#альтернативные-архитектуры">Хаб приёма энергии</a></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="энергия-для-луны" class="level2">
+<h2 class="anchored" data-anchor-id="энергия-для-луны">Энергия для Луны</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Фаза</th>
+<th>Источник</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Годы 4-6</td>
+<td>Солнечные панели</td>
+<td>14 дней свет / 14 дней тень</td>
+</tr>
+<tr class="even">
+<td>Годы 6+</td>
+<td>Энергия от Роя через LSP</td>
+<td>После запуска первых зеркал</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ночной период:</strong> NaS-батареи или кабели от освещённой стороны.</p>
+<hr>
+</section>
+<section id="lsp-станции" class="level2">
+<h2 class="anchored" data-anchor-id="lsp-станции">LSP станции</h2>
+<p>Луна — ключевой элемент энергомоста. Здесь располагаются <strong>Lunar Solar Power станции</strong>, которые принимают свет от Роя и передают энергию на Землю <a href="../../../ru/science/reference/technology-readiness.html#микроволновая-передача-энергии">микроволнами</a>.</p>
+<section id="схема-передачи" class="level3">
+<h3 class="anchored" data-anchor-id="схема-передачи">Схема передачи</h3>
+<pre><code>Рой зеркал → Свет на Луну → PV станции → Микроволны → Земля (rectenna)</code></pre>
+</section>
+<section id="почему-на-луне-а-не-на-орбите" class="level3">
+<h3 class="anchored" data-anchor-id="почему-на-луне-а-не-на-орбите">Почему на Луне, а не на орбите?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Орбитальный Хаб</th>
+<th>LSP на Луне</th>
 </tr>
 </thead>
 <tbody>
@@ -941,321 +1035,44 @@ window.Quarto = {
 <td>0 (тепло в грунт)</td>
 </tr>
 <tr class="odd">
-<td>Масса конструкций</td>
-<td>15 млн т на орбите</td>
-<td>На поверхности</td>
-</tr>
-<tr class="even">
 <td>Строительство</td>
 <td>Невесомость</td>
 <td>Гравитация</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Ресурсы</td>
 <td>Доставка</td>
 <td>In-situ</td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="расположение-лимбы-луны" class="level3">
+<h3 class="anchored" data-anchor-id="расположение-лимбы-луны">Расположение: лимбы Луны</h3>
+<p>Луна в приливном захвате — одна сторона всегда смотрит на Землю. Станции размещаются на <strong>лимбах</strong> (краях), откуда видны и Рой, и Земля.</p>
+<p><strong>20-40 станций</strong> на восточном и западном лимбах обеспечивают непрерывную передачу.</p>
 <blockquote class="blockquote">
-<p>Подробнее о хабе приёма энергии (LSP vs орбитальный Хаб) — <a href="../../../ru/science/detailed/hub.html">hub.qmd</a>.</p>
+<p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/hub.html">Хаб приёма энергии</a> — КПД, rectenna, безопасность микроволн</p>
 </blockquote>
-</section>
-<section id="кпд-передачи-энергии" class="level3">
-<h3 class="anchored" data-anchor-id="кпд-передачи-энергии">КПД передачи энергии</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Этап</th>
-<th>КПД</th>
-<th>Потери</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Отражение зеркал</td>
-<td>90%</td>
-<td>10%</td>
-</tr>
-<tr class="even">
-<td>Геометрия орбиты</td>
-<td>72%</td>
-<td>28%</td>
-</tr>
-<tr class="odd">
-<td>Концентрация на Луну</td>
-<td>90%</td>
-<td>10%</td>
-</tr>
-<tr class="even">
-<td>PV на лунных станциях</td>
-<td>45%</td>
-<td>55%</td>
-</tr>
-<tr class="odd">
-<td>DC → Микроволны (Klystron)</td>
-<td>90%</td>
-<td>10%</td>
-</tr>
-<tr class="even">
-<td>Передача Луна → Земля</td>
-<td>95%</td>
-<td>5%</td>
-</tr>
-<tr class="odd">
-<td>Прохождение атмосферы</td>
-<td>95%</td>
-<td>5%</td>
-</tr>
-<tr class="even">
-<td>Rectenna на Земле</td>
-<td>85%</td>
-<td>15%</td>
-</tr>
-<tr class="odd">
-<td><strong>Общий КПД</strong></td>
-<td><strong>18%</strong></td>
-<td><strong>82%</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Расчёт:</strong> <span class="math inline">\(\eta = 0.90 \times 0.72 \times 0.90 \times 0.45 \times 0.90 \times 0.95 \times 0.95 \times 0.85 = 0.18\)</span></p>
-<hr>
-</section>
-<section id="геометрия-почему-лимбы" class="level3">
-<h3 class="anchored" data-anchor-id="геометрия-почему-лимбы">Геометрия: почему лимбы?</h3>
-<p>Луна в <strong>приливном захвате</strong> — одна сторона всегда смотрит на Землю. Это создаёт проблему для размещения станций:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Позиция</th>
-<th>Видит Рой?</th>
-<th>Видит Землю?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Ближняя сторона</td>
-<td>Частично</td>
-<td>Да</td>
-</tr>
-<tr class="even">
-<td>Дальняя сторона</td>
-<td>Да</td>
-<td>Нет</td>
-</tr>
-<tr class="odd">
-<td><strong>Лимбы (края)</strong></td>
-<td><strong>Да</strong></td>
-<td><strong>Да</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Решение <a href="https://www.researchgate.net/publication/329718124_Solar_Power_via_the_Moon_2002">Criswell</a>:</strong> 20-40 станций на восточном и западном лимбах.</p>
-<pre><code>Вид с полюса:
-                    ВОСТОЧНЫЙ
-                      ЛИМБ
-                       ●
-                      /│\
-                     / │ \
-    К РОЮ ←────────●──┼──●────────→ К ЗЕМЛЕ
-     (свет)        │  │  │         (микроволны)
-                   │  │  │
-                    \ │ /
-                     \│/
-                      ●
-                    ЗАПАДНЫЙ
-                      ЛИМБ</code></pre>
-</section>
-<section id="цикл-работы-лимбов" class="level3">
-<h3 class="anchored" data-anchor-id="цикл-работы-лимбов">Цикл работы лимбов</h3>
-<p>Лунный месяц (29.5 дней) определяет, какой лимб работает:</p>
-<pre><code>├── Неделя 1-2: Западный лимб освещён → работает
-├── Неделя 3-4: Восточный лимб освещён → работает
-└── Переход: 1-2 дня перекрытия, работают оба</code></pre>
-<p><strong>Результат:</strong> Непрерывная передача энергии с минимальными провалами.</p>
-<hr>
-</section>
-<section id="непрерывность-энергоснабжения" class="level3">
-<h3 class="anchored" data-anchor-id="непрерывность-энергоснабжения">Непрерывность энергоснабжения</h3>
-<p>Луна видна из любой точки Земли ~12 часов. Решение — <strong>глобальная сеть rectenna</strong>:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Время UTC</th>
-<th>Луна над</th>
-<th>Активная rectenna</th>
-<th>Энергия идёт в</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>00:00</td>
-<td>Тихий океан</td>
-<td>Австралия</td>
-<td>Азия</td>
-</tr>
-<tr class="even">
-<td>06:00</td>
-<td>Индия</td>
-<td>Гоби (Китай)</td>
-<td>Азия, Европа</td>
-</tr>
-<tr class="odd">
-<td>12:00</td>
-<td>Африка</td>
-<td>Сахара</td>
-<td>Европа, Америка</td>
-</tr>
-<tr class="even">
-<td>18:00</td>
-<td>Атлантика</td>
-<td>Атакама (Чили)</td>
-<td>Америка</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Принцип:</strong> Rectenna принимает → HVDC кабели передают в глобальную сеть → потребители получают непрерывно.</p>
-<p><strong>Буферизация:</strong> Батареи на 1-2 часа сглаживают переходы между rectenna.</p>
-<p><strong>Преимущество перед солнечной:</strong> Луна видна и днём, и ночью — проще обеспечить непрерывность, чем с традиционными СЭС.</p>
-<hr>
-</section>
-<section id="rectenna-на-земле" class="level3">
-<h3 class="anchored" data-anchor-id="rectenna-на-земле">Rectenna на Земле</h3>
-<p>Для приёма микроволн нужны большие антенные поля:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Площадь одной rectenna</td>
-<td>~100 км²</td>
-</tr>
-<tr class="even">
-<td>Количество</td>
-<td>4-6 (глобальная сеть)</td>
-</tr>
-<tr class="odd">
-<td>Локации</td>
-<td>Пустыни: Сахара, Гоби, Атакама, Австралия</td>
-</tr>
-<tr class="even">
-<td>Интенсивность</td>
-<td>230 Вт/м² (1/4 от солнца)</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="безопасность-микроволн" class="level3">
-<h3 class="anchored" data-anchor-id="безопасность-микроволн">Безопасность микроволн</h3>
-<p>Микроволны безопаснее лазера, но требуют зонирования:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Интенсивность на rectenna</td>
-<td>230 Вт/м²</td>
-</tr>
-<tr class="even">
-<td>Солнце в полдень</td>
-<td>1000 Вт/м²</td>
-</tr>
-<tr class="odd">
-<td>Стандарт США (рабочие)</td>
-<td>100 Вт/м²</td>
-</tr>
-<tr class="even">
-<td>Стандарт для населения</td>
-<td>10-50 Вт/м²</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Почему микроволны не греют атмосферу?</strong> N₂ и O₂ не поглощают микроволны — они прозрачны на частоте 2.45 ГГц. Микроволновая печь греет воду, а не воздух. Атмосфера пропускает 95% энергии.</p>
-<p><strong>Зонирование территории:</strong></p>
-<pre><code>┌─────────────────────────────────────┐
-│         RECTENNA (100+ км²)         │
-│  ┌───────────────────────────────┐  │
-│  │   Центр: 230 Вт/м²            │  │ ← Запретная зона
-│  │   (автоматика, нет людей)     │  │
-│  └───────────────────────────────┘  │
-│        Периферия: &lt;50 Вт/м²         │ ← Техперсонал
-└─────────────────────────────────────┘
-           Граница: &lt;10 Вт/м²           ← Безопасно для всех</code></pre>
-<p><strong>Птицы и самолёты:</strong> NASA подтвердила безопасность при &lt;230 Вт/м². Система автоматически снижает мощность при входе объектов в луч.</p>
 <hr>
 </section>
 </section>
-<section id="содержание-план" class="level2">
-<h2 class="anchored" data-anchor-id="содержание-план">Содержание (план)</h2>
-<section id="зачем-луна" class="level3">
-<h3 class="anchored" data-anchor-id="зачем-луна">Зачем Луна?</h3>
-<ul>
-<li>Тестовый полигон перед Меркурием</li>
-<li>Связь 1.3 сек (vs 8-20 мин до Меркурия)</li>
-<li>Ошибки здесь дешевле</li>
-</ul>
-</section>
-<section id="полигон-годы-4-6" class="level3">
-<h3 class="anchored" data-anchor-id="полигон-годы-4-6">Полигон (годы 4-6)</h3>
-<ul>
-<li>Отработка всех технологий в космосе</li>
-<li>Роботы учатся добывать, плавить, строить</li>
-<li>Сравнение условий: Луна vs Меркурий</li>
-</ul>
-</section>
-<section id="тестовый-масс-драйвер" class="level3">
-<h3 class="anchored" data-anchor-id="тестовый-масс-драйвер">Тестовый масс-драйвер</h3>
-<p>Прототип меркурианского МД для <strong>обкатки технологии</strong>:</p>
-<ul>
-<li>Длина: 0.5-1 км (vs 1 км на Меркурии)</li>
-<li>Ускорение: ~640g (vs 1275g на Меркурии)</li>
-<li>Скорость: 2.5 км/с</li>
-<li>Энергия: 3-4 ГДж/т (в 3-4× экономичнее)</li>
-</ul>
-<p><strong>Назначение:</strong> отработка конструкции и операций перед развёртыванием на Меркурии. Ошибки на Луне дешевле — связь 1.3 сек (vs 8-20 мин), доставка 3 дня (vs месяцы).</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Историческая справка: Строительство орбитального Хаба
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Изначально планировалось строить <strong>орбитальный Хаб в точке L1</strong> и запускать модули лунным МД. Концепция отклонена — вместо этого используем <strong>LSP станции на поверхности Луны</strong> (КПД 18% vs 10%, не нужны радиаторы в космосе).</p>
-<p>Подробнее: <a href="../../../ru/science/detailed/hub.html#альтернативные-архитектуры">Хаб приёма энергии</a></p>
-</div>
-</div>
-</section>
-<section id="энергия-для-луны" class="level3">
-<h3 class="anchored" data-anchor-id="энергия-для-луны">Энергия для Луны</h3>
-<ul>
-<li>Фаза 1: Солнечные панели (14 дней света)</li>
-<li>Фаза 2: Энергия от Роя через LSP станции</li>
-</ul>
+<section id="альтернатива-меркурию" class="level2">
+<h2 class="anchored" data-anchor-id="альтернатива-меркурию">Альтернатива Меркурию</h2>
+<p>Луна — не только полигон, но и <strong>резервный путь</strong> для всего проекта.</p>
+<p><strong>Ключевой трейдофф:</strong> Меркурий быстрее (~10 лет), Луна безопаснее (~14 лет, но дешёвые ошибки). При критическом сбое на Меркурии производство может быть полностью перенесено на Луну.</p>
+<p>Подробный анализ: <a href="../../../ru/science/summaries/comparison.html#луна-серьёзная-альтернатива">Почему Меркурий? — Луна как альтернатива</a></p>
 <hr>
-</section>
 </section>
 <section id="см.-также" class="level2">
 <h2 class="anchored" data-anchor-id="см.-также">См. также</h2>
 <ul>
-<li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL микроволновой передачи (Caltech, JAXA, ESA SOLARIS)</li>
-<li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая архитектура проекта</li>
-<li><a href="../../../ru/science/detailed/hub.html">Хаб приёма энергии</a> — LSP станции и передача на Землю</li>
-<li><a href="../../../ru/science/detailed/production.html">Производство</a> — два центра: Меркурий + Луна</li>
-<li><a href="../../../ru/science/detailed/production/railguns/theory.html">Тестовый масс-драйвер</a> — обкатка технологии</li>
 <li><a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a> — хронология лунного этапа</li>
+<li><a href="../../../ru/science/detailed/hub.html">Хаб приёма энергии</a> — LSP станции и передача на Землю</li>
 <li><a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение Луны и Меркурия</li>
+<li><a href="../../../ru/science/detailed/railguns/theory.html">Масс-драйвер</a> — теория и конструкция</li>
+<li><a href="../../../ru/science/summaries/production.html">Производство</a> — два центра: Меркурий + Луна</li>
+<li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL микроволновой передачи</li>
 </ul>
 
 
