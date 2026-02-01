@@ -8,7 +8,7 @@ sidebar: science
 > - **Purpose:** Load-bearing structure for the Mass Driver
 > - **Material:** Fe-6%Mn steel (strength + low temperature performance)
 > - **Mass:** **~270 t** (base 1 km)*
-> - **Construction:** Truss frame + concrete supports
+> - **Construction:** Truss frame + sulfur-concrete supports
 >
 > *With extension: 2 km (~535 t), 3 km (~800 t).
 
@@ -86,32 +86,37 @@ The tunnel frame is a load-bearing structure that supports the rails, coils, and
 
 ## Material Balance
 
-**Per 1 Mass Driver (800 t frame):**
+**Per 1 Mass Driver (1 km, ~270 t frame):**
 
 | Component | Mass | Production |
 |-----------|------|------------|
-| Fe-6%Mn steel (main beams) | 700 t | 18 t/day -> **39 days** |
-| Fasteners, bolts | 50 t | 18 t/day -> **3 days** |
-| Anti-corrosion coating (Al) | 50 t | 42 t/day -> **1.5 days** |
+| Fe-6%Mn steel (main beams) | 230 t | 18 t/day → **13 days** |
+| Fasteners, bolts | 20 t | 18 t/day → **1 day** |
+| Anti-corrosion coating (Al) | 20 t | 42 t/day → **0.5 day** |
 
-**TOTAL:** ~**40-45 days** for material production.
+**TOTAL:** ~**15-20 days** for material production.
+
+*With extension to 3 km: ~40-45 days.*
 
 ---
 
 ## Support Types
 
-### Concrete Supports (on ground)
+### Sulfur-Concrete Supports (on ground)
 
 | Parameter | Value |
 |-----------|-------|
-| Number of supports | 300 (every 10 m) |
-| Mass per support | ~1 t concrete |
+| Number of supports | 100 (every 10 m)* |
+| Mass per support | ~1 t sulfur-concrete |
 | Foundation depth | 2-3 m into regolith |
-| **TOTAL concrete** | **~300 t** |
+| **TOTAL sulfur-concrete** | **~100 t** |
 
-**Concrete on Mercury:**
-- Raw materials: regolith + water (from polar craters)
-- Binder: sulfide cement (from sulfur)
+*With extension: 200 supports (2 km), 300 supports (3 km).
+
+**Sulfur-concrete on Mercury:**
+- Binder: **sulfur (S)** — melts at 115°C, solidifies
+- Aggregate: regolith
+- **No water required** (unlike regular concrete)
 - Strength: sufficient for supports
 
 ### Anchor Bolts
@@ -121,36 +126,40 @@ The tunnel frame is a load-bearing structure that supports the rails, coils, and
 | Bolts per support | 4 pcs |
 | Diameter | 20 mm |
 | Length | 1 m |
-| **TOTAL bolts** | **1200 pcs** |
+| **TOTAL bolts** | **400 pcs*** |
+
+*With extension: 800 (2 km), 1200 (3 km).
 
 ---
 
 ## Frame Assembly
 
-### Sequence
+### Sequence (base 1 km)
 
 | Stage | Time | Robots |
 |-------|------|--------|
-| Trench excavation (3 km) | **3 months** | 50 Moles |
-| Installing concrete supports | 2 weeks | 20 Centaurs |
-| Truss mounting (250 sections) | **1 month** | 30 Centaurs |
-| Joint welding | 1 week | 10 Centaurs |
-| Geometry calibration | 3 days | Automated |
+| Trench excavation (1 km) | **1 month** | 20 Moles |
+| Installing sulfur-concrete supports | 1 week | 10 Centaurs |
+| Truss mounting (~85 sections) | **2 weeks** | 20 Centaurs |
+| Joint welding | 3 days | 10 Centaurs |
+| Geometry calibration | 2 days | Automated |
 
-**TOTAL:** ~**4.5 months** from start to completed frame.
+**TOTAL:** ~**2 months** from start to completed frame.
+
+*With extension to 3 km: ~4-5 months.*
 
 ---
 
 ## Frame Loads
 
-### Static Loads
+### Static Loads (1 km)
 
 | Component | Mass | Load on frame |
 |-----------|------|---------------|
-| Rails (2 pcs) | 210 t | 0.07 t/m |
-| Coils (3000 pcs) | 300 t | 0.1 t/m |
-| Electronics | 7 t | 0.002 t/m |
-| **TOTAL** | **517 t** | **~0.17 t/m** |
+| Rails (2 pcs) | ~70 t | 0.07 t/m |
+| Coils (1000 pcs) | ~100 t | 0.1 t/m |
+| Electronics | ~3 t | 0.003 t/m |
+| **TOTAL** | **~173 t** | **~0.17 t/m** |
 
 ### Dynamic Loads
 

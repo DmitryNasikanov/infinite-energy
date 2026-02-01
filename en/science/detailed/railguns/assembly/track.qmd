@@ -1,20 +1,22 @@
 ---
-title: "3 km Track Assembly"
+title: "Mass Driver Track Assembly"
 sidebar: science
 ---
 
 > **TL;DR**
 >
 > - **Purpose:** Final assembly of Mass Driver from ready-made components
-> - **Length:** 3 km (2-3 km depending on parameters)
-> - **Time:** 3-6 months for first MD, 1-2 months for subsequent ones
+> - **Length:** **1 km** (base)*, 2-3 km for reduced g
+> - **Time:** 2-3 months for first MD, 1-2 months for subsequent ones
 > - **Robots:** Peak 50 robots (Moles, Centaurs, Crabs)
+>
+> *For reduced loads: 2 km (637g) or 3 km (425g).
 
 ---
 
 ## Overview
 
-Track assembly is the final stage of Mass Driver production, when ready-made components (rails, coils, frame) are installed into a single 3 km structure.
+Track assembly is the final stage of Mass Driver production, when ready-made components (rails, coils, frame) are installed into a single 1 km structure.
 
 ---
 
@@ -24,19 +26,19 @@ Track assembly is the final stage of Mass Driver production, when ready-made com
 
 | Stage | Time | Robots | Work |
 |-------|------|--------|------|
-| 1. Site preparation | 2 weeks | 20 Centaur-M | Leveling, marking |
-| 2. Trench excavation (3 km) | **3 months** | 50 Mole-M | Regolith excavation |
-| 3. Concrete support installation | 2 weeks | 20 Centaur-M | 300 supports every 10 m |
-| 4. Frame installation | 1 month | 30 Centaur-M | 250 truss sections |
-| 5. Rail laying | 2 weeks | 20 Centaur-M | 300 segments of 10 m |
-| 6. Coil mounting | 1 month | 10 Centaur-M | 3000 coils |
-| 7. Power cable routing | 2 weeks | 15 Centaur-M | Coil power supply |
-| 8. Cooling connection | 1 week | 10 Centaur-M | NaK circuit |
-| 9. Electronics installation | 2 weeks | 15 Centaur-M | Sensors, controllers |
-| 10. Calibration and testing | 1 week | 5 Centaur-M | Geometry, tests |
-| **TOTAL** | **~6 months** | peak 50 | |
+| 1. Site preparation | 1 week | 10 Centaur-M | Leveling, marking |
+| 2. Trench excavation (1 km) | **1 month** | 20 Mole-M | Regolith excavation |
+| 3. Sulfur-concrete support installation | 1 week | 10 Centaur-M | 100 supports every 10 m |
+| 4. Frame installation | 2 weeks | 20 Centaur-M | ~85 truss sections |
+| 5. Rail laying | 1 week | 10 Centaur-M | 100 segments of 10 m |
+| 6. Coil mounting | 2 weeks | 10 Centaur-M | 1000 coils |
+| 7. Power cable routing | 1 week | 10 Centaur-M | Coil power supply |
+| 8. Cooling connection | 3 days | 5 Centaur-M | NaK circuit |
+| 9. Electronics installation | 1 week | 10 Centaur-M | Sensors, controllers |
+| 10. Calibration and testing | 3 days | 5 Centaur-M | Geometry, tests |
+| **TOTAL** | **~2-3 months** | peak 50 | |
 
-**With experience (subsequent MDs):** ~**2-3 months**
+**With experience (subsequent MDs):** ~**1-2 months**
 
 ---
 
@@ -47,9 +49,9 @@ Track assembly is the final stage of Mass Driver production, when ready-made com
 | Work | Description |
 |------|-------------|
 | Route selection | Along the terminator (day/night boundary) |
-| Geodetic marking | Laser leveling, accuracy +/-5 mm |
-| Leveling | Moles cut regolith bumps |
-| Base preparation | Temporary structure installation |
+| Geodetic marking | Laser leveling, accuracy ±5 mm |
+| Leveling | Moles cut regolith mounds |
+| Base preparation | Installation of temporary structures |
 
 **Route requirements:**
 - Straight line (deviation <1 mm per 100 m)
@@ -60,49 +62,49 @@ Track assembly is the final stage of Mass Driver production, when ready-made com
 
 ### 2. Trench Excavation
 
-**The longest stage** - 50 Mole-M robots dig a 3 km trench.
+20 Mole-M robots dig a 1 km trench.
 
 | Parameter | Value |
 |-----------|-------|
 | Trench width | 6 m |
 | Depth | 3 m |
-| Excavation volume | 54,000 m³ regolith |
+| Excavation volume | 18,000 m³ regolith |
 | Mole productivity | 100 t/day = ~35 m³/day |
-| Time for 1 Mole | ~1,540 days |
-| Time for 50 Moles | **~31 days = 1 month** |
+| Time for 1 Mole | ~514 days |
+| Time for 20 Moles | **~26 days ≈ 1 month** |
 
-**Correction:** Accounting for charging breaks and shifts - **3 months**.
-
-**More details:** [Mole-M Robots](../../robots/assembly/moles.qmd)
+**Details:** [Mole-M Robots](../../robots/assembly/moles.qmd)
 
 ---
 
-### 3. Concrete Support Installation
+### 3. Sulfur-Concrete Support Installation
 
-300 concrete supports every 10 m to support the frame.
+100 sulfur-concrete supports every 10 m to support the frame.
 
 | Parameter | Value |
 |-----------|-------|
-| Supports | 300 |
-| Support mass | 1 t concrete |
+| Supports | 100 |
+| Support mass | 1 t sulfur-concrete |
 | Foundation depth | 2-3 m |
 | Time per support | 1 hour |
-| **TOTAL** | **300 hours = 2 weeks (20 robots)** |
+| **TOTAL** | **100 hours = 1 week (10 robots)** |
+
+> **Sulfur-concrete** — construction material using sulfur (S) as binder and regolith as aggregate. Requires no water. Sulfur melts at 115°C, forming a strong structure upon solidification.
 
 ---
 
 ### 4. Frame Installation
 
-Truss sections are installed on supports and welded.
+Truss sections are placed on supports and welded.
 
 | Parameter | Value |
 |-----------|-------|
-| Frame sections | 250 (12 m each) |
+| Frame sections | ~85 (12 m each) |
 | Section mass | ~3 t |
 | Installation time per section | 2 hours (lifting + welding) |
-| **TOTAL** | **500 hours = 1 month (30 robots)** |
+| **TOTAL** | **~170 hours = 2 weeks (20 robots)** |
 
-**More details:** [Tunnel Frame](../elements/frame.qmd)
+**Details:** [Tunnel Frame](../elements/frame.qmd)
 
 ---
 
@@ -112,27 +114,27 @@ Aluminum rails are mounted on the frame.
 
 | Parameter | Value |
 |-----------|-------|
-| Rail segments | 300 (10 m each, 2 rails) |
+| Rail segments | 100 (10 m each, 2 rails) |
 | Segment mass | ~0.7 t |
 | Laying time per segment | 1 hour |
 | Joint welding | 10 min per joint |
-| **TOTAL** | **400 hours = 2 weeks (20 robots)** |
+| **TOTAL** | **~130 hours = 1 week (10 robots)** |
 
-**More details:** [Rail Production](../elements/rails.qmd)
+**Details:** [Rail Production](../elements/rails.qmd)
 
 ---
 
 ### 6. Coil Mounting
 
-3000 coils are installed along the track.
+1000 coils are installed along the track.
 
 | Parameter | Value |
 |-----------|-------|
-| Coils | 3000 |
+| Coils | 1000 |
 | Installation time per coil | 15 min |
-| **TOTAL** | **750 hours = 1 month (10 robots)** |
+| **TOTAL** | **250 hours = 2 weeks (10 robots)** |
 
-**More details:** [Coil Winding](../elements/coils.qmd)
+**Details:** [Coil Winding](../elements/coils.qmd)
 
 ---
 
@@ -142,10 +144,10 @@ Power supply for coils from the energy system.
 
 | Parameter | Value |
 |-----------|-------|
-| Cable length | ~10 km (main line + branches) |
+| Cable length | ~3 km (main + branches) |
 | Cross-section | 100-200 mm² Al |
-| Cable mass | ~30 t |
-| Routing time | **2 weeks (15 robots)** |
+| Cable mass | ~10 t |
+| Routing time | **1 week (10 robots)** |
 
 ---
 
@@ -155,10 +157,10 @@ NaK circuit for cryogenic cooling.
 
 | Parameter | Value |
 |-----------|-------|
-| NaK tube length | ~6 km |
-| Diameter | 20 mm |
-| Radiators | 5000 m² (facing shadow) |
-| Connection time | **1 week (10 robots)** |
+| NaK pipe length | ~2 km |
+| Diameter | Ø20 mm |
+| Radiators | ~1700 m² (directed into shadow) |
+| Connection time | **3 days (5 robots)** |
 
 ---
 
@@ -168,12 +170,12 @@ Sensors, controllers, control systems.
 
 | Parameter | Value |
 |-----------|-------|
-| Control units | 100 (every 30 m) |
-| Sensors | 600 (current, temperature, position) |
-| Cameras | 50 (track monitoring) |
-| Installation time | **2 weeks (15 robots)** |
+| Control units | 34 (every 30 m) |
+| Sensors | 200 (current, temperature, position) |
+| Cameras | 20 (track monitoring) |
+| Installation time | **1 week (10 robots)** |
 
-**More details:** [Control Electronics](electronics.qmd)
+**Details:** [Control Electronics](electronics.qmd)
 
 ---
 
@@ -183,29 +185,31 @@ Final check before launch.
 
 | Test | Description |
 |------|-------------|
-| Track geometry | Laser leveling, accuracy +/-0.5 mm |
+| Track geometry | Laser leveling, accuracy ±0.5 mm |
 | Electrical circuits | Ohmmeter, insulation, inductance |
-| Cooling | NaK circuit test, temperature -150C |
-| Test shot (dry run) | Empty container acceleration |
+| Cooling | NaK circuit test, temperature -150°C |
+| Test shot (empty) | Empty container acceleration |
 
-**Time:** 1 week
+**Time:** 3 days
 
-**More details:** [Testing](testing.qmd)
+**Details:** [Testing](testing.qmd)
 
 ---
 
 ## Material Balance
 
-**Per 1 MD (3 km):**
+**Per 1 MD (1 km):**
 
 | Component | Mass | Source |
 |-----------|------|--------|
-| Frame (steel) | 800 t | [Regolith Processing](../../materials/overview.qmd) |
-| Rails (aluminum) | 210 t | [Regolith Processing](../../materials/overview.qmd) |
-| Coils (aluminum) | 300 t | [Regolith Processing](../../materials/overview.qmd) |
-| Electronics | 7 t | **"Vitamins" from Earth** |
-| Concrete (supports) | 300 t | Local (regolith + sulfur) |
-| **TOTAL** | **~1600 t** | **99.5% local** |
+| Frame (steel) | ~270 t | [Regolith Processing](../../materials/overview.qmd) |
+| Rails (aluminum) | ~70 t | [Regolith Processing](../../materials/overview.qmd) |
+| Coils (aluminum) | ~100 t | [Regolith Processing](../../materials/overview.qmd) |
+| Electronics | ~3 t | **Earth Import** |
+| Sulfur-concrete (supports) | ~100 t | Local (regolith + sulfur) |
+| **TOTAL** | **~450 t** | **99.3% local** |
+
+*With extension: 2 km (~875 t), 3 km (~1300 t).*
 
 ---
 
@@ -213,17 +217,17 @@ Final check before launch.
 
 | Transport | Robots | Role |
 |-----------|--------|------|
-| Component delivery to site | 20 Crab-M | Trailers with materials |
-| Heavy section installation | 30 Centaur-M | Cranes, manipulators |
-| Welding and fastening | 20 Centaur-M | Welding robots |
-| Cable routing | 15 Centaur-M | Cable pulling |
+| Component delivery to site | 10 Crab-M | Material trailers |
+| Heavy section installation | 20 Centaur-M | Cranes, manipulators |
+| Welding and fastening | 10 Centaur-M | Welding robots |
+| Cable routing | 10 Centaur-M | Cable pulling |
 
 ---
 
 ## See Also
 
-- [Rail Production](../elements/rails.qmd) - aluminum guides
-- [Coil Winding](../elements/coils.qmd) - electromagnetic windings
-- [Tunnel Frame](../elements/frame.qmd) - steel structure
-- [Control Electronics](electronics.qmd) - control systems
-- [Testing](testing.qmd) - final check
+- [Rail Production](../elements/rails.qmd) — aluminum guides
+- [Coil Winding](../elements/coils.qmd) — electromagnetic windings
+- [Tunnel Frame](../elements/frame.qmd) — steel structure
+- [Control Electronics](electronics.qmd) — control systems
+- [Testing](testing.qmd) — final check

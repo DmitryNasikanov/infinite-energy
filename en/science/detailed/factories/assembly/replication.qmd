@@ -68,14 +68,15 @@ After launching the first Mass Driver, we build a minimal set of mirrors to powe
 | Parameter | Calculation |
 |-----------|-------------|
 | 1 mirror intercepts | 103 MW |
-| Needed for 10 factories | 550 MW |
-| Energy transmission efficiency | ~10% |
-| Required solar power | ~6 GW = 60 mirrors |
-| With 10x margin | **600 mirrors** |
+| After reflection (90%) and losses (15%) | ~80 MW at receiver |
+| GaAs panels (30%) | **~24 MW electricity** |
+| Efficiency (mirror → electricity) | **~23%** |
+| Needed for 10 factories (550 MW) | 550 ÷ 24 = **23 mirrors** |
+| With 10x margin | **~230 mirrors** |
 
-**Producing 600 mirrors:** The first Ground Zero Factory can produce mirrors on the rolling mill (foil) with manual assembly, though not optimized for this. Estimate: ~50 mirrors/day → **~12 days** for 600 units.
+**Producing 230 mirrors:** The first Ground Zero Factory can produce mirrors on the rolling mill (foil) with manual assembly. At ~392 mirrors/day — **less than 1 day**.
 
-**Logic:** 600 mirrors power 10 factories. This is sufficient for Phase 1 (growth to 1,000 factories over 4 months).
+**Logic:** 230 mirrors power 10 factories with 10x margin. This is sufficient to start Phase 1.
 
 ---
 
@@ -83,19 +84,24 @@ After launching the first Mass Driver, we build a minimal set of mirrors to powe
 
 [Replicator factories (Ground Zero Factory)](../overview.qmd#ground-zero-factory) build new factories. First — new Ground Zero Factories (for exponential growth), then — [mirror factories](../overview.qmd#mirror-factory) (for mirror production). At 100% Ground Zero Factory allocation to replication:
 
-### Replication Timeline
+### Replication Timeline (theoretical)
 
-| Week | Factories | Growth |
-|------|-----------|--------|
-| 0 | 1 | — |
-| 6 | 2 | +1 |
-| 9 | 4 | +2 |
-| 12 | 16 | +12 |
-| 16 | ~1,000 | +984 |
+| Week | Factories | Note |
+|------|-----------|------|
+| 0 | 1 | Bootstrap |
+| 3 | 2 | Doubling |
+| 6 | 4 | |
+| 9 | 8 | |
+| 12 | 16 | |
+| 15 | 32 | |
+| 21 | 128 | |
+| 30 | ~1,000 | ~7.5 months |
 
-**Doubling time:** ~3 weeks (at 50% allocation to replication)
+**Doubling time:** ~3 weeks (at 100% allocation to replication)
 
-**Details:** [Production Scaling](../../railguns/scaling.qmd)
+> **Important:** This is the theoretical rate with all materials available. Practically, growth from 1 → 1,000 takes **~4 years** due to the bottleneck — ["Vitamins"](../../../reference/glossary.qmd#vitamins) delivery from Earth.
+
+**Details:** [Production Scaling](../../railguns/overview.qmd)
 
 ---
 
@@ -178,7 +184,7 @@ gantt
     dateFormat  YYYY-MM
     section Phase 0: Bootstrap
     First Mass Driver (~25 days)      :2025-01, 25d
-    600 mirrors (2 days)              :2025-02, 2d
+    230 mirrors (~1 day)              :2025-02, 1d
     section Phase 1: Factory Growth
     Replication 1→1000                :2025-02, 120d
     section Phase 2: Infrastructure
@@ -196,8 +202,8 @@ gantt
 |-----|-------|------|
 | 1-7 | Factory deployment | Blitz assembly ([Gen-1](../../../reference/glossary.qmd#generation-1-gen-1) robots) |
 | 8-25 | First Mass Driver production | Fe 15 days, Al 4 days, assembly 5-7 days |
-| 26-27 | 600 mirrors production | 392 mirrors/day x 1.5 days |
-| 28+ | Mini-Swarm launch | Energy to Mercury (550 MW) |
+| 26 | 230 mirrors production | 392 mirrors/day → less than 1 day |
+| 27+ | Mini-Swarm launch | Energy to Mercury (550+ MW) |
 
 *For 3 km track: days 8-60, first launch on day ~62.
 
@@ -209,7 +215,7 @@ gantt
 
 | Bottleneck | Risk | Solution |
 |------------|------|----------|
-| Energy for first factories | Energy shortage during replication | Mini-Swarm of 600 mirrors powers 10 factories |
+| Energy for first factories | Energy shortage during replication | Mini-Swarm of 230 mirrors powers 10 factories |
 | ["Vitamins"](../../../reference/glossary.qmd#vitamins) import | Electronics, rare metals | Regular runs from Earth (once per 3 months) |
 | [Gen-1](../../../reference/glossary.qmd#generation-1-gen-1) robot failures | Fragile titanium robots | Quick transition to [Gen-2](../../../reference/glossary.qmd#generation-2-gen-2) (local Fe/Al) |
 | Equipment wear | Continuous caster, rolling mill | Spare parts in first expedition |
@@ -293,7 +299,7 @@ gantt
 | Robot production | 5,000 units/day |
 | Energy consumption | 55 GW (55 MW x 1,000) |
 
-**Energy supply:** 600 mini-Swarm mirrors are insufficient. Continuous Swarm expansion is required in parallel with factory growth.
+**Energy supply:** 230 mini-Swarm mirrors cover the first 10 factories. Continuous Swarm expansion is required in parallel with factory growth.
 
 ---
 
@@ -301,10 +307,10 @@ gantt
 
 | Stage | Timeline (practical) | Factories/Mass Drivers/Robots | **MIRRORS** (main goal) |
 |-------|----------------------|-------------------------------|-------------------------|
-| **Phase 0** | 2 months | 1 factory + 1 Mass Driver | **600 mirrors** (energy for growth) |
-| **Phase 1** | **~4 years** | 1 → 1,000 factories | **~30M mirrors** (50% capacity on replication, 50% on mirrors) |
+| **Phase 0** | 2 months | 1 factory + 1 Mass Driver | **230 mirrors** (mini-Swarm for energy) |
+| **Phase 1** | **~4 years** | 1 → 1,000 factories | **~143M mirrors** (50% capacity on replication, 50% on mirrors) |
 | **Phase 2** | 1-2 months | 1,000 Mass Drivers + 60,000 robots | **~25M mirrors** (parallel with Mass Drivers) |
-| **Phase 3** | ~7 years | Infrastructure ready | **~945M mirrors** (100% capacity on mirrors) |
+| **Phase 3** | ~7 years | Infrastructure ready | **~832M mirrors** (100% capacity on mirrors) |
 | **TOTAL** | **~11 years** | Full infrastructure | **~1 billion mirrors in Dyson Swarm** |
 
 **Key point:** Mirrors are the MAIN GOAL of the project. They are produced **from the very beginning**, not just in Phase 3:
@@ -316,8 +322,8 @@ gantt
 
 **Phase 1 mirror calculation:**
 - Average factories during growth: ~500 (from 1 to 1,000)
-- Output: 500 factories x 210 mirrors/day x 50% = ~52,500 mirrors/day
-- Over 4 years (1,460 days): ~52,500 x 1,460 = **~76M mirrors** (more precise calculation)
+- Output: 500 factories x 392 mirrors/day x 50% = ~98,000 mirrors/day
+- Over 4 years (1,460 days): ~98,000 x 1,460 = **~143M mirrors**
 
 ---
 
@@ -326,5 +332,5 @@ gantt
 - [Factory Production](../overview.qmd) — production overview
 - [Equipment Production](equipment.qmd) — kit for a new factory
 - [Dome Assembly](domes.qmd) — factory shells
-- [Scaling](../../railguns/scaling.qmd) — detailed growth calculations
+- [Scaling](../../railguns/overview.qmd) — detailed growth calculations
 - [Roadmap](../../../summaries/roadmap.qmd) — project phases
