@@ -176,12 +176,30 @@ Historical projects are adjusted for inflation. For a 10-year project we account
 | Item | Calculation | Estimate |
 |------|-------------|----------|
 | [Bootstrap](../reference/glossary.qmd#bootstrap-blitz-assembly) factory (E1) | Full import 140 t | 1.4 billion |
-| Electronics for 1649 factories | ~90 t × $10K/kg | 0.9 billion |
-| Electronics for 60K robots | ~765 t × $10K/kg | 7.7 billion |
-| Electronics for 1000 MDs | ~275 t × $10K/kg | 2.8 billion |
+| Electronics for 1649 factories | ~90 t × $3K/kg | 0.27 billion |
+| Electronics for 60K robots | ~765 t × $3K/kg | 2.3 billion |
+| Electronics for 1000 MDs | ~275 t × $5K/kg | 1.4 billion |
 | Chips for 1.1B mirrors | ~1,055 t × $10K/kg | 10.6 billion |
 | [Vitamins](../reference/glossary.qmd#vitamins) (4 years) | ~509 t × $10K/kg | 5.1 billion |
-| **Total production** | ~2,834 t electronics | **~28.5 billion** |
+| **Total production** | ~2,834 t electronics | **~21 billion** |
+
+**Price justification (international sources 2026):**
+
+| Category | Price | Rationale | Sources |
+|----------|-------|-----------|---------|
+| Robots, factories | $3K/kg | ARM + LiDAR | 🇬🇧 [Raspberry Pi](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/), 🇨🇳 [Livox Mid-360](https://www.livoxtech.com/mid-360) ($2.3K/kg), 🇺🇸 [Velodyne](https://www.geoweeknews.com/news/velodyne-cuts-vlp-16-lidar-price-4k) ($4.8K/kg) |
+| Mass Drivers | $5K/kg | IGBT power electronics | 🇩🇪 [Infineon](https://www.infineon.com/products/power/igbt/igbt-modules), [Semikron](https://www.semikron-danfoss.com/products/power-modules), 🇰🇷 [SemiHow](https://www.semihow.com/) |
+| Mirrors | $10K/kg | Space-grade rad-hard | 🇺🇸 [NASA](https://nepp.nasa.gov/nepag/info/parts_costs/part_cost_paper.pdf), 🇪🇺 [ESA](https://www.esa.int/) |
+| Vitamins | $10K/kg | Iridium ($200K/kg) + rare earths | [Strategic Metals](https://strategicmetalsinvest.com/iridium-prices/), 🇧🇪 [Umicore](https://pmm.umicore.com/en/prices/iridium/) |
+
+**Robot references (international):**
+
+| Country | Manufacturer | Price | Source |
+|---------|--------------|-------|--------|
+| 🇺🇸 USA | Boston Dynamics Spot | $2.3K/kg | [IEEE Spectrum](https://spectrum.ieee.org/boston-dynamics-spot-robot-dog-now-available) |
+| 🇨🇳 China | SIASUN, ESTUN | 20-35% cheaper than Western | [TAdviser](https://tadviser.com/index.php/Article:Robotics_(Russian_market)) |
+| 🇷🇺 Russia | Promobot | <$30K service robot | [Promobot](https://promo-bot.ai/) |
+| 🇮🇳 India | Tata/Mahindra | market +8.8% CAGR | [IMARC](https://www.imarcgroup.com/india-industrial-automation-sensors-market) |
 
 *Frames, structures, housings — local production from regolith. Details: [Delivery](delivery.qmd).*
 
@@ -380,11 +398,11 @@ Electronics for self-replication, rocket program, launches.
 
 | Subcategory | Calculation | Amount |
 |-------------|-------------|--------|
-| **Electronics (import)** | | **~28.5 billion** |
+| **Electronics (import)** | | **~21 billion** |
 | — Bootstrap factory (E1) | Full import 140 t | 1.4 billion |
-| — Electronics for 1649 factories | ~90 t × $10K/kg | 0.9 billion |
-| — Electronics for 60K robots | ~765 t × $10K/kg | 7.7 billion |
-| — Electronics for 1000 MDs | ~275 t × $10K/kg | 2.8 billion |
+| — Electronics for 1649 factories | ~90 t × $3K/kg | 0.27 billion |
+| — Electronics for 60K robots | ~765 t × $3K/kg | 2.3 billion |
+| — Electronics for 1000 MDs | ~275 t × $5K/kg | 1.4 billion |
 | — Chips for 1.1B mirrors | ~1,055 t × $10K/kg | 10.6 billion |
 | — Vitamins (4 years) | ~509 t × $10K/kg | 5.1 billion |
 | **Rocket Program** | | **4-6 billion** |
