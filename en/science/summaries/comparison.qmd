@@ -128,6 +128,17 @@ After launching the first ~100 mirrors, energy is no longer a constraint.
 
 Error on the Moon: fix in a month. On Mercury: wait a quarter.
 
+### Receiving Infrastructure: Simpler
+
+In the lunar scenario, the Swarm orbits the Moon/Earth, not Mercury. This radically changes the energy transmission geometry:
+
+| Scenario | Distance to receivers | Beam spreading | LSP area |
+|----------|----------------------|----------------|----------|
+| **Mercury** | ~100 million km | ~1 km | 5-10 km |
+| **Moon** | ~100-400 thousand km | **~10 m** | **~100 m** |
+
+Smaller beam spreading → compact receivers → cheaper infrastructure. Details: [Energy Receiving Hub](../detailed/hub.qmd#beam-spreading)
+
 ### Decommissioning: Requires Solution
 
 | Option | Delta-v | Feasibility |
@@ -152,11 +163,23 @@ On Mercury, mirrors fall into the Sun automatically - decommissioning is free.
 | Energy | Sufficient | **Sufficient** (mirrors) ✓ |
 | Communication | 8-20 min | **1.3 sec** ✓ |
 | Iterations | Months | **Days** ✓ |
+| LSP receivers | 5-10 km (spreading ~1 km) | **~100 m** ✓ |
 | Decommissioning | ✓ Sun | Requires solution |
 | Time to goal | **~10 years** ✓ | ~14 years |
 | Politics | No issues | Possible disputes |
 
-> **The Moon is a serious alternative.** Technically simpler, cheaper for iterations, but scales slower and requires solving decommissioning. Optimal: Moon as testbed (years 4-6), then Mercury for scaling.
+> **The Moon is a serious alternative.** Technically simpler, cheaper for iterations, but scales slower and requires solving decommissioning.
+
+::: {.callout-important}
+## Tradeoff: Speed vs Risk
+
+| Strategy | Timeline | Risk | When to choose |
+|----------|----------|------|----------------|
+| **Mercury** | ~10 years | High (errors $500M-1B) | Maximum speed, willing to risk |
+| **Moon** | ~14 years | Low (errors $100-200M) | Guaranteed result more important than speed |
+
+**Optimal strategy:** Moon as testbed + backup (years 4-6), Mercury for scaling (years 6+). If critical failure on Mercury, production transfers to Moon — project completes later but is guaranteed.
+:::
 
 ---
 

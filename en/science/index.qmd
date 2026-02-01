@@ -20,70 +20,54 @@ This is a **feasibility study**. All calculations are order-of-magnitude estimat
 **[More about status →](executive-summary.qmd)**
 :::
 
-## Recommended Reading Order
-
-1. [Project in 5 Minutes](executive-summary.qmd) — high-level overview *(5-10 min)*
-2. [Roadmap](summaries/roadmap.qmd) — implementation sequence *(10-15 min)*
-3. [Budget](summaries/budget.qmd) — how much it costs *(5 min)*
-4. [Why Mercury?](summaries/comparison.qmd) — location comparison *(5 min)*
-5. [Technologies and Sources](reference/technology-readiness.qmd) — TRL of all technologies + bibliography *(10 min)*
-6. [Swarm Mirrors](summaries/mirrors.qmd) — main product + **energy** *(15-20 min)*
-7. [LSP Stations](detailed/hub.qmd) — how energy reaches Earth *(10 min)*
-8. [Production](summaries/production.qmd) — how to build all this *(15-20 min)*
-
 ## Quick Start
 
-### [Project in 5 Minutes](executive-summary.qmd)
+### 1. [Project in 5 Minutes](executive-summary.qmd) *(~9 min)*
 Complete project overview: Swarm of 1.1 billion mirrors → 100 PW reflected energy → 21 PW on Earth (1000× global consumption). Four deployment phases, key technologies, budget $255-520B.
 
-### [Why Mercury?](summaries/comparison.qmd)
-Why Mercury instead of Moon or Mars? Comparison by solar flux (10 vs 1.4 kW/m²), Mass Driver challenges, recycling of retired mirrors. Analysis of political and technical risks for each location.
-
-### [Risks and Limitations](reference/risks.qmd)
-Honest analysis: 5 solved critical risks, 6 open technical problems (mirror degradation, iridium deficit). What can go wrong and how it's accounted for.
-
-## Calculations and Reviews
-
-### [Roadmap](summaries/roadmap.qmd)
+### 2. [Roadmap](summaries/roadmap.qmd) *(~26 min)*
 Timeline of 4 phases: R&D (years 1-4) → Moon (4-6) → Mercury (6-10) → Swarm. Critical path: blitz factory assembly in 7 days, first MD in 6 months. Year 1: 47 TW to Earth, year 3: 1000 Mass Drivers.
 
-### [Budget](summaries/budget.qmd)
+### 3. [Budget](summaries/budget.qmd) *(~26 min)*
 Three scenarios: $255B (optimistic), $430B (baseline), $520B (conservative). Comparison with Apollo ($280B), ISS ($150-250B). Analysis of potential underestimates: AI, infrastructure, contingencies.
 
+### 4. [Why Mercury?](summaries/comparison.qmd) *(~6 min)*
+Why Mercury instead of Moon or Mars? Comparison by solar flux (10 vs 1.4 kW/m²), Mass Driver challenges, decommissioning of retired mirrors. Tradeoff "speed vs risk": Moon as backup path.
+
+### 5. [Technologies and Sources](reference/technology-readiness.qmd) *(~22 min)*
+TRL analysis of all project technologies + complete bibliography. Electromagnetic launch, lights-out factories, autonomous mining, NaS batteries, MRE electrolysis, microwave power transmission.
+
+### 6. [Swarm Mirrors](summaries/mirrors.qmd) *(~22 min)*
+Design of frameless 100×100 m mirror (116 kg). Project energy: cascade efficiency 18%, power on Earth ~21 PW. Attitude control, thermal balance, degradation (8-12 year lifespan).
+
+### 7. [LSP Stations](detailed/hub.qmd) *(~11 min)*
+Why lunar LSP stations instead of orbital Hub (18% vs 10% efficiency, no 7,900 km² radiator problem). Placement of 20-40 stations on lunar limbs, microwave transmission at 230 W/m². Global rectenna network.
+
+### 8. [Production](summaries/production.qmd) *(~28 min)*
+Two centers: Mercury (mirrors, self-replication 1→~1650 factories) and Moon (testbed + LSP). F-M (~400 mirrors/day), F-R (robots, domes, equipment). Critical resources: iridium, carbon, "Vitamins".
+
+### 9. [Risks and Limitations](reference/risks.qmd)
+Honest analysis: 5 solved critical risks, 6 open technical problems (mirror degradation, iridium deficit). What can go wrong and how it's accounted for.
+
+## Additional Topics
+
 ### [Moon](summaries/moon.qmd)
-Dual role: technology proving ground + LSP stations for energy reception. Advantages of limbs (continuous operation, 14.75-day cycle). 1.3 sec communication delay allows near-real-time operator control.
+Triple role: technology proving ground + LSP stations for energy reception + backup site (less risky alternative to Mercury). 1.3 sec communication delay allows near-real-time operator control.
 
 ### [Mars](summaries/mars.qmd) *(perspective)*
 Terraforming as a side project after main completion: magnetic shield (100-1000 satellites, 100 GW), polar heating (500 TW, 2-3 months), greenhouse effect. First lake by 2072, breathable atmosphere in 150-300 years. Consumes only 15% of Swarm power.
 
-## Detailed Topics
-
-### [Swarm Mirrors](summaries/mirrors.qmd)
-Design of frameless 100×100 m mirror (116 kg). **[Project Energy](summaries/mirrors.qmd#энергетический-каскад):** cascade efficiency 18%, power on Earth ~21 PW. Attitude control without fuel via electrochromics and light pressure. Thermal balance (+38°C), degradation (8-12 year lifespan), "Orbit Cranking" for inclination changes.
-
-### [LSP Stations](detailed/hub.qmd)
-Why lunar LSP stations (Lunar Surface Power) instead of orbital Hub (18% vs 10% efficiency, no 7,900 km² radiator problem). Placement of 20-40 stations on lunar limbs, microwave transmission at 230 W/m². Global rectenna network (Sahara, Gobi, Atacama, Australia).
-
-### [Production](summaries/production.qmd)
-Two centers: Mercury (mirrors, [self-replication](reference/technology-readiness.qmd#саморепликация-заводов) 1→~1650 factories) and Moon (proving ground + LSP). F-M (~400 mirrors/day), F-R (robots, domes, equipment). Gen-2 robots (Mole-M, Crab-M, Centaur-M). Critical resources: iridium, carbon, "Vitamins" (electronics and rare elements from Earth).
-
 ### [Delivery](summaries/delivery.qmd)
-Earth → Moon → Mercury logistics: ~50-100 launches over ~10 years (thanks to 96% localization), 15-30 launches in peak year. Carrier requirements (Starship 2027+, Long March 9 2033+), cost $8-20B. Synergy with Artemis, Chang'e, ILRS programs.
+Earth → Moon → Mercury logistics: ~50-100 launches over ~10 years (thanks to 96% localization), 15-30 launches in peak year. Cost $8-20B. Synergy with Artemis, Chang'e, ILRS programs.
 
 ### [First Factory Assembly (Bootstrap)](detailed/bootstrap.qmd)
-Unique project phase: Gen-1 robots (Li-S batteries, 15-24 h autonomy) assemble first factory from 100% imported materials. **Critical checkpoint:** energy autonomy within 12-24 hours. After checkpoint, assembly time is not critical — constrained only by Gen-1 lifespan (2-3 years). Three scenarios: 7/11-16/22-32 days.
+Unique project phase: Gen-1 robots assemble first factory from 100% imported materials. Critical checkpoint: energy autonomy within 12-24 hours. Three scenarios: 7/11-16/22-32 days.
 
 ## Reference
 
-### [Technologies and Sources](reference/technology-readiness.qmd)
-TRL analysis of all project technologies + complete bibliography. Maturity summary table, industrial implementations (USA, China, Japan, Europe, Australia, Korea, India, Russia). Electromagnetic launch, dark factories, autonomous mining, NaS batteries, MRE electrolysis, microwave power transmission.
-
-### [Risks and Limitations](reference/risks.qmd)
-5 solved critical risks (synchronization, copper→cryo-aluminum, electrochromics, batteries, payload survivability at 25,000g), 6 high technical (mirror degradation, iridium deficit ×6 global production), 4 resource constraints. Validation of key calculations.
-
 ### [Glossary](reference/glossary.qmd)
-25+ project terms with definitions: Dyson Swarm, power beam, "Vitamins", self-replication, electrochromics, Mass Driver, NaS battery, phased array, robot generations Gen-1/Gen-2.
+25+ project terms: Dyson Swarm, power beam, "Vitamins", self-replication, electrochromics, Mass Driver, NaS battery, phased array, Gen-1/Gen-2.
 
 ### [Physical Constants](reference/constants.qmd)
-Reference tables for calculations: solar constant (Earth 1361, Mercury 10343 W/m²), planetary parameters, regolith composition, material properties, mirror characteristics (116 kg, 93 MW), Mass Driver (5 km/s, 1275g).
+Reference tables for calculations: solar constant, planetary parameters, regolith composition, material properties, mirror and Mass Driver characteristics.
 
