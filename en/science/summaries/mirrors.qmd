@@ -41,18 +41,31 @@ The mirror **rotates around its axis** (1-2 rpm). Centrifugal force tensions the
 - **Tip masses** — 4 units at corners, create centrifugal force and stabilize shape
 - **Cables** — connect corners to central hub, transmit tension
 
-### Electronics
+### Two Types of Mirrors: Mother and Children
 
-At the mirror's center is **one integrated chip** the size of a coin (~50 g), delivered from Earth. All functions are combined on a single die:
+The Swarm is organized into **clusters of ~1,000 mirrors**. Within each cluster — two types of mirrors with different electronics:
 
-- **Star tracker** — determines own orientation
-- **Radio beacons** — positioning relative to other mirrors
-- **Onboard processor** — calculates required pointing angle
-- **Photovoltaic power** — a few cm² of silicon, provides microwatts for operation
+#### Mother Mirror (1 per ~1,000 Children)
 
-> **Why from Earth?** Manufacturing highly integrated chips requires extremely complex lithographic processes. This is the only component that is impractical to produce in space.
+**Full control chip** (~50 g), delivered from Earth:
 
-> **Technology baseline (2025):** The radiation-hardened electronics market is [$1.6 billion](https://www.marketsandmarkets.com/Market-Reports/radiation-hardened-electronics-market-44047967.html). Modern star trackers weigh [tens of grams](https://pressbooks-dev.oer.hawaii.edu/epet302/chapter/7-5/), solar sensors weigh less than 5 g. [Chip-scale satellites](https://spectrum.ieee.org/exploring-space-with-chipsized-satellites) (Sprites) weigh only 10 g total. By the 2030s, SoC solutions will combine processor, memory, and sensors in a single chip weighing ~10-20 g.
+- **Star tracker** — determines cluster orientation
+- **Onboard processor** — calculates commands for all Children
+- **Laser transmitter** — optical communication with Children
+- **Radio module** — communication with Earth and other Mothers
+- **Power photodiode** — a few cm² of silicon
+
+#### Children Mirrors (~999 of 1,000)
+
+**Only a photoreceiver** (~2 g) — no processor:
+
+- **Photodiode receiver** — receives optical commands from Mother
+- **Simple decoder** — converts light pulses into electrochromic signals
+- **No radio, no processor** — pure analog/digital logic
+
+> **Why this architecture?** With individual chips on each mirror, electronics import = 1.1 billion × 50 g = **55,000 tons**. With Mother-Children architecture: 1.1 million × 50 g + 1.1 billion × 2 g = **~2,255 tons** — **96% savings**.
+
+> **Technology baseline (2025):** [Laser inter-satellite links](https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/) (China, 2024-2025) — optical communication between satellites. [Leader-follower formation](https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430) — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.
 
 ---
 
@@ -81,6 +94,24 @@ Along the mirror edges are strips of electrochromic material (TiO₂, titanium o
 - Energy: microwatts from integrated photovoltaic
 
 > **Why TiO₂, not WO₃?** Tungsten oxide (WO₃) is more efficient, but tungsten was not measured by MESSENGER and its availability is unknown. Titanium is confirmed (~0.5%), and at billion-mirror scale source reliability is critical. TiO₂ is less efficient (17% vs 60%), but production is 100% local.
+
+**Command Flow (Mother → Children):**
+
+Children mirrors have no onboard processor. Electrochromic commands come from the Mother via optical channel:
+
+```
+Control Protocol:
+
+Mother → [modulated laser] → Children
+
+Commands (example):
+├─ 1 ms pulse: "edge A on"
+├─ 2 ms pulse: "edge B on"
+├─ 3 ms pulse: "all off"
+└─ Pulse series: encodes angle/speed
+```
+
+The photodiode on the Child decodes pulses and directly controls electrochromic strips — no processor needed.
 
 **Pointing Accuracy:**
 
@@ -255,52 +286,11 @@ Each cluster synchronizes internally and directs reflected light to its section 
 
 > **Why not a unified array?** Global synchronization of a billion mirrors is impossible — signal delay Mercury-Earth is ~670 seconds. Details: [Risks](../reference/risks.qmd#phased-array-synchronization).
 
-### Optical Cluster Control {#optical-cluster-control}
+### Transition to Local Electronics Production {#optical-cluster-control}
 
-The "Mother-Children" architecture **reduces electronics import by 98%**.
+The Mother-Children architecture (described in [Construction](#two-types-of-mirrors-mother-and-children) section) enables gradual phase-out of imports:
 
-#### The Problem
-
-With individual control, each mirror requires a full 50 g chip:
-- 1.1 billion mirrors × 50 g = **55,000 tons** of electronics from Earth
-- ~6,250 tons/year = ~125 Starship launches/year
-
-#### Solution: Mother Mirrors + Child Mirrors
-
-| Role | Electronics | Quantity | Mass/unit | Import |
-|------|-------------|----------|-----------|--------|
-| **Mother** (leader) | Full chip | 1.1 M | 50 g | **55 t** |
-| **Children** (followers) | Simple decoder | 1.1 B | 2 g | **2,200 t** |
-| **TOTAL** | | | | **2,255 t** |
-
-**Savings: 55,000 t → 2,255 t = 96%** (24× less)
-
-#### How It Works
-
-**Mother mirror** (1 per ~1,000 Children):
-- Star tracker — determines cluster orientation
-- Processor — calculates commands for Children
-- Laser transmitter — modulated beam to Children
-- Radio — communication with Earth/other Mothers
-
-**Child mirrors** (passive):
-- Photodiode (~2 g) — receives optical signal from Mother
-- Simple decoder — converts signal to electrochromic commands
-- No processor — only analog/digital logic
-
-```
-Control Protocol:
-
-Mother → [modulated light] → Children
-
-Commands (example):
-├─ 1 ms pulse: "edge A activate"
-├─ 2 ms pulse: "edge B activate"
-├─ 3 ms pulse: "all off"
-└─ Pulse series: encodes angle/speed
-```
-
-#### Hybrid Implementation
+#### Deployment Phases
 
 | Phase | Years | Technology | Import |
 |-------|-------|------------|--------|
@@ -647,7 +637,7 @@ With [Mother-Children architecture](#optical-cluster-control), import is reduced
 2. **Foil rolling** — compression to 4 μm thickness
 3. **Tip mass production** — iron casting or regolith pressing
 4. **Cable production** — steel wire drawing
-5. **Electronics assembly** — installing imported chip and electrochromic strips
+5. **Electronics assembly** — installing photoreceiver (Children) or full chip (Mother) + electrochromic strips
 6. **Folding + packaging** — Z-fold membrane, rigid container for launch
 
 **Details:** [Ground Zero Factory](../detailed/factories/overview.qmd)

@@ -22,6 +22,13 @@ materialsById = new Map(dataScript.materials.map(m => [m.id, m]))
 unitsById = new Map(dataScript.units.map(u => [u.id, u]))
 planetsById = new Map(dataScript.planets.map(p => [p.id, p]))
 
+// Format mass (kg or g)
+formatMass = function(massKg) {
+  if (!massKg || massKg === 0) return '—';
+  if (massKg >= 1) return massKg.toFixed(0) + ' kg';
+  return (massKg * 1000).toFixed(0) + ' g';
+}
+
 // Function to get component materials
 getComponentMaterials = function(componentId) {
   return dataScript.unitMaterials
@@ -92,7 +99,7 @@ unitWidget = function(unitId) {
           ${c.materials.map(m => html`<span class="${m.isLocal ? 'local' : 'import'}">${m.symbol || m.name} ${m.fraction_pct}%</span>`)}
         </div>
       </td>
-      <td>${c.massKg ? c.massKg.toFixed(0) : '—'} kg</td>
+      <td>${formatMass(c.massKg)}</td>
       <td class="${c.isLocal ? 'local' : 'import'}">${c.isLocal ? '✓' : '⚠ import'}</td>
     </tr>
   `);
@@ -105,7 +112,7 @@ unitWidget = function(unitId) {
         ${m.material?.name || m.material_id}
       </td>
       <td>${m.fraction_pct}%</td>
-      <td>${m.massKg || '—'} kg</td>
+      <td>${formatMass(parseFloat(m.massKg))}</td>
       <td class="${m.isLocal ? 'local' : 'import'}">${m.isLocal ? '✓ local' : '⚠ import'}</td>
     </tr>
   `);
