@@ -9,23 +9,6 @@ sidebar: science
 > - **Budget:** testing underestimated
 > - **Human:** 50,000 specialists needed, competition for AI talent
 > - **Political:** sanctions, government changes, legal status of resources
-> - **Resource:** electronics ~8%/year of world production
-
----
-
-## Resolved Risks
-
-These issues initially appeared blocking but have solutions.
-
-| Risk | Solution | Details |
-|------|----------|---------|
-| Phased array synchronization | Optical control: Mother mirror → ~1000 Children | [Optical Cluster Control](../summaries/mirrors.qmd#optical-cluster-control) |
-| Electrochromics too slow | Sufficient for cluster architecture | [Electrochromic TiO₂ TRL 7-8](technology-readiness.qmd#electrochromic-tio₂) |
-| Mirror electronics import (55,000 t) | Mother-Children architecture: 98% savings | [Optical Cluster Control](../summaries/mirrors.qmd#optical-cluster-control) |
-| Copper not found on Mercury | Cryo-aluminum in shadow (-180C) | [Cryogenic Al](technology-readiness.qmd#cryogenic-aluminum-cable-gw) |
-| [NaS](technology-readiness.qmd#nas-batteries) batteries during night period | Cables + charging stations | [NaS TRL 9](technology-readiness.qmd#nas-batteries) |
-| **Payload survivability at high g** | Proven to 25,000g (McCormick Stevenson) | [MD Theory](../detailed/railguns/theory.qmd#payload-survivability-at-high-g) |
-| **Super-heavy rocket dependency** | Multi-rocket approach: 3-4 medium rockets + independent Mercury landings | [Delivery](../summaries/delivery.qmd) |
 
 ---
 
@@ -135,11 +118,6 @@ After checkpoint, assembly time is NOT critical — constraint is only Gen-1 lif
 | Realistic | 24 h | 10-15 days | **11-16 days** | Typical delays |
 | Pessimistic | 48 h | 20-30 days | **22-32 days** | Equipment issues |
 
-**Key insight:**
-
-- **Old model:** "7 days critical, 30 = failure"
-- **New model:** "24 hours critical, rest = Gen-1 lifespan question"
-
 After charging infrastructure deployment (checkpoint), robots can work 24/7 with recharging. Even 30-day assembly keeps the project viable.
 
 **Detailed calculation:** [First Factory Assembly ([Bootstrap](glossary.qmd#bootstrap-blitz-assembly))](../detailed/bootstrap.qmd)
@@ -147,69 +125,6 @@ After charging infrastructure deployment (checkpoint), robots can work 24/7 with
 ---
 
 ## Budget Risks
-
-### AI Cost Declining (Risk Resolved)
-
-Baseline estimate ($15-30 billion) was conservative. By 2026:
-
-| Factor | Impact |
-|--------|--------|
-| Foundation models (Meta RoboLlama, Google RT-X) | -50-70% development cost |
-| Humanoid robots | $6-20K (was $50-250K in 2023) |
-| Autonomous mining | TRL 8-9, ready infrastructure |
-
-**2026 References:**
-
-- Boston Dynamics Atlas 3.0 + DeepMind: 30,000 units/year serial production
-- Caterpillar: 690 autonomous trucks, target 2000+ by 2030
-- Rio Tinto: 130 trucks + 1700 km autonomous rail (AutoHaul)
-- Tesla Optimus Gen 3: $15-20K at mass production
-- Unitree R1: **$5,900** per humanoid (July 2025), UBTECH Walker S2: 500+ unit series
-- BYD: 1,500 humanoids in 2025, target 20,000 by 2026
-- Baidu Apollo: L4 robotaxi in 10+ cities in China
-
-**Conclusion:** AI budget of $15-30 billion is adequate or overestimated thanks to foundation models.
-
----
-
-### ~~Dependence on Super-Heavy Rockets~~ → RESOLVED
-
-::: {.callout-tip}
-## Risk Eliminated
-
-Thanks to two factors:
-
-1. **99.998% localization** — imports reduced from ~129M t to ~2,400 t
-2. **Multi-rocket approach** — first expeditions split into 3-4 medium rocket launches
-:::
-
-**Before (old calculation):**
-- E1 (75 t) + E2 (65 t) required super-heavy launch vehicles
-- Dependence on specific rockets and countries
-
-**After (new approach):**
-- E1: 75 t = 4 × medium rockets (~20 t each)
-- E2: 65 t = 3-4 × medium rockets
-- Each rocket lands on Mercury independently
-- Surface assembly by Gen-1 robots
-
-**Why this works:**
-- Mercury has no atmosphere — landing is straightforward (deceleration burns only)
-- Gen-1 robots already know how to assemble (this is their main task — bootstrap)
-- Orbital assembly **not needed**
-
-**International fleet advantages:**
-
-| Factor | 1 super-heavy | 3-4 medium |
-|--------|---------------|------------|
-| Availability | Depends on 1 country | **International fleet** |
-| Loss risk | 100% of cargo | 25-33% of cargo |
-| Flexibility | Only one type | Any ≥20 t to Mercury |
-| Countries | 1-2 | USA, China, ESA, Russia, India, Japan |
-
-**Conclusion:** Project **does not depend** on any specific country or launch vehicle.
-
----
 
 ### Mission Insurance
 
@@ -338,33 +253,12 @@ Thanks to two factors:
 
 ---
 
-## Resource Constraints
-
-### Electronics
-
-| Parameter | Value |
-|-----------|-------|
-| Chips for 1 trillion mirrors | ~1 trillion |
-| World production | ~1.2 trillion/year |
-| **Share (over 10 years)** | **~8%/year** |
-
-### Launch Capacity
-
-| Parameter | Value |
-|-----------|-------|
-| Cargo to Mercury | ~2,400 t (99.998% localization) |
-| At 25-50 t/launch | ~48-96 launches over ~10 years |
-| **Launches/year** | **~5-10** (average, ~15-30 at peak) |
-
----
-
 ## Uncertainties
 
 Require additional research:
 
 1. **Venus gravity influence** on swarm orbits - not modeled
-2. **Hydrogen extraction from poles** - ice confirmed, logistics not designed
-3. **Aluminothermy in vacuum** - laboratory data, industrial scale not proven
+2. **Aluminothermy in vacuum** - laboratory data, industrial scale not proven
 
 ---
 

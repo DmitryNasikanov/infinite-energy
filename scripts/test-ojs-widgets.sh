@@ -14,6 +14,22 @@ WARNINGS=0
 OJS_FILES=(
   "_output/ru/science/summaries/mirrors.html"
   "_output/en/science/summaries/mirrors.html"
+  "_output/ru/science/detailed/hub.html"
+  "_output/en/science/detailed/hub.html"
+  "_output/ru/science/detailed/materials/mre.html"
+  "_output/en/science/detailed/materials/mre.html"
+  "_output/ru/science/detailed/materials/distillation.html"
+  "_output/en/science/detailed/materials/distillation.html"
+  "_output/ru/science/detailed/materials/carbon.html"
+  "_output/en/science/detailed/materials/carbon.html"
+  "_output/ru/science/detailed/materials/overview.html"
+  "_output/en/science/detailed/materials/overview.html"
+  "_output/ru/science/detailed/railguns/theory.html"
+  "_output/en/science/detailed/railguns/theory.html"
+  "_output/ru/science/detailed/railguns/overview.html"
+  "_output/en/science/detailed/railguns/overview.html"
+  "_output/ru/science/detailed/robots/elements/batteries.html"
+  "_output/en/science/detailed/robots/elements/batteries.html"
 )
 
 echo "1. Checking rendered HTML for OJS errors..."
@@ -55,6 +71,8 @@ done
 SUBDIR_DATA=(
   "_output/ru/science/summaries/data/db/data.json"
   "_output/en/science/summaries/data/db/data.json"
+  "_output/ru/science/detailed/data/db/data.json"
+  "_output/en/science/detailed/data/db/data.json"
 )
 
 echo ""

@@ -14,6 +14,8 @@ EN_DATA="en/science/data"
 TARGETS=(
   "_output/ru/science/summaries"
   "_output/en/science/summaries"
+  "_output/ru/science/detailed"
+  "_output/en/science/detailed"
   "_output/ru/science/detailed/materials"
   "_output/ru/science/detailed/factories"
   "_output/ru/science/detailed/factories/assembly"
