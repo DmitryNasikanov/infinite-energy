@@ -154,7 +154,7 @@ gantt
 | **Dome Module** | 4.0 t | Shell + airlock + ladle + internal radiators *(components for on-site assembly; inflatable Bootstrap module 10-12 t — see below)* |
 | **CCM Module** | 6.0 t | Crystallizer + stand + roller table (on skids) |
 | **Rolling Module** | 10.0 t | Mill (6 stands) + drawing + winding |
-| **Finishing Module** | 6.0 t | WAAM + CNC + assembly jig + manipulators |
+| **Finishing Module** | 6.0 t | WAAM + grinding + assembly jig + manipulators |
 | **Total Equipment** | **~35 t** | Modular pre-assembly |
 
 ### First Year Consumables
@@ -174,7 +174,8 @@ gantt
 | Sensors | 0.2 t | |
 | Misc electronics | 0.3 t | |
 | Rare earths (Nd, Sm for magnets) | 0.1 t | |
-| **Total vitamins** | **~1 t** | |
+| Tungsten wire drawing dies | 0.05 t | For WAAM wire |
+| **Total vitamins** | **~1.15 t** | |
 
 ### First Expedition Manifest Summary
 
@@ -184,7 +185,7 @@ gantt
 | Repair kit | 1.6 t |
 | Factory equipment (modules) | 35.0 t |
 | Consumables (1 year) | 0.6 t |
-| Vitamins (electronics) | 1.0 t |
+| Vitamins (electronics) | 1.15 t |
 | **TOTAL first expedition** | **~61 t** |
 
 ---
@@ -309,7 +310,7 @@ Inflatable module (10-12 t) deploys in 4-8 hours.
 | C4.1 | Unload finishing module | Crab-Z ×4 | 1 | A1.2 | 4 |
 | C4.2 | Transport into dome | Crab-Z ×4 | 1 | C4.1, B2.5 | 4 |
 | C4.3 | Install [WAAM](../reference/technology-readiness.qmd#waam-3d-печать) | Centaur-Z ×4 | 2 | C4.2 | 8 |
-| C4.4 | Install CNC | Centaur-Z ×4 | 2 | C4.3 | 8 |
+| C4.4 | Install grinding cell | Centaur-Z ×4 | 2 | C4.3 | 8 |
 | C4.5 | Install assembly jig | Centaur-Z ×8 | 2 | C4.4 | 16 |
 | C5.1 | Lay internal cables | Centaur-Z ×8 | 2 | C1.3, C2.3 | 16 |
 | C5.2 | Connect all modules | Centaur-Z ×12 | 2 | C5.1 | 24 |
@@ -335,8 +336,8 @@ Inflatable module (10-12 t) deploys in 4-8 hours.
 | D3.4 | Test drawing (rod → wire) | Centaur-Z ×2 | 1 | D3.3 | 2 |
 | D4.1 | Calibrate WAAM | Centaur-Z ×4 | 2 | C4.3 | 8 |
 | D4.2 | Test deposition (bracket) | Centaur-Z ×2 | 2 | D4.1 | 4 |
-| D4.3 | Calibrate CNC | Centaur-Z ×2 | 2 | C4.4 | 4 |
-| D4.4 | Test machining | Centaur-Z ×2 | 1 | D4.3 | 2 |
+| D4.3 | Calibrate grinding | Centaur-Z ×2 | 2 | C4.4 | 4 |
+| D4.4 | Test grinding | Centaur-Z ×2 | 1 | D4.3 | 2 |
 | D5.1 | Integration test (full cycle) | Centaur-Z ×8 | 4 | D1.2, D2.2, D3.4, D4.4 | 32 |
 | D5.2 | First production melt | Centaur-Z ×4 | 4 | D5.1 | 16 |
 | | **Phase D Total** | | **~35.5 h** | | **129 robot-hours** |
@@ -353,7 +354,7 @@ Inflatable module (10-12 t) deploys in 4-8 hours.
 | E2.2 | Roll frame profile | Rolling (auto) | 4 | E2.1 | 0 |
 | E2.3 | Draw wire for WAAM | Drawing (auto) | 2 | E2.2 | 0 |
 | E3.1 | WAAM: body and complex parts | WAAM (auto) | 4 | E2.3 | 0 |
-| E3.2 | CNC: finish machining | CNC (auto) | 2 | E3.1 | 0 |
+| E3.2 | Grinding: finish processing | Centaur-M + abrasive (auto) | 2 | E3.1 | 0 |
 | E4.1 | Assemble chassis | Centaur-Z ×4 | 2 | E3.2 | 8 |
 | E4.2 | Install motors | Centaur-Z ×2 | 1 | E4.1 | 2 |
 | E4.3 | Install NaS battery | Centaur-Z ×2 | 1 | E4.2 | 2 |

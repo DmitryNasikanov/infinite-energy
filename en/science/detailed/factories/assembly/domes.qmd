@@ -72,10 +72,12 @@ For all factories after the first — dome production from local materials.
 |-----------|-------|
 | Dimensions | ~50x30 m (~1500 m²) |
 | Height | 6-8 m |
-| Dome mass | ~8 t |
+| Dome mass | ~8 t* |
 | Internal atmosphere | 0.1 atm O₂ |
 | Layers | 8 (alternating silicate fabric + Al foil) |
 | Pressure | 0.1 atm (10 kPa) |
+
+*Finished dome: fabric ~6 t + frame ~1.5 t + airlock ~0.5 t. Bootstrap inflatable module 10-12 t includes reinforced frame.
 
 ### Multi-layer Structure
 
@@ -96,6 +98,15 @@ The dome consists of 8 alternating layers:
 - Redundancy — single layer puncture is not critical
 - Strength — fiberglass withstands micrometeorite impacts
 - Hermeticity — 4 layers of Al foil ensure <0.1%/day leakage
+
+### Layer Lamination Process
+
+Layers are bonded via thermal lamination:
+
+1. Fiberglass (150°C) + Al foil fed to heated calender
+2. Pressure 0.5 MPa, speed 2 m/min
+3. Al foil mechanically anchors in fiberglass pores
+4. Finished 8-layer roll cools and is wound
 
 ---
 
@@ -207,13 +218,12 @@ Additional sealing of seams to maintain 0.1 atm O₂ atmosphere.
 
 | Material | Application |
 |----------|-------------|
-| Silicone sealant | Seams between panels |
-| Al tape | Redundant sealing of critical seams |
+| Al tape | Seams between panels + critical seam backup |
 
 **Process:**
 1. Seam is degreased
-2. Sealant applied (by robot or manually)
-3. Al tape placed over seam
+2. Al tape placed over seam
+3. Ultrasonic welded (150-200°C, 5-10 m/min)
 4. Pressed with roller (1-2 atm pressure)
 
 ---
@@ -250,7 +260,7 @@ If test shows leak, mass spectrometer with helium is used.
 1. Dome is filled with O₂ + 10% He mixture
 2. Mass spectrometer sweep outside
 3. Helium detection = leak found
-4. Leak is patched + sealed
+4. Leak is patched + Al tape (ultrasonic welded)
 
 ---
 
@@ -261,9 +271,8 @@ If test shows leak, mass spectrometer with helium is used.
 | Material | Mass | Source |
 |----------|------|--------|
 | 8-layer composite fabric | ~8 t | [Silicate line](../../materials/silicate-fabric.qmd) |
-| Silicone sealant | ~20 kg | Synthesized from Si (local) |
-| Al tape | ~10 kg | [Rolling](../elements/rolling.qmd) |
-| Fasteners (bolts, nuts) | ~50 kg | [WAAM](../elements/waam.qmd) + CNC |
+| Al tape (seam sealing) | ~30 kg | [Rolling](../elements/rolling.qmd) |
+| Fasteners (bolts, nuts) | ~50 kg | [WAAM](../elements/waam.qmd) + grinding |
 
 **Silicate line throughput:** ~28 t fabric/day → **3-4 domes/day**
 
@@ -293,7 +302,7 @@ After fabrication, the dome is transported to the new factory installation site.
 
 | Component | Power |
 |-----------|-------|
-| Cutting table (laser cutting) | 5 kW |
+| Cutting table (fiber laser 5 kW) | 5 kW |
 | Ultrasonic welding | 5 kW |
 | Testing equipment | 2 kW |
 | Transport and installation | 10 kW |
@@ -312,7 +321,7 @@ After installation, domes require minimal maintenance.
 | Puncture repair | As occurs | Centaur-M (patch) |
 | Dome replacement | 10-15 years | Full replacement |
 
-**Typical punctures:** Micrometeorites >1 mm may puncture 1-2 layers. Repair takes 2-4 hours (patch + sealant).
+**Typical punctures:** Micrometeorites >1 mm may puncture 1-2 layers. Repair takes 2-4 hours (patch + Al tape).
 
 ---
 

@@ -47,15 +47,17 @@ Before factory replication, we need to build the first Mass Driver for launching
 
 | Parameter | Value |
 |-----------|-------|
-| Mass Driver mass | **450 tons*** |
+| Mass Driver mass | **500 tons*** |
 | Al production | 42 t/day |
-| Fe production | 18 t/day |
-| Time for Al (~170 t) | **4 days** |
+| Fe production | 18 t/day** |
+| Time for Al (~220 t) | **5 days** |
 | Time for Fe (~270 t) | **15 days** |
 | Assembly and testing | 5-7 days |
 | **TOTAL first Mass Driver (1 km)** | **~25 days** |
 
 *Baseline 1 km variant. For extended 2-3 km tracks: mass 875-1,300 t, time 40-60 days.
+
+**Peak mode. Nominal Fe production is 11 t/day; peak for Mass Driver construction is 18 t/day via parallel melting.
 
 **Details:** [Mass Driver Production](../../railguns/overview.qmd)
 
@@ -115,6 +117,8 @@ After launching the first Mass Driver, we build a minimal set of mirrors to powe
 | Energy system (panels) | 10 t | 5 days | [Production](../../../summaries/production.qmd#energy) |
 | **TOTAL** | **~83 t** | **~3 weeks** | |
 
+> **Parallel Work:** Critical path is equipment (10-15 days). Dome, robots, and energy system are produced in parallel, so total time = equipment time + final assembly (3-5 days) ≈ **~3 weeks**.
+
 **Growth Strategy:**
 
 1. **Exponential growth phase:** All Ground Zero Factories at 100% build new Ground Zero Factories (doubling every 3 weeks)
@@ -133,9 +137,9 @@ After reaching 1,000 factories, focus shifts to building Mass Drivers.
 |-----------|-------|
 | Factories | 1,000 |
 | Al production | 42 t/day x 1,000 = 42,000 t/day |
-| Fe production | 18 t/day x 1,000 = 18,000 t/day |
-| Mass of 1 Mass Driver (1 km) | **450 t** (170 t Al + 270 t Fe) |
-| Materials for 1,000 Mass Drivers | 450,000 t |
+| Fe production | 11 t/day x 1,000 = 11,000 t/day |
+| Mass of 1 Mass Driver (1 km) | **500 t** (220 t Al + 270 t Fe) |
+| Materials for 1,000 Mass Drivers | 500,000 t |
 | Time for 1,000 Mass Drivers | **~15 days** |
 
 **Conclusion:** 1,000 factories build 1,000 Mass Drivers in **~2 weeks** (1 km baseline track).
@@ -323,7 +327,8 @@ gantt
 **Phase 1 mirror calculation:**
 - Average factories during growth: ~500 (from 1 to 1,000)
 - Output: 500 factories × 350 mirrors/day × 50% = ~88,000 mirrors/day
-- Over 4 years (1,460 days): ~88,000 × 1,460 = **~128M mirrors**
+- Over 4 years (1,460 days): ~88,000 × 1,460 = ~128M mirrors (calculated)
+- With reserve for defects and losses (+12%): **~143M mirrors**
 
 ---
 

@@ -33,7 +33,7 @@ The "Ground Zero Factory" is the first self-replicating factory on Mercury. Its 
 | Internal dome environment | Oxygen 0.1 atm (local, from MRE) |
 | **Dome dimensions** | **~50x30 m (~1,500 m^2)** |
 | Dome height | 6-8 m (for 1 t bridge crane) |
-| Power consumption (factory) | 5 MW (peak) |
+| Power consumption (factory) | ~16 MW (6 MW elec. + 10 MW thermal) |
 | Available energy (3 GaAs shipments) | 168 MW (113 MW reserve) |
 
 **Exponential growth strategy:**
@@ -107,7 +107,7 @@ flowchart TD
 
         subgraph FORMING["Forming (200 m2)"]
             WAAM["WAAM 3D printing"]
-            CNC["CNC 5-axis"]
+            GRIND["Grinding cell"]
         end
 
         subgraph ROBOTS["Robot assembly (250 m2)"]
@@ -130,8 +130,8 @@ flowchart TD
     MHD --> TUNDISH
     TUNDISH --> MNLZ_AL & MNLZ_FE
     MNLZ_FE --> FURNACE --> MILL
-    MILL --> WIRE --> WAAM --> CNC
-    CNC --> STAP_R & STAP_E
+    MILL --> WIRE --> WAAM --> GRIND
+    GRIND --> STAP_R & STAP_E
     LOCK --> BUFFER
     BUFFER --> CUT --> WELD
     STAP_R --> TEST_R --> LOCK
@@ -145,7 +145,7 @@ flowchart TD
 | Casting | ~200 m^2 | CCM-Al + CCM-Fe |
 | Rolling | ~200 m^2 | Profiles, sheets, wire |
 | Wire drawing | ~100 m^2 | Wire dia 1.6 mm for WAAM |
-| Forming (WAAM + CNC) | ~200 m^2 | Robot parts, equipment, MD |
+| Forming (WAAM + grinding) | ~200 m^2 | Robot parts, equipment, MD |
 | Robot assembly | ~250 m^2 | Robot jig + testing |
 | Cutting + dome welding | ~200 m^2 | Table 10x5 m + ultrasonic welding |
 | Equipment assembly | ~200 m^2 | Factory equipment jig |
@@ -372,7 +372,7 @@ Energy is divided into **thermal** (solar concentrators) and **electrical** (pho
 | Consumer | F-R | F-M |
 |----------|-----|-----|
 | Rolling mill / foil | 2 MW | 3 MW |
-| WAAM + CNC | 1 MW | - |
+| WAAM + grinding | 0.05 MW | - |
 | Assembly jigs | 0.5 MW | - |
 | Cutting + dome welding | 0.02 MW | - |
 | Mirror assembly | - | 0.5 MW |

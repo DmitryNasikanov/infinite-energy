@@ -59,14 +59,15 @@ For 2 rails x 1 km: 28.2 m³ Al -> ~76 t
 
 | Stage | Equipment | Output |
 |-------|-----------|--------|
-| Billet casting | CCM-Al | 100x100 mm billets |
-| Rolling to profile | Rolling mill | 200x300 mm profile |
-| Cooling channel drilling | CNC mill | 50 mm channel |
-| Cutting to segments | Gas cutting | 10 m segments |
+| Billet casting with core | CCM-Al with ceramic core | 100x100 mm billets with 50 mm channel |
+| Rolling to profile | Rolling mill | 200x300 mm profile with channel |
+| Cutting to segments | Plasma cutting | 10 m segments |
 | Heat treatment | Induction furnace | Stress relief |
 | Surface polishing | Grinding mill | Ra <1 um |
 
-**Details:** [Rolling Mill](../../factories/elements/rolling.qmd), [CNC/WAAM](../../factories/elements/waam.qmd)
+**Note:** The cooling channel is formed during casting using a ceramic core (MgO), which is then removed.
+
+**Details:** [Rolling Mill](../../factories/elements/rolling.qmd), [Grinding](../../factories/elements/waam.qmd)
 
 ---
 
@@ -89,7 +90,7 @@ For 2 rails x 1 km: 28.2 m³ Al -> ~76 t
 |-----------|-------|
 | Coolant | NaK (sodium-potassium alloy) |
 | Coolant temperature | -150°C |
-| NaK flow rate | 50 L/min per track |
+| NaK flow rate | 100 L/min per track |
 | Radiators | Directed into shadow (-180°C) |
 | Pump power | 100 kW |
 
@@ -143,7 +144,7 @@ For 2 rails x 1 km: 28.2 m³ Al -> ~76 t
 | Parameter | Test | Standard | Action on Deviation |
 |-----------|------|----------|---------------------|
 | Conductivity | 4-point resistance measurement | >95% IACS | Remelting |
-| Flatness | CNC touch probe | +/-0.5 mm | Grinding |
+| Flatness | Touch probe | +/-0.5 mm | Grinding |
 | Microcracks | Visual (cameras) + load test | No visible defects | Rejection |
 | Surface finish | Visual (cameras) | Ra <1 um | Polishing |
 
@@ -160,7 +161,7 @@ For 2 rails x 1 km: 28.2 m³ Al -> ~76 t
 | Cooling connection | 3 days | 10 Centaurs-M |
 | Calibration | 1 day | Automation |
 
-**TOTAL:** ~4 weeks from trench to ready rails.
+**TOTAL:** ~3-4 weeks from trench to ready rails. (Runs in parallel with frame and coil installation.)
 
 ---
 

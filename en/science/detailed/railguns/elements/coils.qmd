@@ -7,7 +7,7 @@ sidebar: science
 >
 > - **Purpose:** Electromagnetic windings for projectile acceleration
 > - **Material:** Cryogenic aluminum (360% conductivity at -180°C)
-> - **Mass:** ~300 t per Mass Driver (3,000 coils)
+> - **Mass:** ~100 t per Mass Driver (1,000 coils)
 > - **Technology:** Automated winding + cryogenic cooling
 
 ---
@@ -22,11 +22,11 @@ Mass Driver coils are electromagnets that create the magnetic field for projecti
 
 | Parameter | Value |
 |-----------|-------|
-| Coils per track | 3,000 (1 m each) |
+| Coils per track | 1,000 (1 per meter) |
 | Turns per coil | 50-100 |
 | Wire | Aluminum, 10 mm diameter |
 | Mass per coil | ~100 kg |
-| **TOTAL winding mass** | **~300 t Al** |
+| **TOTAL winding mass** | **~100 t Al** |
 
 ### Coil Schematic
 
@@ -82,9 +82,9 @@ Mass Drivers are positioned at the **terminator** (day/night boundary):
 
 **Productivity:** 1 winding machine = 10-20 coils/day
 
-**For 3,000 coils:** 150-300 days = **5-10 months** on 1 machine
+**For 1,000 coils:** 50-100 days on 1 machine
 
-**With 10 machines:** ~**1 month**
+**With 5 machines:** ~**3 weeks**
 
 **Details:** [Rolling Mill](../../factories/elements/rolling.qmd)
 
@@ -121,21 +121,21 @@ Mass Drivers are positioned at the **terminator** (day/night boundary):
 
 | Parameter | Value |
 |-----------|-------|
-| Energy per launch | 3.6 GJ |
+| Energy per launch | 4.7 GJ (including capacitor losses) |
 | Efficiency | 40% |
-| Heat loss | **2.2 GJ** |
-| Shot duration | 12 sec |
-| Peak heat generation | **~180 MW** |
+| Heat loss | **2.8 GJ** |
+| Shot duration | 0.4 sec |
+| Peak heat generation | **~280 MW** (absorbed by thermal mass) |
 
 ### Average Power
 
 At 600 launches/day:
 
 ```
-2.2 GJ × 600 / 86,400 sec = ~15 MW average heat generation
+2.8 GJ × 600 / 86,400 sec = ~20 MW average heat generation
 ```
 
-**Required rejection:** ~15-20 MW continuous + peaks up to 180 MW.
+**Required rejection:** ~20 MW continuous. Peak heat (280 MW for 0.4 sec) is absorbed by thermal mass of coils and NaK coolant, then dissipated over 2-3 minutes between shots.
 
 ---
 
@@ -167,7 +167,7 @@ At 600 launches/day:
 
 | Component | Mass | Production |
 |-----------|------|------------|
-| Windings (3,000 coils) | 300 t Al | 42 t/day → **8 days** |
+| Windings (1,000 coils) | 100 t Al | 42 t/day → **2.5 days** |
 | NaK cooling system | 5 t NaK | Local |
 | Radiators | 50 t Al | 42 t/day → **1.5 days** |
 
@@ -184,13 +184,13 @@ At 600 launches/day:
 
 | Stage | Time | Robots |
 |-------|------|--------|
-| Coil frame installation | 1 week | 20 Centaur-M |
-| Coil mounting (3,000 units) | **1 month** | 10 Centaur-M |
-| Cooling connection | 1 week | 10 Centaur-M |
-| Power cable routing | 1 week | 10 Centaur-M |
+| Coil frame installation | 3 days | 20 Centaur-M |
+| Coil mounting (1,000 units) | **2 weeks** | 10 Centaur-M |
+| Cooling connection | 3 days | 10 Centaur-M |
+| Power cable routing | 3 days | 10 Centaur-M |
 | Circuit testing | 2 days | Automated |
 
-**TOTAL:** ~6 weeks from installation to ready.
+**TOTAL:** ~3-4 weeks from installation to ready. (Runs in parallel with rail and frame installation.)
 
 ---
 

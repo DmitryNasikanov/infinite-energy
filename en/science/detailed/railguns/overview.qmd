@@ -14,7 +14,7 @@ import { unitWidget } from "../../ojs-data.qmd"
 >
 > - **Purpose:** Electromagnetic catapult for launching mirrors into orbit
 > - **Parameters:** Length **1 km** (base), velocity 5 km/s, acceleration 1275g
-> - **Mass:** **~450 tons** (98.5% local materials)
+> - **Mass:** **~500 tons** (98.5% local materials)
 > - **Throughput:** 600 launches/day, 60 tons of mirrors/day
 > - **Energy:** 55 MW complex (33 MW launches + 22 MW production)
 > - **Robots:** 52 robots per 1 MD
@@ -33,7 +33,7 @@ A [Mass Driver](../reference/glossary.qmd#mass-driver) is an electromagnetic gun
 
 ### Launch Physics
 
-The Mercurian Mass Driver is an electromagnetic launcher that accelerates a 115 kg container with a mirror to **escape velocity** from Mercury.
+The Mercurian Mass Driver is an electromagnetic launcher that accelerates a 116 kg container with a mirror to **escape velocity** from Mercury.
 
 | Parameter | Value |
 |-----------|-------|
@@ -58,7 +58,7 @@ The base configuration (1 km) is chosen for maximum construction speed:
 |-----------|-----------------|------|------|
 | Acceleration | **1275g** | 637g | 425g |
 | Acceleration time | 0.4 sec | 0.8 sec | 1.2 sec |
-| MD mass | **~450 t** | ~875 t | ~1300 t |
+| MD mass | **~500 t** | ~875 t | ~1300 t |
 | Construction time | **~25 days** | ~40 days | ~60 days |
 | Margin vs 25,000g | 20x | 39x | 59x |
 | Peak power | 11.8 GW | 5.9 GW | 3.9 GW |
@@ -71,11 +71,11 @@ The base configuration (1 km) is chosen for maximum construction speed:
 ### Launch Energy
 
 ```
-Container mass: 115 kg (100 kg mirror + 15 kg container)
+Container mass: 116 kg (100 kg mirror + 15 kg container)
 Velocity: 5000 m/s
 
 E = ½ × m × v²
-E = ½ × 115 × (5000)² = 1.44 GJ
+E = ½ × 116 × (5000)² = 1.45 GJ
 ```
 
 **Energy per ton of mirrors:**
@@ -101,8 +101,8 @@ The electromagnetic accelerator has losses from:
 
 ```
 Efficiency: 40% (cryo-aluminum -180C)
-Useful energy: 1.44 GJ
-Consumed energy: 1.44 / 0.40 = 3.6 GJ
+Useful energy: 1.45 GJ
+Consumed energy: 1.45 / 0.40 = 3.6 GJ
 
 For capacitors (charge/discharge efficiency 77%):
 3.6 / 0.77 = 4.7 GJ per launch
@@ -130,7 +130,7 @@ Mercury regolith contains **0.001% copper** — virtually zero concentration. Im
 
 ### Solution: Stationary Placement in Shadow
 
-Mass Drivers are placed in stationary positions optimized by coordinates (latitude, longitude) for maximum time in shadow. Mercury's dark side has **-180C** — aluminum coils are naturally cooled:
+Mass Drivers are positioned at the **terminator** (day/night boundary). The working section is placed in shadow (-180°C), while cooling radiators face the dark side:
 
 1. **Mass Driver coils** — aluminum (local production), naturally cryogenic in shadow
 2. **Solar panels** — nearby, on the sunlit side
@@ -160,14 +160,14 @@ unitWidget("EQU-001")
 | Component | Mass (1 km) | Material | Localization |
 |-----------|-------------|----------|--------------|
 | Tunnel frame | **~270 t** | Steel Fe-6%Mn | 100% local |
-| Rails + coils + cooling | **~170 t** | Aluminum (cryo) | 100% local |
+| Rails + coils + cooling | **~220 t** | Aluminum (cryo) | 100% local |
 | Electronics and sensors | ~7 t | Import | **Earth** |
-| **TOTAL (1 km)** | **~450 t** | | **98.5% local** |
+| **TOTAL (1 km)** | **~500 t** | | **98.5% local** |
 
 *When extended: 2 km (~875 t), 3 km (~1,300 t).
 
 **Materials:**
-- **Rails:** Steel Fe-6%Mn (wear resistance)
+- **Rails:** Aluminum (cryo-cooled for conductivity)
 - **Coils:** Aluminum (cooled to -180C)
 - **Frame:** Steel Fe-6%Mn (1 km tunnel)
 - **Capacitors:** Na + S + Al₂O₃ (100 GJ energy)
@@ -204,7 +204,7 @@ unitWidget("EQU-001")
 |-----------|-------|
 | Launches per day | **600** |
 | Interval between launches | 2.4 minutes |
-| Container mass | 115 kg |
+| Container mass | 116 kg |
 | Mirror mass | 100 kg |
 | Daily mirror output | **60 tons** |
 
@@ -315,7 +315,7 @@ Finished materials (Al/Fe/Si) are transformed into Mass Driver components:
 - [Coil Winding](elements/coils.qmd) - electromagnetic windings (cryo-aluminum)
 - [Tunnel Frame](elements/frame.qmd) - 1 km steel frame
 
-**Materials:** Al (170 t) + Fe (270 t) from [regolith processing](../materials/overview.qmd)
+**Materials:** Al (220 t) + Fe (270 t) from [regolith processing](../materials/overview.qmd)
 
 **2. Track Assembly (Components -> Mass Driver)**
 
@@ -331,21 +331,21 @@ After commissioning, the Mass Driver operates at **600 launches/day**.
 
 ### Material Balance
 
-**Per 1 Mass Driver (base configuration 1 km, ~450 t):**
+**Per 1 Mass Driver (base configuration 1 km, ~500 t):**
 
 | Material | Mass | Source |
 |----------|------|--------|
 | Steel Fe-6%Mn | **~270 t** | [Regolith Processing](../materials/overview.qmd) |
-| Aluminum (cryogenic) | **~170 t** | [Regolith Processing](../materials/overview.qmd) |
+| Aluminum (cryogenic) | **~220 t** | [Regolith Processing](../materials/overview.qmd) |
 | Electronics | ~7 t | **Import from Earth** |
 
 **Localization:** 98.5% by mass
 
 **Material production time (1 km):**
-- Al: 170 t / 42 t/day = **4 days**
-- Fe: 270 t / 18 t/day = **15 days**
+- Al: 220 t / 42 t/day = **5 days**
+- Fe: 270 t / 11 t/day = **25 days**
 
-**TOTAL (1 km):** ~**15-20 days** for material accumulation + 5-7 days for assembly = **~25 days**
+**TOTAL (1 km):** ~**25-30 days** for material accumulation + 5-7 days for assembly = **~30-35 days**
 
 ### Construction Stages (base configuration 1 km)
 
@@ -383,7 +383,7 @@ Mass driver consumes **600 mirrors/day = 70 tons/day**
 | Aluminum smelting | 2 | Automated furnace |
 | 4 um foil rolling | 3 | Precision work |
 | Cutting and forming | 4 | 600 pcs/day = 25/hour |
-| Counterweight casting | 2 | Iron or basalt |
+| Counterweight casting | 2 | Iron |
 | Cable drawing | 2 | Steel wire |
 | Electronics mounting | 2 | Precision work |
 | Folding + packaging | 4 | Z-fold, container |
@@ -469,17 +469,17 @@ Data based on [Roadmap](../../summaries/roadmap.qmd): Expedition 1 (1 factory) +
 | Component | Material | Mass |
 |-----------|----------|------|
 | Reflective film | Aluminum 4 um | 100 kg |
-| Counterweights (4 pcs) | Iron or basalt | 3 kg |
+| Counterweights (4 pcs) | Iron | 3 kg |
 | Cables (4 pcs) | Steel | 2 kg |
 | Control electronics | Import | 50 g |
 | Actuators (electrochromic) | Local | 1 kg |
 | Launch container | Aluminum | 10 kg |
-| **TOTAL** | | **~115 kg** |
+| **TOTAL** | | **~116 kg** |
 
 ### Daily Consumption per 1 Mass Driver
 
 ```
-600 launches x 115 kg = 70 tons
+600 launches x 116 kg = 70 tons
 
 Of which:
 - Aluminum: ~66 tons (local)
@@ -506,12 +506,12 @@ Of which:
 
 | Component | Service life | Replacement (1 MD/year) |
 |-----------|--------------|-------------------------|
-| Guide rails | 3-6 months | 300-400 t Al |
+| Guide rails | 3-6 months | 280 t Al |
 | Coil windings | 3-5 years | 30 t Al |
 | Capacitors | 2-3 years | 20 t |
 | Electronics | 5-10 years | 0.5 t (import) |
 
-**Annual replacement consumption (1 km):** ~350-450 t Al + 0.5 t import
+**Annual replacement consumption (1 km):** ~350 t Al + 0.5 t import
 
 ---
 
@@ -544,7 +544,7 @@ Of which:
 | Parameter | In calculations | Realistic estimate |
 |-----------|-----------------|-------------------|
 | Rail service life | 1-2 years | **3-6 months** |
-| Replacement per year | 100 t Al | **300-400 t Al** |
+| Replacement per year | 100 t Al | **280 t Al** |
 
 **Causes:**
 - Electric arc at high currents
@@ -556,7 +556,7 @@ Of which:
 | Parameter | Value |
 |-----------|-------|
 | Acceleration | 12,500 m/s² (1275g) |
-| Force on 115 kg carriage | **1.44 MN (144 tons)** |
+| Force on 116 kg carriage | **1.44 MN (144 tons)** |
 
 **Solution:** Massive foundation, dampers, regular calibration.
 

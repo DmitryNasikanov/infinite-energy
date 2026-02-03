@@ -7,7 +7,7 @@ sidebar: science
 >
 > - **Purpose:** Structural frames for robots
 > - **Material:** Hybrid Fe/Al (steel + aluminum)
-> - **Technology:** WAAM 3D printing + CNC machining
+> - **Technology:** WAAM 3D printing + abrasive grinding
 > - **Output:** ~5 frames/day
 
 ---
@@ -43,7 +43,7 @@ The robot frame is the structural chassis to which all other components attach: 
 |------|-------------|
 | 1. 3D Model Development | CAD model of frame (custom for each type) |
 | 2. WAAM Printing | Robot manipulator deposits wire layer by layer |
-| 3. CNC Machining | Milling of mounting surfaces, threaded holes |
+| 3. Grinding | Abrasive processing of mounting surfaces |
 | 4. Heat Treatment | Stress relief (annealing) |
 | 5. Quality Control | Ultrasonic testing for cracks, geometry measurement |
 
@@ -62,8 +62,8 @@ The robot frame is the structural chassis to which all other components attach: 
 
 ### Frame Print Time
 
-| Robot Type | Frame Mass | WAAM Time | CNC Time | TOTAL |
-|------------|------------|-----------|----------|-------|
+| Robot Type | Frame Mass | WAAM Time | Grinding Time | TOTAL |
+|------------|------------|-----------|---------------|-------|
 | Mole-M | 1250 kg | 40 hours | 8 hours | **~48 hours** |
 | Crab-M | 800 kg | 25 hours | 5 hours | **~30 hours** |
 | Centaur-M | 320 kg | 10 hours | 2 hours | **~12 hours** |
@@ -72,15 +72,20 @@ The robot frame is the structural chassis to which all other components attach: 
 
 ---
 
-## CNC Machining of Mounting Surfaces
+## Grinding of Mounting Surfaces
 
-After WAAM printing, the frame has a rough surface. Critical areas are machined on CNC.
+After WAAM printing, the frame has a rough surface. Critical areas are processed by abrasive grinding.
 
 | Operation | Tool | Precision |
 |-----------|------|-----------|
-| Milling mounting surfaces | Carbide end mill | +/-0.05 mm |
-| Drilling holes | Drill bit | +/-0.1 mm |
-| Threading | Tap | M6-M20 |
+| Grinding mounting surfaces | Al₂O₃ abrasive wheel | +/-0.1 mm |
+| Drilling holes | Drill bit (Centaur-M robot) | +/-0.2 mm |
+| Threading | Tap (Centaur-M robot) | M6-M20 |
+
+**Advantages of abrasive grinding:**
+- No imported high-speed spindle required
+- Al₂O₃ (corundum) produced from regolith — unlimited supply
+- Same Centaur-M robot as for WAAM
 
 **Mounting points per frame:**
 - Mole-M: ~50 (actuators, battery, electronics)
@@ -139,7 +144,7 @@ After WAAM printing, the frame has a rough surface. Critical areas are machined 
 | Parameter | Method | Standard | Action |
 |-----------|--------|----------|--------|
 | Porosity | In-process WAAM monitoring | <2% | Parameter correction |
-| Geometry | CNC touch probe | +/-1 mm | CNC rework |
+| Geometry | Touch probe | +/-1 mm | Grinding rework |
 | Cracks | Visual (Centaur-M cameras) | No visible defects | Reject |
 | Strength | Load test (sampling) | Per specification | — |
 
@@ -150,9 +155,9 @@ After WAAM printing, the frame has a rough surface. Critical areas are machined 
 | Component | Power |
 |-----------|-------|
 | WAAM cells (3 units) | 30 kW |
-| CNC machines (2 units) | 40 kW |
+| Grinding cells (2 units) | 10 kW |
 | Heat treatment | 20 kW |
-| **TOTAL** | **~90 kW** |
+| **TOTAL** | **~60 kW** |
 
 ---
 
@@ -161,7 +166,7 @@ After WAAM printing, the frame has a rough surface. Critical areas are machined 
 | Operation | Frequency | Performer |
 |-----------|-----------|-----------|
 | WAAM torch replacement | 1 month | Centaur-M |
-| CNC cutter replacement | 1 week | Centaur-M |
+| Abrasive wheel replacement | 1 week | Centaur-M |
 | Robot manipulator calibration | 1 month | Automatic |
 | Rotary table cleaning | Daily | Crab-M |
 
