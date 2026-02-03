@@ -13,6 +13,33 @@ sidebar: science
 
 ---
 
+## Site Selection: Polar Crater
+
+> **Critical:** Bootstrap takes place at **Mercury's pole** (Prokofiev crater, 85°N), NOT at the equator. This fundamentally changes the thermal regime.
+
+### Why the Pole, Not the Equator?
+
+| Parameter | Mercury Equator | Pole (Prokofiev crater) |
+|-----------|-----------------|-------------------------|
+| Day temperature | **+430°C** | Peaks: ~+100°C (low sun angle) |
+| Night temperature | -180°C | Crater floor: **-150°C** (permanent) |
+| Day/night cycle | 176 Earth days | **No cycle** — eternal shadow + eternal light |
+| Li-S compatibility (-60°C...+60°C) | **Impossible** | **Yes** (operation in shadow/terminator) |
+
+### Crater Thermal Zones
+
+A polar crater has three thermal zones:
+
+1. **Peaks of eternal light** (crater rims) — permanently lit (~+100°C), solar panels are placed here
+2. **Terminator zone** (slopes) — variable lighting (-50°C...+50°C), Gen-1 robot work zone
+3. **Eternal shadow** (crater floor) — permanent -150°C to -180°C, storage, cooling, water ice
+
+**Gen-1 operating mode:** Robots operate in the terminator zone and on illuminated slopes. If overheating, they retreat to shadow for cooling. Li-S batteries (-60°C...+60°C) are fully compatible with this regime.
+
+> **The 88-day "night" myth:** This applies only to the equator. At the poles, "peaks of eternal light" are lit **continuously** (24/7/365). The 88-day night problem does not apply to the polar base.
+
+---
+
 ## Why This is a Unique Phase
 
 [Bootstrap](../reference/glossary.qmd#bootstrap-блиц-монтаж) is the only moment in the project when there are no local resources and nowhere to charge robots. After factory startup, standard production with self-replication begins.
@@ -67,6 +94,8 @@ gantt
 
 **With ×2 buffer:** 24 hours to energy autonomy (margin for unexpected issues).
 
+> **Note on parallelism:** The diagram shows phases as "parallel", but this is a simplification. In practice, B2.1 and C1.x **start after A1.2** (dependency: "unloading complete"). After A1.2, all 12 Crab-Zs are free → B2.1 (4 units) + C1.1 (4 units) can run in parallel. Centaur-Zs (24 units) cover all parallel operations of phases A/B/C.
+
 ### Why Time After Checkpoint is Not Critical
 
 | Factor | Before checkpoint | After checkpoint |
@@ -114,13 +143,15 @@ gantt
 | Mole-Z | 4 | 800 kg | 3.2 t | Site leveling |
 | **Total** | **56** | | **22.5 t** | |
 
+> **On robot autonomy:** Gen-1 robots perform **routine operations** (unloading, mounting, cable laying), not scientific research. This is closer to autonomous mining equipment ([Rio Tinto/Caterpillar](robots/overview.qmd#референсы-автономная-добыча)) than to Mars rovers.
+
 ### Factory Equipment (Modular Delivery)
 
 | Module | Mass | Contents |
 | :--- | :--- | :--- |
 | **Power Module** | 3.0 t | Mirrors (2000 m²) + frame + GaAs cells + radiators |
 | **MRE Module** | 4.0 t | Furnace + crucible + electrodes + MHD + frame |
-| **Dome Module** | 4.0 t | Shell + airlock + ladle + internal radiators |
+| **Dome Module** | 4.0 t | Shell + airlock + ladle + internal radiators *(components for on-site assembly; inflatable Bootstrap module 10-12 t — see below)* |
 | **CCM Module** | 6.0 t | Crystallizer + stand + roller table (on skids) |
 | **Rolling Module** | 10.0 t | Mill (6 stands) + drawing + winding |
 | **Finishing Module** | 6.0 t | WAAM + CNC + assembly jig + manipulators |
@@ -171,9 +202,9 @@ The lander module is equipped with deployable solar panels for charging robots i
 | Parameter | Value |
 |-----------|-------|
 | Panels on module | ~50 m² GaAs |
-| Power (near Mercury) | ~500 kW |
+| Power (near Mercury) | ~180 kW (GaAs 35%) |
 | Total battery capacity (56 robots) | ~100 kWh |
-| Full charge time | ~12 minutes (at full power) |
+| Full charge time | ~35 minutes |
 
 ### Flight Mode
 
@@ -204,6 +235,8 @@ Li-S batteries are optimal for long-term storage in space: low self-discharge (~
 Inflatable module (10-12 t) deploys in 4-8 hours.
 
 **Analog:** [Bigelow Aerospace BEAM](https://www.nasa.gov/mission_pages/station/research/experiments/1804.html) module on ISS (16 m³, 1.4 t) — operating successfully since 2016.
+
+> **BEAM → Helios scaling:** BEAM is a rigid module with full life-support (1 atm, 87 kg/m³). The Helios dome is a lightweight structure: shell only (no life support — no humans), multi-layer composite instead of metal, 0.1 atm. Under these conditions, specific mass of ~1.3-1.6 kg/m³ is realistic.
 
 **Deployment process:**
 
@@ -285,6 +318,8 @@ Inflatable module (10-12 t) deploys in 4-8 hours.
 ---
 
 ### Phase D: Commissioning (20-40 h)
+
+> **Note on calibration time:** The times shown are **minimum under ideal conditions**. After transport (3-4 months, vibrations, thermal cycling), actual calibration may take ×2-3 longer. This is accounted for in the 20-40 h range and does not affect checkpoint.
 
 | # | Operation | Robots | Hours | Dependency | Robot-hours |
 |---|-----------|--------|-------|------------|-------------|

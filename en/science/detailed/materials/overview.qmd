@@ -72,7 +72,7 @@ flowchart TD
             SF2 -->|melt| MRE[MRE Cell]
             MRE --> O2[Oxygen 250 t]
             MRE --> FESI[Iron-silicon 35 t]
-            MRE --> SLAG[Slag 113 t]
+            MRE --> SLAG[Slag 251 t]
         end
     end
 
@@ -109,8 +109,8 @@ flowchart TD
 | **Sulfur (S)** | 18 | 3% | Titanium line | NaS batteries (cathode) |
 | **TiO₂** | 3 | 0.5% | Titanium line | Mirror electrochromics |
 | **Glass fiber** | 28 | 5% | Silicates (SiO₂ + Al₂O₃ + CaO) | Insulation, composites |
-| **Carbon (C)*** | ~6 | 1% | Phase 2 | Hadfield steel, anodes |
-| *Waste/slag* | ~130 | 22% | All lines | Fill, ballast |
+| **Carbon (C)** | (~6) | — | *Phase 2 (not in balance)* | Hadfield steel, anodes |
+| *Waste/slag* | ~143 | 24% | Distillation 138 + titanium 5 | Fill, ballast |
 
 **Notes:**
 
@@ -118,7 +118,8 @@ flowchart TD
 - **Ferrosilicon:** Si exits MRE together with Fe. Purification via zone refining (35 t -> 25 t pure Si)
 - **NaK:** Eutectic 78% K + 22% Na, liquid at -12C - ideal coolant for space
 - **Oxygen:** Not for breathing (no humans) - for dome atmosphere (0.1 atm O₂) and chemical processes
-- *Carbon: **Phase 2** - requires separate factories at LRM deposits.
+- **Carbon:** Phase 2 - requires separate factories at LRM deposits (not included in 600 t balance).
+- **CaO (calcium oxide):** ~10% of regolith (~60 t/day) — not reduced in MRE (Ca is too reactive). Partially used: ~3 t/day for glass fiber (flux) and WAAM fluxes. Remainder (~57 t/day) stays in final slag (fill, ballast).
 
 ---
 
@@ -253,9 +254,9 @@ The 1:19 ratio is set by outlet geometry. No electronics - pure mechanics.
 | # | Line | Input | t/day | Output |
 |---|------|-------|-------|--------|
 | 3.1.1 | [Glass Fiber](silicate-fabric.qmd) | Silicates (5%) | 28 | SiO₂ fiber |
-| 3.1.2 | [MRE Electrolysis](mre.qmd) | Silicates (95%) | 536 | O₂ 250t, Fe/Si 35t, slag 113t |
-| 3.1.3 | [Distillation](distillation.qmd) | MRE slag* | 113 | Al 42t, Mg 48t, Na 20t, K 3t |
-| 3.1.4 | [Titanium Line](titanium.qmd) | Magnetic fraction | 36 | TiO₂ 3t, S 18t, Fe 10t |
+| 3.1.2 | [MRE Electrolysis](mre.qmd) | Silicates (95%) | 536 | O₂ 250t, Fe/Si 35t, slag 251t |
+| 3.1.3 | [Distillation](distillation.qmd) | MRE slag | 251 | Al 42t, Mg 48t, Na 20t, K 3t, slag 138t |
+| 3.1.4 | [Titanium Line](titanium.qmd) | Magnetic fraction | 36 | TiO₂ 3t, S 18t, Fe 10t, waste 5t |
 | 3.1.5 | Carbon *(opt.)* | LRM regolith | 200 | Graphite ~6t |
 
 *Distillation processes **slag from MRE**, not input regolith - this is a sequential, not parallel line.

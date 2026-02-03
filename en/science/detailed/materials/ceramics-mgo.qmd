@@ -6,9 +6,10 @@ sidebar: science
 > **TL;DR**
 >
 > - **Purpose:** Production of refractory ceramics from magnesium
-> - **Input:** 48 t/day liquid Mg from distillation + 32 t/day O2 from MRE
-> - **Output:** ~70 t/day MgO ceramics (88% yield)
+> - **Input:** ~44 t/day liquid Mg from distillation + ~29 t/day O2 from MRE
+> - **Output:** ~66 t/day MgO ceramics (88% yield)
 > - **Applications:** Crucibles, furnace linings, thermal insulation
+> - **Note:** Remaining ~4 t/day Mg → Al-Mg alloys (see [Distillation](distillation.qmd))
 
 ---
 
@@ -18,9 +19,9 @@ Magnesium oxide (MgO) ceramics are a critically important refractory material fo
 
 | Parameter | Value |
 |-----------|-------|
-| Input | Liquid Mg from distillation (48 t/day, 8% of regolith) |
-| Input | O2 from MRE electrolysis (32 t/day) |
-| Output | MgO ceramic blocks/powder (~70 t/day) |
+| Input Mg | ~44 t/day from distillation (remaining ~4 t → Al-Mg alloys) |
+| Input O2 | ~29 t/day from MRE electrolysis |
+| Output | MgO ceramic blocks/powder (~66 t/day) |
 | Reaction yield | 88% (losses from dust, rejects, cracks) |
 | Power consumption | ~150 kW (oxidation + sintering) |
 
@@ -33,7 +34,7 @@ Magnesium oxide (MgO) ceramics are a critically important refractory material fo
 ```{mermaid}
 flowchart TD
     subgraph INPUT["INPUT"]
-        MG["Liquid Mg<br/>1091C<br/>48 t/day"]
+        MG["Liquid Mg<br/>1091C<br/>~44 t/day"]
         O2["O2 from MRE<br/>32 t/day"]
     end
 
@@ -81,9 +82,9 @@ Liquid magnesium from distillation (1091C) is fed into the oxidation furnace whe
 | Parameter | Value |
 |-----------|-------|
 | Reaction temperature | 600-1000C |
-| Incoming Mg | 48 t/day = 1,975 kmol/day |
-| Required O2 | 32 t/day = 987.5 kmol/day |
-| Outgoing MgO (theoretical) | 79.6 t/day |
+| Incoming Mg | ~44 t/day = 1,811 kmol/day |
+| Required O2 | ~29 t/day = 906 kmol/day |
+| Outgoing MgO (theoretical) | ~73 t/day |
 | Reaction character | Exothermic (releases heat) |
 
 ### Equipment
@@ -95,7 +96,7 @@ Liquid magnesium from distillation (1091C) is fed into the oxidation furnace whe
 | O2 injectors | SiC ceramics | Oxygen delivery to reaction zone |
 | Heat exchanger | Al alloy | Heat recovery from reaction |
 
-**Oxygen source:** MRE electrolysis produces ~1500 t O2/day when decomposing regolith oxides (SiO2, FeO, Al2O3). For MgO only 32 t/day is needed -- the excess is vented to atmosphere or stored for other purposes.
+**Oxygen source:** MRE electrolysis produces ~250 t O2/day when decomposing regolith oxides (SiO2, FeO, Al2O3). For MgO ~29 t/day is needed -- the excess is used for dome atmosphere and other purposes.
 
 ---
 
@@ -157,10 +158,10 @@ After oxidation, MgO powder is obtained which must be converted into strong cera
 
 | Component | In/Out | Quantity | Molar mass | kmol/day |
 |-----------|--------|----------|------------|----------|
-| Mg (input) | -> | 48 t/day | 24.3 kg/kmol | 1,975 |
-| O2 (input) | -> | 32 t/day | 32 kg/kmol | 987.5 |
-| MgO (theoretical) | <- | 79.6 t/day | 40.3 kg/kmol | 1,975 |
-| **MgO (actual)** | **<-** | **~70 t/day** | **88% yield** | **1,738** |
+| Mg (input) | -> | ~44 t/day | 24.3 kg/kmol | 1,811 |
+| O2 (input) | -> | ~29 t/day | 32 kg/kmol | 906 |
+| MgO (theoretical) | <- | ~73 t/day | 40.3 kg/kmol | 1,811 |
+| **MgO (actual)** | **<-** | **~66 t/day** | **88% yield** | **1,594** |
 
 ### Losses (12%)
 
@@ -235,9 +236,9 @@ After oxidation, MgO powder is obtained which must be converted into strong cera
 ### Advantages
 
 1. **Natural vacuum** -- no oxidation of impurities, no protective atmosphere required
-2. **Oxygen surplus** -- MRE produces ~1500 t O2/day, we use only 32 t
+2. **Oxygen surplus** -- MRE produces ~250 t O2/day, we use ~29 t for MgO
 3. **Free heat** -- solar furnace runs on concentrated sunlight (1 MW/m2 at surface)
-4. **Magnesium in regolith** -- 8% content, distillation yields 48 t/day pure Mg
+4. **Magnesium in regolith** -- 8% content, distillation yields 48 t/day pure Mg (~44 t → MgO, ~4 t → Al-Mg alloys)
 
 ### Challenges
 

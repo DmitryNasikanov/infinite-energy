@@ -10,7 +10,7 @@ sidebar: science
 > - **Lean manufacturing:** Storage outside (vacuum), only JIT buffer inside
 > - **Output:** Self-replication 1 -> ~1,650 factories in ~4 years (bottleneck: ["Vitamins"](../../reference/glossary.qmd#vitamins) delivery)
 > - **Size:** Dome ~1,500 m^2 (~50x30 m), height 6-8 m, atmosphere 0.1 atm O2
-> - **Materials:** 600 t regolith/day -> 42 t Al + 18 t Fe + 25 t Si
+> - **Materials:** 600 t regolith/day -> 42 t Al + ~11 t Fe-Mn steel + 25 t Si
 
 ::: {.callout-note}
 ## Purpose and Calculation Status
@@ -207,7 +207,7 @@ flowchart TD
 |------|------|---------|
 | Casting | ~200 m^2 | CCM-Al (aluminum only) |
 | Foil rolling | ~300 m^2 | 4 micron foil for mirrors |
-| Mirror assembly | ~600 m^2 | Z-fold conveyor, ~400 pcs/day |
+| Mirror assembly | ~600 m^2 | Z-fold conveyor, ~350 pcs/day |
 | QC + packaging | ~200 m^2 | Test stands, folding, containerization |
 | Airlock buffer | ~50 m^2 | Container output to Crabs |
 | Passages | ~150 m^2 | AGV, conveyor lines |
@@ -253,9 +253,9 @@ All regolith processing occurs in the **common material base** of the project.
 | Material | Output | Application |
 |----------|--------|-------------|
 | Aluminum (Al) | 42 t/day | Mirrors, robot casings, conductors |
-| Iron (Fe) | 18 t/day | Robot frames, MD rails, dome frame |
+| Iron (Fe-Mn steel) | ~11 t/day | Robot frames, MD rails, dome frame |
 | Silicon (Si) | 25 t/day | Solar panels, fiberglass |
-| Titanium (Ti) | 3 t/day | Mirror electrochromics |
+| Titanium Dioxide (TiO₂) | 3 t/day | Mirror electrochromics |
 | Sulfur (S) | 18 t/day | [NaS](../../reference/technology-readiness.qmd#nas-batteries) batteries |
 
 ---
@@ -309,7 +309,7 @@ Elements are assembled into finished products. Product type depends on factory s
 - **Robots** - Mole-M, Crab-M, Centaur-M -> [More details](../robots/overview.qmd)
 - **Self-replication** - new factory construction coordination -> [More details](assembly/replication.qmd)
 
-#### F-M: Mirrors (~400/day)
+#### F-M: Mirrors (~350/day)
 
 - **Mirrors** - Z-fold solar reflectors for Mass Driver
 
@@ -359,9 +359,18 @@ flowchart TD
 
 ## Energy Consumption
 
+Energy is divided into **thermal** (solar concentrators) and **electrical** (photovoltaic panels):
+
+**Thermal energy (solar concentrators):**
+
 | Consumer | F-R | F-M |
 |----------|-----|-----|
-| Melting and casting (solar furnaces) | 10 MW | 10 MW |
+| Solar furnaces (regolith melting, MRE) | 10 MW(t) | 10 MW(t) |
+
+**Electrical energy (GaAs panels):**
+
+| Consumer | F-R | F-M |
+|----------|-----|-----|
 | Rolling mill / foil | 2 MW | 3 MW |
 | WAAM + CNC | 1 MW | - |
 | Assembly jigs | 0.5 MW | - |
@@ -369,11 +378,13 @@ flowchart TD
 | Mirror assembly | - | 0.5 MW |
 | Robots (~50 pcs x 5 kW) | 0.3 MW | 0.3 MW |
 | Control systems | 2 MW | 2 MW |
-| **TOTAL** | **~16 MW** | **~16 MW** |
+| **Electrical TOTAL** | **~6 MW(e)** | **~6 MW(e)** |
 
-**Available energy:** 168 MW (3 shipments of GaAs panels from Earth)
+> **Note:** Solar furnaces use concentrated sunlight directly (no electricity conversion). At 9-14 kW/m² solar flux on Mercury, a ~1000 m² concentrator provides 10 MW thermal. Electrical consumers are powered by GaAs photovoltaic panels.
 
-**Reserve:** 152 MW - reserve for parallel operation of multiple factories
+**Available electrical energy:** 168 MW (3 shipments of GaAs panels from Earth)
+
+**Reserve:** 162 MW - reserve for parallel operation of multiple factories
 
 **More details:** [Production](../../summaries/production.qmd#energy)
 
