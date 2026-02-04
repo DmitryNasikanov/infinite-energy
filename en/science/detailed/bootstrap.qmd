@@ -42,7 +42,7 @@ A polar crater has three thermal zones:
 
 ## Why This is a Unique Phase
 
-[Bootstrap](../reference/glossary.qmd#bootstrap-блиц-монтаж) is the only moment in the project when there are no local resources and nowhere to charge robots. After factory startup, standard production with self-replication begins.
+[Bootstrap](../reference/glossary.qmd#bootstrap) is the only moment in the project when there are no local resources and nowhere to charge robots. After factory startup, standard production with self-replication begins.
 
 | Aspect | Bootstrap | Standard Production |
 |--------|-----------|---------------------|
@@ -86,9 +86,9 @@ gantt
 
 | Operation | Robots | Hours | Parallel with | Result |
 |-----------|--------|-------|---------------|--------|
-| A1. Unload energy modules | [Crab-Z](../reference/glossary.qmd#поколение-1-gen-1) ×12 | 2 | - | Modules in position |
-| A2. Deploy panels | [Spider-Z](../reference/glossary.qmd#поколение-1-gen-1) ×16 | 4 | B1 | 5 MW available |
-| A3. Lay cables | [Centaur-Z](../reference/glossary.qmd#поколение-1-gen-1) ×8 | 4 | B1 | Power system |
+| A1. Unload energy modules | [Crab-Z](../reference/glossary.qmd#generation-1-gen-1) ×12 | 2 | - | Modules in position |
+| A2. Deploy panels | [Spider-Z](../reference/glossary.qmd#generation-1-gen-1) ×16 | 4 | B1 | 5 MW available |
+| A3. Lay cables | [Centaur-Z](../reference/glossary.qmd#generation-1-gen-1) ×8 | 4 | B1 | Power system |
 | A4. Charging station | Centaur-Z ×4 | 2 | B2 | **Checkpoint!** |
 | **Critical path** | | **12 h** | | |
 
@@ -143,7 +143,7 @@ gantt
 | Mole-Z | 4 | 800 kg | 3.2 t | Site leveling |
 | **Total** | **56** | | **22.5 t** | |
 
-> **On robot autonomy:** Gen-1 robots perform **routine operations** (unloading, mounting, cable laying), not scientific research. This is closer to autonomous mining equipment ([Rio Tinto/Caterpillar](robots/overview.qmd#референсы-автономная-добыча)) than to Mars rovers.
+> **On robot autonomy:** Gen-1 robots perform **routine operations** (unloading, mounting, cable laying), not scientific research. This is closer to autonomous mining equipment ([Rio Tinto/Caterpillar](robots/overview.qmd#references-autonomous-mining)) than to Mars rovers.
 
 ### Factory Equipment (Modular Delivery)
 
@@ -309,7 +309,7 @@ Inflatable module (10-12 t) deploys in 4-8 hours.
 | C3.4 | Install wire drawing | Centaur-Z ×4 | 2 | C3.3 | 8 |
 | C4.1 | Unload finishing module | Crab-Z ×4 | 1 | A1.2 | 4 |
 | C4.2 | Transport into dome | Crab-Z ×4 | 1 | C4.1, B2.5 | 4 |
-| C4.3 | Install [WAAM](../reference/technology-readiness.qmd#waam-3d-печать) | Centaur-Z ×4 | 2 | C4.2 | 8 |
+| C4.3 | Install [WAAM](../reference/technology-readiness.qmd#waam-wire-arc-additive-manufacturing) | Centaur-Z ×4 | 2 | C4.2 | 8 |
 | C4.4 | Install grinding cell | Centaur-Z ×4 | 2 | C4.3 | 8 |
 | C4.5 | Install assembly jig | Centaur-Z ×8 | 2 | C4.4 | 16 |
 | C5.1 | Lay internal cables | Centaur-Z ×8 | 2 | C1.3, C2.3 | 16 |
@@ -358,7 +358,7 @@ Inflatable module (10-12 t) deploys in 4-8 hours.
 | E4.1 | Assemble chassis | Centaur-Z ×4 | 2 | E3.2 | 8 |
 | E4.2 | Install motors | Centaur-Z ×2 | 1 | E4.1 | 2 |
 | E4.3 | Install NaS battery | Centaur-Z ×2 | 1 | E4.2 | 2 |
-| E4.4 | Install electronics ([vitamins](../reference/glossary.qmd#витамины)) | Centaur-Z ×2 | 1 | E4.3 | 2 |
+| E4.4 | Install electronics ([vitamins](../reference/glossary.qmd#vitamins)) | Centaur-Z ×2 | 1 | E4.3 | 2 |
 | E5.1 | Calibration and testing | Centaur-Z ×2 | 2 | E4.4 | 4 |
 | E5.2 | First Gen-2 deployment | — | — | E5.1 | — |
 | | **Phase E Total** | | **~30 h** | | **18 robot-hours** |
