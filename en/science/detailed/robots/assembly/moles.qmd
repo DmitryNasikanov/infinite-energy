@@ -26,17 +26,19 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 | Component | Material | Mass | Source |
 |-----------|----------|------|--------|
 | Frame + chassis + bucket | Steel Fe-6%Mn | 1240 kg | [Frame Manufacturing](../elements/frames.qmd) |
-| Housing, radiators | Aluminum | 200 kg | [Aluminum](../../materials/distillation.qmd) |
+| Housing, radiators, sensor housings | Aluminum | 220 kg | [Aluminum](../../materials/distillation.qmd) |
 | NaS Battery | — | 0 kg | **No battery** (cable) |
-| Actuators (2 tracks + 4 bucket) | Fe + Al + NaK | 40 kg | [Actuators](../elements/actuators.qmd) |
-| Electronics | — | 0.5 kg | **Earth import** |
-| **TOTAL** | — | **~1480 kg** | **>99% local** |
+| Actuators (2 tracks + 4 bucket) | Fe + Al + NaK | 60 kg | [Actuators](../elements/actuators.qmd) |
+| Electronics (chips) | — | 0.5 kg | **Earth import** |
+| **TOTAL** | — | **~1500 kg** | **>99% local** |
 
 **Material distribution:**
-- Iron (Fe): 1240 kg = **84%**
-- Aluminum (Al): 200 kg = **13%**
-- Actuators: 40 kg = **3%**
-- Import: 0.5 kg = **<0.1%**
+- Iron (Fe): 1240 kg = **83%**
+- Aluminum (Al): 220 kg = **15%**
+- Actuators: 60 kg = **4%**
+- Import (chips): 0.5 kg = **<0.1%**
+
+*Electronics 20 kg = chips 0.5 kg (import) + camera/lidar housings, cables ~19.5 kg (Al, local)*
 
 ---
 
@@ -190,6 +192,8 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 - Voltage: 10 kV (stepped down to 400 V by transformer)
 - Current: 3 A (at 30 kW load)
 
+> **Why 50 mm² at only 3 A?** The cross-section is determined by mechanical strength, not electrical requirements. A 50 m cable on a reel experiences repeated bending during winding/unwinding, abrasive wear from regolith contact, and tensile loads during dragging. Minimum cross-section for mechanical strength is ~35 mm²; 50 mm² selected with margin.
+
 **Cable reel:**
 - Automatic winding during movement
 - Capacity: 50 m (Mole-M operating radius from source)
@@ -291,7 +295,7 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 | Operation | Frequency | Performer |
 |-----------|-----------|-----------|
-| MoS₂ track lubrication replacement | 1 week | Centaur-M |
+| MoS₂ track lubrication replenishment | 1 week | Centaur-M |
 | Track tension check | 1 week | Automated |
 | Bucket teeth replacement | 1 month | Centaur-M (welding) |
 | Track link replacement | 3 months | Centaur-M |
@@ -335,6 +339,8 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 | Productivity | 600 t/day (6 Moles-M) |
 | Dump | 50 m from quarry |
 | Transport | 20 Crabs-M (to factory) |
+
+> **Quarry coverage:** The 50 m cable covers a sector of ~80×60 m. A mobile substation is relocated by Crab-M as each sector is depleted. A 100×100 m quarry is processed in 2-3 stages with substation relocation.
 
 **Process:**
 1. Mole-M digs regolith (1 m³ bucket)

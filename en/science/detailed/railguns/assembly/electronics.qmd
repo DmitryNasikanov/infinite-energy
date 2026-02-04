@@ -6,9 +6,9 @@ sidebar: science
 > **TL;DR**
 >
 > - **Purpose:** Launch control and monitoring systems for Mass Drivers
-> - **Mass:** ~7 t (96% local, 4% import)
-> - **Import:** ~275 kg (controller boards, MOSFET chips, sensors)
-> - **Local:** ~6.85 t ([NaS](../../reference/technology-readiness.qmd#nas-batteries) capacitors, Al heatsinks, housings)
+> - **Mass:** ~6 t (97.5% local, 2.5% import)
+> - **Import:** ~142 kg (controller boards, MOSFET chips, sensors)
+> - **Local:** ~5.6 t ([NaS](../../reference/technology-readiness.qmd#nas-batteries) capacitors, Al heatsinks, housings)
 
 ---
 
@@ -27,13 +27,13 @@ flowchart TD
     end
 
     subgraph TRACK MONITORING
-        SENSORS["600 sensors<br/>(current, T, position)"]
+        SENSORS["2,150 sensors<br/>(current, T, position)"]
         CAMERAS["50 cameras<br/>(optical monitoring)"]
     end
 
     subgraph POWER ELECTRONICS
-        MOSFET["3000 MOSFET switches<br/>(coil activation)"]
-        CAPS["Capacitor banks<br/>(4 GJ)"]
+        MOSFET["1,000 MOSFET switches<br/>(coil activation)"]
+        CAPS["Capacitor banks<br/>(4.7 GJ)"]
     end
 
     subgraph COMMUNICATIONS
@@ -81,14 +81,14 @@ flowchart TD
 
 | Parameter | Value |
 |-----------|-------|
-| Quantity | 100 units (every 30 m) |
-| Function | Control of 30 coils |
+| Quantity | 34 units (every ~30 m) |
+| Function | Control of ~30 coils |
 | Processor | ARM Cortex-M4 (168 MHz) |
 | Interface | Ethernet (fiber optic) |
 | Board mass | ~450 g |
 | Housing mass (Al) | ~4.5 kg |
-| **TOTAL board mass** | **45 kg** |
-| **Board source** | **Imported from Earth** (~45 kg) |
+| **TOTAL board mass** | **~15 kg** |
+| **Board source** | **Imported from Earth** (~15 kg) |
 | **Housing source** | **Local** (Al)
 
 ---
@@ -97,11 +97,11 @@ flowchart TD
 
 | Sensor Type | Quantity | Function | Mass |
 |-------------|----------|----------|------|
-| Hall effect current sensors | 3000 (1 per coil) | Coil current monitoring | 3 kg |
-| Thermocouples | 3000 | Coil temperature monitoring | 3 kg |
+| Hall effect current sensors | 1000 (1 per coil) | Coil current monitoring | 1 kg |
+| Thermocouples | 1000 | Coil temperature monitoring | 1 kg |
 | Position sensors | 100 | Projectile position detection | 10 kg |
 | Accelerometers | 50 | Frame vibration | 5 kg |
-| **TOTAL** | **6150** | | **~20 kg** |
+| **TOTAL** | **2,150** | | **~17 kg** |
 
 **Source:** **Imported from Earth**
 
@@ -113,14 +113,14 @@ flowchart TD
 
 | Parameter | Value |
 |-----------|-------|
-| Quantity | 3000 (1 per coil) |
+| Quantity | 1000 (1 per coil) |
 | Voltage | 1000 V |
 | Current | 1000 A |
 | Switching time | <1 us |
 | Chip mass | ~50 g |
 | Heatsink mass (Al) | ~400 g |
 | **TOTAL module** | **~450 g** |
-| **Chip source** | **Imported from Earth** (~150 kg per MD) |
+| **Chip source** | **Imported from Earth** (~50 kg per MD) |
 | **Heatsink source** | **Local** (Al) |
 
 **Function:** Coil on/off switching with microsecond precision.
@@ -134,9 +134,9 @@ flowchart TD
 | Parameter | Value |
 |-----------|-------|
 | Type | Sodium-sulfur (NaS) |
-| Capacitance | 10,000 F (farads) |
+| Capacity | ~1,300 kWh |
 | Voltage | 1000 V |
-| Energy | 4 GJ (per shot) |
+| Energy | 4.7 GJ (per shot) |
 | Mass | ~5 t |
 | **Source** | **100% local** |
 
@@ -170,11 +170,11 @@ flowchart TD
    - Cooling active (T < -140C)
    - Track clear (cameras)
 
-2. Acceleration (12 sec):
+2. Acceleration (0.4 sec):
    - T=0: Activate coil #1
-   - T=4 ms: Activate coil #2
+   - T=0.4 ms: Activate coil #2 (average)
    - ...
-   - T=12 sec: Activate coil #3000 -> launch
+   - T=0.4 sec: Activate coil #1000 -> launch
 
 3. Trajectory control:
    - Actual velocity vs calculated
@@ -194,16 +194,16 @@ flowchart TD
 
 | Component | Import | Local | Total |
 |-----------|--------|-------|-------|
-| Controller boards | 55 kg | 495 kg (Al housings) | 550 kg |
-| Sensors | 20 kg | — | 20 kg |
-| MOSFET chips | 150 kg | 1.35 t (Al heatsinks) | 1.5 t |
+| Controller boards | ~25 kg | ~193 kg (Al housings) | ~218 kg |
+| Sensors | ~17 kg | — | ~17 kg |
+| MOSFET chips | ~50 kg | ~400 kg (Al heatsinks) | ~450 kg |
 | **NaS Capacitors** | **—** | **5 t** | **5 t** |
 | Cables, fiber optics | 50 kg | — | 50 kg |
-| **TOTAL** | **~275 kg** | **~6.85 t** | **~7.1 t** |
+| **TOTAL** | **~142 kg** | **~5.6 t** | **~5.7 t** |
 
-**Localization: 96%** by mass (NaS capacitors + heatsinks + housings).
+**Localization: ~97.5%** by mass (NaS capacitors + heatsinks + housings).
 
-**Conclusion:** Only boards and chips imported (~275 kg/MD). NaS capacitors and housings — local production.
+**Conclusion:** Only boards and chips imported (~142 kg/MD). NaS capacitors and housings — local production.
 
 ---
 
@@ -212,8 +212,8 @@ flowchart TD
 | Stage | Duration | Robots |
 |-------|----------|--------|
 | Backbone fiber optic installation | 2 days | 5 Centaur-M |
-| Control unit installation (100 units) | 1 week | 10 Centaur-M |
-| Sensor connection (6150 units) | 1 week | 15 Centaur-M |
+| Control unit installation (34 units) | 3 days | 10 Centaur-M |
+| Sensor connection (2,150 units) | 1 week | 15 Centaur-M |
 | MOSFET module mounting | 3 days | 10 Centaur-M |
 | Communications testing | 1 day | Automated |
 | **TOTAL** | **~2 weeks** | |
@@ -225,11 +225,11 @@ flowchart TD
 | Component | Power |
 |-----------|-------|
 | Main controller | 200 W |
-| Control units (100 units) | 10 kW |
-| Sensors (6150 units) | 6 kW |
-| MOSFET switches (standby) | 3 kW |
+| Control units (34 units) | 3.4 kW |
+| Sensors (2,150 units) | 2 kW |
+| MOSFET switches (standby) | 1 kW |
 | Cameras and communications | 1 kW |
-| **TOTAL** | **~20 kW** (continuous) |
+| **TOTAL** | **~8 kW** (continuous) |
 
 **Peak power:** 400 MW during launch (from capacitors, not grid).
 

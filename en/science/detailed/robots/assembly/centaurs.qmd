@@ -6,10 +6,10 @@ sidebar: science
 > **TL;DR**
 >
 > - **Purpose:** Manipulator robot for assembly and maintenance
-> - **Mass:** ~370 kg
-> - **Battery:** NaS 20 kWh + cable (optional)
+> - **Mass:** ~380 kg
+> - **Battery:** NaS 5 kWh + cable (optional)
 > - **Power:** 5 kW
-> - **Assembly time:** 48 hours per station
+> - **Assembly time:** 38 hours per station
 
 ---
 
@@ -17,7 +17,7 @@ sidebar: science
 
 Centaur-M is a universal Gen-2 manipulator robot for precision operations: equipment assembly, welding, maintenance. Four-wheel platform with two 6-axis manipulators and a tool set.
 
-**Key feature:** The lightest Gen-2 robot (370 kg), maximum aluminum fraction (62%) to reduce mass.
+**Key feature:** The lightest Gen-2 robot (380 kg), maximum aluminum fraction (62%) to reduce mass.
 
 ---
 
@@ -26,18 +26,20 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 | Component | Material | Mass | Source |
 |-----------|----------|------|--------|
 | Frame + chassis | Steel Fe-6%Mn | 80 kg | [Frame Manufacturing](../elements/frames.qmd) |
-| Body, radiators, manipulators | Aluminum | 230 kg | [Aluminum](../../materials/distillation.qmd) |
+| Body, radiators, manipulators, sensor housings | Aluminum | 235 kg | [Aluminum](../../materials/distillation.qmd) |
 | NaS Battery | Na + S + β-Al₂O₃ | 40 kg | [Battery Production](../elements/batteries.qmd) |
-| Actuators (12 pcs: 4 wheels + 2×6 manipulators) | Fe + Al + NaK | 15 kg | [Actuators](../elements/actuators.qmd) |
-| Electronics | — | 0.3 kg | **Import from Earth** |
-| **TOTAL** | — | **~365 kg** | **>99% local** |
+| Actuators (12 pcs: 4 wheels + 2×6 manipulators) | Fe + Al + NaK | 25 kg | [Actuators](../elements/actuators.qmd) |
+| Electronics (chips) | — | 0.3 kg | **Import from Earth** |
+| **TOTAL** | — | **~380 kg** | **>99% local** |
 
 **Material distribution:**
 - Iron (Fe): 80 kg = **22%**
-- Aluminum (Al): 230 kg = **63%**
+- Aluminum (Al): 235 kg = **63%**
 - Sodium + Sulfur: 40 kg = **11%**
-- Actuators: 15 kg = **4%**
-- Import: 0.3 kg = **<0.1%**
+- Actuators: 25 kg = **7%**
+- Import (chips): 0.3 kg = **<0.1%**
+
+*Electronics 5 kg = chips 0.3 kg (import) + camera/lidar housings, cables ~4.7 kg (Al, local)*
 
 ---
 
@@ -61,9 +63,11 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 |-----------|-------|
 | Manipulator length | 1.2 m |
 | Load capacity | 50 kg at 1 m distance |
-| Positioning accuracy | ±0.5 mm |
+| Positioning accuracy | ±2 mm |
 | Movement speed | 1 m/s |
 | Material | Aluminum (lightweight) |
+
+*±0.5 mm achievable in controlled conditions (under dome, on cable). On open ground — ±2 mm due to thermal deformation.*
 
 **Tools (interchangeable attachments):**
 - TIG welding torch (vacuum, no gas required)
@@ -76,28 +80,28 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 ## Assembly Process
 
-### Assembly Line (10 stations, 48 hours per station)
+### Assembly Line (10 stations, 38 hours per station)
 
 | Station | Stage | Time | Robots |
 |---------|-------|------|--------|
 | 1 | Frame installation on jig | 1 hour | 1 Centaur-M |
 | 2 | Chassis mounting (4 wheels) | 3 hours | 2 Centaurs-M |
 | 3 | Al body and radiator installation | 4 hours | 2 Centaurs-M |
-| 4 | NaS battery installation (20 kWh) | 2 hours | 1 Centaur-M |
+| 4 | NaS battery installation (5 kWh) | 2 hours | 1 Centaur-M |
 | 5 | 2 manipulator mounting (6+6 axes) | 12 hours | 3 Centaurs-M |
 | 6 | Power cable routing | 3 hours | 1 Centaur-M |
 | 7 | Electronics installation (processor, sensors) | 4 hours | 2 Centaurs-M |
 | 8 | NaK cooling loop filling | 1 hour | 1 Centaur-M |
-| 9 | Manipulator calibration and testing | 14 hours | Automated |
+| 9 | Manipulator calibration and testing | 4 hours | Automated |
 | 10 | Initial battery charging | 4 hours | Charging station |
-| **TOTAL** | | **48 hours** | |
+| **TOTAL** | | **38 hours** | |
 
 ---
 
 ## Stage 1: Frame Installation
 
 **Centaur-M Frame:**
-- Mass: ~310 kg (80 kg Fe + 230 kg Al)
+- Mass: ~320 kg (70 kg Fe + 200 kg Al + 50 kg other)
 - Design: Lightweight aluminum frame with steel load-bearing nodes
 - Production: [WAAM 3D printing](../elements/frames.qmd)
 
@@ -113,7 +117,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 **4 wheels:**
 - Diameter: Ø0.8 m
-- Material: Aluminum (rim) + rubber (tread, imported)
+- Material: Aluminum (rim) + Fe-6%Mn bandage (local)
 - Drive: Electric motors 2 kW × 4 = 8 kW total
 
 **Suspension:**
@@ -150,7 +154,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 ## Stage 4: NaS Battery Installation
 
-**NaS Battery 20 kWh:**
+**NaS Battery 5 kWh:**
 - Mass: 40 kg
 - Voltage: 200 V (100 cells × 2 V)
 - Placement: Center of gravity (under platform)
@@ -238,14 +242,14 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 | Test | Description | Standard |
 |------|-------------|----------|
-| Manipulator calibration | Set zero positions for all 12 axes | Accuracy ±0.5 mm |
+| Manipulator calibration | Set zero positions for all 12 axes | Accuracy ±2 mm |
 | Movement | Check all 4 wheels | Speed 5 km/h |
-| Load pickup | Lift 50 kg at 1 m distance | Position accuracy ±1 mm |
+| Load pickup | Lift 50 kg at 1 m distance | Position accuracy ±3 mm |
 | TIG welding | Weld test on Al plates | Defect-free weld |
-| Battery | Full charge/discharge cycle | Capacity >18 kWh |
+| Battery | Full charge/discharge cycle | Capacity >4.5 kWh |
 | Autonomy | Autopilot, obstacle avoidance | 100% success |
 
-**Duration:** 14 hours (manipulator calibration takes significant time)
+**Duration:** 4 hours (automated calibration with laser scanner)
 
 ---
 
@@ -254,13 +258,13 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 **Charging Station:**
 - Voltage: 200 V
 - Current: 25 A
-- Full charge time: 4 hours (20 kWh / 5 kW)
+- Full charge time: 1 hour (5 kWh / 5 kW)
 
 **Process:**
 1. Connect to charging station
 2. Activate battery (first cycle at 350°C)
 3. Full charge
-4. Capacity verification (must be >18 kWh)
+4. Capacity verification (must be >4.5 kWh)
 
 ---
 
@@ -268,16 +272,17 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 | Mode | Power | Operating Time |
 |------|-------|----------------|
-| Movement | 2 kW | 10 hours (50 km) |
-| Manipulator work (positioning) | 1 kW | 20 hours |
-| TIG welding | 5 kW | 4 hours |
-| Abrasive grinding | 3 kW | 6 hours |
-| Idle | 0.2 kW | 100 hours |
+| Movement | 2 kW | 2.5 hours (12 km) |
+| Manipulator work (positioning) | 1 kW | 5 hours |
+| TIG welding | 5 kW | cable only |
+| Abrasive grinding | 3 kW | cable only |
+| Idle | 0.2 kW | 25 hours |
 
-**Range:**
-- Movement: 50 km
-- Manipulator work: 20 hours
-- Welding: 4 hours
+> **Note:** Energy-intensive operations (TIG welding, grinding) are performed on cable power in factory conditions. The 5 kWh battery is designed for transit between facilities and manipulator positioning.
+
+**Range (on battery):**
+- Movement: 12 km
+- Manipulator work: 5 hours
 
 ---
 
@@ -285,7 +290,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 | Operation | Frequency | Performed by |
 |-----------|-----------|--------------|
-| MoS₂ lubricant replacement in manipulators | 1 month | Another Centaur-M |
+| MoS₂ lubricant replenishment in manipulators | 3 months | Another Centaur-M |
 | Manipulator calibration | 1 month | Automated |
 | NaS battery replacement | 5-7 years | Assembly line |
 | Tool replacement (TIG torch, cutters) | As needed | Centaur-M self-service |
@@ -351,7 +356,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 - [Robot Production](../overview.qmd) — production overview
 - [Frame Manufacturing](../elements/frames.qmd) — lightweight Al frame for Centaur-M
-- [Battery Production](../elements/batteries.qmd) — NaS 20 kWh
+- [Battery Production](../elements/batteries.qmd) — NaS 5 kWh
 - [Actuators](../elements/actuators.qmd) — 12 electric actuators for manipulators
 - [Crab-M Assembly](crabs.qmd) — logistics robot
 - [Mole-M Assembly](moles.qmd) — excavator robot

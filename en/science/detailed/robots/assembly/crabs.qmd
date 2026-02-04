@@ -7,7 +7,7 @@ sidebar: science
 >
 > - **Purpose:** Logistics robot, material transport
 > - **Mass:** ~1000 kg
-> - **Battery:** NaS 50 kWh
+> - **Battery:** NaS 20 kWh
 > - **Power:** 10 kW
 > - **Assembly time:** 48 hours per station
 
@@ -24,18 +24,20 @@ Crab-M is a Gen-2 logistics robot for transporting materials between factory fac
 | Component | Material | Mass | Source |
 |-----------|----------|------|--------|
 | Frame + chassis | Steel Fe-6%Mn | 350 kg | [Frame Manufacturing](../elements/frames.qmd) |
-| Body, radiators | Aluminum | 450 kg | [Aluminum](../../materials/distillation.qmd) |
+| Body, radiators, sensor housings | Aluminum | 470 kg | [Aluminum](../../materials/distillation.qmd) |
 | NaS Battery | Na + S + beta-Al2O3 | 150 kg | [Battery Production](../elements/batteries.qmd) |
-| Actuators (6 wheels + manipulator) | Fe + Al + NaK | 30 kg | [Actuators](../elements/actuators.qmd) |
-| Electronics | - | 0.5 kg | **Import from Earth** |
-| **TOTAL** | - | **~980 kg** | **>99% local** |
+| Actuators (6 wheels + manipulator) | Fe + Al + NaK | 40 kg | [Actuators](../elements/actuators.qmd) |
+| Electronics (chips) | - | 0.5 kg | **Import from Earth** |
+| **TOTAL** | - | **~1000 kg** | **>99% local** |
 
 **Material distribution:**
-- Iron (Fe): 350 kg = **36%**
-- Aluminum (Al): 450 kg = **46%**
+- Iron (Fe): 350 kg = **35%**
+- Aluminum (Al): 470 kg = **47%**
 - Sodium + Sulfur: 150 kg = **15%**
-- Actuators: 30 kg = **3%**
-- Import: 0.5 kg = **<0.1%**
+- Actuators: 40 kg = **4%**
+- Import (chips): 0.5 kg = **<0.1%**
+
+*Electronics 20 kg = chips 0.5 kg (import) + camera/lidar housings, cables ~19.5 kg (Al, local)*
 
 ---
 
@@ -87,7 +89,7 @@ flowchart LR
 | 1 | Frame installation on assembly fixture | 2 hours | 2 Centaur-M |
 | 2 | Chassis mounting (6 wheels) | 6 hours | 4 Centaur-M |
 | 3 | Al body and radiator installation | 8 hours | 3 Centaur-M |
-| 4 | NaS battery installation (50 kWh) | 4 hours | 2 Centaur-M |
+| 4 | NaS battery installation (20 kWh) | 4 hours | 2 Centaur-M |
 | 5 | Actuator mounting (6 wheel drives + 2 manipulators) | 6 hours | 3 Centaur-M |
 | 6 | Power cable routing | 4 hours | 2 Centaur-M |
 | 7 | Electronics installation (processor, sensors) | 6 hours | 2 Centaur-M |
@@ -117,7 +119,7 @@ flowchart LR
 
 **6 wheels:**
 - Diameter: 1.2 m
-- Material: Aluminum (rim) + rubber (tread, imported)
+- Material: Aluminum (rim) + Fe-6%Mn bandage (local)
 - Drive: Electric motors 5 kW x 6 = 30 kW total
 
 **Suspension:**
@@ -154,8 +156,8 @@ flowchart LR
 
 ## Stage 4: NaS Battery Installation
 
-**NaS Battery 50 kWh:**
-- Mass: 150 kg (active materials Na + S + beta-Al2O3)
+**NaS Battery 20 kWh:**
+- Mass: 150 kg (active materials Na + S + β-Al₂O₃ + case + insulation)
 - Voltage: 400 V (200 cells x 2 V)
 - Placement: Center of gravity (under platform)
 
@@ -237,7 +239,7 @@ flowchart LR
 |------|-------------|---------------|
 | Motion | Check all 6 wheels | Speed 10 km/h |
 | Manipulator | Lift 5 tonne load | Height 2 m |
-| Battery | Full charge/discharge cycle | Capacity >45 kWh |
+| Battery | Full charge/discharge cycle | Capacity >18 kWh |
 | Cooling | Radiator test | T <+100C |
 | Autonomy | Autopilot, obstacle avoidance | 100% success |
 
@@ -250,13 +252,13 @@ flowchart LR
 **Charging Station:**
 - Voltage: 400 V
 - Current: 25 A (gentle initial charge mode)
-- Full charge time: 5 hours (50 kWh / 10 kW)
+- Full charge time: 2 hours (20 kWh / 10 kW)
 
 **Process:**
 1. Connect to charging station
-2. Battery activation (first cycle at 350C)
+2. Battery activation (first cycle at 350°C)
 3. Full charge
-4. Capacity check (must be >45 kWh)
+4. Capacity check (must be >18 kWh)
 
 ---
 
@@ -264,14 +266,14 @@ flowchart LR
 
 | Mode | Power | Operating Time |
 |------|-------|----------------|
-| Empty travel | 5 kW | 10 hours (50 km) |
-| Loaded travel (5 t) | 10 kW | 5 hours (25 km) |
-| Loading/unloading | 3 kW | 16 hours |
-| Idle | 0.5 kW | 100 hours |
+| Empty travel | 5 kW | 4 hours (20 km) |
+| Loaded travel (5 t) | 10 kW | 2 hours (10 km) |
+| Loading/unloading | 3 kW | 6 hours |
+| Idle | 0.5 kW | 40 hours |
 
 **Range:**
-- Empty: 50 km
-- With 5 t load: 25 km
+- Empty: 20 km
+- With 5 t load: 10 km
 
 ---
 
@@ -279,7 +281,7 @@ flowchart LR
 
 | Operation | Frequency | Performed by |
 |-----------|-----------|--------------|
-| MoS2 grease replacement in bearings | 1 month | Centaur-M |
+| MoS2 lubricant replenishment in bearings | 3 months | Centaur-M |
 | Sensor calibration | 3 months | Automated |
 | NaS battery replacement | 5-7 years | Assembly line |
 | Wheel replacement | 1 year | Centaur-M |
@@ -313,7 +315,7 @@ flowchart LR
 
 - [Robot Production](../overview.qmd) - production overview
 - [Frame Manufacturing](../elements/frames.qmd) - Crab-M frame
-- [Battery Production](../elements/batteries.qmd) - NaS 50 kWh
+- [Battery Production](../elements/batteries.qmd) — NaS 20 kWh
 - [Actuators](../elements/actuators.qmd) - wheel drives
 - [Centaur-M Assembly](centaurs.qmd) - manipulator robot
 - [Mole-M Assembly](moles.qmd) - excavator robot

@@ -93,7 +93,7 @@ flowchart LR
 
 | Parameter | Value |
 |-----------|-------|
-| Composition | Na78K22 (78% Na, 22% K) |
+| Composition | Na22K78 (22% Na, 78% K) — eutectic |
 | Liquid range | -12C ... +785C |
 | Density | 0.87 g/cm3 |
 | Viscosity | 0.7 cP (at 100C) |
@@ -116,6 +116,19 @@ NaK is used not only for hydraulics but also for cooling:
 - NaK flows through radiators facing away from the Sun
 - Heat is radiated into space
 - Temperature maintained at +50-100C
+
+---
+
+### NaK Thermal Management
+
+**Problem:** NaK freezes at -12°C, but Mercury's shadow reaches -180°C.
+
+**Solutions:**
+
+- Robots operate in the [terminator zone](../../bootstrap.qmd) (+50...+150°C) — NaK always liquid
+- During operation: waste heat from motors keeps NaK above -12°C
+- In sleep mode: electric heating 0.5 kW (from cable or battery) — autonomy: Crab-M 100 h (~4 days), Centaur-M 40 h (~1.7 days), Mole-M unlimited (cable)
+- Emergency (total power loss in shadow): NaK freezes but recovers upon heating without circuit damage
 
 ---
 
@@ -201,12 +214,12 @@ NaK is used not only for hydraulics but also for cooling:
 | NaK (hydraulics) | 100 kg | [Distillation](../../materials/distillation.qmd) |
 | Steel (cylinders) | 50 kg | [Iron](../../materials/mre.qmd) |
 | Aluminum (radiators) | 20 kg | [Aluminum](../../materials/distillation.qmd) |
-| MoS2 lubricant | 5 kg | **Import from Earth** |
+| MoS2 lubricant | 0.5 kg | **Import from Earth** |
 | PFPE oil | 2 kg | **Import from Earth** |
-| **TOTAL** | **~177 kg** | **~96% local** |
+| **TOTAL** | **~173 kg** | **~96% local** |
 
 **Consumption from daily production:**
-- NaK: 100 kg from 200 kg/day = **50%**
+- NaK: 100 kg from ~5 t/day = **~2%**
 - Fe: 50 kg from 18 t/day = **0.3%**
 - Al: 20 kg from 42 t/day = **0.05%**
 
@@ -254,7 +267,7 @@ NaK is used not only for hydraulics but also for cooling:
 
 | Operation | Frequency | Performer |
 |-----------|-----------|-----------|
-| MoS2 lubricant replacement | 1 month | Centaur-M |
+| MoS2 lubricant replenishment | 3 months | Centaur-M |
 | NaK seal check | 3 months | Automation |
 | Seal replacement | 1 year | Centaur-M |
 | Actuator replacement | As needed | Assembly jig |

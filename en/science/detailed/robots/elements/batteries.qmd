@@ -15,7 +15,7 @@ import { unitWidget } from "../../../ojs-data.qmd"
 > - **Purpose:** Power supply for [Gen-2](../../reference/glossary.qmd#generation-2-gen-2) robots
 > - **Technology:** Sodium-Sulfur battery ([NaS](../../reference/technology-readiness.qmd#nas-batteries))
 > - **Localization:** 85% local (Na + S), 15% import (β-Al₂O₃ ceramics)
-> - **Production rate:** 10 batteries/day (50 kWh each)
+> - **Production rate:** 500 kWh/day (various pack sizes)
 
 ---
 
@@ -23,7 +23,7 @@ import { unitWidget } from "../../../ojs-data.qmd"
 
 [Gen-2](../../reference/glossary.qmd#generation-2-gen-2) robots run on sodium-sulfur batteries ([NaS](../../reference/technology-readiness.qmd#nas-batteries) Battery). Unlike Li-Ion batteries for [Gen-1](../../reference/glossary.qmd#generation-1-gen-1) robots (from Earth), NaS batteries are manufactured from local materials — sodium and sulfur extracted from regolith.
 
-**Key advantage:** High operating temperature (+300°C) is not a problem on Mercury — the dayside is already +400°C. No heating required.
+**Key advantage:** High operating temperature (+300°C) is compatible with Mercury: in the [terminator zone](../../bootstrap.qmd) (+50…+150°C), vacuum thermal insulation and a built-in heater (~50 W) easily maintain 300°C — energy costs are lower than terrestrial equivalents (NGK Insulators).
 
 ---
 
@@ -76,6 +76,35 @@ The β-Al₂O₃ electrolyte conducts Na⁺ ions but is impermeable to liquid me
 
 ---
 
+## NaS Battery Thermal Management
+
+NaS batteries operate at 300-350°C. At Mercury's pole (Prokofiev crater, 85°N), the ambient temperature in the [working zone](../../bootstrap.qmd) is +50…+150°C — significantly warmer than on Earth (-20…+40°C), where NaS batteries are successfully deployed (NGK Insulators, Japan, 700+ MWh installed capacity).
+
+### Thermal Insulation Design
+
+| Component | Description |
+|-----------|-------------|
+| Outer casing | Steel Fe-6%Mn |
+| Vacuum gap | Double-walled construction (thermos principle) |
+| Inner casing | Steel + β-Al₂O₃ electrolyte |
+| Heater | Resistive, 50-100 W, inside casing |
+
+### Thermal Balance
+
+| Mode | Ambient | ΔT | Heat loss | Heating | Battery autonomy |
+|------|---------|-----|-----------|---------|------------------|
+| Operation (discharge) | +100°C | 200°C | ~30 W | Not needed (self-heating) | ∞ |
+| Standby | +50°C | 250°C | ~50 W | 50 W (built-in) | Crab: 400 h, Centaur: 100 h |
+| Earth (reference) | -20°C | 320°C | ~100 W | 100 W | — |
+
+**Self-heating during discharge:** Internal resistance of NaS cells generates heat. At 5-10 kW load, losses amount to 0.5-1.5 kW of heat — the battery maintains operating temperature without the heater.
+
+**Standby mode:** The 50 W heater consumes ~1.2 kWh/day. For Crab-M (20 kWh), this provides >16 days of autonomous standby; for Centaur-M (5 kWh) — >4 days.
+
+**Emergency cooldown:** If the battery cools completely (power loss), Na and S solidify without cell damage. Restart: external heating via cable (~1 kW, ~2 hours). Robots do NOT operate in [shadow](../../bootstrap.qmd) (-180°C) — the standard working zone is +50…+150°C.
+
+---
+
 ## Battery Composition (1 kWh)
 
 ```{ojs}
@@ -99,27 +128,29 @@ unitWidget("CMP-012")
 
 **Production time:** 24 hours per battery (including initial charge)
 
+> **Parallelism:** 24 hours per battery, but 10 parallel lines enable 10 batteries/day output. Each line starts a new battery daily.
+
 ---
 
 ## Production Line Capacity
 
-**Production rate:** ~10 batteries/day (50 kWh each) = **500 kWh/day**
+**Production rate:** ~500 kWh/day (various pack sizes) = **500 kWh/day**
 
 **For 5 robots/day:**
 
 | Robot type | Battery capacity | Batteries per robot |
 |------------|-----------------|---------------------|
 | Mole-M | Cable (no battery) | 0 |
-| Crab-M | 50 kWh | 1 |
-| Centaur-M | 20 kWh | 0.4 |
+| Crab-M | 20 kWh | 1 |
+| Centaur-M | 5 kWh | 1 |
 
-**Average mix:** ~3 batteries/day for robots + 7 batteries/day for reserve/maintenance
+**Average mix:** ~2 packs 20 kWh (Crab) + ~2 packs 5 kWh (Centaur) ≈ 50 kWh/day for robots. Remaining (450 kWh/day): reserve, replacement, stationary energy storage.
 
 ---
 
 ## Material Balance
 
-**For 10 batteries/day (50 kWh each = 333 kg):**
+**For 500 kWh/day production capacity (daily material consumption):**
 
 | Material | Mass for 10 batteries | Source |
 |----------|----------------------|--------|
@@ -167,7 +198,7 @@ unitWidget("CMP-012")
 | Parameter | Method | Standard | Action on deviation |
 |-----------|--------|----------|---------------------|
 | Seal integrity | Vacuum test | <10⁻⁶ mbar·L/s | Reject |
-| Capacity | Charge test | >45 kWh (90%) | Repeat activation |
+| Capacity | Charge test | >90% nominal | Repeat activation |
 | Temperature | Thermocouples | 300-350°C | Adjust heating |
 | Cycles | 10 test cycles | Capacity >95% | Reject |
 
@@ -182,7 +213,7 @@ unitWidget("CMP-012")
 | Step | Process |
 |------|---------|
 | 1. Obtaining Al₂O₃ | From regolith (bauxite Al₂O₃·2H₂O → calcination) |
-| 2. β-phase stabilization | Adding Na₂O (0.5-1%) + sintering at 1600°C |
+| 2. β-phase stabilization | Adding Na₂O (0.5-1%) + sintering at 1600°C ([solar concentrator](../../materials/mre.qmd), 1500-2000°C) |
 | 3. Ceramization | Tube forming + sintering |
 
 **Implementation timeline:** After construction of high-temperature furnaces (Year 2-3)

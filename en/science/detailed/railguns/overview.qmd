@@ -17,7 +17,7 @@ import { unitWidget } from "../../ojs-data.qmd"
 > - **Mass:** **~500 tons** (98.5% local materials)
 > - **Throughput:** 600 launches/day, 60 tons of mirrors/day
 > - **Energy:** 55 MW complex (33 MW launches + 22 MW production)
-> - **Robots:** 52 robots per 1 MD
+> - **Robots:** 49 robots per 1 MD
 >
 > *When reducing load: 2 km (637g) or 3 km (425g).
 
@@ -161,7 +161,7 @@ unitWidget("EQU-001")
 |-----------|-------------|----------|--------------|
 | Tunnel frame | **~270 t** | Steel Fe-6%Mn | 100% local |
 | Rails + coils + cooling | **~220 t** | Aluminum (cryo) | 100% local |
-| Electronics and sensors | ~7 t | Import | **Earth** |
+| Electronics and sensors | ~6 t | Import | **Earth** |
 | **TOTAL (1 km)** | **~500 t** | | **98.5% local** |
 
 *When extended: 2 km (~875 t), 3 km (~1,300 t).
@@ -171,7 +171,7 @@ unitWidget("EQU-001")
 - **Coils:** Aluminum (cooled to -180C)
 - **Frame:** Steel Fe-6%Mn (1 km tunnel)
 - **Capacitors:** Na + S + Al₂O₃ (100 GJ energy)
-- **Electronics:** Import from Earth (7 tons)
+- **Electronics:** Import from Earth (6 tons)
 
 ### Spinning Platform
 
@@ -337,7 +337,7 @@ After commissioning, the Mass Driver operates at **600 launches/day**.
 |----------|------|--------|
 | Steel Fe-6%Mn | **~270 t** | [Regolith Processing](../materials/overview.qmd) |
 | Aluminum (cryogenic) | **~220 t** | [Regolith Processing](../materials/overview.qmd) |
-| Electronics | ~7 t | **Import from Earth** |
+| Electronics | ~6 t | **Import from Earth** |
 
 **Localization:** 98.5% by mass
 
@@ -372,9 +372,9 @@ Mass driver consumes **600 mirrors/day = 70 tons/day**
 
 | Task | Robots | Calculation |
 |------|--------|-------------|
-| Ore mining (Moles) | 6 | 70 t x 3 (ore->metal) = 210 t ore/day / 50 t/robot |
+| Ore mining (Moles) | 3 | 70 t x 3 (ore->metal) = 210 t ore/day / 100 t/robot |
 | Ore transport to factory | 4 | 210 t / 70 t/trip, 2 trips/day |
-| **Total mining** | **10** | |
+| **Total mining** | **7** | |
 
 ### Processing and Mirror Production
 
@@ -413,12 +413,12 @@ Mass driver consumes **600 mirrors/day = 70 tons/day**
 
 | Stage | Robots | % |
 |-------|--------|---|
-| Raw material mining | 10 | 19% |
-| Mirror production | 21 | 40% |
-| Logistics and buffer | 10 | 19% |
+| Raw material mining | 7 | 14% |
+| Mirror production | 21 | 43% |
+| Logistics and buffer | 10 | 20% |
 | Mass driver maintenance | 7 | 14% |
 | Reserve (charging, breakdowns) | 4 | 8% |
-| **TOTAL** | **52** | 100% |
+| **TOTAL** | **49** | 100% |
 
 **Robot types:**
 
@@ -426,7 +426,7 @@ Mass driver consumes **600 mirrors/day = 70 tons/day**
 |------|---------|------|-------|
 | [Mole-M](../robots/assembly/moles.qmd) | Regolith mining | 1500 kg | 15% |
 | [Crab-M](../robots/assembly/crabs.qmd) | Logistics, transport | 1000 kg | 40% |
-| [Centaur-M](../robots/assembly/centaurs.qmd) | Manipulation, assembly | 370 kg | 45% |
+| [Centaur-M](../robots/assembly/centaurs.qmd) | Manipulation, assembly | 380 kg | 45% |
 
 ---
 
@@ -452,13 +452,13 @@ Data based on [Roadmap](../../summaries/roadmap.qmd): Expedition 1 (1 factory) +
 
 ### Robot Scaling
 
-| Mass Drivers | Robots (x52) | Notes |
+| Mass Drivers | Robots (x49) | Notes |
 |--------------|--------------|-------|
-| 1 | 52 | Initial phase |
-| 12 | 624 | Year 1 |
-| 80 | 4,160 | Year 2 |
-| 400 | 20,800 | Year 3 |
-| 1,000 | 52,000 | Year 4+ |
+| 1 | 49 | Initial phase |
+| 12 | 588 | Year 1 |
+| 80 | 3,920 | Year 2 |
+| 400 | 19,600 | Year 3 |
+| 1,000 | 49,000 | Year 4+ |
 
 ---
 
