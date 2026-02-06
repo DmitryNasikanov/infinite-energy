@@ -13,7 +13,7 @@ import { unitWidget } from "../ojs-data.qmd"
 > **TL;DR**
 >
 > - **Goal:** Receive energy from the [Dyson Swarm](../reference/glossary.qmd#dyson-swarm) and transmit to Earth
-> - **Solution:** Lunar Solar Power Station ([LSP](../reference/technology-readiness.qmd#lsp-station)) — 20-40 stations on the Moon's limbs
+> - **Solution:** Lunar Solar Power Station ([LSP](../reference/technology-readiness.qmd#lsp-station)) — 40 stations on the Moon's limbs
 > - **Efficiency:** 18% (from Swarm to Earth)
 > - **Transmission:** Microwaves through clouds, global rectenna network
 > - **Alternative (rejected):** Orbital Hub at L1 — 10% efficiency, 7,900 km² radiators
@@ -57,7 +57,7 @@ The Moon is tidally locked — one side always faces Earth. This creates a probl
 | Far side | Yes | No |
 | **Limbs (edges)** | **Yes** | **Yes** |
 
-**Solution:** 20-40 stations on the eastern and western limbs of the Moon.
+**Solution:** 40 stations on the eastern and western limbs of the Moon.
 
 ### Continuity of Operation
 
@@ -102,10 +102,16 @@ The beam spreads to ~1 km — the LSP receiver fully captures it.
 
 | Parameter | Value |
 |-----------|-------|
-| Receiver area (per station) | ~10 km² |
-| Total area (20 stations) | ~200 km² |
+| Receiver area (per station) | ~160 km² (12.6 × 12.6 km) |
+| Total area (40 stations) | ~6,400 km² |
+| Flux on PV | ~500 kW/m² (500 suns) |
 | PV efficiency (concentration) | ~45% |
-| Type | Multi-junction, from lunar silicon |
+| Type | Multi-junction CPV, from lunar silicon |
+
+::: {.callout-note}
+## Why 6,400 km², not the full Swarm power?
+The Dyson Swarm of 1.1 billion mirrors is **capacity** (~21 PW on Earth at full conversion). To deliver **1 PW to Earth**, only ~55 million mirrors (**5% of the Swarm**) are active simultaneously, directing ~3.2 PW of optical power to the lunar receivers. At 6,400 km² total area, the flux is ~500 kW/m² — standard operating regime for concentrated PV systems. The remaining 95% of mirrors are reserve, in orbital dead zones, or allocated for future purposes (Mars, LSP scaling).
+:::
 
 ---
 
@@ -258,8 +264,8 @@ The Hub Station consists of three main subsystems working as unified infrastruct
 
 ### Lunar LSP Stations
 
-- **Quantity**: 20-40 stations on Moon's limbs
-- **Photovoltaic area**: ~10 km² per station (total ~300 km²)
+- **Quantity**: 40 stations on Moon's limbs
+- **Photovoltaic area**: ~160 km² per station (total ~6,400 km²)
 - **Materials**: Multi-junction photocells from lunar silicon (Si), aluminum (Al) frames and supports
 - **Production**: Local, from lunar regolith
 
@@ -282,7 +288,7 @@ The Hub Station consists of three main subsystems working as unified infrastruct
 unitWidget("HUB-001")
 ```
 
-> **Note**: Widget shows composition of **lunar LSP stations** (30 units). Earth rectennas are produced on Earth from local materials and are not part of the project's space logistics.
+> **Note**: Widget shows composition of **lunar LSP stations** (40 units). Earth rectennas are produced on Earth from local materials and are not part of the project's space logistics.
 
 ---
 
@@ -308,21 +314,22 @@ unitWidget("HUB-001")
 
 ## Energy Distribution
 
-All Swarm energy is first received at lunar LSP stations, then distributed:
+The Dyson Swarm is **capacity** of ~21 PW (at Earth, after all losses). LSP Phase 1 is sized to receive from **5% of the Swarm** (~55 million mirrors), delivering **1 PW** to Earth. Power distribution:
 
-| Stage | Recipient | Power | % of Swarm |
-|-------|-----------|-------|------------|
-| **1. Reception** | **Moon (LSP)** | **~20 PW** | **100%** |
-| ↳ 2a. Transmission | Earth (rectennas) | 1 PW | 5% |
-| ↳ 2b. Transmission | Mars (future) | 1-5 PW | 5-25% |
-| ↳ 2c. Local | Moon (furnaces) | ~0.5 PW | ~2.5% |
-| ↳ 2d. Buffer | Moon (reserve) | ~13-17 PW | ~65-85% |
+| Stage | Recipient | Power | Notes |
+|-------|-----------|-------|-------|
+| **Swarm capacity** | **(full)** | **~21 PW** | **1.1 billion mirrors** |
+| **1. Reception (Phase 1)** | **Moon (LSP)** | **~3.2 PW** (optical) | **55M mirrors (5% of Swarm)** |
+| ↳ 1a. PV conversion | Electricity | ~1.45 PW | PV efficiency 45% |
+| ↳ 2a. Transmission | Earth (rectennas) | **1 PW** | Via klystrons + RF |
+| ↳ 2b. Local | Moon (furnaces, production) | ~0.3 PW | MRE, NaS, infrastructure |
+| **Reserve** | Scaling | ~18-20 PW | Mars, additional LSP stations |
 
 **Details of lunar usage:**
 - **Furnaces:** Melting regolith in solar furnaces, [MRE](../reference/technology-readiness.qmd#mre-molten-regolith-electrolysis) electrolysis, materials production
-- **Reserve:** [NaS](../reference/technology-readiness.qmd#nas-batteries) batteries for peak load smoothing, future production expansion
+- **Buffer:** [NaS](../reference/technology-readiness.qmd#nas-batteries) batteries for peak load smoothing
 
-> **Why not all to Earth?** 1 PW = 1000 TW — this is 50 times global consumption (20 TW). It's enough for complete decarbonization, synthetic fuels, and industrial growth. For Mars terraforming, energy is directed straight to Mars (1-5 PW), bypassing Earth. The rest is reserve for space expansion.
+> **Why not all to Earth?** 1 PW = 1000 TW — this is 50 times global consumption (20 TW). It's enough for complete decarbonization, synthetic fuels, and industrial growth. The remaining Swarm capacity (~95%) is reserve for scaling: additional LSP stations, Mars terraforming (1-5 PW direct), space expansion.
 
 ---
 

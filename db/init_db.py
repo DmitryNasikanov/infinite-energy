@@ -382,8 +382,8 @@ def seed_units(con):
          json.dumps(["Odeillo Solar Furnace (France) — 1 MW", "DLR Solar Tower Jülich — concentrated solar"])),
 
         ("HUB-001", "facilities", "Хаб приёма энергии", "Energy Reception Hub",
-         "LSP станции на Луне + ректенны на Земле, 300 км² фотовольтаики, 10000 км² ректенн",
-         "LSP stations on Moon + rectennas on Earth, 300 km² photovoltaics, 10000 km² rectennas",
+         "LSP станции на Луне + ректенны на Земле, 6400 км² фотовольтаики (40 станций), 10000 км² ректенн",
+         "LSP stations on Moon + rectennas on Earth, 6400 km² photovoltaics (40 stations), 10000 km² rectennas",
          177600000, None, None, True, "moon",
          json.dumps(["hub.qmd — архитектура LSP", "Lunar Solar Power (Criswell, 1980s)", "Space-Based Solar Power (NASA studies)"])),
 

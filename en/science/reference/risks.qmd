@@ -55,6 +55,28 @@ Require additional development but are not fundamentally new. All subsystems pro
 
 ---
 
+#### Fragility of Exponential Growth
+
+Exponential growth from 1 to ~1,650 factories assumes uninterrupted operation of all subsystems. In practice, systemic failures can halt the entire replication chain.
+
+| Risk | Mechanism | Consequence |
+|------|-----------|-------------|
+| Common firmware bug | All factories share software base | Simultaneous halt of ALL factories |
+| Cascade failure | Dust contamination in MRE → defective anodes → mass downtime | Production chain collapse |
+| Speed-of-light delay | 4-24 min Earth-Mercury lag | Cannot teleoperate in real-time; autonomous recovery required |
+| Assembly error | Stuck bolt, misalignment in vacuum | Days of downtime per factory (no human intervention) |
+
+**Mitigations:**
+
+1. **Firmware versioning** — factories run staggered software versions (never all on the same build)
+2. **Autonomous diagnostics** — robots detect and quarantine defective components before cascade
+3. **Strategic spares buffer** — each factory maintains 2-4 weeks of critical components
+4. **Graceful degradation** — factory can operate at reduced capacity (e.g., skip one MRE cell) rather than full shutdown
+
+**Impact on timeline:** Realistic doubling time is 4-6 months (vs 3-4 months planned). This is already accounted for in the Conservative scenario of the [Roadmap](../summaries/roadmap.qmd) (18-25 years instead of 10).
+
+---
+
 #### Energy Bridge Efficiency
 
 | Stage | Calculated | Pessimistic |
@@ -250,6 +272,25 @@ After charging infrastructure deployment (checkpoint), robots can work 24/7 with
 - "Why not solve Earth problems?"
 - Environmental protests against rectenna stations
 - NIMBYism with receiver placement
+
+### "Vitamins" Supply Chain Disruption
+
+"Vitamins" (electronics, rare earths, optics) make up 1-3% of robot/factory mass but provide 100% of control functionality. The entire replication chain depends on a steady stream of imports from Earth.
+
+| Scenario | Duration | Consequence |
+|----------|----------|-------------|
+| Regional conflict disrupts launches | 6-12 months | Growth slows, existing factories operate on reserves |
+| Major geopolitical crisis (war, sanctions) | 1-3 years | New factory construction **stops**; existing Swarm continues operating |
+| Total Earth isolation | 3+ years | Replication halts; Swarm delivers energy but cannot grow |
+
+**Key distinction from other megaprojects:** Once the Swarm reaches critical mass (~100+ factories, ~1,000+ mirrors in orbit), energy delivery continues even without Earth imports. Disruptions slow **growth**, but do not destroy the result.
+
+**Mitigations:**
+
+1. **Strategic vitamin reserves** on Mercury (2+ years supply) — ~50-100 t stockpile at peak
+2. **Supplier diversification** — source chips, rare earths, and optics from USA, China, Europe, India, Japan (no single-country dependency)
+3. **Local electronics R&D** (long-term) — simple control circuits from Mercury silicon (TRL 2-3; Blue Alchemist demonstrates Si purification from regolith to >99.999%)
+4. **Modular degradation** — factories can recycle vitamins from decommissioned Gen-1 robots into new Gen-2 units
 
 ---
 
