@@ -17,7 +17,7 @@ import { unitWidget } from "../../ojs-data.qmd"
 | Input | Silicates (~95% of non-magnetic fraction) |
 | Output | O₂, Fe/Si (ferrosilicon), Al/Mg slag |
 | Throughput | ~536 t/day |
-| Energy consumption | ~10 MW thermal (furnace) + ~500 kW electrical (electrolysis) |
+| Energy consumption | ~10 MW thermal (furnace) + ~108 MW electrical (electrolysis) |
 
 ← [Back to overview](overview.qmd)
 
@@ -70,7 +70,7 @@ flowchart TD
 
 ## Solar Furnace
 
-**Principle:** Concentration of sunlight by mirrors into a single point. On Mercury, solar flux is ~10 kW/m² — 7 times greater than on Earth.
+**Principle:** Concentration of sunlight by mirrors into a single point. On Mercury, solar flux is ~9.3 kW/m² — ~7 times greater than on Earth.
 
 **Why not an electric furnace?**
 
@@ -127,10 +127,14 @@ Regolith at 1500°C is molten oxides: SiO₂, Al₂O₃, FeO, MgO, CaO. During e
 | Parameter | Value |
 | :--- | :--- |
 | Temperature | 1500°C (maintained by solar furnace) |
+| Number of cells | 60 |
 | Voltage | 2–4 V |
-| Current | 10,000–50,000 A |
-| Power | ~500 kW (electrical) |
-| O₂ yield | ~40% of regolith mass |
+| Current per cell | ~600,000 A (600 kA) |
+| Power per cell | ~1.8 MW |
+| **Power (total)** | **~108 MW (electrical)** |
+| O₂ yield | ~40% of regolith mass (~250 t/day) |
+
+> **Power justification (Faraday's law):** 250 t O₂/day = 7.8M mol O₂/day. Each O₂ requires 4 electrons → 31.3M mol e⁻/day. Total current: 31.3M × 96,485 C / 86,400 s ≈ 35 MA. At average voltage 3 V: 35 MA × 3 V = **~105 MW**. Actual ~108 MW including electrode thermal losses. For comparison: Hall-Héroult aluminum electrolysis cells operate at 100–600 kA per cell — MRE cells are comparable in scale.
 
 ### MRE Cell Construction
 

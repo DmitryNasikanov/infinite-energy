@@ -33,8 +33,8 @@ The "Ground Zero Factory" is the first self-replicating factory on Mercury. Its 
 | Internal dome environment | Oxygen 0.1 atm (local, from MRE) |
 | **Dome dimensions** | **~50x30 m (~1,500 m^2)** |
 | Dome height | 6-8 m (for 1 t bridge crane) |
-| Power consumption (factory) | ~16 MW (6 MW elec. + 10 MW thermal) |
-| Available energy (CPV system ~10.5 t) | 168 MW (113 MW reserve) |
+| Power consumption (factory) | ~124 MW (114 MW elec. + 10 MW thermal) |
+| Available energy (CPV system ~10.5 t) | ~151 MW (~27 MW reserve without Mass Driver) |
 
 **Exponential growth strategy:**
 
@@ -371,6 +371,7 @@ Energy is divided into **thermal** (solar concentrators) and **electrical** (pho
 
 | Consumer | F-R | F-M |
 |----------|-----|-----|
+| **MRE electrolysis (60 cells × 1.8 MW)** | **108 MW** | **108 MW** |
 | Rolling mill / foil | 2 MW | 3 MW |
 | WAAM + grinding | 0.05 MW | - |
 | Assembly jigs | 0.5 MW | - |
@@ -378,13 +379,13 @@ Energy is divided into **thermal** (solar concentrators) and **electrical** (pho
 | Mirror assembly | - | 0.5 MW |
 | Robots (~50 pcs x 5 kW) | 0.3 MW | 0.3 MW |
 | Control systems | 2 MW | 2 MW |
-| **Electrical TOTAL** | **~6 MW(e)** | **~6 MW(e)** |
+| **Electrical TOTAL** | **~114 MW(e)** | **~114 MW(e)** |
 
-> **Note:** Solar furnaces use concentrated sunlight directly (no electricity conversion). At 9-14 kW/m² solar flux on Mercury, a ~1000 m² concentrator provides 10 MW thermal. Electrical consumers are powered by GaAs photovoltaic panels.
+> **Note:** Solar furnaces use concentrated sunlight directly (no electricity conversion). At ~9.3 kW/m² solar flux on Mercury, a ~1000 m² concentrator provides ~10 MW thermal. MRE electrolysis is the dominant electrical consumer (~108 MW, [Faraday's law justification](../materials/mre.qmd)). Electrical consumers are powered by GaAs photovoltaic panels.
 
-**Available electrical energy:** 168 MW (CPV system ~10.5 t: Kapton+Al concentrators + GaAs cells)
+**Available electrical energy:** ~151 MW (CPV system ~10.5 t: Kapton+Al concentrators + GaAs cells)
 
-**Reserve:** 162 MW - reserve for parallel operation of multiple factories
+**Reserve over factory (without Mass Driver):** ~27 MW. Mass Driver (~39 MW) starts after local Si panel deployment provides additional power.
 
 **More details:** [Production](../../summaries/production.qmd#energy)
 

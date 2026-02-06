@@ -16,7 +16,7 @@ import { unitWidget } from "../../ojs-data.qmd"
 > - **Parameters:** Length **1 km** (base), velocity 5 km/s, acceleration 1275g
 > - **Mass:** **~500 tons** (98.5% local materials)
 > - **Throughput:** 600 launches/day, 60 tons of mirrors/day
-> - **Energy:** 55 MW complex (33 MW launches + 22 MW production)
+> - **Energy:** ~165 MW complex (factory ~124 MW + Mass Driver ~39 MW)
 > - **Robots:** 49 robots per 1 MD
 >
 > *When reducing load: 2 km (637g) or 3 km (425g).
@@ -265,7 +265,7 @@ unitWidget("EQU-001")
 Launches (mass driver): 33 MW
 Mirror production: 22 MW
 
-TOTAL: 55 MW continuous
+TOTAL: ~165 MW continuous (factory ~124 MW + Mass Driver ~39 MW)
 ```
 
 ### Complex Energy Balance
@@ -277,7 +277,7 @@ TOTAL: 55 MW continuous
 | Insolation (Solar Boost) | 9-14 kW/m² |
 | GaAs panel efficiency | 30% |
 | Output | 2.7-4.2 kW/m² |
-| Consumption | 55 MW |
+| Consumption | ~165 MW |
 | **Required area** | **13,000-20,000 m²** |
 
 **With 30% margin:** ~**25,000-35,000 m²** of panels.
@@ -287,19 +287,19 @@ TOTAL: 55 MW continuous
 | Parameter | Value |
 |-----------|-------|
 | Mirror area | 10,000 m² |
-| Insolation (Mercury orbit) | 10,343 W/m² |
-| Reflected power (90% efficiency) | **93 MW** |
-| At receiver (losses ~15%) | ~80 MW |
-| Electricity (GaAs 30%) | **~24 MW** |
+| Insolation (Mercury orbit) | 9,287 W/m² |
+| Reflected power (90% efficiency) | **~84 MW** |
+| At receiver (losses ~15%) | ~71 MW |
+| Electricity (GaAs 30%) | **~21 MW** |
 
-**First mirror does not cover requirements!** ~3 mirrors needed for self-sufficiency:
+**First mirror does not cover requirements!** ~8 mirrors needed for self-sufficiency:
 
 ```
-3 mirrors x 24 MW = 72 MW
-Surplus: +17 MW
+8 mirrors x 21 MW = 168 MW
+Surplus: +3 MW (above ~165 MW complex)
 ```
 
-**Conclusion:** After launching **3 mirrors** the complex becomes self-sufficient.
+**Conclusion:** After launching **~8 mirrors** the complex becomes self-sufficient.
 
 ---
 

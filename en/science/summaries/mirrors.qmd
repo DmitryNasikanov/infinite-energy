@@ -150,11 +150,11 @@ The mirror and Hub move on different orbits — can electrochromics track the ta
 
 | Parameter | Value |
 |-----------|-------|
-| Solar flux (Mercury orbit) | 10,343 W/m² |
+| Solar flux (Mercury orbit) | 9,287 W/m² |
 | Mirror area | 10,000 m² |
-| Incident energy | 103 MW |
+| Incident energy | 93 MW |
 | Transmission efficiency to Earth | 18% |
-| **Power on Earth** | **~19 MW** |
+| **Power on Earth** | **~17 MW** |
 
 ### Target Power
 
@@ -169,14 +169,14 @@ $$
 ### How Many Mirrors Are Needed?
 
 $$
-N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \times 10^{9} \approx \textbf{~1.1 billion}
+N = \frac{20 \times 10^{15} \text{ W}}{17 \times 10^6 \text{ W}} \approx 1.18 \times 10^{9} \approx \textbf{~1.1 billion}
 $$
 
 **Verification by powers of ten:**
-- 1 mirror = 19 MW to Earth (103 MW × 18%)
-- 1,000 mirrors = 19 GW
-- 1,000,000 mirrors = 19 TW (≈ global consumption)
-- 1,100,000,000 mirrors = **~21 PW** (~1000× global)
+- 1 mirror = 17 MW to Earth (93 MW × 18%)
+- 1,000 mirrors = 17 GW
+- 1,000,000 mirrors = 17 TW (≈ global consumption)
+- 1,100,000,000 mirrors = **~18 PW** (~800× global)
 
 ### Swarm Parameters
 
@@ -188,7 +188,7 @@ $$
 | [Mass Drivers](../reference/glossary.qmd#mass-driver) | ~1,000 |
 | Production timeline | ~9.5 years |
 | Reflected power | ~100 petawatts |
-| Power on Earth | **~21 petawatts (~1000×)** |
+| Power on Earth | **~18 petawatts (~800×)** |
 
 ### Energy Cascade
 
@@ -197,10 +197,10 @@ Energy passes through 8 stages from the Sun to the outlet:
 ```{mermaid}
 %%| fig-width: 10
 flowchart LR
-    SUN["☀️ Sun"] -->|"~114 PW"| SWARM["Swarm Mirrors"]
+    SUN["☀️ Sun"] -->|"~102 PW"| SWARM["Swarm Mirrors"]
     SWARM -->|"light"| LSP["LSP stations<br/>(Moon, limbs)"]
     LSP -->|"microwaves<br/>2.45 GHz"| RECT["Rectenna<br/>(Earth)"]
-    RECT -->|"~21 PW"| GRID["Power grid"]
+    RECT -->|"~18 PW"| GRID["Power grid"]
 
     style SUN fill:#fff3cd
     style SWARM fill:#e8e8a8
@@ -236,7 +236,7 @@ Swarm Mirrors (Mercury) → Light to Moon → PV → Microwaves → Earth
 
 ### Swarm Energy Distribution
 
-The Swarm of 1.1 billion mirrors is **capacity** of ~21 PW on Earth. LSP Phase 1 uses **5% of the Swarm** (~55M mirrors) to deliver 1 PW:
+The Swarm of 1.1 billion mirrors is **capacity** of ~18 PW on Earth. LSP Phase 1 uses **5% of the Swarm** (~55M mirrors) to deliver 1 PW:
 
 | Purpose | Power | Note |
 |---------|-------|------|
@@ -335,7 +335,7 @@ With a 10-year service life, mirrors begin failing from year 11.
 ### Key Milestones
 
 - **Year 1:** 0.27 PW solar (0.04 on Earth) — 2× global consumption
-- **Year 8:** ~114 PW solar (~20 on Earth) — 1000× global consumption, ~1.1 billion active mirrors
+- **Year 8:** ~102 PW solar (~18 on Earth) — ~800× global consumption, ~1.1 billion active mirrors
 - **Year 11+:** growth slows due to replacement
 
 ### Long-term Balance
@@ -660,10 +660,10 @@ For 1.1 billion mirrors at 219 M/year, ~5 years at full capacity are needed. Inc
 
 | Parameter | Value |
 |-----------|-------|
-| Solar flux | 10,343 W/m² |
+| Solar flux | 9,287 W/m² |
 | Reflectivity | 95% |
 | Absorption | 5% |
-| Absorbed power | ~520 W/m² |
+| Absorbed power | ~464 W/m² |
 
 By Kirchhoff's law, a good reflector is a poor heat emitter. Solution — **black coating on reverse side**:
 
@@ -672,13 +672,13 @@ By Kirchhoff's law, a good reflector is a poor heat emitter. Solution — **blac
 | Mirror (aluminum) | 0.05 |
 | Reverse (black coating) | 0.8 |
 
-**Equilibrium temperature:** +38°C
+**Equilibrium temperature:** +40°C (calculation: σT⁴(ε_front + ε_back) = 464 → T ≈ 313 K)
 
 | Parameter | Value |
 |-----------|-------|
 | Aluminum melting point | 660°C |
-| Calculated mirror temperature | +38°C |
-| **Margin** | **622°C** |
+| Calculated mirror temperature | +40°C |
+| **Margin** | **620°C** |
 
 ---
 

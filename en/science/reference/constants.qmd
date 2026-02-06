@@ -14,13 +14,13 @@ All values used in calculations for Project Helios.
 | Location | Value | Source |
 |----------|-------|--------|
 | Earth (1 AU) | 1,361 W/m² | [NASA Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) |
-| Mercury (orbit average) | **10,343 W/m²** | Arithmetic mean of perihelion and aphelion |
+| Mercury (orbit average) | **9,287 W/m²** | Time-average: S₀/(a²√(1-e²)) |
 | Mercury (perihelion) | ~14,444 W/m² | Calculation: 1361 × (1/0.307)² |
 | Mercury (aphelion) | ~6,242 W/m² | Calculation: 1361 × (1/0.467)² |
 | Moon | 1,361 W/m² | Same as Earth (1 AU) |
 | Mars | 589 W/m² | [NASA Mars Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) |
 
-> **Note:** The value 9,087 W/m² is the flux at mean distance (0.387 AU). For energy calculations, we use the orbit average: (14,444 + 6,242) / 2 = **10,343 W/m²**.
+> **Note:** The value 9,087 W/m² is the flux at mean distance (0.387 AU): S₀/a² = 1361/0.387². For energy calculations, we use the **time-averaged** orbit flux: ⟨S⟩ = S₀/(a²√(1-e²)) = 1361/(0.387² × √(1-0.2056²)) = **9,287 W/m²**. The time-average is higher than the mean-distance value because the planet spends more time closer to the Sun (Kepler's 2nd law acts inversely for ⟨1/r²⟩).
 
 ### Planetary Parameters
 
@@ -93,21 +93,21 @@ See [Why Mercury?](../summaries/comparison.qmd) — planet comparison for the pr
 | Electrochromic layer (TiO₂) | ~1 kg | Mercury (500 nm coating × 10% area) |
 | Electronics | ~50 g | Earth (import) |
 | **Total mass** | **~116 kg** | |
-| Reflected power | 93 MW | 10000 × 10343 × 0.90 |
+| Reflected power | 84 MW | 10000 × 9287 × 0.90 |
 
 ### Dyson Swarm (Target Parameters)
 
 | Parameter | Value | Calculation |
 |-----------|-------|-------------|
-| Number of mirrors | **~1 billion** | 100 PW / 93 MW |
-| Total area | 10¹³ m² (~10,000 km²) | 10⁹ × 10⁴ m² |
-| Total mass | ~116 million tons | 10⁹ × 116 kg |
+| Number of mirrors | **~1.1 billion** | Production plan (~9.5 years) |
+| Total area | 1.1×10¹³ m² (~11M km²) | 1.1×10⁹ × 10⁴ m² |
+| Total mass | ~128 million tons | 1.1×10⁹ × 116 kg |
 | Specific mass | 0.0116 kg/m² | 116 kg / 10000 m² |
 | Mass Drivers | ~1,000 | |
 | Production timeline | ~9.5 years | accounting for degradation |
-| Intercepted power | ~114 petawatts | 1.1×10⁹ × 103 MW |
-| Reflected power | ~103 petawatts | 1.1×10⁹ × 93 MW |
-| Power on Earth | **~21 petawatts** | 114 PW × 18% efficiency |
+| Intercepted power | ~102 petawatts | 1.1×10⁹ × 93 MW |
+| Reflected power | ~92 petawatts | 1.1×10⁹ × 84 MW |
+| Power on Earth | **~18 petawatts** | 102 PW × 18% efficiency |
 
 ### Mass Driver
 
@@ -140,13 +140,13 @@ See [Why Mercury?](../summaries/comparison.qmd) — planet comparison for the pr
 
 | Parameter | Value |
 |-----------|-------|
-| Power consumption (peak) | 55 MW |
+| Power consumption (peak) | ~165 MW |
 | Concentrator area (6 launches) | 105,000 m² |
 | CPV system mass | ~10.5 t (5.25 t foil + 2 t GaAs + 3.25 t structure) |
-| Specific power | 16 kW/kg (at Mercury orbit) |
-| Available power | **168 MW** |
-| Surplus over consumption | 113 MW |
-| Silicon panel output | 1.6 kW/m² |
+| Specific power | ~14.4 kW/kg (at Mercury orbit) |
+| Available power | **~151 MW** |
+| Surplus over factory (no MD) | ~27 MW |
+| Silicon panel output | ~1.4 kW/m² |
 | Dome area | ~1,500 m² (~50×30 m) |
 
 ---
