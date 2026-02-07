@@ -254,6 +254,38 @@ format:
             }
           });
 
+          // Fix sidebar active state for EN pages (after link rewriting)
+          if (currentLang === 'en') {
+            const currentPath = window.location.pathname;
+            const sidebarLinks = document.querySelectorAll(
+              '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+            );
+            let activeLink = null;
+            for (const link of sidebarLinks) {
+              if (new URL(link.href).pathname === currentPath) {
+                activeLink = link;
+                break;
+              }
+            }
+            if (activeLink) {
+              activeLink.classList.add('active');
+              let section = activeLink.closest('ul.sidebar-section');
+              while (section) {
+                section.classList.add('show');
+                const item = section.closest('li.sidebar-item-section');
+                if (item) {
+                  item.querySelectorAll(
+                    ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+                  ).forEach(t => {
+                    t.classList.remove('collapsed');
+                    t.setAttribute('aria-expanded', 'true');
+                  });
+                }
+                section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+              }
+            }
+          }
+
         });
         </script>
 
