@@ -10,7 +10,7 @@ sidebar: science
 
 > **TL;DR**
 >
-> - **Total imports:** ~2,400 t over ~11 years (Moon 80 t + Mercury 2,325 t)
+> - **Total imports:** ~2,480 t over ~11 years (Moon 80 t + Mercury ~2,400 t)
 > - **Localization:** 99.998% of mass produced locally (mirrors, MDs, factories, robots)
 > - **Launch vehicles:** [Starship](https://en.wikipedia.org/wiki/SpaceX_Starship) (USA), [Long March 9](https://en.wikipedia.org/wiki/Long_March_9) (China), [Yenisei](https://en.wikipedia.org/wiki/Yenisei_(rocket)) (Russia)
 > - **Launch rate:** ~15-30 launches/year at peak (1 spaceport sufficient)
@@ -73,15 +73,15 @@ sidebar: science
 
 **Note:**
 - Regular deliveries (years 7-15): ~2,185 t
-- Expeditions 1-2 (years 6-6.5): 140 t
-- **Total to Mercury: ~2,325 t**
+- Expeditions 1-2 (years 6-6.5): 215 t
+- **Total to Mercury: ~2,400 t**
 - **Total launches (including expeditions and reserve): ~50-100**
 
 ---
 
 ## Delivery Cost
 
-| Scenario | $/kg to Mercury | 2,325 t | Assumptions |
+| Scenario | $/kg to Mercury | ~2,400 t | Assumptions |
 |----------|-----------------|---------|-------------|
 | Optimistic | $1,500 | $3.5 billion | Fully reusable vehicles |
 | **Baseline** | **$2,500** | **$6 billion** | **International fleet** |
@@ -97,7 +97,7 @@ sidebar: science
 %%| fig-width: 8
 flowchart LR
     subgraph "Phase 2 (Years 6-15): Mercury"
-        E2[Earth] -->|"Rockets<br>~2,325 t"| M[Mercury]
+        E2[Earth] -->|"Rockets<br>~2,400 t"| M[Mercury]
         M -->|"MD 5 km/s"| R[Dyson Swarm]
     end
 
@@ -110,7 +110,7 @@ flowchart LR
 | Route | Purpose | Cargo | Mechanism |
 |-------|---------|-------|-----------|
 | Earth to Moon | Testbed, LSP factories | 60-100 t | Super-heavy lift vehicles |
-| Earth to Mercury | Factory and MD electronics | ~2,325 t | Super-heavy lift vehicles |
+| Earth to Mercury | Factory and MD electronics | ~2,400 t | Super-heavy lift vehicles |
 | Mercury to orbit | Swarm Mirrors | ~10^14 t | Mercury Mass Driver |
 
 **Moon:** [LSP station](../detailed/hub.qmd) production from local resources (regolith to aluminum, silicon). Only "Vitamins" delivered from Earth — electronics, optics, rare materials. Production details: [Ground Zero Factory](../detailed/factories/overview.qmd).
@@ -160,7 +160,7 @@ The project requires launch vehicles with >50 t payload to LEO. By the active ph
 
 *Payload to Mercury trajectory ~30-35% of LEO (Delta-v ~12.5 km/s).
 
-**Economies of scale:** Doubling payload capacity reduces cost per kilogram by ~1.5-2x. For 2,325 t cargo to Mercury, this is the difference between $6 billion and $12 billion.
+**Economies of scale:** Doubling payload capacity reduces cost per kilogram by ~1.5-2x. For ~2,400 t cargo to Mercury, this is the difference between $6 billion and $12 billion.
 
 ::: {.callout-warning}
 ## Geopolitical Factor
@@ -187,7 +187,7 @@ After Dyson Swarm deployment, orbital refueling becomes **unnecessary**. The Swa
 
 ## Advantages for Helios
 
-With a Swarm of ~1 billion mirrors (~102 PW solar power):
+With a Swarm of ~1.1 billion mirrors (~102 PW solar power):
 
 1. **Solar Thermal:** Mirrors focus light on spacecraft heat exchanger to heat working fluid to 10,000 K, achieving Isp higher than chemical engines
 2. **Beam Power:** Portion of mirrors directs light to spacecraft receiver — no need to carry propellant from Earth
@@ -339,38 +339,38 @@ flowchart LR
 
 | Category | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Year 11-15 | **TOTAL** |
 |----------|---------|--------|--------|--------|---------|------------|-----------|
-| **Factories (boards)** | 140 t | 1 t | 5 t | 21 t | 63 t | | **230 t** |
+| **Factories (boards)** | 215 t | 1 t | 5 t | 21 t | 63 t | | **305 t** |
 | **Mass Drivers (boards)** | | 3 t | 19 t | 88 t | 165 t | | **275 t** |
 | **Mirrors** | | 85 t | 180 t | 370 t | 420 t | | **1,055 t** |
 | **Robots (vitamins)** | | 2 t | 10 t | 40 t | 80 t | 633 t | **765 t** |
-| **TOTAL MERCURY** | **140 t** | **91 t** | **214 t** | **519 t** | **728 t** | **633 t** | **2,325 t** |
+| **TOTAL MERCURY** | **215 t** | **91 t** | **214 t** | **519 t** | **728 t** | **633 t** | **~2,400 t** |
 
-*Initial = Year 6, E1 expedition — 4 bootstrap factories (full import before localization)*
+*Initial = Years 6-6.5, expeditions E1+E2 — 2 factories + 2 MDs (E1) + 3 factories electronics (E2), full import before localization*
 
 ### SUMMARY TABLE
 
 | Location | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Year 11-15 | **TOTAL** |
 |----------|---------|--------|--------|--------|---------|------------|-----------|
 | **MOON** | 80 t | | | | | | **80 t** |
-| **MERCURY** | 140 t | 91 t | 214 t | 519 t | 728 t | 633 t | **2,325 t** |
-| **TOTAL** | **220 t** | **91 t** | **214 t** | **519 t** | **728 t** | **633 t** | **~2,400 t** |
+| **MERCURY** | 215 t | 91 t | 214 t | 519 t | 728 t | 633 t | **~2,400 t** |
+| **TOTAL** | **295 t** | **91 t** | **214 t** | **519 t** | **728 t** | **633 t** | **~2,480 t** |
 
-**Equivalent: ~48 Starship launches (50 t/launch)**
+**Equivalent: ~50 Starship launches (50 t/launch)**
 
 ---
 
 ## Detailed Breakdown by Category
 
-### 1. Factories (~230 t)
+### 1. Factories (~305 t)
 
 | Component | Initial | Year 7 | Year 8 | Year 9 | Year 10 | Total |
 |-----------|---------|--------|--------|--------|---------|-------|
-| E1 bootstrap (4 factories) | 140 t | | | | | 140 t |
+| E1+E2 bootstrap (2 factories + 2 MDs + 3 factories) | 215 t | | | | | 215 t |
 | MNLZ automation boards | | 0.6 t | 2.9 t | 11 t | 35 t | 50 t |
 | Control unit boards | | 0.4 t | 2.1 t | 10 t | 28 t | 40 t |
-| **Total factories** | **140 t** | **1 t** | **5 t** | **21 t** | **63 t** | **230 t** |
+| **Total factories** | **215 t** | **1 t** | **5 t** | **21 t** | **63 t** | **305 t** |
 
-- **Initial (E1 bootstrap):** full import of 4 factories before localization
+- **Initial (E1+E2 bootstrap):** full import of 2 factories + 2 MDs (E1) + 3 factories electronics (E2) before localization
 - **Regular:** electronics boards only (~55 kg/factory), housings — [local production](../detailed/factories/assembly/equipment.qmd)
 - Al₂O₃ bearings — 100% local (ceramic from regolith)
 - 99.9% of equipment mass — local production
