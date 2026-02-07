@@ -1,0 +1,25 @@
+name: Content Correction
+description: Report a typo, calculation error, or factual inaccuracy
+labels: ["correction"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page URL or file path
+      placeholder: "https://dmitrynasikanov.github.io/infinite-energy/en/science/... or ru/science/detailed/materials/mre.qmd"
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What is incorrect?
+      description: Quote the specific text or describe the error
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested correction
+      description: What should it say instead? Include sources if applicable.
+    validations:
+      required: false

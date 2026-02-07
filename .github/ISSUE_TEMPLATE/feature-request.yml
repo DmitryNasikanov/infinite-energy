@@ -1,0 +1,30 @@
+name: Content Proposal
+description: Suggest a new topic, calculation, or improvement
+labels: ["proposal"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like to see?
+      description: Describe the new content or improvement
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - New detailed article
+        - New calculation / analysis
+        - Translation improvement
+        - Website / navigation improvement
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References or prior art
+      description: Links to papers, articles, or related work (optional)
+    validations:
+      required: false
