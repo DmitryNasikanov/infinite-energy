@@ -286,12 +286,40 @@ format:
             }
           }
 
+          // Add hreflang alternate links for SEO
+          const basePath = getBasePath();
+          const path = window.location.pathname;
+          const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+          const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+          const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+          const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+          const linkRu = document.createElement('link');
+          linkRu.rel = 'alternate';
+          linkRu.hreflang = 'ru';
+          linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+          document.head.appendChild(linkRu);
+
+          const linkEn = document.createElement('link');
+          linkEn.rel = 'alternate';
+          linkEn.hreflang = 'en';
+          linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+          document.head.appendChild(linkEn);
+
         });
         </script>
 
 website:
   site-url: "https://DmitryNasikanov.github.io/infinite-energy"
   title: "Проект Гелиос"
+  description: "Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix."
+  image: "images/og-preview.png"
+  favicon: "images/favicon.png"
+  open-graph: true
+  twitter-card:
+    creator: "@DmitryNas"
+    card-style: summary_large_image
   navbar:
     background: dark
     title: false
