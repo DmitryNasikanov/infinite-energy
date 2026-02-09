@@ -9,13 +9,13 @@ sidebar: science
 > - **Mass:** ~1500 kg
 > - **Power:** 10 kV cable (no battery)
 > - **Power consumption:** 30 kW
-> - **Assembly time:** 48 hours per station
+> - **Assembly time:** 46 hours per station
 
 ---
 
 ## Overview
 
-Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platform with a 1 m³ bucket can dig up to 100 tons of regolith per day. Powered by a 10 kV cable (no battery), as it always operates at the quarry near the power system.
+Mole-M is a heavy Gen-2 excavator robot for regolith mining. The six-wheeled platform with a 1 m³ bucket can dig up to 100 tons of regolith per day. Powered by a 10 kV cable (no battery), as it always operates at the quarry near the power system.
 
 **Key feature:** The heaviest Gen-2 robot (1500 kg), maximum steel content (83%) for durability.
 
@@ -28,14 +28,14 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 | Frame + chassis + bucket | Steel Fe-6%Mn | 1240 kg | [Frame Manufacturing](../elements/frames.qmd) |
 | Housing, radiators, sensor housings | Aluminum | 220 kg | [Aluminum](../../materials/distillation.qmd) |
 | NaS Battery | — | 0 kg | **No battery** (cable) |
-| Actuators (2 tracks + 4 bucket) | Fe + Al + NaK | 60 kg | [Actuators](../elements/actuators.qmd) |
+| Actuators (6 wheels + 4 bucket) | Fe + Al + NaK | 65 kg | [Actuators](../elements/actuators.qmd) |
 | Electronics (chips) | — | 0.5 kg | **Earth import** |
 | **TOTAL** | — | **~1500 kg** | **>99% local** |
 
 **Material distribution:**
 - Iron (Fe): 1240 kg = **83%**
 - Aluminum (Al): 220 kg = **15%**
-- Actuators: 60 kg = **4%**
+- Actuators: 65 kg = **4%**
 - Import (chips): 0.5 kg = **<0.1%**
 
 *Electronics 20 kg = chips 0.5 kg (import) + camera/lidar housings, cables ~19.5 kg (Al, local)*
@@ -54,37 +54,37 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 | Ground clearance | 0.6 m |
 | Bucket volume | 1 m³ (2.5 t regolith) |
 
-### Track Base
+### Wheel Base
 
-**2 tracks:**
-- Track width: 0.6 m
-- Contact length: 2.5 m
-- Material: Steel Fe-6%Mn (wear-resistant)
-- Ground pressure: 0.2 kg/cm² (low, no sinking)
+**6 wheels:** 3 per side, independent suspension.
 
-**Drive:**
-- Electric motors 15 kW × 2 = 30 kW total
-- Gear ratio: 1:200 (high torque for digging)
+| Parameter | Value |
+|-----------|-------|
+| Wheel diameter | Ø1.2 m (unified with Crab-M) |
+| Wheel width | 0.6 m |
+| Material | Al rim + Fe-6%Mn band |
+| Ground pressure | ~0.14 kg/cm² |
+| Drive | Electric motors 5 kW × 6 = 30 kW + [cycloidal gearbox](../elements/actuators.qmd#electric-actuators) 1:20 |
 
 ---
 
 ## Assembly Process
 
-### Assembly Station (10 positions, 48 hours per position)
+### Assembly Station (10 positions, 46 hours per position)
 
 | Position | Stage | Time | Robots |
 |----------|-------|------|--------|
 | 1 | Frame installation on station | 3 hours | 3 Centaur-M |
-| 2 | Track mounting (2 pcs) | 8 hours | 4 Centaur-M |
+| 2 | Chassis mounting (6 wheels) | 6 hours | 3 Centaur-M |
 | 3 | Al housing and radiator installation | 6 hours | 3 Centaur-M |
 | 4 | Bucket and hydraulics mounting | 8 hours | 4 Centaur-M |
-| 5 | Actuator mounting (2 track drives + 4 bucket) | 6 hours | 3 Centaur-M |
+| 5 | Actuator mounting (6 wheel drives + 4 bucket) | 6 hours | 3 Centaur-M |
 | 6 | 10 kV power cable routing | 4 hours | 2 Centaur-M |
 | 7 | Electronics installation (processor, sensors) | 4 hours | 2 Centaur-M |
 | 8 | NaK cooling loop fill | 2 hours | 1 Centaur-M |
 | 9 | Sensor calibration and testing | 6 hours | Automated |
 | 10 | Digging test (idle) | 1 hour | Mole-M itself |
-| **TOTAL** | | **48 hours** | |
+| **TOTAL** | | **46 hours** | |
 
 ---
 
@@ -103,25 +103,24 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 ---
 
-## Stage 2: Track Mounting
+## Stage 2: Chassis Mounting (6 Wheels)
 
-**2 tracks:**
+**6 wheels** (unified with [Crab-M](crabs.qmd)):
 
 | Parameter | Value |
 |-----------|-------|
-| Track length | 3.0 m (closed loop) |
-| Width | 0.6 m |
-| Links | 60 pcs per track |
-| Track mass | 300 kg |
-| Material | Steel Fe-6%Mn |
+| Wheel diameter | Ø1.2 m |
+| Wheel width | 0.6 m |
+| Wheel mass | ~50 kg |
+| Material | Al rim + Fe-6%Mn band |
 
 **Process:**
-1. Install 2 drive sprockets (front + rear)
-2. Install 4 support rollers on each side
-3. Track tensioning (60 links)
-4. Tension check (sag <50 mm)
+1. Install 6 hub assemblies with suspension
+2. Mount 5 kW electric motors with cycloidal gearboxes 1:20
+3. Install wheels on hubs
+4. Check free rotation
 
-**Time:** 8 hours (tracks are heavy, complex installation)
+**Time:** 6 hours (unified procedure)
 
 ---
 
@@ -170,12 +169,12 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 ## Stage 5: Actuator Mounting
 
-**6 actuators:**
-- 2 track drives (electric, 15 kW each)
+**10 actuators:**
+- 6 wheel drives (electric, 5 kW each + cycloidal gearbox 1:20)
 - 4 bucket hydraulic cylinders (50 kN each)
 
 **Process:**
-1. Electric motor installation in drive sprockets
+1. Connect wheel motors to power bus
 2. Power cable routing to transformer
 3. Bucket hydraulic cylinder mounting
 4. NaK hydraulic circuit fill
@@ -186,9 +185,10 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 ## Stage 6: 10 kV Power Cable Routing
 
-**10 kV cable:**
+**10 kV cable (MI type):**
 - Length: 50 m (cable reel)
 - Cross-section: 50 mm² Al
+- Insulation: MgO (mineral, all materials local)
 - Voltage: 10 kV (stepped down to 400 V by transformer)
 - Current: 3 A (at 30 kW load)
 
@@ -243,7 +243,7 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 | Test | Description | Specification |
 |------|-------------|---------------|
-| Track movement | 2 track check | Speed 5 km/h |
+| Wheel movement | 6 wheel check | Speed 5 km/h |
 | Bucket lift | Hydraulics test (no load) | Height 2 m |
 | Idle digging | Air digging test | Smooth movement |
 | Cooling | Radiator test at 30 kW load | T <+100°C |
@@ -295,19 +295,18 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 | Operation | Frequency | Performer |
 |-----------|-----------|-----------|
-| MoS₂ track lubrication replenishment | 1 week | Centaur-M |
-| Track tension check | 1 week | Automated |
+| MoS₂ wheel bearing recoating | 3 months | Magnetron station + Centaur-M |
 | Bucket teeth replacement | 1 month | Centaur-M (welding) |
-| Track link replacement | 3 months | Centaur-M |
+| Wheel replacement | 1 year | Centaur-M |
 | Hydraulics replacement | As needed | Assembly station |
 
 **Service life:**
 - Frame: 10-15 years
-- Tracks: 6 months - 1 year (regolith wear)
+- Wheels: 1-2 years (band wear from regolith)
 - Bucket: 1-2 years (edge wear)
 - Hydraulics: 3-5 years
 - Electronics: 5-10 years
-- **Robot overall:** 5-10 years (with track and bucket replacement)
+- **Robot overall:** 5-10 years (with wheel and bucket replacement)
 
 ---
 
@@ -356,12 +355,12 @@ Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platfor
 
 | Component | Service life | Stock per 1 complex |
 |-----------|--------------|---------------------|
-| Track links | 6-12 months | 1200 pcs (10 tracks) |
+| Wheels (band) | 1-2 years | 36 pcs (6 Moles × 6 wheels) |
 | Bucket teeth | 1 month | 120 pcs (10 buckets) |
 | Hydraulic cylinders | 3 years | 24 pcs (6 Moles) |
 
 **Spare parts production:**
-- Track links: WAAM 3D printing (Fe)
+- Wheels: WAAM 3D printing of rim (Al) + band (Fe-6%Mn)
 - Bucket teeth: Casting + heat treatment
 - Hydraulic cylinders: Turning
 

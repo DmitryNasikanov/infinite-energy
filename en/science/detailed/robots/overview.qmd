@@ -202,6 +202,17 @@ flowchart TD
 
 *Na and S — for the full battery shop production program (500 kWh/day: for robots + reserve + replacement)*
 
+### Import Components ("[vitamins](../reference/glossary.qmd#vitamins)")
+
+| Component | Per fleet (60,000) | Frequency |
+|-----------|-------------------|-----------|
+| Ball bearings (440C) | 0.8-1.6 t | One-time |
+| NdFeB magnets (Centaur-M) | 20-40 t | One-time |
+| Mo for MoS₂ | <1 kg/year | Annual |
+| Ag for O-ring seals | 60-300 kg | One-time |
+
+>99% by mass — local production; import components are part of "vitamins". Details: [Actuators](elements/actuators.qmd#ball-bearings-high-speed-shafts).
+
 ---
 
 ## System Productivity
@@ -256,7 +267,7 @@ flowchart TD
 
 | Operation | Frequency | Location |
 |-----------|-----------|----------|
-| MoS₂ lubricant replenishment | 3 months | Service station |
+| MoS₂ bearing recoating | 3-6 months | [Magnetron station](elements/actuators.qmd#critical-component-equipment) + Centaur-M |
 | Sensor calibration | 3 months | Automatic |
 | NaS battery replacement | 5 years | Assembly bay |
 | Actuator replacement | As needed | Assembly bay |

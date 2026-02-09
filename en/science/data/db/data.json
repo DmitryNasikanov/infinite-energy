@@ -15,7 +15,7 @@
       "id": "mercury",
       "name": "Mercury",
       "gravity_m_s2": 3.7,
-      "solar_constant_w_m2": 9287.0,
+      "solar_constant_w_m2": 10343.0,
       "escape_velocity_km_s": 4.25,
       "has_atmosphere": false,
       "sources": [
@@ -475,7 +475,7 @@
       "id": "ROB-021",
       "category_id": "robots",
       "name": "Crab-M",
-      "description": "Gen-2 logistics, 6 legs, 5t payload, NaS battery",
+      "description": "Gen-2 logistics, 6 wheels, 5t payload, NaS battery",
       "mass_kg": 1000.0,
       "power_kw": 30.0,
       "parent_id": null,
@@ -490,8 +490,8 @@
       "id": "ROB-022",
       "category_id": "robots",
       "name": "Centaur-M",
-      "description": "Gen-2 assembler, 4 legs + 2 arms, lightweight",
-      "mass_kg": 370.0,
+      "description": "Gen-2 assembler, 4 wheels + 2 arms, lightweight",
+      "mass_kg": 380.0,
       "power_kw": 12.0,
       "parent_id": null,
       "is_assembly": true,
@@ -505,7 +505,7 @@
       "id": "ROB-023",
       "category_id": "robots",
       "name": "Mole-M",
-      "description": "Gen-2 miner, tracks, 600t/day",
+      "description": "Gen-2 miner, 6 wheels, 600t/day",
       "mass_kg": 1500.0,
       "power_kw": 40.0,
       "parent_id": null,
@@ -522,7 +522,7 @@
       "name": "Ground Zero Factory",
       "description": "Main factory at Mercury's north pole, 1500 m²",
       "mass_kg": null,
-      "power_kw": 124000.0,
+      "power_kw": 55000.0,
       "parent_id": null,
       "is_assembly": true,
       "production_planet_id": "mercury",
@@ -580,7 +580,7 @@
       "id": "HUB-001",
       "category_id": "facilities",
       "name": "Energy Reception Hub",
-      "description": "LSP stations on Moon + rectennas on Earth, 300 km² photovoltaics, 10000 km² rectennas",
+      "description": "LSP stations on Moon + rectennas on Earth, 6400 km² photovoltaics (40 stations), 10000 km² rectennas",
       "mass_kg": 177600000.0,
       "power_kw": null,
       "parent_id": null,
@@ -658,7 +658,7 @@
       "name": "MRE Cell",
       "description": "Molten regolith electrolysis (Al, Fe, Si, O₂)",
       "mass_kg": 5000.0,
-      "power_kw": 1800.0,
+      "power_kw": 500.0,
       "parent_id": "FAC-001",
       "is_assembly": true,
       "production_planet_id": "mercury",
@@ -1252,7 +1252,7 @@
       "category_id": "products",
       "name": "Gen-2 Robot",
       "description": "Second generation robot (averaged)",
-      "mass_kg": 320.0,
+      "mass_kg": 960.0,
       "power_kw": 15.0,
       "parent_id": null,
       "is_assembly": true,
@@ -1280,9 +1280,9 @@
     {
       "id": "PRD-004",
       "category_id": "products",
-      "name": "NaS Battery 15kWh",
+      "name": "NaS Battery 20kWh",
       "description": "Sodium-sulfur battery for robots",
-      "mass_kg": 100.0,
+      "mass_kg": 150.0,
       "power_kw": null,
       "parent_id": null,
       "is_assembly": true,
@@ -1673,7 +1673,7 @@
     {
       "unit_id": "ROB-021",
       "material_id": "MAT-AL",
-      "fraction_pct": 55.0
+      "fraction_pct": 60.0
     },
     {
       "unit_id": "ROB-021",
@@ -1683,12 +1683,12 @@
     {
       "unit_id": "ROB-021",
       "material_id": "MAT-NA",
-      "fraction_pct": 3.5
+      "fraction_pct": 1.0
     },
     {
       "unit_id": "ROB-021",
       "material_id": "MAT-S",
-      "fraction_pct": 3.5
+      "fraction_pct": 1.0
     },
     {
       "unit_id": "ROB-021",
@@ -1698,22 +1698,22 @@
     {
       "unit_id": "ROB-022",
       "material_id": "MAT-AL",
-      "fraction_pct": 62.0
+      "fraction_pct": 68.0
     },
     {
       "unit_id": "ROB-022",
       "material_id": "MAT-FE",
-      "fraction_pct": 22.0
+      "fraction_pct": 26.0
     },
     {
       "unit_id": "ROB-022",
       "material_id": "MAT-NA",
-      "fraction_pct": 6.0
+      "fraction_pct": 1.0
     },
     {
       "unit_id": "ROB-022",
       "material_id": "MAT-S",
-      "fraction_pct": 6.0
+      "fraction_pct": 1.0
     },
     {
       "unit_id": "ROB-022",
@@ -1723,27 +1723,17 @@
     {
       "unit_id": "ROB-023",
       "material_id": "MAT-FE",
-      "fraction_pct": 83.0
+      "fraction_pct": 84.0
     },
     {
       "unit_id": "ROB-023",
       "material_id": "MAT-AL",
-      "fraction_pct": 7.0
-    },
-    {
-      "unit_id": "ROB-023",
-      "material_id": "MAT-NA",
-      "fraction_pct": 3.5
-    },
-    {
-      "unit_id": "ROB-023",
-      "material_id": "MAT-S",
-      "fraction_pct": 3.5
+      "fraction_pct": 14.0
     },
     {
       "unit_id": "ROB-023",
       "material_id": "MAT-SI",
-      "fraction_pct": 3.0
+      "fraction_pct": 2.0
     },
     {
       "unit_id": "EQU-021",
@@ -2545,7 +2535,7 @@
     {
       "assembly_id": "ROB-021",
       "component_id": "CMP-012",
-      "quantity": 15
+      "quantity": 20
     },
     {
       "assembly_id": "ROB-021",
@@ -2575,7 +2565,7 @@
     {
       "assembly_id": "ROB-022",
       "component_id": "CMP-012",
-      "quantity": 8
+      "quantity": 5
     },
     {
       "assembly_id": "ROB-022",
@@ -2605,7 +2595,7 @@
     {
       "assembly_id": "ROB-023",
       "component_id": "CMP-012",
-      "quantity": 20
+      "quantity": 0
     },
     {
       "assembly_id": "ROB-023",
@@ -2675,7 +2665,7 @@
     {
       "assembly_id": "FAC-001",
       "component_id": "EQU-002",
-      "quantity": 60
+      "quantity": 20
     },
     {
       "assembly_id": "FAC-001",
@@ -2805,7 +2795,7 @@
     {
       "assembly_id": "PRD-002",
       "component_id": "CMP-012",
-      "quantity": 12
+      "quantity": 8
     },
     {
       "assembly_id": "EQU-001",

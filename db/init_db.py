@@ -337,20 +337,20 @@ def seed_units(con):
         # РОБОТЫ GEN-2 (местное производство)
         # =====================================
         ("ROB-021", "robots", "Краб-М (Crab-M)", "Crab-M",
-         "Логист Gen-2, 6 ног, 5 т груз, NaS батарея",
-         "Gen-2 logistics, 6 legs, 5t payload, NaS battery",
+         "Логист Gen-2, 6 колёс, 5 т груз, NaS батарея",
+         "Gen-2 logistics, 6 wheels, 5t payload, NaS battery",
          1000, 30, None, True, "mercury",
          json.dumps(["Caterpillar Command — autonomous mining", "Rio Tinto autonomous trucks"])),
 
         ("ROB-022", "robots", "Кентавр-М (Centaur-M)", "Centaur-M",
-         "Сборщик Gen-2, 4 ноги + 2 руки, лёгкий",
-         "Gen-2 assembler, 4 legs + 2 arms, lightweight",
+         "Сборщик Gen-2, 4 колеса + 2 руки, лёгкий",
+         "Gen-2 assembler, 4 wheels + 2 arms, lightweight",
          380, 12, None, True, "mercury",
          json.dumps(["NASA Mars rovers — autonomous operation", "Boston Dynamics Stretch — warehouse robot"])),
 
         ("ROB-023", "robots", "Крот-М (Mole-M)", "Mole-M",
-         "Добытчик Gen-2, гусеницы, 600 т/день",
-         "Gen-2 miner, tracks, 600t/day",
+         "Добытчик Gen-2, 6 колёс, 600 т/день",
+         "Gen-2 miner, 6 wheels, 600t/day",
          1500, 40, None, True, "mercury",
          json.dumps(["Komatsu autonomous haul trucks", "Sandvik AutoMine — underground mining"])),
 
@@ -952,7 +952,7 @@ def seed_unit_materials(con):
         # Итого: 100%
 
         # Крот-М (1500 кг): Fe 84%, Al 14% — нет батареи (кабель)
-        ("ROB-023", "MAT-FE", 84),      # 1260 кг: рама/шасси/гусеницы/ковш 1240 + актуаторы 20
+        ("ROB-023", "MAT-FE", 84),      # 1260 кг: рама/шасси/колёса/ковш 1240 + актуаторы 20
         ("ROB-023", "MAT-AL", 14),      # 210 кг: корпус/радиаторы/сенсоры 220
         ("ROB-023", "MAT-SI", 2),       # электроника/сенсоры
         # Итого: 100% (нет Na/S — нет батареи)

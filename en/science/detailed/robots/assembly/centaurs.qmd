@@ -28,7 +28,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 | Frame + chassis | Steel Fe-6%Mn | 80 kg | [Frame Manufacturing](../elements/frames.qmd) |
 | Body, radiators, manipulators, sensor housings | Aluminum | 235 kg | [Aluminum](../../materials/distillation.qmd) |
 | NaS Battery | Na + S + β-Al₂O₃ | 40 kg | [Battery Production](../elements/batteries.qmd) |
-| Actuators (12 pcs: 4 wheels + 2×6 manipulators) | Fe + Al + NaK | 25 kg | [Actuators](../elements/actuators.qmd) |
+| Actuators (16 pcs: 4 wheels + 2×4 direct-drive + 2×2 tendon) | Fe + Al + NdFeB | 25 kg | [Actuators](../elements/actuators.qmd) |
 | Electronics (chips) | — | 0.3 kg | **Import from Earth** |
 | **TOTAL** | — | **~380 kg** | **>99% local** |
 
@@ -116,9 +116,10 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 ## Stage 2: Chassis Mounting
 
 **4 wheels:**
-- Diameter: Ø0.8 m
-- Material: Aluminum (rim) + Fe-6%Mn bandage (local)
-- Drive: Electric motors 2 kW × 4 = 8 kW total
+- Diameter: Ø1.2 m (unified with Mole-M/Crab-M)
+- Width: 0.6 m
+- Material: Al rim + Fe-6%Mn band (local)
+- Drive: Electric motors 2 kW × 4 = 8 kW + [cycloidal gearbox](../elements/actuators.qmd#electric-actuators) 1:20
 
 **Suspension:**
 - Independent on each wheel
@@ -127,7 +128,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 **Process:**
 1. Install 4 hubs on frame (M16 bolts)
-2. Mount drive electric motors
+2. Mount 2 kW electric motors with cycloidal gearboxes 1:20
 3. Install wheels
 4. Alignment adjustment
 
@@ -178,10 +179,13 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 **2 manipulators with 6 axes:**
 
+- Joints 1-4: [direct-drive](../elements/actuators.qmd#electric-actuators) (NdFeB magnets, import) — zero backlash, zero gearbox maintenance
+- Joints 5-6 (wrist): [tendon drives](../elements/actuators.qmd#electric-actuators) — motor on body, wire through pulleys (100% local materials)
+
 **Installation process:**
 1. Mount manipulator base on frame (M20 bolts)
 2. Install 6 manipulator links (each link — 200 mm)
-3. Connect 6 electric actuators (1 per axis)
+3. Install 4 direct-drive motors (joints 1-4) + 2 tendon drives (joints 5-6)
 4. Route power and signal cables through manipulator
 5. Install interchangeable attachment (TIG torch by default)
 
@@ -290,7 +294,7 @@ Centaur-M is a universal Gen-2 manipulator robot for precision operations: equip
 
 | Operation | Frequency | Performed by |
 |-----------|-----------|--------------|
-| MoS₂ lubricant replenishment in manipulators | 3 months | Another Centaur-M |
+| MoS₂ joint bearing recoating | 3-6 months | Magnetron station + another Centaur-M |
 | Manipulator calibration | 1 month | Automated |
 | NaS battery replacement | 5-7 years | Assembly line |
 | Tool replacement (TIG torch, cutters) | As needed | Centaur-M self-service |
