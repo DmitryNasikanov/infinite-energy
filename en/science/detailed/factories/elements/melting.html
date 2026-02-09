@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Metal Melting – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Metal Melting – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">

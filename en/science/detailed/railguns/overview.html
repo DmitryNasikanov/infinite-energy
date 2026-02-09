@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Mass Driver Production – Проект Гелиос</title>
+<title>Mass Driver – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -336,11 +337,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Mass Driver – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Mass Driver – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -373,6 +436,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -399,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Mass Driver Production</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Mass Driver</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -466,12 +534,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -655,19 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -859,26 +909,84 @@ document.addEventListener('DOMContentLoaded', function() {
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#basic-parameters" id="toc-basic-parameters" class="nav-link" data-scroll-target="#basic-parameters">Basic Parameters</a>
+  <ul class="collapse">
+  <li><a href="#launch-physics" id="toc-launch-physics" class="nav-link" data-scroll-target="#launch-physics">Launch Physics</a></li>
+  <li><a href="#track-length-options" id="toc-track-length-options" class="nav-link" data-scroll-target="#track-length-options">Track Length Options</a></li>
+  <li><a href="#launch-energy" id="toc-launch-energy" class="nav-link" data-scroll-target="#launch-energy">Launch Energy</a></li>
+  <li><a href="#mass-driver-efficiency" id="toc-mass-driver-efficiency" class="nav-link" data-scroll-target="#mass-driver-efficiency">Mass Driver Efficiency</a></li>
+  <li><a href="#energy-including-efficiency" id="toc-energy-including-efficiency" class="nav-link" data-scroll-target="#energy-including-efficiency">Energy Including Efficiency</a></li>
+  </ul></li>
+  <li><a href="#cryo-aluminum" id="toc-cryo-aluminum" class="nav-link" data-scroll-target="#cryo-aluminum">Cryo-Aluminum</a>
+  <ul class="collapse">
+  <li><a href="#problem-no-copper-on-mercury" id="toc-problem-no-copper-on-mercury" class="nav-link" data-scroll-target="#problem-no-copper-on-mercury">Problem: No Copper on Mercury</a></li>
+  <li><a href="#solution-stationary-placement-in-shadow" id="toc-solution-stationary-placement-in-shadow" class="nav-link" data-scroll-target="#solution-stationary-placement-in-shadow">Solution: Stationary Placement in Shadow</a></li>
+  </ul></li>
   <li><a href="#mass-driver-construction" id="toc-mass-driver-construction" class="nav-link" data-scroll-target="#mass-driver-construction">Mass Driver Construction</a>
   <ul class="collapse">
   <li><a href="#main-components" id="toc-main-components" class="nav-link" data-scroll-target="#main-components">Main Components</a></li>
+  <li><a href="#spinning-platform" id="toc-spinning-platform" class="nav-link" data-scroll-target="#spinning-platform">Spinning Platform</a></li>
   </ul></li>
-  <li><a href="#three-stages-of-mass-driver-production" id="toc-three-stages-of-mass-driver-production" class="nav-link" data-scroll-target="#three-stages-of-mass-driver-production">Three Stages of Mass Driver Production</a>
+  <li><a href="#productivity" id="toc-productivity" class="nav-link" data-scroll-target="#productivity">Productivity</a>
   <ul class="collapse">
-  <li><a href="#element-production-materials---components" id="toc-element-production-materials---components" class="nav-link" data-scroll-target="#element-production-materials---components">1. Element Production (Materials -&gt; Components)</a></li>
-  <li><a href="#track-assembly-components---mass-driver" id="toc-track-assembly-components---mass-driver" class="nav-link" data-scroll-target="#track-assembly-components---mass-driver">2. Track Assembly (Components -&gt; Mass Driver)</a></li>
-  <li><a href="#operations" id="toc-operations" class="nav-link" data-scroll-target="#operations">3. Operations</a></li>
+  <li><a href="#base-productivity" id="toc-base-productivity" class="nav-link" data-scroll-target="#base-productivity">Base Productivity</a></li>
+  <li><a href="#productivity-constraints" id="toc-productivity-constraints" class="nav-link" data-scroll-target="#productivity-constraints">Productivity Constraints</a></li>
   </ul></li>
+  <li><a href="#energy-consumption" id="toc-energy-consumption" class="nav-link" data-scroll-target="#energy-consumption">Energy Consumption</a>
+  <ul class="collapse">
+  <li><a href="#launch-energy-1" id="toc-launch-energy-1" class="nav-link" data-scroll-target="#launch-energy-1">Launch Energy</a></li>
+  <li><a href="#mirror-production-energy" id="toc-mirror-production-energy" class="nav-link" data-scroll-target="#mirror-production-energy">Mirror Production Energy</a></li>
+  <li><a href="#total-complex-energy-consumption" id="toc-total-complex-energy-consumption" class="nav-link" data-scroll-target="#total-complex-energy-consumption">Total Complex Energy Consumption</a></li>
+  <li><a href="#complex-energy-balance" id="toc-complex-energy-balance" class="nav-link" data-scroll-target="#complex-energy-balance">Complex Energy Balance</a></li>
+  </ul></li>
+  <li><a href="#production-and-construction" id="toc-production-and-construction" class="nav-link" data-scroll-target="#production-and-construction">Production and Construction</a>
+  <ul class="collapse">
+  <li><a href="#three-production-stages" id="toc-three-production-stages" class="nav-link" data-scroll-target="#three-production-stages">Three Production Stages</a></li>
   <li><a href="#material-balance" id="toc-material-balance" class="nav-link" data-scroll-target="#material-balance">Material Balance</a></li>
-  <li><a href="#mass-driver-construction-1" id="toc-mass-driver-construction-1" class="nav-link" data-scroll-target="#mass-driver-construction-1">Mass Driver Construction</a>
+  <li><a href="#construction-stages-base-configuration-1-km" id="toc-construction-stages-base-configuration-1-km" class="nav-link" data-scroll-target="#construction-stages-base-configuration-1-km">Construction Stages (base configuration 1 km)</a></li>
+  </ul></li>
+  <li><a href="#robots-supply-chain" id="toc-robots-supply-chain" class="nav-link" data-scroll-target="#robots-supply-chain">Robots: Supply Chain</a>
   <ul class="collapse">
-  <li><a href="#stages-base-configuration-1-km" id="toc-stages-base-configuration-1-km" class="nav-link" data-scroll-target="#stages-base-configuration-1-km">Stages (base configuration 1 km)</a></li>
+  <li><a href="#raw-material-mining" id="toc-raw-material-mining" class="nav-link" data-scroll-target="#raw-material-mining">Raw Material Mining</a></li>
+  <li><a href="#processing-and-mirror-production" id="toc-processing-and-mirror-production" class="nav-link" data-scroll-target="#processing-and-mirror-production">Processing and Mirror Production</a></li>
+  <li><a href="#logistics-and-buffer" id="toc-logistics-and-buffer" class="nav-link" data-scroll-target="#logistics-and-buffer">Logistics and Buffer</a></li>
+  <li><a href="#mass-driver-maintenance" id="toc-mass-driver-maintenance" class="nav-link" data-scroll-target="#mass-driver-maintenance">Mass Driver Maintenance</a></li>
+  <li><a href="#summary-robots-per-1-mass-driver" id="toc-summary-robots-per-1-mass-driver" class="nav-link" data-scroll-target="#summary-robots-per-1-mass-driver">Summary: Robots per 1 Mass Driver</a></li>
+  </ul></li>
+  <li><a href="#mirror-scaling" id="toc-mirror-scaling" class="nav-link" data-scroll-target="#mirror-scaling">Mirror Scaling</a>
+  <ul class="collapse">
+  <li><a href="#realistic-growth-model" id="toc-realistic-growth-model" class="nav-link" data-scroll-target="#realistic-growth-model">Realistic Growth Model</a></li>
+  <li><a href="#robot-scaling" id="toc-robot-scaling" class="nav-link" data-scroll-target="#robot-scaling">Robot Scaling</a></li>
+  </ul></li>
+  <li><a href="#mirror-material-consumption" id="toc-mirror-material-consumption" class="nav-link" data-scroll-target="#mirror-material-consumption">Mirror Material Consumption</a>
+  <ul class="collapse">
+  <li><a href="#one-mirror-disk" id="toc-one-mirror-disk" class="nav-link" data-scroll-target="#one-mirror-disk">One Mirror Disk</a></li>
+  <li><a href="#daily-consumption-per-1-mass-driver" id="toc-daily-consumption-per-1-mass-driver" class="nav-link" data-scroll-target="#daily-consumption-per-1-mass-driver">Daily Consumption per 1 Mass Driver</a></li>
+  <li><a href="#annual-consumption-per-1-mass-driver" id="toc-annual-consumption-per-1-mass-driver" class="nav-link" data-scroll-target="#annual-consumption-per-1-mass-driver">Annual Consumption per 1 Mass Driver</a></li>
   </ul></li>
   <li><a href="#wear-and-maintenance" id="toc-wear-and-maintenance" class="nav-link" data-scroll-target="#wear-and-maintenance">Wear and Maintenance</a>
   <ul class="collapse">
   <li><a href="#wearing-parts-1-km-track" id="toc-wearing-parts-1-km-track" class="nav-link" data-scroll-target="#wearing-parts-1-km-track">Wearing Parts (1 km track)</a></li>
   </ul></li>
+  <li><a href="#known-issues" id="toc-known-issues" class="nav-link" data-scroll-target="#known-issues">Known Issues</a>
+  <ul class="collapse">
+  <li><a href="#critical-issues" id="toc-critical-issues" class="nav-link" data-scroll-target="#critical-issues">Critical Issues</a></li>
+  <li><a href="#high-priority-issues" id="toc-high-priority-issues" class="nav-link" data-scroll-target="#high-priority-issues">High Priority Issues</a></li>
+  <li><a href="#requiring-research" id="toc-requiring-research" class="nav-link" data-scroll-target="#requiring-research">Requiring Research</a></li>
+  </ul></li>
+  <li><a href="#lunar-mass-driver" id="toc-lunar-mass-driver" class="nav-link" data-scroll-target="#lunar-mass-driver">Lunar Mass Driver</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#comparison-with-mercurian" id="toc-comparison-with-mercurian" class="nav-link" data-scroll-target="#comparison-with-mercurian">Comparison with Mercurian</a></li>
+  <li><a href="#orbital-mechanics" id="toc-orbital-mechanics" class="nav-link" data-scroll-target="#orbital-mechanics">Orbital Mechanics</a></li>
+  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a></li>
+  </ul></li>
+  <li><a href="#earth-prototypes-maglev-technology" id="toc-earth-prototypes-maglev-technology" class="nav-link" data-scroll-target="#earth-prototypes-maglev-technology">Earth Prototypes: Maglev Technology</a>
+  <ul class="collapse">
+  <li><a href="#emals-production-electromagnetic-catapult" id="toc-emals-production-electromagnetic-catapult" class="nav-link" data-scroll-target="#emals-production-electromagnetic-catapult">EMALS — Production Electromagnetic Catapult</a></li>
+  </ul></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -887,7 +995,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Mass Driver Production</h1>
+<h1 class="title">Mass Driver</h1>
 </div>
 
 
@@ -918,36 +1026,241 @@ document.addEventListener('DOMContentLoaded', function() {
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>Purpose:</strong> Electromagnetic catapults for launching mirrors into orbit</li>
-<li><strong>Parameters:</strong> Length <strong>1 km</strong>* (base configuration), velocity 5 km/s, acceleration 1275g</li>
-<li><strong>Mass:</strong> <strong>~450 tons</strong>* (99.5% local materials)</li>
-<li><strong>Throughput:</strong> 600 launches/day, 70 tons of mirrors/day</li>
-<li><strong>Stages:</strong> Elements (rails, coils, frame) -&gt; Assembly (track, electronics, testing)</li>
+<li><strong>Purpose:</strong> Electromagnetic catapult for launching mirrors into orbit</li>
+<li><strong>Parameters:</strong> Length <strong>1 km</strong> (base), velocity 5 km/s, acceleration 1275g</li>
+<li><strong>Mass:</strong> <strong>~500 tons</strong> (98.5% local materials)</li>
+<li><strong>Throughput:</strong> 600 launches/day, 60 tons of mirrors/day</li>
+<li><strong>Energy:</strong> ~165 MW complex (factory ~124 MW + Mass Driver ~39 MW)</li>
+<li><strong>Robots:</strong> 49 robots per 1 MD</li>
 </ul>
-<p>*When extended to reduce g-load: 2 km (637g, 875 t) or 3 km (425g, 1,300 t).</p>
+<p>*When reducing load: 2 km (637g) or 3 km (425g).</p>
 </blockquote>
 <hr>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>A <a href="../reference/glossary.qmd#mass-driver">Mass Driver</a> is an electromagnetic gun that accelerates mirrors to Mercury’s escape velocity (4.3 km/s) for orbital insertion and Dyson Swarm formation.</p>
-<blockquote class="blockquote">
-<p><strong>Theory and Scaling:</strong></p>
-<ul>
-<li><a href="../../../../en/science/detailed/railguns/theory.html">Mass Driver Theory</a> - launch physics, efficiency, cryo-aluminum, known issues, lunar Mass Driver</li>
-<li><a href="../../../../en/science/detailed/railguns/scaling.html">Scaling</a> - throughput, production growth, energy balance, robots</li>
-</ul>
-</blockquote>
 <hr>
+</section>
+<section id="basic-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="basic-parameters">Basic Parameters</h2>
+<section id="launch-physics" class="level3">
+<h3 class="anchored" data-anchor-id="launch-physics">Launch Physics</h3>
+<p>The Mercurian Mass Driver is an electromagnetic launcher that accelerates a 116 kg container with a mirror to <strong>escape velocity</strong> from Mercury.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mercury escape velocity</td>
+<td>4.3 km/s</td>
+</tr>
+<tr class="even">
+<td>Target velocity</td>
+<td><strong>5 km/s</strong> (16% margin)</td>
+</tr>
+<tr class="odd">
+<td>Track length</td>
+<td><strong>1 km</strong> (base configuration)*</td>
+</tr>
+<tr class="even">
+<td>Acceleration</td>
+<td><strong>12,500 m/s² (1275g)</strong></td>
+</tr>
+<tr class="odd">
+<td>Acceleration time</td>
+<td><strong>~0.4 sec</strong></td>
+</tr>
+</tbody>
+</table>
+<p>*When reducing load: 2 km (637g) or 3 km (425g). All options have 20x+ margin vs proven 25,000g.</p>
+<p><strong>Why 5 km/s instead of 4.3 km/s?</strong></p>
+<ul>
+<li>4.3 km/s is the theoretical minimum to escape the gravity well</li>
+<li><strong>+0.7 km/s margin</strong> for trajectory correction, dispersion losses, maneuvering in the Swarm</li>
+</ul>
+</section>
+<section id="track-length-options" class="level3">
+<h3 class="anchored" data-anchor-id="track-length-options">Track Length Options</h3>
+<p>The base configuration (1 km) is chosen for maximum construction speed:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th><strong>1 km (base)</strong></th>
+<th>2 km</th>
+<th>3 km</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Acceleration</td>
+<td><strong>1275g</strong></td>
+<td>637g</td>
+<td>425g</td>
+</tr>
+<tr class="even">
+<td>Acceleration time</td>
+<td>0.4 sec</td>
+<td>0.8 sec</td>
+<td>1.2 sec</td>
+</tr>
+<tr class="odd">
+<td>MD mass</td>
+<td><strong>~500 t</strong></td>
+<td>~875 t</td>
+<td>~1300 t</td>
+</tr>
+<tr class="even">
+<td>Construction time</td>
+<td><strong>~25 days</strong></td>
+<td>~40 days</td>
+<td>~60 days</td>
+</tr>
+<tr class="odd">
+<td>Margin vs 25,000g</td>
+<td>20x</td>
+<td>39x</td>
+<td>59x</td>
+</tr>
+<tr class="even">
+<td>Peak power</td>
+<td>11.8 GW</td>
+<td>5.9 GW</td>
+<td>3.9 GW</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Choice finalized during detailed design</strong> considering: - Lunar prototype test results (~640g) - Actual packaging survivability at high g - Available production capacity</p>
+</section>
+<section id="launch-energy" class="level3">
+<h3 class="anchored" data-anchor-id="launch-energy">Launch Energy</h3>
+<pre><code>Container mass: 116 kg (100 kg mirror + 15 kg container)
+Velocity: 5000 m/s
+
+E = ½ × m × v²
+E = ½ × 116 × (5000)² = 1.45 GJ</code></pre>
+<p><strong>Energy per ton of mirrors:</strong> - 1 container = 100 kg of mirror - 10 containers = 1 ton - <strong>14.4 GJ/ton of mirrors</strong></p>
+</section>
+<section id="mass-driver-efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="mass-driver-efficiency">Mass Driver Efficiency</h3>
+<p>The electromagnetic accelerator has losses from: - Coil resistance (Joule heating) - Eddy currents in rails - Parasitic magnetic fields</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Coil material</th>
+<th>Efficiency at +20C</th>
+<th>Efficiency at -180C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Copper (Cu)</td>
+<td>40-45%</td>
+<td>— (not available on Mercury)</td>
+</tr>
+<tr class="even">
+<td>Aluminum (Al)</td>
+<td>25-30%</td>
+<td><strong>35-40%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Solution: Cryo-aluminum</strong> (see <a href="#cryo-aluminum">section below</a>)</p>
+</section>
+<section id="energy-including-efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="energy-including-efficiency">Energy Including Efficiency</h3>
+<pre><code>Efficiency: 40% (cryo-aluminum -180C)
+Useful energy: 1.45 GJ
+Consumed energy: 1.45 / 0.40 = 3.6 GJ
+
+For capacitors (charge/discharge efficiency 77%):
+3.6 / 0.77 = 4.7 GJ per launch</code></pre>
+<p><strong>Average power consumption:</strong> - 4.7 GJ over 0.4 seconds = <strong>11.8 GW peak power</strong> (from <a href="../../../../en/science/reference/technology-readiness.html#nas-batteries">NaS</a> capacitors) - 600 launches/day × 4.7 GJ = 2.82 TJ/day - <strong>Average power: 33 MW</strong></p>
+<hr>
+</section>
+</section>
+<section id="cryo-aluminum" class="level2">
+<h2 class="anchored" data-anchor-id="cryo-aluminum">Cryo-Aluminum</h2>
+<section id="problem-no-copper-on-mercury" class="level3">
+<h3 class="anchored" data-anchor-id="problem-no-copper-on-mercury">Problem: No Copper on Mercury</h3>
+<p>Mercury regolith contains <strong>0.001% copper</strong> — virtually zero concentration. Importing 1000 tons of copper for one Mass Driver is economically infeasible.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Material</th>
+<th>Conductivity at +20C</th>
+<th>Conductivity at -180C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Copper (Cu)</td>
+<td>100% (58 MS/m)</td>
+<td>400%</td>
+</tr>
+<tr class="even">
+<td>Aluminum (Al)</td>
+<td>60% (35 MS/m)</td>
+<td><strong>360%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> At -180C, aluminum reaches 360% of room temperature conductivity, which is 6× higher than normal aluminum.</p>
+</section>
+<section id="solution-stationary-placement-in-shadow" class="level3">
+<h3 class="anchored" data-anchor-id="solution-stationary-placement-in-shadow">Solution: Stationary Placement in Shadow</h3>
+<p>Mass Drivers are positioned at the <strong>terminator</strong> (day/night boundary). The working section is placed in shadow (-180°C), while cooling radiators face the dark side:</p>
+<ol type="1">
+<li><strong>Mass Driver coils</strong> — aluminum (local production), naturally cryogenic in shadow</li>
+<li><strong>Solar panels</strong> — nearby, on the sunlit side</li>
+<li><strong>NaK loop</strong> — heat removal from launches (not for cryo-cooling coils)</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Configuration</th>
+<th>Efficiency</th>
+<th>Conditions</th>
+<th>Import</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Solar period (+20C)</td>
+<td>25-30%</td>
+<td>Reduced effectiveness</td>
+<td>0 t</td>
+</tr>
+<tr class="even">
+<td><strong>Shadow period (-180C)</strong></td>
+<td><strong>35-40%</strong></td>
+<td>Natural cooling</td>
+<td>0 t</td>
+</tr>
+<tr class="odd">
+<td>Copper import</td>
+<td>40-45%</td>
+<td>Simple</td>
+<td><strong>~1000 t/MD</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implications:</strong> - Efficiency 35-40% for most of the Mercurian day (same as room-temperature copper) - Zero import of materials for coils - NaK loop needed only for launch heat removal, not for cryo-cooling</p>
+<hr>
+</section>
 </section>
 <section id="mass-driver-construction" class="level2">
 <h2 class="anchored" data-anchor-id="mass-driver-construction">Mass Driver Construction</h2>
-<p>Base parameters: 1 km track, 5 km/s, 1275g, 0.4 sec acceleration, 33 MW average power. Details: <a href="../../../../en/science/detailed/railguns/theory.html">MD Theory</a>.</p>
 <section id="main-components" class="level3">
 <h3 class="anchored" data-anchor-id="main-components">Main Components</h3>
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="42" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 41;"><span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"EQU-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="156" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 155;"><span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"EQU-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
@@ -973,58 +1286,31 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Rails + coils + cooling</td>
-<td><strong>~170 t</strong></td>
+<td><strong>~220 t</strong></td>
 <td>Aluminum (cryo)</td>
 <td>100% local</td>
 </tr>
 <tr class="odd">
 <td>Electronics and sensors</td>
-<td>~7 t</td>
+<td>~6 t</td>
 <td>Import</td>
 <td><strong>Earth</strong></td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL (1 km)</strong></td>
-<td><strong>~450 t</strong></td>
+<td><strong>~500 t</strong></td>
 <td></td>
 <td><strong>98.5% local</strong></td>
 </tr>
 </tbody>
 </table>
 <p>*When extended: 2 km (~875 t), 3 km (~1,300 t).</p>
-<hr>
+<p><strong>Materials:</strong> - <strong>Rails:</strong> Aluminum (cryo-cooled for conductivity) - <strong>Coils:</strong> Aluminum (cooled to -180C) - <strong>Frame:</strong> Steel Fe-6%Mn (1 km tunnel) - <strong>Capacitors:</strong> Na + S + Al₂O₃ (100 GJ energy) - <strong>Electronics:</strong> Import from Earth (6 tons)</p>
 </section>
-</section>
-<section id="three-stages-of-mass-driver-production" class="level2">
-<h2 class="anchored" data-anchor-id="three-stages-of-mass-driver-production">Three Stages of Mass Driver Production</h2>
-<p>Mass Driver production is divided into three sequential stages:</p>
-<section id="element-production-materials---components" class="level3">
-<h3 class="anchored" data-anchor-id="element-production-materials---components">1. Element Production (Materials -&gt; Components)</h3>
-<p>Finished materials (Al/Fe/Si) are transformed into Mass Driver components.</p>
-<p><strong>Three element production lines:</strong></p>
-<ul>
-<li><a href="../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a> - aluminum guides for acceleration</li>
-<li><a href="../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a> - electromagnetic windings (cryo-aluminum)</li>
-<li><a href="../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a> - 1 km steel frame</li>
-</ul>
-<p><strong>Materials:</strong> Al (500 t) + Fe (800 t) from <a href="../../../../en/science/detailed/materials/overview.html">regolith processing</a></p>
-<hr>
-</section>
-<section id="track-assembly-components---mass-driver" class="level3">
-<h3 class="anchored" data-anchor-id="track-assembly-components---mass-driver">2. Track Assembly (Components -&gt; Mass Driver)</h3>
-<p>Components are assembled into a finished 1 km Mass Driver (base configuration).</p>
-<p><strong>Three final assembly lines:</strong></p>
-<ul>
-<li><a href="../../../../en/science/detailed/railguns/assembly/track.html">Track Assembly</a> - rail laying and coil mounting</li>
-<li><a href="../../../../en/science/detailed/railguns/assembly/electronics.html">Control Electronics</a> - control systems and sensors</li>
-<li><a href="../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a> - functionality verification</li>
-</ul>
-<p><strong>Assembly time:</strong> ~3-4 months for the first Mass Driver, ~1-2 months for subsequent units (experience curve)</p>
-<hr>
-</section>
-<section id="operations" class="level3">
-<h3 class="anchored" data-anchor-id="operations">3. Operations</h3>
-<p>After commissioning, the Mass Driver operates at <strong>600 launches/day</strong>.</p>
+<section id="spinning-platform" class="level3">
+<h3 class="anchored" data-anchor-id="spinning-platform">Spinning Platform</h3>
+<p><strong>Problem:</strong> The projectile must exit the accelerator on a precisely defined trajectory (±0.1°).</p>
+<p><strong>Solution:</strong> Spinning platform at the tunnel exit: - Container is spun up to 60-120 rpm <strong>before firing</strong> - Centrifugal force stabilizes the container at exit - No need for gas thrusters on the container</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1034,30 +1320,280 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Launch cycle</td>
-<td>2-3 minutes</td>
+<td>Platform diameter</td>
+<td>3-5 m</td>
 </tr>
 <tr class="even">
-<td>Launches per hour</td>
-<td>20-30</td>
+<td>Rotation speed</td>
+<td>60-120 rpm</td>
 </tr>
+<tr class="odd">
+<td>Spin-up time</td>
+<td>10-15 seconds</td>
+</tr>
+<tr class="even">
+<td>Container moment of inertia</td>
+<td>~130 kg·m²</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advantages:</strong> - Container mass savings (no thrusters) - Trajectory stabilization (gyroscope) - Centrifugal mirror deployment</p>
+<hr>
+</section>
+</section>
+<section id="productivity" class="level2">
+<h2 class="anchored" data-anchor-id="productivity">Productivity</h2>
+<section id="base-productivity" class="level3">
+<h3 class="anchored" data-anchor-id="base-productivity">Base Productivity</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td>Launches per day</td>
 <td><strong>600</strong></td>
 </tr>
 <tr class="even">
-<td>Launches per year</td>
-<td><strong>219,000</strong></td>
+<td>Interval between launches</td>
+<td>2.4 minutes</td>
+</tr>
+<tr class="odd">
+<td>Container mass</td>
+<td>116 kg</td>
+</tr>
+<tr class="even">
+<td>Mirror mass</td>
+<td>100 kg</td>
+</tr>
+<tr class="odd">
+<td>Daily mirror output</td>
+<td><strong>60 tons</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Throughput:</strong> 600 x 116 kg = <strong>70 tons of mirrors/day</strong> = <strong>26,000 t/year</strong></p>
+<p><strong>Interval calculation:</strong></p>
+<pre><code>24 hours = 1440 minutes
+1440 / 600 = 2.4 minutes between shots</code></pre>
+<p><strong>Annual productivity:</strong></p>
+<pre><code>600 launches/day x 365 days = 219,000 launches/year
+219,000 x 100 kg = 21,900 tons of mirrors/year ~ 22,000 t</code></pre>
+</section>
+<section id="productivity-constraints" class="level3">
+<h3 class="anchored" data-anchor-id="productivity-constraints">Productivity Constraints</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Factor</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Coil cooling</td>
+<td>2-3 min between shots</td>
+</tr>
+<tr class="even">
+<td>Container preparation</td>
+<td>Loading + platform spin-up</td>
+</tr>
+<tr class="odd">
+<td>Capacitor charging</td>
+<td>1-2 minutes for full charge</td>
+</tr>
+<tr class="even">
+<td>Maintenance</td>
+<td>Planned shutdown 1 day/month</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Real productivity:</strong> ~550-600 launches/day under optimal conditions.</p>
 <hr>
 </section>
 </section>
-<section id="material-balance" class="level2">
-<h2 class="anchored" data-anchor-id="material-balance">Material Balance</h2>
-<p><strong>Per 1 Mass Driver (base configuration 1 km, ~450 t):</strong></p>
+<section id="energy-consumption" class="level2">
+<h2 class="anchored" data-anchor-id="energy-consumption">Energy Consumption</h2>
+<section id="launch-energy-1" class="level3">
+<h3 class="anchored" data-anchor-id="launch-energy-1">Launch Energy</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Energy per launch</td>
+<td>4.7 GJ</td>
+</tr>
+<tr class="even">
+<td>Launches per day</td>
+<td>600</td>
+</tr>
+<tr class="odd">
+<td>Daily energy</td>
+<td>2.82 TJ</td>
+</tr>
+<tr class="even">
+<td><strong>Average power</strong></td>
+<td><strong>33 MW</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Peak power:</strong> 11.8 GW (0.4 seconds of acceleration)</p>
+</section>
+<section id="mirror-production-energy" class="level3">
+<h3 class="anchored" data-anchor-id="mirror-production-energy">Mirror Production Energy</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Power</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aluminum smelting</td>
+<td>12 MW</td>
+<td>70 t/day, 15 kWh/kg</td>
+</tr>
+<tr class="even">
+<td>Foil rolling</td>
+<td>3 MW</td>
+<td>Rolling mill</td>
+</tr>
+<tr class="odd">
+<td>Forming and assembly</td>
+<td>5 MW</td>
+<td>Robots + equipment</td>
+</tr>
+<tr class="even">
+<td>Counterweight casting (Fe)</td>
+<td>1 MW</td>
+<td>Mini furnace</td>
+</tr>
+<tr class="odd">
+<td>Container production</td>
+<td>1 MW</td>
+<td>Al stamping</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL production</strong></td>
+<td><strong>22 MW</strong></td>
+<td>Continuous</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="total-complex-energy-consumption" class="level3">
+<h3 class="anchored" data-anchor-id="total-complex-energy-consumption">Total Complex Energy Consumption</h3>
+<pre><code>Launches (mass driver): 33 MW
+Mirror production: 22 MW
+
+TOTAL: ~165 MW continuous (factory ~124 MW + Mass Driver ~39 MW)</code></pre>
+</section>
+<section id="complex-energy-balance" class="level3">
+<h3 class="anchored" data-anchor-id="complex-energy-balance">Complex Energy Balance</h3>
+<p><strong>Before first mirror</strong> the complex runs on surface solar panels:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Insolation (Solar Boost)</td>
+<td>9-14 kW/m²</td>
+</tr>
+<tr class="even">
+<td>GaAs panel efficiency</td>
+<td>30%</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>2.7-4.2 kW/m²</td>
+</tr>
+<tr class="even">
+<td>Consumption</td>
+<td>~165 MW</td>
+</tr>
+<tr class="odd">
+<td><strong>Required area</strong></td>
+<td><strong>13,000-20,000 m²</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>With 30% margin:</strong> ~<strong>25,000-35,000 m²</strong> of panels.</p>
+<p><strong>First mirror 100x100 m:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mirror area</td>
+<td>10,000 m²</td>
+</tr>
+<tr class="even">
+<td>Insolation (Mercury orbit)</td>
+<td>9,287 W/m²</td>
+</tr>
+<tr class="odd">
+<td>Reflected power (90% efficiency)</td>
+<td><strong>~84 MW</strong></td>
+</tr>
+<tr class="even">
+<td>At receiver (losses ~15%)</td>
+<td>~71 MW</td>
+</tr>
+<tr class="odd">
+<td>Electricity (GaAs 30%)</td>
+<td><strong>~21 MW</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>First mirror does not cover requirements!</strong> ~8 mirrors needed for self-sufficiency:</p>
+<pre><code>8 mirrors x 21 MW = 168 MW
+Surplus: +3 MW (above ~165 MW complex)</code></pre>
+<p><strong>Conclusion:</strong> After launching <strong>~8 mirrors</strong> the complex becomes self-sufficient.</p>
+<hr>
+</section>
+</section>
+<section id="production-and-construction" class="level2">
+<h2 class="anchored" data-anchor-id="production-and-construction">Production and Construction</h2>
+<section id="three-production-stages" class="level3">
+<h3 class="anchored" data-anchor-id="three-production-stages">Three Production Stages</h3>
+<p><strong>1. Element Production (Materials -&gt; Components)</strong></p>
+<p>Finished materials (Al/Fe/Si) are transformed into Mass Driver components:</p>
+<ul>
+<li><a href="../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a> - aluminum guides for acceleration</li>
+<li><a href="../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a> - electromagnetic windings (cryo-aluminum)</li>
+<li><a href="../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a> - 1 km steel frame</li>
+</ul>
+<p><strong>Materials:</strong> Al (220 t) + Fe (270 t) from <a href="../../../../en/science/detailed/materials/overview.html">regolith processing</a></p>
+<p><strong>2. Track Assembly (Components -&gt; Mass Driver)</strong></p>
+<ul>
+<li><a href="../../../../en/science/detailed/railguns/assembly/track.html">Track Assembly</a> - rail laying and coil mounting</li>
+<li><a href="../../../../en/science/detailed/railguns/assembly/electronics.html">Control Electronics</a> - control systems and sensors</li>
+<li><a href="../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a> - functionality verification</li>
+</ul>
+<p><strong>Assembly time:</strong> ~3-4 months for the first Mass Driver, ~1-2 months for subsequent units (experience curve)</p>
+<p><strong>3. Operations</strong></p>
+<p>After commissioning, the Mass Driver operates at <strong>600 launches/day</strong>.</p>
+</section>
+<section id="material-balance" class="level3">
+<h3 class="anchored" data-anchor-id="material-balance">Material Balance</h3>
+<p><strong>Per 1 Mass Driver (base configuration 1 km, ~500 t):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1074,26 +1610,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Aluminum (cryogenic)</td>
-<td><strong>~170 t</strong></td>
+<td><strong>~220 t</strong></td>
 <td><a href="../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
 </tr>
 <tr class="odd">
 <td>Electronics</td>
-<td>~7 t</td>
+<td>~6 t</td>
 <td><strong>Import from Earth</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Localization:</strong> 98.5% by mass</p>
-<p><strong>Material production time (1 km):</strong> - Al: 170 t / 42 t/day = <strong>4 days</strong> - Fe: 270 t / 18 t/day = <strong>15 days</strong></p>
-<p><strong>TOTAL (1 km):</strong> ~<strong>15-20 days</strong> for material accumulation + 5-7 days for assembly = <strong>~25 days</strong></p>
-<p>*When extended to 3 km: ~60 days (45 days Fe + 15 days assembly).</p>
-<hr>
+<p><strong>Material production time (1 km):</strong> - Al: 220 t / 42 t/day = <strong>5 days</strong> - Fe: 270 t / 11 t/day = <strong>25 days</strong></p>
+<p><strong>TOTAL (1 km):</strong> ~<strong>25-30 days</strong> for material accumulation + 5-7 days for assembly = <strong>~30-35 days</strong></p>
 </section>
-<section id="mass-driver-construction-1" class="level2">
-<h2 class="anchored" data-anchor-id="mass-driver-construction-1">Mass Driver Construction</h2>
-<section id="stages-base-configuration-1-km" class="level3">
-<h3 class="anchored" data-anchor-id="stages-base-configuration-1-km">Stages (base configuration 1 km)</h3>
+<section id="construction-stages-base-configuration-1-km" class="level3">
+<h3 class="anchored" data-anchor-id="construction-stages-base-configuration-1-km">Construction Stages (base configuration 1 km)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1146,7 +1678,434 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p>*When extended to 3 km: ~2-3 months.</p>
-<p><strong>With experience:</strong> With parallel construction of multiple Mass Drivers - possible reduction to <strong>15-20 days</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="robots-supply-chain" class="level2">
+<h2 class="anchored" data-anchor-id="robots-supply-chain">Robots: Supply Chain</h2>
+<p>Mass driver consumes <strong>600 mirrors/day = 70 tons/day</strong></p>
+<section id="raw-material-mining" class="level3">
+<h3 class="anchored" data-anchor-id="raw-material-mining">Raw Material Mining</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 29%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Robots</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ore mining (Moles)</td>
+<td>3</td>
+<td>70 t x 3 (ore-&gt;metal) = 210 t ore/day / 100 t/robot</td>
+</tr>
+<tr class="even">
+<td>Ore transport to factory</td>
+<td>4</td>
+<td>210 t / 70 t/trip, 2 trips/day</td>
+</tr>
+<tr class="odd">
+<td><strong>Total mining</strong></td>
+<td><strong>7</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="processing-and-mirror-production" class="level3">
+<h3 class="anchored" data-anchor-id="processing-and-mirror-production">Processing and Mirror Production</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Robots</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aluminum smelting</td>
+<td>2</td>
+<td>Automated furnace</td>
+</tr>
+<tr class="even">
+<td>4 um foil rolling</td>
+<td>3</td>
+<td>Precision work</td>
+</tr>
+<tr class="odd">
+<td>Cutting and forming</td>
+<td>4</td>
+<td>600 pcs/day = 25/hour</td>
+</tr>
+<tr class="even">
+<td>Counterweight casting</td>
+<td>2</td>
+<td>Iron</td>
+</tr>
+<tr class="odd">
+<td>Cable drawing</td>
+<td>2</td>
+<td>Steel wire</td>
+</tr>
+<tr class="even">
+<td>Electronics mounting</td>
+<td>2</td>
+<td>Precision work</td>
+</tr>
+<tr class="odd">
+<td>Folding + packaging</td>
+<td>4</td>
+<td>Z-fold, container</td>
+</tr>
+<tr class="even">
+<td>Quality control</td>
+<td>2</td>
+<td>Rejection</td>
+</tr>
+<tr class="odd">
+<td><strong>Total production</strong></td>
+<td><strong>21</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="logistics-and-buffer" class="level3">
+<h3 class="anchored" data-anchor-id="logistics-and-buffer">Logistics and Buffer</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Robots</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mirror transport to buffer</td>
+<td>4</td>
+<td>From factory to mass driver</td>
+</tr>
+<tr class="even">
+<td>Warehouse management (buffer)</td>
+<td>2</td>
+<td>2-3 day reserve = 1500 mirrors</td>
+</tr>
+<tr class="odd">
+<td>Launch position feed</td>
+<td>4</td>
+<td>Continuous, every 2.4 min</td>
+</tr>
+<tr class="even">
+<td><strong>Total logistics</strong></td>
+<td><strong>10</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mass-driver-maintenance" class="level3">
+<h3 class="anchored" data-anchor-id="mass-driver-maintenance">Mass Driver Maintenance</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Robots</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Platform mounting + spin-up</td>
+<td>2</td>
+<td>Centaur-M</td>
+</tr>
+<tr class="even">
+<td>Maintenance</td>
+<td>2</td>
+<td>Centaur-M</td>
+</tr>
+<tr class="odd">
+<td>Diagnostics</td>
+<td>1</td>
+<td>Mole-M with sensors</td>
+</tr>
+<tr class="even">
+<td>Reserve/repair</td>
+<td>2</td>
+<td>Centaur-M</td>
+</tr>
+<tr class="odd">
+<td><strong>Total maintenance</strong></td>
+<td><strong>7</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="summary-robots-per-1-mass-driver" class="level3">
+<h3 class="anchored" data-anchor-id="summary-robots-per-1-mass-driver">Summary: Robots per 1 Mass Driver</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Robots</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Raw material mining</td>
+<td>7</td>
+<td>14%</td>
+</tr>
+<tr class="even">
+<td>Mirror production</td>
+<td>21</td>
+<td>43%</td>
+</tr>
+<tr class="odd">
+<td>Logistics and buffer</td>
+<td>10</td>
+<td>20%</td>
+</tr>
+<tr class="even">
+<td>Mass driver maintenance</td>
+<td>7</td>
+<td>14%</td>
+</tr>
+<tr class="odd">
+<td>Reserve (charging, breakdowns)</td>
+<td>4</td>
+<td>8%</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL</strong></td>
+<td><strong>49</strong></td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Robot types:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Purpose</th>
+<th>Mass</th>
+<th>Share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../../../en/science/detailed/robots/assembly/moles.html">Mole-M</a></td>
+<td>Regolith mining</td>
+<td>1500 kg</td>
+<td>15%</td>
+</tr>
+<tr class="even">
+<td><a href="../../../../en/science/detailed/robots/assembly/crabs.html">Crab-M</a></td>
+<td>Logistics, transport</td>
+<td>1000 kg</td>
+<td>40%</td>
+</tr>
+<tr class="odd">
+<td><a href="../../../../en/science/detailed/robots/assembly/centaurs.html">Centaur-M</a></td>
+<td>Manipulation, assembly</td>
+<td>380 kg</td>
+<td>45%</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="mirror-scaling" class="level2">
+<h2 class="anchored" data-anchor-id="mirror-scaling">Mirror Scaling</h2>
+<section id="realistic-growth-model" class="level3">
+<h3 class="anchored" data-anchor-id="realistic-growth-model">Realistic Growth Model</h3>
+<p><strong>Principle:</strong> First mirrors generate energy -&gt; build new factories -&gt; more mirrors -&gt; even more energy.</p>
+<p>Data based on <a href="../../../../en/science/summaries/roadmap.html">Roadmap</a>: Expedition 1 (1 factory) + Expedition 2 (+3 factories by month 5) -&gt; exponential growth.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>Factories</th>
+<th>Mass Drivers</th>
+<th>Mirrors/year</th>
+<th>Accumulated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>25</td>
+<td>12</td>
+<td>~2.6 M</td>
+<td>2.6 M</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>120</td>
+<td>80</td>
+<td>~17.5 M</td>
+<td>20 M</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>500</td>
+<td>400</td>
+<td>~88 M</td>
+<td>108 M</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>~1,650</td>
+<td>1,000</td>
+<td>~219 M</td>
+<td>327 M</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>~1,650</td>
+<td>1,000</td>
+<td>219 M</td>
+<td>546 M</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>~1,650</td>
+<td>1,000</td>
+<td>219 M</td>
+<td>765 M</td>
+</tr>
+<tr class="odd">
+<td><strong>7</strong></td>
+<td><strong>~1,650</strong></td>
+<td><strong>1,000</strong></td>
+<td><strong>219 M</strong></td>
+<td><strong>984 M</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key point:</strong> ~1.1 billion mirrors in ~7 years (1,000 MD plateau by year 4).</p>
+</section>
+<section id="robot-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="robot-scaling">Robot Scaling</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Mass Drivers</th>
+<th>Robots (x49)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>49</td>
+<td>Initial phase</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>588</td>
+<td>Year 1</td>
+</tr>
+<tr class="odd">
+<td>80</td>
+<td>3,920</td>
+<td>Year 2</td>
+</tr>
+<tr class="even">
+<td>400</td>
+<td>19,600</td>
+<td>Year 3</td>
+</tr>
+<tr class="odd">
+<td>1,000</td>
+<td>49,000</td>
+<td>Year 4+</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="mirror-material-consumption" class="level2">
+<h2 class="anchored" data-anchor-id="mirror-material-consumption">Mirror Material Consumption</h2>
+<section id="one-mirror-disk" class="level3">
+<h3 class="anchored" data-anchor-id="one-mirror-disk">One Mirror Disk</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Material</th>
+<th>Mass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reflective film</td>
+<td>Aluminum 4 um</td>
+<td>100 kg</td>
+</tr>
+<tr class="even">
+<td>Counterweights (4 pcs)</td>
+<td>Iron</td>
+<td>3 kg</td>
+</tr>
+<tr class="odd">
+<td>Cables (4 pcs)</td>
+<td>Steel</td>
+<td>2 kg</td>
+</tr>
+<tr class="even">
+<td>Control electronics</td>
+<td>Import</td>
+<td>50 g</td>
+</tr>
+<tr class="odd">
+<td>Actuators (electrochromic)</td>
+<td>Local</td>
+<td>1 kg</td>
+</tr>
+<tr class="even">
+<td>Launch container</td>
+<td>Aluminum</td>
+<td>10 kg</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>~116 kg</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="daily-consumption-per-1-mass-driver" class="level3">
+<h3 class="anchored" data-anchor-id="daily-consumption-per-1-mass-driver">Daily Consumption per 1 Mass Driver</h3>
+<pre><code>600 launches x 116 kg = 70 tons
+
+Of which:
+- Aluminum: ~66 tons (local)
+- Iron/steel: ~3 tons (local)
+- Electronics: ~30 kg (import)</code></pre>
+</section>
+<section id="annual-consumption-per-1-mass-driver" class="level3">
+<h3 class="anchored" data-anchor-id="annual-consumption-per-1-mass-driver">Annual Consumption per 1 Mass Driver</h3>
+<pre><code>Mirrors: 70 t/day x 365 = 25,550 tons/year
+
+Of which:
+- Aluminum: ~24,000 t/year (94%)
+- Iron: ~1,100 t/year (4.3%)
+- Electronics: ~11 kg/year (0.04%)</code></pre>
 <hr>
 </section>
 </section>
@@ -1166,12 +2125,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Guide rails</td>
 <td>3-6 months</td>
-<td>100-130 t Al</td>
+<td>280 t Al</td>
 </tr>
 <tr class="even">
 <td>Coil windings</td>
 <td>3-5 years</td>
-<td>10 t Al</td>
+<td>30 t Al</td>
 </tr>
 <tr class="odd">
 <td>Capacitors</td>
@@ -1185,8 +2144,330 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Annual replacement consumption (1 km):</strong> ~120-150 t Al + 0.5 t import</p>
-<p>*For 3 km track: ~350 t Al + 0.5 t import.</p>
+<p><strong>Annual replacement consumption (1 km):</strong> ~350 t Al + 0.5 t import</p>
+<hr>
+</section>
+</section>
+<section id="known-issues" class="level2">
+<h2 class="anchored" data-anchor-id="known-issues">Known Issues</h2>
+<blockquote class="blockquote">
+<p><strong>Warning:</strong> This section describes problems requiring solutions.</p>
+</blockquote>
+<section id="critical-issues" class="level3">
+<h3 class="anchored" data-anchor-id="critical-issues">Critical Issues</h3>
+<section id="heat-dissipation-during-launch" class="level4">
+<h4 class="anchored" data-anchor-id="heat-dissipation-during-launch">1. Heat Dissipation During Launch</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Energy per launch</td>
+<td>4.7 GJ</td>
+</tr>
+<tr class="even">
+<td>Efficiency</td>
+<td>40%</td>
+</tr>
+<tr class="odd">
+<td>Heat per shot</td>
+<td><strong>2.8 GJ = 280 MW for 10 sec</strong></td>
+</tr>
+<tr class="even">
+<td>Interval between shots</td>
+<td>2-3 minutes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Problem:</strong> 280 MW of heat must be removed in 2-3 minutes.</p>
+<p><strong>Solution:</strong> - In shadow period (-180C): large delta-T simplifies heat radiation - NaK loop for launch heat removal - In solar period: reduced firing rate or standby</p>
+</section>
+</section>
+<section id="high-priority-issues" class="level3">
+<h3 class="anchored" data-anchor-id="high-priority-issues">High Priority Issues</h3>
+<section id="rail-erosion" class="level4">
+<h4 class="anchored" data-anchor-id="rail-erosion">2. Rail Erosion</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>In calculations</th>
+<th>Realistic estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rail service life</td>
+<td>1-2 years</td>
+<td><strong>3-6 months</strong></td>
+</tr>
+<tr class="even">
+<td>Replacement per year</td>
+<td>100 t Al</td>
+<td><strong>280 t Al</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Causes:</strong> - Electric arc at high currents - Mechanical wear at 1275g - Thermal cycling (cold -&gt; hot in seconds)</p>
+</section>
+<section id="vibrations-at-1275g" class="level4">
+<h4 class="anchored" data-anchor-id="vibrations-at-1275g">3. Vibrations at 1275g</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Acceleration</td>
+<td>12,500 m/s² (1275g)</td>
+</tr>
+<tr class="even">
+<td>Force on 116 kg carriage</td>
+<td><strong>1.44 MN (144 tons)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Solution:</strong> Massive foundation, dampers, regular calibration.</p>
+</section>
+</section>
+<section id="requiring-research" class="level3">
+<h3 class="anchored" data-anchor-id="requiring-research">Requiring Research</h3>
+<section id="dust-protection-in-tunnel" class="level4">
+<h4 class="anchored" data-anchor-id="dust-protection-in-tunnel">4. Dust Protection in Tunnel</h4>
+<ul>
+<li>Mercury’s electrostatic dust penetrates everywhere</li>
+<li>Dielectric properties of dust -&gt; electrical breakdowns</li>
+<li>Abrasiveness -&gt; carriage bearing wear</li>
+</ul>
+<p><strong>Requires:</strong> Dust-proof airlocks, purging, electrostatic filters.</p>
+</section>
+<section id="payload-survivability-at-1275g" class="level4">
+<h4 class="anchored" data-anchor-id="payload-survivability-at-1275g">5. Payload Survivability at 1275g</h4>
+<p>Research confirms electronics operability at extreme accelerations:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>System</th>
+<th>Acceleration</th>
+<th>Year</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HIBEX missile</td>
+<td>400g</td>
+<td>1960s</td>
+<td>US Army MRE</td>
+</tr>
+<tr class="even">
+<td>McCormick Stevenson GNC</td>
+<td><strong>25,000g</strong></td>
+<td>2024</td>
+<td>AIAA</td>
+</tr>
+<tr class="odd">
+<td>SpinLaunch</td>
+<td>10,000g</td>
+<td>2024</td>
+<td>Flight tests</td>
+</tr>
+<tr class="even">
+<td>Green Launch</td>
+<td>3,200g</td>
+<td>2025</td>
+<td>Satellite tests</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> 1275g acceleration has <strong>20x margin</strong> vs proven 25,000g.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="lunar-mass-driver" class="level2">
+<h2 class="anchored" data-anchor-id="lunar-mass-driver">Lunar Mass Driver</h2>
+<section id="purpose" class="level3">
+<h3 class="anchored" data-anchor-id="purpose">Purpose</h3>
+<p><strong>Mass Driver technology testing</strong> before Mercury deployment. The Moon is a proving ground where mistakes are cheaper: communication 1.3 sec (vs 8-20 min), delivery 3 days (vs months).</p>
+</section>
+<section id="comparison-with-mercurian" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-with-mercurian">Comparison with Mercurian</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Mercury</th>
+<th>Moon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Escape velocity</td>
+<td>4.3 km/s</td>
+<td><strong>2.4 km/s</strong></td>
+</tr>
+<tr class="even">
+<td>Target velocity</td>
+<td>5 km/s</td>
+<td><strong>2.5 km/s</strong></td>
+</tr>
+<tr class="odd">
+<td>Track length</td>
+<td><strong>1 km</strong></td>
+<td><strong>0.5-1 km</strong></td>
+</tr>
+<tr class="even">
+<td>Energy per ton</td>
+<td>14.4 GJ</td>
+<td><strong>3-4 GJ</strong></td>
+</tr>
+<tr class="odd">
+<td>Gravity</td>
+<td>0.38g</td>
+<td>0.16g</td>
+</tr>
+<tr class="even">
+<td>Acceleration</td>
+<td><strong>1275g</strong></td>
+<td><strong>~640g</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> The Lunar Mass Driver is comparable in length (0.5-1 km), with ~640g acceleration (~2x lower) — suitable for technology development.</p>
+</section>
+<section id="orbital-mechanics" class="level3">
+<h3 class="anchored" data-anchor-id="orbital-mechanics">Orbital Mechanics</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Delta-V</th>
+<th>Flight time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Moon -&gt; L1</td>
+<td>2.5 km/s</td>
+<td>4-5 days</td>
+</tr>
+<tr class="even">
+<td>Moon -&gt; GEO</td>
+<td>2.2-3.0 km/s</td>
+<td>5-7 days</td>
+</tr>
+<tr class="odd">
+<td>L1 -&gt; GEO</td>
+<td>0.7 km/s</td>
+<td>~1 day</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="applications" class="level3">
+<h3 class="anchored" data-anchor-id="applications">Applications</h3>
+<ul>
+<li>Prototype for Mercurian Mass Driver — design validation</li>
+<li>Testing of cooling and electronics systems</li>
+<li>Robot training on launch operations</li>
+<li>Materials produced on the Moon from regolith</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Historical Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Originally planned to use the Lunar Mass Driver to launch orbital Hub modules to L1 point. Concept rejected — instead of orbital Hub, we use LSP stations on the lunar surface.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="earth-prototypes-maglev-technology" class="level2">
+<h2 class="anchored" data-anchor-id="earth-prototypes-maglev-technology">Earth Prototypes: Maglev Technology</h2>
+<p>Mass Drivers use the same technology as high-speed maglev trains — <strong>linear electric motors</strong>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Application</th>
+<th>Acceleration</th>
+<th>Speed</th>
+<th>Passengers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Maglev train</td>
+<td>0.1-0.3g</td>
+<td>600 km/h</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Mass Driver</td>
+<td>20-50g</td>
+<td>5-10 km/s</td>
+<td>No (cargo only)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>China Breakthrough (December 2025)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Researchers at NUDT accelerated a 1-ton test car to <strong>700 km/h in 2 seconds</strong> — a world record for superconducting electrodynamic suspension.</p>
+<p>Key quote: <em>“Milestone opens up new possibilities for… aerospace boost launches”</em> — direct mention of space launch applications.</p>
+<p><strong>Sources:</strong> - <a href="https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html">CGTN: China sets world record in maglev tech</a> - <a href="https://www.scmp.com/news/china/science/article/3337735/chinas-record-smashing-maglev-achieves-0-700km/h-acceleration-less-2-seconds">SCMP: China’s record-smashing maglev</a></p>
+</div>
+</div>
+<section id="emals-production-electromagnetic-catapult" class="level3">
+<h3 class="anchored" data-anchor-id="emals-production-electromagnetic-catapult">EMALS — Production Electromagnetic Catapult</h3>
+<p>The Electromagnetic Aircraft Launch System (EMALS) is a linear induction motor <strong>already deployed on production aircraft carriers</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 29%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Platform</th>
+<th>Country</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>USS Gerald R. Ford (CVN-78)</td>
+<td>USA</td>
+<td>45-ton aircraft, 0 -&gt; 250 km/h in 100 m</td>
+</tr>
+<tr class="even">
+<td>Fujian (CV-18)</td>
+<td>China</td>
+<td>Indigenous EMALS, 2024</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Details:</strong> <a href="../../../../en/science/reference/technology-readiness.html">Technologies and References</a></p>
 <hr>
 </section>
 </section>
@@ -1197,8 +2478,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a> - cryo-aluminum windings</li>
 <li><a href="../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a> - 1 km steel structure</li>
 <li><a href="../../../../en/science/detailed/railguns/assembly/track.html">Track Assembly</a> - Mass Driver mounting</li>
-<li><a href="../../../../en/science/detailed/railguns/theory.html">MD Theory</a> - physics and energy of Mass Driver</li>
-<li><a href="../../../../en/science/summaries/mirrors.html">Swarm Mirrors</a> - what the Mass Driver launches</li>
+<li><a href="../../../../en/science/summaries/mirrors.html">Dyson Swarm Mirrors</a> - what the Mass Driver launches</li>
+<li><a href="../../../../en/science/detailed/robots/overview.html">Robot Production</a> - Mole-M, Crab-M, Centaur-M</li>
+<li><a href="../../../../en/science/detailed/materials/overview.html">Regolith Processing</a> - obtaining Al, Fe, Si</li>
+<li><a href="../../../../en/science/summaries/production.html#energy">Energy Systems</a> - Mercury power supply system</li>
+</ul>
+<hr>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://ntrs.nasa.gov/citations/19770010564">NASA Mass Driver Concept (1977)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mass_driver">Electromagnetic Launch - Wikipedia</a></li>
+<li><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html">NASA Mercury Fact Sheet</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Coilgun">Coilgun Physics</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Lagrange_point">Lagrange point - Wikipedia</a></li>
 </ul>
 
 

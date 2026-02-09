@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Производство роботов – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Производство роботов – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -848,7 +898,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#параметры" id="toc-параметры" class="nav-link" data-scroll-target="#параметры">Параметры</a></li>
   <li><a href="#процесс-сборки" id="toc-процесс-сборки" class="nav-link" data-scroll-target="#процесс-сборки">Процесс сборки</a></li>
   </ul></li>
-  <li><a href="#материальный-баланс" id="toc-материальный-баланс" class="nav-link" data-scroll-target="#материальный-баланс">Материальный баланс</a></li>
+  <li><a href="#материальный-баланс" id="toc-материальный-баланс" class="nav-link" data-scroll-target="#материальный-баланс">Материальный баланс</a>
+  <ul class="collapse">
+  <li><a href="#импортные-компоненты-витамины" id="toc-импортные-компоненты-витамины" class="nav-link" data-scroll-target="#импортные-компоненты-витамины">Импортные компоненты («витамины»)</a></li>
+  </ul></li>
   <li><a href="#производительность-системы" id="toc-производительность-системы" class="nav-link" data-scroll-target="#производительность-системы">Производительность системы</a>
   <ul class="collapse">
   <li><a href="#один-завод" id="toc-один-завод" class="nav-link" data-scroll-target="#один-завод">Один завод</a></li>
@@ -899,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Назначение:</strong> Автономные роботы для добычи, логистики, сборки</li>
 <li><strong>Типы:</strong> Краб-М (логистика), Кентавр-М (манипуляция), Крот-М (добыча)</li>
 <li><strong>Производительность:</strong> 5 роботов/день на сборочном стапеле</li>
-<li><strong>Материалы:</strong> 95% местные (Fe, Al, NaS батареи), 5% импорт (электроника)</li>
+<li><strong>Материалы:</strong> &gt;99% местные (Fe, Al, NaS батареи), &lt;1% импорт (чипы электроники)</li>
 </ul>
 </blockquote>
 <hr>
@@ -927,7 +980,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Крот-М</strong></td>
 <td>~1500 кг</td>
-<td>Fe 83% + Al 13%</td>
+<td>Fe 83% + Al 15%</td>
 <td>Кабель 10 кВ</td>
 <td>30 кВт</td>
 <td>Добыча реголита</td>
@@ -935,29 +988,30 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Краб-М</strong></td>
 <td>~1000 кг</td>
-<td>Fe 35% + Al 45%</td>
-<td><a href="../reference/technology-readiness.qmd#nas-батареи">NaS</a> 50 кВтч</td>
+<td>Fe 35% + Al 47%</td>
+<td><a href="../reference/technology-readiness.qmd#nas-батареи">NaS</a> 20 кВтч</td>
 <td>10 кВт</td>
 <td>Логистика, буфер МД</td>
 </tr>
 <tr class="odd">
 <td><strong>Кентавр-М</strong></td>
-<td>~370 кг</td>
-<td>Fe 22% + Al 62%</td>
-<td>NaS 20 кВтч + кабель</td>
+<td>~380 кг</td>
+<td>Fe 22% + Al 63%</td>
+<td>NaS 5 кВтч + кабель</td>
 <td>5 кВт</td>
 <td>Сборка, обслуживание</td>
 </tr>
 <tr class="even">
 <td><strong>Средний</strong></td>
 <td>~960 кг</td>
-<td>Fe 58% + Al 31%</td>
+<td>Fe 58% + Al 32%</td>
 <td>—</td>
 <td>—</td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
+<p><em>Краб-М (~1000 кг): рама ~800 кг + батарея NaS ~150 кг + актуаторы ~40 кг + корпуса сенсоров ~20 кг + электроника (чипы) ~0.5 кг ≈ 1010 кг. Крот-М: кабель-барабан 50 м, сечение 50 мм² Al, 10 кВ → 400 В (трансформатор). Подробнее: <a href="../../../../ru/science/detailed/robots/assembly/moles.html#этап-6-прокладка-силового-кабеля-10-кв">Сборка Крот-М</a></em></p>
 <hr>
 </section>
 </section>
@@ -980,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Масса</td>
 <td>120-950 кг</td>
-<td>370-1500 кг</td>
+<td>380-1500 кг</td>
 </tr>
 <tr class="odd">
 <td>Батарея</td>
@@ -1266,7 +1320,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
     subgraph INPUT["ЭЛЕМЕНТЫ"]
-        FRAME["Рама (WAAM + CNC)"]
+        FRAME["Рама (WAAM + шлифовка)"]
         BATTERY["Батарея NaS"]
         ACTUATORS["Актуаторы"]
         ELECTRONICS["Электроника (импорт)"]
@@ -1339,19 +1393,58 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../ru/science/detailed/materials/titanium.html">Линия титана</a></td>
 </tr>
 <tr class="odd">
-<td>Электроника</td>
-<td>~100 кг</td>
+<td>Электроника (чипы)</td>
+<td>~2.5 кг</td>
 <td><strong>Импорт с Земли</strong></td>
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
-<td><strong>~4.9 т</strong></td>
-<td><strong>~98% местное</strong></td>
+<td><strong>~4.8 т</strong></td>
+<td><strong>&gt;99% местное</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Локализация:</strong> 98% по массе</p>
+<p><strong>Локализация:</strong> &gt;99% по массе</p>
+<p><em>Электроника ~15 кг/робот (полная масса): чипы ~0.5 кг импорт, корпуса сенсоров/кабели ~14.5 кг — местный Al</em></p>
+<p><em>Na и S — на полную производственную программу батарейного цеха (500 кВтч/день: для роботов + запас + замена)</em></p>
+<section id="импортные-компоненты-витамины" class="level3">
+<h3 class="anchored" data-anchor-id="импортные-компоненты-витамины">Импортные компоненты («<a href="../reference/glossary.qmd#витамины">витамины</a>»)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>На парк (60 000)</th>
+<th>Периодичность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Шарикоподшипники (440C)</td>
+<td>0.8-1.6 т</td>
+<td>Разово</td>
+</tr>
+<tr class="even">
+<td>NdFeB магниты (Кентавр-М)</td>
+<td>20-40 т</td>
+<td>Разово</td>
+</tr>
+<tr class="odd">
+<td>Mo для MoS₂</td>
+<td>&lt;1 кг/год</td>
+<td>Ежегодно</td>
+</tr>
+<tr class="even">
+<td>Ag для уплотнений O-ring</td>
+<td>60-300 кг</td>
+<td>Разово</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>99% по массе — местное производство; импортные компоненты входят в состав «витаминов». Подробнее: <a href="../../../../ru/science/detailed/robots/elements/actuators.html#подшипники">Актуаторы</a>.</p>
+</blockquote>
 <hr>
+</section>
 </section>
 <section id="производительность-системы" class="level2">
 <h2 class="anchored" data-anchor-id="производительность-системы">Производительность системы</h2>
@@ -1422,8 +1515,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>30 кВт</td>
 </tr>
 <tr class="even">
-<td>CNC станки (обработка)</td>
-<td>40 кВт</td>
+<td>Шлифовальные ячейки (обработка)</td>
+<td>10 кВт</td>
 </tr>
 <tr class="odd">
 <td>Производство батарей NaS</td>
@@ -1500,9 +1593,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Замена смазки MoS₂</td>
-<td>1 месяц</td>
-<td>Сервисная станция</td>
+<td>Перепокрытие MoS₂ подшипников</td>
+<td>3-6 месяцев</td>
+<td><a href="../../../../ru/science/detailed/robots/elements/actuators.html#оборудование-для-критических-компонентов">Магнетронная станция</a> + Кентавр-М</td>
 </tr>
 <tr class="even">
 <td>Калибровка сенсоров</td>

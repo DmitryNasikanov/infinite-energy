@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Production – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Production – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -852,7 +902,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#stage-7.-forming" id="toc-stage-7.-forming" class="nav-link" data-scroll-target="#stage-7.-forming">Stage 7. Forming</a></li>
   <li><a href="#stage-8.-assembly" id="toc-stage-8.-assembly" class="nav-link" data-scroll-target="#stage-8.-assembly">Stage 8. Assembly</a></li>
   <li><a href="#robot-power-supply-infrastructure" id="toc-robot-power-supply-infrastructure" class="nav-link" data-scroll-target="#robot-power-supply-infrastructure">Robot Power Supply Infrastructure</a></li>
-  <li><a href="#first-expedition-manifest" id="toc-first-expedition-manifest" class="nav-link" data-scroll-target="#first-expedition-manifest">First Expedition Manifest</a></li>
   <li><a href="#first-factory-assembly-bootstrap" id="toc-first-factory-assembly-bootstrap" class="nav-link" data-scroll-target="#first-factory-assembly-bootstrap">First Factory Assembly (Bootstrap)</a></li>
   <li><a href="#self-replication" id="toc-self-replication" class="nav-link" data-scroll-target="#self-replication">Self-Replication</a></li>
   <li><a href="#mercury-mass-driver" id="toc-mercury-mass-driver" class="nav-link" data-scroll-target="#mercury-mass-driver">Mercury Mass Driver</a></li>
@@ -998,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', function() {
     end
 
     subgraph SWARM["SWARM"]
-        R1["1 billion mirrors"]
+        R1["1.1 billion mirrors"]
     end
 
     E2 --&gt; M1
@@ -1006,8 +1055,8 @@ document.addEventListener('DOMContentLoaded', function() {
     M2 --&gt; M2a
     M2a --&gt; M3
     M3 --&gt; R1
-    MC --&gt; MG
-    MG --&gt; M2
+    MC -.-&gt; MG
+    MG -.-&gt; M2
 
     style EARTH fill:#a8d4e8
     style MERCURY fill:#e8d4a8
@@ -1028,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
     subgraph SWARM["SWARM"]
-        R1["1 billion mirrors"]
+        R1["1.1 billion mirrors"]
     end
 
     subgraph MOON["MOON (LSP)"]
@@ -1057,8 +1106,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><p><strong>Scaling (from year 6):</strong> Knowledge from the Moon is applied on Mercury. The Ground Zero Factory copies itself exponentially, reaching ~1650 factories (~1500 F-M + ~150 F-R). Mirrors are produced and sent to the Swarm.</p></li>
 <li><p><strong>Energy cycle (from year 7):</strong> The Dyson Swarm reflects light to lunar LSP stations. LSP converts light to microwaves and transmits to Earth. Closed cycle: energy -&gt; production -&gt; more energy.</p></li>
 </ol>
-<p><strong>Why doesn’t the Moon send robots to Mercury?</strong></p>
-<p>Mercury produces its own robots - this is part of factory self-replication. The Moon only transfers knowledge and experience (software, procedures, debugging). Physical delivery of robots from Moon to Mercury is economically impractical (delta-v ~13 km/s).</p>
 </section>
 <section id="why-two-locations-instead-of-one" class="level3">
 <h3 class="anchored" data-anchor-id="why-two-locations-instead-of-one">Why Two Locations Instead of One?</h3>
@@ -1129,13 +1176,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Mass Drivers</td>
 <td>1,000</td>
-<td>450 t</td>
-<td><strong>0.45 million t</strong></td>
+<td>500 t</td>
+<td><strong>0.5 million t</strong></td>
 </tr>
 <tr class="odd">
 <td>Robots</td>
 <td>60,000</td>
-<td>370–1,500 kg</td>
+<td>380–1,500 kg</td>
 <td><strong>67,000 t</strong></td>
 </tr>
 <tr class="even">
@@ -1244,12 +1291,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Concept:</strong> Self-replicating factory on Mercury, building copies of itself from local resources</li>
-<li><strong>Throughput:</strong> 600 t regolith/day -&gt; <strong>42 t Al</strong> + <strong>~11 t Fe-Mn steel</strong> -&gt; <strong>~407 mirrors/day</strong> (F-M)</li>
-<li><strong>Power consumption:</strong> 55 MW for the complex - <strong>168 MW available</strong> (3 trips with GaAs panels)</li>
+<li><strong>Throughput:</strong> 600 t regolith/day -&gt; <strong>42 t Al</strong> + <strong>~11 t Fe-Mn steel</strong> -&gt; <strong>~350 mirrors/day</strong> (F-M)</li>
+<li><strong>Power consumption:</strong> ~165 MW for the complex (factory ~124 MW + Mass Driver ~39 MW) - <strong>~151 MW available</strong> from CPV (concentrators + GaAs)</li>
 <li><strong>8 stages:</strong> geology -&gt; energy -&gt; panels -&gt; silicate fabric -&gt; hydraulics -&gt; smelting -&gt; forming -&gt; assembly</li>
 <li><strong>Local production:</strong> silicon panels (aluminothermy), silicate domes, NaS batteries, <strong>hybrid Fe/Al robots</strong></li>
-<li><strong>First expedition:</strong> ~67 tons from Earth (including 5.25 t GaAs panels), assembly in 7 days</li>
-<li><strong>Power reserve:</strong> 113 MW surplus -&gt; bootstrap without Swarm dependency</li>
+<li><strong>First expedition:</strong> ~72 tons from Earth (including 10.5 t CPV system), assembly in 7 days</li>
+<li><strong>Power reserve:</strong> CPV ~151 MW covers factory (~124 MW); Mass Driver (~39 MW) requires additional local Si panels</li>
 <li><strong>Assembly jig:</strong> 10 parallel positions -&gt; <strong>5 robots/day</strong></li>
 <li><strong>Dome:</strong> ~1500 m^2 (~50x30 m) - continuous casting, rolling, assembly</li>
 </ul>
@@ -1288,20 +1335,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Power consumption (factory only)</td>
-<td style="text-align: left;">5 MW (peak)</td>
+<td style="text-align: left;">~124 MW (114 MW elec. + 10 MW thermal)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Power consumption (entire complex)</td>
-<td style="text-align: left;">55 MW (factory + Mass Driver + robots)</td>
+<td style="text-align: left;">~165 MW (factory ~124 MW + Mass Driver ~39 MW)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Available energy (3 GaAs trips)</strong></td>
-<td style="text-align: left;"><strong>168 MW</strong> (113 MW reserve)</td>
+<td style="text-align: left;"><strong>Available energy (CPV system)</strong></td>
+<td style="text-align: left;"><strong>~151 MW</strong> (covers factory; MD requires additional local Si panels)</td>
 </tr>
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Note:</strong> 5 MW is the energy of the factory itself (smelting, MRE, rolling). The full complex with Mass Driver (~39 MW) consumes 55 MW. With 3 trips of GaAs panels, 168 MW is available - a 113 MW reserve for scaling. See <a href="#power-consumption-of-1-complex">detailed calculation</a>.</p>
+<p><strong>Note:</strong> The factory alone consumes ~124 MW (114 MW electrical + 10 MW thermal via solar furnaces). The full complex with Mass Driver (~39 MW) consumes ~165 MW. The CPV system (105,000 m² concentrators + GaAs cells, ~10.5 t) delivers ~151 MW at Mercury (~14.4 kW/kg) — covering the factory; Mass Driver requires additional local Si panels. See <a href="#power-consumption-of-1-complex">detailed calculation</a>.</p>
 </blockquote>
 </section>
 <section id="dome-dimensions-and-layout" class="level3">
@@ -1337,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>10 robot positions</td>
 </tr>
 <tr class="odd">
-<td>WAAM + CNC</td>
+<td>WAAM + grinding</td>
 <td>~150 m^2</td>
 <td>Finishing operations</td>
 </tr>
@@ -1379,7 +1426,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td style="text-align: left;"><strong>Aluminum (Al)</strong></td>
 <td style="text-align: left;">6-8% of regolith (<strong>42 t/day</strong> at 600 t)</td>
-<td style="text-align: left;"><strong>Mirrors</strong> (95 kg/unit), robot bodies, radiators</td>
+<td style="text-align: left;"><strong>Mirrors</strong> (110 kg Al/unit), robot bodies, radiators</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Silicon (Si)</td>
@@ -1393,8 +1440,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Iron (Fe)</strong></td>
-<td style="text-align: left;">1.5-4% of regolith (<strong>18 t/day</strong> at 600 t)</td>
-<td style="text-align: left;"><strong>Gen-2 Robots</strong> (frames, tracks), MD rails</td>
+<td style="text-align: left;">1.5-4% of regolith (<strong>~11 t/day</strong> Fe-Mn steel output)</td>
+<td style="text-align: left;"><strong>Gen-2 Robots</strong> (frames, wheels), MD rails</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Magnesium (Mg)</td>
@@ -1404,7 +1451,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td style="text-align: left;">Titanium (Ti)</td>
 <td style="text-align: left;">Present in ilmenites</td>
-<td style="text-align: left;">High-strength components (spider legs)</td>
+<td style="text-align: left;"><strong>TiO₂</strong> for mirror electrochromics</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Sodium (Na)</td>
@@ -1451,9 +1498,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td style="text-align: left;"><strong>Al₂O₃ ceramics</strong> — <a href="https://www.sciencedirect.com/science/article/abs/pii/0261306981900510">proven alternative to Pt-Rh</a></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">CNC cutters</td>
-<td style="text-align: left;">Need cutting tools</td>
-<td style="text-align: left;"><strong>Si₃N₄ ceramics</strong> from Si + N₂ (minimal nitrogen import)</td>
+<td style="text-align: left;">Grinding abrasives</td>
+<td style="text-align: left;">Need grinding tools</td>
+<td style="text-align: left;"><strong>Al₂O₃ corundum</strong> from local Al — unlimited supply</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Iridium (Ir)</td>
@@ -1467,8 +1514,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td style="text-align: left;">Argon (Ar)</td>
-<td style="text-align: left;">Absent</td>
-<td style="text-align: left;">Shielding gas for WAAM and refining - import from Earth</td>
+<td style="text-align: left;">From regolith</td>
+<td style="text-align: left;">Cover gas for casting/refining (WAAM uses FCAW-S — no argon needed)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Oxygen (O2)</td>
@@ -1618,12 +1665,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~55 MW</strong></td>
-<td>With 10% margin</td>
+<td><strong>~165 MW</strong></td>
+<td>Factory ~124 MW + Mass Driver ~39 MW</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Energy balance at launch:</strong> - 3 shipments of GaAs panels = <strong>168 MW</strong> (5.25 t) - Reserve = 113 MW for scaling</p>
+<p><strong>Energy balance at launch:</strong> - CPV system = <strong>~151 MW</strong> (~10.5 t: Kapton+Al concentrators + GaAs + structure) - Covers factory (~124 MW); Mass Driver (~39 MW) requires additional local Si panels</p>
 </section>
 <section id="local-panel-production" class="level4">
 <h4 class="anchored" data-anchor-id="local-panel-production">Local Panel Production</h4>
@@ -1744,7 +1791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td style="text-align: left;">Shielding environment</td>
-<td style="text-align: left;">Argon (flow to weld zone)</td>
+<td style="text-align: left;">FCAW-S (self-shielded flux-cored wire)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Products</td>
@@ -1753,8 +1800,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 </section>
-<section id="milling-cnc" class="level4">
-<h4 class="anchored" data-anchor-id="milling-cnc">Milling (CNC)</h4>
+<section id="abrasive-grinding" class="level4">
+<h4 class="anchored" data-anchor-id="abrasive-grinding">Abrasive Grinding</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1768,16 +1815,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <td style="text-align: left;">Finishing after WAAM and casting</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Machine</td>
-<td style="text-align: left;">5-axis machining center</td>
+<td style="text-align: left;">Equipment</td>
+<td style="text-align: left;">Centaur-M robot with grinding head</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Coolant</td>
-<td style="text-align: left;">Not required (vacuum, ceramics work in dry conditions)</td>
+<td style="text-align: left;">Not required (vacuum, dry grinding)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Tooling</td>
-<td style="text-align: left;"><strong>Si₃N₄ ceramic cutters</strong> (local production from Si + N₂)</td>
+<td style="text-align: left;">Abrasive</td>
+<td style="text-align: left;"><strong>Al₂O₃ corundum</strong> (local production from regolith)</td>
 </tr>
 </tbody>
 </table>
@@ -1800,7 +1847,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Bones</td>
-<td style="text-align: left;"><strong>Aluminum frames</strong> and tracks (local)</td>
+<td style="text-align: left;"><strong>Aluminum frames</strong> and wheels (local)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Heart</td>
@@ -1848,8 +1895,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Foil rolling (F-M)</td>
-<td><strong>~407 mirrors/day</strong></td>
-<td>42 t / 95 kg Al x 0.92</td>
+<td><strong>~350 mirrors/day</strong></td>
+<td>42 t / 110 kg Al × 0.92</td>
 </tr>
 <tr class="even">
 <td>Assembly jig (F-R)</td>
@@ -1885,7 +1932,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Mole-M</strong></td>
 <td>~1500 kg</td>
-<td>Fe 83% + Al 13%</td>
+<td>Fe 83% + Al 15%</td>
 <td>10 kV cable</td>
 <td>30 kW</td>
 <td>Regolith extraction</td>
@@ -1893,23 +1940,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Crab-M</strong></td>
 <td>~1000 kg</td>
-<td>Fe 35% + Al 45%</td>
-<td>NaS 50 kWh</td>
+<td>Fe 35% + Al 47%</td>
+<td>NaS 20 kWh</td>
 <td>10 kW</td>
 <td>Logistics, MD buffer</td>
 </tr>
 <tr class="odd">
 <td><strong>Centaur-M</strong></td>
-<td>~370 kg</td>
-<td>Fe 22% + Al 62%</td>
-<td>NaS 20 kWh + cable</td>
+<td>~380 kg</td>
+<td>Fe 22% + Al 63%</td>
+<td>NaS 5 kWh + cable</td>
 <td>5 kW</td>
 <td>Assembly, maintenance</td>
 </tr>
 <tr class="even">
 <td><strong>Average</strong></td>
 <td>~960 kg</td>
-<td>Fe 58% + Al 31%</td>
+<td>Fe 58% + Al 32%</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
@@ -1934,7 +1981,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Mass</td>
 <td>120-950 kg</td>
-<td>370-1500 kg</td>
+<td>380-1500 kg</td>
 </tr>
 <tr class="odd">
 <td>Battery</td>
@@ -1953,7 +2000,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>F-R Material Balance (5 robots/day):</strong> - Fe for robots: 5 x ~560 kg = <strong>~2.8 t/day</strong> (of 18 t available) - Al for robots: 5 x ~300 kg = <strong>~1.5 t/day</strong> (of 42 t available) - Remaining Al (~40.5 t/day) -&gt; domes, equipment, MD components</p>
+<p><strong>F-R Material Balance (5 robots/day):</strong> - Fe for robots: 5 x ~560 kg = <strong>~2.8 t/day</strong> (of 11 t available) - Al for robots: 5 x ~300 kg = <strong>~1.5 t/day</strong> (of 42 t available) - Remaining Al (~40.5 t/day) -&gt; domes, equipment, MD components</p>
 <p><strong>Details:</strong> <a href="../../../en/science/detailed/robots/overview.html">Robot Bestiary</a></p>
 <hr>
 </section>
@@ -2155,296 +2202,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <hr>
 </section>
 </section>
-<section id="first-expedition-manifest" class="level3">
-<h3 class="anchored" data-anchor-id="first-expedition-manifest">First Expedition Manifest</h3>
-<p><em>What we bring from Earth to launch Ground Zero.</em></p>
-<section id="assembly-crew-gen-1-robots" class="level4">
-<h4 class="anchored" data-anchor-id="assembly-crew-gen-1-robots">Assembly Crew (Gen-1 Robots)</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Qty</th>
-<th style="text-align: left;">Unit Mass</th>
-<th style="text-align: left;">Total</th>
-<th style="text-align: left;">Role</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Spider-E</td>
-<td style="text-align: left;">16</td>
-<td style="text-align: left;">120 kg</td>
-<td style="text-align: left;">1.9 t</td>
-<td style="text-align: left;">Mirror mounting (critical path)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Crab-E</td>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">950 kg</td>
-<td style="text-align: left;">11.4 t</td>
-<td style="text-align: left;">Module logistics</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Centaur-E</td>
-<td style="text-align: left;">24</td>
-<td style="text-align: left;">250 kg</td>
-<td style="text-align: left;">6.0 t</td>
-<td style="text-align: left;">Assembly and docking</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mole-E</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">800 kg</td>
-<td style="text-align: left;">3.2 t</td>
-<td style="text-align: left;">Site preparation</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Total robots</strong></td>
-<td style="text-align: left;"><strong>56</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>22.5 t</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="crew-repair-kit-before-factory-startup" class="level4">
-<h4 class="anchored" data-anchor-id="crew-repair-kit-before-factory-startup">Crew Repair Kit (before factory startup)</h4>
-<p>Increased proportionally to robot count + reserve for intensive 7-day work.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Component</th>
-<th style="text-align: left;">Qty</th>
-<th style="text-align: left;">Mass</th>
-<th style="text-align: left;">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Spare legs (Spider)</td>
-<td style="text-align: left;">32</td>
-<td style="text-align: left;">160 kg</td>
-<td style="text-align: left;">2 sets per robot</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Spare tracks (Crab)</td>
-<td style="text-align: left;">48</td>
-<td style="text-align: left;">300 kg</td>
-<td style="text-align: left;">4 sets per robot</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Li-S batteries (Gen-1)</strong></td>
-<td style="text-align: left;">15</td>
-<td style="text-align: left;">750 kg</td>
-<td style="text-align: left;">Reserve (operates from -60°C)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Control units</td>
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">80 kg</td>
-<td style="text-align: left;">Brains - critical</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sensors (cameras, lidars)</td>
-<td style="text-align: left;">30</td>
-<td style="text-align: left;">50 kg</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Actuators (motors)</td>
-<td style="text-align: left;">50</td>
-<td style="text-align: left;">250 kg</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MoS2 lubricant</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">15 kg</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Total repair kit</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>~1.6 t</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="factory-equipment-modular-delivery" class="level4">
-<h4 class="anchored" data-anchor-id="factory-equipment-modular-delivery">Factory Equipment (modular delivery)</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Module</th>
-<th style="text-align: left;">Mass</th>
-<th style="text-align: left;">Contents</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Energy module</strong></td>
-<td style="text-align: left;">3.0 t</td>
-<td style="text-align: left;">Mirrors (2000 m^2) + frame + GaAs cells + radiators</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>MRE module</strong></td>
-<td style="text-align: left;">4.0 t</td>
-<td style="text-align: left;">Furnace + crucible + electrodes + MHD + frame</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Dome module</strong></td>
-<td style="text-align: left;">4.0 t</td>
-<td style="text-align: left;">Shell + airlock + tundish + internal radiators</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>CCM module</strong></td>
-<td style="text-align: left;">6.0 t</td>
-<td style="text-align: left;">Mold + stand + roller table (on skids)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Rolling module</strong></td>
-<td style="text-align: left;">10.0 t</td>
-<td style="text-align: left;">Mill (6 stands) + drawing + winding</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Finishing module</strong></td>
-<td style="text-align: left;">6.0 t</td>
-<td style="text-align: left;">WAAM + CNC + jig + manipulators</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Total equipment</strong></td>
-<td style="text-align: left;"><strong>~35 t</strong></td>
-<td style="text-align: left;">Modular pre-assembly</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="first-year-consumables" class="level4">
-<h4 class="anchored" data-anchor-id="first-year-consumables">First Year Consumables</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Category</th>
-<th style="text-align: left;">Mass</th>
-<th style="text-align: left;">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">MRE anodes (reserve)</td>
-<td style="text-align: left;">0.2 t</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Oils, lubricants</td>
-<td style="text-align: left;">0.1 t</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Beta-Al2O3 electrolytes</td>
-<td style="text-align: left;">0.3 t</td>
-<td style="text-align: left;">For first 50 batteries</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Total consumables</strong></td>
-<td style="text-align: left;"><strong>~0.6 t</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="vitamins-electronics-rare-elements" class="level4">
-<h4 class="anchored" data-anchor-id="vitamins-electronics-rare-elements">Vitamins (Electronics, Rare Elements)</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Category</th>
-<th style="text-align: left;">Mass</th>
-<th style="text-align: left;">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Control units (for new robots)</td>
-<td style="text-align: left;">0.5 t</td>
-<td style="text-align: left;">For 100 robots</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Sensors</td>
-<td style="text-align: left;">0.2 t</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Miscellaneous electronics</td>
-<td style="text-align: left;">0.3 t</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rare earths (Nd, Sm for magnets)</td>
-<td style="text-align: left;">0.1 t</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Total Vitamins</strong></td>
-<td style="text-align: left;"><strong>~1 t</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="manifest-summary" class="level4">
-<h4 class="anchored" data-anchor-id="manifest-summary">Manifest Summary</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Category</th>
-<th style="text-align: left;">Mass</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Assembly crew (56 robots)</td>
-<td style="text-align: left;">22.5 t</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Crew repair kit</td>
-<td style="text-align: left;">1.6 t</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Factory equipment (modules)</td>
-<td style="text-align: left;">35.0 t</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Consumables (1 year)</td>
-<td style="text-align: left;">0.6 t</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Vitamins (electronics)</td>
-<td style="text-align: left;">1.0 t</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>TOTAL first expedition</strong></td>
-<td style="text-align: left;"><strong>~61 t</strong></td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
 <section id="first-factory-assembly-bootstrap" class="level3">
 <h3 class="anchored" data-anchor-id="first-factory-assembly-bootstrap">First Factory Assembly (Bootstrap)</h3>
 <blockquote class="blockquote">
@@ -2494,7 +2251,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <blockquote class="blockquote">
 <p><strong>Details:</strong> <a href="../../../en/science/detailed/factories/assembly/replication.html">Self-Replication</a></p>
 </blockquote>
-<p>Energy Bootstrap (168 MW from day one), exponential factory growth (1 -&gt; 1000 in 16 weeks), 4 deployment phases.</p>
+<p>Energy Bootstrap (~151 MW from CPV from day one), exponential factory growth (1 -&gt; 1000 in 16 weeks), 4 deployment phases.</p>
 <hr>
 </section>
 <section id="mercury-mass-driver" class="level3">
@@ -2510,7 +2267,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Length</td>
-<td>2-3 km</td>
+<td>1 km</td>
 </tr>
 <tr class="even">
 <td>Exit velocity</td>
@@ -2518,7 +2275,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Mass</td>
-<td>1300 tons</td>
+<td>~500 t</td>
 </tr>
 <tr class="even">
 <td>Throughput</td>
@@ -2526,11 +2283,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Energy per launch</td>
-<td>3.6 GJ</td>
+<td>4.7 GJ</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Details:</strong> <a href="../../../en/science/detailed/railguns/overview.html">MD Production</a>, <a href="../../../en/science/detailed/railguns/theory.html">MD Theory</a>, <a href="../../../en/science/detailed/railguns/scaling.html">Scaling</a></p>
+<p><strong>Details:</strong> <a href="../../../en/science/detailed/railguns/overview.html">Mass Driver</a></p>
 <hr>
 </section>
 <section id="real-automated-factory-prototypes" class="level3">
@@ -2756,13 +2513,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Rails and coils</td>
 <td>Al forming</td>
 <td>Al</td>
-<td>500 t</td>
+<td>220 t</td>
 </tr>
 <tr class="even">
 <td>Tunnel frame</td>
 <td>Fe welding</td>
 <td>Fe</td>
-<td>800 t</td>
+<td>270 t</td>
 </tr>
 <tr class="odd">
 <td>Capacitors</td>
@@ -2786,7 +2543,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Electronics</td>
 <td>Import</td>
 <td>(Vitamins)</td>
-<td>0.25 t</td>
+<td>0.142 t</td>
 </tr>
 </tbody>
 </table>
@@ -2799,7 +2556,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Spin platform installation (1 day)</li>
 <li>Electronics integration and testing (1 day)</li>
 </ol>
-<p><strong>Result:</strong> EQU-001 (Mass Driver), 1400 t, 33 MW peak power</p>
+<p><strong>Result:</strong> EQU-001 (Mass Driver), ~500 t, 33 MW peak power</p>
 </section>
 <section id="example-gen-2-robot-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="example-gen-2-robot-assembly">Example: Gen-2 Robot Assembly</h3>
@@ -3022,7 +2779,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>Main product</strong></td>
-<td>Mirrors (392,000/day)</td>
+<td>Mirrors (~350,000/day)</td>
 <td>LSP stations</td>
 </tr>
 <tr class="even">
@@ -3096,7 +2853,7 @@ document.addEventListener('DOMContentLoaded', function() {
     end
 
     subgraph SWARM["SWARM (orbit)"]
-        R1["1 billion mirrors"]
+        R1["1.1 billion mirrors"]
     end
 
     subgraph MOON["MOON"]
@@ -3150,7 +2907,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Vitamins (factories)</td>
 <td>Years 1-10</td>
-<td>~77 kg/factory/year</td>
+<td>~85 kg/factory/year</td>
 </tr>
 <tr class="odd">
 <td>Mirror electronics</td>
@@ -3298,11 +3055,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> - overall project architecture</li>
 <li><a href="../../../en/science/summaries/comparison.html">Why Mercury?</a> - location comparison</li>
 <li><a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a> - Mercury production roadmap</li>
-<li><a href="../../../en/science/summaries/moon.html">Moon</a> - lunar LSP stations</li>
+<li><a href="../../../en/science/detailed/hub.html">Moon</a> - lunar LSP stations</li>
 <li><a href="../../../en/science/detailed/robots/overview.html">Robot Bestiary</a> - Gen-1 and Gen-2 robots</li>
-<li><a href="../../../en/science/detailed/railguns/theory.html">Mass Driver: Theory</a> - physics and calculations for Mercury and Moon</li>
-<li><a href="../../../en/science/detailed/railguns/overview.html">Mass Driver: Production</a> - how to build an MD</li>
-<li><a href="../../../en/science/detailed/railguns/scaling.html">Scaling</a> - self-replication and growth</li>
+<li><a href="../../../en/science/detailed/railguns/overview.html">Mass Driver</a> - theory, production and scaling</li>
 <li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> - project timeline</li>
 </ul>
 

@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Производство – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Производство – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -851,13 +901,9 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#этап-7.-формовка" id="toc-этап-7.-формовка" class="nav-link" data-scroll-target="#этап-7.-формовка">Этап 7. Формовка</a></li>
   <li><a href="#этап-8.-сборка" id="toc-этап-8.-сборка" class="nav-link" data-scroll-target="#этап-8.-сборка">Этап 8. Сборка</a></li>
   <li><a href="#инфраструктура-энергоснабжения-роботов" id="toc-инфраструктура-энергоснабжения-роботов" class="nav-link" data-scroll-target="#инфраструктура-энергоснабжения-роботов">Инфраструктура энергоснабжения роботов</a></li>
-  <li><a href="#манифест-первой-экспедиции" id="toc-манифест-первой-экспедиции" class="nav-link" data-scroll-target="#манифест-первой-экспедиции">Манифест первой экспедиции</a></li>
   <li><a href="#сборка-первого-завода-bootstrap" id="toc-сборка-первого-завода-bootstrap" class="nav-link" data-scroll-target="#сборка-первого-завода-bootstrap">Сборка первого завода (Bootstrap)</a></li>
   <li><a href="#саморепликация" id="toc-саморепликация" class="nav-link" data-scroll-target="#саморепликация">Саморепликация</a></li>
   <li><a href="#меркурианский-масс-драйвер" id="toc-меркурианский-масс-драйвер" class="nav-link" data-scroll-target="#меркурианский-масс-драйвер">Меркурианский масс-драйвер</a></li>
-  <li><a href="#реальные-прототипы-автоматизированных-заводов" id="toc-реальные-прототипы-автоматизированных-заводов" class="nav-link" data-scroll-target="#реальные-прототипы-автоматизированных-заводов">Реальные прототипы автоматизированных заводов</a></li>
-  <li><a href="#утилизация-зеркал" id="toc-утилизация-зеркал" class="nav-link" data-scroll-target="#утилизация-зеркал">Утилизация зеркал</a></li>
-  <li><a href="#известные-ограничения-завода" id="toc-известные-ограничения-завода" class="nav-link" data-scroll-target="#известные-ограничения-завода">Известные ограничения завода</a></li>
   </ul></li>
   <li><a href="#линии-сборки" id="toc-линии-сборки" class="nav-link" data-scroll-target="#линии-сборки">Линии сборки</a>
   <ul class="collapse">
@@ -865,27 +911,11 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#пример-сборка-масс-драйвера" id="toc-пример-сборка-масс-драйвера" class="nav-link" data-scroll-target="#пример-сборка-масс-драйвера">Пример: Сборка масс-драйвера</a></li>
   <li><a href="#пример-сборка-робота-gen-2" id="toc-пример-сборка-робота-gen-2" class="nav-link" data-scroll-target="#пример-сборка-робота-gen-2">Пример: Сборка робота Gen-2</a></li>
   </ul></li>
-  <li><a href="#производство-на-луне" id="toc-производство-на-луне" class="nav-link" data-scroll-target="#производство-на-луне">Производство на Луне</a>
-  <ul class="collapse">
-  <li><a href="#зачем-луна" id="toc-зачем-луна" class="nav-link" data-scroll-target="#зачем-луна">Зачем Луна?</a></li>
-  <li><a href="#тестовый-полигон-годы-4-6" id="toc-тестовый-полигон-годы-4-6" class="nav-link" data-scroll-target="#тестовый-полигон-годы-4-6">Тестовый полигон (годы 4-6)</a></li>
-  <li><a href="#лунный-масс-драйвер" id="toc-лунный-масс-драйвер" class="nav-link" data-scroll-target="#лунный-масс-драйвер">Лунный масс-драйвер</a></li>
-  <li><a href="#строительство-lsp-станций" id="toc-строительство-lsp-станций" class="nav-link" data-scroll-target="#строительство-lsp-станций">Строительство LSP станций</a></li>
-  <li><a href="#энергоснабжение-луны" id="toc-энергоснабжение-луны" class="nav-link" data-scroll-target="#энергоснабжение-луны">Энергоснабжение Луны</a></li>
-  </ul></li>
-  <li><a href="#сравнение-производств" id="toc-сравнение-производств" class="nav-link" data-scroll-target="#сравнение-производств">Сравнение производств</a>
-  <ul class="collapse">
-  <li><a href="#почему-нельзя-только-меркурий" id="toc-почему-нельзя-только-меркурий" class="nav-link" data-scroll-target="#почему-нельзя-только-меркурий">Почему нельзя только Меркурий?</a></li>
-  <li><a href="#почему-нельзя-только-луну" id="toc-почему-нельзя-только-луну" class="nav-link" data-scroll-target="#почему-нельзя-только-луну">Почему нельзя только Луну?</a></li>
-  </ul></li>
+  <li><a href="#производство-на-луне" id="toc-производство-на-луне" class="nav-link" data-scroll-target="#производство-на-луне">Производство на Луне</a></li>
   <li><a href="#логистика-между-объектами" id="toc-логистика-между-объектами" class="nav-link" data-scroll-target="#логистика-между-объектами">Логистика между объектами</a>
   <ul class="collapse">
   <li><a href="#потоки-материалов" id="toc-потоки-материалов" class="nav-link" data-scroll-target="#потоки-материалов">Потоки материалов</a></li>
   <li><a href="#земля-меркурий" id="toc-земля-меркурий" class="nav-link" data-scroll-target="#земля-меркурий">Земля → Меркурий</a></li>
-  <li><a href="#меркурий-рой" id="toc-меркурий-рой" class="nav-link" data-scroll-target="#меркурий-рой">Меркурий → Рой</a></li>
-  <li><a href="#луна-lsp-станции" id="toc-луна-lsp-станции" class="nav-link" data-scroll-target="#луна-lsp-станции">Луна: LSP станции</a></li>
-  <li><a href="#луна-земля-энергия" id="toc-луна-земля-энергия" class="nav-link" data-scroll-target="#луна-земля-энергия">Луна → Земля (энергия)</a></li>
-  <li><a href="#замкнутый-энергетический-цикл" id="toc-замкнутый-энергетический-цикл" class="nav-link" data-scroll-target="#замкнутый-энергетический-цикл">Замкнутый энергетический цикл</a></li>
   </ul></li>
   <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
   </ul>
@@ -997,7 +1027,7 @@ document.addEventListener('DOMContentLoaded', function() {
     end
 
     subgraph РОЙ["РОЙ"]
-        R1["1 млрд зеркал"]
+        R1["1.1 млрд зеркал"]
     end
 
     E2 --&gt; M1
@@ -1005,8 +1035,8 @@ document.addEventListener('DOMContentLoaded', function() {
     M2 --&gt; M2a
     M2a --&gt; M3
     M3 --&gt; R1
-    MC --&gt; MG
-    MG --&gt; M2
+    MC -.-&gt; MG
+    MG -.-&gt; M2
 
     style ЗЕМЛЯ fill:#a8d4e8
     style МЕРКУРИЙ fill:#e8d4a8
@@ -1027,7 +1057,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
     subgraph РОЙ["РОЙ"]
-        R1["1 млрд зеркал"]
+        R1["1.1 млрд зеркал"]
     end
 
     subgraph ЛУНА["ЛУНА (LSP)"]
@@ -1056,8 +1086,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><p><strong>Масштабирование (с года 6):</strong> Знания с Луны применяются на Меркурии. Завод «Точка Ноль» копирует себя экспоненциально, достигая ~1650 заводов (~1500 Ф-З + ~150 Ф-Р). Производятся зеркала, которые отправляются в Рой.</p></li>
 <li><p><strong>Энергоцикл (с года 7):</strong> Рой зеркал отражает свет на лунные LSP станции. LSP преобразует свет в микроволны и передает на Землю. Замкнутый цикл: энергия → производство → больше энергии.</p></li>
 </ol>
-<p><strong>Почему Луна не отправляет роботов на Меркурий?</strong></p>
-<p>Меркурий производит роботов сам — это часть саморепликации заводов. Луна передает только знания и опыт (программное обеспечение, процедуры, отладку). Физическая доставка роботов с Луны на Меркурий экономически нецелесообразна (Δv ~13 км/с).</p>
 </section>
 <section id="почему-два-места-а-не-одно" class="level3">
 <h3 class="anchored" data-anchor-id="почему-два-места-а-не-одно">Почему два места, а не одно?</h3>
@@ -1099,6 +1127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><strong>Меркурий</strong> — это энергетическая машина. 7× больше солнечного света означает, что солнечные печи плавят металл быстрее, панели дают больше энергии, а завод может копировать сам себя без ограничений по мощности.</p>
 <p><strong>Луна</strong> — это ворота в космос. Задержка связи 1.3 секунды позволяет операторам контролировать процесс почти в реальном времени — идеально для отработки технологий (годы 4-6). После валидации Луна переключается на производство LSP станций из местных ресурсов (кремний, алюминий).</p>
+<p><strong>Резервный путь:</strong> Луна — не только полигон, но и страховка. При критическом сбое на Меркурии производство зеркал может быть полностью перенесено на Луну (срок проекта увеличится с ~10 до ~14 лет). Подробнее: <a href="../../../ru/science/summaries/comparison.html#луна-серьёзная-альтернатива">Почему Меркурий?</a></p>
 <hr>
 </section>
 </section>
@@ -1128,13 +1157,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Масс-драйверы</td>
 <td>1 000</td>
-<td>450 т</td>
-<td><strong>0.45 млн т</strong></td>
+<td>500 т</td>
+<td><strong>0.5 млн т</strong></td>
 </tr>
 <tr class="odd">
 <td>Роботы</td>
 <td>60 000</td>
-<td>370–1 500 кг</td>
+<td>380–1 500 кг</td>
 <td><strong>67 000 т</strong></td>
 </tr>
 <tr class="even">
@@ -1242,12 +1271,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Концепция:</strong> Саморепликирующийся завод на Меркурии, строящий себе подобных из местных ресурсов</li>
-<li><strong>Производительность:</strong> 600 т реголита/день → <strong>42 т Al</strong> + <strong>~11 т Fe-Mn стали</strong> → <strong>~407 зеркал/день</strong> (Ф-З)</li>
-<li><strong>Энергопотребление:</strong> 55 МВт на комплекс — <strong>168 МВт доступно</strong> (3 рейса с панелями GaAs)</li>
+<li><strong>Производительность:</strong> 600 т реголита/день → <strong>42 т Al</strong> + <strong>~11 т Fe-Mn стали</strong> → <strong>~350 зеркал/день</strong> (Ф-З)</li>
+<li><strong>Энергопотребление:</strong> ~165 МВт на комплекс — <strong>~151 МВт доступно</strong> (6 рейсов CPV-системы: концентраторы + GaAs)</li>
 <li><strong>8 этапов:</strong> геология → энергия → панели → силикатная ткань → гидравлика → плавка → формовка → сборка</li>
 <li><strong>Местное производство:</strong> кремниевые панели (алюмотермия), силикатные куполы, NaS батареи, <strong>гибридные роботы Fe/Al</strong></li>
-<li><strong>Первая экспедиция:</strong> ~67 тонн с Земли (включая 5.25 т панелей GaAs), сборка за 7 дней</li>
-<li><strong>Запас энергии:</strong> 113 МВт избытка → bootstrap без зависимости от Роя</li>
+<li><strong>Первая экспедиция:</strong> ~72 тонны с Земли (включая 10.5 т CPV-системы), сборка за 7 дней</li>
+<li><strong>Запас энергии:</strong> CPV (~151 МВт) покрывает завод (~124 МВт); масс-драйвер — с местных Si-панелей</li>
 <li><strong>Сборочный стапель:</strong> 10 параллельных позиций → <strong>5 роботов/день</strong></li>
 <li><strong>Купол:</strong> ~1500 м² (~50×30 м) — МНЛЗ, прокат, сборка</li>
 </ul>
@@ -1286,20 +1315,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Потребляемая мощность (только завод)</td>
-<td style="text-align: left;">5 МВт (пиковая)</td>
+<td style="text-align: left;">~124 МВт (114 эл. + 10 тепл.)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Потребляемая мощность (весь комплекс)</td>
-<td style="text-align: left;">55 МВт (завод + масс-драйвер + роботы)</td>
+<td style="text-align: left;">~165 МВт (завод ~124 МВт + масс-драйвер ~39 МВт)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Доступная энергия (3 рейса GaAs)</strong></td>
-<td style="text-align: left;"><strong>168 МВт</strong> (запас 113 МВт)</td>
+<td style="text-align: left;"><strong>Доступная энергия (6 рейсов CPV)</strong></td>
+<td style="text-align: left;"><strong>~151 МВт</strong> (покрывает завод; масс-драйвер требует доп. местных Si-панелей)</td>
 </tr>
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Примечание:</strong> 5 МВт — это энергия самого завода (плавка, MRE, прокат). Полный комплекс с масс-драйвером (~39 МВт) потребляет 55 МВт. При 3 рейсах с GaAs панелями доступно 168 МВт — запас 113 МВт для масштабирования. См. <a href="#энергопотребление-1-комплекса">детальный расчёт</a>.</p>
+<p><strong>Примечание:</strong> завод потребляет ~124 МВт (114 эл. + 10 тепл.: MRE, плавка, прокат и т.д.). С масс-драйвером (~39 МВт) полный комплекс — ~165 МВт. CPV-система (105 000 м² концентраторов + GaAs ячейки, ~10,5 т) обеспечивает ~151 МВт на Меркурии (~14,4 кВт/кг) — покрывает завод; масс-драйвер требует дополнительных местных Si-панелей. См. <a href="#энергопотребление-1-комплекса">детальный расчёт</a>.</p>
 </blockquote>
 <p><strong>Детали компоновки купола</strong> (зоны, площади, layout): <a href="../../../ru/science/detailed/factories/overview.html">Производство заводов</a></p>
 <hr>
@@ -1327,7 +1356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td style="text-align: left;"><strong>Алюминий (Al)</strong></td>
 <td style="text-align: left;">6-8% реголита (<strong>42 т/день</strong> при 600 т)</td>
-<td style="text-align: left;"><strong>Зеркала</strong> (95 кг/шт), корпуса роботов, радиаторы</td>
+<td style="text-align: left;"><strong>Зеркала</strong> (110 кг Al/шт), корпуса роботов, радиаторы</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Кремний (Si)</td>
@@ -1341,8 +1370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Железо (Fe)</strong></td>
-<td style="text-align: left;">1.5-4% реголита (<strong>18 т/день</strong> при 600 т)</td>
-<td style="text-align: left;"><strong>Роботы Gen-2</strong> (рамы, гусеницы), рельсы МД</td>
+<td style="text-align: left;">1.5-4% реголита (<strong>~11 т/день</strong> Fe-Mn стали)</td>
+<td style="text-align: left;"><strong>Роботы Gen-2</strong> (рамы, колёса), рельсы МД</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Магний (Mg)</td>
@@ -1352,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td style="text-align: left;">Титан (Ti)</td>
 <td style="text-align: left;">Есть в ильменитах</td>
-<td style="text-align: left;">Особо прочные узлы (ноги пауков)</td>
+<td style="text-align: left;">Электрохромика зеркал (TiO₂)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Натрий (Na)</td>
@@ -1363,6 +1392,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <td style="text-align: left;">Калий (K)</td>
 <td style="text-align: left;">Из полевых шпатов</td>
 <td style="text-align: left;">Теплоноситель (жидкий металл)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кислород (O₂)</td>
+<td style="text-align: left;">Из MRE (~250 т/день)</td>
+<td style="text-align: left;">Атмосфера внутри купола (0.1 атм)</td>
 </tr>
 </tbody>
 </table>
@@ -1384,44 +1418,24 @@ document.addEventListener('DOMContentLoaded', function() {
 <td style="text-align: left;">Графит: сталь Гадфильда, смазки, аноды (<a href="https://hub.jhu.edu/2016/03/10/carbon-explains-mercury-darkness-apl-study/">MESSENGER 2016</a>)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Водород (H)</td>
-<td style="text-align: left;">Только лёд на полюсах</td>
-<td style="text-align: left;">Добыча из кратеров</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Медь (Cu)</td>
-<td style="text-align: left;">Мало</td>
-<td style="text-align: left;">Провода из алюминия или натрия в стальных трубках</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Фильеры стекловолокна</td>
-<td style="text-align: left;">Al₂O₃ (местный)</td>
-<td style="text-align: left;"><strong>Керамика Al₂O₃</strong> — <a href="https://www.sciencedirect.com/science/article/abs/pii/0261306981900510">доказанная альтернатива Pt-Rh</a></td>
+<td style="text-align: left;">Pt-Rh (нет на Меркурии)</td>
+<td style="text-align: left;"><strong>Керамика Al₂O₃</strong> из местного сырья — <a href="https://www.sciencedirect.com/science/article/abs/pii/0261306981900510">доказанная альтернатива</a></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Фрезы CNC</td>
-<td style="text-align: left;">Нужен режущий инструмент</td>
-<td style="text-align: left;"><strong>Керамика Si₃N₄</strong> из Si + N₂ (минимальный импорт азота)</td>
+<td style="text-align: left;">Абразивы шлифовки</td>
+<td style="text-align: left;">Нужен шлифующий инструмент</td>
+<td style="text-align: left;"><strong>Корунд Al₂O₃</strong> из местного Al — неограниченный ресурс</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Иридий (Ir)</td>
 <td style="text-align: left;">Отсутствует</td>
-<td style="text-align: left;">Импорт с Земли (аноды MRE)</td>
+<td style="text-align: left;">Фаза 1-2: импорт с Земли; Фаза 3+: углеродные аноды из LRM-зон</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Редкоземы</td>
 <td style="text-align: left;">Критичны для электроники</td>
-<td style="text-align: left;">Везём с Земли</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Аргон (Ar)</td>
-<td style="text-align: left;">Отсутствует</td>
-<td style="text-align: left;">Защитный газ для WAAM и рафинирования — везём с Земли</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Кислород (O₂)</td>
-<td style="text-align: left;">Из MRE (~1500 т/день)</td>
-<td style="text-align: left;">Атмосфера внутри купола (0.1 атм)</td>
+<td style="text-align: left;">Импорт с Земли (магниты, контроллеры)</td>
 </tr>
 </tbody>
 </table>
@@ -1531,6 +1545,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="энергопотребление-1-комплекса" class="level4">
 <h4 class="anchored" data-anchor-id="энергопотребление-1-комплекса">Энергопотребление 1 комплекса</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 28%">
+<col style="width: 34%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Потребитель</th>
@@ -1540,14 +1559,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Масс-драйвер (средняя)</td>
-<td>33 МВт</td>
-<td>600 запусков/день × 4.8 ГДж</td>
+<td>MRE (электролиз реголита)</td>
+<td>100 МВт</td>
+<td>600 т/день, основной потребитель</td>
 </tr>
 <tr class="even">
 <td>Солнечные печи (плавка)</td>
 <td>10 МВт</td>
-<td>Концентраторы</td>
+<td>Термическая, концентраторы</td>
 </tr>
 <tr class="odd">
 <td>Производство зеркал</td>
@@ -1565,13 +1584,28 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>ИТ-инфраструктура</td>
 </tr>
 <tr class="even">
-<td><strong>ИТОГО</strong></td>
-<td><strong>~55 МВт</strong></td>
-<td>С запасом 10%</td>
+<td>Прочее (компрессоры, охлаждение)</td>
+<td>7 МВт</td>
+<td>Вспомогательные системы</td>
+</tr>
+<tr class="odd">
+<td><strong>Завод ИТОГО</strong></td>
+<td><strong>~124 МВт</strong></td>
+<td>114 эл. + 10 тепл.</td>
+</tr>
+<tr class="even">
+<td>Масс-драйвер (средняя)</td>
+<td>39 МВт</td>
+<td>600 запусков/день</td>
+</tr>
+<tr class="odd">
+<td><strong>КОМПЛЕКС ИТОГО</strong></td>
+<td><strong>~165 МВт</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Энергобаланс при запуске:</strong> - 3 рейса GaAs панелей = <strong>168 МВт</strong> (5.25 т) - Запас = 113 МВт для масштабирования</p>
+<p><strong>Энергобаланс при запуске:</strong> - 6 рейсов CPV-системы = <strong>~151 МВт</strong> (~10,5 т: концентраторы Kapton+Al + GaAs + конструкция) - CPV покрывает завод (~124 МВт); масс-драйвер (~39 МВт) требует дополнительных местных Si-панелей</p>
 </section>
 <section id="местное-производство-панелей" class="level4">
 <h4 class="anchored" data-anchor-id="местное-производство-панелей">Местное производство панелей</h4>
@@ -1606,7 +1640,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="этап-7.-формовка" class="level3">
 <h3 class="anchored" data-anchor-id="этап-7.-формовка">Этап 7. Формовка</h3>
-<p>Внутри купола (газовая среда 0.1 атм O₂): <strong>МНЛЗ</strong> → <strong>Прокатный стан</strong> → <strong>WAAM</strong> → <strong>CNC</strong>.</p>
+<p>Внутри купола (газовая среда 0.1 атм O₂): <strong>МНЛЗ</strong> → <strong>Прокатный стан</strong> → <strong>WAAM</strong> → <strong>шлифовка</strong>.</p>
 <blockquote class="blockquote">
 <p><strong>Подробнее:</strong></p>
 <ul>
@@ -1633,7 +1667,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Кости</td>
-<td style="text-align: left;"><strong>Алюминиевые рамы</strong> и траки (местные)</td>
+<td style="text-align: left;"><strong>Алюминиевые рамы</strong> и колёса (местные)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Сердце</td>
@@ -1681,8 +1715,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Прокат фольги (Ф-З)</td>
-<td><strong>~407 зеркал/день</strong></td>
-<td>42 т ÷ 95 кг Al × 0.92</td>
+<td><strong>~350 зеркал/день</strong></td>
+<td>42 т ÷ 110 кг Al × 0.92</td>
 </tr>
 <tr class="even">
 <td>Сборочный стапель (Ф-Р)</td>
@@ -1718,7 +1752,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Крот-М</strong></td>
 <td>~1500 кг</td>
-<td>Fe 83% + Al 13%</td>
+<td>Fe 83% + Al 15%</td>
 <td>Кабель 10 кВ</td>
 <td>30 кВт</td>
 <td>Добыча реголита</td>
@@ -1726,23 +1760,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Краб-М</strong></td>
 <td>~1000 кг</td>
-<td>Fe 35% + Al 45%</td>
-<td>NaS 50 кВтч</td>
+<td>Fe 35% + Al 47%</td>
+<td>NaS 20 кВтч</td>
 <td>10 кВт</td>
 <td>Логистика, буфер МД</td>
 </tr>
 <tr class="odd">
 <td><strong>Кентавр-М</strong></td>
-<td>~370 кг</td>
-<td>Fe 22% + Al 62%</td>
-<td>NaS 20 кВтч + кабель</td>
+<td>~380 кг</td>
+<td>Fe 22% + Al 63%</td>
+<td>NaS 5 кВтч + кабель</td>
 <td>5 кВт</td>
 <td>Сборка, обслуживание</td>
 </tr>
 <tr class="even">
 <td><strong>Средний</strong></td>
 <td>~960 кг</td>
-<td>Fe 58% + Al 31%</td>
+<td>Fe 58% + Al 32%</td>
 <td>—</td>
 <td>—</td>
 <td>—</td>
@@ -1767,7 +1801,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Масса</td>
 <td>120-950 кг</td>
-<td>370-1500 кг</td>
+<td>380-1500 кг</td>
 </tr>
 <tr class="odd">
 <td>Батарея</td>
@@ -1786,7 +1820,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Материальный баланс Ф-Р (5 роботов/день):</strong> - Fe на роботов: 5 × ~560 кг = <strong>~2.8 т/день</strong> (из 18 т доступных) - Al на роботов: 5 × ~300 кг = <strong>~1.5 т/день</strong> (из 42 т доступных) - Остаток Al (~40.5 т/день) → купола, оборудование, элементы МД</p>
+<p><strong>Материальный баланс Ф-Р (5 роботов/день):</strong> - Fe на роботов: 5 × ~560 кг = <strong>~2.8 т/день</strong> (из 11 т доступных) - Al на роботов: 5 × ~300 кг = <strong>~1.5 т/день</strong> (из 42 т доступных) - Остаток Al (~40.5 т/день) → купола, оборудование, элементы МД</p>
 <p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/robots/overview.html">Бестиарий роботов</a></p>
 <hr>
 </section>
@@ -1988,290 +2022,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <hr>
 </section>
 </section>
-<section id="манифест-первой-экспедиции" class="level3">
-<h3 class="anchored" data-anchor-id="манифест-первой-экспедиции">Манифест первой экспедиции</h3>
-<p><em>Что везём с Земли для запуска «Точки Ноль».</em></p>
-<section id="монтажная-бригада-gen-1-роботы" class="level4">
-<h4 class="anchored" data-anchor-id="монтажная-бригада-gen-1-роботы">Монтажная бригада (Gen-1 роботы)</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Тип</th>
-<th style="text-align: left;">Кол-во</th>
-<th style="text-align: left;">Масса ед.</th>
-<th style="text-align: left;">Всего</th>
-<th style="text-align: left;">Роль</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Паук-З</td>
-<td style="text-align: left;">16</td>
-<td style="text-align: left;">120 кг</td>
-<td style="text-align: left;">1.9 т</td>
-<td style="text-align: left;">Монтаж зеркал (критический путь)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Краб-З</td>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">950 кг</td>
-<td style="text-align: left;">11.4 т</td>
-<td style="text-align: left;">Логистика модулей</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Кентавр-З</td>
-<td style="text-align: left;">24</td>
-<td style="text-align: left;">250 кг</td>
-<td style="text-align: left;">6.0 т</td>
-<td style="text-align: left;">Сборка и стыковка</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Крот-З</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">800 кг</td>
-<td style="text-align: left;">3.2 т</td>
-<td style="text-align: left;">Подготовка площадки</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Итого роботы</strong></td>
-<td style="text-align: left;"><strong>56</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>22.5 т</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="ремкомплект-бригады-до-запуска-завода" class="level4">
-<h4 class="anchored" data-anchor-id="ремкомплект-бригады-до-запуска-завода">Ремкомплект бригады (до запуска завода)</h4>
-<p>Увеличен пропорционально числу роботов + резерв на интенсивную 7-дневную работу.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Компонент</th>
-<th style="text-align: left;">Кол-во</th>
-<th style="text-align: left;">Масса</th>
-<th style="text-align: left;">Примечание</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Запасные ноги (Паук)</td>
-<td style="text-align: left;">32</td>
-<td style="text-align: left;">160 кг</td>
-<td style="text-align: left;">2 комплекта на робота</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Запасные траки (Краб)</td>
-<td style="text-align: left;">48</td>
-<td style="text-align: left;">300 кг</td>
-<td style="text-align: left;">4 комплекта на робота</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Батареи Li-S (Gen-1)</strong></td>
-<td style="text-align: left;">15</td>
-<td style="text-align: left;">750 кг</td>
-<td style="text-align: left;">Резерв (работа от -60°C)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Блоки управления</td>
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">80 кг</td>
-<td style="text-align: left;">Мозги — критично</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Сенсоры (камеры, лидары)</td>
-<td style="text-align: left;">30</td>
-<td style="text-align: left;">50 кг</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Актуаторы (моторы)</td>
-<td style="text-align: left;">50</td>
-<td style="text-align: left;">250 кг</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Смазка MoS₂</td>
-<td style="text-align: left;">—</td>
-<td style="text-align: left;">15 кг</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Итого ремкомплект</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>~1.6 т</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="оборудование-завода-модульная-доставка" class="level4">
-<h4 class="anchored" data-anchor-id="оборудование-завода-модульная-доставка">Оборудование завода (модульная доставка)</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Модуль</th>
-<th style="text-align: left;">Масса</th>
-<th style="text-align: left;">Содержимое</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Энерго-модуль</strong></td>
-<td style="text-align: left;">3.0 т</td>
-<td style="text-align: left;">Зеркала (2000 м²) + каркас + ячейки GaAs + радиаторы</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>MRE-модуль</strong></td>
-<td style="text-align: left;">4.0 т</td>
-<td style="text-align: left;">Печь + тигель + электроды + МГД + рама</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Купол-модуль</strong></td>
-<td style="text-align: left;">4.0 т</td>
-<td style="text-align: left;">Оболочка + шлюз + промковш + внутренние радиаторы</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>МНЛЗ-модуль</strong></td>
-<td style="text-align: left;">6.0 т</td>
-<td style="text-align: left;">Кристаллизатор + клеть + рольганг (на салазках)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Прокат-модуль</strong></td>
-<td style="text-align: left;">10.0 т</td>
-<td style="text-align: left;">Стан (6 клетей) + волочение + намотка</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Финиш-модуль</strong></td>
-<td style="text-align: left;">6.0 т</td>
-<td style="text-align: left;">WAAM + CNC + стапель + манипуляторы</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Итого оборудование</strong></td>
-<td style="text-align: left;"><strong>~35 т</strong></td>
-<td style="text-align: left;">Модульная предсборка</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="расходники-на-первый-год" class="level4">
-<h4 class="anchored" data-anchor-id="расходники-на-первый-год">Расходники на первый год</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Категория</th>
-<th style="text-align: left;">Масса</th>
-<th style="text-align: left;">Примечание</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Аноды MRE (запас)</td>
-<td style="text-align: left;">0.2 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Масла, смазки</td>
-<td style="text-align: left;">0.1 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">β-Al₂O₃ электролиты</td>
-<td style="text-align: left;">0.3 т</td>
-<td style="text-align: left;">Для первых 50 батарей</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Итого расходники</strong></td>
-<td style="text-align: left;"><strong>~0.6 т</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="витамины-электроника-редкие-элементы" class="level4">
-<h4 class="anchored" data-anchor-id="витамины-электроника-редкие-элементы">Витамины (электроника, редкие элементы)</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Категория</th>
-<th style="text-align: left;">Масса</th>
-<th style="text-align: left;">Примечание</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Блоки управления (для новых роботов)</td>
-<td style="text-align: left;">0.5 т</td>
-<td style="text-align: left;">На 100 роботов</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Сенсоры</td>
-<td style="text-align: left;">0.2 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Электроника разная</td>
-<td style="text-align: left;">0.3 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Редкоземы (Nd, Sm для магнитов)</td>
-<td style="text-align: left;">0.1 т</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Итого витамины</strong></td>
-<td style="text-align: left;"><strong>~1 т</strong></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="сводка-манифеста" class="level4">
-<h4 class="anchored" data-anchor-id="сводка-манифеста">Сводка манифеста</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Категория</th>
-<th style="text-align: left;">Масса</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Монтажная бригада (56 роботов)</td>
-<td style="text-align: left;">22.5 т</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ремкомплект бригады</td>
-<td style="text-align: left;">1.6 т</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Оборудование завода (модули)</td>
-<td style="text-align: left;">35.0 т</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Расходники (1 год)</td>
-<td style="text-align: left;">0.6 т</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Витамины (электроника)</td>
-<td style="text-align: left;">1.0 т</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>ИТОГО первая экспедиция</strong></td>
-<td style="text-align: left;"><strong>~61 т</strong></td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
 <section id="сборка-первого-завода-bootstrap" class="level3">
 <h3 class="anchored" data-anchor-id="сборка-первого-завода-bootstrap">Сборка первого завода (Bootstrap)</h3>
 <blockquote class="blockquote">
@@ -2321,7 +2071,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <blockquote class="blockquote">
 <p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/factories/assembly/replication.html">Саморепликация</a></p>
 </blockquote>
-<p>Энергетический Bootstrap (168 МВт с первого дня), экспоненциальный рост заводов (1 → 1000 за 16 недель), 4 фазы развертывания.</p>
+<p>Энергетический Bootstrap (~151 МВт CPV с первого дня), экспоненциальный рост заводов (1 → 1000 за 16 недель), 4 фазы развертывания.</p>
 <hr>
 </section>
 <section id="меркурианский-масс-драйвер" class="level3">
@@ -2337,7 +2087,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Длина</td>
-<td>2-3 км</td>
+<td>1 км</td>
 </tr>
 <tr class="even">
 <td>Скорость вылета</td>
@@ -2345,7 +2095,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Масса</td>
-<td>1300 тонн</td>
+<td>~500 т</td>
 </tr>
 <tr class="even">
 <td>Пропускная способность</td>
@@ -2353,170 +2103,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Энергия на запуск</td>
-<td>3.6 ГДж</td>
+<td>4.7 ГДж</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/railguns/overview.html">Производство МД</a>, <a href="../../../ru/science/detailed/railguns/theory.html">Теория МД</a>, <a href="../../../ru/science/detailed/railguns/scaling.html">Масштабирование</a></p>
+<p><strong>Подробности:</strong> <a href="../../../ru/science/detailed/railguns/overview.html">Масс-драйвер</a></p>
 <hr>
-</section>
-<section id="реальные-прототипы-автоматизированных-заводов" class="level3">
-<h3 class="anchored" data-anchor-id="реальные-прототипы-автоматизированных-заводов">Реальные прототипы автоматизированных заводов</h3>
-<section id="завод-xiaomi-в-ухане-октябрь-2025" class="level4">
-<h4 class="anchored" data-anchor-id="завод-xiaomi-в-ухане-октябрь-2025">Завод Xiaomi в Ухане (октябрь 2025)</h4>
-<p>Первый полностью автоматизированный завод бытовой техники Xiaomi — реальный прототип технологий, описанных в книге.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Производительность</td>
-<td>1 кондиционер каждые 6.5 секунд, 7 млн единиц в год</td>
-</tr>
-<tr class="even">
-<td>Режим работы</td>
-<td>“Lights-out” — цеха литья и металлообработки работают без освещения и людей</td>
-</tr>
-<tr class="odd">
-<td>Автономные роботы</td>
-<td>161 единица для внутренней логистики (покрывают 90% перемещений)</td>
-</tr>
-<tr class="even">
-<td>Конвейерная система</td>
-<td>4.2 км воздушных конвейеров связывают 6 цехов</td>
-</tr>
-<tr class="odd">
-<td>Контроль качества</td>
-<td>ИИ-визуальный контроль, 100% проверка (не выборочная), точность ±0.05 мм</td>
-</tr>
-<tr class="even">
-<td>Первичный выход годной продукции</td>
-<td>&gt;99%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Связь с книгой:</strong></p>
-<p>Завод “Точка Ноль” — масштабированная версия этой концепции. Технологии 2025 года показывают, что базовые принципы безлюдного производства уже работают на Земле. Разница:</p>
-<ul>
-<li><strong>Xiaomi:</strong> производит один тип продукции (кондиционеры) из готовых комплектующих</li>
-<li><strong>Точка Ноль:</strong> производит собственные комплектующие и копии себя из сырья (саморепликация)</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="утилизация-зеркал" class="level3">
-<h3 class="anchored" data-anchor-id="утилизация-зеркал">Утилизация зеркал</h3>
-<p>При сроке службы ~8 лет и миллиарде зеркал ежегодно выходят из строя ~100-200 млн единиц. Без механизма утилизации это создаст скопление космического мусора.</p>
-<p><strong>Решение:</strong> Самоутилизация через падение на Солнце.</p>
-<p><strong>Принцип:</strong> Зеркало — солнечный парус. При наклоне под углом к Солнцу создаётся тангенциальная сила, тормозящая орбитальное движение. Орбита снижается по спирали до сгорания в солнечной короне.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Условие</th>
-<th>Действие</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>КПД &lt; 30%</td>
-<td>Автоматический переход в режим утилизации</td>
-</tr>
-<tr class="even">
-<td>Потеря связи &gt; 30 дней</td>
-<td>Автономное решение бортового ПО</td>
-</tr>
-<tr class="odd">
-<td>Команда с Земли</td>
-<td>Принудительная утилизация</td>
-</tr>
-</tbody>
-</table>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Начальная орбита</td>
-<td>~0.4 а.е. (орбита Меркурия)</td>
-</tr>
-<tr class="even">
-<td>Давление света</td>
-<td>~60 мкПа</td>
-</tr>
-<tr class="odd">
-<td>Время падения</td>
-<td>6-12 месяцев</td>
-</tr>
-<tr class="even">
-<td>Конечная точка</td>
-<td>Солнечная корона (сгорание)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Failsafe:</strong> При полном отказе электроники зеркало теряет управление → хаотичное вращение → нулевая тяга → остаётся на орбите, но не мешает (расстояния ~км между зеркалами).</p>
-<p><strong>Подробности:</strong> <a href="../../../ru/science/summaries/mirrors.html#орбитальная-механика-и-утилизация">Зеркала Роя</a></p>
-<hr>
-</section>
-<section id="известные-ограничения-завода" class="level3">
-<h3 class="anchored" data-anchor-id="известные-ограничения-завода">Известные ограничения завода</h3>
-<blockquote class="blockquote">
-<p><strong>Внимание:</strong> Этот раздел описывает проблемы, специфичные для производства. Общий анализ рисков проекта: <strong><a href="../../../ru/science/reference/risks.html">Риски и ограничения</a></strong>.</p>
-</blockquote>
-<section id="критические-проблемы" class="level4">
-<h4 class="anchored" data-anchor-id="критические-проблемы">Критические проблемы</h4>
-<p><strong>1. Дефицит иридия</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>На 1000 заводов за 10 лет</td>
-<td><strong>~400 тонн</strong></td>
-</tr>
-<tr class="even">
-<td>Мировое производство</td>
-<td>~7 т/год (70 т за 10 лет)</td>
-</tr>
-<tr class="odd">
-<td>Дефицит</td>
-<td><strong>~6× мирового производства</strong></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="высокие-проблемы" class="level4">
-<h4 class="anchored" data-anchor-id="высокие-проблемы">Высокие проблемы</h4>
-<ul>
-<li>МГД-насос: энергопотребление занижено на 25× (20 кВт → 500 кВт реально)</li>
-<li>Радиаторы охлаждения: масса не учтена (100–200 тонн)</li>
-<li>ИТ-инфраструктура: занижена на 100–200× (50 кВт → 5–10 МВт)</li>
-</ul>
-</section>
-<section id="требуют-исследования" class="level4">
-<h4 class="anchored" data-anchor-id="требуют-исследования">Требуют исследования</h4>
-<ul>
-<li>Электростатика при производстве стекловолокна в вакууме</li>
-<li>Тепловой режим NaS-батарей в ночь Меркурия (88 земных суток)</li>
-<li>Распределённое управление 1000 автономных заводов</li>
-</ul>
-<hr>
-</section>
 </section>
 </section>
 <section id="линии-сборки" class="level2">
@@ -2583,13 +2175,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Рельсы и катушки</td>
 <td>Формовка Al</td>
 <td>Al</td>
-<td>500 т</td>
+<td>220 т</td>
 </tr>
 <tr class="even">
 <td>Каркас тоннеля</td>
 <td>Сварка Fe</td>
 <td>Fe</td>
-<td>800 т</td>
+<td>270 т</td>
 </tr>
 <tr class="odd">
 <td>Конденсаторы</td>
@@ -2613,7 +2205,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Электроника</td>
 <td>Импорт</td>
 <td>(витамины)</td>
-<td>0.25 т</td>
+<td>0.142 т</td>
 </tr>
 </tbody>
 </table>
@@ -2626,7 +2218,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Установка платформы раскрутки (1 день)</li>
 <li>Интеграция электроники и тестирование (1 день)</li>
 </ol>
-<p><strong>Результат:</strong> EQU-001 (Масс-драйвер), 1400 т, 33 МВт пиковая мощность</p>
+<p><strong>Результат:</strong> EQU-001 (Масс-драйвер), ~500 т, 33 МВт пиковая мощность</p>
 </section>
 <section id="пример-сборка-робота-gen-2" class="level3">
 <h3 class="anchored" data-anchor-id="пример-сборка-робота-gen-2">Пример: Сборка робота Gen-2</h3>
@@ -2676,233 +2268,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="производство-на-луне" class="level2">
 <h2 class="anchored" data-anchor-id="производство-на-луне">Производство на Луне</h2>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../../ru/science/summaries/moon.html">Луна</a> — тестовый полигон, LSP станции, тестовый масс-драйвер</p>
+<p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/hub.html">Луна и LSP</a> — тестовый полигон, LSP станции, лунный масс-драйвер</p>
 </blockquote>
-<p>Луна выполняет две критические функции: <strong>тестовый полигон</strong> (годы 4-6) и <strong>специализированный производитель</strong> (годы 7+).</p>
-<section id="зачем-луна" class="level3">
-<h3 class="anchored" data-anchor-id="зачем-луна">Зачем Луна?</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Преимущество</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Задержка связи</td>
-<td>1.3 сек (vs 5-20 мин до Меркурия)</td>
-</tr>
-<tr class="even">
-<td>Стоимость доставки</td>
-<td>В 60× дешевле, чем на Меркурий</td>
-</tr>
-<tr class="odd">
-<td>Контроль</td>
-<td>Операторы на Земле могут вмешаться в реальном времени</td>
-</tr>
-<tr class="even">
-<td>Ресурсы</td>
-<td>Кремний 20%, железо 10%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Ошибки на Луне дешевле.</strong> Если робот застрял — оператор видит это через 2.6 секунды и может помочь. На Меркурии та же ситуация требует 10+ минут ожидания.</p>
-</section>
-<section id="тестовый-полигон-годы-4-6" class="level3">
-<h3 class="anchored" data-anchor-id="тестовый-полигон-годы-4-6">Тестовый полигон (годы 4-6)</h3>
-<p>Перед отправкой завода на Меркурий все технологии отрабатываются на Луне:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Технология</th>
-<th>Тест на Луне</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Добыча реголита</td>
-<td>Кроты учатся копать в 0.16g</td>
-</tr>
-<tr class="even">
-<td>Плавка металла</td>
-<td>Солнечная печь при 1.4 кВт/м²</td>
-</tr>
-<tr class="odd">
-<td>Сборка роботов</td>
-<td>Кентавры собирают Gen-2</td>
-</tr>
-<tr class="even">
-<td>Масс-драйвер</td>
-<td>Тестовые запуски перед Меркурием</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Результат:</strong> К году 6 команда понимает все подводные камни производства в космосе.</p>
-</section>
-<section id="лунный-масс-драйвер" class="level3">
-<h3 class="anchored" data-anchor-id="лунный-масс-драйвер">Лунный масс-драйвер</h3>
-<p>Тестовый прототип для обкатки технологии перед Меркурием.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Длина</td>
-<td>0.5-1 км</td>
-</tr>
-<tr class="even">
-<td>Скорость вылета</td>
-<td>2.5 км/с</td>
-</tr>
-<tr class="odd">
-<td>Энергия на тонну</td>
-<td>3-4 ГДж (в 1.5× экономичнее Меркурия)</td>
-</tr>
-<tr class="even">
-<td>Назначение</td>
-<td>Тестирование технологии</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Почему короче меркурианского?</strong> Гравитация Луны 0.16g (vs 0.38g на Меркурии). Меньше скорость = меньше длина разгона.</p>
-</section>
-<section id="строительство-lsp-станций" class="level3">
-<h3 class="anchored" data-anchor-id="строительство-lsp-станций">Строительство LSP станций</h3>
-<p>Луна строит <strong>LSP станции на лимбах</strong> для приёма энергии от Роя:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Компонент</th>
-<th>Материал</th>
-<th>Источник</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Фотовольтаика</td>
-<td>Кремний</td>
-<td>Луна (реголит)</td>
-</tr>
-<tr class="even">
-<td>Структура</td>
-<td>Алюминий</td>
-<td>Луна (анортозит)</td>
-</tr>
-<tr class="odd">
-<td>Антенны</td>
-<td>Алюминий</td>
-<td>Луна</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Процесс:</strong> Лунные заводы производят модули → роверы доставляют на лимбы → роботы собирают станции.</p>
-</section>
-<section id="энергоснабжение-луны" class="level3">
-<h3 class="anchored" data-anchor-id="энергоснабжение-луны">Энергоснабжение Луны</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Фаза</th>
-<th>Источник</th>
-<th>Мощность</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1 (годы 4-6)</td>
-<td>Солнечные панели</td>
-<td>10-50 МВт</td>
-</tr>
-<tr class="even">
-<td>2 (годы 7+)</td>
-<td>Энергия от Роя через LSP</td>
-<td>0.01 ПВт</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Проблема ночи:</strong> Лунная ночь длится 14 земных суток. Решение — батареи + энергия от Роя (когда LSP заработает).</p>
+<p>Луна — <strong>тестовый полигон</strong> (годы 4-6) для отработки технологий перед Меркурием и <strong>производитель LSP станций</strong> (годы 7+) для приёма энергии от Роя.</p>
 <hr>
-</section>
-</section>
-<section id="сравнение-производств" class="level2">
-<h2 class="anchored" data-anchor-id="сравнение-производств">Сравнение производств</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Аспект</th>
-<th>Меркурий</th>
-<th>Луна</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Солнечный поток</strong></td>
-<td>9-14 кВт/м²</td>
-<td>1.4 кВт/м²</td>
-</tr>
-<tr class="even">
-<td><strong>Стратегия</strong></td>
-<td>Саморепликация</td>
-<td>Прямая доставка</td>
-</tr>
-<tr class="odd">
-<td><strong>Основной продукт</strong></td>
-<td>Зеркала (392 000/день)</td>
-<td>LSP станции</td>
-</tr>
-<tr class="even">
-<td><strong>Вторичный продукт</strong></td>
-<td>Роботы Gen-2</td>
-<td>Роботы Gen-2 (тест)</td>
-</tr>
-<tr class="odd">
-<td><strong>Масс-драйвер</strong></td>
-<td>5 км/с, 2-3 км</td>
-<td>2.5 км/с, 0.5-1 км (тест)</td>
-</tr>
-<tr class="even">
-<td><strong>Назначение</strong></td>
-<td>Рой Дайсона</td>
-<td>Полигон + приём энергии</td>
-</tr>
-<tr class="odd">
-<td><strong>Управление</strong></td>
-<td>Автономное (ИИ)</td>
-<td>Ручное (1.3 сек)</td>
-</tr>
-<tr class="even">
-<td><strong>Начальная инвестиция</strong></td>
-<td>62 т (один завод)</td>
-<td>~100 т (компоненты)</td>
-</tr>
-<tr class="odd">
-<td><strong>Разгон</strong></td>
-<td>0 лет</td>
-<td>1-2 года</td>
-</tr>
-<tr class="even">
-<td><strong>Ночной простой</strong></td>
-<td>Нет (полюса)</td>
-<td>14 дней/месяц</td>
-</tr>
-</tbody>
-</table>
-<section id="почему-нельзя-только-меркурий" class="level3">
-<h3 class="anchored" data-anchor-id="почему-нельзя-только-меркурий">Почему нельзя только Меркурий?</h3>
-<p><strong>Полигон.</strong> Отработка технологий на Меркурии слишком рискованна: задержка связи 8-20 минут, доставка — месяцы. На Луне: 1.3 сек задержка, доставка 3 дня. Ошибки на Луне исправляются быстро и дёшево.</p>
-<p><strong>LSP станции.</strong> Принимать энергию от Роя нужно на Луне — она видна с Земли. С поверхности Меркурия микроволны до Земли не дойдут.</p>
-</section>
-<section id="почему-нельзя-только-луну" class="level3">
-<h3 class="anchored" data-anchor-id="почему-нельзя-только-луну">Почему нельзя только Луну?</h3>
-<p><strong>Энергия.</strong> 1.4 кВт/м² vs 10 кВт/м² — разница в 7 раз. Саморепликация на Луне потребует в 7 раз больше панелей и времени. Экспоненциальный рост буксует.</p>
-<p><strong>Ночь.</strong> 14 суток без солнца каждый месяц. Заводы стоят, батареи разряжаются. На полюсах Меркурия солнце светит постоянно.</p>
-<hr>
-</section>
 </section>
 <section id="логистика-между-объектами" class="level2">
 <h2 class="anchored" data-anchor-id="логистика-между-объектами">Логистика между объектами</h2>
@@ -2926,7 +2295,7 @@ document.addEventListener('DOMContentLoaded', function() {
     end
 
     subgraph РОЙ["РОЙ (орбита)"]
-        R1["1 млрд зеркал"]
+        R1["1.1 млрд зеркал"]
     end
 
     subgraph ЛУНА["ЛУНА"]
@@ -2974,150 +2343,18 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Первый завод</td>
-<td>Год 0</td>
+<td>Год 6</td>
 <td>62 т</td>
 </tr>
 <tr class="even">
-<td>Витамины (заводы)</td>
-<td>Годы 1-10</td>
-<td>~77 кг/завод/год</td>
-</tr>
-<tr class="odd">
-<td>Электроника зеркал</td>
-<td>Годы 7-15</td>
-<td><strong>~1 055 т</strong> (всего)</td>
+<td>Витамины</td>
+<td>Годы 6+</td>
+<td>~85 кг/завод/год</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Витамины</strong> — это то, чего нет на Меркурии: электроника (контроллеры, сенсоры), иридий (аноды MRE), редкоземы (магниты).</p>
-<p><strong>Электроника зеркал</strong> — благодаря <a href="../../../ru/science/summaries/mirrors.html#optical-cluster-control">архитектуре Мать-Дети</a> импорт сокращён на <strong>98%</strong>:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Компонент</th>
-<th>Количество</th>
-<th>Масса/шт</th>
-<th>Импорт</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Мать-чипы</td>
-<td>1.1 млн</td>
-<td>50 г</td>
-<td>55 т</td>
-</tr>
-<tr class="even">
-<td>Дети-декодеры (фаза 1)</td>
-<td>~500 млн</td>
-<td>2 г</td>
-<td>~1 000 т</td>
-</tr>
-<tr class="odd">
-<td>Дети-приёмники (фаза 2)</td>
-<td>~600 млн</td>
-<td>0 г</td>
-<td>0 т (местное)</td>
-</tr>
-<tr class="even">
-<td><strong>Итого</strong></td>
-<td>1.1 млрд</td>
-<td></td>
-<td><strong>~1 055 т</strong></td>
-</tr>
-</tbody>
-</table>
-<p><em>Без оптимизации потребовалось бы 55 000 т (1 100 Starship). С Мать-Дети: 21 Starship.</em></p>
-</section>
-<section id="меркурий-рой" class="level3">
-<h3 class="anchored" data-anchor-id="меркурий-рой">Меркурий → Рой</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Продукт</td>
-<td>Зеркала (116 кг, 100×100 м)</td>
-</tr>
-<tr class="even">
-<td>Темп</td>
-<td>600 000 шт/день (1 500 Ф-З × 400/день)</td>
-</tr>
-<tr class="odd">
-<td>Время полёта</td>
-<td>Несколько месяцев</td>
-</tr>
-<tr class="even">
-<td>Орбита</td>
-<td>0.1-0.2 AU от Солнца</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="луна-lsp-станции" class="level3">
-<h3 class="anchored" data-anchor-id="луна-lsp-станции">Луна: LSP станции</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Продукты</td>
-<td>Модули LSP станций</td>
-</tr>
-<tr class="even">
-<td>Локация</td>
-<td>Лимбы Луны (восток/запад)</td>
-</tr>
-<tr class="odd">
-<td>Назначение</td>
-<td>Приём энергии от Роя, передача на Землю</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="луна-земля-энергия" class="level3">
-<h3 class="anchored" data-anchor-id="луна-земля-энергия">Луна → Земля (энергия)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Значение</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Мощность</td>
-<td>1 ПВт (50× мирового потребления)</td>
-</tr>
-<tr class="even">
-<td>Способ передачи</td>
-<td>Микроволны</td>
-</tr>
-<tr class="odd">
-<td>Приёмники</td>
-<td>Rectenna (пустыни, степи)</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="замкнутый-энергетический-цикл" class="level3">
-<h3 class="anchored" data-anchor-id="замкнутый-энергетический-цикл">Замкнутый энергетический цикл</h3>
-<p>После запуска LSP (год 6-7) энергия начинает циркулировать:</p>
-<ol type="1">
-<li><strong>Рой</strong> отражает свет → <strong>LSP станции на Луне</strong></li>
-<li><strong>LSP</strong> преобразует в микроволны → <strong>Rectenna на Земле</strong> (1 ПВт)</li>
-<li>Часть энергии → <strong>производство на Луне</strong> (0.01 ПВт)</li>
-<li>Часть энергии → <strong>Меркурий</strong> (резерв)</li>
-</ol>
-<p><strong>Результат:</strong> Самоподдерживающаяся система. Заводы производят зеркала → зеркала дают энергию → энергия питает заводы и Землю.</p>
+<p><strong>Витамины:</strong> электроника, иридий (фаза 1-2), редкоземы. Подробнее: <a href="../../../ru/science/summaries/delivery.html">Доставка</a></p>
+<p><strong>Подробнее:</strong> <a href="../../../ru/science/summaries/mirrors.html">Зеркала Роя</a>, <a href="../../../ru/science/detailed/hub.html">Луна и LSP</a></p>
 <hr>
 </section>
 </section>
@@ -3128,11 +2365,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая архитектура проекта</li>
 <li><a href="../../../ru/science/summaries/comparison.html">Почему Меркурий?</a> — сравнение локаций</li>
 <li><a href="../../../ru/science/detailed/factories/overview.html">Завод «Точка Ноль»</a> — технологическая карта меркурианского производства</li>
-<li><a href="../../../ru/science/summaries/moon.html">Луна</a> — лунные LSP станции</li>
+<li><a href="../../../ru/science/detailed/hub.html">Луна и LSP</a> — лунные LSP станции</li>
 <li><a href="../../../ru/science/detailed/robots/overview.html">Бестиарий роботов</a> — роботы Gen-1 и Gen-2</li>
-<li><a href="../../../ru/science/detailed/railguns/theory.html">Масс-драйвер: теория</a> — физика и расчёты для Меркурия и Луны</li>
-<li><a href="../../../ru/science/detailed/railguns/overview.html">Масс-драйвер: производство</a> — как построить МД</li>
-<li><a href="../../../ru/science/detailed/railguns/scaling.html">Масштабирование</a> — саморепликация и рост</li>
+<li><a href="../../../ru/science/detailed/railguns/overview.html">Масс-драйвер</a> — теория, производство и масштабирование</li>
 <li><a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a> — хронология проекта</li>
 </ul>
 

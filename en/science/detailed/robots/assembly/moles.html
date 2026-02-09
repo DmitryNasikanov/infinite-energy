@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Mole-M Assembly – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Mole-M Assembly – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -826,14 +876,14 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#design" id="toc-design" class="nav-link" data-scroll-target="#design">Design</a>
   <ul class="collapse">
   <li><a href="#dimensions" id="toc-dimensions" class="nav-link" data-scroll-target="#dimensions">Dimensions</a></li>
-  <li><a href="#track-base" id="toc-track-base" class="nav-link" data-scroll-target="#track-base">Track Base</a></li>
+  <li><a href="#wheel-base" id="toc-wheel-base" class="nav-link" data-scroll-target="#wheel-base">Wheel Base</a></li>
   </ul></li>
   <li><a href="#assembly-process" id="toc-assembly-process" class="nav-link" data-scroll-target="#assembly-process">Assembly Process</a>
   <ul class="collapse">
-  <li><a href="#assembly-station-10-positions-48-hours-per-position" id="toc-assembly-station-10-positions-48-hours-per-position" class="nav-link" data-scroll-target="#assembly-station-10-positions-48-hours-per-position">Assembly Station (10 positions, 48 hours per position)</a></li>
+  <li><a href="#assembly-station-10-positions-46-hours-per-position" id="toc-assembly-station-10-positions-46-hours-per-position" class="nav-link" data-scroll-target="#assembly-station-10-positions-46-hours-per-position">Assembly Station (10 positions, 46 hours per position)</a></li>
   </ul></li>
   <li><a href="#stage-1-frame-installation" id="toc-stage-1-frame-installation" class="nav-link" data-scroll-target="#stage-1-frame-installation">Stage 1: Frame Installation</a></li>
-  <li><a href="#stage-2-track-mounting" id="toc-stage-2-track-mounting" class="nav-link" data-scroll-target="#stage-2-track-mounting">Stage 2: Track Mounting</a></li>
+  <li><a href="#stage-2-chassis-mounting-6-wheels" id="toc-stage-2-chassis-mounting-6-wheels" class="nav-link" data-scroll-target="#stage-2-chassis-mounting-6-wheels">Stage 2: Chassis Mounting (6 Wheels)</a></li>
   <li><a href="#stage-3-housing-and-radiator-installation" id="toc-stage-3-housing-and-radiator-installation" class="nav-link" data-scroll-target="#stage-3-housing-and-radiator-installation">Stage 3: Housing and Radiator Installation</a></li>
   <li><a href="#stage-4-bucket-and-hydraulics-mounting" id="toc-stage-4-bucket-and-hydraulics-mounting" class="nav-link" data-scroll-target="#stage-4-bucket-and-hydraulics-mounting">Stage 4: Bucket and Hydraulics Mounting</a></li>
   <li><a href="#stage-5-actuator-mounting" id="toc-stage-5-actuator-mounting" class="nav-link" data-scroll-target="#stage-5-actuator-mounting">Stage 5: Actuator Mounting</a></li>
@@ -880,13 +930,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Mass:</strong> ~1500 kg</li>
 <li><strong>Power:</strong> 10 kV cable (no battery)</li>
 <li><strong>Power consumption:</strong> 30 kW</li>
-<li><strong>Assembly time:</strong> 48 hours per station</li>
+<li><strong>Assembly time:</strong> 46 hours per station</li>
 </ul>
 </blockquote>
 <hr>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>Mole-M is a heavy Gen-2 excavator robot for regolith mining. The tracked platform with a 1 m³ bucket can dig up to 100 tons of regolith per day. Powered by a 10 kV cable (no battery), as it always operates at the quarry near the power system.</p>
+<p>Mole-M is a heavy Gen-2 excavator robot for regolith mining. The six-wheeled platform with a 1 m³ bucket can dig up to 100 tons of regolith per day. Powered by a 10 kV cable (no battery), as it always operates at the quarry near the power system.</p>
 <p><strong>Key feature:</strong> The heaviest Gen-2 robot (1500 kg), maximum steel content (83%) for durability.</p>
 <hr>
 </section>
@@ -909,9 +959,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../en/science/detailed/robots/elements/frames.html">Frame Manufacturing</a></td>
 </tr>
 <tr class="even">
-<td>Housing, radiators</td>
+<td>Housing, radiators, sensor housings</td>
 <td>Aluminum</td>
-<td>200 kg</td>
+<td>220 kg</td>
 <td><a href="../../../../../en/science/detailed/materials/distillation.html">Aluminum</a></td>
 </tr>
 <tr class="odd">
@@ -921,26 +971,27 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>No battery</strong> (cable)</td>
 </tr>
 <tr class="even">
-<td>Actuators (2 tracks + 4 bucket)</td>
+<td>Actuators (6 wheels + 4 bucket)</td>
 <td>Fe + Al + NaK</td>
-<td>40 kg</td>
+<td>65 kg</td>
 <td><a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a></td>
 </tr>
 <tr class="odd">
-<td>Electronics</td>
+<td>Electronics (chips)</td>
 <td>—</td>
-<td>20 kg</td>
+<td>0.5 kg</td>
 <td><strong>Earth import</strong></td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
 <td>—</td>
 <td><strong>~1500 kg</strong></td>
-<td><strong>~99% local</strong></td>
+<td><strong>&gt;99% local</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Material distribution:</strong> - Iron (Fe): 1240 kg = <strong>83%</strong> - Aluminum (Al): 200 kg = <strong>13%</strong> - Import: 20 kg = <strong>1%</strong></p>
+<p><strong>Material distribution:</strong> - Iron (Fe): 1240 kg = <strong>83%</strong> - Aluminum (Al): 220 kg = <strong>15%</strong> - Actuators: 65 kg = <strong>4%</strong> - Import (chips): 0.5 kg = <strong>&lt;0.1%</strong></p>
+<p><em>Electronics 20 kg = chips 0.5 kg (import) + camera/lidar housings, cables ~19.5 kg (Al, local)</em></p>
 <hr>
 </section>
 <section id="design" class="level2">
@@ -978,17 +1029,46 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 </section>
-<section id="track-base" class="level3">
-<h3 class="anchored" data-anchor-id="track-base">Track Base</h3>
-<p><strong>2 tracks:</strong> - Track width: 0.6 m - Contact length: 2.5 m - Material: Steel Fe-6%Mn (wear-resistant) - Ground pressure: 0.2 kg/cm² (low, no sinking)</p>
-<p><strong>Drive:</strong> - Electric motors 15 kW × 2 = 30 kW total - Gear ratio: 1:200 (high torque for digging)</p>
+<section id="wheel-base" class="level3">
+<h3 class="anchored" data-anchor-id="wheel-base">Wheel Base</h3>
+<p><strong>6 wheels:</strong> 3 per side, independent suspension.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wheel diameter</td>
+<td>Ø1.2 m (unified with Crab-M)</td>
+</tr>
+<tr class="even">
+<td>Wheel width</td>
+<td>0.6 m</td>
+</tr>
+<tr class="odd">
+<td>Material</td>
+<td>Al rim + Fe-6%Mn band</td>
+</tr>
+<tr class="even">
+<td>Ground pressure</td>
+<td>~0.14 kg/cm²</td>
+</tr>
+<tr class="odd">
+<td>Drive</td>
+<td>Electric motors 5 kW × 6 = 30 kW + <a href="../../../../../en/science/detailed/robots/elements/actuators.html#electric-actuators">cycloidal gearbox</a> 1:20</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
 </section>
 <section id="assembly-process" class="level2">
 <h2 class="anchored" data-anchor-id="assembly-process">Assembly Process</h2>
-<section id="assembly-station-10-positions-48-hours-per-position" class="level3">
-<h3 class="anchored" data-anchor-id="assembly-station-10-positions-48-hours-per-position">Assembly Station (10 positions, 48 hours per position)</h3>
+<section id="assembly-station-10-positions-46-hours-per-position" class="level3">
+<h3 class="anchored" data-anchor-id="assembly-station-10-positions-46-hours-per-position">Assembly Station (10 positions, 46 hours per position)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
@@ -1013,9 +1093,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>2</td>
-<td>Track mounting (2 pcs)</td>
-<td>8 hours</td>
-<td>4 Centaur-M</td>
+<td>Chassis mounting (6 wheels)</td>
+<td>6 hours</td>
+<td>3 Centaur-M</td>
 </tr>
 <tr class="odd">
 <td>3</td>
@@ -1031,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>Actuator mounting (2 track drives + 4 bucket)</td>
+<td>Actuator mounting (6 wheel drives + 4 bucket)</td>
 <td>6 hours</td>
 <td>3 Centaur-M</td>
 </tr>
@@ -1068,7 +1148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>48 hours</strong></td>
+<td><strong>46 hours</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -1082,9 +1162,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Process:</strong> 1. Crane lifts frame from conveyor (heavy, requires 2 t crane) 2. Frame is placed on assembly station 3. Secured on 6 supports (more than other robots) 4. Geometry check (laser scanner)</p>
 <hr>
 </section>
-<section id="stage-2-track-mounting" class="level2">
-<h2 class="anchored" data-anchor-id="stage-2-track-mounting">Stage 2: Track Mounting</h2>
-<p><strong>2 tracks:</strong></p>
+<section id="stage-2-chassis-mounting-6-wheels" class="level2">
+<h2 class="anchored" data-anchor-id="stage-2-chassis-mounting-6-wheels">Stage 2: Chassis Mounting (6 Wheels)</h2>
+<p><strong>6 wheels</strong> (unified with <a href="../../../../../en/science/detailed/robots/assembly/crabs.html">Crab-M</a>):</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1094,29 +1174,25 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Track length</td>
-<td>3.0 m (closed loop)</td>
+<td>Wheel diameter</td>
+<td>Ø1.2 m</td>
 </tr>
 <tr class="even">
-<td>Width</td>
+<td>Wheel width</td>
 <td>0.6 m</td>
 </tr>
 <tr class="odd">
-<td>Links</td>
-<td>60 pcs per track</td>
+<td>Wheel mass</td>
+<td>~50 kg</td>
 </tr>
 <tr class="even">
-<td>Track mass</td>
-<td>300 kg</td>
-</tr>
-<tr class="odd">
 <td>Material</td>
-<td>Steel Fe-6%Mn</td>
+<td>Al rim + Fe-6%Mn band</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Process:</strong> 1. Install 2 drive sprockets (front + rear) 2. Install 4 support rollers on each side 3. Track tensioning (60 links) 4. Tension check (sag &lt;50 mm)</p>
-<p><strong>Time:</strong> 8 hours (tracks are heavy, complex installation)</p>
+<p><strong>Process:</strong> 1. Install 6 hub assemblies with suspension 2. Mount 5 kW electric motors with cycloidal gearboxes 1:20 3. Install wheels on hubs 4. Check free rotation</p>
+<p><strong>Time:</strong> 6 hours (unified procedure)</p>
 <hr>
 </section>
 <section id="stage-3-housing-and-radiator-installation" class="level2">
@@ -1136,14 +1212,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="stage-5-actuator-mounting" class="level2">
 <h2 class="anchored" data-anchor-id="stage-5-actuator-mounting">Stage 5: Actuator Mounting</h2>
-<p><strong>6 actuators:</strong> - 2 track drives (electric, 15 kW each) - 4 bucket hydraulic cylinders (50 kN each)</p>
-<p><strong>Process:</strong> 1. Electric motor installation in drive sprockets 2. Power cable routing to transformer 3. Bucket hydraulic cylinder mounting 4. NaK hydraulic circuit fill</p>
+<p><strong>10 actuators:</strong> - 6 wheel drives (electric, 5 kW each + cycloidal gearbox 1:20) - 4 bucket hydraulic cylinders (50 kN each)</p>
+<p><strong>Process:</strong> 1. Connect wheel motors to power bus 2. Power cable routing to transformer 3. Bucket hydraulic cylinder mounting 4. NaK hydraulic circuit fill</p>
 <p><strong>Details:</strong> <a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a></p>
 <hr>
 </section>
 <section id="stage-6-10-kv-power-cable-routing" class="level2">
 <h2 class="anchored" data-anchor-id="stage-6-10-kv-power-cable-routing">Stage 6: 10 kV Power Cable Routing</h2>
-<p><strong>10 kV cable:</strong> - Length: 50 m (cable reel) - Cross-section: 50 mm² Al - Voltage: 10 kV (stepped down to 400 V by transformer) - Current: 3 A (at 30 kW load)</p>
+<p><strong>10 kV cable (MI type):</strong> - Length: 50 m (cable reel) - Cross-section: 50 mm² Al - Insulation: MgO (mineral, all materials local) - Voltage: 10 kV (stepped down to 400 V by transformer) - Current: 3 A (at 30 kW load)</p>
+<blockquote class="blockquote">
+<p><strong>Why 50 mm² at only 3 A?</strong> The cross-section is determined by mechanical strength, not electrical requirements. A 50 m cable on a reel experiences repeated bending during winding/unwinding, abrasive wear from regolith contact, and tensile loads during dragging. Minimum cross-section for mechanical strength is ~35 mm²; 50 mm² selected with margin.</p>
+</blockquote>
 <p><strong>Cable reel:</strong> - Automatic winding during movement - Capacity: 50 m (Mole-M operating radius from source)</p>
 <p><strong>Process:</strong> 1. Cable reel installation on housing 2. 10 kV → 400 V transformer mounting 3. Cable routing to electric motors 4. Insulation check (10 kV — high voltage!)</p>
 <hr>
@@ -1173,8 +1252,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Track movement</td>
-<td>2 track check</td>
+<td>Wheel movement</td>
+<td>6 wheel check</td>
 <td>Speed 5 km/h</td>
 </tr>
 <tr class="even">
@@ -1244,6 +1323,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="maintenance" class="level2">
 <h2 class="anchored" data-anchor-id="maintenance">Maintenance</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Operation</th>
@@ -1253,33 +1337,28 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>MoS₂ track lubrication replacement</td>
-<td>1 week</td>
-<td>Centaur-M</td>
+<td>MoS₂ wheel bearing recoating</td>
+<td>3 months</td>
+<td>Magnetron station + Centaur-M</td>
 </tr>
 <tr class="even">
-<td>Track tension check</td>
-<td>1 week</td>
-<td>Automated</td>
-</tr>
-<tr class="odd">
 <td>Bucket teeth replacement</td>
 <td>1 month</td>
 <td>Centaur-M (welding)</td>
 </tr>
-<tr class="even">
-<td>Track link replacement</td>
-<td>3 months</td>
+<tr class="odd">
+<td>Wheel replacement</td>
+<td>1 year</td>
 <td>Centaur-M</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Hydraulics replacement</td>
 <td>As needed</td>
 <td>Assembly station</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Service life:</strong> - Frame: 10-15 years - Tracks: 6 months - 1 year (regolith wear) - Bucket: 1-2 years (edge wear) - Hydraulics: 3-5 years - Electronics: 5-10 years - <strong>Robot overall:</strong> 5-10 years (with track and bucket replacement)</p>
+<p><strong>Service life:</strong> - Frame: 10-15 years - Wheels: 1-2 years (band wear from regolith) - Bucket: 1-2 years (edge wear) - Hydraulics: 3-5 years - Electronics: 5-10 years - <strong>Robot overall:</strong> 5-10 years (with wheel and bucket replacement)</p>
 <hr>
 </section>
 <section id="applications" class="level2">
@@ -1352,6 +1431,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Quarry coverage:</strong> The 50 m cable covers a sector of ~80×60 m. A mobile substation is relocated by Crab-M as each sector is depleted. A 100×100 m quarry is processed in 2-3 stages with substation relocation.</p>
+</blockquote>
 <p><strong>Process:</strong> 1. Mole-M digs regolith (1 m³ bucket) 2. Dumps into Crab-M bed 3. Crab-M transports regolith to factory (5 t per trip) 4. Cycle repeats</p>
 <hr>
 </section>
@@ -1368,9 +1450,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Track links</td>
-<td>6-12 months</td>
-<td>1200 pcs (10 tracks)</td>
+<td>Wheels (band)</td>
+<td>1-2 years</td>
+<td>36 pcs (6 Moles × 6 wheels)</td>
 </tr>
 <tr class="even">
 <td>Bucket teeth</td>
@@ -1384,7 +1466,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Spare parts production:</strong> - Track links: WAAM 3D printing (Fe) - Bucket teeth: Casting + heat treatment - Hydraulic cylinders: Turning</p>
+<p><strong>Spare parts production:</strong> - Wheels: WAAM 3D printing of rim (Al) + band (Fe-6%Mn) - Bucket teeth: Casting + heat treatment - Hydraulic cylinders: Turning</p>
 <hr>
 </section>
 <section id="see-also" class="level2">

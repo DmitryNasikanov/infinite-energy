@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Сборка куполов – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Сборка куполов – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -834,6 +884,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <ul class="collapse">
   <li><a href="#конструкция-купола" id="toc-конструкция-купола" class="nav-link" data-scroll-target="#конструкция-купола">Конструкция купола</a></li>
   <li><a href="#многослойная-структура" id="toc-многослойная-структура" class="nav-link" data-scroll-target="#многослойная-структура">Многослойная структура</a></li>
+  <li><a href="#процесс-ламинирования-слоёв" id="toc-процесс-ламинирования-слоёв" class="nav-link" data-scroll-target="#процесс-ламинирования-слоёв">Процесс ламинирования слоёв</a></li>
   </ul></li>
   <li><a href="#процесс-сборки" id="toc-процесс-сборки" class="nav-link" data-scroll-target="#процесс-сборки">Процесс сборки</a>
   <ul class="collapse">
@@ -1033,7 +1084,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Масса купола</td>
-<td>~8 т</td>
+<td>~8 т*</td>
 </tr>
 <tr class="even">
 <td>Атмосфера внутри</td>
@@ -1049,6 +1100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<p>*Готовый купол: ткань ~6 т + каркас ~1.5 т + шлюз ~0.5 т. Bootstrap надувной модуль 10-12 т включает усиленный каркас.</p>
 </section>
 <section id="многослойная-структура" class="level3">
 <h3 class="anchored" data-anchor-id="многослойная-структура">Многослойная структура</h3>
@@ -1114,6 +1166,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Преимущества многослойности:</strong> - Дублирование — пробой одного слоя не критичен - Прочность — стекловолокно выдерживает удары микрометеоритов - Герметичность — 4 слоя Al-фольги обеспечивают утечку &lt;0.1%/сутки</p>
+</section>
+<section id="процесс-ламинирования-слоёв" class="level3">
+<h3 class="anchored" data-anchor-id="процесс-ламинирования-слоёв">Процесс ламинирования слоёв</h3>
+<p>Слои соединяются термическим ламинированием:</p>
+<ol type="1">
+<li>Стекловолокно (150°C) + Al-фольга подаются на нагретый каландр</li>
+<li>Прижим 0.5 МПа, скорость 2 м/мин</li>
+<li>Al-фольга механически фиксируется в порах стеклоткани</li>
+<li>Готовый 8-слойный рулон охлаждается и сматывается</li>
+</ol>
 <hr>
 </section>
 </section>
@@ -1293,16 +1355,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Силиконовый герметик</td>
-<td>Швы между панелями</td>
-</tr>
-<tr class="even">
 <td>Al-лента</td>
-<td>Дублирование критических швов</td>
+<td>Швы между панелями + критические швы</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Процесс:</strong> 1. Шов обезжиривается 2. Наносится герметик (роботом или вручную) 3. Al-лента накладывается поверх шва 4. Прижимается роликом (давление 1-2 атм)</p>
+<p><strong>Процесс:</strong> 1. Шов обезжиривается 2. Al-лента накладывается на шов 3. Ультразвуковая сварка (150-200°C, 5-10 м/мин) 4. Прижимается роликом (давление 1-2 атм)</p>
 <hr>
 </section>
 <section id="испытания-на-площадке-монтажа" class="level3">
@@ -1359,7 +1417,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Процесс:</strong> 1. Купол наполняется смесью O₂ + 10% He 2. Снаружи обходят масс-спектрометром 3. При обнаружении гелия — найдена утечка 4. Утечка заделывается заплаткой + герметик</p>
+<p><strong>Процесс:</strong> 1. Купол наполняется смесью O₂ + 10% He 2. Снаружи обходят масс-спектрометром 3. При обнаружении гелия — найдена утечка 4. Утечка заделывается заплаткой + Al-лента (ультразвуковая сварка)</p>
 <hr>
 </section>
 </section>
@@ -1382,19 +1440,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../ru/science/detailed/materials/silicate-fabric.html">Линия силиката</a></td>
 </tr>
 <tr class="even">
-<td>Силиконовый герметик</td>
-<td>~20 кг</td>
-<td>Синтез из Si (местное)</td>
-</tr>
-<tr class="odd">
-<td>Al-лента</td>
-<td>~10 кг</td>
+<td>Al-лента (герметизация швов)</td>
+<td>~30 кг</td>
 <td><a href="../../../../../ru/science/detailed/factories/elements/rolling.html">Прокат</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Крепёж (болты, гайки)</td>
 <td>~50 кг</td>
-<td><a href="../../../../../ru/science/detailed/factories/elements/waam.html">WAAM</a> + CNC</td>
+<td><a href="../../../../../ru/science/detailed/factories/elements/waam.html">WAAM</a> + шлифовка</td>
 </tr>
 </tbody>
 </table>
@@ -1459,7 +1512,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Раскройный стол (лазерная резка)</td>
+<td>Раскройный стол (fiber laser 5 кВт)</td>
 <td>5 кВт</td>
 </tr>
 <tr class="even">
@@ -1516,7 +1569,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Типичные пробоины:</strong> Микрометеориты &gt;1 мм могут пробить 1-2 слоя. Ремонт занимает 2-4 часа (заплатка + герметик).</p>
+<p><strong>Типичные пробоины:</strong> Микрометеориты &gt;1 мм могут пробить 1-2 слоя. Ремонт занимает 2-4 часа (заплатка + Al-лента).</p>
 <hr>
 </section>
 <section id="см.-также" class="level2">

@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -340,6 +341,59 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
@@ -374,6 +428,15 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Hub Station – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Hub Station – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -406,6 +469,11 @@ window.Quarto = {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -499,12 +567,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -688,19 +750,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -891,7 +941,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#concept" id="toc-concept" class="nav-link active" data-scroll-target="#concept">Concept</a></li>
+  <li><a href="#moon-in-the-project" id="toc-moon-in-the-project" class="nav-link active" data-scroll-target="#moon-in-the-project">Moon in the Project</a></li>
+  <li><a href="#concept" id="toc-concept" class="nav-link" data-scroll-target="#concept">Concept</a></li>
   <li><a href="#geometry-why-limbs" id="toc-geometry-why-limbs" class="nav-link" data-scroll-target="#geometry-why-limbs">Geometry: Why Limbs?</a>
   <ul class="collapse">
   <li><a href="#continuity-of-operation" id="toc-continuity-of-operation" class="nav-link" data-scroll-target="#continuity-of-operation">Continuity of Operation</a></li>
@@ -920,9 +971,7 @@ window.Quarto = {
   <li><a href="#building-lsp" id="toc-building-lsp" class="nav-link" data-scroll-target="#building-lsp">Building LSP</a>
   <ul class="collapse">
   <li><a href="#lunar-manufacturing" id="toc-lunar-manufacturing" class="nav-link" data-scroll-target="#lunar-manufacturing">Lunar Manufacturing</a></li>
-  <li><a href="#advantages-of-lunar-manufacturing" id="toc-advantages-of-lunar-manufacturing" class="nav-link" data-scroll-target="#advantages-of-lunar-manufacturing">Advantages of Lunar Manufacturing</a></li>
   <li><a href="#logistics" id="toc-logistics" class="nav-link" data-scroll-target="#logistics">Logistics</a></li>
-  <li><a href="#construction-rates" id="toc-construction-rates" class="nav-link" data-scroll-target="#construction-rates">Construction Rates</a></li>
   </ul></li>
   <li><a href="#system-components" id="toc-system-components" class="nav-link" data-scroll-target="#system-components">System Components</a>
   <ul class="collapse">
@@ -982,13 +1031,24 @@ window.Quarto = {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Goal:</strong> Receive energy from the <a href="../../../en/science/reference/glossary.html#dyson-swarm">Dyson Swarm</a> and transmit to Earth</li>
-<li><strong>Solution:</strong> Lunar Solar Power Station (<a href="../../../en/science/reference/technology-readiness.html#lsp-station">LSP</a>) — 20-40 stations on the Moon’s limbs</li>
+<li><strong>Solution:</strong> Lunar Solar Power Station (<a href="../../../en/science/reference/technology-readiness.html#lsp-station">LSP</a>) — 40 stations on the Moon’s limbs</li>
 <li><strong>Efficiency:</strong> 18% (from Swarm to Earth)</li>
 <li><strong>Transmission:</strong> Microwaves through clouds, global rectenna network</li>
 <li><strong>Alternative (rejected):</strong> Orbital Hub at L1 — 10% efficiency, 7,900 km² radiators</li>
 </ul>
 </blockquote>
 <hr>
+<section id="moon-in-the-project" class="level2">
+<h2 class="anchored" data-anchor-id="moon-in-the-project">Moon in the Project</h2>
+<p>The Moon serves <strong>three roles</strong>:</p>
+<ol type="1">
+<li><strong>Testing ground</strong> (years 4-6) — technology validation before Mercury</li>
+<li><strong>LSP stations</strong> (years 6+) — energy reception from the Swarm and transmission to Earth</li>
+<li><strong>Backup site</strong> — less risky alternative to Mercury</li>
+</ol>
+<p>More on comparison with Mercury: <a href="../../../en/science/summaries/comparison.html">Why Mercury?</a></p>
+<hr>
+</section>
 <section id="concept" class="level2">
 <h2 class="anchored" data-anchor-id="concept">Concept</h2>
 <p>The mirror swarm in Mercury’s orbit produces petawatts of energy. But this energy is concentrated sunlight. It needs to be converted to a form suitable for transmission to Earth.</p>
@@ -1039,7 +1099,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Solution:</strong> 20-40 stations on the eastern and western limbs of the Moon.</p>
+<p><strong>Solution:</strong> 40 stations on the eastern and western limbs of the Moon.</p>
 <section id="continuity-of-operation" class="level3">
 <h3 class="anchored" data-anchor-id="continuity-of-operation">Continuity of Operation</h3>
 <div class="cell" data-layout-align="default">
@@ -1119,22 +1179,39 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Receiver area (per station)</td>
-<td>~10 km²</td>
+<td>~160 km² (12.6 × 12.6 km)</td>
 </tr>
 <tr class="even">
-<td>Total area (20 stations)</td>
-<td>~200 km²</td>
+<td>Total area (40 stations)</td>
+<td>~6,400 km²</td>
 </tr>
 <tr class="odd">
+<td>Flux on PV</td>
+<td>~500 kW/m² (500 suns)</td>
+</tr>
+<tr class="even">
 <td>PV efficiency (concentration)</td>
 <td>~45%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Type</td>
-<td>Multi-junction, from lunar silicon</td>
+<td>Multi-junction CPV, from lunar silicon</td>
 </tr>
 </tbody>
 </table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why 6,400 km², not the full Swarm power?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Dyson Swarm of 1.1 billion mirrors is <strong>capacity</strong> (~18 PW on Earth at full conversion). To deliver <strong>1 PW to Earth</strong>, only ~55 million mirrors (<strong>5% of the Swarm</strong>) are active simultaneously, directing ~3.2 PW of optical power to the lunar receivers. At 6,400 km² total area, the flux is ~500 kW/m² — standard operating regime for concentrated PV systems. The remaining 95% of mirrors are reserve, in orbital dead zones, or allocated for future purposes (Mars, LSP scaling).</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -1478,75 +1555,15 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><strong>Unified technology:</strong> The same Gen-2/Gen-3 robots that build factories on Mercury also work on the Moon. Lunar production is technology validation before Mercury. See <a href="../../../en/science/detailed/robots/overview.html">Robot Bestiary</a>.</p>
 </blockquote>
-</section>
-<section id="advantages-of-lunar-manufacturing" class="level3">
-<h3 class="anchored" data-anchor-id="advantages-of-lunar-manufacturing">Advantages of Lunar Manufacturing</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>On Moon</th>
-<th>From Earth</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Gravity</td>
-<td>0.16g</td>
-<td>1g</td>
-</tr>
-<tr class="even">
-<td>Resources</td>
-<td>In-situ</td>
-<td>Delivery</td>
-</tr>
-<tr class="odd">
-<td>Radiators</td>
-<td>Ground</td>
-<td>In vacuum</td>
-</tr>
-<tr class="even">
-<td>Heat</td>
-<td>Dissipates into rock</td>
-<td>Needs radiators</td>
-</tr>
-</tbody>
-</table>
 <p><strong>Key advantage:</strong> On the Moon, heat from conversion dissipates into the ground. No giant radiators needed.</p>
 </section>
 <section id="logistics" class="level3">
 <h3 class="anchored" data-anchor-id="logistics">Logistics</h3>
 <ol type="1">
-<li><strong><a href="../../../en/science/summaries/moon.html">Lunar factory</a></strong> produces LSP modules</li>
-<li><strong><a href="../../../en/science/detailed/railguns/theory.html#lunar-mass-driver">Mass Driver</a></strong> delivers to limbs (not needed for LSP!)</li>
-<li><strong>Rovers</strong> transport across surface to limbs</li>
-<li><strong>Robots</strong> assemble stations</li>
+<li><strong>Lunar factory</strong> produces LSP modules from regolith</li>
+<li><strong>Rovers</strong> transport modules to limbs (~500 km)</li>
+<li><strong>Robots</strong> assemble stations on site</li>
 </ol>
-</section>
-<section id="construction-rates" class="level3">
-<h3 class="anchored" data-anchor-id="construction-rates">Construction Rates</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Total mass of 30 LSP + 100 rectennas</td>
-<td>~178,000 t</td>
-</tr>
-<tr class="even">
-<td>Construction period</td>
-<td>3-5 years</td>
-</tr>
-<tr class="odd">
-<td>Production rate</td>
-<td>~50,000 t/year</td>
-</tr>
-</tbody>
-</table>
 <hr>
 </section>
 </section>
@@ -1556,8 +1573,8 @@ window.Quarto = {
 <section id="lunar-lsp-stations" class="level3">
 <h3 class="anchored" data-anchor-id="lunar-lsp-stations">Lunar LSP Stations</h3>
 <ul>
-<li><strong>Quantity</strong>: 20-40 stations on Moon’s limbs</li>
-<li><strong>Photovoltaic area</strong>: ~10 km² per station (total ~300 km²)</li>
+<li><strong>Quantity</strong>: 40 stations on Moon’s limbs</li>
+<li><strong>Photovoltaic area</strong>: ~160 km² per station (total ~6,400 km²)</li>
 <li><strong>Materials</strong>: Multi-junction photocells from lunar silicon (Si), aluminum (Al) frames and supports</li>
 <li><strong>Production</strong>: Local, from lunar regolith</li>
 </ul>
@@ -1593,7 +1610,7 @@ window.Quarto = {
 </div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: Widget shows composition of <strong>lunar LSP stations</strong> (30 units). Earth rectennas are produced on Earth from local materials and are not part of the project’s space logistics.</p>
+<p><strong>Note</strong>: Widget shows composition of <strong>lunar LSP stations</strong> (40 units). Earth rectennas are produced on Earth from local materials and are not part of the project’s space logistics.</p>
 </blockquote>
 <hr>
 </section>
@@ -1654,52 +1671,64 @@ window.Quarto = {
 </section>
 <section id="energy-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="energy-distribution">Energy Distribution</h2>
-<p>All Swarm energy is first received at lunar LSP stations, then distributed:</p>
+<p>The Dyson Swarm is <strong>capacity</strong> of ~18 PW (at Earth, after all losses). LSP Phase 1 is sized to receive from <strong>5% of the Swarm</strong> (~55 million mirrors), delivering <strong>1 PW</strong> to Earth. Power distribution:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 34%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Stage</th>
 <th>Recipient</th>
 <th>Power</th>
-<th>% of Swarm</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>1. Reception</strong></td>
+<td><strong>Swarm capacity</strong></td>
+<td><strong>(full)</strong></td>
+<td><strong>~18 PW</strong></td>
+<td><strong>1.1 billion mirrors</strong></td>
+</tr>
+<tr class="even">
+<td><strong>1. Reception (Phase 1)</strong></td>
 <td><strong>Moon (LSP)</strong></td>
-<td><strong>~20 PW</strong></td>
-<td><strong>100%</strong></td>
+<td><strong>~3.2 PW</strong> (optical)</td>
+<td><strong>55M mirrors (5% of Swarm)</strong></td>
+</tr>
+<tr class="odd">
+<td>↳ 1a. PV conversion</td>
+<td>Electricity</td>
+<td>~1.45 PW</td>
+<td>PV efficiency 45%</td>
 </tr>
 <tr class="even">
 <td>↳ 2a. Transmission</td>
 <td>Earth (rectennas)</td>
-<td>1 PW</td>
-<td>5%</td>
+<td><strong>1 PW</strong></td>
+<td>Via klystrons + RF</td>
 </tr>
 <tr class="odd">
-<td>↳ 2b. Transmission</td>
-<td>Mars (future)</td>
-<td>1-5 PW</td>
-<td>5-25%</td>
+<td>↳ 2b. Local</td>
+<td>Moon (furnaces, production)</td>
+<td>~0.3 PW</td>
+<td>MRE, NaS, infrastructure</td>
 </tr>
 <tr class="even">
-<td>↳ 2c. Local</td>
-<td>Moon (furnaces)</td>
-<td>~0.5 PW</td>
-<td>~2.5%</td>
-</tr>
-<tr class="odd">
-<td>↳ 2d. Buffer</td>
-<td>Moon (reserve)</td>
-<td>~13-17 PW</td>
-<td>~65-85%</td>
+<td><strong>Reserve</strong></td>
+<td>Scaling</td>
+<td>~18-20 PW</td>
+<td>Mars, additional LSP stations</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Details of lunar usage:</strong> - <strong>Furnaces:</strong> Melting regolith in solar furnaces, <a href="../../../en/science/reference/technology-readiness.html#mre-molten-regolith-electrolysis">MRE</a> electrolysis, materials production - <strong>Reserve:</strong> <a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS</a> batteries for peak load smoothing, future production expansion</p>
+<p><strong>Details of lunar usage:</strong> - <strong>Furnaces:</strong> Melting regolith in solar furnaces, <a href="../../../en/science/reference/technology-readiness.html#mre-molten-regolith-electrolysis">MRE</a> electrolysis, materials production - <strong>Buffer:</strong> <a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS</a> batteries for peak load smoothing</p>
 <blockquote class="blockquote">
-<p><strong>Why not all to Earth?</strong> 1 PW = 1000 TW — this is 50 times global consumption (20 TW). It’s enough for complete decarbonization, synthetic fuels, and industrial growth. For Mars terraforming, energy is directed straight to Mars (1-5 PW), bypassing Earth. The rest is reserve for space expansion.</p>
+<p><strong>Why not all to Earth?</strong> 1 PW = 1000 TW — this is 50 times global consumption (20 TW). It’s enough for complete decarbonization, synthetic fuels, and industrial growth. The remaining Swarm capacity (~95%) is reserve for scaling: additional LSP stations, Mars terraforming (1-5 PW direct), space expansion.</p>
 </blockquote>
 <hr>
 </section>
@@ -1759,7 +1788,7 @@ window.Quarto = {
 </table>
 <p><strong>Why such large radiators?</strong> At 35% efficiency at light→laser stage, about 65% of energy becomes heat. In vacuum, the only way to dump heat is radiation. At 1000K a radiator emits ~57 kW/m². For 0.45 PW, 7,900 km² area is needed.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1768,7 +1797,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Components:</strong></p>
 <table class="caption-top table">
@@ -1916,9 +1945,9 @@ window.Quarto = {
 <ul>
 <li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> — overall project scheme</li>
 <li><a href="../../../en/science/summaries/mirrors.html">Swarm Mirrors</a> — energy source</li>
-<li><a href="../../../en/science/summaries/moon.html">Moon</a> — LSP module production</li>
+<li><a href="../../../en/science/summaries/production.html">Production</a> — Ground Zero factory</li>
 <li><a href="../../../en/science/summaries/production.html#energy">Energy Balance</a> — production and consumption</li>
-<li><a href="../../../en/science/detailed/railguns/theory.html#lunar-mass-driver">Lunar Mass Driver</a> — materials delivery</li>
+<li><a href="../../../en/science/detailed/railguns/overview.html#lunar-mass-driver">Lunar Mass Driver</a> — materials delivery</li>
 <li><a href="../../../en/science/summaries/budget.html">Budget</a> — project economics</li>
 <li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> — timeline</li>
 </ul>

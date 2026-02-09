@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Roadmap – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Roadmap – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -837,15 +887,16 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#track-2-rocket-program-parallel-with-phases-1-3-years-1-6" id="toc-track-2-rocket-program-parallel-with-phases-1-3-years-1-6" class="nav-link" data-scroll-target="#track-2-rocket-program-parallel-with-phases-1-3-years-1-6">Track 2: Rocket Program (parallel with Phases 1-3, years 1-6)</a></li>
   </ul></li>
   <li><a href="#phase-4-mercury-years-6-10" id="toc-phase-4-mercury-years-6-10" class="nav-link" data-scroll-target="#phase-4-mercury-years-6-10">Phase 4: Mercury (years 6-10)</a></li>
-  <li><a href="#mercury-strategy-test-reinforcement" id="toc-mercury-strategy-test-reinforcement" class="nav-link" data-scroll-target="#mercury-strategy-test-reinforcement">Mercury Strategy: Test + Reinforcement</a></li>
+  <li><a href="#mercury-strategy-redundancy-reinforcement" id="toc-mercury-strategy-redundancy-reinforcement" class="nav-link" data-scroll-target="#mercury-strategy-redundancy-reinforcement">Mercury Strategy: Redundancy + Reinforcement</a></li>
   <li><a href="#carrier-options" id="toc-carrier-options" class="nav-link" data-scroll-target="#carrier-options">Carrier Options</a>
   <ul class="collapse">
   <li><a href="#available-now-2026" id="toc-available-now-2026" class="nav-link" data-scroll-target="#available-now-2026">Available Now (2026)</a></li>
   <li><a href="#in-development-2027-2033" id="toc-in-development-2027-2033" class="nav-link" data-scroll-target="#in-development-2027-2033">In Development (2027-2033)</a></li>
-  <li><a href="#e1-delivery-scenarios-75-t" id="toc-e1-delivery-scenarios-75-t" class="nav-link" data-scroll-target="#e1-delivery-scenarios-75-t">E1 Delivery Scenarios (75 t)</a></li>
+  <li><a href="#e1-delivery-scenarios-150-t" id="toc-e1-delivery-scenarios-150-t" class="nav-link" data-scroll-target="#e1-delivery-scenarios-150-t">E1 Delivery Scenarios (150 t)</a></li>
   </ul></li>
-  <li><a href="#expedition-1-ground-zero-factory---final-deployment" id="toc-expedition-1-ground-zero-factory---final-deployment" class="nav-link" data-scroll-target="#expedition-1-ground-zero-factory---final-deployment">Expedition 1: Ground Zero Factory - Final Deployment</a></li>
-  <li><a href="#expedition-2-reinforcement-month-4-5" id="toc-expedition-2-reinforcement-month-4-5" class="nav-link" data-scroll-target="#expedition-2-reinforcement-month-4-5">Expedition 2: Reinforcement (Month 4-5)</a></li>
+  <li><a href="#expedition-1-ground-zero-factories---final-deployment" id="toc-expedition-1-ground-zero-factories---final-deployment" class="nav-link" data-scroll-target="#expedition-1-ground-zero-factories---final-deployment">Expedition 1: Ground Zero Factories - Final Deployment</a></li>
+  <li><a href="#expedition-2-reinforcement-month-9-10" id="toc-expedition-2-reinforcement-month-9-10" class="nav-link" data-scroll-target="#expedition-2-reinforcement-month-9-10">Expedition 2: Reinforcement (Month 9-10)</a></li>
+  <li><a href="#expedition-3-optional" id="toc-expedition-3-optional" class="nav-link" data-scroll-target="#expedition-3-optional">Expedition 3+ (Optional)</a></li>
   <li><a href="#regular-supplies-from-earth" id="toc-regular-supplies-from-earth" class="nav-link" data-scroll-target="#regular-supplies-from-earth">Regular Supplies from Earth</a>
   <ul class="collapse">
   <li><a href="#vitamin-requirements" id="toc-vitamin-requirements" class="nav-link" data-scroll-target="#vitamin-requirements">Vitamin Requirements</a></li>
@@ -883,19 +934,19 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#calculation" id="toc-calculation" class="nav-link" data-scroll-target="#calculation">Calculation</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
-  <li><a href="#months-5-12-expansion-with-4-factories" id="toc-months-5-12-expansion-with-4-factories" class="nav-link" data-scroll-target="#months-5-12-expansion-with-4-factories">Months 5-12: Expansion (with 4 factories)</a>
+  <li><a href="#months-10-15-expansion-with-4-factories" id="toc-months-10-15-expansion-with-4-factories" class="nav-link" data-scroll-target="#months-10-15-expansion-with-4-factories">Months 10-15: Expansion (with 4 factories)</a>
   <ul class="collapse">
   <li><a href="#now-the-only-constraint---robot-production" id="toc-now-the-only-constraint---robot-production" class="nav-link" data-scroll-target="#now-the-only-constraint---robot-production">Now the Only Constraint - Robot Production</a></li>
   <li><a href="#factory-advantage" id="toc-factory-advantage" class="nav-link" data-scroll-target="#factory-advantage">4 Factory Advantage</a></li>
   <li><a href="#strategy-build-factories-and-mds-in-parallel" id="toc-strategy-build-factories-and-mds-in-parallel" class="nav-link" data-scroll-target="#strategy-build-factories-and-mds-in-parallel">Strategy: Build Factories and MDs in Parallel</a></li>
   <li><a href="#parallel-more-mds" id="toc-parallel-more-mds" class="nav-link" data-scroll-target="#parallel-more-mds">Parallel: More MDs</a></li>
   </ul></li>
-  <li><a href="#year-1-results-e2-arrived-by-month-5" id="toc-year-1-results-e2-arrived-by-month-5" class="nav-link" data-scroll-target="#year-1-results-e2-arrived-by-month-5">Year 1: Results (E2 arrived by month 5)</a></li>
-  <li><a href="#years-2-3-exponential-growth" id="toc-years-2-3-exponential-growth" class="nav-link" data-scroll-target="#years-2-3-exponential-growth">Years 2-3: Exponential Growth</a></li>
+  <li><a href="#year-1-results-e2-arrived-by-month-10" id="toc-year-1-results-e2-arrived-by-month-10" class="nav-link" data-scroll-target="#year-1-results-e2-arrived-by-month-10">Year 1: Results (E2 arrived by month 10)</a></li>
+  <li><a href="#years-2-4-exponential-growth" id="toc-years-2-4-exponential-growth" class="nav-link" data-scroll-target="#years-2-4-exponential-growth">Years 2-4: Exponential Growth</a></li>
   <li><a href="#self-replication-1-factory---1650-factories" id="toc-self-replication-1-factory---1650-factories" class="nav-link" data-scroll-target="#self-replication-1-factory---1650-factories">Self-Replication: 1 Factory -&gt; ~1650 Factories</a></li>
   <li><a href="#network-of-1000-mass-drivers" id="toc-network-of-1000-mass-drivers" class="nav-link" data-scroll-target="#network-of-1000-mass-drivers">Network of 1000 Mass Drivers</a></li>
   <li><a href="#dyson-swarm---final-goal" id="toc-dyson-swarm---final-goal" class="nav-link" data-scroll-target="#dyson-swarm---final-goal">Dyson Swarm - Final Goal</a></li>
-  <li><a href="#year-3-goal-achieved" id="toc-year-3-goal-achieved" class="nav-link" data-scroll-target="#year-3-goal-achieved">Year 3: Goal Achieved</a>
+  <li><a href="#year-4.5-goal-achieved" id="toc-year-4.5-goal-achieved" class="nav-link" data-scroll-target="#year-4.5-goal-achieved">Year 4.5: Goal Achieved</a>
   <ul class="collapse">
   <li><a href="#mass-drivers" id="toc-mass-drivers" class="nav-link" data-scroll-target="#mass-drivers">1000 Mass Drivers</a></li>
   <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison">Comparison</a></li>
@@ -903,13 +954,19 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#why-not-infinite-growth" id="toc-why-not-infinite-growth" class="nav-link" data-scroll-target="#why-not-infinite-growth">Why Not Infinite Growth</a>
   <ul class="collapse">
   <li><a href="#project-goal" id="toc-project-goal" class="nav-link" data-scroll-target="#project-goal">Project Goal</a></li>
-  <li><a href="#after-year-3-maintenance-mode" id="toc-after-year-3-maintenance-mode" class="nav-link" data-scroll-target="#after-year-3-maintenance-mode">After Year 3: Maintenance Mode</a></li>
+  <li><a href="#after-year-4.5-maintenance-mode" id="toc-after-year-4.5-maintenance-mode" class="nav-link" data-scroll-target="#after-year-4.5-maintenance-mode">After Year 4.5: Maintenance Mode</a></li>
   <li><a href="#exponential-is-tool-not-goal" id="toc-exponential-is-tool-not-goal" class="nav-link" data-scroll-target="#exponential-is-tool-not-goal">Exponential is Tool, Not Goal</a></li>
+  </ul></li>
+  <li><a href="#energy-reception-infrastructure-years-4-10" id="toc-energy-reception-infrastructure-years-4-10" class="nav-link" data-scroll-target="#energy-reception-infrastructure-years-4-10">Energy Reception Infrastructure (years 4-10)</a>
+  <ul class="collapse">
+  <li><a href="#lsp-stations-moon" id="toc-lsp-stations-moon" class="nav-link" data-scroll-target="#lsp-stations-moon">LSP Stations (Moon)</a></li>
+  <li><a href="#rectennas-earth" id="toc-rectennas-earth" class="nav-link" data-scroll-target="#rectennas-earth">Rectennas (Earth)</a></li>
+  <li><a href="#construction-timeline" id="toc-construction-timeline" class="nav-link" data-scroll-target="#construction-timeline">Construction Timeline</a></li>
   </ul></li>
   <li><a href="#key-milestones-for-entire-project" id="toc-key-milestones-for-entire-project" class="nav-link" data-scroll-target="#key-milestones-for-entire-project">Key Milestones for Entire Project</a>
   <ul class="collapse">
   <li><a href="#preparation-phases-years-1-6" id="toc-preparation-phases-years-1-6" class="nav-link" data-scroll-target="#preparation-phases-years-1-6">Preparation Phases (years 1-6)</a></li>
-  <li><a href="#mercury-phase-years-6-10" id="toc-mercury-phase-years-6-10" class="nav-link" data-scroll-target="#mercury-phase-years-6-10">Mercury Phase (years 6-10)</a></li>
+  <li><a href="#mercury-phase-years-610.5" id="toc-mercury-phase-years-610.5" class="nav-link" data-scroll-target="#mercury-phase-years-610.5">Mercury Phase (years 6–10.5)</a></li>
   </ul></li>
   <li><a href="#critical-path-for-entire-project" id="toc-critical-path-for-entire-project" class="nav-link" data-scroll-target="#critical-path-for-entire-project">Critical Path for Entire Project</a></li>
   <li><a href="#known-limitations" id="toc-known-limitations" class="nav-link" data-scroll-target="#known-limitations">Known Limitations</a>
@@ -952,14 +1009,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>4 phases:</strong> R&amp;D (1-6+ years, parallel) -&gt; Earth (2-4) -&gt; Moon (4-6) -&gt; Mercury (6-15)</li>
-<li><strong>Total budget:</strong> $190-470 billion; peak personnel ~50K people</li>
+<li><strong>Total budget:</strong> $200-490 billion; peak personnel ~50K people</li>
 <li><strong>Launches to Moon:</strong> 10-20 (technology validation)</li>
-<li><strong>Launches to Mercury:</strong> ~50-100 (96% localization, electronics only)</li>
+<li><strong>Launches to Mercury:</strong> ~50-100 (99.998% localization, electronics only)</li>
 <li><strong>Key risk:</strong> Track 1 (robots and factories) - new technologies; Track 2 (rockets) - proven experience</li>
+<li><strong>Energy reception:</strong> 40 LSP stations (Moon, ~6,400 km² PV) + 100 rectennas (Earth); rectenna budget $10-20B</li>
 </ul>
 </blockquote>
 <p>From first blueprints to 1000 Mass Drivers on Mercury.</p>
-<p>Detailed calculations: <a href="../../../en/science/summaries/mirrors.html">Mirrors</a> | <a href="../../../en/science/detailed/railguns/theory.html">Mass Drivers</a> | <a href="../../../en/science/summaries/production.html">Production</a> | <a href="../../../en/science/summaries/delivery.html">Delivery</a> | <a href="../../../en/science/summaries/budget.html">Budget</a></p>
+<p>Detailed calculations: <a href="../../../en/science/summaries/mirrors.html">Mirrors</a> | <a href="../../../en/science/detailed/railguns/overview.html">Mass Drivers</a> | <a href="../../../en/science/summaries/production.html">Production</a> | <a href="../../../en/science/summaries/delivery.html">Delivery</a> | <a href="../../../en/science/summaries/budget.html">Budget</a></p>
 <hr>
 <section id="two-parallel-tracks" class="level2">
 <h2 class="anchored" data-anchor-id="two-parallel-tracks">Two Parallel Tracks</h2>
@@ -1094,7 +1152,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><em>Budget without contingency. With 2x contingency → $190-240 billion. Mercury is cost-effective due to self-replication.</em></p>
+<p><em>Budget without contingency. With 1.6x contingency → $200-250 billion. Mercury is cost-effective due to self-replication.</em></p>
 <hr>
 <section id="phase-1-rd-and-development-years-1-6" class="level3">
 <h3 class="anchored" data-anchor-id="phase-1-rd-and-development-years-1-6">Phase 1: R&amp;D and Development (years 1-6+)</h3>
@@ -1184,8 +1242,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <p>The project’s key unit is the <strong>replicator factory (F-R)</strong>, fully self-sufficient for building new factories (<a href="../../../en/science/reference/technology-readiness.html#lights-out-factories">lights-out factories TRL 9</a>). The second type - <strong>mirror factory (F-M)</strong> - specializes in mirror production.</p>
-<p><strong>Replicator factory (F-R) structure:</strong> - Dome: 1500 m<sup>2</sup> (50x30 m), height 6-8 m, atmosphere 0.1 atm O<sub>2</sub> - Zones: foundry, rolling, drawing, forming (WAAM+CNC), robot assembly, dome cutting/welding, equipment assembly - Productivity: 5 robots/day, 1 dome / 2-3 days, 1 equipment set / 2-3 weeks</p>
-<p><strong>Mirror factory (F-M):</strong> - Same dome (1500 m<sup>2</sup>), different specialization - Zones: foundry, foil rolling, mirror assembly, QC/packaging - Productivity: ~400 mirrors/day</p>
+<p><strong>Replicator factory (F-R) structure:</strong> - Dome: 1500 m<sup>2</sup> (50x30 m), height 6-8 m, atmosphere 0.1 atm O<sub>2</sub> - Zones: foundry, rolling, drawing, forming (WAAM+grinding), robot assembly, dome cutting/welding, equipment assembly - Productivity: 5 robots/day, 1 dome / 2-3 days, 1 equipment set / 2-3 weeks</p>
+<p><strong>Mirror factory (F-M):</strong> - Same dome (1500 m<sup>2</sup>), different specialization - Zones: foundry, foil rolling, mirror assembly, QC/packaging - Productivity: ~350 mirrors/day</p>
 <blockquote class="blockquote">
 <p><strong>More details:</strong> <a href="../../../en/science/detailed/factories/overview.html">Factory Production</a></p>
 </blockquote>
@@ -1207,8 +1265,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="assembly-line-design" class="level4">
 <h4 class="anchored" data-anchor-id="assembly-line-design">Assembly Line Design</h4>
-<p><strong>Mirror assembly (F-M):</strong> - ~400 mirrors/day (116 kg each) - 4 um Al foil + TiO<sub>2</sub> electrochromic coating - <a href="../../../en/science/summaries/mirrors.html">Details: mirror assembly</a></p>
-<p><strong>Gen-2 robot assembly (F-R):</strong> - 5 robots/day (960 kg each) - 99% local materials (Al frames + Fe assemblies), 1% “Vitamins” from Earth - <a href="../../../en/science/detailed/robots/overview.html">Details: robot assembly</a></p>
+<p><strong>Mirror assembly (F-M):</strong> - ~350 mirrors/day (116 kg each) - 4 um Al foil + TiO<sub>2</sub> electrochromic coating - <a href="../../../en/science/summaries/mirrors.html">Details: mirror assembly</a></p>
+<p><strong>Gen-2 robot assembly (F-R):</strong> - 5 robots/day (960 kg each) - &gt;99% local materials per robot (Al frames + Fe assemblies), &lt;1% “Vitamins” from Earth - <a href="../../../en/science/detailed/robots/overview.html">Details: robot assembly</a></p>
 <p><strong>Dome assembly:</strong> - 8-layer composite (fabric + Al foil) for factory atmosphere - <a href="../../../en/science/detailed/factories/assembly/domes.html">Details: dome assembly</a></p>
 </section>
 <section id="factory-equipment-assembly-line-design" class="level4">
@@ -1216,7 +1274,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>For self-replication:</strong> each factory produces equipment for new factories.</p>
 <p><strong>Regolith processing line:</strong> - MRE cells (electrolyzers) - steel/ceramic body, iridium anodes (import) - Solar furnaces - Al concentrators (local) - Distillation induction furnaces - Al+Cu coils - <a href="../../../en/science/detailed/materials/overview.html">Details: regolith processing</a></p>
 <p><strong>Material production line:</strong> - CC-Al, CC-Fe (continuous casting machines) - Fe frame, local crystallizers (Fe-6%Mn steel for Al, MgO ceramic for Fe) - 6-stand rolling mills - Fe rolls, local drive - Drawing mills - Si₃N₄ ceramic dies (local) - Looms - for silicate fabric, Al+Fe body - Laminators - for 8-layer dome composite - <a href="../../../en/science/detailed/materials/distillation.html">Details: aluminum line</a> - <a href="../../../en/science/detailed/materials/mre.html">Details: iron line</a> - <a href="../../../en/science/detailed/materials/silicate-fabric.html">Details: silicate line</a></p>
-<p><strong>Assembly line:</strong> - PVD chambers - for TiO<sub>2</sub> deposition on mirrors, steel body - <a href="../../../en/science/reference/technology-readiness.html#waam-wire-arc-additive-manufacturing">WAAM</a> equipment (3D printing) - for Gen-2 robot frames - 5-axis CNC milling centers - Fe body, spindle (import) - Assembly jigs - for Gen-2 robots</p>
+<p><strong>Assembly line:</strong> - PVD chambers - for TiO<sub>2</sub> deposition on mirrors, steel body - <a href="../../../en/science/reference/technology-readiness.html#waam-wire-arc-additive-manufacturing">WAAM</a> equipment (3D printing) - for Gen-2 robot frames - Grinding cells - Centaur-M robot with Al₂O₃ abrasive head (100% local) - Assembly jigs - for Gen-2 robots</p>
 <p><strong>99% local materials:</strong> - Equipment frames: Fe (local) - Bodies, cladding: Al (local) - Furnace lining: MgO ceramics (local) - Heat transfer fluids: NaK alloy (Na+K local)</p>
 <p><strong>1% critical imports:</strong> - Iridium anodes for MRE (~10 kg/year per cell) - Carbide cutters (WC-Co, ~0.1 t/year) - Bearings, drives, electronics</p>
 <blockquote class="blockquote">
@@ -1243,7 +1301,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Construction:</strong> - Track length: 2-3 km (Mercury), 0.5-1 km (Moon test), 500-1000 m (Earth test) - Launch velocity: 5 km/s (Mercury), 2.5 km/s (Moon) - Power consumption: 40 MW peak</p>
 <p><strong>Materials:</strong> - Rails: Fe (local on Moon/Mercury) - Coils: Al + Cu import (critical for conductivity) - Control electronics: import from Earth</p>
 <blockquote class="blockquote">
-<p><strong>More details:</strong> <a href="../../../en/science/detailed/railguns/theory.html">Mass Driver: Calculations</a></p>
+<p><strong>More details:</strong> <a href="../../../en/science/detailed/railguns/overview.html">Mass Driver: Calculations</a></p>
 </blockquote>
 <p><strong>Phase result:</strong> Complete documentation, simulations, readiness for Earth prototyping.</p>
 <hr>
@@ -1403,7 +1461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Technology:</strong> 1. Concentrated light reception from Swarm 2. PV panels (GaAs, 30% efficiency) 3. Conversion to 2.45 GHz microwaves 4. Transmission to rectenna on Earth</p>
 <p><strong>Chain efficiency:</strong> - Swarm -&gt; LSP: 95% (reflection + light transmission) - LSP PV: 30% (light -&gt; electricity) - Electricity -&gt; microwaves: 80% - Microwaves -&gt; Earth: 75% - <strong>Total: 18%</strong> (vs 10% for orbital hub)</p>
 <p><strong>LSP advantages:</strong> - Heat goes into ground (no radiators needed in space) - Stable position (no station-keeping required) - Repair and maintenance by factory robots</p>
-<p><strong>Number of stations:</strong> 20-40 - Coverage: 24/7 reception from one station - Redundancy: system works if 1-2 stations fail</p>
+<p><strong>Number of stations:</strong> 40 - Coverage: 24/7 reception from one station - Redundancy: system works if 1-2 stations fail</p>
 <blockquote class="blockquote">
 <p><strong>More details:</strong> <a href="../../../en/science/detailed/hub.html">Energy Reception Hub: LSP</a></p>
 </blockquote>
@@ -1414,7 +1472,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Test program:</strong> - Inert dummy launches (100-200 launches) - Real mirror launches (50-100 launches) - Orbital deployment verification - Electrochromic control</p>
 <p><strong>Result:</strong> - MD validation for Mercury - Vacuum wear database - Space mirror coordination experience</p>
 <blockquote class="blockquote">
-<p><strong>More details:</strong> <a href="../../../en/science/detailed/railguns/theory.html">Mass Driver: Calculations</a></p>
+<p><strong>More details:</strong> <a href="../../../en/science/detailed/railguns/overview.html">Mass Driver: Calculations</a></p>
 </blockquote>
 </section>
 <section id="energy-transmission-to-earth-first-test" class="level4">
@@ -1457,7 +1515,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Note:</strong> The rocket industry - organic development. These capacities would develop anyway: commercial launches, satellite constellations, lunar programs. Project Helios only accelerates and directs the existing trend. Therefore, these costs are conditionally included in the project budget - additional targeted investments may be needed to accelerate the pace, but basic industry development would happen without the project.</p>
-<p><strong>Result:</strong> Readiness for ~50-100 launches over ~10 years (thanks to 96% localization).</p>
+<p><strong>Result:</strong> Readiness for ~50-100 launches over ~10 years (thanks to 99.998% localization).</p>
 <hr>
 </section>
 </section>
@@ -1466,40 +1524,46 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><em>After successful Moon validation.</em></p>
 <hr>
 </section>
-<section id="mercury-strategy-test-reinforcement" class="level2">
-<h2 class="anchored" data-anchor-id="mercury-strategy-test-reinforcement">Mercury Strategy: Test + Reinforcement</h2>
-<p><strong>Principle:</strong> First we verify, then we scale.</p>
+<section id="mercury-strategy-redundancy-reinforcement" class="level2">
+<h2 class="anchored" data-anchor-id="mercury-strategy-redundancy-reinforcement">Mercury Strategy: Redundancy + Reinforcement</h2>
+<p><strong>Principle:</strong> Redundancy in E1, feedback before E2.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 23%">
-<col style="width: 23%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 45%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Stage</th>
 <th>Cargo</th>
 <th>Goal</th>
-<th>Risk</th>
+<th>Risk mitigation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Expedition 1</td>
-<td>75 t</td>
-<td>Test: 1 factory + 1 MD</td>
-<td>If failure - lost 75 t</td>
+<td>150 t</td>
+<td>2 factories + 2 MDs (redundancy)</td>
+<td>One fails - other works</td>
 </tr>
 <tr class="even">
 <td>Expedition 2</td>
 <td>150 t</td>
-<td>Reinforcement: +3 factories</td>
-<td>Only after E1 success</td>
+<td>Reinforcement: +2 factories</td>
+<td>Decision after E1 feedback</td>
+</tr>
+<tr class="odd">
+<td>E3+ (optional)</td>
+<td>As needed</td>
+<td>Fixing critical issues</td>
+<td>Only if self-replication fails</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Advantages:</strong> - Risk reduction: not putting all eggs in one basket - Acceleration: 4 factories instead of 1 = 4x faster growth - Technology verification: first factory validates the concept</p>
+<p><strong>Advantages:</strong> - Redundancy: 2 factories in E1 - one fails, other works - Feedback: 1 month of data from E1 before E2 decision - E2 correction: can adjust cargo based on E1 results - E3+ insurance: critical fixes if needed</p>
 <hr>
 </section>
 <section id="carrier-options" class="level2">
@@ -1615,8 +1679,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p>*Payload capacity to Mercury trajectory - estimate (~30-35% of LEO). High delta-v (~12.5 km/s) due to braking near the Sun.</p>
 </section>
-<section id="e1-delivery-scenarios-75-t" class="level3">
-<h3 class="anchored" data-anchor-id="e1-delivery-scenarios-75-t">E1 Delivery Scenarios (75 t)</h3>
+<section id="e1-delivery-scenarios-150-t" class="level3">
+<h3 class="anchored" data-anchor-id="e1-delivery-scenarios-150-t">E1 Delivery Scenarios (150 t)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 28%">
@@ -1635,21 +1699,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Minimum launches</td>
-<td>Starship</td>
-<td>1-2</td>
-<td>After 2027</td>
+<td>Starship (2027+)</td>
+<td>2-3</td>
+<td>~50-70 t/flight to Mercury</td>
 </tr>
 <tr class="even">
-<td>Available now</td>
-<td>Falcon Heavy + Long March 5B</td>
-<td>5-6</td>
-<td>Multi-launch scheme</td>
+<td>International fleet</td>
+<td>FH + LM5B + A5</td>
+<td>5-8</td>
+<td>Distributed risk</td>
 </tr>
 <tr class="odd">
-<td>International</td>
-<td>Mixed fleet</td>
-<td>3-4</td>
-<td>Distributed risk</td>
+<td>Mixed approach</td>
+<td>Starship + medium carriers</td>
+<td>3-5</td>
+<td>Optimization</td>
 </tr>
 </tbody>
 </table>
@@ -1657,9 +1721,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <hr>
 </section>
 </section>
-<section id="expedition-1-ground-zero-factory---final-deployment" class="level2">
-<h2 class="anchored" data-anchor-id="expedition-1-ground-zero-factory---final-deployment">Expedition 1: Ground Zero Factory - Final Deployment</h2>
-<p><strong>Cargo: 75 tons</strong> (see carrier options above)</p>
+<section id="expedition-1-ground-zero-factories---final-deployment" class="level2">
+<h2 class="anchored" data-anchor-id="expedition-1-ground-zero-factories---final-deployment">Expedition 1: Ground Zero Factories - Final Deployment</h2>
+<p><strong>Cargo: 150 tons</strong> (see carrier options above)</p>
 <section id="differences-from-lunar-version" class="level4">
 <h4 class="anchored" data-anchor-id="differences-from-lunar-version">Differences from Lunar Version</h4>
 <ul>
@@ -1678,40 +1742,41 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Ground Zero Factory (modules)</td>
-<td>35 t</td>
-<td>Gen-2 robot production</td>
+<td>2 factories (modules)</td>
+<td>70 t</td>
+<td>Redundancy: one fails - other works</td>
 </tr>
 <tr class="even">
-<td>Gen-1 robots</td>
-<td>15 t</td>
-<td>Factory assembly (56 pcs)</td>
+<td>Gen-1 robots (2×56)</td>
+<td>30 t</td>
+<td>Factory assembly at 2 sites</td>
 </tr>
 <tr class="odd">
 <td>Starter concentrators</td>
-<td>1 t</td>
-<td>30 MW for first days</td>
+<td>2 t</td>
+<td>60 MW for 2 factories</td>
 </tr>
 <tr class="even">
-<td>MD components</td>
-<td>20 t</td>
-<td>Accelerated first Mass Driver assembly</td>
+<td>MD components (×2)</td>
+<td>40 t</td>
+<td>Parallel MD construction</td>
 </tr>
 <tr class="odd">
 <td>Consumables</td>
-<td>4 t</td>
-<td>Vitamins for one year</td>
+<td>8 t</td>
+<td>Vitamins for one year (×2 sites)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Key milestones:</strong> - <strong>Day 7: Factory operational!</strong> Begins Gen-2 robot production - <strong>Month 6: First MD ready</strong> -&gt; Dyson Swarm begins</p>
-<p><strong>Success criteria (by month 3):</strong> - Factory produces 15 Gen-2 robots/month - Local concentrators provide 100+ MW energy - MD under construction (60% complete)</p>
+<p><strong>Key milestones:</strong> - <strong>Day 7-14: Factories #1 and #2 operational!</strong> Begin Gen-2 production - <strong>Month 3-5: First MDs ready</strong> -&gt; Dyson Swarm begins</p>
+<p><strong>Success criteria (by month 3):</strong> - Both factories produce 15 Gen-2 robots/month each (30 total) - Local concentrators provide 120+ MW energy - MDs under construction (50%+ complete)</p>
 <hr>
 </section>
 </section>
-<section id="expedition-2-reinforcement-month-4-5" class="level2">
-<h2 class="anchored" data-anchor-id="expedition-2-reinforcement-month-4-5">Expedition 2: Reinforcement (Month 4-5)</h2>
-<p><strong>“Leap of faith” strategy:</strong> - Day 7: Factory #1 operational -&gt; data to Earth - Month 1: E2 launches (not waiting for full confirmation) - Transit: ~3-4 months (direct trajectory) - <strong>Month 4-5: E2 arrives</strong></p>
+<section id="expedition-2-reinforcement-month-9-10" class="level2">
+<h2 class="anchored" data-anchor-id="expedition-2-reinforcement-month-9-10">Expedition 2: Reinforcement (Month 9-10)</h2>
+<p><strong>“Leap of faith” with feedback strategy:</strong> - Day 7-14: Factories #1 and #2 operational -&gt; data to Earth - Month 4-5: 1 month of feedback collected - <strong>Month 5: E2 launch decision</strong> (based on E1 data) - Transit: ~4 months - <strong>Month 9-10: E2 arrives</strong></p>
+<p><strong>Decision options:</strong> - Everything OK or minor issues → E2 launches with corrections - Critical issues → E2 delayed, analyze, prepare fixes</p>
 <p><strong>Cargo: 150 tons</strong> (see carrier options)</p>
 <table class="caption-top table">
 <thead>
@@ -1723,9 +1788,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>3 factories (modules)</td>
-<td>105 t</td>
-<td>Production scaling</td>
+<td>2 factories (modules)</td>
+<td>70 t</td>
+<td>Production scaling (total 4)</td>
 </tr>
 <tr class="even">
 <td>Gen-1 robots</td>
@@ -1734,17 +1799,26 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>MD components</td>
-<td>10 t</td>
-<td>Spare parts for MD #2-4</td>
+<td>40 t</td>
+<td>Spare parts for MD #3-4</td>
 </tr>
 <tr class="even">
 <td>Consumables</td>
-<td>5 t</td>
+<td>10 t</td>
 <td>Vitamins for 2 years</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Result:</strong> - Month 5: 4 factories operational - Production: 60 robots/month (instead of 15) - 4x faster growth - First MD ready by month 6 (no delays)</p>
+<p><strong>Result:</strong> - Month 10: 4 factories operational - Production: 60 robots/month (instead of 30) - 2x faster growth from this point - First MDs ready by month 6-8 (from E1)</p>
+<hr>
+</section>
+<section id="expedition-3-optional" class="level2">
+<h2 class="anchored" data-anchor-id="expedition-3-optional">Expedition 3+ (Optional)</h2>
+<p><strong>Condition:</strong> Only if self-replication is impossible.</p>
+<p><strong>When decided:</strong> Months 6-9, based on E1+E2 data.</p>
+<p><strong>Cargo:</strong> - Spare parts for real (not theoretical) failures - Corrected modules based on feedback - Additional resources for problem areas</p>
+<p><strong>If needed:</strong> - Launch: Month 7-10 - Arrival: Month 11-14 - Goal: Enable self-replication</p>
+<p><strong>If not needed:</strong> Project continues with E1+E2 resources only.</p>
 <hr>
 </section>
 <section id="regular-supplies-from-earth" class="level2">
@@ -1782,12 +1856,13 @@ document.addEventListener('DOMContentLoaded', function() {
 - Chipsets: ~72 kg (180 robots × 2 chipsets × 0.2 kg)
 - MRE anodes (Ir): ~4 kg (replacement of worn ones)
 - Nitrogen (N₂): ~3 kg (for Si₃N₄ ceramics)
-TOTAL: ~79 kg/factory/year
+- MoS₂ (lubricant): ~6 kg (60 robots × 0.1 kg/month)
+TOTAL: ~85 kg/factory/year
 
 Note: Electronics housings produced locally from Al.
 Glass fiber bushings — Al₂O₃ ceramics (local production).
 Wire drawing dies — Si₃N₄ ceramics (local, 3x lifespan).
-CNC cutters — Si₃N₄ ceramics (local Si + minimal N₂).</code></pre>
+Grinding abrasives — Al₂O₃ corundum (100% local from regolith).</code></pre>
 </section>
 <section id="supply-schedule" class="level3">
 <h3 class="anchored" data-anchor-id="supply-schedule">Supply Schedule</h3>
@@ -1840,17 +1915,17 @@ CNC cutters — Si₃N₄ ceramics (local Si + minimal N₂).</code></pre>
 </tbody>
 </table>
 <p>*Launches: international fleet, ~50 t/flight.</p>
-<p><strong>Full project import (years 4-15):</strong> ~2,400 t - Moon: ~80 t - Mercury (factories+MDs): ~2,325 t - Mirrors (electronics): included in vitamins - <a href="../../../en/science/reference/glossary.html#vitamins">Vitamins</a> (years 7-15): ~77 kg/factory/year</p>
+<p><strong>Full project import (years 4-15):</strong> ~2,660 t - Moon: ~260 t (80 t initial + 180 t LSP vitamins) - Mercury (factories+MDs): ~2,400 t - Mirrors (electronics): included in vitamins - <a href="../../../en/science/reference/glossary.html#vitamins">Vitamins</a> (years 7-15): ~85 kg/factory/year</p>
 <p>Details: <a href="../../../en/science/summaries/delivery.html#project-summary">Import Summary</a></p>
 </section>
 <section id="supply-economics" class="level3">
 <h3 class="anchored" data-anchor-id="supply-economics">Supply Economics</h3>
 <pre><code>Delivery cost (international fleet): ~$2,500/kg
-Total Mercury import: 2,325 t × $2,500/kg = ~$6B
+Total Mercury import: ~2,400 t × $2,500/kg = ~$6B
 
 For comparison (without localization): 10,000+ t × $2,500/kg = $25+ billion
 Savings from self-replication: ~$19 billion</code></pre>
-<p><strong>Conclusion:</strong> Earth supplies are not a problem. This is &lt;1% of mass produced on Mercury. 96% localization reduces delivery costs by 4x.</p>
+<p><strong>Conclusion:</strong> Earth supplies are not a problem. This is &lt;0.01% of mass produced on Mercury. 99.998% localization reduces delivery costs by 50,000x.</p>
 <hr>
 </section>
 </section>
@@ -2037,11 +2112,11 @@ Mirror energy (for base, 50% efficiency):
 18,000 x 93 MW x 0.5 = 837,000 MW = 837 GW
 
 Base consumption at this point:
-- 1 factory: 5 MW
-- 1 MD: 40 MW
-- Robots, infrastructure: 10 MW
-= 55 MW</code></pre>
-<p><strong>Excess: 837,000 / 55 = 15,200x</strong></p>
+- 1 factory: ~124 MW
+- 1 MD: ~39 MW
+- Robots, infrastructure: ~2 MW
+= ~165 MW</code></pre>
+<p><strong>Excess: 837,000 / 165 = ~5,100x</strong></p>
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
@@ -2052,8 +2127,8 @@ Base consumption at this point:
 <hr>
 </section>
 </section>
-<section id="months-5-12-expansion-with-4-factories" class="level2">
-<h2 class="anchored" data-anchor-id="months-5-12-expansion-with-4-factories">Months 5-12: Expansion (with 4 factories)</h2>
+<section id="months-10-15-expansion-with-4-factories" class="level2">
+<h2 class="anchored" data-anchor-id="months-10-15-expansion-with-4-factories">Months 10-15: Expansion (with 4 factories)</h2>
 <section id="now-the-only-constraint---robot-production" class="level3">
 <h3 class="anchored" data-anchor-id="now-the-only-constraint---robot-production">Now the Only Constraint - Robot Production</h3>
 <table class="caption-top table">
@@ -2081,28 +2156,28 @@ Base consumption at this point:
 </section>
 <section id="factory-advantage" class="level3">
 <h3 class="anchored" data-anchor-id="factory-advantage">4 Factory Advantage</h3>
-<pre><code>With 1 factory: 15 robots/month -&gt; slow growth
-With 4 factories: 60 robots/month -&gt; 4x faster</code></pre>
+<pre><code>With 2 factories (E1): 30 robots/month
+With 4 factories (E1+E2): 60 robots/month -&gt; 2x faster from this point</code></pre>
 </section>
 <section id="strategy-build-factories-and-mds-in-parallel" class="level3">
 <h3 class="anchored" data-anchor-id="strategy-build-factories-and-mds-in-parallel">Strategy: Build Factories and MDs in Parallel</h3>
-<pre><code>Month 5: 4 factories (60 robots/month) - E2 arrived
-Month 6: First MD ready!
-Month 7: 8 factories (120 robots/month)
-Month 9: 16 factories (240 robots/month)
-Month 12: 25 factories (375 robots/month)</code></pre>
+<pre><code>Month 4: 2 factories working (E1)
+Month 6-8: First MDs ready (from E1)!
+Month 10: 4 factories (E2 arrived) - 60 robots/month
+Month 12: 6 factories (90 robots/month)
+Month 15: 8 factories (120 robots/month)</code></pre>
 </section>
 <section id="parallel-more-mds" class="level3">
 <h3 class="anchored" data-anchor-id="parallel-more-mds">Parallel: More MDs</h3>
-<pre><code>Month 6: 1 MD (first!)
-Month 8: 3 MDs
-Month 10: 6 MDs
-Month 12: 12 MDs</code></pre>
+<pre><code>Month 6-8: 2 MDs (first, from E1!)
+Month 10: 4 MDs
+Month 12: 6 MDs
+Month 15: 8 MDs</code></pre>
 <hr>
 </section>
 </section>
-<section id="year-1-results-e2-arrived-by-month-5" class="level2">
-<h2 class="anchored" data-anchor-id="year-1-results-e2-arrived-by-month-5">Year 1: Results (E2 arrived by month 5)</h2>
+<section id="year-1-results-e2-arrived-by-month-10" class="level2">
+<h2 class="anchored" data-anchor-id="year-1-results-e2-arrived-by-month-10">Year 1: Results (E2 arrived by month 10)</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2113,37 +2188,37 @@ Month 12: 12 MDs</code></pre>
 <tbody>
 <tr class="odd">
 <td>Factories</td>
-<td>25</td>
+<td>8</td>
 </tr>
 <tr class="even">
 <td>Robots</td>
-<td>375/month</td>
+<td>120/month</td>
 </tr>
 <tr class="odd">
 <td>Mass Drivers</td>
-<td>12</td>
+<td>6</td>
 </tr>
 <tr class="even">
 <td>Mirrors in Swarm</td>
-<td>~2.5M</td>
+<td>~1M</td>
 </tr>
 <tr class="odd">
 <td>Swarm power</td>
-<td>~227 TW (solar)</td>
+<td>~93 TW (solar)</td>
 </tr>
 <tr class="even">
-<td>To Earth (23% efficiency)</td>
-<td><strong>47 TW</strong></td>
+<td>To Earth (18% efficiency)</td>
+<td><strong>16 TW</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>For comparison:</strong> World consumption = 2.3 TW</p>
-<p><strong>Already in one year - 20 times world consumption!</strong></p>
-<p><em>(Early E2 launch gives +2 months head start)</em></p>
+<p><strong>Already in one year - 7 times world consumption!</strong></p>
+<p><em>(Redundancy + feedback strategy adds ~5 months vs aggressive approach, but reduces risk significantly)</em></p>
 <hr>
 </section>
-<section id="years-2-3-exponential-growth" class="level2">
-<h2 class="anchored" data-anchor-id="years-2-3-exponential-growth">Years 2-3: Exponential Growth</h2>
+<section id="years-2-4-exponential-growth" class="level2">
+<h2 class="anchored" data-anchor-id="years-2-4-exponential-growth">Years 2-4: Exponential Growth</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2157,50 +2232,50 @@ Month 12: 12 MDs</code></pre>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>25</td>
-<td>12</td>
-<td>2.5M</td>
-<td>47 TW</td>
+<td>8</td>
+<td>6</td>
+<td>1M</td>
+<td>16 TW</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>120</td>
-<td>80</td>
-<td>40M</td>
-<td>750 TW</td>
+<td>60</td>
+<td>40</td>
+<td>20M</td>
+<td>370 TW</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>500</td>
-<td>400</td>
-<td>250M</td>
-<td>4,700 TW</td>
+<td>250</td>
+<td>200</td>
+<td>100M</td>
+<td>1,900 TW</td>
 </tr>
 <tr class="even">
-<td>3.5</td>
-<td>1,000</td>
+<td>4</td>
 <td>800</td>
-<td>500M</td>
-<td>9,500 TW</td>
+<td>600</td>
+<td>350M</td>
+<td>6,500 TW</td>
 </tr>
 <tr class="odd">
-<td>4</td>
+<td><strong>4.5</strong></td>
 <td><strong>~1,650</strong></td>
 <td><strong>1,000</strong></td>
 <td>700M</td>
-<td>13,300 TW</td>
+<td><strong>13,300 TW</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Conclusion:</strong> Early E2 launch -&gt; reach ~1650 factories and 1000 MDs in <strong>~4 years</strong>.</p>
+<p><strong>Conclusion:</strong> Redundancy + feedback -&gt; reach ~1650 factories and 1000 MDs in <strong>~4.5 years</strong> (+0.5 years vs aggressive approach).</p>
 <hr>
 </section>
 <section id="self-replication-1-factory---1650-factories" class="level2">
 <h2 class="anchored" data-anchor-id="self-replication-1-factory---1650-factories">Self-Replication: 1 Factory -&gt; ~1650 Factories</h2>
 <p><strong>Growth strategy:</strong> - Each factory produces 15 Gen-2 robots/month - Robots build new factories and MDs in parallel - Exponential growth limited only by robot production</p>
-<p><strong>Growth schedule:</strong> - <strong>Year 1:</strong> 25 factories, 12 MDs (after E2) - <strong>Year 2:</strong> 120 factories, 80 MDs - <strong>Year 3:</strong> 500 factories, 400 MDs - <strong>Year 3.5:</strong> 1000 factories, 800 MDs - <strong>Year 4:</strong> <strong>~1650 factories, 1000 MDs</strong></p>
-<p><strong>99% local materials:</strong> - Robot frames: Al (local) - Factory structures: Fe (local) - Mirrors: 4 um Al foil (local) - Factory domes: silicate composite (local)</p>
-<p><strong>1% import from Earth</strong> (“Vitamins”): - Electronics: control boards, sensors - Rare earths: Nd, Sm for magnets - Iridium: MRE anodes</p>
+<p><strong>Growth schedule (with redundancy + feedback):</strong> - <strong>Year 1:</strong> 8 factories, 6 MDs - <strong>Year 2:</strong> 60 factories, 40 MDs - <strong>Year 3:</strong> 250 factories, 200 MDs - <strong>Year 4:</strong> 800 factories, 600 MDs - <strong>Year 4.5:</strong> <strong>~1650 factories, 1000 MDs</strong></p>
+<p><strong>99.998% local materials (~129M t):</strong> - Robot frames: Al (local) - Factory structures: Fe (local) - Mirrors: 4 um Al foil (local) - Factory domes: silicate composite (local)</p>
+<p><strong>0.002% import from Earth</strong> (~2,660 t “Vitamins”): - Electronics: control boards, sensors - Rare earths: Nd, Sm for magnets - Iridium: MRE anodes</p>
 <blockquote class="blockquote">
 <p><strong>More details:</strong> <a href="../../../en/science/summaries/production.html">Production and Self-Replication</a>, <a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a></p>
 </blockquote>
@@ -2213,24 +2288,24 @@ Month 12: 12 MDs</code></pre>
 <p><strong>MD materials (99% local):</strong> - Rails: Fe (local) - Coils: Al + Cu import (critical for conductivity) - Control electronics: import from Earth</p>
 <p><strong>Single MD construction:</strong> - Time: ~1 month (with 60+ Gen-2 robots) - Mass: ~500 t (rails, coils, structures) - Launch energy: from local concentrators</p>
 <blockquote class="blockquote">
-<p><strong>More details:</strong> <a href="../../../en/science/detailed/railguns/theory.html">Mass Driver: Calculations</a></p>
+<p><strong>More details:</strong> <a href="../../../en/science/detailed/railguns/overview.html">Mass Driver: Calculations</a></p>
 </blockquote>
 <hr>
 </section>
 <section id="dyson-swarm---final-goal" class="level2">
 <h2 class="anchored" data-anchor-id="dyson-swarm---final-goal">Dyson Swarm - Final Goal</h2>
-<p><strong>Swarm parameters:</strong> - Mirror count: ~1.1 billion active (accounting for 3-5%/year degradation) - Total area: 1.1x10<sup>13</sup> m<sup>2</sup> (~11 million km<sup>2</sup>) - Mass: ~128 million tons - Solar power: ~114 PW - <strong>Power to Earth: ~21 PW</strong> (18% efficiency via LSP)</p>
+<p><strong>Swarm parameters:</strong> - Mirror count: ~1.1 billion active (accounting for 3-5%/year degradation) - Total area: 1.1x10<sup>13</sup> m<sup>2</sup> (~11 million km<sup>2</sup>) - Mass: ~128 million tons - Solar power: ~102 PW - <strong>Power to Earth: ~18 PW</strong> (18% efficiency via LSP)</p>
 <p><strong>For comparison:</strong> - World consumption 2026: 2.3 TW - Dyson Swarm (by year 10): <strong>9,430 TW</strong> = <strong>4100x world consumption</strong></p>
 <p><strong>Swarm organization:</strong> - Mirrors in clusters of 1000-10,000 - Each cluster = virtual antenna ~100 km - Focusing on LSP stations on Moon limbs - Electrochromic orientation control (no fuel)</p>
 <p><strong>Construction time:</strong> - ~9.5 years from first factory to 1.1 billion active mirrors - Mirror degradation already accounted in calculations</p>
 <p><strong>Disposal:</strong> - Failed mirrors fall into the Sun - No space debris around Earth</p>
 <blockquote class="blockquote">
-<p><strong>More details:</strong> <a href="../../../en/science/summaries/mirrors.html">Swarm Mirrors</a>, <a href="../../../en/science/detailed/railguns/scaling.html">Scaling</a></p>
+<p><strong>More details:</strong> <a href="../../../en/science/summaries/mirrors.html">Swarm Mirrors</a>, <a href="../../../en/science/detailed/railguns/overview.html">Scaling</a></p>
 </blockquote>
 <hr>
 </section>
-<section id="year-3-goal-achieved" class="level2">
-<h2 class="anchored" data-anchor-id="year-3-goal-achieved">Year 3: Goal Achieved</h2>
+<section id="year-4.5-goal-achieved" class="level2">
+<h2 class="anchored" data-anchor-id="year-4.5-goal-achieved">Year 4.5: Goal Achieved</h2>
 <section id="mass-drivers" class="level3">
 <h3 class="anchored" data-anchor-id="mass-drivers">1000 Mass Drivers</h3>
 <pre><code>Productivity: 1000 x 600 = 600,000 mirrors/day
@@ -2239,8 +2314,8 @@ Month 12: 12 MDs</code></pre>
 Energy to Earth:
 219M x 93 MW x 0.20 = 4,073 TW/year added
 
-By year 4 in Swarm: ~134M active mirrors
-Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
+By year 4.5 in Swarm: ~700M active mirrors
+Power: 700M x 93 MW x 0.20 ≈ 13,000 TW ≈ 13 PW</code></pre>
 </section>
 <section id="comparison" class="level3">
 <h3 class="anchored" data-anchor-id="comparison">Comparison</h3>
@@ -2257,12 +2332,12 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 <td>2.3 TW</td>
 </tr>
 <tr class="even">
-<td>Dyson Swarm (year 3)</td>
-<td>9,430 TW</td>
+<td>Dyson Swarm (year 4.5)</td>
+<td>13,300 TW</td>
 </tr>
 <tr class="odd">
 <td><strong>Ratio</strong></td>
-<td><strong>4,100x</strong></td>
+<td><strong>5,800x</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2285,7 +2360,7 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 <tbody>
 <tr class="odd">
 <td>Target power</td>
-<td>~10,000 TW</td>
+<td>~13,000 TW</td>
 </tr>
 <tr class="even">
 <td>World consumption</td>
@@ -2293,18 +2368,18 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 </tr>
 <tr class="odd">
 <td>Margin</td>
-<td>4,000x</td>
+<td>~5,800x</td>
 </tr>
 <tr class="even">
 <td>Time to achieve</td>
-<td><strong>3 years</strong></td>
+<td><strong>4.5 years</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why 4000x margin?</strong> - Mars terraforming (magnetic field) - Interplanetary logistics - Population and consumption growth (100 years ahead) - Space industry</p>
+<p><strong>Why ~6000x margin?</strong> - Mars terraforming (magnetic field) - Interplanetary logistics - Population and consumption growth (100 years ahead) - Space industry</p>
 </section>
-<section id="after-year-3-maintenance-mode" class="level3">
-<h3 class="anchored" data-anchor-id="after-year-3-maintenance-mode">After Year 3: Maintenance Mode</h3>
+<section id="after-year-4.5-maintenance-mode" class="level3">
+<h3 class="anchored" data-anchor-id="after-year-4.5-maintenance-mode">After Year 4.5: Maintenance Mode</h3>
 <pre><code>Growth STOPS after reaching goal:
 - 1000 MDs operating
 - Factories switch to repair and replacement
@@ -2325,19 +2400,138 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 <tbody>
 <tr class="odd">
 <td>Ramp-up</td>
-<td>0-3</td>
+<td>0–4.5</td>
 <td>Exponential growth</td>
 <td>Reach 1000 MDs</td>
 </tr>
 <tr class="even">
 <td>Plateau</td>
-<td>3+</td>
+<td>4.5+</td>
 <td>Maintenance</td>
 <td>System operation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Main conclusion:</strong> We’re not building an infinite machine. We’re building infrastructure with a finite goal. Exponential is only needed to reach the goal in reasonable time (3 years instead of 30).</p>
+<p><strong>Main conclusion:</strong> We’re not building an infinite machine. We’re building infrastructure with a finite goal. Exponential is only needed to reach the goal in reasonable time (4.5 years instead of 30).</p>
+<hr>
+</section>
+</section>
+<section id="energy-reception-infrastructure-years-4-10" class="level2">
+<h2 class="anchored" data-anchor-id="energy-reception-infrastructure-years-4-10">Energy Reception Infrastructure (years 4-10)</h2>
+<p>In parallel with Mercury operations, infrastructure for receiving and transmitting energy to Earth is being built.</p>
+<section id="lsp-stations-moon" class="level3">
+<h3 class="anchored" data-anchor-id="lsp-stations-moon">LSP Stations (Moon)</h3>
+<p><a href="../../../en/science/reference/technology-readiness.html#lsp-station">LSP</a> (Lunar Solar Power) — a network of stations on lunar limbs receiving light from the Swarm and transmitting energy to Earth via microwaves.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stations</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>PV area per station</td>
+<td>~160 km² (6,400 km² total)</td>
+</tr>
+<tr class="odd">
+<td>Location</td>
+<td>Lunar limbs (eastern + western)</td>
+</tr>
+<tr class="even">
+<td>Mass</td>
+<td>~178,000 t</td>
+</tr>
+<tr class="odd">
+<td>Production</td>
+<td>From lunar materials (Si, Al)</td>
+</tr>
+<tr class="even">
+<td>Construction time</td>
+<td>4-6 years</td>
+</tr>
+<tr class="odd">
+<td>Rate</td>
+<td>~50,000 t/year</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rectennas-earth" class="level3">
+<h3 class="anchored" data-anchor-id="rectennas-earth">Rectennas (Earth)</h3>
+<p>Global network of microwave receivers for 24/7 energy reception from LSP stations.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Count</td>
+<td>~100 stations</td>
+</tr>
+<tr class="even">
+<td>Area each</td>
+<td>~100 km² (10×10 km)</td>
+</tr>
+<tr class="odd">
+<td>Materials</td>
+<td>Al/Cu dipoles, Si diodes</td>
+</tr>
+<tr class="even">
+<td>Production</td>
+<td>Earth-based</td>
+</tr>
+<tr class="odd">
+<td>Budget</td>
+<td>$10-20B</td>
+</tr>
+<tr class="even">
+<td>Timeline</td>
+<td>3-5 years (parallel with Mercury)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rectenna locations:</strong> sparsely populated regions — Yakutia, Kazakhstan, Nevada, Gobi, Sahara, Atacama.</p>
+</section>
+<section id="construction-timeline" class="level3">
+<h3 class="anchored" data-anchor-id="construction-timeline">Construction Timeline</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>LSP (Moon)</th>
+<th>Rectennas (Earth)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>4-6</td>
+<td>Test station</td>
+<td>Pilot rectenna (1-2 units)</td>
+</tr>
+<tr class="even">
+<td>6-8</td>
+<td>15 stations</td>
+<td>30 rectennas</td>
+</tr>
+<tr class="odd">
+<td>8-10</td>
+<td>40 stations</td>
+<td>100 rectennas</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Synchronization with Mercury:</strong> By year 8 (when the Swarm starts producing significant energy) reception infrastructure is ready to receive 1+ PW.</p>
+<blockquote class="blockquote">
+<p><strong>More details:</strong> <a href="../../../en/science/detailed/hub.html">Energy Reception Hub</a> — efficiency, safety, alternative architectures</p>
+</blockquote>
 <hr>
 </section>
 </section>
@@ -2380,8 +2574,8 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 </tbody>
 </table>
 </section>
-<section id="mercury-phase-years-6-10" class="level3">
-<h3 class="anchored" data-anchor-id="mercury-phase-years-6-10">Mercury Phase (years 6-10)</h3>
+<section id="mercury-phase-years-610.5" class="level3">
+<h3 class="anchored" data-anchor-id="mercury-phase-years-610.5">Mercury Phase (years 6–10.5)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2395,32 +2589,32 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 <td>Expedition 1 landing on Mercury</td>
 </tr>
 <tr class="even">
-<td>Day 7</td>
-<td>Factory #1 operational</td>
+<td>Day 7–14</td>
+<td>Factories #1 and #2 operational (redundancy)</td>
 </tr>
 <tr class="odd">
-<td>Month 1</td>
-<td>E2 launches from Earth (“leap of faith”)</td>
+<td>Month 5</td>
+<td>E2 launch decision (after 1 month feedback)</td>
 </tr>
 <tr class="even">
-<td><strong>Month 4-5</strong></td>
-<td><strong>Expedition 2 arrival (+3 factories)</strong></td>
+<td><strong>Month 9–10</strong></td>
+<td><strong>Expedition 2 arrival (+2 factories, total 4)</strong></td>
 </tr>
 <tr class="odd">
-<td><strong>Month 6</strong></td>
-<td><strong>First MD - energy export begins</strong></td>
+<td><strong>Month 6–8</strong></td>
+<td><strong>First MDs - energy export begins</strong></td>
 </tr>
 <tr class="even">
 <td>Year 7</td>
-<td>2x world consumption on receivers</td>
+<td>16 TW on receivers (8x world consumption)</td>
 </tr>
 <tr class="odd">
 <td>Year 8</td>
-<td>16x world consumption</td>
+<td>370 TW (160x world consumption)</td>
 </tr>
 <tr class="even">
-<td><strong>Year 10</strong></td>
-<td><strong>1000 MDs, 100x world consumption</strong></td>
+<td><strong>Year 10.5</strong></td>
+<td><strong>1000 MDs, ~5800x world consumption</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2430,25 +2624,28 @@ Power: 134M x 93 MW x 0.20 = 2,493 TW ~ 2.5 PW</code></pre>
 <section id="critical-path-for-entire-project" class="level2">
 <h2 class="anchored" data-anchor-id="critical-path-for-entire-project">Critical Path for Entire Project</h2>
 <pre><code>PREPARATION (years 1-6):
-+---------------------------------------------------------+
-| Phase 1: R&amp;D (years 1-6+) -------------------------+    |
-|           |                                        |    |
-|           +---&gt; Phase 2: Earth Proving (years 2-4) |    |
-|           |            |                           |    |
-|           +---&gt; Phase 3: Moon (years 4-6) ---&gt; Validation
-+---------------------------------------------------------+
++-------------------------------------------------------------+
+| Phase 1: R&amp;D (years 1-6+) ---------------------------+      |
+|           |                                          |      |
+|           +---&gt; Phase 2: Earth Proving (years 2-4)   |      |
+|           |            |                             |      |
+|           +---&gt; Phase 3: Moon (years 4-6) ---&gt; Validation   |
++-------------------------------------------------------------+
                               |
-MERCURY (years 6-10):
-+---------------------------------------------------------+
-| Phase 4: E1: Landing -&gt; Factory (7 days) -&gt; First MD (6 mo) -+
-|                   |                              |           |
-|            Concentrators (parallel)              v           |
-|                                            +-- Expansion     |
-|         E2: Launch (mo 1) -&gt; Arrival (mo 4-5) -----+         |
-|          ^                                                   |
-|     "Leap of faith"                                          |
-+---------------------------------------------------------+</code></pre>
-<p><strong>Key decisions:</strong> - Moon as proving ground reduces Mercury risk - “Leap of faith” on Mercury accelerates by ~1 year - After first MD - energy is infinite, growth limited only by robots</p>
+MERCURY (years 6–10.5):
++-------------------------------------------------------------+
+| Phase 4: E1 (150 t, 2 factories):                           |
+|   Landing (mo 4) -&gt; 2 factories (7-14 d) -&gt; 2 MDs (mo 3-5) -+
+|                   |                                   |     |
+|            Concentrators (parallel)                   v     |
+|                                             +-- Expansion   |
+|   Decision (mo 5) -&gt; E2 (mo 9-10) -----------+              |
+|          ^                                                  |
+|     After 1 mo feedback                                     |
+|                                                             |
+|   E3+ (optional): only if self-replication impossible       |
++-------------------------------------------------------------+</code></pre>
+<p><strong>Key decisions:</strong> - Redundancy in E1: 2 factories instead of 1 - E2 decision: after 1 month of data from Mercury (not blind launch) - After first MD - energy is infinite, growth limited only by robots - E3+: insurance for critical systemic errors</p>
 <hr>
 </section>
 <section id="known-limitations" class="level2">
@@ -2498,28 +2695,37 @@ MERCURY (years 6-10):
 </table>
 <p><strong>Reasons:</strong> - Each problem in space -&gt; months of waiting - AI development is unpredictable (Waymo: 15 years, no full autonomy) - Political delays not accounted for</p>
 </section>
-<section id="leap-of-faith---high-risk" class="level4">
-<h4 class="anchored" data-anchor-id="leap-of-faith---high-risk">2. “Leap of Faith” - High Risk</h4>
-<p>Launching E2 one month after E1 landing (not waiting for full validation):</p>
+<section id="mercury-expeditions---risk-mitigation" class="level4">
+<h4 class="anchored" data-anchor-id="mercury-expeditions---risk-mitigation">2. Mercury Expeditions - Risk Mitigation</h4>
+<p><strong>Old approach (rejected):</strong> E2 launched before E1 landing (“blind launch”).</p>
+<p><strong>New approach:</strong> Redundancy + feedback before decision.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Scenario</th>
-<th>Consequences</th>
+<th>Mitigation</th>
+<th>Effect</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>E1 successful</td>
-<td>3 months gained</td>
+<td>2 factories in E1 (redundancy)</td>
+<td>One fails - other works</td>
 </tr>
 <tr class="even">
-<td>E1 failed</td>
-<td>E2 useless (~$1-2B lost)</td>
+<td>E2 decision after E1 landing</td>
+<td>1 month of data before launch</td>
+</tr>
+<tr class="odd">
+<td>E2 correction possible</td>
+<td>Spare parts for real failures</td>
+</tr>
+<tr class="even">
+<td>E3+ as insurance</td>
+<td>If self-replication impossible</td>
 </tr>
 </tbody>
 </table>
-<p><strong>E1 failure probability:</strong> 10-30% (first mission to new planet).</p>
+<p><strong>Residual risk:</strong> If both factories fail systemically (e.g., MRE doesn’t work in Mercury conditions) - ~$3-4B lost. Probability: &lt;5% after lunar validation.</p>
 </section>
 </section>
 <section id="high-issues" class="level3">
@@ -2682,8 +2888,7 @@ MERCURY (years 6-10):
 <ul>
 <li><a href="../../../en/science/reference/technology-readiness.html">Technologies and Sources</a> - TRL and bibliography</li>
 <li><a href="../../../en/science/summaries/mirrors.html">Swarm Mirrors</a> - construction, efficiency, energy cascade</li>
-<li><a href="../../../en/science/detailed/railguns/theory.html">Mass Drivers</a> - construction, materials, robots</li>
-<li><a href="../../../en/science/detailed/railguns/scaling.html">Scaling Problem</a> - criticism and solutions</li>
+<li><a href="../../../en/science/detailed/railguns/overview.html">Mass Drivers</a> - construction, materials, scaling</li>
 <li><a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a> - technology roadmap</li>
 </ul>
 

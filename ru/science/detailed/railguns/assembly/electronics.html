@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Электроника управления – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Электроника управления – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -874,9 +924,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Назначение:</strong> Системы управления запуском и контролем МД</li>
-<li><strong>Масса:</strong> ~7 т (96% местное, 4% импорт)</li>
-<li><strong>Импорт:</strong> ~275 кг (платы контроллеров, MOSFET-чипы, сенсоры)</li>
-<li><strong>Местное:</strong> ~6.85 т (конденсаторы <a href="../../reference/technology-readiness.qmd#nas-батареи">NaS</a>, радиаторы Al, корпуса)</li>
+<li><strong>Масса:</strong> ~6 т (97.5% местное, 2.5% импорт)</li>
+<li><strong>Импорт:</strong> ~142 кг (платы контроллеров, MOSFET-чипы, сенсоры)</li>
+<li><strong>Местное:</strong> ~5.6 т (конденсаторы <a href="../../reference/technology-readiness.qmd#nas-батареи">NaS</a>, радиаторы Al, корпуса)</li>
 </ul>
 </blockquote>
 <hr>
@@ -898,13 +948,13 @@ document.addEventListener('DOMContentLoaded', function() {
     end
 
     subgraph КОНТРОЛЬ ТРЕКА
-        SENSORS["600 сенсоров&lt;br/&gt;(ток, T, положение)"]
+        SENSORS["2 150 сенсоров&lt;br/&gt;(ток, T, положение)"]
         CAMERAS["50 камер&lt;br/&gt;(оптический контроль)"]
     end
 
     subgraph СИЛОВАЯ ЭЛЕКТРОНИКА
-        MOSFET["3000 MOSFET-ключей&lt;br/&gt;(включение катушек)"]
-        CAPS["Конденсаторные батареи&lt;br/&gt;(4 ГДж)"]
+        MOSFET["1 000 MOSFET-ключей&lt;br/&gt;(включение катушек)"]
+        CAPS["Конденсаторные батареи&lt;br/&gt;(4.7 ГДж)"]
     end
 
     subgraph СВЯЗЬ
@@ -990,11 +1040,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Количество</td>
-<td>100 блоков (каждые 30 м)</td>
+<td>34 блока (каждые ~30 м)</td>
 </tr>
 <tr class="even">
 <td>Функция</td>
-<td>Управление 30 катушками</td>
+<td>Управление ~30 катушками</td>
 </tr>
 <tr class="odd">
 <td>Процессор</td>
@@ -1014,11 +1064,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>ИТОГО масса плат</strong></td>
-<td><strong>45 кг</strong></td>
+<td><strong>~15 кг</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Источник платы</strong></td>
-<td><strong>Импорт с Земли</strong> (~45 кг)</td>
+<td><strong>Импорт с Земли</strong> (~15 кг)</td>
 </tr>
 <tr class="odd">
 <td><strong>Источник корпуса</strong></td>
@@ -1048,15 +1098,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Датчики тока (Холла)</td>
-<td>3000 (по 1 на катушку)</td>
+<td>1000 (по 1 на катушку)</td>
 <td>Контроль тока в обмотках</td>
-<td>3 кг</td>
+<td>1 кг</td>
 </tr>
 <tr class="even">
 <td>Термопары</td>
-<td>3000</td>
+<td>1000</td>
 <td>Контроль температуры катушек</td>
-<td>3 кг</td>
+<td>1 кг</td>
 </tr>
 <tr class="odd">
 <td>Датчики положения</td>
@@ -1072,9 +1122,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>ИТОГО</strong></td>
-<td><strong>6150</strong></td>
+<td><strong>2 150</strong></td>
 <td></td>
-<td><strong>~20 кг</strong></td>
+<td><strong>~17 кг</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1095,7 +1145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Количество</td>
-<td>3000 (по 1 на катушку)</td>
+<td>1000 (по 1 на катушку)</td>
 </tr>
 <tr class="even">
 <td>Напряжение</td>
@@ -1123,7 +1173,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>Источник чипа</strong></td>
-<td><strong>Импорт с Земли</strong> (~150 кг на МД)</td>
+<td><strong>Импорт с Земли</strong> (~50 кг на МД)</td>
 </tr>
 <tr class="odd">
 <td><strong>Источник радиатора</strong></td>
@@ -1151,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Ёмкость</td>
-<td>10 000 Ф (фарад)</td>
+<td>~1 300 кВт·ч</td>
 </tr>
 <tr class="odd">
 <td>Напряжение</td>
@@ -1159,7 +1209,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Энергия</td>
-<td>4 ГДж (на выстрел)</td>
+<td>4.7 ГДж (на выстрел)</td>
 </tr>
 <tr class="odd">
 <td>Масса</td>
@@ -1173,7 +1223,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><strong>Материалы:</strong> Na (анод) + S (катод) + Al₂O₃ бета-глинозём (сепаратор) — всё из <a href="../../../../../ru/science/detailed/materials/overview.html">реголита</a>.</p>
 <p><strong>Функция:</strong> Накопление энергии между выстрелами (зарядка 2-3 минуты).</p>
-<p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/railguns/theory.html#конденсаторные-батареи">Теория МД</a>, <a href="../../../../../ru/science/reference/technology-readiness.html#nas-батареи">NaS TRL 9</a></p>
+<p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/railguns/overview.html#конденсаторные-батареи">Теория МД</a>, <a href="../../../../../ru/science/reference/technology-readiness.html#nas-батареи">NaS TRL 9</a></p>
 <hr>
 </section>
 </section>
@@ -1223,11 +1273,11 @@ document.addEventListener('DOMContentLoaded', function() {
    - Охлаждение работает (T &lt;−140°C)
    - Трек свободен (камеры)
 
-2. Разгон (12 сек):
+2. Разгон (0.4 сек):
    - T=0: Включение катушки #1
-   - T=4 мс: Включение катушки #2
+   - T=0.4 мс: Включение катушки #2 (среднее)
    - ...
-   - T=12 сек: Включение катушки #3000 → выстрел
+   - T=0.4 сек: Включение катушки #1000 → выстрел
 
 3. Контроль траектории:
    - Реальная скорость vs расчётная
@@ -1255,21 +1305,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Платы контроллеров</td>
-<td>55 кг</td>
-<td>495 кг (корпуса Al)</td>
-<td>550 кг</td>
+<td>~25 кг</td>
+<td>~193 кг (корпуса Al)</td>
+<td>~218 кг</td>
 </tr>
 <tr class="even">
 <td>Сенсоры</td>
-<td>20 кг</td>
+<td>~17 кг</td>
 <td>—</td>
-<td>20 кг</td>
+<td>~17 кг</td>
 </tr>
 <tr class="odd">
 <td>MOSFET-чипы</td>
-<td>150 кг</td>
-<td>1.35 т (радиаторы Al)</td>
-<td>1.5 т</td>
+<td>~50 кг</td>
+<td>~400 кг (радиаторы Al)</td>
+<td>~450 кг</td>
 </tr>
 <tr class="even">
 <td><strong>Конденсаторы NaS</strong></td>
@@ -1285,14 +1335,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
-<td><strong>~275 кг</strong></td>
-<td><strong>~6.85 т</strong></td>
-<td><strong>~7.1 т</strong></td>
+<td><strong>~142 кг</strong></td>
+<td><strong>~5.6 т</strong></td>
+<td><strong>~5.7 т</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Локализация: 96%</strong> по массе (конденсаторы NaS + радиаторы + корпуса).</p>
-<p><strong>Вывод:</strong> Только платы и чипы импортируются (~275 кг/МД). Конденсаторы NaS и корпуса — местное производство.</p>
+<p><strong>Локализация: ~97.5%</strong> по массе (конденсаторы NaS + радиаторы + корпуса).</p>
+<p><strong>Вывод:</strong> Только платы и чипы импортируются (~142 кг/МД). Конденсаторы NaS и корпуса — местное производство.</p>
 <hr>
 </section>
 <section id="установка-электроники" class="level2">
@@ -1312,12 +1362,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>5 Кентавров-М</td>
 </tr>
 <tr class="even">
-<td>Установка блоков управления (100 шт)</td>
-<td>1 неделя</td>
+<td>Установка блоков управления (34 шт)</td>
+<td>3 дня</td>
 <td>10 Кентавров-М</td>
 </tr>
 <tr class="odd">
-<td>Подключение сенсоров (6150 шт)</td>
+<td>Подключение сенсоров (2 150 шт)</td>
 <td>1 неделя</td>
 <td>15 Кентавров-М</td>
 </tr>
@@ -1355,16 +1405,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>200 Вт</td>
 </tr>
 <tr class="even">
-<td>Блоки управления (100 шт)</td>
-<td>10 кВт</td>
+<td>Блоки управления (34 шт)</td>
+<td>3.4 кВт</td>
 </tr>
 <tr class="odd">
-<td>Сенсоры (6150 шт)</td>
-<td>6 кВт</td>
+<td>Сенсоры (2 150 шт)</td>
+<td>2 кВт</td>
 </tr>
 <tr class="even">
 <td>MOSFET-ключи (в режиме ожидания)</td>
-<td>3 кВт</td>
+<td>1 кВт</td>
 </tr>
 <tr class="odd">
 <td>Камеры и связь</td>
@@ -1372,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
-<td><strong>~20 кВт</strong> (постоянно)</td>
+<td><strong>~8 кВт</strong> (постоянно)</td>
 </tr>
 </tbody>
 </table>
@@ -1466,7 +1516,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><a href="../../../../../ru/science/detailed/railguns/assembly/track.html">Сборка трека</a> — установка электроники на МД</li>
 <li><a href="../../../../../ru/science/detailed/railguns/assembly/testing.html">Тестирование</a> — проверка электроники</li>
-<li><a href="../../../../../ru/science/detailed/railguns/theory.html">Теория МД</a> — физика и энергетика МД</li>
+<li><a href="../../../../../ru/science/detailed/railguns/overview.html">Теория МД</a> — физика и энергетика МД</li>
 <li><a href="../../../../../ru/science/detailed/railguns/elements/coils.html">Намотка катушек</a> — подключаются к MOSFET</li>
 </ul>
 

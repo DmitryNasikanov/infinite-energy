@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../ru/science/data/widgets.css">
+<meta property="og:title" content="Проект «Гелиос» за 5 минут – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Проект «Гелиос» за 5 минут – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -831,7 +881,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <ul class="collapse">
   <li><a href="#масштаб" id="toc-масштаб" class="nav-link" data-scroll-target="#масштаб">Масштаб</a></li>
   <li><a href="#бюджет-с-lsp-инфраструктурой" id="toc-бюджет-с-lsp-инфраструктурой" class="nav-link" data-scroll-target="#бюджет-с-lsp-инфраструктурой">Бюджет (с LSP инфраструктурой)</a></li>
-  <li><a href="#почему-это-выгодно" id="toc-почему-это-выгодно" class="nav-link" data-scroll-target="#почему-это-выгодно">Почему это выгодно?</a></li>
+  <li><a href="#почему-это-возможно" id="toc-почему-это-возможно" class="nav-link" data-scroll-target="#почему-это-возможно">Почему это возможно?</a></li>
   </ul></li>
   <li><a href="#технологическая-зрелость" id="toc-технологическая-зрелость" class="nav-link" data-scroll-target="#технологическая-зрелость">Технологическая зрелость</a></li>
   <li><a href="#земля-подготовка" id="toc-земля-подготовка" class="nav-link" data-scroll-target="#земля-подготовка">Земля: подготовка</a></li>
@@ -901,7 +951,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Именно для этого первые годы проекта (1-4) полностью посвящены <strong>НИОКР</strong> — научно-исследовательским и опытно-конструкторским работам.</p>
 </div>
 </div>
-<p>Построить <strong>Рой Дайсона</strong> — ~1.1 миллиарда зеркал вокруг Солнца, перехватывающих <strong>~114 петаватт</strong> солнечной энергии. Первый этап: <strong>1 ПВт на Земле</strong> (50× мирового потребления). Полный потенциал при масштабировании LSP: до ~21 ПВт (КПД передачи 18%).</p>
+<p>Построить <strong>Рой Дайсона</strong> — ~1.1 миллиарда зеркал вокруг Солнца, перехватывающих <strong>~102 петаватт</strong> солнечной энергии. Первый этап: <strong>1 ПВт на Земле</strong> (50× мирового потребления). Полный потенциал при масштабировании LSP: до ~18 ПВт (КПД передачи 18%).</p>
 <p><strong>Какие проблемы можно решить:</strong></p>
 <ul>
 <li>🌍 <strong>Глобальное потепление</strong> — замена ископаемого топлива + улавливание CO₂ + орбитальное охлаждение</li>
@@ -1020,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><a href="../../ru/science/summaries/delivery.html">Импорт с Земли</a></td>
-<td><strong>~2,400 т</strong> (96% локализация)</td>
+<td><strong>~2,400 т</strong> (99.998% локализация)</td>
 </tr>
 <tr class="odd">
 <td>Сроки строительства</td>
@@ -1028,7 +1078,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Мощность на Земле</td>
-<td><strong>1 ПВт</strong> (первый этап) / до 21 ПВт (полный)</td>
+<td><strong>1 ПВт</strong> (первый этап) / до 18 ПВт (полный)</td>
 </tr>
 </tbody>
 </table>
@@ -1046,67 +1096,55 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Оптимистичный</td>
-<td><strong>$190-240 млрд</strong></td>
+<td><strong>$200-250 млрд</strong></td>
 </tr>
 <tr class="even">
 <td>Базовый</td>
-<td><strong>$340-425 млрд</strong></td>
+<td><strong>$355-445 млрд</strong></td>
 </tr>
 <tr class="odd">
 <td>Консервативный</td>
-<td><strong>$470-590 млрд</strong></td>
+<td><strong>$490-610 млрд</strong></td>
 </tr>
 </tbody>
 </table>
 <p>Для сравнения: МКС — $150 млрд, Apollo — $280 млрд.</p>
 </section>
-<section id="почему-это-выгодно" class="level3">
-<h3 class="anchored" data-anchor-id="почему-это-выгодно">Почему это выгодно?</h3>
+<section id="почему-это-возможно" class="level3">
+<h3 class="anchored" data-anchor-id="почему-это-возможно">Почему это возможно?</h3>
 <blockquote class="blockquote">
-<p><strong>Ключевой инсайт:</strong> Заводы и роботы <strong>строятся на Меркурии</strong> из местных материалов. С Земли импортируется только электроника (~2,400 т). Всё остальное — бесплатно!</p>
+<p><strong>Ключевой принцип:</strong> Всё оборудование строится <strong>локально</strong> — на Меркурии и Луне — из местных материалов. С Земли импортируется только электроника (~2,400 т). <strong>Локализация: 99.998%.</strong></p>
 </blockquote>
+<p><strong>Масштаб локального производства:</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Показатель</th>
-<th>Земные цены</th>
-<th>На Меркурии</th>
-<th>Экономия</th>
+<th>Локация</th>
+<th>Что строится</th>
+<th>Масса</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>1650 заводов</strong></td>
-<td>$49.5 млрд</td>
-<td><strong>~$2.5 млрд</strong></td>
-<td><strong>$47 млрд</strong></td>
+<td>Меркурий</td>
+<td>Зеркала, МД, заводы, роботы</td>
+<td>~129 млн т</td>
 </tr>
 <tr class="even">
-<td><strong>60,000 роботов</strong></td>
-<td>$12 млрд</td>
-<td><strong>~$8 млрд</strong></td>
-<td><strong>$4 млрд</strong></td>
+<td>Луна</td>
+<td>LSP станции</td>
+<td>~178,000 т</td>
 </tr>
 <tr class="odd">
-<td>Ракет</td>
-<td>~900 шт</td>
-<td><strong>~50-100 шт</strong></td>
-<td>89%</td>
-</tr>
-<tr class="even">
-<td>Импорт</td>
-<td>~10,000 т</td>
-<td><strong>~2,400 т</strong></td>
-<td>76%</td>
+<td><strong>Итого локально</strong></td>
+<td></td>
+<td><strong>~129 млн т</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Экономия: ~$100+ млрд</strong> благодаря <a href="../../ru/science/detailed/factories/assembly/replication.html">саморепликации</a>.</p>
+<p>Без саморепликации пришлось бы доставить <strong>~129 миллионов тонн</strong> оборудования — это ~54,000 рейсов сверхтяжёлых ракет.</p>
 <blockquote class="blockquote">
-<p><strong>Гелиос — самый эффективный проект в истории человечества.</strong> Стоимость ~1.2× Apollo. Результат — энергия для всей планеты навсегда.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/budget.html">Бюджет проекта</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/detailed/factories/assembly/replication.html">Саморепликация</a>, <a href="../../ru/science/summaries/budget.html">Бюджет проекта</a></p>
 </blockquote>
 <hr>
 </section>
@@ -1166,7 +1204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>НИОКР (годы 1-2):</strong> - Разработка роботов, заводов и систем ИИ - Прототипы зеркал и масс-драйверов - Прототипы заводов и схема саморепликации - Планирование работы на Луне и Меркурии - Разработка лазерных приёмников</p>
 <p><strong>Полигон на Земле (годы 3-6):</strong> - Тестовый завод в условиях, близких к Меркурию (пустыня) - Отработка роботов Gen-1 в экстремальных условиях - Первый масс-драйвер (горизонтальные тесты)</p>
 <p><strong>Производство:</strong> - Роботы Gen-1 для <a href="../../ru/science/summaries/delivery.html">доставки</a> на Луну и Меркурий - Электроника — «витамины» для всего проекта</p>
-<p><strong>Ракеты-носители:</strong> - ~50-100 пусков за весь проект (благодаря локализации 96%) - Грузоподъёмность: ~50 т до Меркурия - Ракетная отрасль развивается органически (спутники, лунные программы)</p>
+<p><strong>Ракеты-носители:</strong> - ~50-100 пусков за весь проект (благодаря локализации 99.998%) - Грузоподъёмность: ~50 т до Меркурия - Ракетная отрасль развивается органически (спутники, лунные программы)</p>
 <blockquote class="blockquote">
 <p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/roadmap.html">Дорожная карта</a>, <a href="../../ru/science/summaries/budget.html">Бюджет</a></p>
 </blockquote>
@@ -1213,7 +1251,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../ru/science/summaries/moon.html">Луна</a>, <a href="../../ru/science/detailed/railguns/theory.html">Масс-драйвер</a></p>
+<p><strong>Подробнее:</strong> <a href="../../ru/science/detailed/hub.html#луна-в-проекте">Луна</a>, <a href="../../ru/science/detailed/railguns/overview.html">Масс-драйвер</a></p>
 </blockquote>
 <hr>
 </section>
@@ -1254,10 +1292,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="саморепликация">Саморепликация</h3>
 <p>Роботы строят роботов. Заводы строят заводы.</p>
 <ul>
-<li><strong>99% массы</strong> — из местных ресурсов (<strong>железо</strong> для рам, <strong>алюминий</strong> для корпусов, кремний)</li>
-<li><strong>1% массы</strong> — «витамины» с Земли (электроника, оптика)</li>
+<li><strong>99.998% массы</strong> — из местных ресурсов (~129 млн т: <strong>железо</strong> для рам, <strong>алюминий</strong> для корпусов, кремний)</li>
+<li><strong>0.002% массы</strong> — «витамины» с Земли (~2,400 т: электроника, оптика)</li>
 <li><strong><a href="../../ru/science/detailed/robots/overview.html">Роботы Gen-2</a></strong> — оптимизированные (~960 кг): Al рамы + Fe критические узлы</li>
-<li><strong>Энергия:</strong> 168 МВт (3 рейса панелей GaAs) — bootstrap без ожидания Роя</li>
+<li><strong>Энергия:</strong> ~151 МВт (~10,5 т CPV-система: концентраторы + GaAs) — bootstrap без ожидания Роя</li>
 <li><strong>Критический путь:</strong> Первый МД (месяц 6) → первые зеркала → масштабирование</li>
 </ul>
 <p>За <strong>~9.5 лет:</strong> 1 завод → ~1 650 заводов (1 500 Ф-З + 150 Ф-Р) → 1.1 млрд работающих зеркал (деградация уже учтена)</p>
@@ -1270,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="рой-дайсона-зеркала" class="level2">
 <h2 class="anchored" data-anchor-id="рой-дайсона-зеркала">Рой Дайсона: зеркала</h2>
 <p>~1 миллиард <a href="../../ru/science/summaries/mirrors.html">зеркал</a> на гелиоцентрических орбитах.</p>
-<p><strong>Каждое зеркало:</strong> - Размер: 100 × 100 м - Материал: алюминиевая фольга 4 мкм - Масса: ~116 кг - Мощность на Земле: ~19 МВт (при КПД 18%)</p>
+<p><strong>Каждое зеркало:</strong> - Размер: 100 × 100 м - Материал: алюминиевая фольга 4 мкм - Масса: ~116 кг - Мощность на Земле: ~17 МВт (при КПД 18%)</p>
 <p><strong>Организация:</strong> - Зеркала объединены в кластеры по 1 000-10 000 штук - Каждый кластер — виртуальная антенна ~100 км - Кластеры фокусируют свет на LSP-станции (Луна)</p>
 <p><strong>После запуска первых зеркал:</strong> - Часть энергии → Земля (через LSP) - Часть энергии → Луна (для продолжения строительства) - Часть энергии → Меркурий (для заводов и масс-драйверов)</p>
 <blockquote class="blockquote">
@@ -1283,7 +1321,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Последнее звено цепочки: свет Роя → электричество на Земле.</p>
 <section id="lsp-станции-lunar-solar-power" class="level3">
 <h3 class="anchored" data-anchor-id="lsp-станции-lunar-solar-power">LSP станции (Lunar Solar Power)</h3>
-<p><strong>Сеть из 20-40 станций на поверхности Луны</strong> (вместо орбитального хаба):</p>
+<p><strong>Сеть из 40 станций на поверхности Луны</strong> (вместо орбитального хаба):</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1294,7 +1332,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Станций</td>
-<td>20-40</td>
+<td>40</td>
 </tr>
 <tr class="even">
 <td>Расположение</td>
@@ -1412,7 +1450,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Ключевые факты:</strong></p>
 <ul>
 <li>Все критические технологии существуют (TRL 4-9) или активно разрабатываются</li>
-<li>Бюджет $255-520 млрд сопоставим с Apollo ($280 млрд) и МКС ($150 млрд)</li>
+<li>Бюджет $200-490 млрд сопоставим с Apollo ($280 млрд) и МКС ($150 млрд)</li>
 <li>Сроки 10-15 лет — реалистичны при международной кооперации</li>
 <li>Первая энергия на Земле — уже к году 8-9 от старта</li>
 </ul>

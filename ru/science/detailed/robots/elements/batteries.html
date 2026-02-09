@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -336,11 +337,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Производство батарей NaS – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Производство батарей NaS – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -373,6 +436,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -466,12 +534,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -655,19 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -865,6 +915,11 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#химическая-реакция" id="toc-химическая-реакция" class="nav-link" data-scroll-target="#химическая-реакция">Химическая реакция</a></li>
   </ul></li>
   <li><a href="#характеристики-nas-батарей" id="toc-характеристики-nas-батарей" class="nav-link" data-scroll-target="#характеристики-nas-батарей">Характеристики NaS-батарей</a></li>
+  <li><a href="#тепловой-режим-nas-батареи" id="toc-тепловой-режим-nas-батареи" class="nav-link" data-scroll-target="#тепловой-режим-nas-батареи">Тепловой режим NaS батареи</a>
+  <ul class="collapse">
+  <li><a href="#конструкция-термоизоляции" id="toc-конструкция-термоизоляции" class="nav-link" data-scroll-target="#конструкция-термоизоляции">Конструкция термоизоляции</a></li>
+  <li><a href="#тепловой-баланс" id="toc-тепловой-баланс" class="nav-link" data-scroll-target="#тепловой-баланс">Тепловой баланс</a></li>
+  </ul></li>
   <li><a href="#состав-батареи-1-квтч" id="toc-состав-батареи-1-квтч" class="nav-link" data-scroll-target="#состав-батареи-1-квтч">Состав батареи (1 кВтч)</a></li>
   <li><a href="#производство-nas-батарей" id="toc-производство-nas-батарей" class="nav-link" data-scroll-target="#производство-nas-батарей">Производство NaS батарей</a>
   <ul class="collapse">
@@ -919,14 +974,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Назначение:</strong> Энергоснабжение роботов <a href="../../reference/glossary.qmd#поколение-2-gen-2">Gen-2</a></li>
 <li><strong>Технология:</strong> Натрий-Серный аккумулятор (<a href="../../reference/technology-readiness.qmd#nas-батареи">NaS</a>)</li>
 <li><strong>Локализация:</strong> 85% местное (Na + S), 15% импорт (β-Al₂O₃ керамика)</li>
-<li><strong>Производительность:</strong> 10 батарей/день (50 кВтч каждая)</li>
+<li><strong>Производительность:</strong> 500 кВтч/день (пакеты различных размеров)</li>
 </ul>
 </blockquote>
 <hr>
 <section id="обзор" class="level2">
 <h2 class="anchored" data-anchor-id="обзор">Обзор</h2>
 <p>Роботы <a href="../../reference/glossary.qmd#поколение-2-gen-2">Gen-2</a> работают на натрий-серных батареях (<a href="../../reference/technology-readiness.qmd#nas-батареи">NaS</a> Battery). В отличие от Li-Ion батарей <a href="../../reference/glossary.qmd#поколение-1-gen-1">Gen-1</a> (с Земли), NaS батареи производятся из местных материалов — натрия и серы, добытых из реголита.</p>
-<p><strong>Ключевое преимущество:</strong> Высокая рабочая температура (+300°C) не проблема на Меркурии — на солнечной стороне и так +400°C. Подогрев не нужен.</p>
+<p><strong>Ключевое преимущество:</strong> Высокая рабочая температура (+300°C) совместима с Меркурием: в <a href="../../../../../ru/science/detailed/bootstrap.html">терминаторной зоне</a> (+50…+150°C) вакуумная термоизоляция и встроенный подогреватель (~50 Вт) легко поддерживают 300°C — энергозатраты ниже, чем у земных аналогов (NGK Insulators).</p>
 <hr>
 </section>
 <section id="принцип-работы-nas-батареи" class="level2">
@@ -1037,12 +1092,98 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Вывод:</strong> NaS проигрывает Li-Ion по удельной энергии, но выигрывает по сроку службы и локализации.</p>
 <hr>
 </section>
+<section id="тепловой-режим-nas-батареи" class="level2">
+<h2 class="anchored" data-anchor-id="тепловой-режим-nas-батареи">Тепловой режим NaS батареи</h2>
+<p>NaS батарея работает при 300-350°C. На полюсе Меркурия (кратер Прокофьева, 85°N) амбиентная температура <a href="../../../../../ru/science/detailed/bootstrap.html">рабочей зоны</a> составляет +50…+150°C — значительно теплее, чем на Земле (-20…+40°C), где NaS батареи успешно эксплуатируются (NGK Insulators, Япония, 700+ МВтч установленной мощности).</p>
+<section id="конструкция-термоизоляции" class="level3">
+<h3 class="anchored" data-anchor-id="конструкция-термоизоляции">Конструкция термоизоляции</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Наружный корпус</td>
+<td>Сталь Fe-6%Mn</td>
+</tr>
+<tr class="even">
+<td>Вакуумный зазор</td>
+<td>Двустенная конструкция (аналог термоса)</td>
+</tr>
+<tr class="odd">
+<td>Внутренний корпус</td>
+<td>Сталь + β-Al₂O₃ электролит</td>
+</tr>
+<tr class="even">
+<td>Подогреватель</td>
+<td>Резистивный, 50-100 Вт, внутри корпуса</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="тепловой-баланс" class="level3">
+<h3 class="anchored" data-anchor-id="тепловой-баланс">Тепловой баланс</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 7%">
+<col style="width: 20%">
+<col style="width: 15%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Режим</th>
+<th>Амбиент</th>
+<th>ΔT</th>
+<th>Теплопотери</th>
+<th>Подогрев</th>
+<th>Автономия батареи</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Работа (разряд)</td>
+<td>+100°C</td>
+<td>200°C</td>
+<td>~30 Вт</td>
+<td>Не нужен (саморазогрев)</td>
+<td>∞</td>
+</tr>
+<tr class="even">
+<td>Ожидание</td>
+<td>+50°C</td>
+<td>250°C</td>
+<td>~50 Вт</td>
+<td>50 Вт (встроенный)</td>
+<td>Краб: 400 ч, Кентавр: 100 ч</td>
+</tr>
+<tr class="odd">
+<td>Земля (справка)</td>
+<td>-20°C</td>
+<td>320°C</td>
+<td>~100 Вт</td>
+<td>100 Вт</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Саморазогрев при разряде:</strong> Внутреннее сопротивление NaS ячейки генерирует тепло. При нагрузке 5-10 кВт потери составляют 0.5-1.5 кВт тепла — батарея поддерживает рабочую температуру без подогревателя.</p>
+<p><strong>Режим ожидания:</strong> Подогреватель 50 Вт потребляет ~1.2 кВтч/день. Для Краб-М (20 кВтч) это обеспечивает &gt;16 дней автономного ожидания; для Кентавр-М (5 кВтч) — &gt;4 дней.</p>
+<p><strong>Аварийное остывание:</strong> Если батарея полностью остынет (потеря энергии), Na и S затвердевают без повреждения ячейки. Повторный пуск: внешний подогрев от кабеля (~1 кВт, ~2 часа). Роботы НЕ работают в <a href="../../../../../ru/science/detailed/bootstrap.html">тени</a> (-180°C) — штатная рабочая зона +50…+150°C.</p>
+<hr>
+</section>
+</section>
 <section id="состав-батареи-1-квтч" class="level2">
 <h2 class="anchored" data-anchor-id="состав-батареи-1-квтч">Состав батареи (1 кВтч)</h2>
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="81" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 80;"><span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"CMP-012"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="110" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 109;"><span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"CMP-012"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
@@ -1103,12 +1244,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Время производства:</strong> 24 часа на 1 батарею (с учётом первой зарядки)</p>
+<blockquote class="blockquote">
+<p><strong>Параллельность:</strong> 24 часа на 1 батарею, но 10 параллельных линий позволяют выпускать 10 батарей/день. Каждая линия начинает новую батарею ежедневно.</p>
+</blockquote>
 <hr>
 </section>
 </section>
 <section id="производительность-линии" class="level2">
 <h2 class="anchored" data-anchor-id="производительность-линии">Производительность линии</h2>
-<p><strong>Производительность:</strong> ~10 батарей/день (50 кВтч каждая) = <strong>500 кВтч/день</strong></p>
+<p><strong>Производительность:</strong> ~500 кВтч/день (пакеты различных размеров) = <strong>500 кВтч/день</strong></p>
 <p><strong>На 5 роботов/день:</strong></p>
 <table class="caption-top table">
 <thead>
@@ -1126,22 +1270,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Краб-М</td>
-<td>50 кВтч</td>
+<td>20 кВтч</td>
 <td>1</td>
 </tr>
 <tr class="odd">
 <td>Кентавр-М</td>
-<td>20 кВтч</td>
-<td>0.4</td>
+<td>5 кВтч</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Средний микс:</strong> ~3 батареи/день для роботов + 7 батарей/день для запаса/обслуживания</p>
+<p><strong>Средний микс:</strong> ~2 пакета 20 кВтч (Краб) + ~2 пакета 5 кВтч (Кентавр) ≈ 50 кВтч/день для роботов. Остальное (450 кВтч/день): запас, замена, стационарное хранение энергии.</p>
 <hr>
 </section>
 <section id="материальный-баланс" class="level2">
 <h2 class="anchored" data-anchor-id="материальный-баланс">Материальный баланс</h2>
-<p><strong>На 10 батарей/день (50 кВтч каждая = 333 кг):</strong></p>
+<p><strong>На 500 кВтч/день (суточное потребление материалов):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1263,7 +1407,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Ёмкость</td>
 <td>Тест заряда</td>
-<td>&gt;45 кВтч (90%)</td>
+<td>&gt;90% номинала</td>
 <td>Повторная активация</td>
 </tr>
 <tr class="odd">
@@ -1287,10 +1431,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Проблема:</strong> Керамика β-Al₂O₃ импортируется с Земли (15% массы батареи).</p>
 <p><strong>Решение:</strong> Производство β-глинозёма на Меркурии:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 40%">
-<col style="width: 60%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Этап</th>
@@ -1304,7 +1444,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>2. Стабилизация β-фазы</td>
-<td>Добавка Na₂O (0.5-1%) + спекание при 1600°C</td>
+<td>Добавка Na₂O (0.5-1%) + спекание при 1600°C (<a href="../../../../../ru/science/detailed/materials/mre.html">солнечный концентратор</a>, 1500-2000°C)</td>
 </tr>
 <tr class="odd">
 <td>3. Керамизация</td>

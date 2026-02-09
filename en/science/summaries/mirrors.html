@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -340,6 +341,59 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
@@ -374,6 +428,15 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Swarm Mirrors – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Swarm Mirrors – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -406,6 +469,11 @@ window.Quarto = {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -499,12 +567,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -688,19 +750,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -896,7 +946,7 @@ window.Quarto = {
   <li><a href="#physical-parameters" id="toc-physical-parameters" class="nav-link" data-scroll-target="#physical-parameters">Physical Parameters</a></li>
   <li><a href="#material-composition" id="toc-material-composition" class="nav-link" data-scroll-target="#material-composition">Material Composition</a></li>
   <li><a href="#frameless-design-ikaros-principle" id="toc-frameless-design-ikaros-principle" class="nav-link" data-scroll-target="#frameless-design-ikaros-principle">Frameless Design (IKAROS Principle)</a></li>
-  <li><a href="#electronics" id="toc-electronics" class="nav-link" data-scroll-target="#electronics">Electronics</a></li>
+  <li><a href="#two-types-of-mirrors-mother-and-children" id="toc-two-types-of-mirrors-mother-and-children" class="nav-link" data-scroll-target="#two-types-of-mirrors-mother-and-children">Two Types of Mirrors: Mother and Children</a></li>
   </ul></li>
   <li><a href="#attitude-control" id="toc-attitude-control" class="nav-link" data-scroll-target="#attitude-control">Attitude Control</a>
   <ul class="collapse">
@@ -915,7 +965,6 @@ window.Quarto = {
   <li><a href="#transmission-architecture" id="toc-transmission-architecture" class="nav-link" data-scroll-target="#transmission-architecture">Transmission Architecture</a></li>
   <li><a href="#swarm-energy-distribution" id="toc-swarm-energy-distribution" class="nav-link" data-scroll-target="#swarm-energy-distribution">Swarm Energy Distribution</a></li>
   <li><a href="#mirror-clusters" id="toc-mirror-clusters" class="nav-link" data-scroll-target="#mirror-clusters">Mirror Clusters</a></li>
-  <li><a href="#optical-cluster-control" id="toc-optical-cluster-control" class="nav-link" data-scroll-target="#optical-cluster-control">Optical Cluster Control</a></li>
   </ul></li>
   <li><a href="#production-schedule" id="toc-production-schedule" class="nav-link" data-scroll-target="#production-schedule">Production Schedule</a>
   <ul class="collapse">
@@ -1058,22 +1107,36 @@ window.Quarto = {
 <li><strong>Cables</strong> — connect corners to central hub, transmit tension</li>
 </ul>
 </section>
-<section id="electronics" class="level3">
-<h3 class="anchored" data-anchor-id="electronics">Electronics</h3>
-<p>At the mirror’s center is <strong>one integrated chip</strong> the size of a coin (~50 g), delivered from Earth. All functions are combined on a single die:</p>
+<section id="two-types-of-mirrors-mother-and-children" class="level3">
+<h3 class="anchored" data-anchor-id="two-types-of-mirrors-mother-and-children">Two Types of Mirrors: Mother and Children</h3>
+<p>The Swarm is organized into <strong>clusters of ~1,000 mirrors</strong>. Within each cluster — two types of mirrors with different electronics:</p>
+<section id="mother-mirror-1-per-1000-children" class="level4">
+<h4 class="anchored" data-anchor-id="mother-mirror-1-per-1000-children">Mother Mirror (1 per ~1,000 Children)</h4>
+<p><strong>Full control chip</strong> (~50 g), delivered from Earth:</p>
 <ul>
-<li><strong>Star tracker</strong> — determines own orientation</li>
-<li><strong>Radio beacons</strong> — positioning relative to other mirrors</li>
-<li><strong>Onboard processor</strong> — calculates required pointing angle</li>
-<li><strong>Photovoltaic power</strong> — a few cm² of silicon, provides microwatts for operation</li>
+<li><strong>Star tracker</strong> — determines cluster orientation</li>
+<li><strong>Onboard processor</strong> — calculates commands for all Children</li>
+<li><strong>Laser transmitter</strong> — optical communication with Children</li>
+<li><strong>Radio module</strong> — communication with Earth and other Mothers</li>
+<li><strong>Power photodiode</strong> — a few cm² of silicon</li>
+</ul>
+</section>
+<section id="children-mirrors-999-of-1000" class="level4">
+<h4 class="anchored" data-anchor-id="children-mirrors-999-of-1000">Children Mirrors (~999 of 1,000)</h4>
+<p><strong>Only a photoreceiver</strong> (~2 g) — no processor:</p>
+<ul>
+<li><strong>Photodiode receiver</strong> — receives optical commands from Mother</li>
+<li><strong>Simple decoder</strong> — converts light pulses into electrochromic signals</li>
+<li><strong>No radio, no processor</strong> — pure analog/digital logic</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Why from Earth?</strong> Manufacturing highly integrated chips requires extremely complex lithographic processes. This is the only component that is impractical to produce in space.</p>
+<p><strong>Why this architecture?</strong> Individual chips per mirror = 55,000 t import. With Mother-Children architecture: <strong>~1,055 t</strong> — <strong>98% savings</strong>. Details: <a href="#earth-import">Earth Import</a>.</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>Technology baseline (2025):</strong> The radiation-hardened electronics market is <a href="https://www.marketsandmarkets.com/Market-Reports/radiation-hardened-electronics-market-44047967.html">$1.6 billion</a>. Modern star trackers weigh <a href="https://pressbooks-dev.oer.hawaii.edu/epet302/chapter/7-5/">tens of grams</a>, solar sensors weigh less than 5 g. <a href="https://spectrum.ieee.org/exploring-space-with-chipsized-satellites">Chip-scale satellites</a> (Sprites) weigh only 10 g total. By the 2030s, SoC solutions will combine processor, memory, and sensors in a single chip weighing ~10-20 g.</p>
+<p><strong>Technology baseline (2025):</strong> <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">Laser inter-satellite links</a> (China, 2024-2025) — optical communication between satellites. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a> — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.</p>
 </blockquote>
 <hr>
+</section>
 </section>
 </section>
 <section id="attitude-control" class="level2">
@@ -1100,6 +1163,44 @@ window.Quarto = {
 </ul>
 <blockquote class="blockquote">
 <p><strong>Why TiO₂, not WO₃?</strong> Tungsten oxide (WO₃) is more efficient, but tungsten was not measured by MESSENGER and its availability is unknown. Titanium is confirmed (~0.5%), and at billion-mirror scale source reliability is critical. TiO₂ is less efficient (17% vs 60%), but production is 100% local.</p>
+</blockquote>
+<p><strong>Command Flow (Mother → Children):</strong></p>
+<p>Children mirrors have no onboard processor. Electrochromic commands come from the Mother via optical channel:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Carrier frequency</td>
+<td>1-10 kHz (filters solar noise)</td>
+</tr>
+<tr class="even">
+<td>Encoding</td>
+<td>Manchester or FSK (noise resistance)</td>
+</tr>
+<tr class="odd">
+<td>Speed</td>
+<td>100-1000 bps</td>
+</tr>
+<tr class="even">
+<td>Commands</td>
+<td>4-8 bits (16-256 electrochromic states)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decoder on Child (~2 g):</strong></p>
+<ul>
+<li>Photodiode + bandpass filter</li>
+<li>Comparator + simple digital logic</li>
+<li>Electrochromic strip drivers</li>
+<li><strong>No processor</strong> — hardware decoder</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Technology baseline:</strong> <a href="https://www.nasa.gov/mission/deep-space-optical-communications-dsoc/">NASA DSOC</a> (2024) — optical communication at 140 million miles. <a href="https://spectrum.ieee.org/exploring-space-with-chipsized-satellites">Sprites</a> (Cornell) — 4g satellite for $50.</p>
 </blockquote>
 <p><strong>Pointing Accuracy:</strong></p>
 <table class="caption-top table">
@@ -1182,7 +1283,7 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Solar flux (Mercury orbit)</td>
-<td>10,343 W/m²</td>
+<td>9,287 W/m²</td>
 </tr>
 <tr class="even">
 <td>Mirror area</td>
@@ -1190,7 +1291,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Incident energy</td>
-<td>103 MW</td>
+<td>93 MW</td>
 </tr>
 <tr class="even">
 <td>Transmission efficiency to Earth</td>
@@ -1198,7 +1299,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td><strong>Power on Earth</strong></td>
-<td><strong>~19 MW</strong></td>
+<td><strong>~17 MW</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1214,9 +1315,9 @@ P_{solar} = \frac{20 \text{ PW}}{0.18} \approx 111 \text{ PW}
 <section id="how-many-mirrors-are-needed" class="level3">
 <h3 class="anchored" data-anchor-id="how-many-mirrors-are-needed">How Many Mirrors Are Needed?</h3>
 <p><span class="math display">\[
-N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \times 10^{9} \approx \textbf{~1.1 billion}
+N = \frac{20 \times 10^{15} \text{ W}}{17 \times 10^6 \text{ W}} \approx 1.18 \times 10^{9} \approx \textbf{~1.1 billion}
 \]</span></p>
-<p><strong>Verification by powers of ten:</strong> - 1 mirror = 19 MW to Earth (103 MW × 18%) - 1,000 mirrors = 19 GW - 1,000,000 mirrors = 19 TW (≈ global consumption) - 1,100,000,000 mirrors = <strong>~21 PW</strong> (~1000× global)</p>
+<p><strong>Verification by powers of ten:</strong> - 1 mirror = 17 MW to Earth (93 MW × 18%) - 1,000 mirrors = 17 GW - 1,000,000 mirrors = 17 TW (≈ global consumption) - 1,100,000,000 mirrors = <strong>~18 PW</strong> (~800× global)</p>
 </section>
 <section id="swarm-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="swarm-parameters">Swarm Parameters</h3>
@@ -1254,7 +1355,7 @@ N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \t
 </tr>
 <tr class="odd">
 <td>Power on Earth</td>
-<td><strong>~21 petawatts (~1000×)</strong></td>
+<td><strong>~18 petawatts (~800×)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1268,10 +1369,10 @@ N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \t
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-    SUN["☀️ Sun"] --&gt;|"~114 PW"| SWARM["Swarm Mirrors"]
+    SUN["☀️ Sun"] --&gt;|"~102 PW"| SWARM["Swarm Mirrors"]
     SWARM --&gt;|"light"| LSP["LSP stations&lt;br/&gt;(Moon, limbs)"]
     LSP --&gt;|"microwaves&lt;br/&gt;2.45 GHz"| RECT["Rectenna&lt;br/&gt;(Earth)"]
-    RECT --&gt;|"~21 PW"| GRID["Power grid"]
+    RECT --&gt;|"~18 PW"| GRID["Power grid"]
 
     style SUN fill:#fff3cd
     style SWARM fill:#e8e8a8
@@ -1348,75 +1449,42 @@ N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \t
 <h3 class="anchored" data-anchor-id="transmission-architecture">Transmission Architecture</h3>
 <p>The Swarm directs energy to <strong><a href="../../../en/science/reference/technology-readiness.html#lsp-station">Lunar Solar Power stations (LSP)</a></strong>.</p>
 <pre><code>Swarm Mirrors (Mercury) → Light to Moon → PV → Microwaves → Earth</code></pre>
-<p><strong>Why the Moon, not an orbital Hub?</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Orbital Hub (L1)</th>
-<th>Moon (LSP)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Efficiency</td>
-<td>10%</td>
-<td><strong>18%</strong></td>
-</tr>
-<tr class="even">
-<td>Radiators</td>
-<td>7,900 km² in space</td>
-<td>0 (heat into ground)</td>
-</tr>
-<tr class="odd">
-<td>Structure mass</td>
-<td>15 million tons in orbit</td>
-<td>On surface</td>
-</tr>
-<tr class="even">
-<td>Construction</td>
-<td>Zero gravity</td>
-<td>Gravity</td>
-</tr>
-</tbody>
-</table>
 <blockquote class="blockquote">
-<p><strong>Conclusion:</strong> An orbital Hub is <a href="../../../en/science/detailed/hub.html">economically unfeasible</a> — half the efficiency and massive radiators in space.</p>
+<p><strong>Why the Moon, not an orbital hub?</strong> See <a href="../../../en/science/detailed/hub.html#why-on-the-moon-not-in-orbit">detailed analysis</a> — 18% vs 10% efficiency, no radiators in space.</p>
 </blockquote>
 </section>
 <section id="swarm-energy-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="swarm-energy-distribution">Swarm Energy Distribution</h3>
-<p>Not all mirrors direct energy to the Moon. Distribution:</p>
+<p>The Swarm of 1.1 billion mirrors is <strong>capacity</strong> of ~18 PW on Earth. LSP Phase 1 uses <strong>5% of the Swarm</strong> (~55M mirrors) to deliver 1 PW:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Purpose</th>
-<th>Mirrors</th>
-<th>Method</th>
-<th>Efficiency</th>
+<th>Power</th>
+<th>Note</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Moon → Earth</strong></td>
-<td>~99.5%</td>
-<td>Light → PV → microwaves</td>
-<td>18%</td>
+<td><strong>Earth (Phase 1)</strong></td>
+<td><strong>1 PW</strong></td>
+<td><strong>50× current consumption</strong> (20 TW)</td>
 </tr>
 <tr class="even">
-<td><strong>Mercury (furnaces)</strong></td>
-<td>~0.3%</td>
-<td>Direct heating</td>
-<td><strong>~85%</strong></td>
+<td><strong>Moon (Phase 1)</strong></td>
+<td>~0.3 PW</td>
+<td>Local production, infrastructure</td>
 </tr>
 <tr class="odd">
-<td><strong>Mercury (PV)</strong></td>
-<td>~0.2%</td>
-<td>Light → electricity</td>
-<td>~45%</td>
+<td><strong>Reserve</strong></td>
+<td>~18-20 PW</td>
+<td>LSP scaling, Mars, space expansion</td>
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Details:</strong> <a href="../../../en/science/detailed/hub.html#energy-distribution">Energy Distribution</a></p>
+</blockquote>
 <section id="direct-solar-heating" class="level4">
 <h4 class="anchored" data-anchor-id="direct-solar-heating">Direct Solar Heating</h4>
 <p>For metal smelting on Mercury and Moon, <strong>direct sunlight</strong> is used, not electricity:</p>
@@ -1488,106 +1556,7 @@ N = \frac{20 \times 10^{15} \text{ W}}{19 \times 10^6 \text{ W}} \approx 1.05 \t
 <blockquote class="blockquote">
 <p><strong>Why not a unified array?</strong> Global synchronization of a billion mirrors is impossible — signal delay Mercury-Earth is ~670 seconds. Details: <a href="../../../en/science/reference/risks.html#phased-array-synchronization">Risks</a>.</p>
 </blockquote>
-</section>
-<section id="optical-cluster-control" class="level3">
-<h3 class="anchored" data-anchor-id="optical-cluster-control">Optical Cluster Control</h3>
-<p>The “Mother-Children” architecture <strong>reduces electronics import by 98%</strong>.</p>
-<section id="the-problem-1" class="level4">
-<h4 class="anchored" data-anchor-id="the-problem-1">The Problem</h4>
-<p>With individual control, each mirror requires a full 50 g chip: - 1.1 billion mirrors × 50 g = <strong>55,000 tons</strong> of electronics from Earth - ~6,250 tons/year = ~125 Starship launches/year</p>
-</section>
-<section id="solution-mother-mirrors-child-mirrors" class="level4">
-<h4 class="anchored" data-anchor-id="solution-mother-mirrors-child-mirrors">Solution: Mother Mirrors + Child Mirrors</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 27%">
-<col style="width: 20%">
-<col style="width: 22%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Role</th>
-<th>Electronics</th>
-<th>Quantity</th>
-<th>Mass/unit</th>
-<th>Import</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Mother</strong> (leader)</td>
-<td>Full chip</td>
-<td>1.1 M</td>
-<td>50 g</td>
-<td><strong>55 t</strong></td>
-</tr>
-<tr class="even">
-<td><strong>Children</strong> (followers)</td>
-<td>Simple decoder</td>
-<td>1.1 B</td>
-<td>2 g</td>
-<td><strong>2,200 t</strong></td>
-</tr>
-<tr class="odd">
-<td><strong>TOTAL</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td><strong>2,255 t</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Savings: 55,000 t → 2,255 t = 96%</strong> (24× less)</p>
-</section>
-<section id="how-it-works" class="level4">
-<h4 class="anchored" data-anchor-id="how-it-works">How It Works</h4>
-<p><strong>Mother mirror</strong> (1 per ~1,000 Children): - Star tracker — determines cluster orientation - Processor — calculates commands for Children - Laser transmitter — modulated beam to Children - Radio — communication with Earth/other Mothers</p>
-<p><strong>Child mirrors</strong> (passive): - Photodiode (~2 g) — receives optical signal from Mother - Simple decoder — converts signal to electrochromic commands - No processor — only analog/digital logic</p>
-<pre><code>Control Protocol:
-
-Mother → [modulated light] → Children
-
-Commands (example):
-├─ 1 ms pulse: "edge A activate"
-├─ 2 ms pulse: "edge B activate"
-├─ 3 ms pulse: "all off"
-└─ Pulse series: encodes angle/speed</code></pre>
-</section>
-<section id="hybrid-implementation" class="level4">
-<h4 class="anchored" data-anchor-id="hybrid-implementation">Hybrid Implementation</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Phase</th>
-<th>Years</th>
-<th>Technology</th>
-<th>Import</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>7-10</td>
-<td>Import 2 g decoders</td>
-<td>~1,000 t</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>10+</td>
-<td>Local analog receivers</td>
-<td><strong>0 t</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Phase 2:</strong> <a href="../../../en/science/reference/technology-readiness.html#in-situ-silicon-cells">Blue Alchemist</a> technology (TRL 5-6) enables production of silicon photodiodes from lunar/Mercurian regolith. Resonant LC circuits (coils + capacitors) are made from local aluminum and Al₂O₃ ceramics.</p>
-<p><strong>Total import:</strong> ~1,055 t (instead of 55,000 t) = <strong>98% savings</strong></p>
-<blockquote class="blockquote">
-<p><strong>Technology baseline:</strong> <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">Laser inter-satellite links</a> (China, 2024-2025) — 400 Gbps optical communication between satellites. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a> — swarm control via optical navigation. IKAROS (2010) — electrochromics on solar sails.</p>
-</blockquote>
 <hr>
-</section>
 </section>
 </section>
 <section id="production-schedule" class="level2">
@@ -1602,7 +1571,7 @@ Commands (example):
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Exponential factory growth (1-&gt;~1,650) and Mass Driver scaling (1-&gt;1,000) over 4 years, then full capacity of 219 million mirrors/year. Detailed calculation: <a href="../../../en/science/detailed/railguns/scaling.html">Scaling</a>, <a href="../../../en/science/summaries/roadmap.html">Roadmap</a>.</p>
+<p>Exponential factory growth (1-&gt;~1,650) and Mass Driver scaling (1-&gt;1,000) over 4 years, then full capacity of 219 million mirrors/year. Detailed calculation: <a href="../../../en/science/detailed/railguns/overview.html">Scaling</a>, <a href="../../../en/science/summaries/roadmap.html">Roadmap</a>.</p>
 </div>
 </div>
 <section id="production-capacity-growth" class="level3">
@@ -1646,7 +1615,7 @@ Commands (example):
 <p><strong>At 1,000 Mass Drivers (full capacity):</strong></p>
 <pre><code>1 MD = 600 mirrors/day = 219,000 mirrors/year
 1,000 MD = 219 million mirrors/year
-Each MD is served by ~1.5 GZF (400 mirrors/day x 1.5 = 600)</code></pre>
+Each MD is served by ~1.7 GZF (350 mirrors/day × 1.7 ≈ 600)</code></pre>
 </section>
 <section id="mirror-accumulation" class="level3">
 <h3 class="anchored" data-anchor-id="mirror-accumulation">Mirror Accumulation</h3>
@@ -1795,7 +1764,7 @@ Each MD is served by ~1.5 GZF (400 mirrors/day x 1.5 = 600)</code></pre>
 <h3 class="anchored" data-anchor-id="key-milestones">Key Milestones</h3>
 <ul>
 <li><strong>Year 1:</strong> 0.27 PW solar (0.04 on Earth) — 2× global consumption</li>
-<li><strong>Year 8:</strong> ~114 PW solar (~20 on Earth) — 1000× global consumption, ~1.1 billion active mirrors</li>
+<li><strong>Year 8:</strong> ~102 PW solar (~18 on Earth) — ~800× global consumption, ~1.1 billion active mirrors</li>
 <li><strong>Year 11+:</strong> growth slows due to replacement</li>
 </ul>
 </section>
@@ -1831,7 +1800,7 @@ Each MD is served by ~1.5 GZF (400 mirrors/day x 1.5 = 600)</code></pre>
 </tr>
 <tr class="odd">
 <td>Configuration</td>
-<td>Dense cloud of ~1 billion mirrors</td>
+<td>Dense cloud of ~1.1 billion mirrors</td>
 </tr>
 </tbody>
 </table>
@@ -2231,7 +2200,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="604" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 603;"><span id="cb8-604"><a href="#cb8-604" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="572" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 571;"><span id="cb7-572"><a href="#cb7-572" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">
@@ -2308,7 +2277,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <li><strong>Foil rolling</strong> — compression to 4 μm thickness</li>
 <li><strong>Tip mass production</strong> — iron casting or regolith pressing</li>
 <li><strong>Cable production</strong> — steel wire drawing</li>
-<li><strong>Electronics assembly</strong> — installing imported chip and electrochromic strips</li>
+<li><strong>Electronics assembly</strong> — installing photoreceiver (Children) or full chip (Mother) + electrochromic strips</li>
 <li><strong>Folding + packaging</strong> — Z-fold membrane, rigid container for launch</li>
 </ol>
 <p><strong>Details:</strong> <a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a></p>
@@ -2354,7 +2323,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 </tbody>
 </table>
-<p>*At reduced load: 2-3 km (425-637g). See <a href="../../../en/science/detailed/railguns/theory.html">MD Theory</a>.</p>
+<p>*At reduced load: 2-3 km (425-637g). See <a href="../../../en/science/detailed/railguns/overview.html">MD Theory</a>.</p>
 </section>
 <section id="throughput" class="level3">
 <h3 class="anchored" data-anchor-id="throughput">Throughput</h3>
@@ -2403,7 +2372,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <tbody>
 <tr class="odd">
 <td>Solar flux</td>
-<td>10,343 W/m²</td>
+<td>9,287 W/m²</td>
 </tr>
 <tr class="even">
 <td>Reflectivity</td>
@@ -2415,7 +2384,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 <tr class="even">
 <td>Absorbed power</td>
-<td>~520 W/m²</td>
+<td>~464 W/m²</td>
 </tr>
 </tbody>
 </table>
@@ -2438,7 +2407,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 </tbody>
 </table>
-<p><strong>Equilibrium temperature:</strong> +38°C</p>
+<p><strong>Equilibrium temperature:</strong> +40°C (calculation: σT⁴(ε_front + ε_back) = 464 → T ≈ 313 K)</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2453,11 +2422,11 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 <tr class="even">
 <td>Calculated mirror temperature</td>
-<td>+38°C</td>
+<td>+40°C</td>
 </tr>
 <tr class="odd">
 <td><strong>Margin</strong></td>
-<td><strong>622°C</strong></td>
+<td><strong>620°C</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2548,7 +2517,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> — overall project scheme</li>
 <li><a href="../../../en/science/summaries/production.html">Production</a> — factory and self-replication</li>
 <li><a href="../../../en/science/detailed/hub.html">Energy Reception Hub</a> — LSP stations and Earth transmission</li>
-<li><a href="../../../en/science/detailed/railguns/theory.html">Mass Driver: Theory</a> — detailed launch calculations</li>
+<li><a href="../../../en/science/detailed/railguns/overview.html">Mass Driver: Theory</a> — detailed launch calculations</li>
 <li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> — project timeline</li>
 </ul>
 

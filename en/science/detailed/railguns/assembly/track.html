@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3 km Track Assembly – Проект Гелиос</title>
+<title>Mass Driver Track Assembly – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Mass Driver Track Assembly – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Mass Driver Track Assembly – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -362,7 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">3 km Track Assembly</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Mass Driver Track Assembly</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -830,7 +880,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <ul class="collapse">
   <li><a href="#site-preparation" id="toc-site-preparation" class="nav-link" data-scroll-target="#site-preparation">1. Site Preparation</a></li>
   <li><a href="#trench-excavation" id="toc-trench-excavation" class="nav-link" data-scroll-target="#trench-excavation">2. Trench Excavation</a></li>
-  <li><a href="#concrete-support-installation" id="toc-concrete-support-installation" class="nav-link" data-scroll-target="#concrete-support-installation">3. Concrete Support Installation</a></li>
+  <li><a href="#sulfur-concrete-support-installation" id="toc-sulfur-concrete-support-installation" class="nav-link" data-scroll-target="#sulfur-concrete-support-installation">3. Sulfur-Concrete Support Installation</a></li>
   <li><a href="#frame-installation" id="toc-frame-installation" class="nav-link" data-scroll-target="#frame-installation">4. Frame Installation</a></li>
   <li><a href="#rail-laying" id="toc-rail-laying" class="nav-link" data-scroll-target="#rail-laying">5. Rail Laying</a></li>
   <li><a href="#coil-mounting" id="toc-coil-mounting" class="nav-link" data-scroll-target="#coil-mounting">6. Coil Mounting</a></li>
@@ -850,7 +900,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">3 km Track Assembly</h1>
+<h1 class="title">Mass Driver Track Assembly</h1>
 </div>
 
 
@@ -871,15 +921,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Purpose:</strong> Final assembly of Mass Driver from ready-made components</li>
-<li><strong>Length:</strong> 3 km (2-3 km depending on parameters)</li>
-<li><strong>Time:</strong> 3-6 months for first MD, 1-2 months for subsequent ones</li>
+<li><strong>Length:</strong> <strong>1 km</strong> (base)*, 2-3 km for reduced g</li>
+<li><strong>Time:</strong> ~5-6 weeks for first MD (with pipelining), ~3-4 weeks for subsequent</li>
 <li><strong>Robots:</strong> Peak 50 robots (Moles, Centaurs, Crabs)</li>
 </ul>
+<p>*For reduced loads: 2 km (637g) or 3 km (425g).</p>
 </blockquote>
 <hr>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>Track assembly is the final stage of Mass Driver production, when ready-made components (rails, coils, frame) are installed into a single 3 km structure.</p>
+<p>Track assembly is the final stage of Mass Driver production, when ready-made components (rails, coils, frame) are installed into a single 1 km structure.</p>
 <hr>
 </section>
 <section id="assembly-stages" class="level2">
@@ -904,73 +955,74 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>1. Site preparation</td>
-<td>2 weeks</td>
-<td>20 Centaur-M</td>
+<td>1 week</td>
+<td>10 Centaur-M</td>
 <td>Leveling, marking</td>
 </tr>
 <tr class="even">
-<td>2. Trench excavation (3 km)</td>
-<td><strong>3 months</strong></td>
-<td>50 Mole-M</td>
+<td>2. Trench excavation (1 km)</td>
+<td><strong>1 month</strong></td>
+<td>20 Mole-M</td>
 <td>Regolith excavation</td>
 </tr>
 <tr class="odd">
-<td>3. Concrete support installation</td>
-<td>2 weeks</td>
-<td>20 Centaur-M</td>
-<td>300 supports every 10 m</td>
+<td>3. Sulfur-concrete support installation</td>
+<td>1 week</td>
+<td>10 Centaur-M</td>
+<td>100 supports every 10 m</td>
 </tr>
 <tr class="even">
 <td>4. Frame installation</td>
-<td>1 month</td>
-<td>30 Centaur-M</td>
-<td>250 truss sections</td>
+<td>2 weeks</td>
+<td>20 Centaur-M</td>
+<td>~85 truss sections</td>
 </tr>
 <tr class="odd">
 <td>5. Rail laying</td>
-<td>2 weeks</td>
-<td>20 Centaur-M</td>
-<td>300 segments of 10 m</td>
+<td>1 week</td>
+<td>10 Centaur-M</td>
+<td>100 segments of 10 m</td>
 </tr>
 <tr class="even">
 <td>6. Coil mounting</td>
-<td>1 month</td>
+<td>2 weeks</td>
 <td>10 Centaur-M</td>
-<td>3000 coils</td>
+<td>1000 coils</td>
 </tr>
 <tr class="odd">
 <td>7. Power cable routing</td>
-<td>2 weeks</td>
-<td>15 Centaur-M</td>
+<td>1 week</td>
+<td>10 Centaur-M</td>
 <td>Coil power supply</td>
 </tr>
 <tr class="even">
 <td>8. Cooling connection</td>
-<td>1 week</td>
-<td>10 Centaur-M</td>
+<td>3 days</td>
+<td>5 Centaur-M</td>
 <td>NaK circuit</td>
 </tr>
 <tr class="odd">
 <td>9. Electronics installation</td>
-<td>2 weeks</td>
-<td>15 Centaur-M</td>
+<td>1 week</td>
+<td>10 Centaur-M</td>
 <td>Sensors, controllers</td>
 </tr>
 <tr class="even">
 <td>10. Calibration and testing</td>
-<td>1 week</td>
+<td>3 days</td>
 <td>5 Centaur-M</td>
 <td>Geometry, tests</td>
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>~6 months</strong></td>
+<td><strong>~5-6 weeks</strong>*</td>
 <td>peak 50</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>With experience (subsequent MDs):</strong> ~<strong>2-3 months</strong></p>
+<p>*With parallel pipelining: stages 3-9 begin on completed trench sections while excavation continues ahead. Critical path ≈ trench duration + finishing work on last section.</p>
+<p><strong>With experience (subsequent MDs):</strong> ~<strong>3-4 weeks</strong></p>
 <hr>
 </section>
 </section>
@@ -992,15 +1044,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Geodetic marking</td>
-<td>Laser leveling, accuracy +/-5 mm</td>
+<td>Laser leveling, accuracy ±5 mm</td>
 </tr>
 <tr class="odd">
 <td>Leveling</td>
-<td>Moles cut regolith bumps</td>
+<td>Moles cut regolith mounds</td>
 </tr>
 <tr class="even">
 <td>Base preparation</td>
-<td>Temporary structure installation</td>
+<td>Installation of temporary structures</td>
 </tr>
 </tbody>
 </table>
@@ -1009,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="trench-excavation" class="level3">
 <h3 class="anchored" data-anchor-id="trench-excavation">2. Trench Excavation</h3>
-<p><strong>The longest stage</strong> - 50 Mole-M robots dig a 3 km trench.</p>
+<p>20 Mole-M robots dig a 1 km trench.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1028,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Excavation volume</td>
-<td>54,000 m³ regolith</td>
+<td>18,000 m³ regolith</td>
 </tr>
 <tr class="even">
 <td>Mole productivity</td>
@@ -1036,21 +1088,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Time for 1 Mole</td>
-<td>~1,540 days</td>
+<td>~514 days</td>
 </tr>
 <tr class="even">
-<td>Time for 50 Moles</td>
-<td><strong>~31 days = 1 month</strong></td>
+<td>Time for 20 Moles</td>
+<td><strong>~26 days ≈ 1 month</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Correction:</strong> Accounting for charging breaks and shifts - <strong>3 months</strong>.</p>
-<p><strong>More details:</strong> <a href="../../../../../en/science/detailed/robots/assembly/moles.html">Mole-M Robots</a></p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/robots/assembly/moles.html">Mole-M Robots</a></p>
 <hr>
 </section>
-<section id="concrete-support-installation" class="level3">
-<h3 class="anchored" data-anchor-id="concrete-support-installation">3. Concrete Support Installation</h3>
-<p>300 concrete supports every 10 m to support the frame.</p>
+<section id="sulfur-concrete-support-installation" class="level3">
+<h3 class="anchored" data-anchor-id="sulfur-concrete-support-installation">3. Sulfur-Concrete Support Installation</h3>
+<p>100 sulfur-concrete supports every 10 m to support the frame.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1061,11 +1112,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Supports</td>
-<td>300</td>
+<td>100</td>
 </tr>
 <tr class="even">
 <td>Support mass</td>
-<td>1 t concrete</td>
+<td>1 t sulfur-concrete</td>
 </tr>
 <tr class="odd">
 <td>Foundation depth</td>
@@ -1077,15 +1128,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>300 hours = 2 weeks (20 robots)</strong></td>
+<td><strong>100 hours = 1 week (10 robots)</strong></td>
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Sulfur-concrete</strong> — construction material using sulfur (S) as binder and regolith as aggregate. Requires no water. Sulfur melts at 115°C, forming a strong structure upon solidification.</p>
+</blockquote>
 <hr>
 </section>
 <section id="frame-installation" class="level3">
 <h3 class="anchored" data-anchor-id="frame-installation">4. Frame Installation</h3>
-<p>Truss sections are installed on supports and welded.</p>
+<p>Truss sections are placed on supports and welded.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1096,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Frame sections</td>
-<td>250 (12 m each)</td>
+<td>~85 (12 m each)</td>
 </tr>
 <tr class="even">
 <td>Section mass</td>
@@ -1108,11 +1162,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>500 hours = 1 month (30 robots)</strong></td>
+<td><strong>~170 hours = 2 weeks (20 robots)</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>More details:</strong> <a href="../../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a></p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a></p>
 <hr>
 </section>
 <section id="rail-laying" class="level3">
@@ -1128,7 +1182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Rail segments</td>
-<td>300 (10 m each, 2 rails)</td>
+<td>100 (10 m each, 2 rails)</td>
 </tr>
 <tr class="even">
 <td>Segment mass</td>
@@ -1144,16 +1198,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>400 hours = 2 weeks (20 robots)</strong></td>
+<td><strong>~130 hours = 1 week (10 robots)</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>More details:</strong> <a href="../../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a></p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a></p>
 <hr>
 </section>
 <section id="coil-mounting" class="level3">
 <h3 class="anchored" data-anchor-id="coil-mounting">6. Coil Mounting</h3>
-<p>3000 coils are installed along the track.</p>
+<p>1000 coils are installed along the track.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1164,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Coils</td>
-<td>3000</td>
+<td>1000</td>
 </tr>
 <tr class="even">
 <td>Installation time per coil</td>
@@ -1172,11 +1226,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>750 hours = 1 month (10 robots)</strong></td>
+<td><strong>250 hours = 2 weeks (10 robots)</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>More details:</strong> <a href="../../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a></p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a></p>
 <hr>
 </section>
 <section id="power-cable-routing" class="level3">
@@ -1192,7 +1246,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Cable length</td>
-<td>~10 km (main line + branches)</td>
+<td>~3 km (main + branches)</td>
 </tr>
 <tr class="even">
 <td>Cross-section</td>
@@ -1200,11 +1254,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Cable mass</td>
-<td>~30 t</td>
+<td>~10 t</td>
 </tr>
 <tr class="even">
 <td>Routing time</td>
-<td><strong>2 weeks (15 robots)</strong></td>
+<td><strong>1 week (10 robots)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1222,20 +1276,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>NaK tube length</td>
-<td>~6 km</td>
+<td>NaK pipe length</td>
+<td>~2 km</td>
 </tr>
 <tr class="even">
 <td>Diameter</td>
-<td>20 mm</td>
+<td>Ø20 mm</td>
 </tr>
 <tr class="odd">
 <td>Radiators</td>
-<td>5000 m² (facing shadow)</td>
+<td>~5,000 m² (directed into shadow)</td>
 </tr>
 <tr class="even">
 <td>Connection time</td>
-<td><strong>1 week (10 robots)</strong></td>
+<td><strong>3 days (5 robots)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1254,23 +1308,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Control units</td>
-<td>100 (every 30 m)</td>
+<td>34 (every 30 m)</td>
 </tr>
 <tr class="even">
 <td>Sensors</td>
-<td>600 (current, temperature, position)</td>
+<td>2,150 (current, temperature, position, vibration)</td>
 </tr>
 <tr class="odd">
 <td>Cameras</td>
-<td>50 (track monitoring)</td>
+<td>20 (track monitoring)</td>
 </tr>
 <tr class="even">
 <td>Installation time</td>
-<td><strong>2 weeks (15 robots)</strong></td>
+<td><strong>1 week (10 robots)</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>More details:</strong> <a href="../../../../../en/science/detailed/railguns/assembly/electronics.html">Control Electronics</a></p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/assembly/electronics.html">Control Electronics</a></p>
 <hr>
 </section>
 <section id="calibration-and-testing" class="level3">
@@ -1286,7 +1340,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Track geometry</td>
-<td>Laser leveling, accuracy +/-0.5 mm</td>
+<td>Laser leveling, accuracy ±0.5 mm</td>
 </tr>
 <tr class="even">
 <td>Electrical circuits</td>
@@ -1294,22 +1348,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Cooling</td>
-<td>NaK circuit test, temperature -150C</td>
+<td>NaK circuit test, temperature -150°C</td>
 </tr>
 <tr class="even">
-<td>Test shot (dry run)</td>
+<td>Test shot (empty)</td>
 <td>Empty container acceleration</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Time:</strong> 1 week</p>
-<p><strong>More details:</strong> <a href="../../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a></p>
+<p><strong>Time:</strong> 3 days</p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a></p>
 <hr>
 </section>
 </section>
 <section id="material-balance" class="level2">
 <h2 class="anchored" data-anchor-id="material-balance">Material Balance</h2>
-<p><strong>Per 1 MD (3 km):</strong></p>
+<p><strong>Per 1 MD (1 km):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1321,36 +1375,52 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Frame (steel)</td>
-<td>800 t</td>
+<td>~270 t</td>
 <td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
 </tr>
 <tr class="even">
 <td>Rails (aluminum)</td>
-<td>210 t</td>
+<td>~70 t</td>
 <td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
 </tr>
 <tr class="odd">
 <td>Coils (aluminum)</td>
-<td>300 t</td>
+<td>~100 t</td>
 <td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
 </tr>
 <tr class="even">
-<td>Electronics</td>
-<td>7 t</td>
-<td><strong>“Vitamins” from Earth</strong></td>
+<td>Radiators (aluminum)</td>
+<td>~50 t</td>
+<td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
 </tr>
 <tr class="odd">
-<td>Concrete (supports)</td>
-<td>300 t</td>
-<td>Local (regolith + sulfur)</td>
+<td>NaK coolant</td>
+<td>~5 t</td>
+<td>Local</td>
 </tr>
 <tr class="even">
-<td><strong>TOTAL</strong></td>
-<td><strong>~1600 t</strong></td>
-<td><strong>99.5% local</strong></td>
+<td>Electronics</td>
+<td>~6 t</td>
+<td>Mostly <strong>Earth Import</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL (MD)</strong></td>
+<td><strong>~500 t</strong></td>
+<td><strong>~99% local</strong></td>
+</tr>
+<tr class="even">
+<td>Sulfur-concrete (supports)</td>
+<td>~100 t</td>
+<td>Local (regolith + sulfur)</td>
+</tr>
+<tr class="odd">
+<td><strong>TOTAL installed</strong></td>
+<td><strong>~600 t</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<p><em>With extension: 2 km (~875 t MD), 3 km (~1,300 t MD).</em></p>
 <hr>
 </section>
 <section id="construction-logistics" class="level2">
@@ -1366,22 +1436,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Component delivery to site</td>
-<td>20 Crab-M</td>
-<td>Trailers with materials</td>
+<td>10 Crab-M</td>
+<td>Material trailers</td>
 </tr>
 <tr class="even">
 <td>Heavy section installation</td>
-<td>30 Centaur-M</td>
+<td>20 Centaur-M</td>
 <td>Cranes, manipulators</td>
 </tr>
 <tr class="odd">
 <td>Welding and fastening</td>
-<td>20 Centaur-M</td>
+<td>10 Centaur-M</td>
 <td>Welding robots</td>
 </tr>
 <tr class="even">
 <td>Cable routing</td>
-<td>15 Centaur-M</td>
+<td>10 Centaur-M</td>
 <td>Cable pulling</td>
 </tr>
 </tbody>
@@ -1391,11 +1461,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="see-also" class="level2">
 <h2 class="anchored" data-anchor-id="see-also">See Also</h2>
 <ul>
-<li><a href="../../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a> - aluminum guides</li>
-<li><a href="../../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a> - electromagnetic windings</li>
-<li><a href="../../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a> - steel structure</li>
-<li><a href="../../../../../en/science/detailed/railguns/assembly/electronics.html">Control Electronics</a> - control systems</li>
-<li><a href="../../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a> - final check</li>
+<li><a href="../../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a> — aluminum guides</li>
+<li><a href="../../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a> — electromagnetic windings</li>
+<li><a href="../../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a> — steel structure</li>
+<li><a href="../../../../../en/science/detailed/railguns/assembly/electronics.html">Control Electronics</a> — control systems</li>
+<li><a href="../../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a> — final check</li>
 </ul>
 
 

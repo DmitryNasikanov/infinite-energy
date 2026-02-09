@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Coil Winding – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Coil Winding – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -884,7 +934,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Purpose:</strong> Electromagnetic windings for projectile acceleration</li>
 <li><strong>Material:</strong> Cryogenic aluminum (360% conductivity at -180°C)</li>
-<li><strong>Mass:</strong> ~300 t per Mass Driver (3,000 coils)</li>
+<li><strong>Mass:</strong> ~100 t per Mass Driver (1,000 coils)</li>
 <li><strong>Technology:</strong> Automated winding + cryogenic cooling</li>
 </ul>
 </blockquote>
@@ -906,7 +956,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Coils per track</td>
-<td>3,000 (1 m each)</td>
+<td>1,000 (1 per meter)</td>
 </tr>
 <tr class="even">
 <td>Turns per coil</td>
@@ -922,7 +972,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL winding mass</strong></td>
-<td><strong>~300 t Al</strong></td>
+<td><strong>~100 t Al</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1019,8 +1069,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Productivity:</strong> 1 winding machine = 10-20 coils/day</p>
-<p><strong>For 3,000 coils:</strong> 150-300 days = <strong>5-10 months</strong> on 1 machine</p>
-<p><strong>With 10 machines:</strong> ~<strong>1 month</strong></p>
+<p><strong>For 1,000 coils:</strong> 50-100 days on 1 machine</p>
+<p><strong>With 5 machines:</strong> ~<strong>3 weeks</strong></p>
 <p><strong>Details:</strong> <a href="../../../../../en/science/detailed/factories/elements/rolling.html">Rolling Mill</a></p>
 <hr>
 </section>
@@ -1106,7 +1156,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Energy per launch</td>
-<td>3.6 GJ</td>
+<td>4.7 GJ (including capacitor losses)</td>
 </tr>
 <tr class="even">
 <td>Efficiency</td>
@@ -1114,15 +1164,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Heat loss</td>
-<td><strong>2.2 GJ</strong></td>
+<td><strong>2.8 GJ</strong></td>
 </tr>
 <tr class="even">
 <td>Shot duration</td>
-<td>12 sec</td>
+<td>0.4 sec</td>
 </tr>
 <tr class="odd">
 <td>Peak heat generation</td>
-<td><strong>~180 MW</strong></td>
+<td><strong>~280 MW</strong> (absorbed by thermal mass)</td>
 </tr>
 </tbody>
 </table>
@@ -1130,8 +1180,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="average-power" class="level3">
 <h3 class="anchored" data-anchor-id="average-power">Average Power</h3>
 <p>At 600 launches/day:</p>
-<pre><code>2.2 GJ × 600 / 86,400 sec = ~15 MW average heat generation</code></pre>
-<p><strong>Required rejection:</strong> ~15-20 MW continuous + peaks up to 180 MW.</p>
+<pre><code>2.8 GJ × 600 / 86,400 sec = ~20 MW average heat generation</code></pre>
+<p><strong>Required rejection:</strong> ~20 MW continuous. Peak heat (280 MW for 0.4 sec) is absorbed by thermal mass of coils and NaK coolant, then dissipated over 2-3 minutes between shots.</p>
 <hr>
 </section>
 </section>
@@ -1211,9 +1261,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Windings (3,000 coils)</td>
-<td>300 t Al</td>
-<td>42 t/day → <strong>8 days</strong></td>
+<td>Windings (1,000 coils)</td>
+<td>100 t Al</td>
+<td>42 t/day → <strong>2.5 days</strong></td>
 </tr>
 <tr class="even">
 <td>NaK cooling system</td>
@@ -1264,22 +1314,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Coil frame installation</td>
-<td>1 week</td>
+<td>3 days</td>
 <td>20 Centaur-M</td>
 </tr>
 <tr class="even">
-<td>Coil mounting (3,000 units)</td>
-<td><strong>1 month</strong></td>
+<td>Coil mounting (1,000 units)</td>
+<td><strong>2 weeks</strong></td>
 <td>10 Centaur-M</td>
 </tr>
 <tr class="odd">
 <td>Cooling connection</td>
-<td>1 week</td>
+<td>3 days</td>
 <td>10 Centaur-M</td>
 </tr>
 <tr class="even">
 <td>Power cable routing</td>
-<td>1 week</td>
+<td>3 days</td>
 <td>10 Centaur-M</td>
 </tr>
 <tr class="odd">
@@ -1289,7 +1339,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>TOTAL:</strong> ~6 weeks from installation to ready.</p>
+<p><strong>TOTAL:</strong> ~3-4 weeks from installation to ready. (Runs in parallel with rail and frame installation.)</p>
 <hr>
 </section>
 <section id="quality-control" class="level2">
@@ -1338,7 +1388,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../../../en/science/detailed/railguns/elements/rails.html">Rail Production</a> — aluminum guides</li>
 <li><a href="../../../../../en/science/detailed/railguns/elements/frame.html">Tunnel Frame</a> — support structure</li>
 <li><a href="../../../../../en/science/detailed/railguns/assembly/track.html">Track Assembly</a> — Mass Driver installation</li>
-<li><a href="../../../../../en/science/detailed/railguns/theory.html#coil-cooling">Energy System</a> — coil power and cooling</li>
+<li><a href="../../../../../en/science/detailed/railguns/overview.html#coil-cooling">Energy System</a> — coil power and cooling</li>
 </ul>
 
 

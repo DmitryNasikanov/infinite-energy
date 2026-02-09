@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Сборка Кентавр-М – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Сборка Кентавр-М – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -830,7 +880,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#процесс-сборки" id="toc-процесс-сборки" class="nav-link" data-scroll-target="#процесс-сборки">Процесс сборки</a>
   <ul class="collapse">
-  <li><a href="#сборочный-стапель-10-позиций-48-часов-на-позицию" id="toc-сборочный-стапель-10-позиций-48-часов-на-позицию" class="nav-link" data-scroll-target="#сборочный-стапель-10-позиций-48-часов-на-позицию">Сборочный стапель (10 позиций, 48 часов на позицию)</a></li>
+  <li><a href="#сборочный-стапель-10-позиций-38-часов-на-позицию" id="toc-сборочный-стапель-10-позиций-38-часов-на-позицию" class="nav-link" data-scroll-target="#сборочный-стапель-10-позиций-38-часов-на-позицию">Сборочный стапель (10 позиций, 38 часов на позицию)</a></li>
   </ul></li>
   <li><a href="#этап-1-установка-рамы" id="toc-этап-1-установка-рамы" class="nav-link" data-scroll-target="#этап-1-установка-рамы">Этап 1: Установка рамы</a></li>
   <li><a href="#этап-2-монтаж-шасси" id="toc-этап-2-монтаж-шасси" class="nav-link" data-scroll-target="#этап-2-монтаж-шасси">Этап 2: Монтаж шасси</a></li>
@@ -848,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#инструменты-кентавр-м" id="toc-инструменты-кентавр-м" class="nav-link" data-scroll-target="#инструменты-кентавр-м">Инструменты Кентавр-М</a>
   <ul class="collapse">
   <li><a href="#сварочная-tig-горелка" id="toc-сварочная-tig-горелка" class="nav-link" data-scroll-target="#сварочная-tig-горелка">Сварочная TIG-горелка</a></li>
-  <li><a href="#фрезерная-головка-cnc" id="toc-фрезерная-головка-cnc" class="nav-link" data-scroll-target="#фрезерная-головка-cnc">Фрезерная головка CNC</a></li>
+  <li><a href="#шлифовальная-головка" id="toc-шлифовальная-головка" class="nav-link" data-scroll-target="#шлифовальная-головка">Шлифовальная головка</a></li>
   <li><a href="#захват-универсальный" id="toc-захват-универсальный" class="nav-link" data-scroll-target="#захват-универсальный">Захват универсальный</a></li>
   </ul></li>
   <li><a href="#см.-также" id="toc-см.-также" class="nav-link" data-scroll-target="#см.-также">См. также</a></li>
@@ -881,17 +931,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Назначение:</strong> Робот-манипулятор, сборка и обслуживание</li>
-<li><strong>Масса:</strong> ~370 кг</li>
-<li><strong>Батарея:</strong> NaS 20 кВтч + кабель (опционально)</li>
+<li><strong>Масса:</strong> ~380 кг</li>
+<li><strong>Батарея:</strong> NaS 5 кВтч + кабель (опционально)</li>
 <li><strong>Мощность:</strong> 5 кВт</li>
-<li><strong>Время сборки:</strong> 48 часов на позиции</li>
+<li><strong>Время сборки:</strong> 38 часов на позиции</li>
 </ul>
 </blockquote>
 <hr>
 <section id="обзор" class="level2">
 <h2 class="anchored" data-anchor-id="обзор">Обзор</h2>
 <p>Кентавр-М — универсальный робот-манипулятор Gen-2 для точных операций: сборка оборудования, сварка, обслуживание. Четырёхколёсная платформа с двумя 6-осевыми манипуляторами и набором инструментов.</p>
-<p><strong>Ключевая особенность:</strong> Самый лёгкий робот Gen-2 (370 кг), максимальная доля алюминия (62%) для снижения массы.</p>
+<p><strong>Ключевая особенность:</strong> Самый лёгкий робот Gen-2 (380 кг), максимальная доля алюминия (62%) для снижения массы.</p>
 <hr>
 </section>
 <section id="материальный-баланс-кентавр-м" class="level2">
@@ -913,9 +963,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../ru/science/detailed/robots/elements/frames.html">Изготовление рам</a></td>
 </tr>
 <tr class="even">
-<td>Корпус, радиаторы, манипуляторы</td>
+<td>Корпус, радиаторы, манипуляторы, корпуса сенсоров</td>
 <td>Алюминий</td>
-<td>230 кг</td>
+<td>235 кг</td>
 <td><a href="../../../../../ru/science/detailed/materials/distillation.html">Алюминий</a></td>
 </tr>
 <tr class="odd">
@@ -925,26 +975,27 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a></td>
 </tr>
 <tr class="even">
-<td>Актуаторы (12 шт: 4 колеса + 2×6 манипуляторов)</td>
-<td>Fe + Al + NaK</td>
-<td>15 кг</td>
+<td>Актуаторы (16 шт: 4 колеса + 2×4 direct-drive + 2×2 тросовых)</td>
+<td>Fe + Al + NdFeB</td>
+<td>25 кг</td>
 <td><a href="../../../../../ru/science/detailed/robots/elements/actuators.html">Актуаторы</a></td>
 </tr>
 <tr class="odd">
-<td>Электроника</td>
+<td>Электроника (чипы)</td>
 <td>—</td>
-<td>5 кг</td>
+<td>0.3 кг</td>
 <td><strong>Импорт с Земли</strong></td>
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
 <td>—</td>
-<td><strong>~370 кг</strong></td>
-<td><strong>~99% местное</strong></td>
+<td><strong>~380 кг</strong></td>
+<td><strong>&gt;99% местное</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Распределение материалов:</strong> - Железо (Fe): 80 кг = <strong>22%</strong> - Алюминий (Al): 230 кг = <strong>62%</strong> - Натрий + Сера: 40 кг = <strong>11%</strong> - Импорт: 5 кг = <strong>1%</strong></p>
+<p><strong>Распределение материалов:</strong> - Железо (Fe): 80 кг = <strong>22%</strong> - Алюминий (Al): 235 кг = <strong>63%</strong> - Натрий + Сера: 40 кг = <strong>11%</strong> - Актуаторы: 25 кг = <strong>7%</strong> - Импорт (чипы): 0.3 кг = <strong>&lt;0.1%</strong></p>
+<p><em>Электроника 5 кг = чипы 0.3 кг (импорт) + корпуса камер/лидаров, кабели ~4.7 кг (Al, местный)</em></p>
 <hr>
 </section>
 <section id="конструкция" class="level2">
@@ -1003,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Точность позиционирования</td>
-<td>±0.5 мм</td>
+<td>±2 мм</td>
 </tr>
 <tr class="even">
 <td>Скорость движения</td>
@@ -1015,14 +1066,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Инструменты (сменные насадки):</strong> - Сварочная TIG-горелка (вакуумная, без газа) - Фрезерная головка (CNC на ходу) - Захват универсальный (электромеханический) - Отвёртка с регулируемым моментом - Лазерный сканер 3D</p>
+<p><em>±0.5 мм достижима в контролируемых условиях (под куполом, на кабеле). На открытом грунте — ±2 мм из-за температурных деформаций.</em></p>
+<p><strong>Инструменты (сменные насадки):</strong> - Сварочная TIG-горелка (вакуумная, без газа) - Шлифовальная головка (абразивная Al₂O₃) - Захват универсальный (электромеханический) - Отвёртка с регулируемым моментом - Лазерный сканер 3D</p>
 <hr>
 </section>
 </section>
 <section id="процесс-сборки" class="level2">
 <h2 class="anchored" data-anchor-id="процесс-сборки">Процесс сборки</h2>
-<section id="сборочный-стапель-10-позиций-48-часов-на-позицию" class="level3">
-<h3 class="anchored" data-anchor-id="сборочный-стапель-10-позиций-48-часов-на-позицию">Сборочный стапель (10 позиций, 48 часов на позицию)</h3>
+<section id="сборочный-стапель-10-позиций-38-часов-на-позицию" class="level3">
+<h3 class="anchored" data-anchor-id="сборочный-стапель-10-позиций-38-часов-на-позицию">Сборочный стапель (10 позиций, 38 часов на позицию)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
@@ -1059,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Установка батареи NaS (20 кВтч)</td>
+<td>Установка батареи NaS (5 кВтч)</td>
 <td>2 часа</td>
 <td>1 Кентавр-М</td>
 </tr>
@@ -1090,7 +1142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>9</td>
 <td>Калибровка манипуляторов и тестирование</td>
-<td>14 часов</td>
+<td>4 часа</td>
 <td>Автоматика</td>
 </tr>
 <tr class="even">
@@ -1102,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>ИТОГО</strong></td>
 <td></td>
-<td><strong>48 часов</strong></td>
+<td><strong>38 часов</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -1112,15 +1164,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="этап-1-установка-рамы" class="level2">
 <h2 class="anchored" data-anchor-id="этап-1-установка-рамы">Этап 1: Установка рамы</h2>
-<p><strong>Рама Кентавр-М:</strong> - Масса: ~310 кг (80 кг Fe + 230 кг Al) - Конструкция: Лёгкая алюминиевая рама с стальными силовыми узлами - Производство: <a href="../../../../../ru/science/detailed/robots/elements/frames.html">WAAM 3D-печать</a></p>
+<p><strong>Рама Кентавр-М:</strong> - Масса: ~320 кг (70 кг Fe + 200 кг Al + 50 кг прочее) - Конструкция: Лёгкая алюминиевая рама с стальными силовыми узлами - Производство: <a href="../../../../../ru/science/detailed/robots/elements/frames.html">WAAM 3D-печать</a></p>
 <p><strong>Процесс:</strong> 1. Кран поднимает раму с конвейера 2. Рама устанавливается на стапель 3. Фиксация на 4 опорах 4. Проверка геометрии (лазерный сканер)</p>
 <hr>
 </section>
 <section id="этап-2-монтаж-шасси" class="level2">
 <h2 class="anchored" data-anchor-id="этап-2-монтаж-шасси">Этап 2: Монтаж шасси</h2>
-<p><strong>4 колеса:</strong> - Диаметр: Ø0.8 м - Материал: Алюминий (обод) + резина (протектор, импорт) - Привод: Электромоторы 2 кВт × 4 = 8 кВт суммарно</p>
+<p><strong>4 колеса:</strong> - Диаметр: Ø1.2 м (унифицировано с Крот-М/Краб-М) - Ширина: 0.6 м - Материал: Al обод + Fe-6%Mn бандаж (местный) - Привод: Электромоторы 2 кВт × 4 = 8 кВт + <a href="../../../../../ru/science/detailed/robots/elements/actuators.html#электрические-актуаторы">циклоидный редуктор</a> 1:20</p>
 <p><strong>Подвеска:</strong> - Независимая на каждом колесе - Гидравлические амортизаторы (NaK) - Ход подвески: ±150 мм</p>
-<p><strong>Процесс:</strong> 1. Установка 4 ступиц на раму (болты M16) 2. Монтаж электромоторов приводов 3. Установка колёс 4. Регулировка углов установки</p>
+<p><strong>Процесс:</strong> 1. Установка 4 ступиц на раму (болты M16) 2. Монтаж электромоторов 2 кВт с циклоидными редукторами 1:20 3. Установка колёс 4. Регулировка углов установки</p>
 <hr>
 </section>
 <section id="этап-3-установка-корпуса-и-радиаторов" class="level2">
@@ -1132,7 +1184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="этап-4-установка-батареи-nas" class="level2">
 <h2 class="anchored" data-anchor-id="этап-4-установка-батареи-nas">Этап 4: Установка батареи NaS</h2>
-<p><strong>Батарея NaS 20 кВтч:</strong> - Масса: 40 кг - Напряжение: 200 В (100 ячеек × 2 В) - Размещение: Центр тяжести (под платформой)</p>
+<p><strong>Батарея NaS 5 кВтч:</strong> - Масса: 40 кг - Напряжение: 200 В (100 ячеек × 2 В) - Размещение: Центр тяжести (под платформой)</p>
 <p><strong>Опциональный кабель:</strong> - Для работы на заводе Кентавр-М может работать от кабеля (10 кВ) - Кабель-барабан на корпусе (50 м) - Автоматическая намотка при возврате</p>
 <p><strong>Процесс:</strong> 1. Подъём батареи краном 2. Установка в батарейный отсек 3. Подключение силовых кабелей (болты M8) 4. Подключение системы управления батареей (BMS)</p>
 <p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a></p>
@@ -1141,7 +1193,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="этап-5-монтаж-манипуляторов" class="level2">
 <h2 class="anchored" data-anchor-id="этап-5-монтаж-манипуляторов">Этап 5: Монтаж манипуляторов</h2>
 <p><strong>2 манипулятора по 6 осей:</strong></p>
-<p><strong>Процесс установки:</strong> 1. Монтаж базы манипулятора на раму (болты M20) 2. Установка 6 звеньев манипулятора (каждое звено — 200 мм) 3. Подключение 6 электроактуаторов (по 1 на ось) 4. Прокладка силовых и сигнальных кабелей через манипулятор 5. Установка сменной насадки (TIG-горелка по умолчанию)</p>
+<ul>
+<li>Суставы 1-4: <a href="../../../../../ru/science/detailed/robots/elements/actuators.html#электрические-актуаторы">direct-drive</a> (NdFeB магниты, импорт) — нулевой люфт, нулевое обслуживание редуктора</li>
+<li>Суставы 5-6 (запястье): <a href="../../../../../ru/science/detailed/robots/elements/actuators.html#электрические-актуаторы">тросовые приводы</a> — мотор на корпусе, трос через шкивы (100% местные материалы)</li>
+</ul>
+<p><strong>Процесс установки:</strong> 1. Монтаж базы манипулятора на раму (болты M20) 2. Установка 6 звеньев манипулятора (каждое звено — 200 мм) 3. Установка 4 direct-drive моторов (суставы 1-4) + 2 тросовых приводов (суставы 5-6) 4. Прокладка силовых и сигнальных кабелей через манипулятор 5. Установка сменной насадки (TIG-горелка по умолчанию)</p>
 <p><strong>Время:</strong> 12 часов на 2 манипулятора (самый трудоёмкий этап)</p>
 <p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/robots/elements/actuators.html">Актуаторы</a></p>
 <hr>
@@ -1184,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Калибровка манипуляторов</td>
 <td>Установка нулевых позиций всех 12 осей</td>
-<td>Точность ±0.5 мм</td>
+<td>Точность ±2 мм</td>
 </tr>
 <tr class="even">
 <td>Движение</td>
@@ -1194,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Захват груза</td>
 <td>Подъём 50 кг на расстоянии 1 м</td>
-<td>Точность позиции ±1 мм</td>
+<td>Точность позиции ±3 мм</td>
 </tr>
 <tr class="even">
 <td>Сварка TIG</td>
@@ -1204,7 +1260,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Батарея</td>
 <td>Полный цикл заряд/разряд</td>
-<td>Ёмкость &gt;18 кВтч</td>
+<td>Ёмкость &gt;4.5 кВтч</td>
 </tr>
 <tr class="even">
 <td>Автономность</td>
@@ -1213,13 +1269,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Длительность:</strong> 14 часов (калибровка манипуляторов занимает много времени)</p>
+<p><strong>Длительность:</strong> 4 часа (автоматическая калибровка лазерным сканером)</p>
 <hr>
 </section>
 <section id="этап-10-первая-зарядка" class="level2">
 <h2 class="anchored" data-anchor-id="этап-10-первая-зарядка">Этап 10: Первая зарядка</h2>
-<p><strong>Зарядная станция:</strong> - Напряжение: 200 В - Ток: 25 А - Время полной зарядки: 4 часа (20 кВтч / 5 кВт)</p>
-<p><strong>Процесс:</strong> 1. Подключение к зарядной станции 2. Активация батареи (первый цикл при 350°C) 3. Полная зарядка 4. Проверка ёмкости (должна быть &gt;18 кВтч)</p>
+<p><strong>Зарядная станция:</strong> - Напряжение: 200 В - Ток: 25 А - Время полной зарядки: 1 час (5 кВтч / 5 кВт)</p>
+<p><strong>Процесс:</strong> 1. Подключение к зарядной станции 2. Активация батареи (первый цикл при 350°C) 3. Полная зарядка 4. Проверка ёмкости (должна быть &gt;4.5 кВтч)</p>
 <hr>
 </section>
 <section id="энергопотребление" class="level2">
@@ -1236,31 +1292,34 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Движение</td>
 <td>2 кВт</td>
-<td>10 часов (50 км)</td>
+<td>2.5 часа (12 км)</td>
 </tr>
 <tr class="even">
 <td>Работа манипуляторов (позиционирование)</td>
 <td>1 кВт</td>
-<td>20 часов</td>
+<td>5 часов</td>
 </tr>
 <tr class="odd">
 <td>Сварка TIG</td>
 <td>5 кВт</td>
-<td>4 часа</td>
+<td>только от кабеля</td>
 </tr>
 <tr class="even">
-<td>Фрезеровка CNC</td>
+<td>Шлифовка абразивная</td>
 <td>3 кВт</td>
-<td>6 часов</td>
+<td>только от кабеля</td>
 </tr>
 <tr class="odd">
 <td>Простой</td>
 <td>0.2 кВт</td>
-<td>100 часов</td>
+<td>25 часов</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Запас хода:</strong> - Движение: 50 км - Работа манипуляторов: 20 часов - Сварка: 4 часа</p>
+<blockquote class="blockquote">
+<p><strong>Примечание:</strong> Энергоёмкие операции (TIG-сварка, шлифовка) выполняются от кабеля в заводских условиях. Батарея 5 кВтч предназначена для перемещения между объектами и позиционирования манипуляторов.</p>
+</blockquote>
+<p><strong>Запас хода (от батареи):</strong> - Движение: 12 км - Работа манипуляторов: 5 часов</p>
 <hr>
 </section>
 <section id="обслуживание" class="level2">
@@ -1280,9 +1339,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Замена смазки MoS₂ в манипуляторах</td>
-<td>1 месяц</td>
-<td>Другой Кентавр-М</td>
+<td>Перепокрытие MoS₂ в подшипниках суставов</td>
+<td>3-6 месяцев</td>
+<td>Магнетронная станция + другой Кентавр-М</td>
 </tr>
 <tr class="even">
 <td>Калибровка манипуляторов</td>
@@ -1295,7 +1354,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Сборочный стапель</td>
 </tr>
 <tr class="even">
-<td>Замена инструментов (TIG-горелка, фрезы)</td>
+<td>Замена инструментов (TIG-горелка, абразивные круги)</td>
 <td>По факту</td>
 <td>Кентавр-М сам себя</td>
 </tr>
@@ -1327,8 +1386,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>20%</td>
 </tr>
 <tr class="odd">
-<td>CNC обработка</td>
-<td>Фрезеровка посадочных мест</td>
+<td>Шлифовка</td>
+<td>Абразивная обработка посадочных мест</td>
 <td>15%</td>
 </tr>
 <tr class="even">
@@ -1377,8 +1436,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 </section>
-<section id="фрезерная-головка-cnc" class="level3">
-<h3 class="anchored" data-anchor-id="фрезерная-головка-cnc">Фрезерная головка CNC</h3>
+<section id="шлифовальная-головка" class="level3">
+<h3 class="anchored" data-anchor-id="шлифовальная-головка">Шлифовальная головка</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1393,11 +1452,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Скорость вращения</td>
-<td>10 000 об/мин</td>
+<td>3000-6000 об/мин</td>
 </tr>
 <tr class="odd">
-<td>Фреза</td>
-<td>Керамика Si₃N₄</td>
+<td>Абразив</td>
+<td>Al₂O₃ (корунд, местное)</td>
 </tr>
 <tr class="even">
 <td>Применение</td>
@@ -1438,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><a href="../../../../../ru/science/detailed/robots/overview.html">Производство роботов</a> — обзор производства</li>
 <li><a href="../../../../../ru/science/detailed/robots/elements/frames.html">Изготовление рам</a> — лёгкая Al рама Кентавр-М</li>
-<li><a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a> — NaS 20 кВтч</li>
+<li><a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a> — NaS 5 кВтч</li>
 <li><a href="../../../../../ru/science/detailed/robots/elements/actuators.html">Актуаторы</a> — 12 электроактуаторов манипуляторов</li>
 <li><a href="../../../../../ru/science/detailed/robots/assembly/crabs.html">Сборка Краб-М</a> — логистический робот</li>
 <li><a href="../../../../../ru/science/detailed/robots/assembly/moles.html">Сборка Крот-М</a> — робот-экскаватор</li>

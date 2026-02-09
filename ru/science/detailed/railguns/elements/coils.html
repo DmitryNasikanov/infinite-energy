@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Намотка катушек – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Намотка катушек – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -884,7 +934,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Назначение:</strong> Электромагнитные обмотки для разгона снаряда</li>
 <li><strong>Материал:</strong> Криогенный алюминий (360% проводимости при -180°C)</li>
-<li><strong>Масса:</strong> ~300 т на МД (3000 катушек)</li>
+<li><strong>Масса:</strong> ~100 т на МД (1000 катушек)</li>
 <li><strong>Технология:</strong> Автоматическая намотка + криогенное охлаждение</li>
 </ul>
 </blockquote>
@@ -906,7 +956,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Количество катушек на трек</td>
-<td>3000 (по 1 м)</td>
+<td>1000 (по 1 на метр)</td>
 </tr>
 <tr class="even">
 <td>Витков на катушку</td>
@@ -922,7 +972,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>ИТОГО масса обмоток</strong></td>
-<td><strong>~300 т Al</strong></td>
+<td><strong>~100 т Al</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1019,8 +1069,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Производительность:</strong> 1 намоточный станок → 10-20 катушек/день</p>
-<p><strong>Для 3000 катушек:</strong> 150-300 дней = <strong>5-10 месяцев</strong> на 1 станке</p>
-<p><strong>С 10 станками:</strong> ~<strong>1 месяц</strong></p>
+<p><strong>Для 1000 катушек:</strong> 50-100 дней на 1 станке</p>
+<p><strong>С 5 станками:</strong> ~<strong>3 недели</strong></p>
 <p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/factories/elements/rolling.html">Прокатный стан</a></p>
 <hr>
 </section>
@@ -1106,7 +1156,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Энергия на запуск</td>
-<td>3.6 ГДж</td>
+<td>4.7 ГДж (включая потери конденсаторов)</td>
 </tr>
 <tr class="even">
 <td>КПД</td>
@@ -1114,15 +1164,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Потери в тепло</td>
-<td><strong>2.2 ГДж</strong></td>
+<td><strong>2.8 ГДж</strong></td>
 </tr>
 <tr class="even">
 <td>Время выстрела</td>
-<td>12 сек</td>
+<td>0.4 сек</td>
 </tr>
 <tr class="odd">
 <td>Пиковое тепловыделение</td>
-<td><strong>~180 МВт</strong></td>
+<td><strong>~280 МВт</strong> (поглощается термомассой)</td>
 </tr>
 </tbody>
 </table>
@@ -1130,8 +1180,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="средняя-мощность" class="level3">
 <h3 class="anchored" data-anchor-id="средняя-мощность">Средняя мощность</h3>
 <p>При 600 запусках/сутки:</p>
-<pre><code>2.2 ГДж × 600 / 86400 сек = ~15 МВт среднего тепловыделения</code></pre>
-<p><strong>Требуется отвод:</strong> ~15-20 МВт постоянно + пики до 180 МВт.</p>
+<pre><code>2.8 ГДж × 600 / 86400 сек = ~20 МВт среднего тепловыделения</code></pre>
+<p><strong>Требуется отвод:</strong> ~20 МВт постоянно. Пиковое тепло (280 МВт за 0.4 сек) поглощается термомассой катушек и теплоносителя NaK, затем рассеивается за 2-3 минуты между выстрелами.</p>
 <hr>
 </section>
 </section>
@@ -1211,9 +1261,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Обмотки (3000 катушек)</td>
-<td>300 т Al</td>
-<td>42 т/день → <strong>8 дней</strong></td>
+<td>Обмотки (1000 катушек)</td>
+<td>100 т Al</td>
+<td>42 т/день → <strong>2.5 дня</strong></td>
 </tr>
 <tr class="even">
 <td>Система охлаждения NaK</td>
@@ -1264,22 +1314,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Установка каркасов катушек</td>
-<td>1 неделя</td>
+<td>3 дня</td>
 <td>20 Кентавров-М</td>
 </tr>
 <tr class="even">
-<td>Монтаж катушек (3000 шт)</td>
-<td><strong>1 месяц</strong></td>
+<td>Монтаж катушек (1000 шт)</td>
+<td><strong>2 недели</strong></td>
 <td>10 Кентавров-М</td>
 </tr>
 <tr class="odd">
 <td>Подключение охлаждения</td>
-<td>1 неделя</td>
+<td>3 дня</td>
 <td>10 Кентавров-М</td>
 </tr>
 <tr class="even">
 <td>Прокладка силовых кабелей</td>
-<td>1 неделя</td>
+<td>3 дня</td>
 <td>10 Кентавров-М</td>
 </tr>
 <tr class="odd">
@@ -1289,7 +1339,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>ИТОГО:</strong> ~6 недель от установки до готовности.</p>
+<p><strong>ИТОГО:</strong> ~3-4 недели от установки до готовности. (Параллельно с монтажом рельсов и каркаса.)</p>
 <hr>
 </section>
 <section id="контроль-качества" class="level2">
@@ -1338,7 +1388,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../../../ru/science/detailed/railguns/elements/rails.html">Производство рельсов</a> — алюминиевые направляющие</li>
 <li><a href="../../../../../ru/science/detailed/railguns/elements/frame.html">Каркас тоннеля</a> — несущая конструкция</li>
 <li><a href="../../../../../ru/science/detailed/railguns/assembly/track.html">Сборка трека</a> — монтаж МД</li>
-<li><a href="../../../../../ru/science/detailed/railguns/theory.html#охлаждение-катушек">Энергосистема</a> — питание и охлаждение катушек</li>
+<li><a href="../../../../../ru/science/detailed/railguns/overview.html#охлаждение-катушек">Энергосистема</a> — питание и охлаждение катушек</li>
 </ul>
 
 

@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Прокатный стан – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Прокатный стан – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1115,6 +1165,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><strong>Процесс:</strong> - Лента 5 мм проходит через серию валков с уменьшающимся зазором - Каждый проход уменьшает толщину на 30-40% - Финальная толщина: 50 мкм (0.05 мм)</p>
 <p><strong>Контроль качества:</strong> - Толщина: лазерный профилометр (±2 мкм) - Плоскостность: камера ИК (отклонение &lt;0.1 мм/м) - Чистота: оптический контроль (нет царапин)</p>
+<blockquote class="blockquote">
+<p><strong>Примечание: 50 мкм — промежуточный полуфабрикат.</strong> Для зеркал Роя требуется фольга <strong>4 мкм</strong> (см. <a href="../../../../../ru/science/summaries/mirrors.html">Зеркала</a>). Финишная прокатка 50 → 4 мкм выполняется на выделенном фольгопрокатном стане (ещё ~8-10 проходов с обжатием 30-40%). Промышленный референс: Novelis/UACJ производят фольгу 4.5 мкм серийно.</p>
+</blockquote>
 <p><strong>Применение:</strong> <a href="../../../../../ru/science/summaries/mirrors.html">Зеркала</a></p>
 <hr>
 </section>
@@ -1155,6 +1208,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="волочение-проволоки-al-10-потока-al-4-тдень">3. Волочение проволоки Al (10% потока Al, ~4 т/день)</h3>
 <p>Проволока Ø1.6-2.0 мм для <a href="../../reference/technology-readiness.qmd#waam-3d-печать">WAAM</a> 3D-печати.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Параметр</th>
@@ -1172,7 +1229,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Количество проходов</td>
-<td>5-7</td>
+<td>11-15</td>
 </tr>
 <tr class="even">
 <td>Скорость волочения</td>
@@ -1180,11 +1237,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Фильеры</td>
-<td>Вольфрамовые (с Земли)</td>
+<td>W (Bootstrap импорт) → Si₃N₄ (штатное местное, 3× срок службы)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Процесс:</strong> - Профиль Ø20 мм продавливается через фильеры с уменьшающимся диаметром - Каждая фильера уменьшает диаметр на 15-20% - Финальная проволока: Ø1.6-2.0 мм</p>
+<p><strong>Процесс:</strong> - Профиль Ø20 мм продавливается через фильеры с уменьшающимся диаметром - Каждая фильера уменьшает диаметр на 15-20% - При 15-20% редукции на проход: Ø20 → Ø1.6 мм требует 11-15 фильер - Финальная проволока: Ø1.6-2.0 мм</p>
 <p><strong>Смазка:</strong> MoS₂ (дисульфид молибдена) — работает в вакууме</p>
 <p><strong>Намотка:</strong> Проволока наматывается на бобины по 50-100 кг</p>
 <p><strong>Применение:</strong> <a href="../../../../../ru/science/detailed/factories/elements/waam.html">WAAM 3D-печать</a></p>
@@ -1231,6 +1288,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="волочение-проволоки-fe-40-потока-fe-4.3-тдень">5. Волочение проволоки Fe (40% потока Fe, ~4.3 т/день)</h3>
 <p>Проволока Ø1.6-2.0 мм для WAAM 3D-печати стальных деталей.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Параметр</th>
@@ -1248,7 +1309,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Количество проходов</td>
-<td>5-7</td>
+<td>11-15</td>
 </tr>
 <tr class="even">
 <td>Скорость волочения</td>
@@ -1256,11 +1317,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Фильеры</td>
-<td>Вольфрамовые (с Земли)</td>
+<td>W (Bootstrap импорт) → Si₃N₄ (штатное местное, 3× срок службы)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Процесс:</strong> - Аналогичен волочению алюминиевой проволоки - Более высокое усилие волочения (сталь твёрже Al) - Промежуточный отжиг после 2-3 проходов (снятие наклёпа)</p>
+<p><strong>Процесс:</strong> - Аналогичен волочению алюминиевой проволоки - Более высокое усилие волочения (сталь твёрже Al) - Промежуточный отжиг после 4-5 проходов (снятие наклёпа)</p>
 <p><strong>Смазка:</strong> MoS₂ (дисульфид молибдена)</p>
 <p><strong>Намотка:</strong> Бобины по 50-100 кг</p>
 <p><strong>Применение:</strong> <a href="../../../../../ru/science/detailed/factories/elements/waam.html">WAAM 3D-печать</a> стальных деталей</p>

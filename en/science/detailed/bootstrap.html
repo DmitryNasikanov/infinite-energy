@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="First Factory Assembly (Bootstrap) – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="First Factory Assembly (Bootstrap) – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -825,7 +875,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#why-this-is-a-unique-phase" id="toc-why-this-is-a-unique-phase" class="nav-link active" data-scroll-target="#why-this-is-a-unique-phase">Why This is a Unique Phase</a></li>
+  <li><a href="#site-selection-polar-crater" id="toc-site-selection-polar-crater" class="nav-link active" data-scroll-target="#site-selection-polar-crater">Site Selection: Polar Crater</a>
+  <ul class="collapse">
+  <li><a href="#why-the-pole-not-the-equator" id="toc-why-the-pole-not-the-equator" class="nav-link" data-scroll-target="#why-the-pole-not-the-equator">Why the Pole, Not the Equator?</a></li>
+  <li><a href="#crater-thermal-zones" id="toc-crater-thermal-zones" class="nav-link" data-scroll-target="#crater-thermal-zones">Crater Thermal Zones</a></li>
+  </ul></li>
+  <li><a href="#why-this-is-a-unique-phase" id="toc-why-this-is-a-unique-phase" class="nav-link" data-scroll-target="#why-this-is-a-unique-phase">Why This is a Unique Phase</a></li>
   <li><a href="#checkpoint-energy-autonomy" id="toc-checkpoint-energy-autonomy" class="nav-link" data-scroll-target="#checkpoint-energy-autonomy">Checkpoint: Energy Autonomy</a>
   <ul class="collapse">
   <li><a href="#critical-path-calculation" id="toc-critical-path-calculation" class="nav-link" data-scroll-target="#critical-path-calculation">Critical Path Calculation</a></li>
@@ -836,6 +891,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#batteries-li-s-lithium-sulfur" id="toc-batteries-li-s-lithium-sulfur" class="nav-link" data-scroll-target="#batteries-li-s-lithium-sulfur">Batteries: Li-S (Lithium-Sulfur)</a></li>
   <li><a href="#gen-1-specifications" id="toc-gen-1-specifications" class="nav-link" data-scroll-target="#gen-1-specifications">Gen-1 Specifications</a></li>
   <li><a href="#assembly-team-composition" id="toc-assembly-team-composition" class="nav-link" data-scroll-target="#assembly-team-composition">Assembly Team Composition</a></li>
+  <li><a href="#factory-equipment-modular-delivery" id="toc-factory-equipment-modular-delivery" class="nav-link" data-scroll-target="#factory-equipment-modular-delivery">Factory Equipment (Modular Delivery)</a></li>
+  <li><a href="#first-year-consumables" id="toc-first-year-consumables" class="nav-link" data-scroll-target="#first-year-consumables">First Year Consumables</a></li>
+  <li><a href="#vitamins-electronics-rare-elements" id="toc-vitamins-electronics-rare-elements" class="nav-link" data-scroll-target="#vitamins-electronics-rare-elements">Vitamins (Electronics, Rare Elements)</a></li>
+  <li><a href="#first-expedition-manifest-summary" id="toc-first-expedition-manifest-summary" class="nav-link" data-scroll-target="#first-expedition-manifest-summary">First Expedition Manifest Summary</a></li>
   </ul></li>
   <li><a href="#in-flight-charging" id="toc-in-flight-charging" class="nav-link" data-scroll-target="#in-flight-charging">In-flight Charging</a>
   <ul class="collapse">
@@ -853,10 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#phase-e-first-gen-2-robot-24-30-h" id="toc-phase-e-first-gen-2-robot-24-30-h" class="nav-link" data-scroll-target="#phase-e-first-gen-2-robot-24-30-h">Phase E: First Gen-2 Robot (24-30 h)</a></li>
   </ul></li>
   <li><a href="#summary-total-time-and-robot-hours" id="toc-summary-total-time-and-robot-hours" class="nav-link" data-scroll-target="#summary-total-time-and-robot-hours">Summary: Total Time and Robot-Hours</a></li>
-  <li><a href="#three-scenarios" id="toc-three-scenarios" class="nav-link" data-scroll-target="#three-scenarios">Three Scenarios</a>
-  <ul class="collapse">
-  <li><a href="#key-difference-from-old-model" id="toc-key-difference-from-old-model" class="nav-link" data-scroll-target="#key-difference-from-old-model">Key Difference from Old Model</a></li>
-  </ul></li>
+  <li><a href="#three-scenarios" id="toc-three-scenarios" class="nav-link" data-scroll-target="#three-scenarios">Three Scenarios</a></li>
   <li><a href="#bootstrap-phase-risks" id="toc-bootstrap-phase-risks" class="nav-link" data-scroll-target="#bootstrap-phase-risks">Bootstrap Phase Risks</a>
   <ul class="collapse">
   <li><a href="#repair-kit-updated" id="toc-repair-kit-updated" class="nav-link" data-scroll-target="#repair-kit-updated">Repair Kit (updated)</a></li>
@@ -898,9 +954,68 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </blockquote>
 <hr>
+<section id="site-selection-polar-crater" class="level2">
+<h2 class="anchored" data-anchor-id="site-selection-polar-crater">Site Selection: Polar Crater</h2>
+<blockquote class="blockquote">
+<p><strong>Critical:</strong> Bootstrap takes place at <strong>Mercury’s pole</strong> (Prokofiev crater, 85°N), NOT at the equator. This fundamentally changes the thermal regime.</p>
+</blockquote>
+<section id="why-the-pole-not-the-equator" class="level3">
+<h3 class="anchored" data-anchor-id="why-the-pole-not-the-equator">Why the Pole, Not the Equator?</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 32%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Mercury Equator</th>
+<th>Pole (Prokofiev crater)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Day temperature</td>
+<td><strong>+430°C</strong></td>
+<td>Peaks: ~+100°C (low sun angle)</td>
+</tr>
+<tr class="even">
+<td>Night temperature</td>
+<td>-180°C</td>
+<td>Crater floor: <strong>-150°C</strong> (permanent)</td>
+</tr>
+<tr class="odd">
+<td>Day/night cycle</td>
+<td>176 Earth days</td>
+<td><strong>No cycle</strong> — eternal shadow + eternal light</td>
+</tr>
+<tr class="even">
+<td>Li-S compatibility (-60°C…+60°C)</td>
+<td><strong>Impossible</strong></td>
+<td><strong>Yes</strong> (operation in shadow/terminator)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="crater-thermal-zones" class="level3">
+<h3 class="anchored" data-anchor-id="crater-thermal-zones">Crater Thermal Zones</h3>
+<p>A polar crater has three thermal zones:</p>
+<ol type="1">
+<li><strong>Peaks of eternal light</strong> (crater rims) — permanently lit (~+100°C), solar panels are placed here</li>
+<li><strong>Terminator zone</strong> (slopes) — variable lighting (-50°C…+50°C), Gen-1 robot work zone</li>
+<li><strong>Eternal shadow</strong> (crater floor) — permanent -150°C to -180°C, storage, cooling, water ice</li>
+</ol>
+<p><strong>Gen-1 operating mode:</strong> Robots operate in the terminator zone and on illuminated slopes. If overheating, they retreat to shadow for cooling. Li-S batteries (-60°C…+60°C) are fully compatible with this regime.</p>
+<blockquote class="blockquote">
+<p><strong>The 88-day “night” myth:</strong> This applies only to the equator. At the poles, “peaks of eternal light” are lit <strong>continuously</strong> (24/7/365). The 88-day night problem does not apply to the polar base.</p>
+</blockquote>
+<hr>
+</section>
+</section>
 <section id="why-this-is-a-unique-phase" class="level2">
 <h2 class="anchored" data-anchor-id="why-this-is-a-unique-phase">Why This is a Unique Phase</h2>
-<p><a href="../../../en/science/reference/glossary.html#bootstrap-блиц-монтаж">Bootstrap</a> is the only moment in the project when there are no local resources and nowhere to charge robots. After factory startup, standard production with self-replication begins.</p>
+<p><a href="../../../en/science/reference/glossary.html#bootstrap">Bootstrap</a> is the only moment in the project when there are no local resources and nowhere to charge robots. After factory startup, standard production with self-replication begins.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -991,21 +1106,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>A1. Unload energy modules</td>
-<td><a href="../../../en/science/reference/glossary.html#поколение-1-gen-1">Crab-Z</a> ×12</td>
+<td><a href="../../../en/science/reference/glossary.html#generation-1-gen-1">Crab-Z</a> ×12</td>
 <td>2</td>
 <td>-</td>
 <td>Modules in position</td>
 </tr>
 <tr class="even">
 <td>A2. Deploy panels</td>
-<td><a href="../../../en/science/reference/glossary.html#поколение-1-gen-1">Spider-Z</a> ×16</td>
+<td><a href="../../../en/science/reference/glossary.html#generation-1-gen-1">Spider-Z</a> ×16</td>
 <td>4</td>
 <td>B1</td>
 <td>5 MW available</td>
 </tr>
 <tr class="odd">
 <td>A3. Lay cables</td>
-<td><a href="../../../en/science/reference/glossary.html#поколение-1-gen-1">Centaur-Z</a> ×8</td>
+<td><a href="../../../en/science/reference/glossary.html#generation-1-gen-1">Centaur-Z</a> ×8</td>
 <td>4</td>
 <td>B1</td>
 <td>Power system</td>
@@ -1027,6 +1142,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>With ×2 buffer:</strong> 24 hours to energy autonomy (margin for unexpected issues).</p>
+<blockquote class="blockquote">
+<p><strong>Note on parallelism:</strong> The diagram shows phases as “parallel”, but this is a simplification. In practice, B2.1 and C1.x <strong>start after A1.2</strong> (dependency: “unloading complete”). After A1.2, all 12 Crab-Zs are free → B2.1 (4 units) + C1.1 (4 units) can run in parallel. Centaur-Zs (24 units) cover all parallel operations of phases A/B/C.</p>
+</blockquote>
 </section>
 <section id="why-time-after-checkpoint-is-not-critical" class="level3">
 <h3 class="anchored" data-anchor-id="why-time-after-checkpoint-is-not-critical">Why Time After Checkpoint is Not Critical</h3>
@@ -1216,6 +1334,178 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>On robot autonomy:</strong> Gen-1 robots perform <strong>routine operations</strong> (unloading, mounting, cable laying), not scientific research. This is closer to autonomous mining equipment (<a href="../../../en/science/detailed/robots/overview.html#references-autonomous-mining">Rio Tinto/Caterpillar</a>) than to Mars rovers.</p>
+</blockquote>
+</section>
+<section id="factory-equipment-modular-delivery" class="level3">
+<h3 class="anchored" data-anchor-id="factory-equipment-modular-delivery">Factory Equipment (Modular Delivery)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Mass</th>
+<th style="text-align: left;">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Power Module</strong></td>
+<td style="text-align: left;">3.0 t</td>
+<td style="text-align: left;">Mirrors (2000 m²) + frame + GaAs cells + radiators</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>MRE Module</strong></td>
+<td style="text-align: left;">4.0 t</td>
+<td style="text-align: left;">Furnace + crucible + electrodes + MHD + frame</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Dome Module</strong></td>
+<td style="text-align: left;">4.0 t</td>
+<td style="text-align: left;">Shell + airlock + ladle + internal radiators <em>(components for on-site assembly; inflatable Bootstrap module 10-12 t — see below)</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>CCM Module</strong></td>
+<td style="text-align: left;">6.0 t</td>
+<td style="text-align: left;">Crystallizer + stand + roller table (on skids)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Rolling Module</strong></td>
+<td style="text-align: left;">10.0 t</td>
+<td style="text-align: left;">Mill (6 stands) + drawing + winding</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Finishing Module</strong></td>
+<td style="text-align: left;">6.0 t</td>
+<td style="text-align: left;">WAAM + grinding + assembly jig + manipulators</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total Equipment</strong></td>
+<td style="text-align: left;"><strong>~35 t</strong></td>
+<td style="text-align: left;">Modular pre-assembly</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="first-year-consumables" class="level3">
+<h3 class="anchored" data-anchor-id="first-year-consumables">First Year Consumables</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Mass</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MRE anodes (spare)</td>
+<td style="text-align: left;">0.2 t</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oils, lubricants</td>
+<td style="text-align: left;">0.1 t</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">β-Al₂O₃ electrolytes</td>
+<td style="text-align: left;">0.3 t</td>
+<td style="text-align: left;">For first 50 batteries</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Total consumables</strong></td>
+<td style="text-align: left;"><strong>~0.6 t</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="vitamins-electronics-rare-elements" class="level3">
+<h3 class="anchored" data-anchor-id="vitamins-electronics-rare-elements">Vitamins (Electronics, Rare Elements)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Mass</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control units (for new robots)</td>
+<td style="text-align: left;">0.5 t</td>
+<td style="text-align: left;">For 100 robots</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sensors</td>
+<td style="text-align: left;">0.2 t</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Misc electronics</td>
+<td style="text-align: left;">0.3 t</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rare earths (Nd, Sm for magnets)</td>
+<td style="text-align: left;">0.1 t</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tungsten wire drawing dies</td>
+<td style="text-align: left;">0.05 t</td>
+<td style="text-align: left;">For WAAM wire</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Total vitamins</strong></td>
+<td style="text-align: left;"><strong>~1.15 t</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="first-expedition-manifest-summary" class="level3">
+<h3 class="anchored" data-anchor-id="first-expedition-manifest-summary">First Expedition Manifest Summary</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Mass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Assembly brigade (56 robots)</td>
+<td style="text-align: left;">22.5 t</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Repair kit</td>
+<td style="text-align: left;">1.6 t</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Factory equipment (modules)</td>
+<td style="text-align: left;">35.0 t</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Consumables (1 year)</td>
+<td style="text-align: left;">0.6 t</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vitamins (electronics)</td>
+<td style="text-align: left;">1.15 t</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>TOTAL first expedition</strong></td>
+<td style="text-align: left;"><strong>~61 t</strong></td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
 </section>
@@ -1242,15 +1532,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Power (near Mercury)</td>
-<td>~500 kW</td>
+<td>~180 kW (GaAs 35%)</td>
 </tr>
 <tr class="odd">
 <td>Total battery capacity (56 robots)</td>
-<td>~100 kWh</td>
+<td>~890 kWh</td>
 </tr>
 <tr class="even">
 <td>Full charge time</td>
-<td>~12 minutes (at full power)</td>
+<td>~5 hours</td>
 </tr>
 </tbody>
 </table>
@@ -1289,39 +1579,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="pre-assembled-inflatable-dome" class="level2">
 <h2 class="anchored" data-anchor-id="pre-assembled-inflatable-dome">Pre-assembled Inflatable Dome</h2>
-<p>Instead of on-site dome assembly (4 days in old model) — bring a ready inflatable module:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>On-site assembly</th>
-<th>Inflatable module</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Time</td>
-<td>4 days</td>
-<td><strong>4-8 hours</strong></td>
-</tr>
-<tr class="even">
-<td>Mass</td>
-<td>~8 t</td>
-<td>10-12 t (+2-3 t)</td>
-</tr>
-<tr class="odd">
-<td>Robots</td>
-<td>6 Moles-M (Gen-2!)</td>
-<td>6 Centaurs-Z (Gen-1)</td>
-</tr>
-<tr class="even">
-<td>Risk</td>
-<td>High</td>
-<td>Low</td>
-</tr>
-</tbody>
-</table>
+<p>Inflatable module (10-12 t) deploys in 4-8 hours.</p>
 <p><strong>Analog:</strong> <a href="https://www.nasa.gov/mission_pages/station/research/experiments/1804.html">Bigelow Aerospace BEAM</a> module on ISS (16 m³, 1.4 t) — operating successfully since 2016.</p>
+<blockquote class="blockquote">
+<p><strong>BEAM → Helios scaling:</strong> BEAM is a rigid module with full life-support (1 atm, 87 kg/m³). The Helios dome is a lightweight structure: shell only (no life support — no humans), multi-layer composite instead of metal, 0.1 atm. Under these conditions, specific mass of ~1.3-1.6 kg/m³ is realistic.</p>
+</blockquote>
 <p><strong>Deployment process:</strong></p>
 <ol type="1">
 <li>Unload module (Crab-Z ×4, 1 hour)</li>
@@ -1692,7 +1954,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>C4.3</td>
-<td>Install <a href="../../../en/science/reference/technology-readiness.html#waam-3d-печать">WAAM</a></td>
+<td>Install <a href="../../../en/science/reference/technology-readiness.html#waam-wire-arc-additive-manufacturing">WAAM</a></td>
 <td>Centaur-Z ×4</td>
 <td>2</td>
 <td>C4.2</td>
@@ -1700,7 +1962,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>C4.4</td>
-<td>Install CNC</td>
+<td>Install grinding cell</td>
 <td>Centaur-Z ×4</td>
 <td>2</td>
 <td>C4.3</td>
@@ -1744,6 +2006,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="phase-d-commissioning-20-40-h" class="level3">
 <h3 class="anchored" data-anchor-id="phase-d-commissioning-20-40-h">Phase D: Commissioning (20-40 h)</h3>
+<blockquote class="blockquote">
+<p><strong>Note on calibration time:</strong> The times shown are <strong>minimum under ideal conditions</strong>. After transport (3-4 months, vibrations, thermal cycling), actual calibration may take ×2-3 longer. This is accounted for in the 20-40 h range and does not affect checkpoint.</p>
+</blockquote>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 5%">
@@ -1862,7 +2127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>D4.3</td>
-<td>Calibrate CNC</td>
+<td>Calibrate grinding</td>
 <td>Centaur-Z ×2</td>
 <td>2</td>
 <td>C4.4</td>
@@ -1870,7 +2135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>D4.4</td>
-<td>Test machining</td>
+<td>Test grinding</td>
 <td>Centaur-Z ×2</td>
 <td>1</td>
 <td>D4.3</td>
@@ -1968,8 +2233,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>E3.2</td>
-<td>CNC: finish machining</td>
-<td>CNC (auto)</td>
+<td>Grinding: finish processing</td>
+<td>Centaur-M + abrasive (auto)</td>
 <td>2</td>
 <td>E3.1</td>
 <td>0</td>
@@ -2000,7 +2265,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>E4.4</td>
-<td>Install electronics (<a href="../../../en/science/reference/glossary.html#витамины">vitamins</a>)</td>
+<td>Install electronics (<a href="../../../en/science/reference/glossary.html#vitamins">vitamins</a>)</td>
 <td>Centaur-Z ×2</td>
 <td>1</td>
 <td>E4.3</td>
@@ -2141,37 +2406,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<section id="key-difference-from-old-model" class="level3">
-<h3 class="anchored" data-anchor-id="key-difference-from-old-model">Key Difference from Old Model</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Old model</th>
-<th>New model</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>“7 days critical, 30 = failure”</td>
-<td>“24 hours critical, rest = resource question”</td>
-</tr>
-<tr class="even">
-<td>Linear planning</td>
-<td>Checkpoint-oriented</td>
-</tr>
-<tr class="odd">
-<td>Focus on total time</td>
-<td>Focus on energy autonomy</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Conclusion:</strong> After checkpoint (24 h) time is not critical — constrained only by Gen-1 robot lifespan (2-3 years). Even 30-day assembly keeps the project viable.</p>
+<p><strong>Conclusion:</strong> After checkpoint (12-24 h) time is not critical — constrained only by Gen-1 robot lifespan (2-3 years). Even 30-day assembly keeps the project viable.</p>
 <hr>
-</section>
 </section>
 <section id="bootstrap-phase-risks" class="level2">
 <h2 class="anchored" data-anchor-id="bootstrap-phase-risks">Bootstrap Phase Risks</h2>

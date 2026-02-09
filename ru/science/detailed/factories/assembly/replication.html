@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Саморепликация заводов – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Саморепликация заводов – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -837,7 +887,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#фаза-1-экспоненциальный-рост-заводов-месяцы-2-6" id="toc-фаза-1-экспоненциальный-рост-заводов-месяцы-2-6" class="nav-link" data-scroll-target="#фаза-1-экспоненциальный-рост-заводов-месяцы-2-6">Фаза 1: Экспоненциальный рост заводов (месяцы 2-6)</a>
   <ul class="collapse">
-  <li><a href="#расчёт-времени-репликации" id="toc-расчёт-времени-репликации" class="nav-link" data-scroll-target="#расчёт-времени-репликации">Расчёт времени репликации</a></li>
+  <li><a href="#расчёт-времени-репликации-теоретический" id="toc-расчёт-времени-репликации-теоретический" class="nav-link" data-scroll-target="#расчёт-времени-репликации-теоретический">Расчёт времени репликации (теоретический)</a></li>
   <li><a href="#что-производит-ф-р-для-нового-завода" id="toc-что-производит-ф-р-для-нового-завода" class="nav-link" data-scroll-target="#что-производит-ф-р-для-нового-завода">Что производит Ф-Р для нового завода?</a></li>
   </ul></li>
   <li><a href="#фаза-2-развёртывание-инфраструктуры-месяцы-6-7" id="toc-фаза-2-развёртывание-инфраструктуры-месяцы-6-7" class="nav-link" data-scroll-target="#фаза-2-развёртывание-инфраструктуры-месяцы-6-7">Фаза 2: Развёртывание инфраструктуры (месяцы 6-7)</a>
@@ -847,7 +897,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#фаза-3-производство-зеркал-месяцы-7-114" id="toc-фаза-3-производство-зеркал-месяцы-7-114" class="nav-link" data-scroll-target="#фаза-3-производство-зеркал-месяцы-7-114">Фаза 3: Производство зеркал (месяцы 7-114)</a>
   <ul class="collapse">
-  <li><a href="#расчёт-времени-на-1-млрд-зеркал" id="toc-расчёт-времени-на-1-млрд-зеркал" class="nav-link" data-scroll-target="#расчёт-времени-на-1-млрд-зеркал">Расчёт времени на 1 млрд зеркал</a></li>
+  <li><a href="#расчёт-времени-на-1.1-млрд-зеркал" id="toc-расчёт-времени-на-1.1-млрд-зеркал" class="nav-link" data-scroll-target="#расчёт-времени-на-1.1-млрд-зеркал">Расчёт времени на 1.1 млрд зеркал</a></li>
   </ul></li>
   <li><a href="#аллокация-ресурсов-по-фазам" id="toc-аллокация-ресурсов-по-фазам" class="nav-link" data-scroll-target="#аллокация-ресурсов-по-фазам">Аллокация ресурсов по фазам</a></li>
   <li><a href="#критический-путь-фазы-0-базовый-1-км" id="toc-критический-путь-фазы-0-базовый-1-км" class="nav-link" data-scroll-target="#критический-путь-фазы-0-базовый-1-км">Критический путь Фазы 0 (базовый 1 км)</a></li>
@@ -895,7 +945,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Концепция:</strong> Каждый завод строит новые заводы из местных материалов</li>
 <li><strong>Темп:</strong> Саморепликация за ~3 недели/завод, но практический рост 1 → 1000 занимает ~4 года (узкое место: доставка <a href="../../../../../ru/science/reference/glossary.html#витамины">витаминов</a> с Земли)</li>
-<li><strong>Ключ:</strong> Энергетическая независимость (168 МВт с первого дня)</li>
+<li><strong>Ключ:</strong> Энергетическая независимость (~151 МВт с первого дня)</li>
 <li><strong>Фазы:</strong> <a href="../../../../../ru/science/reference/glossary.html#bootstrap-блиц-монтаж">Bootstrap</a> (2 мес) → Рост заводов (4 мес) → Инфраструктура (1 мес) → Зеркала (9 лет)</li>
 </ul>
 </blockquote>
@@ -908,7 +958,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="энергетический-bootstrap-фаза-0" class="level2">
 <h2 class="anchored" data-anchor-id="энергетический-bootstrap-фаза-0">Энергетический <a href="../../../../../ru/science/reference/glossary.html#bootstrap-блиц-монтаж">Bootstrap</a> (Фаза 0)</h2>
 <p><strong>Проблема:</strong> Как запустить производство без энергии от Роя зеркал?</p>
-<p><strong>Решение:</strong> 3 рейса панелей GaAs дают <strong>168 МВт</strong> — запас <strong>113 МВт</strong> сверх потребления первого завода (55 МВт).</p>
+<p><strong>Решение:</strong> CPV-система (~10,5 т: концентраторы Kapton+Al + GaAs ячейки) даёт <strong>~151 МВт</strong> — запас <strong>~27 МВт</strong> сверх потребления первого завода (~124 МВт).</p>
 <section id="расчёт-энергетического-запаса" class="level3">
 <h3 class="anchored" data-anchor-id="расчёт-энергетического-запаса">Расчёт энергетического запаса</h3>
 <table class="caption-top table">
@@ -921,15 +971,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Потребление 1 завода</td>
-<td>55 МВт</td>
+<td>~124 МВт</td>
 </tr>
 <tr class="even">
-<td>Доступно (3 рейса GaAs)</td>
-<td>168 МВт</td>
+<td>Доступно (CPV-система ~10,5 т)</td>
+<td>~151 МВт</td>
 </tr>
 <tr class="odd">
 <td><strong>Запас</strong></td>
-<td><strong>113 МВт</strong></td>
+<td><strong>~27 МВт</strong></td>
 </tr>
 <tr class="even">
 <td>Обеспечивает</td>
@@ -957,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Масса МД</td>
-<td><strong>450 тонн</strong>*</td>
+<td><strong>~500 тонн</strong>*</td>
 </tr>
 <tr class="even">
 <td>Производство Al</td>
@@ -965,11 +1015,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Производство Fe</td>
-<td>18 т/день</td>
+<td>18 т/день**</td>
 </tr>
 <tr class="even">
-<td>Время на Al (~170 т)</td>
-<td><strong>4 дня</strong></td>
+<td>Время на Al (~220 т)</td>
+<td><strong>5 дней</strong></td>
 </tr>
 <tr class="odd">
 <td>Время на Fe (~270 т)</td>
@@ -986,6 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p>*Базовый вариант 1 км. При удлинении до 2-3 км: масса 875-1300 т, время 40-60 дней.</p>
+<p>**Пиковый режим. Штатное производство Fe — 11 т/день, пиковое для МД — 18 т/день за счёт параллельной плавки.</p>
 <p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/railguns/overview.html">Производство масс-драйверов</a></p>
 <hr>
 </section>
@@ -1002,74 +1053,96 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>1 зеркало перехватывает</td>
-<td>103 МВт</td>
+<td>93 МВт</td>
 </tr>
 <tr class="even">
-<td>Нужно для 10 заводов</td>
-<td>550 МВт</td>
+<td>После отражения (90%) и потерь (15%)</td>
+<td>~71 МВт на приёмнике</td>
 </tr>
 <tr class="odd">
-<td>КПД передачи энергии</td>
-<td>~10%</td>
+<td>GaAs панели (30%)</td>
+<td><strong>~21 МВт электричества</strong></td>
 </tr>
 <tr class="even">
-<td>Требуется солнечной</td>
-<td>~6 ГВт = 60 зеркал</td>
+<td>КПД (зеркало → электричество)</td>
+<td><strong>~23%</strong></td>
 </tr>
 <tr class="odd">
+<td>Нужно для 10 заводов (1 240 МВт)</td>
+<td>1 240 ÷ 21 = <strong>59 зеркал</strong></td>
+</tr>
+<tr class="even">
 <td>С запасом 10×</td>
-<td><strong>600 зеркал</strong></td>
+<td><strong>~590 зеркал</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Производство 600 зеркал:</strong> Первый Ф-Р может производить зеркала на прокатном стане (фольга) с ручной сборкой, хотя не оптимизирован для этого. Оценка: ~50 зеркал/день → <strong>~12 дней</strong> на 600 штук.</p>
-<p><strong>Логика:</strong> 600 зеркал обеспечивают энергией 10 заводов. Этого достаточно для Фазы 1 (рост до 1000 заводов за 4 месяца).</p>
+<p><strong>Производство 590 зеркал:</strong> Первый Ф-Р может производить зеркала на прокатном стане (фольга) с ручной сборкой. При ~350 зеркал/день — <strong>менее 2 дней</strong>.</p>
+<p><strong>Логика:</strong> 590 зеркал обеспечивают энергией 10 заводов с 10-кратным запасом. Этого достаточно для старта Фазы 1.</p>
 <hr>
 </section>
 </section>
 <section id="фаза-1-экспоненциальный-рост-заводов-месяцы-2-6" class="level2">
 <h2 class="anchored" data-anchor-id="фаза-1-экспоненциальный-рост-заводов-месяцы-2-6">Фаза 1: Экспоненциальный рост заводов (месяцы 2-6)</h2>
 <p><a href="../../../../../ru/science/detailed/factories/overview.html#завод-репликатор-ф-р">Заводы-репликаторы (Ф-Р)</a> строят новые заводы. Сначала — новые Ф-Р (для экспоненциального роста), затем — <a href="../../../../../ru/science/detailed/factories/overview.html#зеркальный-завод-ф-з">зеркальные заводы (Ф-З)</a> (для производства зеркал). При 100% аллокации Ф-Р на репликацию:</p>
-<section id="расчёт-времени-репликации" class="level3">
-<h3 class="anchored" data-anchor-id="расчёт-времени-репликации">Расчёт времени репликации</h3>
+<section id="расчёт-времени-репликации-теоретический" class="level3">
+<h3 class="anchored" data-anchor-id="расчёт-времени-репликации-теоретический">Расчёт времени репликации (теоретический)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Неделя</th>
 <th>Заводов</th>
-<th>Прирост</th>
+<th>Примечание</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
 <td>1</td>
-<td>—</td>
+<td>Bootstrap</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td>3</td>
 <td>2</td>
-<td>+1</td>
+<td>Удвоение</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td>6</td>
 <td>4</td>
-<td>+2</td>
+<td></td>
 </tr>
 <tr class="even">
+<td>9</td>
+<td>8</td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>12</td>
 <td>16</td>
-<td>+12</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>32</td>
+<td></td>
 </tr>
 <tr class="odd">
-<td>16</td>
+<td>21</td>
+<td>128</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>30</td>
 <td>~1000</td>
-<td>+984</td>
+<td>~7.5 месяцев</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Темп удвоения:</strong> ~3 недели (при 50% аллокации на репликацию)</p>
-<p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/railguns/scaling.html">Масштабирование производства</a></p>
+<p><strong>Темп удвоения:</strong> ~3 недели (при 100% аллокации на репликацию)</p>
+<blockquote class="blockquote">
+<p><strong>Важно:</strong> Это теоретический темп при наличии всех материалов. Практически рост 1 → 1000 занимает <strong>~4 года</strong> из-за узкого места — доставки <a href="../../../../../ru/science/reference/glossary.html#витамины">витаминов</a> с Земли.</p>
+</blockquote>
+<p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/railguns/overview.html">Масштабирование производства</a></p>
 <hr>
 </section>
 <section id="что-производит-ф-р-для-нового-завода" class="level3">
@@ -1116,6 +1189,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Параллельность работ:</strong> Критический путь — оборудование (10-15 дней). Купол, роботы и энергосистема производятся параллельно, поэтому общее время = время оборудования + финальная сборка (3-5 дней) ≈ <strong>~3 недели</strong>.</p>
+</blockquote>
 <p><strong>Стратегия роста:</strong></p>
 <ol type="1">
 <li><strong>Фаза экспоненциального роста:</strong> Все Ф-Р на 100% строят новые Ф-Р (удвоение каждые 3 недели)</li>
@@ -1148,15 +1224,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Производство Fe</td>
-<td>18 т/день × 1000 = 18 000 т/день</td>
+<td>11 т/день × 1000 = 11 000 т/день</td>
 </tr>
 <tr class="even">
 <td>Масса 1 МД (1 км)</td>
-<td><strong>450 т</strong> (170 т Al + 270 т Fe)</td>
+<td><strong>~500 т</strong> (220 т Al + 270 т Fe)</td>
 </tr>
 <tr class="odd">
 <td>Материалов на 1000 МД</td>
-<td>450 000 т</td>
+<td>500 000 т</td>
 </tr>
 <tr class="even">
 <td>Время на 1000 МД</td>
@@ -1211,8 +1287,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="фаза-3-производство-зеркал-месяцы-7-114" class="level2">
 <h2 class="anchored" data-anchor-id="фаза-3-производство-зеркал-месяцы-7-114">Фаза 3: Производство зеркал (месяцы 7-114)</h2>
 <p>После развёртывания инфраструктуры все 1000 заводов переключаются на производство зеркал.</p>
-<section id="расчёт-времени-на-1-млрд-зеркал" class="level3">
-<h3 class="anchored" data-anchor-id="расчёт-времени-на-1-млрд-зеркал">Расчёт времени на 1 млрд зеркал</h3>
+<section id="расчёт-времени-на-1.1-млрд-зеркал" class="level3">
+<h3 class="anchored" data-anchor-id="расчёт-времени-на-1.1-млрд-зеркал">Расчёт времени на 1.1 млрд зеркал</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1227,19 +1303,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Зеркал/день на завод</td>
-<td>~392</td>
+<td>~350</td>
 </tr>
 <tr class="odd">
 <td><strong>ИТОГО зеркал/день</strong></td>
-<td><strong>~392 000</strong></td>
+<td><strong>~350 000</strong></td>
 </tr>
 <tr class="even">
 <td>Цель</td>
-<td>1 млрд зеркал</td>
+<td>1.1 млрд зеркал</td>
 </tr>
 <tr class="odd">
 <td>Время</td>
-<td><strong>~2555 дней (~7 лет)</strong></td>
+<td><strong>~2860 дней (~8 лет)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1259,14 +1335,14 @@ document.addEventListener('DOMContentLoaded', function() {
     dateFormat  YYYY-MM
     section Фаза 0: Bootstrap
     Первый МД (~25 дней)          :2025-01, 25d
-    600 зеркал (2 дня)            :2025-02, 2d
+    590 зеркал (~2 дня)           :2025-02, 2d
     section Фаза 1: Рост заводов
     Репликация 1→1000             :2025-02, 120d
     section Фаза 2: Инфраструктура
     1000 масс-драйверов           :2025-06, 15d
     60 000 роботов                :2025-06, 12d
     section Фаза 3: Зеркала
-    Производство 1 млрд зеркал    :2025-07, 2555d
+    Производство 1.1 млрд зеркал   :2025-07, 2555d
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -1298,13 +1374,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>26-27</td>
-<td>Производство 600 зеркал</td>
-<td>392 зеркала/день × 1.5 дня</td>
+<td>Производство 590 зеркал</td>
+<td>350 зеркал/день → ~2 дня</td>
 </tr>
 <tr class="even">
 <td>28+</td>
 <td>Запуск мини-Роя</td>
-<td>Энергия на Меркурий (550 МВт)</td>
+<td>Энергия на Меркурий (1 240+ МВт)</td>
 </tr>
 </tbody>
 </table>
@@ -1326,7 +1402,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Энергия для первых заводов</td>
 <td>Нехватка энергии при репликации</td>
-<td>Мини-Рой 600 зеркал обеспечивает 10 заводов</td>
+<td>Мини-Рой 590 зеркал обеспечивает 10 заводов</td>
 </tr>
 <tr class="even">
 <td>Импорт <a href="../../../../../ru/science/reference/glossary.html#витамины">витаминов</a></td>
@@ -1393,7 +1469,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="стратегия-оптимизации" class="level3">
 <h3 class="anchored" data-anchor-id="стратегия-оптимизации">Стратегия оптимизации</h3>
 <p><strong>Вариант 1: Складирование витаминов</strong> - Отправить 3000 т витаминов ДО начала роста - Требует ~100 пусков за год до начала репликации - Позволяет достичь теоретического темпа 4 месяца - <strong>Проблема</strong>: слишком большая предварительная инвестиция</p>
-<p><strong>Вариант 2: Параллельная доставка (базовый сценарий)</strong> - Рост заводов синхронизирован с доставкой витаминов - ~4 года от 1 до 1000 заводов - ~2,400 т общего груза (благодаря 96% локализации) - <strong>Преимущество</strong>: распределение инвестиций во времени</p>
+<p><strong>Вариант 2: Параллельная доставка (базовый сценарий)</strong> - Рост заводов синхронизирован с доставкой витаминов - ~4 года от 1 до 1000 заводов - ~2,400 т общего груза (благодаря 99.998% локализации) - <strong>Преимущество</strong>: распределение инвестиций во времени</p>
 <p><strong>Вариант 3: Гибридный</strong> - Первые 100 заводов: быстрый рост (складируем витамины заранее) - Далее: синхронизация с доставкой - <strong>Компромисс</strong>: 1 → 100 за ~1 год, 100 → 1000 за 3 года</p>
 <hr>
 </section>
@@ -1453,11 +1529,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Производство Fe</td>
-<td>18 000 т/день</td>
+<td>~11 000 т/день</td>
 </tr>
 <tr class="odd">
 <td>Производство зеркал</td>
-<td>~392 000 шт/день</td>
+<td>~350 000 шт/день</td>
 </tr>
 <tr class="even">
 <td>Производство роботов</td>
@@ -1465,11 +1541,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Потребление энергии</td>
-<td>55 ГВт (55 МВт × 1000)</td>
+<td>~124 ГВт (~124 МВт × 1000)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Энергообеспечение:</strong> 600 зеркал мини-Роя недостаточно. Требуется постоянное наращивание Роя параллельно с ростом заводов.</p>
+<p><strong>Энергообеспечение:</strong> 590 зеркал мини-Роя покрывают первые 10 заводов. Далее требуется постоянное наращивание Роя параллельно с ростом заводов.</p>
 <hr>
 </section>
 </section>
@@ -1495,13 +1571,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>Фаза 0</strong></td>
 <td>2 месяца</td>
 <td>1 завод + 1 МД</td>
-<td><strong>600 зеркал</strong> (энергия для роста)</td>
+<td><strong>590 зеркал</strong> (мини-Рой для энергии)</td>
 </tr>
 <tr class="even">
 <td><strong>Фаза 1</strong></td>
 <td><strong>~4 года</strong></td>
 <td>1 → 1000 заводов</td>
-<td><strong>~30 млн зеркал</strong> (50% мощности на репликацию, 50% на зеркала)</td>
+<td><strong>~143 млн зеркал</strong> (50% мощности на репликацию, 50% на зеркала)</td>
 </tr>
 <tr class="odd">
 <td><strong>Фаза 2</strong></td>
@@ -1513,19 +1589,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>Фаза 3</strong></td>
 <td>~7 лет</td>
 <td>Инфраструктура готова</td>
-<td><strong>~945 млн зеркал</strong> (100% мощности на зеркала)</td>
+<td><strong>~832 млн зеркал</strong> (100% мощности на зеркала)</td>
 </tr>
 <tr class="odd">
 <td><strong>ИТОГО</strong></td>
 <td><strong>~11 лет</strong></td>
 <td>Полная инфраструктура</td>
-<td><strong>~1 млрд зеркал в Рое</strong></td>
+<td><strong>~1.1 млрд зеркал в Рое</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Ключевой момент</strong>: Зеркала - ГЛАВНАЯ ЦЕЛЬ проекта. Они производятся <strong>с самого начала</strong>, а не только в Фазе 3: - <strong>Фаза 1</strong>: Заводы растут И производят зеркала (50/50 аллокация) - <strong>Фаза 2</strong>: Строим МД И продолжаем производить зеркала - <strong>Фаза 3</strong>: ВСЯ мощность (100%) на производство зеркал</p>
 <p><strong>Примечание</strong>: Фаза 1 растягивается с 4 месяцев (теоретически) до 4 лет (практически) из-за узкого места - доставки “витаминов” (электроники, редких материалов) с Земли. Темп саморепликации (~3 недели на завод) ограничен не локальными материалами, а логистикой импорта.</p>
-<p><strong>Расчет зеркал в Фазе 1</strong>: - Средний завод во время роста: ~500 заводов (от 1 до 1000) - Производительность: 500 заводов × 210 зеркал/день × 50% = ~52,500 зеркал/день - За 4 года (1460 дней): ~52,500 × 1460 = <strong>~76 млн зеркал</strong> (более точный расчет)</p>
+<p><strong>Расчёт зеркал в Фазе 1:</strong> - Средний завод во время роста: ~500 заводов (от 1 до 1000) - Производительность: 500 заводов × 350 зеркал/день × 50% = ~88,000 зеркал/день - За 4 года (1460 дней): ~88,000 × 1460 = ~128 млн зеркал (расчётное) - С учётом резерва на брак и потери (+12%): <strong>~143 млн зеркал</strong></p>
 <hr>
 </section>
 <section id="см.-также" class="level2">
@@ -1534,7 +1610,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../../../ru/science/detailed/factories/overview.html">Производство заводов</a> — обзор производства</li>
 <li><a href="../../../../../ru/science/detailed/factories/assembly/equipment.html">Производство оборудования</a> — комплект для нового завода</li>
 <li><a href="../../../../../ru/science/detailed/factories/assembly/domes.html">Сборка куполов</a> — оболочки заводов</li>
-<li><a href="../../../../../ru/science/detailed/railguns/scaling.html">Масштабирование</a> — детальные расчёты роста</li>
+<li><a href="../../../../../ru/science/detailed/railguns/overview.html">Масштабирование</a> — детальные расчёты роста</li>
 <li><a href="../../../../../ru/science/summaries/roadmap.html">Дорожная карта</a> — фазы проекта</li>
 </ul>
 

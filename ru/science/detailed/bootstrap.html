@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Сборка первого завода (Bootstrap) – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Сборка первого завода (Bootstrap) – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -825,7 +875,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#почему-это-уникальный-этап" id="toc-почему-это-уникальный-этап" class="nav-link active" data-scroll-target="#почему-это-уникальный-этап">Почему это уникальный этап</a></li>
+  <li><a href="#выбор-площадки-полярный-кратер" id="toc-выбор-площадки-полярный-кратер" class="nav-link active" data-scroll-target="#выбор-площадки-полярный-кратер">Выбор площадки: полярный кратер</a>
+  <ul class="collapse">
+  <li><a href="#почему-полюс-а-не-экватор" id="toc-почему-полюс-а-не-экватор" class="nav-link" data-scroll-target="#почему-полюс-а-не-экватор">Почему полюс, а не экватор?</a></li>
+  <li><a href="#термальные-зоны-кратера" id="toc-термальные-зоны-кратера" class="nav-link" data-scroll-target="#термальные-зоны-кратера">Термальные зоны кратера</a></li>
+  </ul></li>
+  <li><a href="#почему-это-уникальный-этап" id="toc-почему-это-уникальный-этап" class="nav-link" data-scroll-target="#почему-это-уникальный-этап">Почему это уникальный этап</a></li>
   <li><a href="#checkpoint-энерго-автономия" id="toc-checkpoint-энерго-автономия" class="nav-link" data-scroll-target="#checkpoint-энерго-автономия">Checkpoint: Энерго-автономия</a>
   <ul class="collapse">
   <li><a href="#расчёт-критического-пути" id="toc-расчёт-критического-пути" class="nav-link" data-scroll-target="#расчёт-критического-пути">Расчёт критического пути</a></li>
@@ -836,6 +891,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#батареи-сравнение-космических-технологий" id="toc-батареи-сравнение-космических-технологий" class="nav-link" data-scroll-target="#батареи-сравнение-космических-технологий">Батареи: сравнение космических технологий</a></li>
   <li><a href="#спецификации-gen-1" id="toc-спецификации-gen-1" class="nav-link" data-scroll-target="#спецификации-gen-1">Спецификации Gen-1</a></li>
   <li><a href="#состав-монтажной-бригады" id="toc-состав-монтажной-бригады" class="nav-link" data-scroll-target="#состав-монтажной-бригады">Состав монтажной бригады</a></li>
+  <li><a href="#оборудование-завода-модульная-доставка" id="toc-оборудование-завода-модульная-доставка" class="nav-link" data-scroll-target="#оборудование-завода-модульная-доставка">Оборудование завода (модульная доставка)</a></li>
+  <li><a href="#расходники-на-первый-год" id="toc-расходники-на-первый-год" class="nav-link" data-scroll-target="#расходники-на-первый-год">Расходники на первый год</a></li>
+  <li><a href="#витамины-электроника-редкие-элементы" id="toc-витамины-электроника-редкие-элементы" class="nav-link" data-scroll-target="#витамины-электроника-редкие-элементы">Витамины (электроника, редкие элементы)</a></li>
+  <li><a href="#сводка-манифеста-первой-экспедиции" id="toc-сводка-манифеста-первой-экспедиции" class="nav-link" data-scroll-target="#сводка-манифеста-первой-экспедиции">Сводка манифеста первой экспедиции</a></li>
   </ul></li>
   <li><a href="#зарядка-в-полёте" id="toc-зарядка-в-полёте" class="nav-link" data-scroll-target="#зарядка-в-полёте">Зарядка в полёте</a>
   <ul class="collapse">
@@ -853,10 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#фаза-e-первый-gen-2-робот-24-30-ч" id="toc-фаза-e-первый-gen-2-робот-24-30-ч" class="nav-link" data-scroll-target="#фаза-e-первый-gen-2-робот-24-30-ч">Фаза E: Первый Gen-2 робот (24-30 ч)</a></li>
   </ul></li>
   <li><a href="#сводка-общее-время-и-робото-часы" id="toc-сводка-общее-время-и-робото-часы" class="nav-link" data-scroll-target="#сводка-общее-время-и-робото-часы">Сводка: Общее время и робото-часы</a></li>
-  <li><a href="#три-сценария" id="toc-три-сценария" class="nav-link" data-scroll-target="#три-сценария">Три сценария</a>
-  <ul class="collapse">
-  <li><a href="#ключевое-отличие-от-старой-модели" id="toc-ключевое-отличие-от-старой-модели" class="nav-link" data-scroll-target="#ключевое-отличие-от-старой-модели">Ключевое отличие от старой модели</a></li>
-  </ul></li>
+  <li><a href="#три-сценария" id="toc-три-сценария" class="nav-link" data-scroll-target="#три-сценария">Три сценария</a></li>
   <li><a href="#риски-bootstrap-фазы" id="toc-риски-bootstrap-фазы" class="nav-link" data-scroll-target="#риски-bootstrap-фазы">Риски bootstrap-фазы</a>
   <ul class="collapse">
   <li><a href="#ремкомплект-обновлённый" id="toc-ремкомплект-обновлённый" class="nav-link" data-scroll-target="#ремкомплект-обновлённый">Ремкомплект (обновлённый)</a></li>
@@ -898,6 +954,65 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </blockquote>
 <hr>
+<section id="выбор-площадки-полярный-кратер" class="level2">
+<h2 class="anchored" data-anchor-id="выбор-площадки-полярный-кратер">Выбор площадки: полярный кратер</h2>
+<blockquote class="blockquote">
+<p><strong>Критически важно:</strong> Bootstrap происходит на <strong>полюсе Меркурия</strong> (кратер Прокофьева, 85°N), а НЕ на экваторе. Это фундаментально меняет термальный режим.</p>
+</blockquote>
+<section id="почему-полюс-а-не-экватор" class="level3">
+<h3 class="anchored" data-anchor-id="почему-полюс-а-не-экватор">Почему полюс, а не экватор?</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 32%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Экватор Меркурия</th>
+<th>Полюс (кратер Прокофьева)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Дневная температура</td>
+<td><strong>+430°C</strong></td>
+<td>Пики: ~+100°C (низкий угол солнца)</td>
+</tr>
+<tr class="even">
+<td>Ночная температура</td>
+<td>-180°C</td>
+<td>Дно кратера: <strong>-150°C</strong> (постоянно)</td>
+</tr>
+<tr class="odd">
+<td>Цикл день/ночь</td>
+<td>176 земных дней</td>
+<td><strong>Нет цикла</strong> — вечная тень + вечный свет</td>
+</tr>
+<tr class="even">
+<td>Совместимость с Li-S (-60°C…+60°C)</td>
+<td><strong>Невозможно</strong></td>
+<td><strong>Да</strong> (работа в тени/терминаторе)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="термальные-зоны-кратера" class="level3">
+<h3 class="anchored" data-anchor-id="термальные-зоны-кратера">Термальные зоны кратера</h3>
+<p>Полярный кратер имеет три термальные зоны:</p>
+<ol type="1">
+<li><strong>Пики вечного света</strong> (края кратера) — постоянно освещены (~+100°C), здесь размещаются солнечные панели</li>
+<li><strong>Терминаторная зона</strong> (склоны) — переменное освещение (-50°C…+50°C), рабочая зона роботов Gen-1</li>
+<li><strong>Вечная тень</strong> (дно кратера) — постоянно -150°C…−180°C, склад, охлаждение, водяной лёд</li>
+</ol>
+<p><strong>Режим работы Gen-1:</strong> Роботы оперируют в терминаторной зоне и на освещённых склонах. При перегреве уходят в тень для охлаждения. Li-S батареи (-60°C…+60°C) полностью совместимы с этим режимом.</p>
+<blockquote class="blockquote">
+<p><strong>Миф о 88-дневной «ночи»:</strong> Это справедливо только для экватора. На полюсе «пики вечного света» освещены <strong>постоянно</strong> (24/7/365). Проблема 88-дневной ночи к полярной базе не относится.</p>
+</blockquote>
+<hr>
+</section>
+</section>
 <section id="почему-это-уникальный-этап" class="level2">
 <h2 class="anchored" data-anchor-id="почему-это-уникальный-этап">Почему это уникальный этап</h2>
 <p><a href="../../../ru/science/reference/glossary.html#bootstrap-блиц-монтаж">Bootstrap</a> — единственный момент проекта, когда нет местных ресурсов и заряжать роботов негде. После запуска завода начинается штатное производство с саморепликацией.</p>
@@ -1027,6 +1142,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>С буфером ×2:</strong> 24 часа до энерго-автономии (запас на непредвиденные проблемы).</p>
+<blockquote class="blockquote">
+<p><strong>Примечание о параллелизме:</strong> Диаграмма показывает фазы как «параллельные», но это упрощение. На практике B2.1 и C1.x <strong>начинаются после A1.2</strong> (зависимость «разгрузка завершена»). После A1.2 все 12 Крабов-З свободны → B2.1 (4 шт) + C1.1 (4 шт) могут идти параллельно. Кентавры-З (24 шт) покрывают все параллельные операции фаз A/B/C.</p>
+</blockquote>
 </section>
 <section id="почему-после-checkpoint-время-не-критично" class="level3">
 <h3 class="anchored" data-anchor-id="почему-после-checkpoint-время-не-критично">Почему после checkpoint время не критично</h3>
@@ -1240,6 +1358,178 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Об автономности роботов:</strong> Gen-1 выполняют <strong>рутинные операции</strong> (разгрузка, монтаж, прокладка кабелей), а не научные исследования. Это ближе к автономным карьерным машинам <a href="../../../ru/science/detailed/robots/overview.html#референсы-автономная-добыча">Rio Tinto/Caterpillar</a>, чем к марсоходам.</p>
+</blockquote>
+</section>
+<section id="оборудование-завода-модульная-доставка" class="level3">
+<h3 class="anchored" data-anchor-id="оборудование-завода-модульная-доставка">Оборудование завода (модульная доставка)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Модуль</th>
+<th style="text-align: left;">Масса</th>
+<th style="text-align: left;">Содержимое</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Энерго-модуль</strong></td>
+<td style="text-align: left;">3.0 т</td>
+<td style="text-align: left;">Зеркала (2000 м²) + каркас + ячейки GaAs + радиаторы</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>MRE-модуль</strong></td>
+<td style="text-align: left;">4.0 т</td>
+<td style="text-align: left;">Печь + тигель + электроды + МГД + рама</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Купол-модуль</strong></td>
+<td style="text-align: left;">4.0 т</td>
+<td style="text-align: left;">Оболочка + шлюз + промковш + внутренние радиаторы <em>(компоненты для сборки на месте; надувной Bootstrap-модуль 10-12 т — см. ниже)</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>МНЛЗ-модуль</strong></td>
+<td style="text-align: left;">6.0 т</td>
+<td style="text-align: left;">Кристаллизатор + клеть + рольганг (на салазках)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Прокат-модуль</strong></td>
+<td style="text-align: left;">10.0 т</td>
+<td style="text-align: left;">Стан (6 клетей) + волочение + намотка</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Финиш-модуль</strong></td>
+<td style="text-align: left;">6.0 т</td>
+<td style="text-align: left;">WAAM + шлифовка + стапель + манипуляторы</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Итого оборудование</strong></td>
+<td style="text-align: left;"><strong>~35 т</strong></td>
+<td style="text-align: left;">Модульная предсборка</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="расходники-на-первый-год" class="level3">
+<h3 class="anchored" data-anchor-id="расходники-на-первый-год">Расходники на первый год</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Категория</th>
+<th style="text-align: left;">Масса</th>
+<th style="text-align: left;">Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Аноды MRE (запас)</td>
+<td style="text-align: left;">0.2 т</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Масла, смазки</td>
+<td style="text-align: left;">0.1 т</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">β-Al₂O₃ электролиты</td>
+<td style="text-align: left;">0.3 т</td>
+<td style="text-align: left;">Для первых 50 батарей</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Итого расходники</strong></td>
+<td style="text-align: left;"><strong>~0.6 т</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="витамины-электроника-редкие-элементы" class="level3">
+<h3 class="anchored" data-anchor-id="витамины-электроника-редкие-элементы">Витамины (электроника, редкие элементы)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Категория</th>
+<th style="text-align: left;">Масса</th>
+<th style="text-align: left;">Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Блоки управления (для новых роботов)</td>
+<td style="text-align: left;">0.5 т</td>
+<td style="text-align: left;">На 100 роботов</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Сенсоры</td>
+<td style="text-align: left;">0.2 т</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Электроника разная</td>
+<td style="text-align: left;">0.3 т</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Редкоземы (Nd, Sm для магнитов)</td>
+<td style="text-align: left;">0.1 т</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Вольфрамовые фильеры (волочение)</td>
+<td style="text-align: left;">0.05 т</td>
+<td style="text-align: left;">Для проволоки WAAM</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Итого витамины</strong></td>
+<td style="text-align: left;"><strong>~1.15 т</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="сводка-манифеста-первой-экспедиции" class="level3">
+<h3 class="anchored" data-anchor-id="сводка-манифеста-первой-экспедиции">Сводка манифеста первой экспедиции</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Категория</th>
+<th style="text-align: left;">Масса</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Монтажная бригада (56 роботов)</td>
+<td style="text-align: left;">22.5 т</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ремкомплект бригады</td>
+<td style="text-align: left;">1.6 т</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Оборудование завода (модули)</td>
+<td style="text-align: left;">35.0 т</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Расходники (1 год)</td>
+<td style="text-align: left;">0.6 т</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Витамины (электроника)</td>
+<td style="text-align: left;">1.15 т</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ИТОГО первая экспедиция</strong></td>
+<td style="text-align: left;"><strong>~61 т</strong></td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
 </section>
@@ -1266,15 +1556,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Мощность (у Меркурия)</td>
-<td>~500 кВт</td>
+<td>~180 кВт (GaAs 35%)</td>
 </tr>
 <tr class="odd">
 <td>Суммарная ёмкость батарей (56 роботов)</td>
-<td>~100 кВтч</td>
+<td>~890 кВтч</td>
 </tr>
 <tr class="even">
 <td>Время полной зарядки</td>
-<td>~12 минут (при полной мощности)</td>
+<td>~5 часов</td>
 </tr>
 </tbody>
 </table>
@@ -1313,39 +1603,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="предсобранный-надувной-купол" class="level2">
 <h2 class="anchored" data-anchor-id="предсобранный-надувной-купол">Предсобранный надувной купол</h2>
-<p>Вместо сборки купола на месте (4 дня по старой модели) — привозим готовый надувной модуль:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Сборка на месте</th>
-<th>Надувной модуль</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Время</td>
-<td>4 дня</td>
-<td><strong>4-8 часов</strong></td>
-</tr>
-<tr class="even">
-<td>Масса</td>
-<td>~8 т</td>
-<td>10-12 т (+2-3 т)</td>
-</tr>
-<tr class="odd">
-<td>Роботы</td>
-<td>6 Кротов-М (Gen-2!)</td>
-<td>6 Кентавров-З</td>
-</tr>
-<tr class="even">
-<td>Риск</td>
-<td>Высокий</td>
-<td>Низкий</td>
-</tr>
-</tbody>
-</table>
+<p>Надувной модуль массой 10-12 т разворачивается за 4-8 часов.</p>
 <p><strong>Аналог:</strong> <a href="https://www.nasa.gov/mission_pages/station/research/experiments/1804.html">Bigelow Aerospace BEAM</a> модуль на МКС (16 м³, 1.4 т) — успешно работает с 2016 года.</p>
+<blockquote class="blockquote">
+<p><strong>Масштабирование BEAM → Гелиос:</strong> BEAM — жёсткий модуль с полной life-support системой (1 атм, 87 кг/м³). Купол Гелиос — облегчённая конструкция: только оболочка (нет систем жизнеобеспечения — людей нет), многослойный композит вместо металла, 0.1 атм. При этих условиях удельная масса ~1.3-1.6 кг/м³ реалистична.</p>
+</blockquote>
 <p><strong>Процесс развёртывания:</strong></p>
 <ol type="1">
 <li>Разгрузка модуля (Краб-З ×4, 1 час)</li>
@@ -1724,7 +1986,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>C4.4</td>
-<td>Установка CNC</td>
+<td>Установка шлифовальной ячейки</td>
 <td>Кентавр-З ×4</td>
 <td>2</td>
 <td>C4.3</td>
@@ -1768,6 +2030,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="фаза-d-пуско-наладка-20-40-ч" class="level3">
 <h3 class="anchored" data-anchor-id="фаза-d-пуско-наладка-20-40-ч">Фаза D: Пуско-наладка (20-40 ч)</h3>
+<blockquote class="blockquote">
+<p><strong>Примечание о калибровке:</strong> Указанное время — <strong>минимум при идеальных условиях</strong>. После транспортировки (3-4 месяца, вибрации, термоциклирование) реальная калибровка может занять ×2-3 дольше. Это учтено в диапазоне 20-40 ч и не влияет на checkpoint.</p>
+</blockquote>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 5%">
@@ -1886,7 +2151,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>D4.3</td>
-<td>Калибровка CNC</td>
+<td>Калибровка шлифовки</td>
 <td>Кентавр-З ×2</td>
 <td>2</td>
 <td>C4.4</td>
@@ -1894,7 +2159,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>D4.4</td>
-<td>Тестовая фрезеровка</td>
+<td>Тестовая шлифовка</td>
 <td>Кентавр-З ×2</td>
 <td>1</td>
 <td>D4.3</td>
@@ -1992,8 +2257,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>E3.2</td>
-<td>CNC: финишная обработка</td>
-<td>CNC (авто)</td>
+<td>Шлифовка: финишная обработка</td>
+<td>Кентавр-М + абразив (авто)</td>
 <td>2</td>
 <td>E3.1</td>
 <td>0</td>
@@ -2165,37 +2430,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<section id="ключевое-отличие-от-старой-модели" class="level3">
-<h3 class="anchored" data-anchor-id="ключевое-отличие-от-старой-модели">Ключевое отличие от старой модели</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 51%">
-<col style="width: 48%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Старая модель</th>
-<th>Новая модель</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>“7 дней критично, 30 — провал”</td>
-<td>“24 часа критично, дальше — вопрос ресурса”</td>
-</tr>
-<tr class="even">
-<td>Линейное планирование</td>
-<td>Checkpoint-ориентированное</td>
-</tr>
-<tr class="odd">
-<td>Фокус на общем времени</td>
-<td>Фокус на энерго-автономии</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Вывод:</strong> После checkpoint (24 ч) время не критично — упираемся только в ресурс Gen-1 роботов (2-3 года). Даже при 30-дневной сборке проект остаётся выполнимым.</p>
+<p><strong>Вывод:</strong> После checkpoint (12-24 ч) время не критично — упираемся только в ресурс Gen-1 роботов (2-3 года). Даже при 30-дневной сборке проект остаётся выполнимым.</p>
 <hr>
-</section>
 </section>
 <section id="риски-bootstrap-фазы" class="level2">
 <h2 class="anchored" data-anchor-id="риски-bootstrap-фазы">Риски bootstrap-фазы</h2>

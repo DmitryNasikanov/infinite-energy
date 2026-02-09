@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Project Risks and Constraints – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/reference/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Project Risks and Constraints – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/reference/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -821,16 +871,13 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#resolved-risks" id="toc-resolved-risks" class="nav-link active" data-scroll-target="#resolved-risks">Resolved Risks</a></li>
-  <li><a href="#technological-risks" id="toc-technological-risks" class="nav-link" data-scroll-target="#technological-risks">Technological Risks</a>
+  <li><a href="#technological-risks" id="toc-technological-risks" class="nav-link active" data-scroll-target="#technological-risks">Technological Risks</a>
   <ul class="collapse">
   <li><a href="#trl-4-5-technologies" id="toc-trl-4-5-technologies" class="nav-link" data-scroll-target="#trl-4-5-technologies">TRL 4-5 Technologies</a></li>
   <li><a href="#open-technical-issues" id="toc-open-technical-issues" class="nav-link" data-scroll-target="#open-technical-issues">Open Technical Issues</a></li>
   </ul></li>
   <li><a href="#budget-risks" id="toc-budget-risks" class="nav-link" data-scroll-target="#budget-risks">Budget Risks</a>
   <ul class="collapse">
-  <li><a href="#ai-cost-declining-risk-resolved" id="toc-ai-cost-declining-risk-resolved" class="nav-link" data-scroll-target="#ai-cost-declining-risk-resolved">AI Cost Declining (Risk Resolved)</a></li>
-  <li><a href="#dependence-on-super-heavy-rockets-resolved" id="toc-dependence-on-super-heavy-rockets-resolved" class="nav-link" data-scroll-target="#dependence-on-super-heavy-rockets-resolved"><del>Dependence on Super-Heavy Rockets</del> → RESOLVED</a></li>
   <li><a href="#mission-insurance" id="toc-mission-insurance" class="nav-link" data-scroll-target="#mission-insurance">Mission Insurance</a></li>
   <li><a href="#testing-underestimated" id="toc-testing-underestimated" class="nav-link" data-scroll-target="#testing-underestimated">Testing Underestimated</a></li>
   </ul></li>
@@ -848,11 +895,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#competition-instead-of-cooperation" id="toc-competition-instead-of-cooperation" class="nav-link" data-scroll-target="#competition-instead-of-cooperation">Competition Instead of Cooperation</a></li>
   <li><a href="#legal-status-of-resources" id="toc-legal-status-of-resources" class="nav-link" data-scroll-target="#legal-status-of-resources">Legal Status of Resources</a></li>
   <li><a href="#public-opinion" id="toc-public-opinion" class="nav-link" data-scroll-target="#public-opinion">Public Opinion</a></li>
-  </ul></li>
-  <li><a href="#resource-constraints" id="toc-resource-constraints" class="nav-link" data-scroll-target="#resource-constraints">Resource Constraints</a>
-  <ul class="collapse">
-  <li><a href="#electronics" id="toc-electronics" class="nav-link" data-scroll-target="#electronics">Electronics</a></li>
-  <li><a href="#launch-capacity" id="toc-launch-capacity" class="nav-link" data-scroll-target="#launch-capacity">Launch Capacity</a></li>
+  <li><a href="#vitamins-supply-chain-disruption" id="toc-vitamins-supply-chain-disruption" class="nav-link" data-scroll-target="#vitamins-supply-chain-disruption">“Vitamins” Supply Chain Disruption</a></li>
   </ul></li>
   <li><a href="#uncertainties" id="toc-uncertainties" class="nav-link" data-scroll-target="#uncertainties">Uncertainties</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
@@ -888,61 +931,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Budget:</strong> testing underestimated</li>
 <li><strong>Human:</strong> 50,000 specialists needed, competition for AI talent</li>
 <li><strong>Political:</strong> sanctions, government changes, legal status of resources</li>
-<li><strong>Resource:</strong> electronics ~8%/year of world production</li>
 </ul>
 </blockquote>
 <hr>
-<section id="resolved-risks" class="level2">
-<h2 class="anchored" data-anchor-id="resolved-risks">Resolved Risks</h2>
-<p>These issues initially appeared blocking but have solutions.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Risk</th>
-<th>Solution</th>
-<th>Details</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Phased array synchronization</td>
-<td>Optical control: Mother mirror → ~1000 Children</td>
-<td><a href="../../../en/science/summaries/mirrors.html#optical-cluster-control">Optical Cluster Control</a></td>
-</tr>
-<tr class="even">
-<td>Electrochromics too slow</td>
-<td>Sufficient for cluster architecture</td>
-<td><a href="../../../en/science/reference/technology-readiness.html#electrochromic-tio₂">Electrochromic TiO₂ TRL 7-8</a></td>
-</tr>
-<tr class="odd">
-<td>Mirror electronics import (55,000 t)</td>
-<td>Mother-Children architecture: 98% savings</td>
-<td><a href="../../../en/science/summaries/mirrors.html#optical-cluster-control">Optical Cluster Control</a></td>
-</tr>
-<tr class="even">
-<td>Copper not found on Mercury</td>
-<td>Cryo-aluminum in shadow (-180C)</td>
-<td><a href="../../../en/science/reference/technology-readiness.html#cryogenic-aluminum-cable-gw">Cryogenic Al</a></td>
-</tr>
-<tr class="odd">
-<td><a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS</a> batteries during night period</td>
-<td>Cables + charging stations</td>
-<td><a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS TRL 9</a></td>
-</tr>
-<tr class="even">
-<td><strong>Payload survivability at high g</strong></td>
-<td>Proven to 25,000g (McCormick Stevenson)</td>
-<td><a href="../../../en/science/detailed/railguns/theory.html#payload-survivability-at-high-g">MD Theory</a></td>
-</tr>
-<tr class="odd">
-<td><strong>Super-heavy rocket dependency</strong></td>
-<td>Multi-rocket approach: 3-4 medium rockets + independent Mercury landings</td>
-<td><a href="../../../en/science/summaries/delivery.html">Delivery</a></td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
 <section id="technological-risks" class="level2">
 <h2 class="anchored" data-anchor-id="technological-risks">Technological Risks</h2>
 <section id="trl-4-5-technologies" class="level3">
@@ -1015,8 +1006,58 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Carbon anodes</strong> — consumable, ~10 kg/day per factory. Carbon is mined from Mercury’s LRM zones (<a href="../../../en/science/detailed/materials/carbon.html">details</a>). Full chain developed: graphite mining → mini-MD delivery → anodes. Demand is covered.</li>
 <li><strong>Cr-Fe-Co anodes</strong> — lower lifespan (replacement every 3 months), but materials available on Mercury. 80 t/year local production. TRL ~4, requires validation.</li>
 <li><strong>H₂ reduction</strong> — TRL ~2, prospective alternative.</li>
+<li><strong>Asteroid mining</strong> (long-term) — M-type asteroids contain 5,000-15,000 ppb iridium (10,000x Earth’s crust). AstroForge (2025-2026) and Tianwen-2 (2025-2027) missions are paving the way. TRL ~2-3, but will become viable by 2030s.</li>
 </ol>
-<p><strong>Status:</strong> Problem is solvable — carbon anodes from local materials are the most developed path</p>
+<p><strong>Status:</strong> Problem is solvable — carbon anodes from local materials are the most developed path. Iridium mining on the Moon is not viable (~3.6 ppb in regolith — meteoritic contribution only)</p>
+<hr>
+</section>
+<section id="fragility-of-exponential-growth" class="level4">
+<h4 class="anchored" data-anchor-id="fragility-of-exponential-growth">Fragility of Exponential Growth</h4>
+<p>Exponential growth from 1 to ~1,650 factories assumes uninterrupted operation of all subsystems. In practice, systemic failures can halt the entire replication chain.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 36%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Risk</th>
+<th>Mechanism</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Common firmware bug</td>
+<td>All factories share software base</td>
+<td>Simultaneous halt of ALL factories</td>
+</tr>
+<tr class="even">
+<td>Cascade failure</td>
+<td>Dust contamination in MRE → defective anodes → mass downtime</td>
+<td>Production chain collapse</td>
+</tr>
+<tr class="odd">
+<td>Speed-of-light delay</td>
+<td>4-24 min Earth-Mercury lag</td>
+<td>Cannot teleoperate in real-time; autonomous recovery required</td>
+</tr>
+<tr class="even">
+<td>Assembly error</td>
+<td>Stuck bolt, misalignment in vacuum</td>
+<td>Days of downtime per factory (no human intervention)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mitigations:</strong></p>
+<ol type="1">
+<li><strong>Firmware versioning</strong> — factories run staggered software versions (never all on the same build)</li>
+<li><strong>Autonomous diagnostics</strong> — robots detect and quarantine defective components before cascade</li>
+<li><strong>Strategic spares buffer</strong> — each factory maintains 2-4 weeks of critical components</li>
+<li><strong>Graceful degradation</strong> — factory can operate at reduced capacity (e.g., skip one MRE cell) rather than full shutdown</li>
+</ol>
+<p><strong>Impact on timeline:</strong> Realistic doubling time is 4-6 months (vs 3-4 months planned). This is already accounted for in the Conservative scenario of the <a href="../../../en/science/summaries/roadmap.html">Roadmap</a> (18-25 years instead of 10).</p>
 <hr>
 </section>
 <section id="energy-bridge-efficiency" class="level4">
@@ -1185,118 +1226,47 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Key insight:</strong></p>
-<ul>
-<li><strong>Old model:</strong> “7 days critical, 30 = failure”</li>
-<li><strong>New model:</strong> “24 hours critical, rest = Gen-1 lifespan question”</li>
-</ul>
 <p>After charging infrastructure deployment (checkpoint), robots can work 24/7 with recharging. Even 30-day assembly keeps the project viable.</p>
 <p><strong>Detailed calculation:</strong> <a href="../../../en/science/detailed/bootstrap.html">First Factory Assembly ([Bootstrap](glossary.qmd#bootstrap-blitz-assembly))</a></p>
+<hr>
+</section>
+<section id="robot-mechanical-components" class="level4">
+<h4 class="anchored" data-anchor-id="robot-mechanical-components">Robot Mechanical Components</h4>
+<p>Some critical mechanical components require import from Earth:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Per fleet (60,000)</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ball bearings (440C, for motors &gt;1000 RPM)</td>
+<td>0.8-1.6 t</td>
+<td>One-time</td>
+</tr>
+<tr class="even">
+<td>NdFeB magnets (Centaur-M direct-drive joints)</td>
+<td>20-40 t</td>
+<td>One-time</td>
+</tr>
+<tr class="odd">
+<td>Mo for MoS₂ lubricant</td>
+<td>&lt;1 kg/year</td>
+<td>Annual</td>
+</tr>
+</tbody>
+</table>
+<p>Part of <a href="../../../en/science/reference/glossary.html#vitamins">“vitamins”</a>. Total volume ~25-45 t — less than 1% of delivery.</p>
+<p><strong>If supply is disrupted:</strong> switch to low-speed modes with MoS₂ journal bushings (performance degradation, not shutdown). Details: <a href="../../../en/science/detailed/robots/elements/actuators.html#ball-bearings-high-speed-shafts">Actuators — Bearings</a>.</p>
 <hr>
 </section>
 </section>
 </section>
 <section id="budget-risks" class="level2">
 <h2 class="anchored" data-anchor-id="budget-risks">Budget Risks</h2>
-<section id="ai-cost-declining-risk-resolved" class="level3">
-<h3 class="anchored" data-anchor-id="ai-cost-declining-risk-resolved">AI Cost Declining (Risk Resolved)</h3>
-<p>Baseline estimate ($15-30 billion) was conservative. By 2026:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Factor</th>
-<th>Impact</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Foundation models (Meta RoboLlama, Google RT-X)</td>
-<td>-50-70% development cost</td>
-</tr>
-<tr class="even">
-<td>Humanoid robots</td>
-<td>$6-20K (was $50-250K in 2023)</td>
-</tr>
-<tr class="odd">
-<td>Autonomous mining</td>
-<td>TRL 8-9, ready infrastructure</td>
-</tr>
-</tbody>
-</table>
-<p><strong>2026 References:</strong></p>
-<ul>
-<li>Boston Dynamics Atlas 3.0 + DeepMind: 30,000 units/year serial production</li>
-<li>Caterpillar: 690 autonomous trucks, target 2000+ by 2030</li>
-<li>Rio Tinto: 130 trucks + 1700 km autonomous rail (AutoHaul)</li>
-<li>Tesla Optimus Gen 3: $15-20K at mass production</li>
-<li>Unitree R1: <strong>$5,900</strong> per humanoid (July 2025), UBTECH Walker S2: 500+ unit series</li>
-<li>BYD: 1,500 humanoids in 2025, target 20,000 by 2026</li>
-<li>Baidu Apollo: L4 robotaxi in 10+ cities in China</li>
-</ul>
-<p><strong>Conclusion:</strong> AI budget of $15-30 billion is adequate or overestimated thanks to foundation models.</p>
-<hr>
-</section>
-<section id="dependence-on-super-heavy-rockets-resolved" class="level3">
-<h3 class="anchored" data-anchor-id="dependence-on-super-heavy-rockets-resolved"><del>Dependence on Super-Heavy Rockets</del> → RESOLVED</h3>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Risk Eliminated
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Thanks to two factors:</p>
-<ol type="1">
-<li><strong>96% localization</strong> — imports reduced from ~22,000 t to ~2,400 t</li>
-<li><strong>Multi-rocket approach</strong> — first expeditions split into 3-4 medium rocket launches</li>
-</ol>
-</div>
-</div>
-<p><strong>Before (old calculation):</strong> - E1 (75 t) + E2 (65 t) required super-heavy launch vehicles - Dependence on specific rockets and countries</p>
-<p><strong>After (new approach):</strong> - E1: 75 t = 4 × medium rockets (~20 t each) - E2: 65 t = 3-4 × medium rockets - Each rocket lands on Mercury independently - Surface assembly by Gen-1 robots</p>
-<p><strong>Why this works:</strong> - Mercury has no atmosphere — landing is straightforward (deceleration burns only) - Gen-1 robots already know how to assemble (this is their main task — bootstrap) - Orbital assembly <strong>not needed</strong></p>
-<p><strong>International fleet advantages:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Factor</th>
-<th>1 super-heavy</th>
-<th>3-4 medium</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Availability</td>
-<td>Depends on 1 country</td>
-<td><strong>International fleet</strong></td>
-</tr>
-<tr class="even">
-<td>Loss risk</td>
-<td>100% of cargo</td>
-<td>25-33% of cargo</td>
-</tr>
-<tr class="odd">
-<td>Flexibility</td>
-<td>Only one type</td>
-<td>Any ≥20 t to Mercury</td>
-</tr>
-<tr class="even">
-<td>Countries</td>
-<td>1-2</td>
-<td>USA, China, ESA, Russia, India, Japan</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Conclusion:</strong> Project <strong>does not depend</strong> on any specific country or launch vehicle.</p>
-<hr>
-</section>
 <section id="mission-insurance" class="level3">
 <h3 class="anchored" data-anchor-id="mission-insurance">Mission Insurance</h3>
 <table class="caption-top table">
@@ -1558,60 +1528,49 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Environmental protests against rectenna stations</li>
 <li>NIMBYism with receiver placement</li>
 </ul>
-<hr>
 </section>
-</section>
-<section id="resource-constraints" class="level2">
-<h2 class="anchored" data-anchor-id="resource-constraints">Resource Constraints</h2>
-<section id="electronics" class="level3">
-<h3 class="anchored" data-anchor-id="electronics">Electronics</h3>
+<section id="vitamins-supply-chain-disruption" class="level3">
+<h3 class="anchored" data-anchor-id="vitamins-supply-chain-disruption">“Vitamins” Supply Chain Disruption</h3>
+<p>“Vitamins” (electronics, rare earths, optics) make up 1-3% of robot/factory mass but provide 100% of control functionality. The entire replication chain depends on a steady stream of imports from Earth.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 39%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Parameter</th>
-<th>Value</th>
+<th>Scenario</th>
+<th>Duration</th>
+<th>Consequence</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Chips for 1 trillion mirrors</td>
-<td>~1 trillion</td>
+<td>Regional conflict disrupts launches</td>
+<td>6-12 months</td>
+<td>Growth slows, existing factories operate on reserves</td>
 </tr>
 <tr class="even">
-<td>World production</td>
-<td>~1.2 trillion/year</td>
+<td>Major geopolitical crisis (war, sanctions)</td>
+<td>1-3 years</td>
+<td>New factory construction <strong>stops</strong>; existing Swarm continues operating</td>
 </tr>
 <tr class="odd">
-<td><strong>Share (over 10 years)</strong></td>
-<td><strong>~8%/year</strong></td>
+<td>Total Earth isolation</td>
+<td>3+ years</td>
+<td>Replication halts; Swarm delivers energy but cannot grow</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="launch-capacity" class="level3">
-<h3 class="anchored" data-anchor-id="launch-capacity">Launch Capacity</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Cargo to Mercury</td>
-<td>~2,400 t (96% localization)</td>
-</tr>
-<tr class="even">
-<td>At 25-50 t/launch</td>
-<td>~48-96 launches over ~10 years</td>
-</tr>
-<tr class="odd">
-<td><strong>Launches/year</strong></td>
-<td><strong>~5-10</strong> (average, ~15-30 at peak)</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Key distinction from other megaprojects:</strong> Once the Swarm reaches critical mass (~100+ factories, ~1,000+ mirrors in orbit), energy delivery continues even without Earth imports. Disruptions slow <strong>growth</strong>, but do not destroy the result.</p>
+<p><strong>Mitigations:</strong></p>
+<ol type="1">
+<li><strong>Strategic vitamin reserves</strong> on Mercury (2+ years supply) — ~50-100 t stockpile at peak</li>
+<li><strong>Supplier diversification</strong> — source chips, rare earths, and optics from USA, China, Europe, India, Japan (no single-country dependency)</li>
+<li><strong>Local electronics R&amp;D</strong> (long-term) — simple control circuits from Mercury silicon (TRL 2-3; Blue Alchemist demonstrates Si purification from regolith to &gt;99.999%)</li>
+<li><strong>Modular degradation</strong> — factories can recycle vitamins from decommissioned Gen-1 robots into new Gen-2 units</li>
+</ol>
 <hr>
 </section>
 </section>
@@ -1620,7 +1579,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Require additional research:</p>
 <ol type="1">
 <li><strong>Venus gravity influence</strong> on swarm orbits - not modeled</li>
-<li><strong>Hydrogen extraction from poles</strong> - ice confirmed, logistics not designed</li>
 <li><strong>Aluminothermy in vacuum</strong> - laboratory data, industrial scale not proven</li>
 </ol>
 <hr>

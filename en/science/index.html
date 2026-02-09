@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Detailed engineering calculations for Project Helios: regolith electrolysis, mirror production, mass drivers, construction robots, and project budget.">
 
 <title>Science – Проект Гелиос</title>
 <style>
@@ -30,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +301,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../ru/science/data/widgets.css">
+<meta property="og:title" content="Science – Проект Гелиос">
+<meta property="og:description" content="Detailed engineering calculations for Project Helios: regolith electrolysis, mirror production, mass drivers, construction robots, and project budget.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Science – Проект Гелиос">
+<meta name="twitter:description" content="Detailed engineering calculations for Project Helios: regolith electrolysis, mirror production, mass drivers, construction robots, and project budget.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +400,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +498,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +681,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -859,6 +910,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <h1 class="title">Science</h1>
 </div>
 
+<div>
+  <div class="description">
+    Detailed engineering calculations for Project Helios: regolith electrolysis, mirror production, mass drivers, construction robots, and project budget.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -899,7 +955,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <div class="callout-body-container callout-body">
 <p>This is a <strong>feasibility study</strong>. All calculations are order-of-magnitude estimates and require detailed engineering work during the R&amp;D phase.</p>
-<p><strong>Study Conclusion:</strong> Fundamental feasibility is confirmed. All necessary technologies exist or are at high readiness levels (TRL 4-9). Budget ($255-520B) and timeline (10-15 years) are comparable to other human megaprojects.</p>
+<p><strong>Study Conclusion:</strong> Fundamental feasibility is confirmed. All necessary technologies exist or are at high readiness levels (TRL 4-9). Budget ($200-490B) and timeline (10-15 years) are comparable to other human megaprojects.</p>
 <p><strong><a href="../../en/science/executive-summary.html">More about status →</a></strong></p>
 </div>
 </div>
@@ -907,7 +963,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="quick-start">Quick Start</h2>
 <section id="project-in-5-minutes-9-min" class="level3">
 <h3 class="anchored" data-anchor-id="project-in-5-minutes-9-min">1. <a href="../../en/science/executive-summary.html">Project in 5 Minutes</a> <em>(~9 min)</em></h3>
-<p>Complete project overview: Swarm of 1.1 billion mirrors → ~114 PW solar energy → 21 PW on Earth (1000× global consumption). Four deployment phases, key technologies, budget $255-520B.</p>
+<p>Complete project overview: Swarm of 1.1 billion mirrors → ~102 PW solar energy → ~18 PW on Earth (~800× global consumption). Four deployment phases, key technologies, budget $200-490B.</p>
 </section>
 <section id="roadmap-26-min" class="level3">
 <h3 class="anchored" data-anchor-id="roadmap-26-min">2. <a href="../../en/science/summaries/roadmap.html">Roadmap</a> <em>(~26 min)</em></h3>
@@ -915,7 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="budget-26-min" class="level3">
 <h3 class="anchored" data-anchor-id="budget-26-min">3. <a href="../../en/science/summaries/budget.html">Budget</a> <em>(~26 min)</em></h3>
-<p>Three scenarios: $255B (optimistic), $430B (baseline), $520B (conservative). Comparison with Apollo ($280B), ISS ($150-250B). Analysis of potential underestimates: AI, infrastructure, contingencies.</p>
+<p>Three scenarios: $200B (optimistic), $355B (baseline), $490B (conservative). Comparison with Apollo ($280B), ISS ($150-250B). Analysis of potential underestimates: AI, infrastructure, contingencies.</p>
 </section>
 <section id="why-mercury-6-min" class="level3">
 <h3 class="anchored" data-anchor-id="why-mercury-6-min">4. <a href="../../en/science/summaries/comparison.html">Why Mercury?</a> <em>(~6 min)</em></h3>
@@ -927,15 +983,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="swarm-mirrors-22-min" class="level3">
 <h3 class="anchored" data-anchor-id="swarm-mirrors-22-min">6. <a href="../../en/science/summaries/mirrors.html">Swarm Mirrors</a> <em>(~22 min)</em></h3>
-<p>Design of frameless 100×100 m mirror (116 kg). Project energy: cascade efficiency 18%, power on Earth ~21 PW. Attitude control, thermal balance, degradation (8-12 year lifespan).</p>
+<p>Design of frameless 100×100 m mirror (116 kg). Project energy: cascade efficiency 18%, power on Earth ~18 PW. Attitude control, thermal balance, degradation (8-12 year lifespan).</p>
 </section>
 <section id="lsp-stations-11-min" class="level3">
 <h3 class="anchored" data-anchor-id="lsp-stations-11-min">7. <a href="../../en/science/detailed/hub.html">LSP Stations</a> <em>(~11 min)</em></h3>
-<p>Why lunar LSP stations instead of orbital Hub (18% vs 10% efficiency, no 7,900 km² radiator problem). Placement of 20-40 stations on lunar limbs, microwave transmission at 230 W/m². Global rectenna network.</p>
+<p>Why lunar LSP stations instead of orbital Hub (18% vs 10% efficiency, no 7,900 km² radiator problem). Placement of 40 stations on lunar limbs, microwave transmission at 230 W/m². Global rectenna network.</p>
 </section>
 <section id="production-28-min" class="level3">
 <h3 class="anchored" data-anchor-id="production-28-min">8. <a href="../../en/science/summaries/production.html">Production</a> <em>(~28 min)</em></h3>
-<p>Two centers: Mercury (mirrors, self-replication 1→~1650 factories) and Moon (testbed + LSP). F-M (~400 mirrors/day), F-R (robots, domes, equipment). Critical resources: iridium, carbon, “Vitamins”.</p>
+<p>Two centers: Mercury (mirrors, self-replication 1→~1650 factories) and Moon (testbed + LSP). F-M (~350 mirrors/day), F-R (robots, domes, equipment). Critical resources: iridium, carbon, “Vitamins”.</p>
 </section>
 <section id="risks-and-limitations" class="level3">
 <h3 class="anchored" data-anchor-id="risks-and-limitations">9. <a href="../../en/science/reference/risks.html">Risks and Limitations</a></h3>
@@ -945,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="additional-topics" class="level2">
 <h2 class="anchored" data-anchor-id="additional-topics">Additional Topics</h2>
 <section id="moon" class="level3">
-<h3 class="anchored" data-anchor-id="moon"><a href="../../en/science/summaries/moon.html">Moon</a></h3>
+<h3 class="anchored" data-anchor-id="moon"><a href="../../en/science/detailed/hub.html#moon-in-the-project">Moon</a></h3>
 <p>Triple role: technology proving ground + LSP stations for energy reception + backup site (less risky alternative to Mercury). 1.3 sec communication delay allows near-real-time operator control.</p>
 </section>
 <section id="mars-perspective" class="level3">
@@ -954,7 +1010,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="delivery" class="level3">
 <h3 class="anchored" data-anchor-id="delivery"><a href="../../en/science/summaries/delivery.html">Delivery</a></h3>
-<p>Earth → Moon → Mercury logistics: ~50-100 launches over ~10 years (thanks to 96% localization), 15-30 launches in peak year. Cost $8-20B. Synergy with Artemis, Chang’e, ILRS programs.</p>
+<p>Earth → Moon → Mercury logistics: ~50-100 launches over ~10 years (thanks to 99.998% localization), 15-30 launches in peak year. Cost $8-20B. Synergy with Artemis, Chang’e, ILRS programs.</p>
 </section>
 <section id="first-factory-assembly-bootstrap" class="level3">
 <h3 class="anchored" data-anchor-id="first-factory-assembly-bootstrap"><a href="../../en/science/detailed/bootstrap.html">First Factory Assembly (Bootstrap)</a></h3>

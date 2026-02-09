@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Factory Production – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Factory Production – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -876,7 +926,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Lean manufacturing:</strong> Storage outside (vacuum), only JIT buffer inside</li>
 <li><strong>Output:</strong> Self-replication 1 -&gt; ~1,650 factories in ~4 years (bottleneck: <a href="../../../../en/science/reference/glossary.html#vitamins">“Vitamins”</a> delivery)</li>
 <li><strong>Size:</strong> Dome ~1,500 m^2 (~50x30 m), height 6-8 m, atmosphere 0.1 atm O2</li>
-<li><strong>Materials:</strong> 600 t regolith/day -&gt; 42 t Al + 18 t Fe + 25 t Si</li>
+<li><strong>Materials:</strong> 600 t regolith/day -&gt; 42 t Al + ~11 t Fe-Mn steel + 25 t Si</li>
 </ul>
 </blockquote>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -898,6 +948,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="self-replication-concept">Self-Replication Concept</h2>
 <p>The “Ground Zero Factory” is the first self-replicating factory on Mercury. Its task is to build new factories from local materials using robots and solar energy.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 61%">
+<col style="width: 38%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Parameter</th>
@@ -927,11 +981,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Power consumption (factory)</td>
-<td>5 MW (peak)</td>
+<td>~124 MW (114 MW elec. + 10 MW thermal)</td>
 </tr>
 <tr class="odd">
-<td>Available energy (3 GaAs shipments)</td>
-<td>168 MW (113 MW reserve)</td>
+<td>Available energy (CPV system ~10.5 t)</td>
+<td>~151 MW (~27 MW reserve without Mass Driver)</td>
 </tr>
 </tbody>
 </table>
@@ -941,7 +995,7 @@ Factories #0-1 -&gt; build Factories #2-3
 Factories #0-3 -&gt; build Factories #4-7
 ...
 -&gt; 1 factory -&gt; ~1,650 factories in ~4 years (practically, due to "Vitamins" delivery)</code></pre>
-<p><strong>First expedition:</strong> ~67 tons from Earth (including 5.25 t GaAs panels), assembly in 7 days.</p>
+<p><strong>First expedition:</strong> ~72 tons from Earth (including ~10.5 t CPV system), assembly in 7 days.</p>
 <p><strong>More on preparation:</strong> <a href="../../../../en/science/detailed/bootstrap.html">First Factory Assembly (Bootstrap)</a> | <a href="../../../../en/science/summaries/roadmap.html">Roadmap</a></p>
 <hr>
 </section>
@@ -1026,7 +1080,7 @@ Factories #0-3 -&gt; build Factories #4-7
 
         subgraph FORMING["Forming (200 m2)"]
             WAAM["WAAM 3D printing"]
-            CNC["CNC 5-axis"]
+            GRIND["Grinding cell"]
         end
 
         subgraph ROBOTS["Robot assembly (250 m2)"]
@@ -1049,8 +1103,8 @@ Factories #0-3 -&gt; build Factories #4-7
     MHD --&gt; TUNDISH
     TUNDISH --&gt; MNLZ_AL &amp; MNLZ_FE
     MNLZ_FE --&gt; FURNACE --&gt; MILL
-    MILL --&gt; WIRE --&gt; WAAM --&gt; CNC
-    CNC --&gt; STAP_R &amp; STAP_E
+    MILL --&gt; WIRE --&gt; WAAM --&gt; GRIND
+    GRIND --&gt; STAP_R &amp; STAP_E
     LOCK --&gt; BUFFER
     BUFFER --&gt; CUT --&gt; WELD
     STAP_R --&gt; TEST_R --&gt; LOCK
@@ -1094,7 +1148,7 @@ Factories #0-3 -&gt; build Factories #4-7
 <td>Wire dia 1.6 mm for WAAM</td>
 </tr>
 <tr class="even">
-<td>Forming (WAAM + CNC)</td>
+<td>Forming (WAAM + grinding)</td>
 <td>~200 m^2</td>
 <td>Robot parts, equipment, MD</td>
 </tr>
@@ -1211,7 +1265,7 @@ Factories #0-3 -&gt; build Factories #4-7
 <tr class="odd">
 <td>Mirror assembly</td>
 <td>~600 m^2</td>
-<td>Z-fold conveyor, ~400 pcs/day</td>
+<td>Z-fold conveyor, ~350 pcs/day</td>
 </tr>
 <tr class="even">
 <td>QC + packaging</td>
@@ -1311,8 +1365,8 @@ Factories #0-3 -&gt; build Factories #4-7
 <td>Mirrors, robot casings, conductors</td>
 </tr>
 <tr class="even">
-<td>Iron (Fe)</td>
-<td>18 t/day</td>
+<td>Iron (Fe-Mn steel)</td>
+<td>~11 t/day</td>
 <td>Robot frames, MD rails, dome frame</td>
 </tr>
 <tr class="odd">
@@ -1321,7 +1375,7 @@ Factories #0-3 -&gt; build Factories #4-7
 <td>Solar panels, fiberglass</td>
 </tr>
 <tr class="even">
-<td>Titanium (Ti)</td>
+<td>Titanium Dioxide (TiO₂)</td>
 <td>3 t/day</td>
 <td>Mirror electrochromics</td>
 </tr>
@@ -1445,8 +1499,8 @@ Factories #0-3 -&gt; build Factories #4-7
 <li><strong>Self-replication</strong> - new factory construction coordination -&gt; <a href="../../../../en/science/detailed/factories/assembly/replication.html">More details</a></li>
 </ul>
 </section>
-<section id="f-m-mirrors-400day" class="level4">
-<h4 class="anchored" data-anchor-id="f-m-mirrors-400day">F-M: Mirrors (~400/day)</h4>
+<section id="f-m-mirrors-350day" class="level4">
+<h4 class="anchored" data-anchor-id="f-m-mirrors-350day">F-M: Mirrors (~350/day)</h4>
 <ul>
 <li><strong>Mirrors</strong> - Z-fold solar reflectors for Mass Driver</li>
 </ul>
@@ -1506,6 +1560,8 @@ Factories #0-3 -&gt; build Factories #4-7
 </section>
 <section id="energy-consumption" class="level2">
 <h2 class="anchored" data-anchor-id="energy-consumption">Energy Consumption</h2>
+<p>Energy is divided into <strong>thermal</strong> (solar concentrators) and <strong>electrical</strong> (photovoltaic panels):</p>
+<p><strong>Thermal energy (solar concentrators):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1516,9 +1572,26 @@ Factories #0-3 -&gt; build Factories #4-7
 </thead>
 <tbody>
 <tr class="odd">
-<td>Melting and casting (solar furnaces)</td>
-<td>10 MW</td>
-<td>10 MW</td>
+<td>Solar furnaces (regolith melting, MRE)</td>
+<td>10 MW(t)</td>
+<td>10 MW(t)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Electrical energy (GaAs panels):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Consumer</th>
+<th>F-R</th>
+<th>F-M</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MRE electrolysis (60 cells × 1.8 MW)</strong></td>
+<td><strong>108 MW</strong></td>
+<td><strong>108 MW</strong></td>
 </tr>
 <tr class="even">
 <td>Rolling mill / foil</td>
@@ -1526,8 +1599,8 @@ Factories #0-3 -&gt; build Factories #4-7
 <td>3 MW</td>
 </tr>
 <tr class="odd">
-<td>WAAM + CNC</td>
-<td>1 MW</td>
+<td>WAAM + grinding</td>
+<td>0.05 MW</td>
 <td>-</td>
 </tr>
 <tr class="even">
@@ -1556,14 +1629,17 @@ Factories #0-3 -&gt; build Factories #4-7
 <td>2 MW</td>
 </tr>
 <tr class="odd">
-<td><strong>TOTAL</strong></td>
-<td><strong>~16 MW</strong></td>
-<td><strong>~16 MW</strong></td>
+<td><strong>Electrical TOTAL</strong></td>
+<td><strong>~114 MW(e)</strong></td>
+<td><strong>~114 MW(e)</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Available energy:</strong> 168 MW (3 shipments of GaAs panels from Earth)</p>
-<p><strong>Reserve:</strong> 152 MW - reserve for parallel operation of multiple factories</p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Solar furnaces use concentrated sunlight directly (no electricity conversion). At ~9.3 kW/m² solar flux on Mercury, a ~1000 m² concentrator provides ~10 MW thermal. MRE electrolysis is the dominant electrical consumer (~108 MW, <a href="../../../../en/science/detailed/materials/mre.html">Faraday’s law justification</a>). Electrical consumers are powered by GaAs photovoltaic panels.</p>
+</blockquote>
+<p><strong>Available electrical energy:</strong> ~151 MW (CPV system ~10.5 t: Kapton+Al concentrators + GaAs cells)</p>
+<p><strong>Reserve over factory (without Mass Driver):</strong> ~27 MW. Mass Driver (~39 MW) starts after local Si panel deployment provides additional power.</p>
 <p><strong>More details:</strong> <a href="../../../../en/science/summaries/production.html#energy">Production</a></p>
 <hr>
 </section>

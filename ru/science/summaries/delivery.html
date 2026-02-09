@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Доставка – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Доставка – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -835,9 +885,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <ul class="collapse">
   <li><a href="#vitamins" id="toc-vitamins" class="nav-link" data-scroll-target="#vitamins">Витамины: критический импорт</a>
   <ul class="collapse">
-  <li><a href="#постоянный-импорт-77-кгзаводгод" id="toc-постоянный-импорт-77-кгзаводгод" class="nav-link" data-scroll-target="#постоянный-импорт-77-кгзаводгод">Постоянный импорт (~77 кг/завод/год)</a></li>
-  <li><a href="#переходный-импорт-только-gen-1-первая-экспедиция" id="toc-переходный-импорт-только-gen-1-первая-экспедиция" class="nav-link" data-scroll-target="#переходный-импорт-только-gen-1-первая-экспедиция">Переходный импорт (только Gen-1, первая экспедиция)</a></li>
-  <li><a href="#локализованные-материалы-ранее-импорт" id="toc-локализованные-материалы-ранее-импорт" class="nav-link" data-scroll-target="#локализованные-материалы-ранее-импорт">Локализованные материалы (ранее импорт)</a></li>
+  <li><a href="#постоянный-импорт-85-кгзаводгод" id="toc-постоянный-импорт-85-кгзаводгод" class="nav-link" data-scroll-target="#постоянный-импорт-85-кгзаводгод">Постоянный импорт (~85 кг/завод/год)</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#сверхтяжёлые-носители" id="toc-сверхтяжёлые-носители" class="nav-link" data-scroll-target="#сверхтяжёлые-носители">Сверхтяжёлые носители</a></li>
@@ -864,7 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#детализация-по-направлениям" id="toc-детализация-по-направлениям" class="nav-link" data-scroll-target="#детализация-по-направлениям">Детализация по направлениям</a>
   <ul class="collapse">
-  <li><a href="#заводы-230-т" id="toc-заводы-230-т" class="nav-link" data-scroll-target="#заводы-230-т">1. Заводы (~230 т)</a></li>
+  <li><a href="#заводы-305-т" id="toc-заводы-305-т" class="nav-link" data-scroll-target="#заводы-305-т">1. Заводы (~305 т)</a></li>
   <li><a href="#масс-драйверы-275-т" id="toc-масс-драйверы-275-т" class="nav-link" data-scroll-target="#масс-драйверы-275-т">2. Масс-драйверы (~275 т)</a></li>
   <li><a href="#зеркала-1055-т" id="toc-зеркала-1055-т" class="nav-link" data-scroll-target="#зеркала-1055-т">3. Зеркала (~1,055 т)</a></li>
   <li><a href="#роботы-775-т" id="toc-роботы-775-т" class="nav-link" data-scroll-target="#роботы-775-т">4. Роботы (~775 т)</a></li>
@@ -901,8 +949,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>Суммарный импорт:</strong> ~2,400 т за ~11 лет (Луна 80 т + Меркурий 2,325 т)</li>
-<li><strong>Локализация:</strong> 96% массы производится на месте (конденсаторы NaS, корпуса, радиаторы)</li>
+<li><strong>Суммарный импорт:</strong> ~2,660 т за ~11 лет (Луна ~260 т + Меркурий ~2,400 т)</li>
+<li><strong>Луна:</strong> 80 т initial + 180 т витаминов для <a href="../../../ru/science/detailed/hub.html">LSP</a> (178,000 т местного производства)</li>
+<li><strong>Синергия:</strong> Artemis/Chang’e/ILRS доставляют людей и инфраструктуру</li>
+<li><strong>Локализация:</strong> 99.998% массы производится на месте (зеркала, МД, заводы, роботы)</li>
 <li><strong>Носители:</strong> <a href="https://en.wikipedia.org/wiki/SpaceX_Starship">Starship</a> (США), <a href="https://en.wikipedia.org/wiki/Long_March_9">Long March 9</a> (Китай), <a href="https://en.wikipedia.org/wiki/Yenisei_(rocket)">Енисей</a> (Россия)</li>
 <li><strong>Темпы:</strong> ~15-30 пусков/год в пиковые годы (1 космодром достаточно)</li>
 <li><strong>Стоимость доставки:</strong> $8-15 млрд (вместо $80+ млрд без локализации)</li>
@@ -1008,8 +1058,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Э1</td>
 <td>6</td>
-<td>75 т</td>
-<td>Тест: 1 завод + 1 масс-драйвер</td>
+<td>150 т</td>
+<td>2 завода + 2 масс-драйвера</td>
 </tr>
 <tr class="even">
 <td>Э2</td>
@@ -1101,7 +1151,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Пик:</strong> 15-30 пусков/год = 1-2 пуска/месяц глобально.</p>
-<p><strong>Примечание:</strong> - Регулярные поставки (годы 7-15): ~2,185 т - Экспедиции 1-2 (годы 6-6.5): 140 т - <strong>Итого на Меркурий: ~2,325 т</strong> - <strong>Всего пусков (с учётом экспедиций и запаса): ~50-100</strong></p>
+<p><strong>Примечание:</strong> - Регулярные поставки (годы 7-15): ~2,185 т - Экспедиции 1-2 (годы 6-6.5): 215 т - <strong>Итого на Меркурий: ~2,400 т</strong> - <strong>Всего пусков (с учётом экспедиций и запаса): ~50-100</strong></p>
 <hr>
 </section>
 <section id="стоимость-доставки" class="level2">
@@ -1111,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="header">
 <th>Сценарий</th>
 <th>$/кг до Меркурия</th>
-<th>2,325 т</th>
+<th>~2,400 т</th>
 <th>Предположения</th>
 </tr>
 </thead>
@@ -1149,12 +1199,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
     subgraph "Фаза 2 (годы 6-15): Меркурий"
-        E2[🌍 Земля] --&gt;|"Ракеты&lt;br&gt;~2,325 т"| M[☿ Меркурий]
+        E2[🌍 Земля] --&gt;|"Ракеты&lt;br&gt;~2,400 т"| M[☿ Меркурий]
         M --&gt;|"МД 5 км/с"| R[🔆 Рой зеркал]
     end
 
-    subgraph "Фаза 1 (годы 4-6): Луна"
-        E1[🌍 Земля] --&gt;|"Ракеты&lt;br&gt;60-100 т"| L[🌙 Луна]
+    subgraph "Фаза 1 (годы 4-10): Луна"
+        E1[🌍 Земля] --&gt;|"Ракеты&lt;br&gt;~260 т"| L[🌙 Луна]
         L --&gt;|"Местные ресурсы"| LSP[☀️ LSP станции]
     end
 </pre>
@@ -1181,14 +1231,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Земля → Луна</td>
-<td>Полигон, заводы LSP</td>
-<td>60-100 т</td>
+<td>Полигон, заводы, витамины LSP</td>
+<td>~260 т</td>
 <td>Сверхтяжёлые носители</td>
 </tr>
 <tr class="even">
 <td>Земля → Меркурий</td>
 <td>Электроника заводов и МД</td>
-<td>~2,325 т</td>
+<td>~2,400 т</td>
 <td>Сверхтяжёлые носители</td>
 </tr>
 <tr class="odd">
@@ -1199,12 +1249,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Луна:</strong> Производство <a href="../../../ru/science/summaries/moon.html">LSP станций</a> из местных ресурсов (реголит → алюминий, кремний). С Земли доставляются только «витамины» — электроника, оптика, редкие материалы. Подробнее о производстве: <a href="../../../ru/science/detailed/factories/overview.html">Завод «Точка Ноль»</a>.</p>
+<p><strong>Луна:</strong> Производство <a href="../../../ru/science/detailed/hub.html">LSP станций</a> из местных ресурсов (реголит → алюминий, кремний). С Земли доставляются только «витамины» — электроника, оптика, редкие материалы. Подробнее о производстве: <a href="../../../ru/science/detailed/factories/overview.html">Завод «Точка Ноль»</a>.</p>
 <section id="vitamins" class="level2">
 <h2 class="anchored" data-anchor-id="vitamins">Витамины: критический импорт</h2>
 <p>Витамины — материалы, которые невозможно или нецелесообразно производить на Меркурии.</p>
-<section id="постоянный-импорт-77-кгзаводгод" class="level3">
-<h3 class="anchored" data-anchor-id="постоянный-импорт-77-кгзаводгод">Постоянный импорт (~77 кг/завод/год)</h3>
+<section id="постоянный-импорт-85-кгзаводгод" class="level3">
+<h3 class="anchored" data-anchor-id="постоянный-импорт-85-кгзаводгод">Постоянный импорт (~85 кг/завод/год)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 27%">
@@ -1240,9 +1290,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Керамика Si₃N₄ (фрезы + фильеры)</td>
 </tr>
 <tr class="even">
+<td>Смазки</td>
+<td>MoS₂ (дисульфид молибдена)</td>
+<td>~6 кг</td>
+<td>60 роботов × 0.1 кг/мес (сухая смазка, вакуум)</td>
+</tr>
+<tr class="odd">
 <td><strong>ИТОГО</strong></td>
 <td></td>
-<td><strong>~79 кг</strong></td>
+<td><strong>~85 кг</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -1256,76 +1312,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 <p><strong>Неопределённость срока службы:</strong> Условия Меркурия экстремальны (вакуум, -180°C в тени, +430°C на солнце). Консервативная оценка срока службы роботов: 1-3 года.</p>
 </blockquote>
-</section>
-<section id="переходный-импорт-только-gen-1-первая-экспедиция" class="level3">
-<h3 class="anchored" data-anchor-id="переходный-импорт-только-gen-1-первая-экспедиция">Переходный импорт (только Gen-1, первая экспедиция)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Материал</th>
-<th>Назначение</th>
-<th>После локализации</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Li/Li-S</td>
-<td>Батареи</td>
-<td>NaS из местных Na+S</td>
-</tr>
-<tr class="even">
-<td>Cu</td>
-<td>Моторы</td>
-<td>Криогенный Al-кабель</td>
-</tr>
-<tr class="odd">
-<td>Kevlar</td>
-<td>Армирование</td>
-<td>Базальтовое волокно</td>
-</tr>
-<tr class="even">
-<td>CFRP</td>
-<td>Корпуса</td>
-<td>Местная сталь Fe-6%Mn</td>
-</tr>
-<tr class="odd">
-<td>GaAs</td>
-<td>Стартовые панели</td>
-<td>Si из реголита</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="локализованные-материалы-ранее-импорт" class="level3">
-<h3 class="anchored" data-anchor-id="локализованные-материалы-ранее-импорт">Локализованные материалы (ранее импорт)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Было</th>
-<th>Стало</th>
-<th>Источник</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><del>Фрезы W-Co</del></td>
-<td>Керамика Si₃N₄</td>
-<td>Si + N₂</td>
-</tr>
-<tr class="even">
-<td><del>Платина (фильеры стекла)</del></td>
-<td>Керамика Al₂O₃</td>
-<td>Al 7% + O₂ (<a href="https://www.sciencedirect.com/science/article/abs/pii/0261306981900510">ScienceDirect 1981</a>)</td>
-</tr>
-<tr class="odd">
-<td><del>Корпуса электроники</del></td>
-<td>Алюминий Al</td>
-<td>Местный</td>
-</tr>
-</tbody>
-</table>
 <blockquote class="blockquote">
-<p><strong>Подробнее:</strong> <a href="../../../ru/science/summaries/production.html#deficit-elements">Дефицитные элементы</a>, <a href="../../../ru/science/reference/technology-readiness.html">Технологии</a></p>
+<p><strong>Однократный импорт на завод:</strong></p>
+<ul>
+<li>PFPE масло (вакуумная смазка): ~24 кг/завод (60 роботов × 0.4 кг, рециркуляция в замкнутых картерах — без потерь)</li>
+</ul>
 </blockquote>
 <hr>
 </section>
@@ -1422,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p>*Грузоподъёмность на траекторию к Меркурию ~30-35% от НОО (Δv ~12.5 км/с).</p>
-<p><strong>Экономика масштаба:</strong> Удвоение грузоподъёмности снижает стоимость килограмма в ~1.5-2 раза. Для 2,325 т груза на Меркурий это разница между $6 млрд и $12 млрд.</p>
+<p><strong>Экономика масштаба:</strong> Удвоение грузоподъёмности снижает стоимость килограмма в ~1.5-2 раза. Для ~2,400 т груза на Меркурий это разница между $6 млрд и $12 млрд.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1495,7 +1486,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="преимущества-для-helios" class="level2">
 <h2 class="anchored" data-anchor-id="преимущества-для-helios">Преимущества для Helios</h2>
-<p>С Роем из ~1 млрд зеркал (~114 ПВт солнечной мощности):</p>
+<p>С Роем из ~1.1 млрд зеркал (~102 ПВт солнечной мощности):</p>
 <ol type="1">
 <li><strong>Solar Thermal:</strong> Зеркала фокусируют свет на теплообменник носителя → нагрев рабочего тела до 10,000 K → Isp выше химических двигателей</li>
 <li><strong>Beam Power:</strong> Часть зеркал направляет свет на приёмник носителя → нет необходимости везти топливо с Земли</li>
@@ -1683,6 +1674,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<p><strong>Люди на Луне:</strong> Artemis III (2028) — 2 астронавта, китайская пилотируемая (~2030) — 2 тайконавта. Возможность привлечения людей для критических операций Helios.</p>
 <div class="cell" data-fig-width="9" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -1841,6 +1833,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="header">
 <th>Направление</th>
 <th>Initial</th>
+<th>Годы 5-10</th>
 <th><strong>ИТОГО</strong></th>
 </tr>
 </thead>
@@ -1848,27 +1841,38 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Заводы</strong></td>
 <td>40 т</td>
+<td>—</td>
 <td><strong>40 т</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Роботы Gen-1</strong></td>
 <td>10 т</td>
+<td>—</td>
 <td><strong>10 т</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>Инфраструктура</strong></td>
 <td>30 т</td>
+<td>—</td>
 <td><strong>30 т</strong></td>
 </tr>
 <tr class="even">
+<td><strong>Витамины LSP</strong></td>
+<td>—</td>
+<td>180 т</td>
+<td><strong>180 т</strong></td>
+</tr>
+<tr class="odd">
 <td><strong>ИТОГО ЛУНА</strong></td>
 <td><strong>80 т</strong></td>
-<td><strong>80 т</strong></td>
+<td><strong>180 т</strong></td>
+<td><strong>~260 т</strong></td>
 </tr>
 </tbody>
 </table>
 <p><em>Initial = Год 4, первоначальный запуск на Луну</em></p>
 <p><em>Инфраструктура = концентраторы 5 т + витамины 10 т + запас 15 т</em></p>
+<p><em>Витамины LSP = 0.1% от 178,000 т местного производства <a href="../../../ru/science/detailed/hub.html">LSP станций</a> (электроника, чипы)</em></p>
 </section>
 <section id="меркурий" class="level3">
 <h3 class="anchored" data-anchor-id="меркурий">МЕРКУРИЙ</h3>
@@ -1898,13 +1902,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td><strong>Заводы (платы)</strong></td>
-<td>140 т</td>
+<td>215 т</td>
 <td>1 т</td>
 <td>5 т</td>
 <td>21 т</td>
 <td>63 т</td>
 <td></td>
-<td><strong>230 т</strong></td>
+<td><strong>305 т</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Масс-драйверы (платы)</strong></td>
@@ -1938,35 +1942,37 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>ИТОГО МЕРКУРИЙ</strong></td>
-<td><strong>140 т</strong></td>
+<td><strong>215 т</strong></td>
 <td><strong>91 т</strong></td>
 <td><strong>214 т</strong></td>
 <td><strong>519 т</strong></td>
 <td><strong>728 т</strong></td>
 <td><strong>633 т</strong></td>
-<td><strong>2,325 т</strong></td>
+<td><strong>~2,400 т</strong></td>
 </tr>
 </tbody>
 </table>
-<p><em>Initial = Год 6, экспедиция E1 — 4 завода bootstrap (полный импорт до локализации)</em></p>
+<p><em>Initial = Год 6-6.5, экспедиции Э1+Э2 — 2 завода + 2 МД (Э1) + 3 завода электроника (Э2), полный импорт до локализации</em></p>
 </section>
 <section id="сводная-таблица" class="level3">
 <h3 class="anchored" data-anchor-id="сводная-таблица">СВОДНАЯ ТАБЛИЦА</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
 <col style="width: 11%">
-<col style="width: 15%">
-<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 13%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Локация</th>
 <th>Initial</th>
+<th>Годы 5-6</th>
 <th>Год 7</th>
 <th>Год 8</th>
 <th>Год 9</th>
@@ -1979,43 +1985,47 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>ЛУНА</strong></td>
 <td>80 т</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><strong>80 т</strong></td>
+<td>60 т</td>
+<td>30 т</td>
+<td>30 т</td>
+<td>30 т</td>
+<td>30 т</td>
+<td>—</td>
+<td><strong>~260 т</strong></td>
 </tr>
 <tr class="even">
 <td><strong>МЕРКУРИЙ</strong></td>
-<td>140 т</td>
+<td>215 т</td>
+<td>—</td>
 <td>91 т</td>
 <td>214 т</td>
 <td>519 т</td>
 <td>728 т</td>
 <td>633 т</td>
-<td><strong>2,325 т</strong></td>
+<td><strong>~2,400 т</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>ВСЕГО</strong></td>
-<td><strong>220 т</strong></td>
-<td><strong>91 т</strong></td>
-<td><strong>214 т</strong></td>
-<td><strong>519 т</strong></td>
-<td><strong>728 т</strong></td>
+<td><strong>295 т</strong></td>
+<td><strong>60 т</strong></td>
+<td><strong>121 т</strong></td>
+<td><strong>244 т</strong></td>
+<td><strong>549 т</strong></td>
+<td><strong>758 т</strong></td>
 <td><strong>633 т</strong></td>
-<td><strong>~2,400 т</strong></td>
+<td><strong>~2,660 т</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Эквивалент: ~48 запусков Starship (50 т/запуск)</strong></p>
+<p><em>Луна годы 5-10: витамины для <a href="../../../ru/science/detailed/hub.html">LSP производства</a> (~30 т/год)</em></p>
+<p><strong>Эквивалент: ~53 запусков Starship (50 т/запуск)</strong></p>
 <hr>
 </section>
 </section>
 <section id="детализация-по-направлениям" class="level2">
 <h2 class="anchored" data-anchor-id="детализация-по-направлениям">Детализация по направлениям</h2>
-<section id="заводы-230-т" class="level3">
-<h3 class="anchored" data-anchor-id="заводы-230-т">1. Заводы (~230 т)</h3>
+<section id="заводы-305-т" class="level3">
+<h3 class="anchored" data-anchor-id="заводы-305-т">1. Заводы (~305 т)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 19%">
@@ -2039,13 +2049,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>E1 bootstrap (4 завода)</td>
-<td>140 т</td>
+<td>Э1+Э2 bootstrap (2 завода + 2 МД + 3 завода)</td>
+<td>215 т</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
-<td>140 т</td>
+<td>215 т</td>
 </tr>
 <tr class="even">
 <td>Платы автоматики МНЛЗ</td>
@@ -2067,17 +2077,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>Итого заводы</strong></td>
-<td><strong>140 т</strong></td>
+<td><strong>215 т</strong></td>
 <td><strong>1 т</strong></td>
 <td><strong>5 т</strong></td>
 <td><strong>21 т</strong></td>
 <td><strong>63 т</strong></td>
-<td><strong>230 т</strong></td>
+<td><strong>305 т</strong></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><strong>Initial (E1 bootstrap):</strong> полный импорт 4 заводов до локализации</li>
+<li><strong>Initial (Э1+Э2 bootstrap):</strong> полный импорт 2 заводов + 2 МД (Э1) + 3 завода электроника (Э2) до локализации</li>
 <li><strong>Регулярные:</strong> только платы электроники (~55 кг/завод), корпуса — <a href="../../../ru/science/detailed/factories/assembly/equipment.html">местное производство</a></li>
 <li>Подшипники Al₂O₃ — 100% местные (керамика из реголита)</li>
 <li>99.9% массы оборудования — локальное производство</li>
@@ -2143,7 +2153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>1,000 МД × <strong>275 кг</strong> электроники = <strong>275 т</strong> (только платы и чипы)</li>
 <li><strong>Конденсаторы NaS</strong> — 100% местное (Na + S + Al₂O₃ из реголита)</li>
 <li>Радиаторы и корпуса — местный Al</li>
-<li>Остальные 450 т/МД — местное производство</li>
+<li>Остальные ~500 т/МД — местное производство</li>
 </ul>
 </section>
 <section id="зеркала-1055-т" class="level3">
@@ -2259,8 +2269,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <ul>
 <li><strong>Initial:</strong> Gen-1 роботы для лунного завода (полный импорт)</li>
-<li><strong>Регулярные:</strong> витамины — чипсеты (72 кг), иридий (4 кг), азот (3 кг) на завод/год</li>
-<li>Годы 11-15: 1,645 заводов × 79 кг × 5 лет = 650 т</li>
+<li><strong>Регулярные:</strong> витамины — чипсеты (72 кг), иридий (4 кг), азот (3 кг), MoS₂ (6 кг) = ~85 кг/завод/год</li>
+<li>Годы 11-15: 1,645 заводов × 85 кг × 5 лет = 700 т</li>
 </ul>
 </section>
 <section id="инфраструктура-луна-30-т" class="level3">
@@ -2296,18 +2306,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<hr>
-<blockquote class="blockquote">
-<p><strong>Экономия благодаря локализации:</strong></p>
-<ul>
-<li><strong>Самореплицирующиеся заводы:</strong> сократили импорт оборудования с ~14,000 т до ~230 т (98%)</li>
-<li><strong>Конденсаторы NaS:</strong> местное производство из реголита, сократили импорт МД с 7,000 т до 275 т (96%)</li>
-<li><strong>Корпуса и радиаторы:</strong> собираем локально из Al, импортируем только платы и чипы</li>
-<li><strong>Подшипники Al₂O₃:</strong> 100% местные керамические</li>
-<li><strong>Архитектура Мать-Дети:</strong> сократила импорт электроники зеркал с 55,000 т до 1,055 т (98%)</li>
-<li>Без этих оптимизаций проект требовал бы ~80,000 т общего импорта</li>
-</ul>
-</blockquote>
 
 
 </section>

@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Glossary of Terms – Проект Гелиос">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/reference/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Glossary of Terms – Проект Гелиос">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/reference/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +397,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +495,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1003,7 +1051,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="f-m-f-r-factory-types">F-M / F-R (Factory Types)</h3>
 <p>Two factory types on Mercury:</p>
 <ul>
-<li><strong>F-M (Factory-Mirror)</strong> — produces aluminum mirrors for the Swarm. ~400 mirrors/day. Total ~1,500.</li>
+<li><strong>F-M (Factory-Mirror)</strong> — produces aluminum mirrors for the Swarm. ~350 mirrors/day. Total ~1,500.</li>
 <li><strong>F-R (Factory-Replicator)</strong> — produces robots, domes, equipment, new factories. Total ~150.</li>
 </ul>
 <p><strong>See:</strong> <a href="../../../en/science/summaries/production.html">Production</a></p>
@@ -1014,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="g">G</h2>
 <section id="gaas-panels-gallium-arsenide" class="level3">
 <h3 class="anchored" data-anchor-id="gaas-panels-gallium-arsenide">GaAs Panels (Gallium Arsenide)</h3>
-<p>High-efficiency solar panels (30%+ efficiency) for the initial bootstrap phase. Imported from Earth, providing 168 MW for the first factory before Swarm energy arrives.</p>
+<p>High-efficiency solar cells (30%+ efficiency) used in the CPV (Concentrated Photovoltaic) system for the initial bootstrap phase. The complete CPV system (~10.5 t: Kapton+Al concentrators + GaAs cells + structure, ~14.4 kW/kg at Mercury) is imported from Earth, providing ~151 MW for the first factory before Swarm energy arrives.</p>
 <p><strong>See:</strong> <a href="../../../en/science/detailed/bootstrap.html">First Factory Assembly</a></p>
 </section>
 <section id="generation-1-gen-1" class="level3">
@@ -1032,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="ground-zero-factory" class="level3">
 <h3 class="anchored" data-anchor-id="ground-zero-factory">Ground Zero Factory</h3>
 <p>First factory on Mercury. 100% of components delivered from Earth. Task — launch self-replication and build subsequent factories from local resources.</p>
-<p><strong>Power consumption:</strong> 55 MW.</p>
+<p><strong>Power consumption:</strong> ~165 MW (factory ~124 MW + Mass Driver ~39 MW).</p>
 <p><strong>See:</strong> <a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a> | <strong>See also:</strong> <a href="#bootstrap">Bootstrap</a> — the assembly process</p>
 <hr>
 </section>
@@ -1058,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="l">L</h2>
 <section id="lsp-station-lunar-solar-power" class="level3">
 <h3 class="anchored" data-anchor-id="lsp-station-lunar-solar-power">LSP Station (Lunar Solar Power)</h3>
-<p>Ground-based solar power station on the Moon’s surface. Receives concentrated light from the Swarm, converts to 2.45 GHz microwaves, and transmits to rectenna on Earth. Network of 20-40 stations on lunar limbs.</p>
+<p>Ground-based solar power station on the Moon’s surface. Receives concentrated light from the Swarm, converts to 2.45 GHz microwaves, and transmits to rectenna on Earth. Network of 40 stations on lunar limbs.</p>
 <p><strong>Advantage:</strong> Heat dissipates into the ground (no space radiators needed), 18% efficiency.</p>
 <p><strong>See:</strong> <a href="../../../en/science/detailed/hub.html">LSP Stations</a></p>
 <hr>
@@ -1070,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="mass-driver">Mass Driver</h3>
 <p>Electromagnetic catapult for launching cargo into space. Mercury has no atmosphere → no air resistance → can accelerate to orbital velocity on the surface.</p>
 <p><strong>Parameters:</strong> length 2–3 km, velocity 5 km/s, installation mass ~1,300 t.</p>
-<p><strong>See:</strong> <a href="../../../en/science/detailed/railguns/theory.html">Mass Driver Theory</a></p>
+<p><strong>See:</strong> <a href="../../../en/science/detailed/railguns/overview.html">Mass Driver Theory</a></p>
 </section>
 <section id="mnlz-continuous-casting" class="level3">
 <h3 class="anchored" data-anchor-id="mnlz-continuous-casting">MNLZ (Continuous Casting)</h3>
@@ -1144,13 +1192,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Solar radiation power per unit area:</p>
 <ul>
 <li>Earth: 1,361 W/m²</li>
-<li>Mercury (orbit average): 10,343 W/m² (7.6× more)</li>
+<li>Mercury (orbit average): 9,287 W/m² (6.8× more)</li>
 </ul>
 <p><strong>See:</strong> <a href="../../../en/science/reference/constants.html">Physical Constants</a></p>
 </section>
 <section id="swarm-mirrors" class="level3">
 <h3 class="anchored" data-anchor-id="swarm-mirrors">Swarm Mirrors</h3>
-<p>Ultra-light reflective disks 100×100 m made of aluminum foil (4 µm). Controlled by light pressure through electrochromic coating. Mass ~116 kg, power on Earth ~19 MW (at 18% efficiency).</p>
+<p>Ultra-light reflective disks 100×100 m made of aluminum foil (4 µm). Controlled by light pressure through electrochromic coating. Mass ~116 kg, power on Earth ~17 MW (at 18% efficiency).</p>
 <p><strong>Reference:</strong> IKAROS (JAXA, 2010) — first interplanetary solar sail.</p>
 <p><strong>See:</strong> <a href="../../../en/science/summaries/mirrors.html">Swarm Mirrors</a></p>
 <hr>

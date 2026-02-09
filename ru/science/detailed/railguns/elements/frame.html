@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Каркас тоннеля – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Каркас тоннеля – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -834,16 +884,16 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#материальный-баланс" id="toc-материальный-баланс" class="nav-link" data-scroll-target="#материальный-баланс">Материальный баланс</a></li>
   <li><a href="#типы-опор" id="toc-типы-опор" class="nav-link" data-scroll-target="#типы-опор">Типы опор</a>
   <ul class="collapse">
-  <li><a href="#бетонные-опоры-на-грунт" id="toc-бетонные-опоры-на-грунт" class="nav-link" data-scroll-target="#бетонные-опоры-на-грунт">Бетонные опоры (на грунт)</a></li>
+  <li><a href="#серобетонные-опоры-на-грунт" id="toc-серобетонные-опоры-на-грунт" class="nav-link" data-scroll-target="#серобетонные-опоры-на-грунт">Серобетонные опоры (на грунт)</a></li>
   <li><a href="#анкерные-болты" id="toc-анкерные-болты" class="nav-link" data-scroll-target="#анкерные-болты">Анкерные болты</a></li>
   </ul></li>
   <li><a href="#сборка-каркаса" id="toc-сборка-каркаса" class="nav-link" data-scroll-target="#сборка-каркаса">Сборка каркаса</a>
   <ul class="collapse">
-  <li><a href="#последовательность" id="toc-последовательность" class="nav-link" data-scroll-target="#последовательность">Последовательность</a></li>
+  <li><a href="#последовательность-базовый-1-км" id="toc-последовательность-базовый-1-км" class="nav-link" data-scroll-target="#последовательность-базовый-1-км">Последовательность (базовый 1 км)</a></li>
   </ul></li>
   <li><a href="#нагрузки-на-каркас" id="toc-нагрузки-на-каркас" class="nav-link" data-scroll-target="#нагрузки-на-каркас">Нагрузки на каркас</a>
   <ul class="collapse">
-  <li><a href="#статические-нагрузки" id="toc-статические-нагрузки" class="nav-link" data-scroll-target="#статические-нагрузки">Статические нагрузки</a></li>
+  <li><a href="#статические-нагрузки-1-км" id="toc-статические-нагрузки-1-км" class="nav-link" data-scroll-target="#статические-нагрузки-1-км">Статические нагрузки (1 км)</a></li>
   <li><a href="#динамические-нагрузки" id="toc-динамические-нагрузки" class="nav-link" data-scroll-target="#динамические-нагрузки">Динамические нагрузки</a></li>
   </ul></li>
   <li><a href="#термостабильность" id="toc-термостабильность" class="nav-link" data-scroll-target="#термостабильность">Термостабильность</a>
@@ -887,7 +937,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Назначение:</strong> Несущая конструкция масс-драйвера</li>
 <li><strong>Материал:</strong> Сталь Fe-6%Mn (прочность + низкая температура)</li>
 <li><strong>Масса:</strong> <strong>~270 т</strong> (базовый 1 км)*</li>
-<li><strong>Конструкция:</strong> Ферменный каркас + бетонные опоры</li>
+<li><strong>Конструкция:</strong> Ферменный каркас + серобетонные опоры</li>
 </ul>
 <p>*При удлинении: 2 км (~535 т), 3 км (~800 т).</p>
 </blockquote>
@@ -1027,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="материальный-баланс" class="level2">
 <h2 class="anchored" data-anchor-id="материальный-баланс">Материальный баланс</h2>
-<p><strong>На 1 МД (800 т каркаса):</strong></p>
+<p><strong>На 1 МД (1 км, ~270 т каркаса):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1039,28 +1089,29 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Сталь Fe-6%Mn (основные балки)</td>
-<td>700 т</td>
-<td>18 т/день → <strong>39 дней</strong></td>
+<td>230 т</td>
+<td>11 т/день → <strong>21 день</strong></td>
 </tr>
 <tr class="even">
 <td>Крепёж, болты</td>
-<td>50 т</td>
-<td>18 т/день → <strong>3 дня</strong></td>
+<td>20 т</td>
+<td>18 т/день → <strong>1 день</strong></td>
 </tr>
 <tr class="odd">
 <td>Антикоррозионное покрытие (Al)</td>
-<td>50 т</td>
-<td>42 т/день → <strong>1.5 дня</strong></td>
+<td>20 т</td>
+<td>42 т/день → <strong>0.5 дня</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>ИТОГО:</strong> ~<strong>40-45 дней</strong> на производство материалов.</p>
+<p><strong>ИТОГО:</strong> ~<strong>21-25 дней</strong> на производство материалов.</p>
+<p><em>При удлинении до 3 км: ~40-45 дней.</em></p>
 <hr>
 </section>
 <section id="типы-опор" class="level2">
 <h2 class="anchored" data-anchor-id="типы-опор">Типы опор</h2>
-<section id="бетонные-опоры-на-грунт" class="level3">
-<h3 class="anchored" data-anchor-id="бетонные-опоры-на-грунт">Бетонные опоры (на грунт)</h3>
+<section id="серобетонные-опоры-на-грунт" class="level3">
+<h3 class="anchored" data-anchor-id="серобетонные-опоры-на-грунт">Серобетонные опоры (на грунт)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1071,23 +1122,24 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Количество опор</td>
-<td>300 (каждые 10 м)</td>
+<td>100 (каждые 10 м)*</td>
 </tr>
 <tr class="even">
 <td>Масса одной опоры</td>
-<td>~1 т бетона</td>
+<td>~1 т серобетона</td>
 </tr>
 <tr class="odd">
 <td>Глубина фундамента</td>
 <td>2-3 м в реголит</td>
 </tr>
 <tr class="even">
-<td><strong>ИТОГО бетон</strong></td>
-<td><strong>~300 т</strong></td>
+<td><strong>ИТОГО серобетон</strong></td>
+<td><strong>~100 т</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Бетон на Меркурии:</strong> - Сырьё: реголит + вода (из полярных кратеров) - Связующее: сульфидный цемент (из серы) - Прочность: достаточная для опор</p>
+<p>*При удлинении: 200 опор (2 км), 300 опор (3 км).</p>
+<p><strong>Серобетон на Меркурии:</strong> - Связующее: <strong>сера (S)</strong> — плавится при 115°C, затвердевает - Заполнитель: реголит - <strong>Не требует воды</strong> (в отличие от обычного бетона) - Прочность: достаточная для опор</p>
 </section>
 <section id="анкерные-болты" class="level3">
 <h3 class="anchored" data-anchor-id="анкерные-болты">Анкерные болты</h3>
@@ -1113,17 +1165,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>ИТОГО болтов</strong></td>
-<td><strong>1200 шт</strong></td>
+<td><strong>400 шт</strong>*</td>
 </tr>
 </tbody>
 </table>
+<p>*При удлинении: 800 (2 км), 1200 (3 км).</p>
 <hr>
 </section>
 </section>
 <section id="сборка-каркаса" class="level2">
 <h2 class="anchored" data-anchor-id="сборка-каркаса">Сборка каркаса</h2>
-<section id="последовательность" class="level3">
-<h3 class="anchored" data-anchor-id="последовательность">Последовательность</h3>
+<section id="последовательность-базовый-1-км" class="level3">
+<h3 class="anchored" data-anchor-id="последовательность-базовый-1-км">Последовательность (базовый 1 км)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1134,40 +1187,41 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Рытьё траншеи (3 км)</td>
-<td><strong>3 месяца</strong></td>
-<td>50 Кротов-М</td>
+<td>Рытьё траншеи (1 км)</td>
+<td><strong>2 недели</strong></td>
+<td>20 Кротов-М</td>
 </tr>
 <tr class="even">
-<td>Установка бетонных опор</td>
-<td>2 недели</td>
-<td>20 Кентавров-М</td>
-</tr>
-<tr class="odd">
-<td>Монтаж ферм (250 секций)</td>
-<td><strong>1 месяц</strong></td>
-<td>30 Кентавров-М</td>
-</tr>
-<tr class="even">
-<td>Сварка стыков</td>
+<td>Установка серобетонных опор</td>
 <td>1 неделя</td>
 <td>10 Кентавров-М</td>
 </tr>
 <tr class="odd">
-<td>Калибровка геометрии</td>
+<td>Монтаж ферм (~85 секций)</td>
+<td><strong>1 неделю</strong></td>
+<td>20 Кентавров-М</td>
+</tr>
+<tr class="even">
+<td>Сварка стыков</td>
 <td>3 дня</td>
+<td>10 Кентавров-М</td>
+</tr>
+<tr class="odd">
+<td>Калибровка геометрии</td>
+<td>2 дня</td>
 <td>Автоматика</td>
 </tr>
 </tbody>
 </table>
-<p><strong>ИТОГО:</strong> ~<strong>4.5 месяца</strong> от начала до готового каркаса.</p>
+<p><strong>ИТОГО:</strong> ~<strong>1 месяц</strong> от начала до готового каркаса.</p>
+<p><em>При удлинении до 3 км: ~4-5 месяцев.</em></p>
 <hr>
 </section>
 </section>
 <section id="нагрузки-на-каркас" class="level2">
 <h2 class="anchored" data-anchor-id="нагрузки-на-каркас">Нагрузки на каркас</h2>
-<section id="статические-нагрузки" class="level3">
-<h3 class="anchored" data-anchor-id="статические-нагрузки">Статические нагрузки</h3>
+<section id="статические-нагрузки-1-км" class="level3">
+<h3 class="anchored" data-anchor-id="статические-нагрузки-1-км">Статические нагрузки (1 км)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1179,22 +1233,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Рельсы (2 шт)</td>
-<td>210 т</td>
+<td>~70 т</td>
 <td>0.07 т/м</td>
 </tr>
 <tr class="even">
-<td>Катушки (3000 шт)</td>
-<td>300 т</td>
+<td>Катушки (1000 шт)</td>
+<td>~100 т</td>
 <td>0.1 т/м</td>
 </tr>
 <tr class="odd">
 <td>Электроника</td>
-<td>7 т</td>
-<td>0.002 т/м</td>
+<td>~3 т</td>
+<td>0.003 т/м</td>
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
-<td><strong>517 т</strong></td>
+<td><strong>~173 т</strong></td>
 <td><strong>~0.17 т/м</strong></td>
 </tr>
 </tbody>
@@ -1320,7 +1374,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Прямолинейность</td>
-<td>Лазерный датчик (импорт, витамин)</td>
+<td>Лазерный датчик (импорт)</td>
 <td>±5 мм на 100 м</td>
 <td>Регулировка опор</td>
 </tr>

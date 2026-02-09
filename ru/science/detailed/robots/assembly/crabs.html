@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Сборка Краб-М – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Сборка Краб-М – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -880,7 +930,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Назначение:</strong> Логистический робот, транспорт материалов</li>
 <li><strong>Масса:</strong> ~1000 кг</li>
-<li><strong>Батарея:</strong> NaS 50 кВтч</li>
+<li><strong>Батарея:</strong> NaS 20 кВтч</li>
 <li><strong>Мощность:</strong> 10 кВт</li>
 <li><strong>Время сборки:</strong> 48 часов на позиции</li>
 </ul>
@@ -910,9 +960,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../ru/science/detailed/robots/elements/frames.html">Изготовление рам</a></td>
 </tr>
 <tr class="even">
-<td>Корпус, радиаторы</td>
+<td>Корпус, радиаторы, корпуса сенсоров</td>
 <td>Алюминий</td>
-<td>450 кг</td>
+<td>470 кг</td>
 <td><a href="../../../../../ru/science/detailed/materials/distillation.html">Алюминий</a></td>
 </tr>
 <tr class="odd">
@@ -924,24 +974,25 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Актуаторы (6 колёс + манипулятор)</td>
 <td>Fe + Al + NaK</td>
-<td>30 кг</td>
+<td>40 кг</td>
 <td><a href="../../../../../ru/science/detailed/robots/elements/actuators.html">Актуаторы</a></td>
 </tr>
 <tr class="odd">
-<td>Электроника</td>
+<td>Электроника (чипы)</td>
 <td>—</td>
-<td>20 кг</td>
+<td>0.5 кг</td>
 <td><strong>Импорт с Земли</strong></td>
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
 <td>—</td>
 <td><strong>~1000 кг</strong></td>
-<td><strong>~98% местное</strong></td>
+<td><strong>&gt;99% местное</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Распределение материалов:</strong> - Железо (Fe): 350 кг = <strong>35%</strong> - Алюминий (Al): 450 кг = <strong>45%</strong> - Натрий + Сера: 150 кг = <strong>15%</strong> - Импорт: 20 кг = <strong>2%</strong></p>
+<p><strong>Распределение материалов:</strong> - Железо (Fe): 350 кг = <strong>35%</strong> - Алюминий (Al): 470 кг = <strong>47%</strong> - Натрий + Сера: 150 кг = <strong>15%</strong> - Актуаторы: 40 кг = <strong>4%</strong> - Импорт (чипы): 0.5 кг = <strong>&lt;0.1%</strong></p>
+<p><em>Электроника 20 кг = чипы 0.5 кг (импорт) + корпуса камер/лидаров, кабели ~19.5 кг (Al, местный)</em></p>
 <hr>
 </section>
 <section id="конструкция" class="level2">
@@ -1053,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Установка батареи NaS (50 кВтч)</td>
+<td>Установка батареи NaS (20 кВтч)</td>
 <td>4 часа</td>
 <td>2 Кентавра-М</td>
 </tr>
@@ -1112,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="этап-2-монтаж-шасси" class="level2">
 <h2 class="anchored" data-anchor-id="этап-2-монтаж-шасси">Этап 2: Монтаж шасси</h2>
-<p><strong>6 колёс:</strong> - Диаметр: Ø1.2 м - Материал: Алюминий (обод) + резина (протектор, импорт) - Привод: Электромоторы 5 кВт × 6 = 30 кВт суммарно</p>
+<p><strong>6 колёс:</strong> - Диаметр: Ø1.2 м - Материал: Алюминий (обод) + Fe-6%Mn бандаж (местный) - Привод: Электромоторы 5 кВт × 6 = 30 кВт + <a href="../../../../../ru/science/detailed/robots/elements/actuators.html#электрические-актуаторы">циклоидный редуктор</a> 1:20 (100% местный)</p>
 <p><strong>Подвеска:</strong> - Независимая на каждом колесе - Гидравлические амортизаторы (NaK) - Ход подвески: ±200 мм</p>
 <p><strong>Процесс:</strong> 1. Установка 6 ступиц на раму (болты M20) 2. Монтаж электромоторов приводов 3. Установка колёс 4. Регулировка углов установки</p>
 <hr>
@@ -1126,7 +1177,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="этап-4-установка-батареи-nas" class="level2">
 <h2 class="anchored" data-anchor-id="этап-4-установка-батареи-nas">Этап 4: Установка батареи NaS</h2>
-<p><strong>Батарея NaS 50 кВтч:</strong> - Масса: 150 кг (активные материалы Na + S + β-Al₂O₃) - Напряжение: 400 В (200 ячеек × 2 В) - Размещение: Центр тяжести (под платформой)</p>
+<p><strong>Батарея NaS 20 кВтч:</strong> - Масса: 150 кг (активные материалы Na + S + β-Al₂O₃ + корпус + изоляция) - Напряжение: 400 В (200 ячеек × 2 В) - Размещение: Центр тяжести (под платформой)</p>
 <p><strong>Процесс:</strong> 1. Подъём батареи краном 2. Установка в батарейный отсек 3. Подключение силовых кабелей (болты M10) 4. Подключение системы управления батареей (BMS)</p>
 <p><strong>Подробнее:</strong> <a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a></p>
 <hr>
@@ -1181,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Батарея</td>
 <td>Полный цикл заряд/разряд</td>
-<td>Ёмкость &gt;45 кВтч</td>
+<td>Ёмкость &gt;18 кВтч</td>
 </tr>
 <tr class="even">
 <td>Охлаждение</td>
@@ -1200,8 +1251,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="этап-10-первая-зарядка" class="level2">
 <h2 class="anchored" data-anchor-id="этап-10-первая-зарядка">Этап 10: Первая зарядка</h2>
-<p><strong>Зарядная станция:</strong> - Напряжение: 400 В - Ток: 25 А (щадящий режим первой зарядки) - Время полной зарядки: 5 часов (50 кВтч / 10 кВт)</p>
-<p><strong>Процесс:</strong> 1. Подключение к зарядной станции 2. Активация батареи (первый цикл при 350°C) 3. Полная зарядка 4. Проверка ёмкости (должна быть &gt;45 кВтч)</p>
+<p><strong>Зарядная станция:</strong> - Напряжение: 400 В - Ток: 25 А (щадящий режим первой зарядки) - Время полной зарядки: 2 часа (20 кВтч / 10 кВт)</p>
+<p><strong>Процесс:</strong> 1. Подключение к зарядной станции 2. Активация батареи (первый цикл при 350°C) 3. Полная зарядка 4. Проверка ёмкости (должна быть &gt;18 кВтч)</p>
 <hr>
 </section>
 <section id="энергопотребление" class="level2">
@@ -1218,31 +1269,36 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Движение пустой</td>
 <td>5 кВт</td>
-<td>10 часов (50 км)</td>
+<td>4 часа (20 км)</td>
 </tr>
 <tr class="even">
 <td>Движение с грузом (5 т)</td>
 <td>10 кВт</td>
-<td>5 часов (25 км)</td>
+<td>2 часа (10 км)</td>
 </tr>
 <tr class="odd">
 <td>Погрузка/разгрузка</td>
 <td>3 кВт</td>
-<td>16 часов</td>
+<td>6 часов</td>
 </tr>
 <tr class="even">
 <td>Простой</td>
 <td>0.5 кВт</td>
-<td>100 часов</td>
+<td>40 часов</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Запас хода:</strong> - Без груза: 50 км - С грузом 5 т: 25 км</p>
+<p><strong>Запас хода:</strong> - Без груза: 20 км - С грузом 5 т: 10 км</p>
 <hr>
 </section>
 <section id="обслуживание" class="level2">
 <h2 class="anchored" data-anchor-id="обслуживание">Обслуживание</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 37%">
+<col style="width: 35%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Операция</th>
@@ -1252,9 +1308,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Замена смазки MoS₂ в подшипниках</td>
-<td>1 месяц</td>
-<td>Кентавр-М</td>
+<td>Перепокрытие MoS₂ в подшипниках колёс</td>
+<td>3-6 месяцев</td>
+<td>Магнетронная станция + Кентавр-М</td>
 </tr>
 <tr class="even">
 <td>Калибровка сенсоров</td>
@@ -1328,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><a href="../../../../../ru/science/detailed/robots/overview.html">Производство роботов</a> — обзор производства</li>
 <li><a href="../../../../../ru/science/detailed/robots/elements/frames.html">Изготовление рам</a> — рама Краб-М</li>
-<li><a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a> — NaS 50 кВтч</li>
+<li><a href="../../../../../ru/science/detailed/robots/elements/batteries.html">Производство батарей</a> — NaS 20 кВтч</li>
 <li><a href="../../../../../ru/science/detailed/robots/elements/actuators.html">Актуаторы</a> — приводы колёс</li>
 <li><a href="../../../../../ru/science/detailed/robots/assembly/centaurs.html">Сборка Кентавр-М</a> — робот-манипулятор</li>
 <li><a href="../../../../../ru/science/detailed/robots/assembly/moles.html">Сборка Крот-М</a> — робот-экскаватор</li>

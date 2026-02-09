@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>washington-wall – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/book/07-washington-wall/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/book/07-washington-wall/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/science/index.html"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-washington-wall" id="toc-the-washington-wall" class="nav-link active" data-scroll-target="#the-washington-wall">The Washington Wall</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="the-washington-wall" class="level1">
+<h1>The Washington Wall</h1>
+<p><strong>Washington. United States National Security Council. Morning.</strong></p>
+<p>Michael Chen stood by the screen, and the folder in his hands weighed a ton. Three years in the Office of the Director of National Intelligence, two promotions, impeccable reputation—and here he was, in the briefing room on the first basement floor, where the air conditioning hummed so quietly you could hear your own heartbeat.</p>
+<p>Around the oval table sat people whose names he’d only seen in service memos. Council Chairman Robert McGuire—gray-haired, with military bearing, staring unblinking like someone accustomed to making decisions on which lives depend. Next to him—Howard Stern, chief legal counsel, heavyset, in glasses with thick frames; he was already wiping his forehead with a handkerchief, though the room was cool. Elizabeth Cole, director of science, sat straight, glasses on a thin chain glinting in the lamplight—she drummed her fingers on the table, and this rhythm grated on Michael’s nerves.</p>
+<p>In the far corner, almost in shadow, sat a man Michael recognized from photographs: General William Parker, Deputy Secretary of Defense. He hadn’t uttered a word or moved the entire time.</p>
+<p>The screen behind Michael glowed white. Slides without logos, only black headlines: “General Architecture Overview,” “Safety Interlocks,” “Replication and Verification.” Simple agenda: what exactly are the Russians building, how feasible is it, and what should America do.</p>
+<p>Michael cleared his throat. His voice sounded steadier than he expected.</p>
+<p>“The source materials didn’t come as a leak—this isn’t a flash drive from a hallway. Package prepared by our network in Russia: code listings, schematics, and meeting notes from two independent sources. Confirmations—Kazakh channel on logistics and Indian technical verification through academic connections.”</p>
+<p>McGuire tilted his head slightly—the only sign of attention.</p>
+<p>“How much do we trust this data?”</p>
+<p>The National Geospatial-Intelligence Agency representative—a thin man with a tired face—answered before Michael could open his mouth:</p>
+<p>“We verified through independent sources. Satellite imagery, open purchases, supply tracing. On Gansu we can see: some equipment already en route. Architecture from documents matches what they discussed in Moscow and Delhi.” He paused, leafing through his notes. “India and China are in. Iran and DPRK providing capacity. About seven countries total at various readiness stages.”</p>
+<p>Michael switched slides. A block diagram appeared on screen: main node—orbital receiver-distributor in geostationary orbit. Energy arrives there, from there goes to ground stations. No direct transmission to surface. Separately—circuit “Mercury: mass delivery / electromagnetic accelerator.”</p>
+<p>The Energy Department advisor—a woman around fifty with a short haircut—turned a page in her folder. The smell of coffee from her thermos reached Michael, and he suddenly realized how thirsty he was.</p>
+<p>“Moscow’s key engineering claim—‘no physical capability to direct beam to surface,’” she said. “Documents describe dual interlocks: technical limitation on targeting angle and hard binding to orbital node. Without support node the system is blind. We recalculated the geometry—it checks out.”</p>
+<p>“What if they disable the interlocks?” This was the first question from one of the military personnel sitting closer to the door.</p>
+<p>The energy advisor shook her head.</p>
+<p>“Then it’s a control question. Materials describe autonomous replication and verification algorithms in critical loops. They make the system more resilient, eliminate single points of failure.” She checked her notes. “We sent the package to Sandia and Los Alamos. Preliminary—physics checks out, stability above average. Problem areas not in hardware but in people: access, procedures, accountability.”</p>
+<p>McGuire tapped his pencil on the table—once, quietly.</p>
+<p>“Conclusion?”</p>
+<p>Michael understood this was his line. He straightened.</p>
+<p>“This isn’t fantasy. This is an engineering design close to public phase. BRICS summit—on the horizon.”</p>
+<p>A thin folder landed on the table—“Technical Assessment (Official Use)”: diagrams, excerpts from targeting protocols, standards compliance table. McGuire didn’t even glance at it.</p>
+<p>The break lasted twenty minutes. Michael drank two glasses of water from the hallway cooler and ate a chocolate bar from the vending machine. His hands still trembled slightly—not from fear, from adrenaline. He’d managed. Hadn’t embarrassed himself. Data taken seriously.</p>
+<p>But the main thing lay ahead.</p>
+<p><strong>Same day. Closed meeting.</strong></p>
+<p>The room changed, but the atmosphere remained. No windows. Air conditioning hum slightly louder. Paper folders laid out identically, like cards before a poker game. Michael sat by the wall, no longer at the screen—now he was observer, not presenter. This wasn’t the “decision room”—this was the “procedures room,” and he felt the difference.</p>
+<p>Elizabeth Cole stopped drumming her fingers and clasped her hands on the table.</p>
+<p>“The physics all checks out. If we stay on the sidelines, we drop out of the future energy standard—for decades.” She looked directly at McGuire. “We need at least access to interlock documentation and safety protocols. And our own program so we don’t lose engineers.”</p>
+<p>The Deputy National Security Advisor—a thin woman with sharp features—answered without pause:</p>
+<p>“Risk isn’t in energy transmission technology but in people. We’d join—but won’t pass committees without veto power on critical decisions.” She spoke evenly, almost mechanically, like a recorder. “While the machine doesn’t allow—we work through deterrence: export lists, supply chains, finance, diplomacy. We’re talking about rules and coalitions, not sabotage.”</p>
+<p>The NASA representative—a man past middle age with tired eyes—rubbed the bridge of his nose and spoke more quietly than the others:</p>
+<p>“We can verify their calculations, but only unofficially, without public participation. Recalculate models, give honest assessment.” He spread his hands. “Officially—Congress won’t pass it.”</p>
+<p>Howard Stern folded his hands on the folder. His fingers were short and thick, and Michael somehow thought this man had never run in his life.</p>
+<p>“Critical technology transfer prohibited in both directions,” the lawyer said. “Even if we find loopholes—lawmakers will tear us apart. I’ve seen how this happens. Seen it many times.”</p>
+<p>Three sheets lay on the table. On one—“Beam Solar Energy Transmission.” On another—“Mass Electromagnetic Accelerator.” On the third—“Strategic Stability.” Michael looked at them and thought: three sheets of paper, and behind them—a generation’s fate.</p>
+<p>Elizabeth Cole shrugged.</p>
+<p>“We don’t say ‘no’ to science. We say ‘no’ to politics.”</p>
+<p>“And politics is also physics,” someone from the far end of the table pronounced, and Michael caught a shadow of a smile. “Inertia, friction, material resistance.”</p>
+<p>Stern cleared his throat.</p>
+<p>“Bottom line is clear. We’d like to join. But the machine doesn’t allow it.”</p>
+<p>McGuire swept the table with his gaze. Slowly, like a searchlight.</p>
+<p>“Concrete steps?”</p>
+<p>The deputy advisor enumerated—all in the same even tone, as if reading from a sheet:</p>
+<p>“Guarantees required: independent audit of interlocks, physically impossible direct surface transmission, control of targeting points. While we can’t join—we work from outside: track supply chain bottlenecks, money flows, pressure intermediaries. And launch our own program—so we have something to negotiate with if a window opens.”</p>
+<p>Stern added—in the tone of a lecturer accustomed to explaining the obvious:</p>
+<p>“Export restrictions: radio-frequency tracts, precision drives, radio-transparent materials. Coordination with Tokyo and Seoul—without them the effect is weak. Publicly—pause; in communications only: ‘monitoring,’ ‘welcoming science,’ ‘concerned about risks.’”</p>
+<p>McGuire tapped his pencil—twice this time.</p>
+<p>“One more thing. Information field. They’ll go through the population: cheap energy, clean planet, end of poverty. Beautiful pictures, viral stories. And through international platforms.”</p>
+<p>The press office director—young for his position, in an expensive suit—raised his eyes from the tablet:</p>
+<p>“Already happening. There’ll be a powerful campaign for global participation—initiative benefits every person on Earth, and they’ll use this. Pressure on governments will come from below: ‘why aren’t we participating?’”</p>
+<p>“What can we do?”</p>
+<p>The deputy advisor shook her head.</p>
+<p>“Silencing won’t work. This benefits every person on the planet—this isn’t propaganda, it’s truth. We need an alternative, not censorship.”</p>
+<p>“SunGrid,” Elizabeth Cole said, and something living appeared in her for the first time. “We’re already running calculations. Our own orbital infrastructure, our own safety standards, transparent management. If we accelerate the program, in two to three years we reach demonstration phase.”</p>
+<p>McGuire raised his eyes from notes. His eyes were cold and clear.</p>
+<p>“So we don’t fight their pictures—we show our own. American program safer, under democratic oversight, open to allies. That’s our message.”</p>
+<p>Stern settled deeper in his chair. Leather creaked under his weight.</p>
+<p>“They say: ‘infrastructure for all humanity.’” He wiped his forehead with a handkerchief, folded it neatly and put it in his pocket. “But in forty years in this business I haven’t seen anything truly joint. Someone’s always at the helm. UN—not at the helm. International treaties—paper. At the helm is whoever built it, whoever services it, whoever holds the keys.”</p>
+<p>Cole nodded.</p>
+<p>“Internet was also ‘for everyone.’ Open protocols, free access, humanity’s benefit. Then it turned out servers stand in specific countries, cables go through specific points, and whoever owns the infrastructure—owns the information. With energy it’ll be the same, only stakes higher.”</p>
+<p>The deputy advisor added:</p>
+<p>“We don’t believe in absence of ownership. This isn’t ideology—it’s experience. Every time someone said ‘this belongs to everyone,’ a generation later it turned out it belongs to someone specific. Soviet Union said ‘people’s’—but the nomenklatura managed it.” She spoke louder, and Michael understood this was important to her. “We prefer honest competition: two standards better than one ‘common’ one actually controlled by Moscow or Beijing.”</p>
+<p>McGuire paused, looking at the corner of the room—where there was nothing but wall.</p>
+<p>“Suppose their intentions are pure. Suppose today this really is a joint endeavor.” His voice became quieter, and everyone leaned forward to hear. “But infrastructure will stand a hundred years. In a hundred years governments change, alliances, interests. Who guarantees that in twenty years ‘joint’ won’t become an instrument of pressure? We can’t build strategy on trust in promises.”</p>
+<p>Cole brought the conversation to practice—her element.</p>
+<p>“Without private sector we won’t make it. Government has neither rockets nor factories nor engineers in necessary quantities. All this—with companies that spent last twenty years building commercial space. We need everyone: who flies to orbit, who produces solar panels, who makes composite materials, who builds ground stations.”</p>
+<p>The deputy advisor agreed:</p>
+<p>“Contracts and national objective—like in the sixties. When Kennedy said ‘Moon in ten years,’ entire industry restructured. Now we need the same: long-term contracts, guaranteed market, access to government labs. Private sector will go where there’s money and ambition.”</p>
+<p>McGuire wrote something in his notebook—three words, no more.</p>
+<p>“Commerce Department—list of first-tier companies. Not just space: energy, materials, telecom, construction. Pentagon—assessment of who among them already works with us on classified programs. Treasury—financing models: public-private partnership, guaranteed purchases, tax breaks.”</p>
+<p>Stern drew the line—he loved drawing lines.</p>
+<p>“Ultimately this is a question of faith. They believe you can build something unified for all humanity. We believe competition more reliable than cooperation.” He drummed fingers on the folder. “Perhaps they’re right. But we can’t afford to test this with our own energy security.”</p>
+<p>The intelligence representative—not Michael, another, older one—pushed away his empty cup and raised his hand.</p>
+<p>“Competition is good. But let’s be honest: space isn’t infinite.” He spoke slowly, weighing each word. “On Mercury there are two dozen craters with eternal shadow—there’s ice there, without which long-term presence is impossible. Points for mass driver with correct angle to ecliptic—maybe five or six on the whole planet. Orbital slots over major markets—limited number. If we build our own—we’re chasing the same places.”</p>
+<p>Stern picked up:</p>
+<p>“And there’s no arbiter. Outer Space Treaty of sixty-seven—about weapons and nuclear tests, not about resources. Whoever puts infrastructure first—de facto owns it. Not legally, but practically. If they’re already on Mercury—we’ll have to either settle for worse locations or go into direct confrontation.”</p>
+<p>And then General Parker spoke.</p>
+<p>Michael saw how it happened: the man who’d sat motionless the entire hour leaned forward slightly. Someone froze with cup at mouth. Stern stopped wiping his forehead. Even the air conditioner seemed to quiet.</p>
+<p>“Let’s call things by their names.” The general’s voice was low and calm, like someone accustomed to giving orders that get executed. “If two programs compete for the same points—this is potential military conflict. Not tomorrow, but in ten to fifteen years, when infrastructure becomes critical.” He swept the table with his gaze, and Michael felt a cold unrelated to air conditioning. “We must either agree on division in advance, or prepare for escalation. There’s no third option.”</p>
+<p>Silence lasted three seconds. Michael counted.</p>
+<p>McGuire set down his pencil.</p>
+<p>“Can we agree on division?”</p>
+<p>Stern shook his head. His face was serious, without a shadow of irony.</p>
+<p>“With whom? They say: ‘for all humanity.’ If we propose division—we acknowledge it’s not for everyone. Then why should they share? They’ll say: join our ‘joint’ endeavor. And that’s exactly what we don’t want.”</p>
+<p>McGuire pronounced this word as if stamping a document:</p>
+<p>“So, a race.”</p>
+<p>Michael looked at faces around the table. No one objected. No one sighed. The decision was made—not by vote, not by discussion, but by simple statement of fact. This is probably how world-changing decisions are made: not with fanfare, but with quiet tap of pencil on table.</p>
+<p>“Whoever occupies key points first—defines the rules.” McGuire turned to Cole. “How much time do we have?”</p>
+<p>“By our estimates, three to five years until first permanent installations on Mercury. If we don’t start now—we’ll be late by a generation.”</p>
+<p>The press office director raised his hand.</p>
+<p>“There’s another problem. If we build our own program—to the world this looks like a split. They say: ‘for all humanity.’ And we refuse and do our own. In public eyes we’re—selfish, unwilling to share.”</p>
+<p>“Need to flip the narrative,” the deputy advisor said. “Not ‘we refused joint,’ but ‘they stole our idea and built a closed club.’ We were first working on wireless energy transmission—NASA, laboratories, private companies. They took our developments and made a system where we’re not allowed. We’re not splitters—we’re victims.”</p>
+<p>The press office director nodded, making notes in tablet.</p>
+<p>“And this must work not only for Americans. For the whole planet. Europe, Latin America, Africa—they must see: there are two programs, and American one—open, transparent, with democratic oversight. And their initiative—beautiful words, but in fact levers with Moscow and Beijing. We need a global campaign, not domestic.”</p>
+<p>“What about Europe?”</p>
+<p>Stern turned a page in his folder.</p>
+<p>“Brussels hesitates. Want cheap energy but fear dependence—both on Moscow and Beijing. If we offer participation in SunGrid at early stage, there’s a chance—”</p>
+<p>McGuire interrupted—he didn’t like unfinished sentences:</p>
+<p>“What ‘hesitates’? They’re still our allies. At minimum. For now.” He leaned forward, and words sounded harder. “Press them. Remind who’s held their security umbrella last seventy years. Offer participation in SunGrid—and explain that alternative means dependence on Moscow and Beijing. Let them choose.”</p>
+<p>He straightened and spoke as people speak who are accustomed to their words being recorded:</p>
+<p>“Decision. Engagement in their initiative—not yet. We take competition and race. SunGrid as alternative, Europe as ally. Commerce Department—package on supply bottlenecks and first-tier company list. Energy Department—acceleration of own program, priority—key points on Mercury. NASA and national labs—timeline assessment: how much time we have before they occupy best locations. Pentagon—escalation scenarios and response options. State Department—work with Brussels and international coalition preparation. Press office—global campaign: we’re open system, they’re closed club. Start before BRICS summit.”</p>
+<p>People stood, gathered folders. No one spoke aloud—after such meetings you don’t speak. Stern rose heavily, leaning on table. Cole was already typing something on phone. General Parker left first, without looking back.</p>
+<p>Michael remained sitting. He looked at empty chairs, at scattered sheets of paper, at screen that hadn’t gone dark. He’d just seen how a decision that will change the world is made. No one shouted. No one slammed fist on table. Just words pronounced in a cool room without windows.</p>
+<p><em>A race,</em> he thought. <em>We called it a race. And races have a property of ending.</em></p>
+<p>He stood and left last, turning off the light behind him.</p>
+<p>At night in Goddard and Sandia they recalculated others’ formulas again: thermal balances, launch windows, node deformations. “Physics checks out,” they wrote in summary. Next to it—pencil note: “human factor.”</p>
+<p>By week’s end Congressional committee requested service memos for possible hearing. In press—silence. “Wall” remained where it was: in procedures.</p>
+<p>And Michael Chen long remembered General Parker’s voice and the three seconds of silence that followed.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

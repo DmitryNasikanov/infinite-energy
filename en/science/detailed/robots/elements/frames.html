@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Robot Frame Manufacturing – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Robot Frame Manufacturing – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -831,7 +881,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <ul class="collapse">
   <li><a href="#frame-print-time" id="toc-frame-print-time" class="nav-link" data-scroll-target="#frame-print-time">Frame Print Time</a></li>
   </ul></li>
-  <li><a href="#cnc-machining-of-mounting-surfaces" id="toc-cnc-machining-of-mounting-surfaces" class="nav-link" data-scroll-target="#cnc-machining-of-mounting-surfaces">CNC Machining of Mounting Surfaces</a></li>
+  <li><a href="#grinding-of-mounting-surfaces" id="toc-grinding-of-mounting-surfaces" class="nav-link" data-scroll-target="#grinding-of-mounting-surfaces">Grinding of Mounting Surfaces</a></li>
   <li><a href="#hybrid-feal-construction" id="toc-hybrid-feal-construction" class="nav-link" data-scroll-target="#hybrid-feal-construction">Hybrid Fe/Al Construction</a>
   <ul class="collapse">
   <li><a href="#option-a-sequential-printing" id="toc-option-a-sequential-printing" class="nav-link" data-scroll-target="#option-a-sequential-printing">Option A: Sequential Printing</a></li>
@@ -841,6 +891,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality Control</a></li>
   <li><a href="#power-consumption" id="toc-power-consumption" class="nav-link" data-scroll-target="#power-consumption">Power Consumption</a></li>
   <li><a href="#equipment-maintenance" id="toc-equipment-maintenance" class="nav-link" data-scroll-target="#equipment-maintenance">Equipment Maintenance</a></li>
+  <li><a href="#wiring-mi-cable" id="toc-wiring-mi-cable" class="nav-link" data-scroll-target="#wiring-mi-cable">Wiring: MI Cable</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   </ul>
 </nav>
@@ -872,7 +923,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Purpose:</strong> Structural frames for robots</li>
 <li><strong>Material:</strong> Hybrid Fe/Al (steel + aluminum)</li>
-<li><strong>Technology:</strong> WAAM 3D printing + CNC machining</li>
+<li><strong>Technology:</strong> WAAM 3D printing + abrasive grinding</li>
 <li><strong>Output:</strong> ~5 frames/day</li>
 </ul>
 </blockquote>
@@ -951,12 +1002,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Robot manipulator deposits wire layer by layer</td>
 </tr>
 <tr class="odd">
-<td>3. CNC Machining</td>
-<td>Milling of mounting surfaces, threaded holes</td>
+<td>3. Grinding</td>
+<td>Abrasive processing of mounting surfaces</td>
 </tr>
 <tr class="even">
 <td>4. Heat Treatment</td>
-<td>Stress relief (annealing)</td>
+<td>Stress relief: annealing 550-650°C, 1-2 hr/25 mm, in vacuum (natural)</td>
 </tr>
 <tr class="odd">
 <td>5. Quality Control</td>
@@ -992,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Shielding</td>
-<td>Argon (Ar)</td>
+<td>FCAW-S (self-shielded flux)</td>
 </tr>
 </tbody>
 </table>
@@ -1004,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <th>Robot Type</th>
 <th>Frame Mass</th>
 <th>WAAM Time</th>
-<th>CNC Time</th>
+<th>Grinding Time</th>
 <th>TOTAL</th>
 </tr>
 </thead>
@@ -1036,9 +1087,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <hr>
 </section>
 </section>
-<section id="cnc-machining-of-mounting-surfaces" class="level2">
-<h2 class="anchored" data-anchor-id="cnc-machining-of-mounting-surfaces">CNC Machining of Mounting Surfaces</h2>
-<p>After WAAM printing, the frame has a rough surface. Critical areas are machined on CNC.</p>
+<section id="grinding-of-mounting-surfaces" class="level2">
+<h2 class="anchored" data-anchor-id="grinding-of-mounting-surfaces">Grinding of Mounting Surfaces</h2>
+<p>After WAAM printing, the frame has a rough surface. Critical areas are processed by abrasive grinding.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1049,22 +1100,23 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Milling mounting surfaces</td>
-<td>Carbide end mill</td>
-<td>+/-0.05 mm</td>
+<td>Grinding mounting surfaces</td>
+<td>Al₂O₃ abrasive wheel</td>
+<td>+/-0.1 mm</td>
 </tr>
 <tr class="even">
 <td>Drilling holes</td>
-<td>Drill bit</td>
-<td>+/-0.1 mm</td>
+<td>Drill bit (Centaur-M robot)</td>
+<td>+/-0.2 mm</td>
 </tr>
 <tr class="odd">
 <td>Threading</td>
-<td>Tap</td>
+<td>Tap (Centaur-M robot)</td>
 <td>M6-M20</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Advantages of abrasive grinding:</strong> - No imported high-speed spindle required - Al₂O₃ (corundum) produced from regolith — unlimited supply - Same Centaur-M robot as for WAAM</p>
 <p><strong>Mounting points per frame:</strong> - Mole-M: ~50 (actuators, battery, electronics) - Crab-M: ~40 - Centaur-M: ~30</p>
 <hr>
 </section>
@@ -1115,11 +1167,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>~1.2 t</td>
 <td><a href="../../../../../en/science/detailed/materials/overview.html">Regolith Processing</a></td>
 </tr>
-<tr class="odd">
-<td>Argon (Ar)</td>
-<td>~10 kg</td>
-<td><strong>Import from Earth</strong></td>
-</tr>
 </tbody>
 </table>
 <p><strong>Consumption from daily production:</strong> - Fe: 2.5 t from 11 t/day = <strong>23%</strong> - Al: 1.2 t from 42 t/day = <strong>3%</strong></p>
@@ -1145,9 +1192,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Geometry</td>
-<td>CNC touch probe</td>
+<td>Touch probe</td>
 <td>+/-1 mm</td>
-<td>CNC rework</td>
+<td>Grinding rework</td>
 </tr>
 <tr class="odd">
 <td>Cracks</td>
@@ -1180,8 +1227,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>30 kW</td>
 </tr>
 <tr class="even">
-<td>CNC machines (2 units)</td>
-<td>40 kW</td>
+<td>Grinding cells (2 units)</td>
+<td>10 kW</td>
 </tr>
 <tr class="odd">
 <td>Heat treatment</td>
@@ -1189,7 +1236,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~90 kW</strong></td>
+<td><strong>~60 kW</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1212,7 +1259,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Centaur-M</td>
 </tr>
 <tr class="even">
-<td>CNC cutter replacement</td>
+<td>Abrasive wheel replacement</td>
 <td>1 week</td>
 <td>Centaur-M</td>
 </tr>
@@ -1228,6 +1275,39 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<hr>
+</section>
+<section id="wiring-mi-cable" class="level2">
+<h2 class="anchored" data-anchor-id="wiring-mi-cable">Wiring: MI Cable</h2>
+<p>Internal robot wiring and 10 kV power cables (Mole-M, Centaur-M) use MI cable (Mineral Insulated) — MgO insulation in a metal sheath.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Insulation</td>
+<td>MgO (magnesium oxide)</td>
+</tr>
+<tr class="even">
+<td>Sheath</td>
+<td>Stainless steel or Al</td>
+</tr>
+<tr class="odd">
+<td>Temperature range</td>
+<td>−200°C … +1000°C</td>
+</tr>
+<tr class="even">
+<td>All materials</td>
+<td>Local (Mg, O, Fe/Al)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advantages on Mercury:</strong> MgO is hygroscopic — on Earth this is a problem (moisture reduces insulation resistance). In Mercury’s vacuum — an advantage: no moisture, insulation resistance is maximized.</p>
+<p><strong>MI cable assembly bench:</strong> 15 m², 500 kg. Output up to 1500 m/day. Part of the F-R dome Forming zone.</p>
 <hr>
 </section>
 <section id="see-also" class="level2">

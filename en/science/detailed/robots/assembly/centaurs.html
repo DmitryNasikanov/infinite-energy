@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Centaur-M Assembly – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Centaur-M Assembly – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -830,7 +880,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#assembly-process" id="toc-assembly-process" class="nav-link" data-scroll-target="#assembly-process">Assembly Process</a>
   <ul class="collapse">
-  <li><a href="#assembly-line-10-stations-48-hours-per-station" id="toc-assembly-line-10-stations-48-hours-per-station" class="nav-link" data-scroll-target="#assembly-line-10-stations-48-hours-per-station">Assembly Line (10 stations, 48 hours per station)</a></li>
+  <li><a href="#assembly-line-10-stations-38-hours-per-station" id="toc-assembly-line-10-stations-38-hours-per-station" class="nav-link" data-scroll-target="#assembly-line-10-stations-38-hours-per-station">Assembly Line (10 stations, 38 hours per station)</a></li>
   </ul></li>
   <li><a href="#stage-1-frame-installation" id="toc-stage-1-frame-installation" class="nav-link" data-scroll-target="#stage-1-frame-installation">Stage 1: Frame Installation</a></li>
   <li><a href="#stage-2-chassis-mounting" id="toc-stage-2-chassis-mounting" class="nav-link" data-scroll-target="#stage-2-chassis-mounting">Stage 2: Chassis Mounting</a></li>
@@ -848,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#centaur-m-tools" id="toc-centaur-m-tools" class="nav-link" data-scroll-target="#centaur-m-tools">Centaur-M Tools</a>
   <ul class="collapse">
   <li><a href="#tig-welding-torch" id="toc-tig-welding-torch" class="nav-link" data-scroll-target="#tig-welding-torch">TIG Welding Torch</a></li>
-  <li><a href="#cnc-milling-head" id="toc-cnc-milling-head" class="nav-link" data-scroll-target="#cnc-milling-head">CNC Milling Head</a></li>
+  <li><a href="#grinding-head" id="toc-grinding-head" class="nav-link" data-scroll-target="#grinding-head">Grinding Head</a></li>
   <li><a href="#universal-gripper" id="toc-universal-gripper" class="nav-link" data-scroll-target="#universal-gripper">Universal Gripper</a></li>
   </ul></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See also</a></li>
@@ -881,17 +931,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Purpose:</strong> Manipulator robot for assembly and maintenance</li>
-<li><strong>Mass:</strong> ~370 kg</li>
-<li><strong>Battery:</strong> NaS 20 kWh + cable (optional)</li>
+<li><strong>Mass:</strong> ~380 kg</li>
+<li><strong>Battery:</strong> NaS 5 kWh + cable (optional)</li>
 <li><strong>Power:</strong> 5 kW</li>
-<li><strong>Assembly time:</strong> 48 hours per station</li>
+<li><strong>Assembly time:</strong> 38 hours per station</li>
 </ul>
 </blockquote>
 <hr>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>Centaur-M is a universal Gen-2 manipulator robot for precision operations: equipment assembly, welding, maintenance. Four-wheel platform with two 6-axis manipulators and a tool set.</p>
-<p><strong>Key feature:</strong> The lightest Gen-2 robot (370 kg), maximum aluminum fraction (62%) to reduce mass.</p>
+<p><strong>Key feature:</strong> The lightest Gen-2 robot (380 kg), maximum aluminum fraction (62%) to reduce mass.</p>
 <hr>
 </section>
 <section id="centaur-m-material-balance" class="level2">
@@ -913,9 +963,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../en/science/detailed/robots/elements/frames.html">Frame Manufacturing</a></td>
 </tr>
 <tr class="even">
-<td>Body, radiators, manipulators</td>
+<td>Body, radiators, manipulators, sensor housings</td>
 <td>Aluminum</td>
-<td>230 kg</td>
+<td>235 kg</td>
 <td><a href="../../../../../en/science/detailed/materials/distillation.html">Aluminum</a></td>
 </tr>
 <tr class="odd">
@@ -925,26 +975,27 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a></td>
 </tr>
 <tr class="even">
-<td>Actuators (12 pcs: 4 wheels + 2×6 manipulators)</td>
-<td>Fe + Al + NaK</td>
-<td>15 kg</td>
+<td>Actuators (16 pcs: 4 wheels + 2×4 direct-drive + 2×2 tendon)</td>
+<td>Fe + Al + NdFeB</td>
+<td>25 kg</td>
 <td><a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a></td>
 </tr>
 <tr class="odd">
-<td>Electronics</td>
+<td>Electronics (chips)</td>
 <td>—</td>
-<td>5 kg</td>
+<td>0.3 kg</td>
 <td><strong>Import from Earth</strong></td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
 <td>—</td>
-<td><strong>~370 kg</strong></td>
-<td><strong>~99% local</strong></td>
+<td><strong>~380 kg</strong></td>
+<td><strong>&gt;99% local</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Material distribution:</strong> - Iron (Fe): 80 kg = <strong>22%</strong> - Aluminum (Al): 230 kg = <strong>62%</strong> - Sodium + Sulfur: 40 kg = <strong>11%</strong> - Import: 5 kg = <strong>1%</strong></p>
+<p><strong>Material distribution:</strong> - Iron (Fe): 80 kg = <strong>22%</strong> - Aluminum (Al): 235 kg = <strong>63%</strong> - Sodium + Sulfur: 40 kg = <strong>11%</strong> - Actuators: 25 kg = <strong>7%</strong> - Import (chips): 0.3 kg = <strong>&lt;0.1%</strong></p>
+<p><em>Electronics 5 kg = chips 0.3 kg (import) + camera/lidar housings, cables ~4.7 kg (Al, local)</em></p>
 <hr>
 </section>
 <section id="design" class="level2">
@@ -1003,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Positioning accuracy</td>
-<td>±0.5 mm</td>
+<td>±2 mm</td>
 </tr>
 <tr class="even">
 <td>Movement speed</td>
@@ -1015,14 +1066,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Tools (interchangeable attachments):</strong> - TIG welding torch (vacuum, no gas required) - CNC milling head (mobile) - Universal gripper (electromechanical) - Torque-adjustable screwdriver - 3D laser scanner</p>
+<p><em>±0.5 mm achievable in controlled conditions (under dome, on cable). On open ground — ±2 mm due to thermal deformation.</em></p>
+<p><strong>Tools (interchangeable attachments):</strong> - TIG welding torch (vacuum, no gas required) - Grinding head (abrasive Al₂O₃) - Universal gripper (electromechanical) - Torque-adjustable screwdriver - 3D laser scanner</p>
 <hr>
 </section>
 </section>
 <section id="assembly-process" class="level2">
 <h2 class="anchored" data-anchor-id="assembly-process">Assembly Process</h2>
-<section id="assembly-line-10-stations-48-hours-per-station" class="level3">
-<h3 class="anchored" data-anchor-id="assembly-line-10-stations-48-hours-per-station">Assembly Line (10 stations, 48 hours per station)</h3>
+<section id="assembly-line-10-stations-38-hours-per-station" class="level3">
+<h3 class="anchored" data-anchor-id="assembly-line-10-stations-38-hours-per-station">Assembly Line (10 stations, 38 hours per station)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
@@ -1059,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>4</td>
-<td>NaS battery installation (20 kWh)</td>
+<td>NaS battery installation (5 kWh)</td>
 <td>2 hours</td>
 <td>1 Centaur-M</td>
 </tr>
@@ -1090,7 +1142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>9</td>
 <td>Manipulator calibration and testing</td>
-<td>14 hours</td>
+<td>4 hours</td>
 <td>Automated</td>
 </tr>
 <tr class="even">
@@ -1102,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>48 hours</strong></td>
+<td><strong>38 hours</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -1112,15 +1164,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="stage-1-frame-installation" class="level2">
 <h2 class="anchored" data-anchor-id="stage-1-frame-installation">Stage 1: Frame Installation</h2>
-<p><strong>Centaur-M Frame:</strong> - Mass: ~310 kg (80 kg Fe + 230 kg Al) - Design: Lightweight aluminum frame with steel load-bearing nodes - Production: <a href="../../../../../en/science/detailed/robots/elements/frames.html">WAAM 3D printing</a></p>
+<p><strong>Centaur-M Frame:</strong> - Mass: ~320 kg (70 kg Fe + 200 kg Al + 50 kg other) - Design: Lightweight aluminum frame with steel load-bearing nodes - Production: <a href="../../../../../en/science/detailed/robots/elements/frames.html">WAAM 3D printing</a></p>
 <p><strong>Process:</strong> 1. Crane lifts frame from conveyor 2. Frame installed on assembly jig 3. Fixed on 4 supports 4. Geometry verification (laser scanner)</p>
 <hr>
 </section>
 <section id="stage-2-chassis-mounting" class="level2">
 <h2 class="anchored" data-anchor-id="stage-2-chassis-mounting">Stage 2: Chassis Mounting</h2>
-<p><strong>4 wheels:</strong> - Diameter: Ø0.8 m - Material: Aluminum (rim) + rubber (tread, imported) - Drive: Electric motors 2 kW × 4 = 8 kW total</p>
+<p><strong>4 wheels:</strong> - Diameter: Ø1.2 m (unified with Mole-M/Crab-M) - Width: 0.6 m - Material: Al rim + Fe-6%Mn band (local) - Drive: Electric motors 2 kW × 4 = 8 kW + <a href="../../../../../en/science/detailed/robots/elements/actuators.html#electric-actuators">cycloidal gearbox</a> 1:20</p>
 <p><strong>Suspension:</strong> - Independent on each wheel - Hydraulic shock absorbers (NaK) - Suspension travel: ±150 mm</p>
-<p><strong>Process:</strong> 1. Install 4 hubs on frame (M16 bolts) 2. Mount drive electric motors 3. Install wheels 4. Alignment adjustment</p>
+<p><strong>Process:</strong> 1. Install 4 hubs on frame (M16 bolts) 2. Mount 2 kW electric motors with cycloidal gearboxes 1:20 3. Install wheels 4. Alignment adjustment</p>
 <hr>
 </section>
 <section id="stage-3-body-and-radiator-installation" class="level2">
@@ -1132,7 +1184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="stage-4-nas-battery-installation" class="level2">
 <h2 class="anchored" data-anchor-id="stage-4-nas-battery-installation">Stage 4: NaS Battery Installation</h2>
-<p><strong>NaS Battery 20 kWh:</strong> - Mass: 40 kg - Voltage: 200 V (100 cells × 2 V) - Placement: Center of gravity (under platform)</p>
+<p><strong>NaS Battery 5 kWh:</strong> - Mass: 40 kg - Voltage: 200 V (100 cells × 2 V) - Placement: Center of gravity (under platform)</p>
 <p><strong>Optional cable:</strong> - For factory work, Centaur-M can operate from cable (10 kV) - Cable reel on body (50 m) - Automatic rewind on return</p>
 <p><strong>Process:</strong> 1. Lift battery with crane 2. Install in battery compartment 3. Connect power cables (M8 bolts) 4. Connect battery management system (BMS)</p>
 <p><strong>Details:</strong> <a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a></p>
@@ -1141,7 +1193,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="stage-5-manipulator-mounting" class="level2">
 <h2 class="anchored" data-anchor-id="stage-5-manipulator-mounting">Stage 5: Manipulator Mounting</h2>
 <p><strong>2 manipulators with 6 axes:</strong></p>
-<p><strong>Installation process:</strong> 1. Mount manipulator base on frame (M20 bolts) 2. Install 6 manipulator links (each link — 200 mm) 3. Connect 6 electric actuators (1 per axis) 4. Route power and signal cables through manipulator 5. Install interchangeable attachment (TIG torch by default)</p>
+<ul>
+<li>Joints 1-4: <a href="../../../../../en/science/detailed/robots/elements/actuators.html#electric-actuators">direct-drive</a> (NdFeB magnets, import) — zero backlash, zero gearbox maintenance</li>
+<li>Joints 5-6 (wrist): <a href="../../../../../en/science/detailed/robots/elements/actuators.html#electric-actuators">tendon drives</a> — motor on body, wire through pulleys (100% local materials)</li>
+</ul>
+<p><strong>Installation process:</strong> 1. Mount manipulator base on frame (M20 bolts) 2. Install 6 manipulator links (each link — 200 mm) 3. Install 4 direct-drive motors (joints 1-4) + 2 tendon drives (joints 5-6) 4. Route power and signal cables through manipulator 5. Install interchangeable attachment (TIG torch by default)</p>
 <p><strong>Time:</strong> 12 hours for 2 manipulators (most labor-intensive stage)</p>
 <p><strong>Details:</strong> <a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a></p>
 <hr>
@@ -1184,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Manipulator calibration</td>
 <td>Set zero positions for all 12 axes</td>
-<td>Accuracy ±0.5 mm</td>
+<td>Accuracy ±2 mm</td>
 </tr>
 <tr class="even">
 <td>Movement</td>
@@ -1194,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Load pickup</td>
 <td>Lift 50 kg at 1 m distance</td>
-<td>Position accuracy ±1 mm</td>
+<td>Position accuracy ±3 mm</td>
 </tr>
 <tr class="even">
 <td>TIG welding</td>
@@ -1204,7 +1260,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Battery</td>
 <td>Full charge/discharge cycle</td>
-<td>Capacity &gt;18 kWh</td>
+<td>Capacity &gt;4.5 kWh</td>
 </tr>
 <tr class="even">
 <td>Autonomy</td>
@@ -1213,13 +1269,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Duration:</strong> 14 hours (manipulator calibration takes significant time)</p>
+<p><strong>Duration:</strong> 4 hours (automated calibration with laser scanner)</p>
 <hr>
 </section>
 <section id="stage-10-initial-charging" class="level2">
 <h2 class="anchored" data-anchor-id="stage-10-initial-charging">Stage 10: Initial Charging</h2>
-<p><strong>Charging Station:</strong> - Voltage: 200 V - Current: 25 A - Full charge time: 4 hours (20 kWh / 5 kW)</p>
-<p><strong>Process:</strong> 1. Connect to charging station 2. Activate battery (first cycle at 350°C) 3. Full charge 4. Capacity verification (must be &gt;18 kWh)</p>
+<p><strong>Charging Station:</strong> - Voltage: 200 V - Current: 25 A - Full charge time: 1 hour (5 kWh / 5 kW)</p>
+<p><strong>Process:</strong> 1. Connect to charging station 2. Activate battery (first cycle at 350°C) 3. Full charge 4. Capacity verification (must be &gt;4.5 kWh)</p>
 <hr>
 </section>
 <section id="power-consumption" class="level2">
@@ -1236,31 +1292,34 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Movement</td>
 <td>2 kW</td>
-<td>10 hours (50 km)</td>
+<td>2.5 hours (12 km)</td>
 </tr>
 <tr class="even">
 <td>Manipulator work (positioning)</td>
 <td>1 kW</td>
-<td>20 hours</td>
+<td>5 hours</td>
 </tr>
 <tr class="odd">
 <td>TIG welding</td>
 <td>5 kW</td>
-<td>4 hours</td>
+<td>cable only</td>
 </tr>
 <tr class="even">
-<td>CNC milling</td>
+<td>Abrasive grinding</td>
 <td>3 kW</td>
-<td>6 hours</td>
+<td>cable only</td>
 </tr>
 <tr class="odd">
 <td>Idle</td>
 <td>0.2 kW</td>
-<td>100 hours</td>
+<td>25 hours</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Range:</strong> - Movement: 50 km - Manipulator work: 20 hours - Welding: 4 hours</p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Energy-intensive operations (TIG welding, grinding) are performed on cable power in factory conditions. The 5 kWh battery is designed for transit between facilities and manipulator positioning.</p>
+</blockquote>
+<p><strong>Range (on battery):</strong> - Movement: 12 km - Manipulator work: 5 hours</p>
 <hr>
 </section>
 <section id="maintenance" class="level2">
@@ -1280,9 +1339,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>MoS₂ lubricant replacement in manipulators</td>
-<td>1 month</td>
-<td>Another Centaur-M</td>
+<td>MoS₂ joint bearing recoating</td>
+<td>3-6 months</td>
+<td>Magnetron station + another Centaur-M</td>
 </tr>
 <tr class="even">
 <td>Manipulator calibration</td>
@@ -1327,8 +1386,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>20%</td>
 </tr>
 <tr class="odd">
-<td>CNC machining</td>
-<td>Milling mounting surfaces</td>
+<td>Grinding</td>
+<td>Abrasive processing of mounting surfaces</td>
 <td>15%</td>
 </tr>
 <tr class="even">
@@ -1377,8 +1436,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 </section>
-<section id="cnc-milling-head" class="level3">
-<h3 class="anchored" data-anchor-id="cnc-milling-head">CNC Milling Head</h3>
+<section id="grinding-head" class="level3">
+<h3 class="anchored" data-anchor-id="grinding-head">Grinding Head</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1393,15 +1452,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Rotation speed</td>
-<td>10,000 rpm</td>
+<td>3,000-6,000 rpm</td>
 </tr>
 <tr class="odd">
-<td>Cutter</td>
-<td>Si₃N₄ ceramic</td>
+<td>Abrasive</td>
+<td>Al₂O₃ (corundum, local)</td>
 </tr>
 <tr class="even">
 <td>Application</td>
-<td>Mounting surface machining</td>
+<td>Mounting surface processing</td>
 </tr>
 </tbody>
 </table>
@@ -1438,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><a href="../../../../../en/science/detailed/robots/overview.html">Robot Production</a> — production overview</li>
 <li><a href="../../../../../en/science/detailed/robots/elements/frames.html">Frame Manufacturing</a> — lightweight Al frame for Centaur-M</li>
-<li><a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a> — NaS 20 kWh</li>
+<li><a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a> — NaS 5 kWh</li>
 <li><a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a> — 12 electric actuators for manipulators</li>
 <li><a href="../../../../../en/science/detailed/robots/assembly/crabs.html">Crab-M Assembly</a> — logistics robot</li>
 <li><a href="../../../../../en/science/detailed/robots/assembly/moles.html">Mole-M Assembly</a> — excavator robot</li>

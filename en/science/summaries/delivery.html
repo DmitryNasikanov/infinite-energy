@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Delivery – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Delivery – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -835,9 +885,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <ul class="collapse">
   <li><a href="#vitamins" id="toc-vitamins" class="nav-link" data-scroll-target="#vitamins">Vitamins: Critical Imports</a>
   <ul class="collapse">
-  <li><a href="#permanent-imports-77-kgfactoryyear" id="toc-permanent-imports-77-kgfactoryyear" class="nav-link" data-scroll-target="#permanent-imports-77-kgfactoryyear">Permanent Imports (~77 kg/factory/year)</a></li>
-  <li><a href="#transitional-imports-gen-1-only-first-expedition" id="toc-transitional-imports-gen-1-only-first-expedition" class="nav-link" data-scroll-target="#transitional-imports-gen-1-only-first-expedition">Transitional Imports (Gen-1 only, first expedition)</a></li>
-  <li><a href="#localized-materials-formerly-imported" id="toc-localized-materials-formerly-imported" class="nav-link" data-scroll-target="#localized-materials-formerly-imported">Localized Materials (formerly imported)</a></li>
+  <li><a href="#permanent-imports-85-kgfactoryyear" id="toc-permanent-imports-85-kgfactoryyear" class="nav-link" data-scroll-target="#permanent-imports-85-kgfactoryyear">Permanent Imports (~85 kg/factory/year)</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#super-heavy-launch-vehicles" id="toc-super-heavy-launch-vehicles" class="nav-link" data-scroll-target="#super-heavy-launch-vehicles">Super-Heavy Launch Vehicles</a></li>
@@ -864,7 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#detailed-breakdown-by-category" id="toc-detailed-breakdown-by-category" class="nav-link" data-scroll-target="#detailed-breakdown-by-category">Detailed Breakdown by Category</a>
   <ul class="collapse">
-  <li><a href="#factories-230-t" id="toc-factories-230-t" class="nav-link" data-scroll-target="#factories-230-t">1. Factories (~230 t)</a></li>
+  <li><a href="#factories-305-t" id="toc-factories-305-t" class="nav-link" data-scroll-target="#factories-305-t">1. Factories (~305 t)</a></li>
   <li><a href="#mass-drivers-275-t" id="toc-mass-drivers-275-t" class="nav-link" data-scroll-target="#mass-drivers-275-t">2. Mass Drivers (~275 t)</a></li>
   <li><a href="#mirrors-1055-t" id="toc-mirrors-1055-t" class="nav-link" data-scroll-target="#mirrors-1055-t">3. Mirrors (~1,055 t)</a></li>
   <li><a href="#robots-775-t" id="toc-robots-775-t" class="nav-link" data-scroll-target="#robots-775-t">4. Robots (~775 t)</a></li>
@@ -901,8 +949,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>Total imports:</strong> ~2,400 t over ~11 years (Moon 80 t + Mercury 2,325 t)</li>
-<li><strong>Localization:</strong> 96% of mass produced locally (NaS capacitors, housings, heatsinks)</li>
+<li><strong>Total imports:</strong> ~2,480 t over ~11 years (Moon 80 t + Mercury ~2,400 t)</li>
+<li><strong>Localization:</strong> 99.998% of mass produced locally (mirrors, MDs, factories, robots)</li>
 <li><strong>Launch vehicles:</strong> <a href="https://en.wikipedia.org/wiki/SpaceX_Starship">Starship</a> (USA), <a href="https://en.wikipedia.org/wiki/Long_March_9">Long March 9</a> (China), <a href="https://en.wikipedia.org/wiki/Yenisei_(rocket)">Yenisei</a> (Russia)</li>
 <li><strong>Launch rate:</strong> ~15-30 launches/year at peak (1 spaceport sufficient)</li>
 <li><strong>Delivery cost:</strong> $8-15 billion (instead of $80+ billion without localization)</li>
@@ -1008,8 +1056,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>E1</td>
 <td>6</td>
-<td>75 t</td>
-<td>Test: 1 factory + 1 Mass Driver</td>
+<td>150 t</td>
+<td>2 factories + 2 Mass Drivers</td>
 </tr>
 <tr class="even">
 <td>E2</td>
@@ -1101,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Peak:</strong> 15-30 launches/year = 1-2 launches/month globally.</p>
-<p><strong>Note:</strong> - Regular deliveries (years 7-15): ~2,185 t - Expeditions 1-2 (years 6-6.5): 140 t - <strong>Total to Mercury: ~2,325 t</strong> - <strong>Total launches (including expeditions and reserve): ~50-100</strong></p>
+<p><strong>Note:</strong> - Regular deliveries (years 7-15): ~2,185 t - Expeditions 1-2 (years 6-6.5): 215 t - <strong>Total to Mercury: ~2,400 t</strong> - <strong>Total launches (including expeditions and reserve): ~50-100</strong></p>
 <hr>
 </section>
 <section id="delivery-cost" class="level2">
@@ -1111,7 +1159,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="header">
 <th>Scenario</th>
 <th>$/kg to Mercury</th>
-<th>2,325 t</th>
+<th>~2,400 t</th>
 <th>Assumptions</th>
 </tr>
 </thead>
@@ -1149,7 +1197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
     subgraph "Phase 2 (Years 6-15): Mercury"
-        E2[Earth] --&gt;|"Rockets&lt;br&gt;~2,325 t"| M[Mercury]
+        E2[Earth] --&gt;|"Rockets&lt;br&gt;~2,400 t"| M[Mercury]
         M --&gt;|"MD 5 km/s"| R[Dyson Swarm]
     end
 
@@ -1188,7 +1236,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Earth to Mercury</td>
 <td>Factory and MD electronics</td>
-<td>~2,325 t</td>
+<td>~2,400 t</td>
 <td>Super-heavy lift vehicles</td>
 </tr>
 <tr class="odd">
@@ -1199,12 +1247,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Moon:</strong> <a href="../../../en/science/summaries/moon.html">LSP station</a> production from local resources (regolith to aluminum, silicon). Only “Vitamins” delivered from Earth — electronics, optics, rare materials. Production details: <a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a>.</p>
+<p><strong>Moon:</strong> <a href="../../../en/science/detailed/hub.html">LSP station</a> production from local resources (regolith to aluminum, silicon). Only “Vitamins” delivered from Earth — electronics, optics, rare materials. Production details: <a href="../../../en/science/detailed/factories/overview.html">Ground Zero Factory</a>.</p>
 <section id="vitamins" class="level2">
 <h2 class="anchored" data-anchor-id="vitamins">Vitamins: Critical Imports</h2>
 <p>Vitamins are materials that cannot or should not be produced on Mercury.</p>
-<section id="permanent-imports-77-kgfactoryyear" class="level3">
-<h3 class="anchored" data-anchor-id="permanent-imports-77-kgfactoryyear">Permanent Imports (~77 kg/factory/year)</h3>
+<section id="permanent-imports-85-kgfactoryyear" class="level3">
+<h3 class="anchored" data-anchor-id="permanent-imports-85-kgfactoryyear">Permanent Imports (~85 kg/factory/year)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 28%">
@@ -1240,9 +1288,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Si₃N₄ ceramics (cutters + wire dies)</td>
 </tr>
 <tr class="even">
+<td>Lubricants</td>
+<td>MoS₂ (molybdenum disulfide)</td>
+<td>~6 kg</td>
+<td>60 robots × 0.1 kg/month (dry lubricant, vacuum)</td>
+</tr>
+<tr class="odd">
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>~79 kg</strong></td>
+<td><strong>~85 kg</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -1256,76 +1310,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 <p><strong>Service life uncertainty:</strong> Mercury conditions are extreme (vacuum, -180°C in shadow, +430°C in sunlight). Conservative robot service life estimate: 1-3 years.</p>
 </blockquote>
-</section>
-<section id="transitional-imports-gen-1-only-first-expedition" class="level3">
-<h3 class="anchored" data-anchor-id="transitional-imports-gen-1-only-first-expedition">Transitional Imports (Gen-1 only, first expedition)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Material</th>
-<th>Purpose</th>
-<th>After Localization</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Li/Li-S</td>
-<td>Batteries</td>
-<td>NaS from local Na+S</td>
-</tr>
-<tr class="even">
-<td>Cu</td>
-<td>Motors</td>
-<td>Cryogenic Al cable</td>
-</tr>
-<tr class="odd">
-<td>Kevlar</td>
-<td>Reinforcement</td>
-<td>Basalt fiber</td>
-</tr>
-<tr class="even">
-<td>CFRP</td>
-<td>Housings</td>
-<td>Local Fe-6%Mn steel</td>
-</tr>
-<tr class="odd">
-<td>GaAs</td>
-<td>Starter panels</td>
-<td>Si from regolith</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="localized-materials-formerly-imported" class="level3">
-<h3 class="anchored" data-anchor-id="localized-materials-formerly-imported">Localized Materials (formerly imported)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Before</th>
-<th>After</th>
-<th>Source</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><del>W-Co cutters</del></td>
-<td>Si₃N₄ ceramic</td>
-<td>Si + N₂</td>
-</tr>
-<tr class="even">
-<td><del>Platinum (glass dies)</del></td>
-<td>Al₂O₃ ceramic</td>
-<td>Al 7% + O₂ (<a href="https://www.sciencedirect.com/science/article/abs/pii/0261306981900510">ScienceDirect 1981</a>)</td>
-</tr>
-<tr class="odd">
-<td><del>Electronics housings</del></td>
-<td>Aluminum Al</td>
-<td>Local</td>
-</tr>
-</tbody>
-</table>
 <blockquote class="blockquote">
-<p><strong>Details:</strong> <a href="../../../en/science/summaries/production.html#deficit-elements">Deficient Elements</a>, <a href="../../../en/science/reference/technology-readiness.html">Technologies</a></p>
+<p><strong>One-time import per factory:</strong></p>
+<ul>
+<li>PFPE oil (vacuum lubricant): ~24 kg/factory (60 robots × 0.4 kg, recirculation in closed crankcases — no losses)</li>
+</ul>
 </blockquote>
 <hr>
 </section>
@@ -1422,7 +1411,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p>*Payload to Mercury trajectory ~30-35% of LEO (Delta-v ~12.5 km/s).</p>
-<p><strong>Economies of scale:</strong> Doubling payload capacity reduces cost per kilogram by ~1.5-2x. For 2,325 t cargo to Mercury, this is the difference between $6 billion and $12 billion.</p>
+<p><strong>Economies of scale:</strong> Doubling payload capacity reduces cost per kilogram by ~1.5-2x. For ~2,400 t cargo to Mercury, this is the difference between $6 billion and $12 billion.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1495,7 +1484,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="advantages-for-helios" class="level2">
 <h2 class="anchored" data-anchor-id="advantages-for-helios">Advantages for Helios</h2>
-<p>With a Swarm of ~1 billion mirrors (~114 PW solar power):</p>
+<p>With a Swarm of ~1.1 billion mirrors (~102 PW solar power):</p>
 <ol type="1">
 <li><strong>Solar Thermal:</strong> Mirrors focus light on spacecraft heat exchanger to heat working fluid to 10,000 K, achieving Isp higher than chemical engines</li>
 <li><strong>Beam Power:</strong> Portion of mirrors directs light to spacecraft receiver — no need to carry propellant from Earth</li>
@@ -1651,7 +1640,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Russia</td>
 <td>Luna-25 (failure 2023), Luna-26 (orbiter), Luna-27/28 (lander)</td>
 <td>2027-2030+</td>
-<td><a href="https://ru.wikipedia.org/wiki/Российская_лунная_программа">Wikipedia</a></td>
+<td><a href="https://en.wikipedia.org/wiki/Russian_Lunar_Exploration_Program">Wikipedia</a></td>
 </tr>
 <tr class="even">
 <td><strong>ILRS</strong></td>
@@ -1898,13 +1887,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td><strong>Factories (boards)</strong></td>
-<td>140 t</td>
+<td>215 t</td>
 <td>1 t</td>
 <td>5 t</td>
 <td>21 t</td>
 <td>63 t</td>
 <td></td>
-<td><strong>230 t</strong></td>
+<td><strong>305 t</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Mass Drivers (boards)</strong></td>
@@ -1938,17 +1927,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL MERCURY</strong></td>
-<td><strong>140 t</strong></td>
+<td><strong>215 t</strong></td>
 <td><strong>91 t</strong></td>
 <td><strong>214 t</strong></td>
 <td><strong>519 t</strong></td>
 <td><strong>728 t</strong></td>
 <td><strong>633 t</strong></td>
-<td><strong>2,325 t</strong></td>
+<td><strong>~2,400 t</strong></td>
 </tr>
 </tbody>
 </table>
-<p><em>Initial = Year 6, E1 expedition — 4 bootstrap factories (full import before localization)</em></p>
+<p><em>Initial = Years 6-6.5, expeditions E1+E2 — 2 factories + 2 MDs (E1) + 3 factories electronics (E2), full import before localization</em></p>
 </section>
 <section id="summary-table" class="level3">
 <h3 class="anchored" data-anchor-id="summary-table">SUMMARY TABLE</h3>
@@ -1988,34 +1977,34 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>MERCURY</strong></td>
-<td>140 t</td>
+<td>215 t</td>
 <td>91 t</td>
 <td>214 t</td>
 <td>519 t</td>
 <td>728 t</td>
 <td>633 t</td>
-<td><strong>2,325 t</strong></td>
+<td><strong>~2,400 t</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>220 t</strong></td>
+<td><strong>295 t</strong></td>
 <td><strong>91 t</strong></td>
 <td><strong>214 t</strong></td>
 <td><strong>519 t</strong></td>
 <td><strong>728 t</strong></td>
 <td><strong>633 t</strong></td>
-<td><strong>~2,400 t</strong></td>
+<td><strong>~2,480 t</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Equivalent: ~48 Starship launches (50 t/launch)</strong></p>
+<p><strong>Equivalent: ~50 Starship launches (50 t/launch)</strong></p>
 <hr>
 </section>
 </section>
 <section id="detailed-breakdown-by-category" class="level2">
 <h2 class="anchored" data-anchor-id="detailed-breakdown-by-category">Detailed Breakdown by Category</h2>
-<section id="factories-230-t" class="level3">
-<h3 class="anchored" data-anchor-id="factories-230-t">1. Factories (~230 t)</h3>
+<section id="factories-305-t" class="level3">
+<h3 class="anchored" data-anchor-id="factories-305-t">1. Factories (~305 t)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 18%">
@@ -2039,13 +2028,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>E1 bootstrap (4 factories)</td>
-<td>140 t</td>
+<td>E1+E2 bootstrap (2 factories + 2 MDs + 3 factories)</td>
+<td>215 t</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
-<td>140 t</td>
+<td>215 t</td>
 </tr>
 <tr class="even">
 <td>MNLZ automation boards</td>
@@ -2067,17 +2056,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>Total factories</strong></td>
-<td><strong>140 t</strong></td>
+<td><strong>215 t</strong></td>
 <td><strong>1 t</strong></td>
 <td><strong>5 t</strong></td>
 <td><strong>21 t</strong></td>
 <td><strong>63 t</strong></td>
-<td><strong>230 t</strong></td>
+<td><strong>305 t</strong></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><strong>Initial (E1 bootstrap):</strong> full import of 4 factories before localization</li>
+<li><strong>Initial (E1+E2 bootstrap):</strong> full import of 2 factories + 2 MDs (E1) + 3 factories electronics (E2) before localization</li>
 <li><strong>Regular:</strong> electronics boards only (~55 kg/factory), housings — <a href="../../../en/science/detailed/factories/assembly/equipment.html">local production</a></li>
 <li>Al₂O₃ bearings — 100% local (ceramic from regolith)</li>
 <li>99.9% of equipment mass — local production</li>
@@ -2151,7 +2140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>1,000 MDs × <strong>275 kg</strong> electronics = <strong>275 t</strong> (boards and chips only)</li>
 <li><strong>NaS capacitors</strong> — 100% local (Na + S + Al₂O₃ from regolith)</li>
 <li>Heatsinks and housings — local Al</li>
-<li>Remaining 450 t/MD — local production</li>
+<li>Remaining ~500 t/MD — local production</li>
 </ul>
 </section>
 <section id="mirrors-1055-t" class="level3">
@@ -2267,8 +2256,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <ul>
 <li><strong>Initial:</strong> Gen-1 robots for Moon factory (full import)</li>
-<li><strong>Regular:</strong> vitamins — chipsets (72 kg), iridium (4 kg), nitrogen (3 kg) per factory/year</li>
-<li>Years 11-15: 1,645 factories × 79 kg × 5 years = 650 t</li>
+<li><strong>Regular:</strong> vitamins — chipsets (72 kg), iridium (4 kg), nitrogen (3 kg), MoS₂ (6 kg) = ~85 kg/factory/year</li>
+<li>Years 11-15: 1,645 factories × 85 kg × 5 years = 700 t</li>
 </ul>
 </section>
 <section id="moon-infrastructure-30-t" class="level3">
@@ -2304,18 +2293,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<hr>
-<blockquote class="blockquote">
-<p><strong>Savings from localization:</strong></p>
-<ul>
-<li><strong>Self-replicating factories:</strong> reduced equipment import from ~14,000 t to ~230 t (98%)</li>
-<li><strong>NaS capacitors:</strong> local production from regolith, reduced MD import from 7,000 t to 275 t (96%)</li>
-<li><strong>Local housings/heatsinks:</strong> assembled locally from Al, import only boards and chips</li>
-<li><strong>Al₂O₃ bearings:</strong> 100% local ceramic</li>
-<li><strong>Mother-Children architecture:</strong> reduced mirror electronics import from 55,000 t to 1,055 t (98%)</li>
-<li>Without these optimizations, the project would require ~80,000 t total import</li>
-</ul>
-</blockquote>
 
 
 </section>

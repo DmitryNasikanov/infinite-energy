@@ -1,0 +1,2781 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Критические компоненты роботов – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Критические компоненты роботов – Проект Гелиос">
+<meta property="og:description" content="Подшипники, уплотнения, редукторы, кабели, смазка">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Критические компоненты роботов – Проект Гелиос">
+<meta name="twitter:description" content="Подшипники, уплотнения, редукторы, кабели, смазка">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/robots/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../../ru/science/index.html" aria-current="page"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Критические компоненты роботов</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Проект «Гелиос» за 5 минут</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Сводные статьи</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/roadmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дорожная карта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/budget.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Бюджет проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Почему Меркурий?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/mirrors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Зеркала Роя</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/production.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Производство</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Доставка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/summaries/mars.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Марс (перспектива)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Детальные темы</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/hub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Хаб приёма энергии</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Сборка первого завода (Bootstrap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Переработка реголита</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электролиз MRE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/distillation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Дистилляция шлака</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/silicate-fabric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Стекловолокно</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/titanium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Линия титана</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/carbon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Углерод (опц.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/silicon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кремний</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/materials/ceramics-mgo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Керамика MgO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство заводов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/elements/melting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Плавка</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/elements/casting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Литье (МНЛЗ)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/elements/rolling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Прокат</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/elements/waam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3D-печать (WAAM)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/assembly/domes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Купола</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/assembly/equipment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оборудование</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/factories/assembly/replication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Саморепликация</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Масс-драйверы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Масс-драйвер</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/elements/rails.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рельсы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/elements/coils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Катушки</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/elements/frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Каркас</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка МД</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/assembly/track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Трек</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/assembly/electronics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Электроника</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/railguns/assembly/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Тестирование</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Производство роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Обзор</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Элементы</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/elements/frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рамы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/elements/batteries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Батареи (NaS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/elements/actuators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Актуаторы</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Сборка роботов</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/assembly/crabs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Краб-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/assembly/centaurs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Кентавр-М</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/detailed/robots/assembly/moles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Крот-М</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
+ <span class="menu-text">Справочники</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/reference/technology-readiness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Технологии и источники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/reference/risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Риски и ограничения проекта</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/reference/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Глоссарий терминов</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/reference/constants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Физические константы</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../ru/science/reference/nomenclature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Номенклатура</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#подшипники" id="toc-подшипники" class="nav-link active" data-scroll-target="#подшипники">1. Подшипники</a>
+  <ul class="collapse">
+  <li><a href="#проблема" id="toc-проблема" class="nav-link" data-scroll-target="#проблема">Проблема</a></li>
+  <li><a href="#решение-mos₂-журнальные-втулки" id="toc-решение-mos₂-журнальные-втулки" class="nav-link" data-scroll-target="#решение-mos₂-журнальные-втулки">Решение: MoS₂ журнальные втулки</a></li>
+  <li><a href="#альтернатива-si₃n₄-керамика-без-смазки" id="toc-альтернатива-si₃n₄-керамика-без-смазки" class="nav-link" data-scroll-target="#альтернатива-si₃n₄-керамика-без-смазки">Альтернатива: Si₃N₄ керамика (без смазки)</a></li>
+  <li><a href="#альтернатива-мягкие-металлические-покрытия" id="toc-альтернатива-мягкие-металлические-покрытия" class="nav-link" data-scroll-target="#альтернатива-мягкие-металлические-покрытия">Альтернатива: мягкие металлические покрытия</a></li>
+  <li><a href="#ограничения-журнальная-втулка-не-шариковый-подшипник" id="toc-ограничения-журнальная-втулка-не-шариковый-подшипник" class="nav-link" data-scroll-target="#ограничения-журнальная-втулка-не-шариковый-подшипник">Ограничения: журнальная втулка — НЕ шариковый подшипник</a></li>
+  <li><a href="#решения-для-высокоскоростных-валов" id="toc-решения-для-высокоскоростных-валов" class="nav-link" data-scroll-target="#решения-для-высокоскоростных-валов">Решения для высокоскоростных валов</a></li>
+  <li><a href="#рекомендация" id="toc-рекомендация" class="nav-link" data-scroll-target="#рекомендация">Рекомендация</a></li>
+  </ul></li>
+  <li><a href="#уплотнения-гидравлики" id="toc-уплотнения-гидравлики" class="nav-link" data-scroll-target="#уплотнения-гидравлики">2. Уплотнения гидравлики</a>
+  <ul class="collapse">
+  <li><a href="#проблема-1" id="toc-проблема-1" class="nav-link" data-scroll-target="#проблема-1">Проблема</a></li>
+  <li><a href="#решение-металлические-уплотнения" id="toc-решение-металлические-уплотнения" class="nav-link" data-scroll-target="#решение-металлические-уплотнения">Решение: металлические уплотнения</a></li>
+  <li><a href="#решение-эм-насосы-без-уплотнений-вообще" id="toc-решение-эм-насосы-без-уплотнений-вообще" class="nav-link" data-scroll-target="#решение-эм-насосы-без-уплотнений-вообще">Решение: ЭМ-насосы (без уплотнений вообще)</a></li>
+  <li><a href="#изготовление-на-меркурии" id="toc-изготовление-на-меркурии" class="nav-link" data-scroll-target="#изготовление-на-меркурии">Изготовление на Меркурии</a></li>
+  </ul></li>
+  <li><a href="#редукторы" id="toc-редукторы" class="nav-link" data-scroll-target="#редукторы">3. Редукторы</a>
+  <ul class="collapse">
+  <li><a href="#проблема-2" id="toc-проблема-2" class="nav-link" data-scroll-target="#проблема-2">Проблема</a></li>
+  <li><a href="#почему-инволютные-шестерни-невозможны-на-waam" id="toc-почему-инволютные-шестерни-невозможны-на-waam" class="nav-link" data-scroll-target="#почему-инволютные-шестерни-невозможны-на-waam">Почему инволютные шестерни невозможны на WAAM</a></li>
+  <li><a href="#почему-bmg-гармонические-приводы-тоже-не-работают" id="toc-почему-bmg-гармонические-приводы-тоже-не-работают" class="nav-link" data-scroll-target="#почему-bmg-гармонические-приводы-тоже-не-работают">Почему BMG гармонические приводы тоже не работают</a></li>
+  <li><a href="#рабочие-альтернативы" id="toc-рабочие-альтернативы" class="nav-link" data-scroll-target="#рабочие-альтернативы">Рабочие альтернативы</a></li>
+  <li><a href="#рекомендация-по-приводам" id="toc-рекомендация-по-приводам" class="nav-link" data-scroll-target="#рекомендация-по-приводам">Рекомендация по приводам</a></li>
+  </ul></li>
+  <li><a href="#кабель-10-кв" id="toc-кабель-10-кв" class="nav-link" data-scroll-target="#кабель-10-кв">4. Кабель 10 кВ</a>
+  <ul class="collapse">
+  <li><a href="#проблема-3" id="toc-проблема-3" class="nav-link" data-scroll-target="#проблема-3">Проблема</a></li>
+  <li><a href="#решение-mi-кабель-mineral-insulated" id="toc-решение-mi-кабель-mineral-insulated" class="nav-link" data-scroll-target="#решение-mi-кабель-mineral-insulated">Решение: MI-кабель (Mineral Insulated)</a></li>
+  <li><a href="#изготовление-на-меркурии-1" id="toc-изготовление-на-меркурии-1" class="nav-link" data-scroll-target="#изготовление-на-меркурии-1">Изготовление на Меркурии</a></li>
+  <li><a href="#альтернативы" id="toc-альтернативы" class="nav-link" data-scroll-target="#альтернативы">Альтернативы</a></li>
+  </ul></li>
+  <li><a href="#вакуумная-смазка" id="toc-вакуумная-смазка" class="nav-link" data-scroll-target="#вакуумная-смазка">5. Вакуумная смазка</a>
+  <ul class="collapse">
+  <li><a href="#проблема-4" id="toc-проблема-4" class="nav-link" data-scroll-target="#проблема-4">Проблема</a></li>
+  <li><a href="#основной-вариант-импорт-mo-для-mos₂" id="toc-основной-вариант-импорт-mo-для-mos₂" class="nav-link" data-scroll-target="#основной-вариант-импорт-mo-для-mos₂">Основной вариант: импорт Mo для MoS₂</a></li>
+  <li><a href="#альтернатива-tis₂-местное-производство" id="toc-альтернатива-tis₂-местное-производство" class="nav-link" data-scroll-target="#альтернатива-tis₂-местное-производство">Альтернатива: TiS₂ (местное производство)</a></li>
+  <li><a href="#альтернатива-ws₂-если-доступен-w" id="toc-альтернатива-ws₂-если-доступен-w" class="nav-link" data-scroll-target="#альтернатива-ws₂-если-доступен-w">Альтернатива: WS₂ (если доступен W)</a></li>
+  </ul></li>
+  <li><a href="#производственные-линии" id="toc-производственные-линии" class="nav-link" data-scroll-target="#производственные-линии">6. Производственные линии</a>
+  <ul class="collapse">
+  <li><a href="#производство-подшипников" id="toc-производство-подшипников" class="nav-link" data-scroll-target="#производство-подшипников">6.1 Производство подшипников</a></li>
+  <li><a href="#производство-уплотнений" id="toc-производство-уплотнений" class="nav-link" data-scroll-target="#производство-уплотнений">6.2 Производство уплотнений</a></li>
+  <li><a href="#производство-приводов" id="toc-производство-приводов" class="nav-link" data-scroll-target="#производство-приводов">6.3 Производство приводов</a></li>
+  <li><a href="#производство-mi-кабеля" id="toc-производство-mi-кабеля" class="nav-link" data-scroll-target="#производство-mi-кабеля">6.4 Производство MI-кабеля</a></li>
+  <li><a href="#производство-смазки" id="toc-производство-смазки" class="nav-link" data-scroll-target="#производство-смазки">6.5 Производство смазки</a></li>
+  <li><a href="#обслуживание-подшипников-на-масштабе" id="toc-обслуживание-подшипников-на-масштабе" class="nav-link" data-scroll-target="#обслуживание-подшипников-на-масштабе">6.6 Обслуживание подшипников на масштабе</a></li>
+  <li><a href="#сводная-таблица-нового-оборудования" id="toc-сводная-таблица-нового-оборудования" class="nav-link" data-scroll-target="#сводная-таблица-нового-оборудования">6.7 Сводная таблица нового оборудования</a></li>
+  <li><a href="#влияние-на-завод" id="toc-влияние-на-завод" class="nav-link" data-scroll-target="#влияние-на-завод">6.8 Влияние на завод</a></li>
+  <li><a href="#узкие-места" id="toc-узкие-места" class="nav-link" data-scroll-target="#узкие-места">6.9 Узкие места</a></li>
+  <li><a href="#хватит-ли-купола" id="toc-хватит-ли-купола" class="nav-link" data-scroll-target="#хватит-ли-купола">6.10 Хватит ли купола?</a></li>
+  </ul></li>
+  <li><a href="#сводная-таблица" id="toc-сводная-таблица" class="nav-link" data-scroll-target="#сводная-таблица">Сводная таблица</a>
+  <ul class="collapse">
+  <li><a href="#итого-импорт-на-критические-компоненты" id="toc-итого-импорт-на-критические-компоненты" class="nav-link" data-scroll-target="#итого-импорт-на-критические-компоненты">Итого импорт на критические компоненты</a></li>
+  </ul></li>
+  <li><a href="#источники" id="toc-источники" class="nav-link" data-scroll-target="#источники">Источники</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Критические компоненты роботов</h1>
+<p class="subtitle lead">Подшипники, уплотнения, редукторы, кабели, смазка</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Документация роботов описывает рамы, батареи, моторы — но не объясняет, как решены подшипники, уплотнения гидравлики, точные редукторы и другие компоненты, от которых зависит надёжность. Этот документ закрывает пробелы.</p>
+<section id="подшипники" class="level2">
+<h2 class="anchored" data-anchor-id="подшипники">1. Подшипники</h2>
+<section id="проблема" class="level3">
+<h3 class="anchored" data-anchor-id="проблема">Проблема</h3>
+<p>Вакуум Меркурия исключает жидкие смазки (испаряются) и графит (работает только при наличии влаги). Нужны подшипники для:</p>
+<ul>
+<li><strong>Крот-М</strong>: гусеницы, ведущие звёздочки — 600+ кг, высокие нагрузки</li>
+<li><strong>Краб-М</strong>: колёсные ступицы — 1000 кг распределённая нагрузка</li>
+<li><strong>Кентавр-М</strong>: суставы манипуляторов — точность ±2 мм</li>
+</ul>
+</section>
+<section id="решение-mos₂-журнальные-втулки" class="level3">
+<h3 class="anchored" data-anchor-id="решение-mos₂-журнальные-втулки">Решение: MoS₂ журнальные втулки</h3>
+<p>Дисульфид молибдена (MoS₂) — стандартная вакуумная смазка космических механизмов.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Коэффициент трения в вакууме</td>
+<td><strong>0.03–0.06</strong> (ниже чем на воздухе!)</td>
+</tr>
+<tr class="even">
+<td>Температурный диапазон</td>
+<td>-200°C … +1200°C (в вакууме)</td>
+</tr>
+<tr class="odd">
+<td>Допустимое контактное давление</td>
+<td>до 1.2 ГПа</td>
+</tr>
+<tr class="even">
+<td>Метод нанесения</td>
+<td>Магнетронное распыление (sputtering)</td>
+</tr>
+<tr class="odd">
+<td>Толщина покрытия</td>
+<td>0.5–5 мкм</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Расчёт для Крота-М</strong>: журнальная втулка ∅50 мм × 50 мм, нагрузка 6000 Н → проецированное давление <strong>2.4 МПа</strong> — в 500 раз ниже предела MoS₂.</p>
+<p><strong>Ресурс</strong>: конечный — зависит от нагрузки и скорости скольжения. Периодическое обновление покрытия (каждые 3–6 месяцев для тяжёлых нагрузок).</p>
+<p><strong>Применение на практике</strong>: приводы солнечных панелей, антенные механизмы, суставы роботов-манипуляторов на МКС (<a href="https://www.astbearings.com/blog/bearings-space-considerations-vacuum-environments.html">AST Bearings</a>, <a href="https://esmats.eu/amspapers/pastpapers/pdfs/2018/paul.pdf">ESMATS</a>).</p>
+</section>
+<section id="альтернатива-si₃n₄-керамика-без-смазки" class="level3">
+<h3 class="anchored" data-anchor-id="альтернатива-si₃n₄-керамика-без-смазки">Альтернатива: Si₃N₄ керамика (без смазки)</h3>
+<p>Нитрид кремния — керамические подшипники, работающие без смазки:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Диапазон температур</td>
+<td>-210°C … +800°C</td>
+</tr>
+<tr class="even">
+<td>Плотность</td>
+<td>3.2 г/см³ (на 40% легче стали)</td>
+</tr>
+<tr class="odd">
+<td>Коэфф. трения (сухой)</td>
+<td>0.1–0.3</td>
+</tr>
+<tr class="even">
+<td>Дегазация</td>
+<td>Нулевая</td>
+</tr>
+</tbody>
+</table>
+<p>NASA: увеличение ресурса на 40% по сравнению со стальными аналогами (<a href="https://www.smbbearings.com/products/si3n4-ceramic-bearings.html">SMB Bearings</a>).</p>
+<p><strong>Ограничение</strong>: Si₃N₄ требует азота. N₂ отсутствует на Меркурии → керамика импортируется или заменяется на SiC (карбид кремния, если доступен C).</p>
+</section>
+<section id="альтернатива-мягкие-металлические-покрытия" class="level3">
+<h3 class="anchored" data-anchor-id="альтернатива-мягкие-металлические-покрытия">Альтернатива: мягкие металлические покрытия</h3>
+<p>Для нетребовательных применений — алюминиевая плёнка на стальной поверхности:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Покрытие</th>
+<th>Коэфф. трения</th>
+<th>Макс. температура</th>
+<th>Местное?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Al на Fe</td>
+<td>0.3–0.5</td>
+<td>~400°C</td>
+<td><strong>Да</strong></td>
+</tr>
+<tr class="even">
+<td>Ag на Fe</td>
+<td>0.2–0.4</td>
+<td>~500°C</td>
+<td>Нет</td>
+</tr>
+<tr class="odd">
+<td>TiS₂</td>
+<td>~0.1 (оценка)</td>
+<td>Требует исследований</td>
+<td><strong>Да</strong> (Ti+S местные)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ограничения-журнальная-втулка-не-шариковый-подшипник" class="level3">
+<h3 class="anchored" data-anchor-id="ограничения-журнальная-втулка-не-шариковый-подшипник">Ограничения: журнальная втулка — НЕ шариковый подшипник</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Честная оценка
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Журнальные втулки с MoS₂ решают <strong>80-90% задач</strong>, но непригодны для высокоскоростных валов. Шариковые подшипники на Меркурии производить <strong>невозможно</strong> — это одно из самых прецизионных изделий на Земле.</p>
+</div>
+</div>
+<p><strong>Почему шариковые подшипники невозможны на Меркурии:</strong></p>
+<p>Производство шарикоподшипника на Земле — 20+ операций: зубофрезерование → закалка → шлифовка → суперфиниш → сортировка шариков по размеру. Допуски: &lt;5 мкм (ABEC 3), поверхность Ra &lt;0.05 мкм, твёрдость 58-64 HRC (цементация). Ни одна из этих операций не выполнима на WAAM + абразивной шлифовке.</p>
+<p><strong>Трение: штраф 10-30×</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Тип</th>
+<th>μ (коэфф. трения)</th>
+<th>Потери на Краба-М (6 колёс)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Шарикоподшипник (смазка)</td>
+<td>0.001–0.003</td>
+<td>~9 Вт</td>
+</tr>
+<tr class="even">
+<td>MoS₂ журнальная втулка</td>
+<td>0.03–0.06</td>
+<td><strong>~170 Вт</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Дополнительные ~160 Вт на каждого Краба — приемлемо при мегаваттных мощностях завода, но увеличивает нагрев и износ.</p>
+<p><strong>PV-предел (давление × скорость) — главное ограничение:</strong></p>
+<p>Безопасный PV для MoS₂ покрытий: <strong>0.5–2.0 МПа·м/с</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Применение</th>
+<th>Вал, мм</th>
+<th>Обороты</th>
+<th>v, м/с</th>
+<th>PV</th>
+<th>Статус</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Колесо Краба</td>
+<td>∅50</td>
+<td>60 об/мин</td>
+<td>0.16</td>
+<td>0.05</td>
+<td><strong>OK</strong> (запас 40×)</td>
+</tr>
+<tr class="even">
+<td>Гусеница Крота</td>
+<td>∅80</td>
+<td>30 об/мин</td>
+<td>0.13</td>
+<td>0.03</td>
+<td><strong>OK</strong> (запас 60×)</td>
+</tr>
+<tr class="odd">
+<td>Сустав Кентавра</td>
+<td>∅30</td>
+<td>±45° качание</td>
+<td>&lt;0.1</td>
+<td>&lt;0.01</td>
+<td><strong>OK</strong> (запас 100×)</td>
+</tr>
+<tr class="even">
+<td>Мотор привода</td>
+<td>∅25</td>
+<td>1000 об/мин</td>
+<td>1.3</td>
+<td>0.42</td>
+<td><strong>Предел</strong></td>
+</tr>
+<tr class="odd">
+<td>Мотор привода</td>
+<td>∅25</td>
+<td>3000 об/мин</td>
+<td>3.9</td>
+<td>1.25</td>
+<td><strong>Критично</strong></td>
+</tr>
+<tr class="even">
+<td>Шпиндель шлифовки</td>
+<td>∅20</td>
+<td>6000 об/мин</td>
+<td>6.3</td>
+<td>&gt;2.0</td>
+<td><strong>Невозможно</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ресурс MoS₂ плёнки при высоких оборотах:</strong></p>
+<ul>
+<li>Типичный ресурс напылённой MoS₂ плёнки: 3-40 млн циклов (<a href="https://esmats.eu/amspapers/pastpapers/pdfs/2018/paul.pdf">ESMATS</a>)</li>
+<li>При 3000 об/мин: 3.3 млн циклов = <strong>18 часов</strong> непрерывной работы</li>
+<li>Нужно &gt;2000 часов на 3 месяца → плёнки хватит на <strong>&lt;1%</strong> межсервисного интервала</li>
+<li>При 60 об/мин (колесо): 3.3 млн циклов = <strong>38 дней</strong> — нормальный интервал</li>
+</ul>
+<p><strong>Где втулки работают и где нет:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 41%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Применение</th>
+<th>Втулки MoS₂?</th>
+<th>Почему</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Гусеницы Крота</td>
+<td><strong>Отлично</strong></td>
+<td>Низкая скорость, высокая нагрузка — идеально для втулок</td>
+</tr>
+<tr class="even">
+<td>Колёса Краба</td>
+<td><strong>Хорошо</strong></td>
+<td>Умеренная скорость, PV в 40× ниже предела</td>
+</tr>
+<tr class="odd">
+<td>Суставы Кентавра</td>
+<td><strong>Хорошо</strong></td>
+<td>Медленное качание, MoS₂ идеален</td>
+</tr>
+<tr class="even">
+<td>Ролики, направляющие</td>
+<td><strong>Отлично</strong></td>
+<td>Минимальные нагрузки</td>
+</tr>
+<tr class="odd">
+<td>Валы электромоторов &gt;1000 об/мин</td>
+<td><strong>Нет</strong></td>
+<td>PV на пределе, быстрый износ плёнки</td>
+</tr>
+<tr class="even">
+<td>Шпиндель шлифовки 3000-6000 об/мин</td>
+<td><strong>Нет</strong></td>
+<td>PV превышен</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="решения-для-высокоскоростных-валов" class="level3">
+<h3 class="anchored" data-anchor-id="решения-для-высокоскоростных-валов">Решения для высокоскоростных валов</h3>
+<p><strong>Вариант A: Импорт шарикоподшипников</strong></p>
+<ul>
+<li>4000-8000 шт × ~200 г = <strong>0.8–1.6 т</strong> на весь парк (60 000 роботов)</li>
+<li>Стандартные 6205/6207 из нерж. стали 440C</li>
+<li>Ресурс: 20 000–100 000 часов — замена раз в 5-10 лет</li>
+<li>Самое простое решение: включить в состав «<a href="../../../../ru/science/reference/glossary.html#витамины">витаминов</a>»</li>
+</ul>
+<p><strong>Вариант B: Direct-drive моторы (100-500 об/мин)</strong></p>
+<ul>
+<li>Высокомоментные низкооборотные двигатели без редуктора</li>
+<li>При 500 об/мин: PV = 0.33 → <strong>безопасная зона для MoS₂</strong></li>
+<li>Требуется: импорт NdFeB магнитов (~1-2 кг на мотор)</li>
+<li>Используется в современных роботах: <a href="https://www.kuka.com/en-de/products/robotics-systems/industrial-robots/lbr-iiwa">KUKA iiwa</a>, <a href="https://www.kollmorgen.com/en-us/blogs/motors-robotics-do-you-really-need-compromise">Kollmorgen</a></li>
+</ul>
+<p><strong>Вариант C: Активные магнитные подшипники (AMB)</strong></p>
+<ul>
+<li>Нулевой контакт, нулевой износ, нулевая смазка</li>
+<li>Электромагниты: Fe + Al (местные)</li>
+<li>Электроника управления: импорт (датчики, контроллеры)</li>
+<li>Применяются в космических механизмах и турбомолекулярных насосах</li>
+</ul>
+<p><strong>Прецедент — Mars Perseverance:</strong> гибридный подход — шарикоподшипники Timken (440C, специальная смазка Braycote 601) в приводах колёс + сухие втулки GGB (PTFE/стекловолокно) в системе бурения (<a href="https://www.ggbearings.com/en/news/ggb-goes-mars-perseverance-rover">GGB</a>, <a href="https://www.timken.com/timken-world/failure-not-option-timken-engineers-design-bearings-next-mars-rover/">Timken</a>).</p>
+</section>
+<section id="рекомендация" class="level3">
+<h3 class="anchored" data-anchor-id="рекомендация">Рекомендация</h3>
+<ul>
+<li><strong>Тяжёлые нагрузки, низкая скорость</strong> (гусеницы Крота, колёса Краба): MoS₂ втулки — импорт Mo ~кг/год (микронные плёнки). <strong>Полностью реалистично.</strong></li>
+<li><strong>Суставы манипуляторов</strong> (Кентавр): MoS₂ втулки — медленное качание, идеальный режим.</li>
+<li><strong>Валы электромоторов &gt;1000 об/мин</strong>: <strong>импорт шарикоподшипников</strong> (0.8-1.6 т на весь парк) ИЛИ переход на direct-drive (100-500 об/мин + импорт NdFeB магнитов).</li>
+<li><strong>Шпиндели шлифовки</strong>: <strong>импорт</strong> — безальтернативно при 3000+ об/мин.</li>
+<li><strong>Нетребовательные</strong> (ролики, направляющие): Al покрытие — полностью местное.</li>
+</ul>
+<p><strong>Итого импорт подшипников:</strong> ~0.8-1.6 т на 60 000 роботов + ~1-2 кг/робот NdFeB при direct-drive.</p>
+<hr>
+</section>
+</section>
+<section id="уплотнения-гидравлики" class="level2">
+<h2 class="anchored" data-anchor-id="уплотнения-гидравлики">2. Уплотнения гидравлики</h2>
+<section id="проблема-1" class="level3">
+<h3 class="anchored" data-anchor-id="проблема-1">Проблема</h3>
+<p>Гидравлическая система роботов работает на NaK (натрий-калий) при 200–300 бар. <strong>NaK разъедает PTFE (тефлон)</strong> и все органические полимеры — стандартные гидравлические уплотнения неприменимы.</p>
+</section>
+<section id="решение-металлические-уплотнения" class="level3">
+<h3 class="anchored" data-anchor-id="решение-металлические-уплотнения">Решение: металлические уплотнения</h3>
+<p><strong>O-FLEX (Technetics Group)</strong> — металлические O-ring:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Давление</td>
+<td>вакуум … <strong>500+ бар</strong> (ядерные: до 3000 бар)</td>
+</tr>
+<tr class="even">
+<td>Температура</td>
+<td>-273°C … +980°C</td>
+</tr>
+<tr class="odd">
+<td>Материал</td>
+<td>Нержавеющая сталь / сплав 718, серебряное покрытие</td>
+</tr>
+<tr class="even">
+<td>Утечка</td>
+<td>10⁻⁴ … 10⁻⁹ ст.см³/с (He)</td>
+</tr>
+<tr class="odd">
+<td>Принцип</td>
+<td>Самоуплотнение — давление среды усиливает прижим</td>
+</tr>
+</tbody>
+</table>
+<p>Доказано в ядерных реакторах с NaK (<a href="https://technetics.com/products/o-flex-metal-seal/">Technetics</a>, <a href="https://apps.dtic.mil/sti/tr/pdf/ADA321740.pdf">DTIC — NaK compatibility</a>).</p>
+<p>Совместимость с NaK: - <strong>Нерж. сталь 316</strong>: отлично, 32 600 часов непрерывной работы - <strong>Сплав 600/718</strong>: хорошая совместимость - <strong>Серебряное покрытие</strong>: барьер и смазка одновременно</p>
+</section>
+<section id="решение-эм-насосы-без-уплотнений-вообще" class="level3">
+<h3 class="anchored" data-anchor-id="решение-эм-насосы-без-уплотнений-вообще">Решение: ЭМ-насосы (без уплотнений вообще)</h3>
+<p>Электромагнитные насосы перекачивают жидкий металл без движущихся частей:</p>
+<ul>
+<li><strong>Прецедент</strong>: реактор SNAP-10A (запуск 1965) — NaK циркуляция через ЭМ-насос, ни одного уплотнения в контуре (<a href="https://ntrs.nasa.gov/api/citations/20070022272/downloads/20070022272.pdf">NASA NTRS</a>)</li>
+<li>Принцип: сила Лоренца — электрический ток + магнитное поле → движение проводящей жидкости</li>
+<li>Для Меркурия: все материалы местные (Fe магнитопровод, Al обмотки)</li>
+</ul>
+<p><strong>Где применять</strong>: циркуляционный контур охлаждения. Поршневые цилиндры всё ещё требуют металлических уплотнений для линейного хода.</p>
+</section>
+<section id="изготовление-на-меркурии" class="level3">
+<h3 class="anchored" data-anchor-id="изготовление-на-меркурии">Изготовление на Меркурии</h3>
+<ul>
+<li>Металлические O-ring: WAAM-печать корпуса + шлифовка посадочных поверхностей</li>
+<li>Серебряное покрытие: импорт Ag (граммы на уплотнение) или замена на Al</li>
+<li>ЭМ-насосы: полностью местное производство</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="редукторы" class="level2">
+<h2 class="anchored" data-anchor-id="редукторы">3. Редукторы</h2>
+<section id="проблема-2" class="level3">
+<h3 class="anchored" data-anchor-id="проблема-2">Проблема</h3>
+<p>Роботы требуют механических передач с разными характеристиками:</p>
+<ul>
+<li><strong>Крот-М</strong>: гусеничный привод 1:30, высокий крутящий момент</li>
+<li><strong>Краб-М</strong>: колёсный привод 1:20, средний момент</li>
+<li><strong>Кентавр-М</strong>: суставы манипулятора 1:100–1:500, точность ±2 мм на конце</li>
+</ul>
+<p>На Земле — зубчатые редукторы (планетарные, гармонические). Но производство шестерён — одно из самых сложных в машиностроении. Можно ли это сделать на WAAM?</p>
+</section>
+<section id="почему-инволютные-шестерни-невозможны-на-waam" class="level3">
+<h3 class="anchored" data-anchor-id="почему-инволютные-шестерни-невозможны-на-waam">Почему инволютные шестерни невозможны на WAAM</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Пять фундаментальных проблем
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ранее предполагалось, что WAAM + шлифовка → AGMA Q8-Q10. Это <strong>ошибка</strong>. Ниже — детальный разбор.</p>
+</div>
+</div>
+<p><strong>Проблема 1: Инволютный профиль зуба.</strong> Зуб шестерни — это не плоская поверхность, а математически точная инволютная кривая. AGMA Q8 требует отклонения профиля ≤18-22 мкм. Для создания такого профиля нужен зуборезный станок (gear hobbing) или профильная шлифовка специально заправленным кругом (gear grinding, Reishauer/Kapp Niles). Ни того, ни другого на Меркурии нет. <strong>Обычная абразивная шлифовка не создаёт инволюту</strong> (<a href="https://gearsolutions.com/departments/tooth-tips/precision-gearing-accuracy-and-tolerances/">Gear Solutions — Precision Gearing</a>).</p>
+<p><strong>Проблема 2: Допуски в 3-7× хуже заявленных.</strong> WAAM + шлифовка → ±50-100 мкм. Но AGMA Q8 для шестерни ∅50 мм, модуль 2:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>AGMA Q8</th>
+<th>WAAM + шлифовка</th>
+<th>Разница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Отклонение шага (fpt)</td>
+<td>~14 мкм</td>
+<td>±50-100 мкм</td>
+<td>3-7× хуже</td>
+</tr>
+<tr class="even">
+<td>Отклонение профиля (Fa)</td>
+<td>~18-22 мкм</td>
+<td>Не контролируется</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td>Биение (Fr)</td>
+<td>~30 мкм</td>
+<td>±50-100 мкм</td>
+<td>2-3× хуже</td>
+</tr>
+</tbody>
+</table>
+<p>Реально достижимо: <strong>AGMA Q4-Q6</strong> максимум — это бытовой уровень, не промышленный.</p>
+<p><strong>Проблема 3: Твёрдость поверхности.</strong> Зубья шестерён на Земле закаляются до <strong>58-62 HRC</strong> (цементация при 900-950°C в углеродной атмосфере, или азотирование в N₂). WAAM Fe-6%Mn даёт <strong>~24 HRC</strong> — в 2.5× мягче. На Меркурии <strong>нет углерода</strong> (для цементации) и <strong>нет азота</strong> (для азотирования). Мягкие зубья → поверхностная усталость (питтинг) за тысячи циклов вместо миллионов (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10706903/">PMC — Gear Manufacturing Review</a>).</p>
+<p><strong>Проблема 4: Остаточные напряжения WAAM.</strong> WAAM-детали имеют значительные внутренние напряжения. После механообработки (снятие материала) напряжения перераспределяются → <strong>коробление</strong> (<a href="https://www.mdpi.com/2673-3161/5/3/25">MDPI — WAAM Residual Stress</a>). Для шестерни, где геометрия зуба должна быть стабильной с точностью &lt;30 мкм, это катастрофично.</p>
+<p><strong>Проблема 5: Пористость WAAM.</strong> WAAM-наплавка содержит газовые поры. Исследования показывают снижение усталостной прочности на <strong>~33%</strong> и пластичности на <strong>~60%</strong> из-за пористости (<a href="https://www.sciencedirect.com/science/article/abs/pii/S0142112319300295">ScienceDirect — WAAM Porosity Fatigue</a>). Шестерни работают при миллионах циклов контактного нагружения — поры становятся точками зарождения трещин.</p>
+<p><strong>Вывод</strong>: WAAM + шлифовка не может производить инволютные шестерни промышленного качества. Нужны альтернативы.</p>
+</section>
+<section id="почему-bmg-гармонические-приводы-тоже-не-работают" class="level3">
+<h3 class="anchored" data-anchor-id="почему-bmg-гармонические-приводы-тоже-не-работают">Почему BMG гармонические приводы тоже не работают</h3>
+<p>NASA JPL (2016) продемонстрировала литые гармонические приводы из BMG (<a href="https://www.nature.com/articles/srep37773">Nature, 2016</a>). Однако детальный анализ показывает критические проблемы:</p>
+<p><strong>Бериллий.</strong> Все продемонстрированные сплавы содержат <strong>25-30% бериллия</strong>: - Zr₃₅Ti₃₀Cu₈.₂₅<strong>Be₂₆.₇₅</strong> (GHDT) - Ti₄₀Zr₂₀Cu₁₀<strong>Be₃₀</strong> - Zr₄₄Ti₁₁Cu₁₀Ni₁₀<strong>Be₂₅</strong> (LM1b)</p>
+<p>Бериллий токсичен (вдыхание частиц → неизлечимый бериллиоз), редок и недоступен на Меркурии. NASA 2018 follow-up исследовал безбериллиевые Zr-Al-Co-Ag сплавы, но <strong>работающий привод из них не продемонстрирован</strong>.</p>
+<p><strong>Усталостный ресурс — в 100-1000× хуже стали:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Образец</th>
+<th>Результат</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LM1b (коммерческое литьё)</td>
+<td>Трещина при <strong>225 000 оборотов</strong></td>
+</tr>
+<tr class="even">
+<td>GHDT (мехобработка)</td>
+<td>Трещина при <strong>300 000 оборотов</strong></td>
+</tr>
+<tr class="odd">
+<td>GHDT (коммерческое литьё)</td>
+<td>Выжил &gt;600 000 оборотов</td>
+</tr>
+<tr class="even">
+<td><strong>Стальной флексплайн</strong></td>
+<td><strong>10-100+ млн оборотов</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Причина: предел усталости BMG — только <strong>4-8% от σ_UTS</strong> (у стали: 30-50%). В аморфных металлах нет зёренной структуры для остановки трещин (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2663983/">PNAS — BMG Fatigue</a>).</p>
+<p><strong>Реальный TRL: 3</strong> (лабораторная демонстрация литья), не 4.</p>
+</section>
+<section id="рабочие-альтернативы" class="level3">
+<h3 class="anchored" data-anchor-id="рабочие-альтернативы">Рабочие альтернативы</h3>
+<section id="решение-1-циклоидные-приводы-силовые-передачи" class="level4">
+<h4 class="anchored" data-anchor-id="решение-1-циклоидные-приводы-силовые-передачи">Решение 1: Циклоидные приводы (силовые передачи)</h4>
+<p>Циклоидный редуктор — принципиально другая конструкция, <strong>не требующая инволютных шестерён</strong>:</p>
+<ul>
+<li>Эксцентрик вращает циклоидный диск</li>
+<li>Диск обкатывается по кольцу роликов-пальцев</li>
+<li>Разница числа контактов создаёт передаточное число</li>
+</ul>
+<p><strong>Почему это совместимо с WAAM:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 26%">
+<col style="width: 30%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Деталь</th>
+<th>Геометрия</th>
+<th>Производство</th>
+<th>Точность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ролики-пальцы</td>
+<td>Простые цилиндры</td>
+<td>WAAM + цилиндрическая шлифовка</td>
+<td>±0.1 мм — достаточно</td>
+</tr>
+<tr class="even">
+<td>Циклоидный диск</td>
+<td>Профиль проще инволюты</td>
+<td>WAAM + профильная шлифовка</td>
+<td>±0.1 мм — допустимо</td>
+</tr>
+<tr class="odd">
+<td>Эксцентрик</td>
+<td>Простой вал</td>
+<td>WAAM + шлифовка</td>
+<td>±0.1 мм</td>
+</tr>
+<tr class="even">
+<td>Корпус + пальцы</td>
+<td>Цилиндры в отверстиях</td>
+<td>WAAM + шлифовка</td>
+<td>±0.1 мм</td>
+</tr>
+</tbody>
+</table>
+<p>Допуски ±0.1 мм для циклоидного привода <strong>менее критичны</strong>, чем для инволютных шестерён, т.к. нагрузка распределяется на множество контактных точек (<a href="https://asmedigitalcollection.asme.org/mechanicaldesign/article/111/3/337/420932/Cycloid-Drives-With-Machining-Tolerances">ASME — Cycloid Drives with Tolerances</a>).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Передаточное число</td>
+<td>до 87:1 (одноступенчатый)</td>
+</tr>
+<tr class="even">
+<td>КПД</td>
+<td>75–90%</td>
+</tr>
+<tr class="odd">
+<td>Люфт</td>
+<td>Больше чем гармонический, но допустим для ±2 мм</td>
+</tr>
+<tr class="even">
+<td>Ресурс</td>
+<td>Высокий (нет хрупких деталей типа флексплайна)</td>
+</tr>
+<tr class="odd">
+<td>Производитель-прецедент</td>
+<td><a href="https://www.nabtesco.com/">Nabtesco</a> — крупнейший в мире для роботов</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для Меркурия</strong>: все детали из Fe/Al, все операции на существующем WAAM + шлифовке. <strong>100% местное производство.</strong></p>
+</section>
+<section id="решение-2-nak-гидравлический-привод-уже-в-проекте" class="level4">
+<h4 class="anchored" data-anchor-id="решение-2-nak-гидравлический-привод-уже-в-проекте">Решение 2: NaK гидравлический привод (уже в проекте)</h4>
+<p>Для Крота-М и тяжёлых операций Краба-М — <strong>гидромоторы и гидроцилиндры</strong> на NaK. Нет шестерён вообще. Уже описаны в <a href="../../../../ru/science/detailed/robots/elements/actuators.html">документации актуаторов</a>. WAAM цилиндр + шлифовка ±0.1 мм → достаточно для гидравлического привода.</p>
+</section>
+<section id="решение-3-direct-drive-моторы-точные-суставы-кентавра" class="level4">
+<h4 class="anchored" data-anchor-id="решение-3-direct-drive-моторы-точные-суставы-кентавра">Решение 3: Direct-drive моторы (точные суставы Кентавра)</h4>
+<p>Высокомоментный двигатель прямо на валу — без редуктора:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Передаточное число</td>
+<td>1:1 (нет редуктора)</td>
+</tr>
+<tr class="even">
+<td>Люфт</td>
+<td><strong>Нулевой</strong></td>
+</tr>
+<tr class="odd">
+<td>Обслуживание</td>
+<td><strong>Нулевое</strong></td>
+</tr>
+<tr class="even">
+<td>Скорость</td>
+<td>100-500 об/мин</td>
+</tr>
+<tr class="odd">
+<td>Импорт</td>
+<td>NdFeB магниты (~1-2 кг/мотор)</td>
+</tr>
+</tbody>
+</table>
+<p>Используется в современных коллаборативных роботах: <a href="https://www.kuka.com/en-de/products/robotics-systems/industrial-robots/lbr-iiwa">KUKA iiwa</a>, <a href="https://www.kollmorgen.com/en-us/blogs/motors-robotics-do-you-really-need-compromise">Kollmorgen KBM</a>. При 500 об/мин MoS₂ втулки работают в безопасной зоне PV.</p>
+</section>
+<section id="решение-4-тросовые-cabletendon-приводы" class="level4">
+<h4 class="anchored" data-anchor-id="решение-4-тросовые-cabletendon-приводы">Решение 4: Тросовые (cable/tendon) приводы</h4>
+<p>Мотор на корпусе робота, трос через шкивы к удалённому суставу:</p>
+<ul>
+<li>Нет шестерён в суставе — только шкивы и проволока</li>
+<li>Проволока Al/Fe — местное производство (волочильный стан)</li>
+<li>Нет люфта при правильном натяжении</li>
+<li>Применяется в хирургических роботах и космических механизмах (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11759866/">PMC — Cable-Driven Joints</a>)</li>
+</ul>
+</section>
+</section>
+<section id="рекомендация-по-приводам" class="level3">
+<h3 class="anchored" data-anchor-id="рекомендация-по-приводам">Рекомендация по приводам</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 26%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Робот</th>
+<th>Задача</th>
+<th>Решение</th>
+<th>Местное?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Крот-М гусеницы</td>
+<td>1:30, высокий момент</td>
+<td><strong>NaK гидромотор</strong></td>
+<td><strong>100% да</strong></td>
+</tr>
+<tr class="even">
+<td>Крот-М ковш</td>
+<td>Линейный, 50 кН</td>
+<td><strong>NaK гидроцилиндр</strong></td>
+<td><strong>100% да</strong></td>
+</tr>
+<tr class="odd">
+<td>Краб-М колёса</td>
+<td>1:20, средний момент</td>
+<td><strong>Циклоидный привод</strong></td>
+<td><strong>100% да</strong></td>
+</tr>
+<tr class="even">
+<td>Краб-М платформа</td>
+<td>Подъём 5 т</td>
+<td><strong>NaK гидроцилиндр</strong></td>
+<td><strong>100% да</strong></td>
+</tr>
+<tr class="odd">
+<td>Кентавр-М суставы</td>
+<td>1:100-500, точность</td>
+<td><strong>Direct-drive</strong></td>
+<td>Частично (импорт NdFeB)</td>
+</tr>
+<tr class="even">
+<td>Кентавр-М запястье</td>
+<td>Лёгкий, точный</td>
+<td><strong>Тросовый привод</strong></td>
+<td><strong>100% да</strong></td>
+</tr>
+<tr class="odd">
+<td>WAAM-робот (6 осей)</td>
+<td>1:50-100, силовой</td>
+<td><strong>Циклоидный привод</strong></td>
+<td><strong>100% да</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Итого импорт для приводов:</strong> NdFeB магниты ~1-2 кг на Кентавра-М × 20 000 Кентавров = <strong>~20-40 т</strong> на весь парк. Включается в «витамины».</p>
+<hr>
+</section>
+</section>
+<section id="кабель-10-кв" class="level2">
+<h2 class="anchored" data-anchor-id="кабель-10-кв">4. Кабель 10 кВ</h2>
+<section id="проблема-3" class="level3">
+<h3 class="anchored" data-anchor-id="проблема-3">Проблема</h3>
+<p>Крот-М питается по кабелю 10 кВ (50 м). Полимерная изоляция в вакууме деградирует (дегазация, УФ). Чем изолировать?</p>
+</section>
+<section id="решение-mi-кабель-mineral-insulated" class="level3">
+<h3 class="anchored" data-anchor-id="решение-mi-кабель-mineral-insulated">Решение: MI-кабель (Mineral Insulated)</h3>
+<p>Стандартная промышленная технология: проводник в сжатом порошке MgO внутри стальной оболочки.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Диэлектрическая прочность MgO</td>
+<td><strong>10–35 кВ/мм</strong></td>
+</tr>
+<tr class="even">
+<td>Температура MgO</td>
+<td>до <strong>2800°C</strong></td>
+</tr>
+<tr class="odd">
+<td>Рабочая температура кабеля</td>
+<td>до <strong>540°C</strong> непрерывно</td>
+</tr>
+<tr class="even">
+<td>Толщина изоляции для 10 кВ</td>
+<td>~1–2 мм</td>
+</tr>
+<tr class="odd">
+<td>Удельное сопротивление</td>
+<td>3.3×10¹⁰ Ом·м</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ключевое преимущество на Меркурии</strong>: MgO гигроскопичен (главный недостаток на Земле — впитывает влагу, теряет изоляцию). <strong>В вакууме Меркурия влаги нет</strong> → MgO работает на теоретическом пределе (<a href="https://kamet-trading.com/faq/what-is-an-mi-cable/">Kamet Trading</a>, <a href="https://en.wikipedia.org/wiki/Mineral-insulated_copper-clad_cable">Wikipedia — MI cable</a>).</p>
+</section>
+<section id="изготовление-на-меркурии-1" class="level3">
+<h3 class="anchored" data-anchor-id="изготовление-на-меркурии-1">Изготовление на Меркурии</h3>
+<ol type="1">
+<li><strong>MgO порошок</strong>: Mg (3.3% реголита) + O₂ (45%) → обжиг → помол</li>
+<li><strong>Al проводник</strong>: местный Al</li>
+<li><strong>Fe оболочка</strong>: местная нержавейка</li>
+<li><strong>Сборка</strong>: засыпка MgO в трубу с проводником → волочение/обжатие</li>
+</ol>
+<p>Все материалы местные. Технология известна с 1930-х годов.</p>
+</section>
+<section id="альтернативы" class="level3">
+<h3 class="anchored" data-anchor-id="альтернативы">Альтернативы</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Материал</th>
+<th>Диэл. прочность</th>
+<th>Местный?</th>
+<th>Сложность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MgO</td>
+<td>10–35 кВ/мм</td>
+<td><strong>Да</strong></td>
+<td>Низкая</td>
+</tr>
+<tr class="even">
+<td>Al₂O₃</td>
+<td>10–35 кВ/мм</td>
+<td><strong>Да</strong></td>
+<td>Низкая</td>
+</tr>
+<tr class="odd">
+<td>Слюда (mica)</td>
+<td>50–200 кВ/мм</td>
+<td><strong>Да</strong> (синтетическая)</td>
+<td>Средняя</td>
+</tr>
+<tr class="even">
+<td>Стекловолокно</td>
+<td>20–30 кВ/мм</td>
+<td><strong>Да</strong> (без бора)</td>
+<td>Средняя</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="вакуумная-смазка" class="level2">
+<h2 class="anchored" data-anchor-id="вакуумная-смазка">5. Вакуумная смазка</h2>
+<section id="проблема-4" class="level3">
+<h3 class="anchored" data-anchor-id="проблема-4">Проблема</h3>
+<p>Все подшипники, редукторы, направляющие требуют смазки в вакууме. MoS₂ — стандарт, но молибден отсутствует на Меркурии.</p>
+</section>
+<section id="основной-вариант-импорт-mo-для-mos₂" class="level3">
+<h3 class="anchored" data-anchor-id="основной-вариант-импорт-mo-для-mos₂">Основной вариант: импорт Mo для MoS₂</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Толщина покрытия</td>
+<td>0.5–5 мкм (магнетронное распыление)</td>
+</tr>
+<tr class="even">
+<td>Расход Mo на 1 подшипник</td>
+<td>~0.01–0.1 г</td>
+</tr>
+<tr class="odd">
+<td>Парк роботов (1000 шт.)</td>
+<td>~10–100 г Mo на полное покрытие</td>
+</tr>
+<tr class="even">
+<td>Перезаправка (3–6 мес.)</td>
+<td>~20–200 г Mo/год</td>
+</tr>
+<tr class="odd">
+<td>Масса груза с Земли</td>
+<td><strong>&lt; 1 кг/год Mo</strong> на весь парк</td>
+</tr>
+</tbody>
+</table>
+<p>Импорт Mo — не проблема по массе. Это граммы, не тонны.</p>
+</section>
+<section id="альтернатива-tis₂-местное-производство" class="level3">
+<h3 class="anchored" data-anchor-id="альтернатива-tis₂-местное-производство">Альтернатива: TiS₂ (местное производство)</h3>
+<p>Дисульфид титана — слоистая структура, аналогичная MoS₂:</p>
+<ul>
+<li>Ti (0.3% реголита) + S (до 4% реголита) — <strong>оба элемента местные</strong></li>
+<li>Синтез: Ti + 2S → TiS₂ при 400–800°C в вакууме</li>
+<li>Слоистая кристаллическая структура → потенциальные смазочные свойства</li>
+<li><strong>Статус</strong>: мало исследован как смазка — требуется экспериментальная проверка</li>
+</ul>
+</section>
+<section id="альтернатива-ws₂-если-доступен-w" class="level3">
+<h3 class="anchored" data-anchor-id="альтернатива-ws₂-если-доступен-w">Альтернатива: WS₂ (если доступен W)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>MoS₂</th>
+<th>WS₂</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Коэфф. трения</td>
+<td>0.03–0.06</td>
+<td><strong>0.03</strong></td>
+</tr>
+<tr class="even">
+<td>Макс. температура (вакуум)</td>
+<td>~1200°C</td>
+<td><strong>~1316°C</strong></td>
+</tr>
+<tr class="odd">
+<td>Несущая способность</td>
+<td>до 1.2 ГПа</td>
+<td>до <strong>2.76 ГПа</strong></td>
+</tr>
+<tr class="even">
+<td>Доступность</td>
+<td>Импорт Mo</td>
+<td>Импорт W</td>
+</tr>
+</tbody>
+</table>
+<p>WS₂ превосходит MoS₂ по всем параметрам (<a href="https://www.dicronite.com/tungsten-disulfide/">Dicronite</a>). Если W станет доступен (импорт или астероидная добыча) — это оптимальный вариант.</p>
+<hr>
+</section>
+</section>
+<section id="производственные-линии" class="level2">
+<h2 class="anchored" data-anchor-id="производственные-линии">6. Производственные линии</h2>
+<p>Все 5 критических компонентов производятся внутри купола <a href="../../../../ru/science/detailed/factories/overview.html">завода-репликатора (Ф-Р)</a>. Большинство операций выполняется на <strong>существующем оборудовании</strong> (WAAM, шлифовка, прокат). Новое оборудование занимает &lt;2% площади купола и потребляет &lt;0.1% электрической мощности завода.</p>
+<section id="производство-подшипников" class="level3">
+<h3 class="anchored" data-anchor-id="производство-подшипников">6.1 Производство подшипников</h3>
+<p><strong>Существующее оборудование:</strong> <a href="../../../../ru/science/detailed/factories/elements/waam.html">WAAM-ячейки</a> (втулки-заготовки) + шлифовальные ячейки — зона «Формовка» (200 м²).</p>
+<p><strong>Новое оборудование:</strong> Магнетронная станция напыления MoS₂.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Тип</td>
+<td>DC магнетронное распыление</td>
+</tr>
+<tr class="even">
+<td>Вакуумная камера</td>
+<td>~0.5 м³</td>
+</tr>
+<tr class="odd">
+<td>Мощность</td>
+<td>~10 кВт</td>
+</tr>
+<tr class="even">
+<td>Площадь</td>
+<td>~4 м²</td>
+</tr>
+<tr class="odd">
+<td>Масса</td>
+<td>~200 кг</td>
+</tr>
+<tr class="even">
+<td>Размещение</td>
+<td>Зона «Формовка»</td>
+</tr>
+<tr class="odd">
+<td>Расходный материал</td>
+<td>Mo мишень (~100 г, хватает на месяцы)</td>
+</tr>
+<tr class="even">
+<td>Рабочий газ</td>
+<td>Ar (импорт малых объёмов)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Технологический поток:</strong> Прокат → WAAM втулка-заготовка → шлифовка ±0.1 мм → магнетронная камера (MoS₂, 0.5-5 мкм) → сборка робота.</p>
+<p><strong>Пропускная способность:</strong> 50-100 втулок/партия, 1-4 ч/партия → 1-2 партии/день. <strong>Потребность:</strong> ~50-100 втулок/день (10-20 на робота × 5 роботов/день), <strong>без моторных подшипников</strong> — те импортируются.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Магнетронная станция двойного назначения: покрытие подшипников + нанесение смазки (п. 6.5).</p>
+</div>
+</div>
+</section>
+<section id="производство-уплотнений" class="level3">
+<h3 class="anchored" data-anchor-id="производство-уплотнений">6.2 Производство уплотнений</h3>
+<p><strong>Существующее оборудование:</strong> <a href="../../../../ru/science/detailed/factories/elements/rolling.html">Прокатный стан</a> (лист Fe/Al 1-3 мм), WAAM (штампы и пресс-формы).</p>
+<p><strong>Новое оборудование:</strong> Пресс формовки O-ring + комплект штампов.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Мощность</td>
+<td>~5 кВт</td>
+</tr>
+<tr class="even">
+<td>Площадь</td>
+<td>~2 м²</td>
+</tr>
+<tr class="odd">
+<td>Масса</td>
+<td>~100 кг</td>
+</tr>
+<tr class="even">
+<td>Размещение</td>
+<td>Зона «Формовка»</td>
+</tr>
+<tr class="odd">
+<td>Штампы</td>
+<td>WAAM + шлифовка (сменные)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Пропускная способность:</strong> ~1-2 мин/кольцо → <strong>60+ колец/день</strong>. <strong>Потребность:</strong> 40-60 колец/день (8-12 на робота × 5 роботов). <strong>Запас:</strong> 1.5×.</p>
+<p><strong>ЭМ-насосы:</strong> из существующих Al-обмоток + Fe-сердечников. Сборка в зоне «Сборка роботов» (250 м²). Новое оборудование не требуется.</p>
+</section>
+<section id="производство-приводов" class="level3">
+<h3 class="anchored" data-anchor-id="производство-приводов">6.3 Производство приводов</h3>
+<p><strong>Циклоидные приводы (Краб-М, WAAM-роботы):</strong> все детали — на существующем WAAM + шлифовке. Новое оборудование не нужно. Пальцы (цилиндры) и диски шлифуются стандартными корундовыми кругами.</p>
+<p><strong>NaK гидроприводы (Крот-М):</strong> цилиндры и корпуса гидромоторов — WAAM + шлифовка ±0.1 мм. Существующее оборудование.</p>
+<p><strong>Direct-drive (Кентавр-М):</strong> корпус мотора — WAAM, обмотки — Al проволока (существующий волочильный стан). <strong>Импорт:</strong> NdFeB магниты ~1-2 кг/мотор.</p>
+<p><strong>Тросовые приводы (запястье Кентавра):</strong> проволока Fe/Al — существующий прокат. Шкивы — WAAM + шлифовка.</p>
+<p>Новое оборудование для приводов: <strong>не требуется</strong>.</p>
+</section>
+<section id="производство-mi-кабеля" class="level3">
+<h3 class="anchored" data-anchor-id="производство-mi-кабеля">6.4 Производство MI-кабеля</h3>
+<p><strong>Существующее оборудование:</strong> Волочильный стан (Al проволока), прокатный стан (Fe труба малого диаметра), линия <a href="../../../../ru/science/detailed/materials/ceramics-mgo.html">MgO-керамики</a> (66 т/день — нужно ~2 кг/день порошка, <strong>0.003%</strong> от мощности линии).</p>
+<p><strong>Новое оборудование:</strong> Стенд сборки MI-кабеля.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Тип</td>
+<td>Засыпка MgO + волочение через фильеры</td>
+</tr>
+<tr class="even">
+<td>Длина стенда</td>
+<td>~5-10 м</td>
+</tr>
+<tr class="odd">
+<td>Мощность</td>
+<td>~20 кВт</td>
+</tr>
+<tr class="even">
+<td>Площадь</td>
+<td>~15 м²</td>
+</tr>
+<tr class="odd">
+<td>Масса</td>
+<td>~500 кг</td>
+</tr>
+<tr class="even">
+<td>Размещение</td>
+<td>Зона «Волочильная» (100 м²) — занято 15%</td>
+</tr>
+<tr class="odd">
+<td>Фильеры</td>
+<td>Si₃N₄ керамика (как у существующего волочильного стана)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Технологический поток:</strong> Al проволока + Fe труба → засыпка MgO порошка → волочение/обжатие → готовый MI-кабель.</p>
+<p><strong>Пропускная способность:</strong> 1-5 м/мин → до <strong>1500 м/день</strong> при 5 часах работы. <strong>Потребность:</strong> 100-250 м/день (50 м силовой на Крота + внутренняя проводка). <strong>Запас:</strong> 6-15×.</p>
+</section>
+<section id="производство-смазки" class="level3">
+<h3 class="anchored" data-anchor-id="производство-смазки">6.5 Производство смазки</h3>
+<p><strong>MoS₂:</strong> та же магнетронная станция (п. 6.1) — двойное назначение. Расход Mo: ~0.1 г/робот → ~0.5 г/день при 5 роботах.</p>
+<p><strong>TiS₂ (исследовательское):</strong> новая печь синтеза.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Тип</td>
+<td>Ампульная печь для синтеза Ti + 2S → TiS₂</td>
+</tr>
+<tr class="even">
+<td>Температура</td>
+<td>400-800°C</td>
+</tr>
+<tr class="odd">
+<td>Мощность</td>
+<td>~5 кВт</td>
+</tr>
+<tr class="even">
+<td>Площадь</td>
+<td>~1 м²</td>
+</tr>
+<tr class="odd">
+<td>Масса</td>
+<td>~50 кг</td>
+</tr>
+<tr class="even">
+<td>Размещение</td>
+<td>Зона «Формовка»</td>
+</tr>
+<tr class="odd">
+<td>Сырьё</td>
+<td>Ti из линии титана (3 т TiO₂/день), S (18 т/день)</td>
+</tr>
+</tbody>
+</table>
+<p>Статус TiS₂: TRL 2 (исследование). Печь нужна для экспериментальной проверки, не для массового производства.</p>
+</section>
+<section id="обслуживание-подшипников-на-масштабе" class="level3">
+<h3 class="anchored" data-anchor-id="обслуживание-подшипников-на-масштабе">6.6 Обслуживание подшипников на масштабе</h3>
+<p><strong>Масштаб проблемы:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Роботов в парке</td>
+<td>~1000 (один комплекс)</td>
+</tr>
+<tr class="even">
+<td>Подшипниковых узлов на робота</td>
+<td>~25 (среднее)</td>
+</tr>
+<tr class="odd">
+<td>Всего подшипников</td>
+<td><strong>~25 000</strong></td>
+</tr>
+<tr class="even">
+<td>Интервал перепокрытия MoS₂</td>
+<td>3-6 мес. (тяжёлые), 6-12 мес. (лёгкие)</td>
+</tr>
+<tr class="odd">
+<td>Операций перепокрытия в день</td>
+<td><strong>~70</strong></td>
+</tr>
+<tr class="even">
+<td>Время на 1 операцию</td>
+<td>~1.5 часа (демонтаж, очистка, напыление, монтаж)</td>
+</tr>
+<tr class="odd">
+<td>Робото-часов в день</td>
+<td>~105</td>
+</tr>
+<tr class="even">
+<td>Кентавров-М на обслуживание</td>
+<td><strong>10-13 шт</strong> (~1% парка)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Возможность in-situ напыления:</strong> На поверхности Меркурия (вакуум) возможно напыление <strong>без камеры</strong> — портативная магнетронная головка на манипуляторе Кентавра. Требуется подача Ar газа и питание 1-5 кВт. Это новая инженерная разработка, но физически осуществимая.</p>
+<p><strong>Альтернатива:</strong> замена втулок целиком на предварительно покрытые (склад в вакууме на внешней площадке).</p>
+</section>
+<section id="сводная-таблица-нового-оборудования" class="level3">
+<h3 class="anchored" data-anchor-id="сводная-таблица-нового-оборудования">6.7 Сводная таблица нового оборудования</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Оборудование</th>
+<th>Площадь</th>
+<th>Мощность</th>
+<th>Масса</th>
+<th>Зона</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Магнетронная станция</td>
+<td>4 м²</td>
+<td>10 кВт</td>
+<td>200 кг</td>
+<td>Формовка</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Пресс O-ring</td>
+<td>2 м²</td>
+<td>5 кВт</td>
+<td>100 кг</td>
+<td>Формовка</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Стенд MI-кабеля</td>
+<td>15 м²</td>
+<td>20 кВт</td>
+<td>500 кг</td>
+<td>Волочильная</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Печь TiS₂</td>
+<td>1 м²</td>
+<td>5 кВт</td>
+<td>50 кг</td>
+<td>Формовка</td>
+</tr>
+<tr class="odd">
+<td><strong>Итого</strong></td>
+<td></td>
+<td><strong>22 м²</strong></td>
+<td><strong>40 кВт</strong></td>
+<td><strong>850 кг</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="влияние-на-завод" class="level3">
+<h3 class="anchored" data-anchor-id="влияние-на-завод">6.8 Влияние на завод</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Добавлено</th>
+<th>Всего завод</th>
+<th>Доля</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Площадь</td>
+<td>22 м²</td>
+<td>1500 м²</td>
+<td><strong>1.5%</strong></td>
+</tr>
+<tr class="even">
+<td>Электрическая мощность</td>
+<td>40 кВт</td>
+<td>114 МВт</td>
+<td><strong>0.035%</strong></td>
+</tr>
+<tr class="odd">
+<td>Масса оборудования</td>
+<td>0.85 т</td>
+<td>46 т</td>
+<td><strong>+1.8%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Для сравнения: один прокатный стан потребляет 1340 кВт (в 33 раза больше, чем всё новое оборудование).</p>
+</section>
+<section id="узкие-места" class="level3">
+<h3 class="anchored" data-anchor-id="узкие-места">6.9 Узкие места</h3>
+<p><strong>WAAM-ячейки (3 шт, 60-180 кг/день):</strong> разделяют нагрузку между рамами роботов, втулками подшипников, деталями циклоидных приводов. Решение: приоритетное планирование смен.</p>
+<p><strong>Магнетронная станция (1 шт):</strong> единственная на завод. При выходе из строя → fallback на Al-покрытие (TRL 6, полностью местное, но μ = 0.3-0.5 вместо 0.03-0.06).</p>
+<p><strong>Шарикоподшипники и NdFeB магниты:</strong> импорт с Земли в составе «витаминов». При перебоях с доставкой → переход на низкооборотные режимы с MoS₂ втулками (деградация производительности, но не остановка).</p>
+</section>
+<section id="хватит-ли-купола" class="level3">
+<h3 class="anchored" data-anchor-id="хватит-ли-купола">6.10 Хватит ли купола?</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ответ: да
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Площадь:</strong> 22 м² нового оборудования = 1.5% от купола 1500 м². Свободный запас в зонах размещения: &gt;70 м².</p>
+<p><strong>Энергия:</strong> 40 кВт = 0.035% от 114 МВт электрической мощности.</p>
+<p><strong>Масса:</strong> 850 кг нового оборудования — производится за &lt;1 день работы WAAM-ячейки.</p>
+<p><strong>Материалы:</strong> Суточный расход местных материалов на критические компоненты — килограммы при производстве десятков тонн. Импорт — граммы Mo и Ag.</p>
+<p><strong>Узкое место:</strong> не площадь и не энергия, а <strong>расписание WAAM-ячеек</strong> (решается планированием) и <strong>импорт витаминов</strong> (шарикоподшипники, NdFeB магниты).</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="сводная-таблица" class="level2">
+<h2 class="anchored" data-anchor-id="сводная-таблица">Сводная таблица</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 34%">
+<col style="width: 14%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>Технология</th>
+<th>Местные материалы?</th>
+<th>Импорт</th>
+<th>TRL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Подшипники (низкоскоростные)</td>
+<td>MoS₂ журнальные втулки</td>
+<td>Fe, Al — да; Mo — нет</td>
+<td>~кг/год Mo</td>
+<td>9 (космос)</td>
+</tr>
+<tr class="even">
+<td>Подшипники (моторы &gt;1000 об/мин)</td>
+<td><strong>Импорт шарикоподшипников</strong></td>
+<td>Нет</td>
+<td><strong>0.8-1.6 т на парк</strong></td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>Подшипники лёгкие</td>
+<td>Al покрытие на Fe</td>
+<td><strong>100% местные</strong></td>
+<td>—</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>Уплотнения</td>
+<td>Металл. O-ring (O-FLEX)</td>
+<td>Fe/Al — да; Ag — нет</td>
+<td>Граммы Ag</td>
+<td>9 (ядерка)</td>
+</tr>
+<tr class="odd">
+<td>Циркуляция NaK</td>
+<td>ЭМ-насос</td>
+<td><strong>100% местные</strong></td>
+<td>—</td>
+<td>9 (SNAP-10A)</td>
+</tr>
+<tr class="even">
+<td>Приводы силовые</td>
+<td><strong>Циклоидные</strong> (WAAM пальцы + диск)</td>
+<td><strong>100% местные</strong></td>
+<td>—</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Приводы точные (Кентавр)</td>
+<td><strong>Direct-drive</strong> + тросовые</td>
+<td>Частично</td>
+<td><strong>NdFeB ~1-2 кг/мотор</strong></td>
+<td>8-9</td>
+</tr>
+<tr class="even">
+<td>Приводы тяжёлые (Крот)</td>
+<td><strong>NaK гидромотор</strong></td>
+<td><strong>100% местные</strong></td>
+<td>—</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>Кабель 10 кВ</td>
+<td>MI (MgO)</td>
+<td><strong>100% местные</strong></td>
+<td>—</td>
+<td>9 (промышленность)</td>
+</tr>
+<tr class="even">
+<td>Смазка</td>
+<td>MoS₂ напыление</td>
+<td>S — да; Mo — нет</td>
+<td>~кг/год Mo</td>
+<td>9 (космос)</td>
+</tr>
+<tr class="odd">
+<td>Смазка (альт.)</td>
+<td>TiS₂</td>
+<td><strong>100% местные</strong></td>
+<td>—</td>
+<td>2 (исследование)</td>
+</tr>
+</tbody>
+</table>
+<section id="итого-импорт-на-критические-компоненты" class="level3">
+<h3 class="anchored" data-anchor-id="итого-импорт-на-критические-компоненты">Итого импорт на критические компоненты</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 33%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Компонент</th>
+<th>На робота</th>
+<th>На парк (60 000)</th>
+<th>Периодичность</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Шарикоподшипники (моторы)</td>
+<td>~30 г × 8 шт</td>
+<td><strong>0.8-1.6 т</strong></td>
+<td>Разово (ресурс 5-10 лет)</td>
+</tr>
+<tr class="even">
+<td>NdFeB магниты (Кентавр direct-drive)</td>
+<td>~1-2 кг</td>
+<td><strong>20-40 т</strong></td>
+<td>Разово</td>
+</tr>
+<tr class="odd">
+<td>Mo для MoS₂</td>
+<td>~0.1 г/робот/перепокрытие</td>
+<td><strong>&lt;1 кг/год</strong></td>
+<td>Ежегодно</td>
+</tr>
+<tr class="even">
+<td>Ag для O-ring</td>
+<td>~1-5 г</td>
+<td><strong>60-300 кг</strong></td>
+<td>Разово</td>
+</tr>
+<tr class="odd">
+<td>Электроника (чипы, датчики)</td>
+<td>~0.5 кг</td>
+<td><strong>30 т</strong></td>
+<td>Разово</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="источники" class="level2">
+<h2 class="anchored" data-anchor-id="источники">Источники</h2>
+<ul>
+<li><a href="https://www.astbearings.com/blog/bearings-space-considerations-vacuum-environments.html">AST Bearings — Bearings in Space</a></li>
+<li><a href="https://esmats.eu/amspapers/pastpapers/pdfs/2018/paul.pdf">ESMATS — Improved Solid Lubricants</a></li>
+<li><a href="https://technetics.com/products/o-flex-metal-seal/">Technetics — O-FLEX Metal Seals</a></li>
+<li><a href="https://apps.dtic.mil/sti/tr/pdf/ADA321740.pdf">DTIC — NaK Material Compatibility</a></li>
+<li><a href="https://ntrs.nasa.gov/api/citations/20070022272/downloads/20070022272.pdf">NASA NTRS — Liquid-Metal Pump Technologies</a></li>
+<li><a href="https://www.nature.com/articles/srep37773">Nature — Cast BMG Strain Wave Gears (NASA JPL, 2016)</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2663983/">PNAS — Poor Fatigue Properties of BMG</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0142112319300295">WAAM Porosity and Fatigue Strength</a></li>
+<li><a href="https://www.mdpi.com/2673-3161/5/3/25">MDPI — WAAM Residual Stress</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10706903/">PMC — Gear Manufacturing Review</a></li>
+<li><a href="https://gearsolutions.com/departments/tooth-tips/precision-gearing-accuracy-and-tolerances/">Gear Solutions — Precision Gearing Tolerances</a></li>
+<li><a href="https://asmedigitalcollection.asme.org/mechanicaldesign/article/111/3/337/420932/Cycloid-Drives-With-Machining-Tolerances">ASME — Cycloid Drives with Machining Tolerances</a></li>
+<li><a href="https://www.nabtesco.com/">Nabtesco — Cycloidal Drives for Robotics</a></li>
+<li><a href="https://www.kollmorgen.com/en-us/blogs/motors-robotics-do-you-really-need-compromise">Kollmorgen — Direct Drive for Robotics</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11759866/">PMC — Cable-Driven Bionic Joint</a></li>
+<li><a href="https://www.ggbearings.com/en/news/ggb-goes-mars-perseverance-rover">GGB — Mars Perseverance Bearings</a></li>
+<li><a href="https://www.timken.com/timken-world/failure-not-option-timken-engineers-design-bearings-next-mars-rover/">Timken — Mars Rover Bearings</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mineral-insulated_copper-clad_cable">Wikipedia — MI Cable</a></li>
+<li><a href="https://www.dicronite.com/tungsten-disulfide/">Dicronite — WS₂</a></li>
+<li><a href="https://www.smbbearings.com/products/si3n4-ceramic-bearings.html">SMB Bearings — Si₃N₄</a></li>
+<li><a href="https://vacaero.com/information-resources/vac-aero-training/6964-dry-lubricants-vacuum-service.html">VacAero — Dry Lubricants for Vacuum</a></li>
+<li><a href="https://ntrs.nasa.gov/api/citations/19720012801/downloads/19720012801.pdf">NASA NTRS — Friction &amp; Lubrication in Vacuum</a></li>
+<li><a href="../../../../ru/science/detailed/factories/overview.html">Производство заводов (проект)</a></li>
+<li><a href="../../../../ru/science/detailed/factories/elements/waam.html">WAAM 3D-печать (проект)</a></li>
+<li><a href="../../../../ru/science/detailed/factories/elements/rolling.html">Прокатный стан (проект)</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

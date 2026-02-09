@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Tunnel Frame – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Tunnel Frame – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -834,16 +884,16 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#material-balance" id="toc-material-balance" class="nav-link" data-scroll-target="#material-balance">Material Balance</a></li>
   <li><a href="#support-types" id="toc-support-types" class="nav-link" data-scroll-target="#support-types">Support Types</a>
   <ul class="collapse">
-  <li><a href="#concrete-supports-on-ground" id="toc-concrete-supports-on-ground" class="nav-link" data-scroll-target="#concrete-supports-on-ground">Concrete Supports (on ground)</a></li>
+  <li><a href="#sulfur-concrete-supports-on-ground" id="toc-sulfur-concrete-supports-on-ground" class="nav-link" data-scroll-target="#sulfur-concrete-supports-on-ground">Sulfur-Concrete Supports (on ground)</a></li>
   <li><a href="#anchor-bolts" id="toc-anchor-bolts" class="nav-link" data-scroll-target="#anchor-bolts">Anchor Bolts</a></li>
   </ul></li>
   <li><a href="#frame-assembly" id="toc-frame-assembly" class="nav-link" data-scroll-target="#frame-assembly">Frame Assembly</a>
   <ul class="collapse">
-  <li><a href="#sequence" id="toc-sequence" class="nav-link" data-scroll-target="#sequence">Sequence</a></li>
+  <li><a href="#sequence-base-1-km" id="toc-sequence-base-1-km" class="nav-link" data-scroll-target="#sequence-base-1-km">Sequence (base 1 km)</a></li>
   </ul></li>
   <li><a href="#frame-loads" id="toc-frame-loads" class="nav-link" data-scroll-target="#frame-loads">Frame Loads</a>
   <ul class="collapse">
-  <li><a href="#static-loads" id="toc-static-loads" class="nav-link" data-scroll-target="#static-loads">Static Loads</a></li>
+  <li><a href="#static-loads-1-km" id="toc-static-loads-1-km" class="nav-link" data-scroll-target="#static-loads-1-km">Static Loads (1 km)</a></li>
   <li><a href="#dynamic-loads" id="toc-dynamic-loads" class="nav-link" data-scroll-target="#dynamic-loads">Dynamic Loads</a></li>
   </ul></li>
   <li><a href="#thermal-stability" id="toc-thermal-stability" class="nav-link" data-scroll-target="#thermal-stability">Thermal Stability</a>
@@ -887,7 +937,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Purpose:</strong> Load-bearing structure for the Mass Driver</li>
 <li><strong>Material:</strong> Fe-6%Mn steel (strength + low temperature performance)</li>
 <li><strong>Mass:</strong> <strong>~270 t</strong> (base 1 km)*</li>
-<li><strong>Construction:</strong> Truss frame + concrete supports</li>
+<li><strong>Construction:</strong> Truss frame + sulfur-concrete supports</li>
 </ul>
 <p>*With extension: 2 km (~535 t), 3 km (~800 t).</p>
 </blockquote>
@@ -1027,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="material-balance" class="level2">
 <h2 class="anchored" data-anchor-id="material-balance">Material Balance</h2>
-<p><strong>Per 1 Mass Driver (800 t frame):</strong></p>
+<p><strong>Per 1 Mass Driver (1 km, ~270 t frame):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1039,28 +1089,29 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Fe-6%Mn steel (main beams)</td>
-<td>700 t</td>
-<td>18 t/day -&gt; <strong>39 days</strong></td>
+<td>230 t</td>
+<td>11 t/day → <strong>21 days</strong></td>
 </tr>
 <tr class="even">
 <td>Fasteners, bolts</td>
-<td>50 t</td>
-<td>18 t/day -&gt; <strong>3 days</strong></td>
+<td>20 t</td>
+<td>11 t/day → <strong>2 days</strong></td>
 </tr>
 <tr class="odd">
 <td>Anti-corrosion coating (Al)</td>
-<td>50 t</td>
-<td>42 t/day -&gt; <strong>1.5 days</strong></td>
+<td>20 t</td>
+<td>42 t/day → <strong>0.5 day</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>TOTAL:</strong> ~<strong>40-45 days</strong> for material production.</p>
+<p><strong>TOTAL:</strong> ~<strong>21-25 days</strong> for material production.</p>
+<p><em>With extension to 3 km: ~40-45 days.</em></p>
 <hr>
 </section>
 <section id="support-types" class="level2">
 <h2 class="anchored" data-anchor-id="support-types">Support Types</h2>
-<section id="concrete-supports-on-ground" class="level3">
-<h3 class="anchored" data-anchor-id="concrete-supports-on-ground">Concrete Supports (on ground)</h3>
+<section id="sulfur-concrete-supports-on-ground" class="level3">
+<h3 class="anchored" data-anchor-id="sulfur-concrete-supports-on-ground">Sulfur-Concrete Supports (on ground)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1071,23 +1122,24 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Number of supports</td>
-<td>300 (every 10 m)</td>
+<td>100 (every 10 m)*</td>
 </tr>
 <tr class="even">
 <td>Mass per support</td>
-<td>~1 t concrete</td>
+<td>~1 t sulfur-concrete</td>
 </tr>
 <tr class="odd">
 <td>Foundation depth</td>
 <td>2-3 m into regolith</td>
 </tr>
 <tr class="even">
-<td><strong>TOTAL concrete</strong></td>
-<td><strong>~300 t</strong></td>
+<td><strong>TOTAL sulfur-concrete</strong></td>
+<td><strong>~100 t</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Concrete on Mercury:</strong> - Raw materials: regolith + water (from polar craters) - Binder: sulfide cement (from sulfur) - Strength: sufficient for supports</p>
+<p>*With extension: 200 supports (2 km), 300 supports (3 km).</p>
+<p><strong>Sulfur-concrete on Mercury:</strong> - Binder: <strong>sulfur (S)</strong> — melts at 115°C, solidifies. Source: <a href="../../../../../en/science/detailed/materials/titanium.html">Titanium Line</a> (~18 t/day) - Aggregate: regolith - <strong>No water required</strong> (unlike regular concrete) - Strength: sufficient for supports</p>
 </section>
 <section id="anchor-bolts" class="level3">
 <h3 class="anchored" data-anchor-id="anchor-bolts">Anchor Bolts</h3>
@@ -1113,17 +1165,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>TOTAL bolts</strong></td>
-<td><strong>1200 pcs</strong></td>
+<td><strong>400 pcs</strong>*</td>
 </tr>
 </tbody>
 </table>
+<p>*With extension: 800 (2 km), 1200 (3 km).</p>
 <hr>
 </section>
 </section>
 <section id="frame-assembly" class="level2">
 <h2 class="anchored" data-anchor-id="frame-assembly">Frame Assembly</h2>
-<section id="sequence" class="level3">
-<h3 class="anchored" data-anchor-id="sequence">Sequence</h3>
+<section id="sequence-base-1-km" class="level3">
+<h3 class="anchored" data-anchor-id="sequence-base-1-km">Sequence (base 1 km)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1134,40 +1187,41 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Trench excavation (3 km)</td>
-<td><strong>3 months</strong></td>
-<td>50 Moles</td>
+<td>Trench excavation (1 km)</td>
+<td><strong>2 weeks</strong></td>
+<td>20 Moles</td>
 </tr>
 <tr class="even">
-<td>Installing concrete supports</td>
-<td>2 weeks</td>
-<td>20 Centaurs</td>
-</tr>
-<tr class="odd">
-<td>Truss mounting (250 sections)</td>
-<td><strong>1 month</strong></td>
-<td>30 Centaurs</td>
-</tr>
-<tr class="even">
-<td>Joint welding</td>
+<td>Installing sulfur-concrete supports</td>
 <td>1 week</td>
 <td>10 Centaurs</td>
 </tr>
 <tr class="odd">
-<td>Geometry calibration</td>
+<td>Truss mounting (~85 sections)</td>
+<td><strong>1 week</strong></td>
+<td>20 Centaurs</td>
+</tr>
+<tr class="even">
+<td>Joint welding</td>
 <td>3 days</td>
+<td>10 Centaurs</td>
+</tr>
+<tr class="odd">
+<td>Geometry calibration</td>
+<td>2 days</td>
 <td>Automated</td>
 </tr>
 </tbody>
 </table>
-<p><strong>TOTAL:</strong> ~<strong>4.5 months</strong> from start to completed frame.</p>
+<p><strong>TOTAL:</strong> ~<strong>1 month</strong> from start to completed frame. (Runs in parallel with rail and coil production.)</p>
+<p><em>With extension to 3 km: ~4-5 months.</em></p>
 <hr>
 </section>
 </section>
 <section id="frame-loads" class="level2">
 <h2 class="anchored" data-anchor-id="frame-loads">Frame Loads</h2>
-<section id="static-loads" class="level3">
-<h3 class="anchored" data-anchor-id="static-loads">Static Loads</h3>
+<section id="static-loads-1-km" class="level3">
+<h3 class="anchored" data-anchor-id="static-loads-1-km">Static Loads (1 km)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1179,22 +1233,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Rails (2 pcs)</td>
-<td>210 t</td>
+<td>~70 t</td>
 <td>0.07 t/m</td>
 </tr>
 <tr class="even">
-<td>Coils (3000 pcs)</td>
-<td>300 t</td>
+<td>Coils (1000 pcs)</td>
+<td>~100 t</td>
 <td>0.1 t/m</td>
 </tr>
 <tr class="odd">
 <td>Electronics</td>
-<td>7 t</td>
-<td>0.002 t/m</td>
+<td>~3 t</td>
+<td>0.003 t/m</td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>517 t</strong></td>
+<td><strong>~173 t</strong></td>
 <td><strong>~0.17 t/m</strong></td>
 </tr>
 </tbody>
@@ -1320,7 +1374,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Straightness</td>
-<td>Laser sensor (import, vitamin)</td>
+<td>Laser sensor (import)</td>
 <td>+/-5 mm per 100 m</td>
 <td>Support adjustment</td>
 </tr>

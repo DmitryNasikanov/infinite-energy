@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>snowball – Проект Гелиос</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ade000faa502ff19940f8f0164ee5c92.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WW2S48BBEP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WW2S48BBEP');
+</script>
+<style>
+.content { max-width: 900px; }
+p { text-indent: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; text-align: justify; }
+h1 + p, h2 + p, h3 + p, h4 + p { text-indent: 0; }
+p:has(img), .quarto-figure, .figure { text-indent: 0; }
+p:has(> strong:first-child) { text-indent: 0; }
+p:has(> em:first-child) { text-indent: 0; }
+/* Минималистичные outline-кнопки */
+.btn-outline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: #555;
+  color: #fff;
+  text-decoration: none;
+}
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+/* Активный язык в dropdown */
+.dropdown-item.active {
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  color: inherit !important;
+}
+</style>
+<script>
+// Language switcher - handles GitHub Pages subdirectory
+const LANG_FLAGS = { ru: '🇷🇺', en: '🇬🇧' };  // For matching dropdown items
+const LANG_LABELS = { ru: 'RU', en: 'EN' };   // For navbar indicator
+
+// Translation map for navigation labels (RU → EN)
+const TRANSLATIONS = {
+  // Navbar
+  'Проект Гелиос': 'Project Helios',
+  'Книга': 'Book',
+  'Наука': 'Science',
+  'Об авторе': 'About',
+  // Sidebar sections
+  'Обзор': 'Overview',
+  'Сводные статьи': 'Summary Articles',
+  'Детальные темы': 'Detailed Topics',
+  'Справочники': 'Reference',
+  // Executive summary
+  'Проект «Гелиос» за 5 минут': 'Project Helios in 5 Minutes',
+  // Summary articles
+  'Почему Меркурий?': 'Why Mercury?',
+  'Луна': 'Moon',
+  'Бюджет проекта': 'Project Budget',
+  'Дорожная карта': 'Roadmap',
+  'Марс (перспектива)': 'Mars (Perspective)',
+  // Main detailed topics
+  'Зеркала Роя': 'Swarm Mirrors',
+  'Геометрия отражения': 'Reflection Geometry',
+  'Хаб приёма энергии': 'Energy Reception Hub',
+  'Энергосистема Меркурия': 'Mercury Power System',
+  'Доставка': 'Delivery',
+  'Производство': 'Production',
+  // Production section
+  'Навигация': 'Navigation',
+  'Переработка реголита': 'Regolith Processing',
+  'Электролиз MRE': 'MRE Electrolysis',
+  'Дистилляция шлака': 'Slag Distillation',
+  'Стекловолокно': 'Glass Fiber',
+  'Линия титана': 'Titanium Line',
+  'Углерод (опц.)': 'Carbon (opt.)',
+  'Кремний': 'Silicon',
+  'Керамика MgO': 'MgO Ceramics',
+  // Factory production
+  'Производство заводов': 'Factory Production',
+  'Первый завод (Bootstrap)': 'First Factory (Bootstrap)',
+  'Плавка': 'Melting',
+  'Литье (МНЛЗ)': 'Casting (CCM)',
+  'Прокат': 'Rolling',
+  '3D-печать (WAAM)': '3D Printing (WAAM)',
+  'Сборка': 'Assembly',
+  'Купола': 'Domes',
+  'Оборудование': 'Equipment',
+  'Саморепликация': 'Self-Replication',
+  // Mass drivers
+  'Масс-драйверы': 'Mass Drivers',
+  'Производство МД': 'MD Production',
+  'Теория и КПД': 'Theory & Efficiency',
+  'Масштабирование': 'Scaling',
+  'Элементы МД': 'MD Components',
+  'Рельсы': 'Rails',
+  'Катушки': 'Coils',
+  'Каркас': 'Frame',
+  'Сборка МД': 'MD Assembly',
+  'Трек': 'Track',
+  'Электроника': 'Electronics',
+  'Тестирование': 'Testing',
+  // Robots
+  'Производство роботов': 'Robot Production',
+  'Элементы': 'Components',
+  'Рамы': 'Frames',
+  'Батареи (NaS)': 'Batteries (NaS)',
+  'Актуаторы': 'Actuators',
+  'Сборка роботов': 'Robot Assembly',
+  'Краб-М': 'Crab-M',
+  'Кентавр-М': 'Centaur-M',
+  'Крот-М': 'Mole-M',
+  // Reference
+  'Глоссарий терминов': 'Glossary',
+  'Технологии и источники': 'Technologies & Sources',
+  'Физические константы': 'Physical Constants',
+  'Номенклатура': 'Nomenclature',
+  'Риски и ограничения проекта': 'Risks & Limitations'
+};
+
+function getBasePath() {
+  const match = window.location.pathname.match(/^(.*?)\/(ru|en)\//);
+  return match ? match[1] : '';
+}
+
+function getCurrentLang() {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`^${escaped}/(ru|en)/`);
+  const match = path.match(pattern);
+  return match ? match[1] : 'ru';
+}
+
+function switchLanguage(targetLang) {
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const currentLang = getCurrentLang();
+  if (currentLang === targetLang) return;
+
+  sessionStorage.setItem('scrollY', window.scrollY);
+
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  let newPath = path.replace(langPattern, `$1/${targetLang}/`);
+
+  // Root page handling
+  if (path === basePath + '/' || path === basePath + '/index.html' || path === basePath) {
+    newPath = `${basePath}/${targetLang}/`;
+  }
+
+  // Fallback для книги (главы не переведены на EN)
+  if (newPath.includes('/book/') && !newPath.endsWith('/book/') && !newPath.endsWith('/book/index.html')) {
+    newPath = `${basePath}/${targetLang}/book/`;
+  }
+
+  window.location.href = newPath;
+}
+
+window.addEventListener('load', function() {
+  const savedY = sessionStorage.getItem('scrollY');
+  if (savedY) { window.scrollTo(0, parseInt(savedY)); sessionStorage.removeItem('scrollY'); }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle dropdown items for language switching
+  document.querySelectorAll('.dropdown-item').forEach(el => {
+    const text = el.textContent;
+    for (const [langCode, flag] of Object.entries(LANG_FLAGS)) {
+      if (text.includes(flag)) {
+        el.addEventListener('click', function(e) { e.preventDefault(); switchLanguage(langCode); });
+        if (langCode === getCurrentLang()) el.classList.add('active');
+        break;
+      }
+    }
+  });
+
+  // Update navbar language indicator from 🌐 to current language label
+  const currentLang = getCurrentLang();
+  const currentLabel = LANG_LABELS[currentLang] || '🌐';
+  document.querySelectorAll('.navbar-nav .dropdown-toggle, .navbar-nav .nav-link').forEach(link => {
+    if (link.textContent.trim() === '🌐') {
+      link.textContent = currentLabel;
+    }
+  });
+
+  // Translate navigation labels for EN pages
+  if (currentLang === 'en') {
+    // Translate navbar items
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar menu text
+    document.querySelectorAll('.menu-text').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+    // Translate sidebar title
+    document.querySelectorAll('.sidebar-title').forEach(el => {
+      const text = el.textContent.trim();
+      if (TRANSLATIONS[text]) {
+        el.textContent = TRANSLATIONS[text];
+      }
+    });
+  }
+
+  // Rewrite ALL links (navbar + sidebar + content) to match current language
+  document.querySelectorAll('a[href*="/ru/"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', href.replace('/ru/', `/${currentLang}/`));
+    }
+  });
+
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/book/08-snowball/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/book/08-snowball/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/index.html"> 
+<span class="menu-text">Проект Гелиос</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/book/index.html"> 
+<span class="menu-text">Книга</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/science/index.html"> 
+<span class="menu-text">Наука</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ru/about.html"> 
+<span class="menu-text">Об авторе</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">🌐</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../ru/index.html">
+ <span class="dropdown-text">🇷🇺 Русский</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../en/index.html">
+ <span class="dropdown-text">🇬🇧 English</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-snowball" id="toc-the-snowball" class="nav-link active" data-scroll-target="#the-snowball">The Snowball</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="the-snowball" class="level1">
+<h1>The Snowball</h1>
+<p><strong>Shenzhen. Longhua Industrial Zone. February 2027.</strong></p>
+<p>Li Wei led them down the corridor between production lines, and the air around hummed from thousands of machines working simultaneously—a stocky man around forty-five, with a crew cut and the calm gaze of someone who solved problems rather than created them. Viktor walked alongside, Valery lagged slightly behind, examining the assembly lines through glass, and Pavel wrote something in a notebook—numbers, names, questions.</p>
+<p>“American sanctions,” Li Wei began, and in his voice was neither pride nor defiance, only statement of fact. “We circumvented them. Lithography equipment—three years ago we depended on Taiwan, now our own production. Software—our own development. Rare earth elements—domestic supply.” He stopped at a window behind which robot manipulators worked, assembling microchips with precision unavailable to human hands. “Three years ago we couldn’t do this. Now—no worse than Silicon Valley. Maybe even better: our engineers are hungrier.”</p>
+<p>Valery approached closer to the glass, and on his face was that delighted smile with which he looked at any manifestation of technological breakthrough. “China proved—technological breakthrough is possible! Three years! Imagine what we’ll do in ten. They tried to strangle you with sanctions—you circumvented them. This is proof the project can survive even if half the world is against it.”</p>
+<p>Pavel didn’t look up from his notebook. “Three years ago—Taiwan. Now—Shenzhen.” He raised his head and looked at Li Wei. “Dependence remains. Only supplier changed. If tomorrow Shenzhen closes supplies—what happens to project?”</p>
+<p>Li Wei shook his head. “We won’t close supplies. The project is needed by us no less than by you.”</p>
+<p>“For now,” Pavel clarified. “For now it’s needed. And then?”</p>
+<p>Viktor remained silent, listening to the argument, and thought that both were right—and both didn’t understand the main thing. Valery saw technological breakthrough, proof that humanity can overcome barriers. Pavel saw change of dependencies, redistribution of risks. But neither of them saw what Viktor saw: the project rests not on technologies and not on money. It rests on a fragile balance of interests that could collapse at any moment.</p>
+<p>“Own equipment is good,” Viktor said finally, looking at Li Wei. “But quality? Comparable to ASML? Or are there compromises?”</p>
+<p>Li Wei didn’t lie. “There are compromises. For now. But we’re working. Every month—better. Every quarter—closer to world level.” He paused. “You know Americans fear us?”</p>
+<p>“I know,” Viktor answered.</p>
+<p>“They think we want to defeat them.” Li Wei shook his head. “We don’t want to defeat. We want to build. Victory is a zero-sum game. Building—isn’t.”</p>
+<p>Valery nodded as if this confirmed everything he believed. Pavel smiled, but without malice. “Beautiful words. But when the moment comes to choose—build together or win alone—what will China choose?”</p>
+<p>Li Wei didn’t answer. Viktor understood: because he doesn’t know. No one knows.</p>
+<p>The three of them stood by the window—idealist, cynic, and engineer in the middle—and watched robots assembling microchips for a project that should change the world. Viktor remembered Senator Morrow almost a year ago: “Naive idealists.” “Geopolitical threat.” And remembered the strange conversation with Kuzmichev that evening when philosophical questions sounded like a test—or like an invitation. Viktor hadn’t understood then what exactly he was being offered to hear between the lines. But since then he looked at Egor Mikhailovich differently—as you look at someone whose words have a second meaning.</p>
+<p>Li Wei looked at the three of them and seemed to understand: the project rests not on agreement but on the fact that each sees something different in it.</p>
+<p><strong>Bangalore. Electronics City Tech Park. March 2027.</strong></p>
+<p>Vaishali Rao entered the conference room last—with a laptop under her arm, a cup of tea in her hand, and a haggard face that spoke louder than any words about three sleepless nights. “Sorry I’m late,” she said, settling opposite the three. “We were retraining the group behavior model.” Her gaze slid across faces: Viktor, with whom she’d worked the last three months, an elderly man in glasses, and a broad-shouldered man who looked at her as if already calculating her salary and code failure rate in his head.</p>
+<p>She was twenty-eight years old and headed a team of seventy programmers working on artificial intelligence for the project’s robots. When Viktor first flew to Bangalore three months ago, Vaishali met him skeptically: “We have contracts with Google, Amazon, Microsoft. Why do we need your project?” Viktor showed her specifications. An hour later she said: “When do we start?”</p>
+<p>Now, three months later, she was showing results—graphs on screen, simulation logs, video from test site. Neural networks worked. Robots learned to coordinate without central control, like an ant colony where each knows their job without waiting for orders from above.</p>
+<p>Valery leaned forward. “Swarm intelligence,” he repeated. “Like an anthill. Seventy people—and machines learn to work together. Without central control.”</p>
+<p>Vaishali smiled but didn’t answer. Pavel leaned back and looked at the organizational structure chart hanging on the wall. “Seventy programmers,” he pronounced, voice even, without intonation. “What’s turnover? Google, Amazon pay you more. What stops them from leaving tomorrow?”</p>
+<p>Vaishali wasn’t offended—the question was fair. “Nothing stops them. Half my team can leave any moment. But while they’re interested—they’re here.”</p>
+<p>“Challenge ends when money ends,” Pavel noted. “Or when Google offers a more interesting challenge.”</p>
+<p>“What about integration with Chinese hardware?” Viktor interrupted, and in his voice sounded that note meaning one thing: the conversation had gone in the wrong direction. “Swarm intelligence is one thing. Real robots with real drives—another. What percentage of code will need rewriting?”</p>
+<p>Vaishali thought. “About twenty percent. Four months for refinement, plus three for integration. We’ll make deadline.”</p>
+<p>“What if you don’t?” Pavel picked up. “Missing the deadline by a month—a contract breach with China. A contract breach—the entire project stops.”</p>
+<p>“I can’t guarantee there won’t be unforeseen circumstances,” Vaishali answered calmly. “But I can guarantee my team will do everything so there aren’t any.”</p>
+<p>She smiled. “Lots of work. But interesting.” Closed laptop. “See you at integration.”</p>
+<p><strong>Kazan. BRICS Summit. April 2027.</strong></p>
+<p>The Kazan Kremlin hall was overcrowded. Flags of ten states stood along the walls, and to the familiar colors of Brazil, Russia, India, China, and South Africa were added new ones: the green of Saudi Arabia, the black-red-green of Egypt, the blue-white-orange of the United Arab Emirates.</p>
+<p>Viktor sat in the second row, next to Pavel. In front—government delegations, ministers, advisors. Behind—journalists and observers from around the world.</p>
+<p>A year ago Egor Mikhailovich said “a week, maximum two.” The summit had been in preparation for fourteen months. Endless intermediate negotiations, video conferences at three in the morning, classified papers that were read but not signed. Most countries waited—wanted to see that the project was real, that the robots worked, that the money wasn’t going into the sand. Only when the Russian factory showed its first modules and Bangalore—working swarm intelligence, they decided. To join—and do it publicly.</p>
+<p>The chairman—the Russian foreign minister—announced voting. The question was formulated dryly: “On joining the international energy infrastructure project.” But everyone understood what this was about.</p>
+<p>Brazil voted first. “For.” Then South Africa—also “for.” Egypt. Ethiopia. Saudi Arabia—after a pause that seemed to last forever.</p>
+<p>“For,” the Saudi energy minister announced. “With reservations we’ll discuss separately.”</p>
+<p>The hall buzzed. Viktor felt Pavel squeeze his elbow.</p>
+<p>“Do you understand what’s happening?” Pavel whispered.</p>
+<p>“I understand,” Viktor answered.</p>
+<p>Saudi Arabia—a country built on oil—had just voted for a project that would make oil unnecessary. This meant one thing: they’d calculated and understood. Understood it’s better to be inside than outside. Better to participate in changes than resist them.</p>
+<p>After the voting Pavel went out into the corridor. There Egor Mikhailovich waited—with a cigarette in hand, though smoking here was forbidden.</p>
+<p>Kuzmichev winked.</p>
+<p>“Look, it worked,” he said, nodding toward the hall. “Snowball.”</p>
+<p>Pavel smiled. He remembered that meeting in Kondrashov’s office when Kuzmichev first said: the more countries join, the harder to stay outside. Saudi Arabia—a country built on oil—had just voted for a project that would make oil unnecessary. The snowball worked.</p>
+<p>“Europe is silent,” Pavel noted.</p>
+<p>“Europe is thinking,” Kuzmichev took a drag. “They’re waiting for States to say it’s okay. And States won’t say.”</p>
+<p>“Won’t say yet.”</p>
+<p>“For now—yes. But time works for us.” He stubbed out his cigarette on the edge of the urn. “I don’t like politics. But sometimes it works.”</p>
+<p><strong>Pyongyang. Factory No.&nbsp;17. August 2027.</strong></p>
+<p>The shop had no windows—only concrete walls, bare lamps under the ceiling, and rows of machine tools behind which people in identical blue coveralls worked. On the wall hung the leader’s portrait; under it—a red banner with an inscription in Korean, but the meaning could be guessed without translation: “Labor—Glory.”</p>
+<p>Comrade Pak led them through the shop in broken Russian, showing assembly lines—short, lean, with the bearing of a military engineer accustomed to speaking facts, not promises. Viktor walked in the middle between his father and Pavel, and each of them looked at the same thing—but saw different.</p>
+<p>Valery stopped at a machine tool where a worker was assembling a manipulator body. Precise movements, no rush, discipline instead of bustle. “Imagine,” he said quietly, as if addressing not his son but himself, “here they assemble robots that will fly to Mercury. In this shop, in Pyongyang, people believe in a project half the world hasn’t heard of yet.”</p>
+<p>Pavel looked at his watch, at the sign above the conveyor, at the stack of finished bodies in the corner. “Forty units per month,” he pronounced, more counting aloud than asking. “Two million each—eighty million monthly revenue. Not bad. And what’s the defect rate, Comrade Pak?”</p>
+<p>Pak didn’t blink. “Two percent. The rest—suitable.”</p>
+<p>“Two percent with manual assembly,” Pavel repeated, and in his voice was neither admiration nor skepticism, only the habitual weighing of numbers. “That’s better than I expected. But the scale—a hundred units by fall. Can you maintain quality?”</p>
+<p>“We can,” Pak answered. “We have people.”</p>
+<p>Viktor stopped at the testing line where assembled manipulators underwent verification. Manual labor instead of automation—this always caused internal resistance in him. He saw precision, yes, but also saw fatigue in the workers’ faces. “What happens when a person gets tired?” he asked, looking Pak in the eyes. “A robot doesn’t tire. A person tires. This is a risk.”</p>
+<p>Pak nodded—the question was reasonable. “We work twelve-hour shifts. Two shifts. Control at every stage.” He paused. “We don’t have robots for assembling robots. But we have discipline.”</p>
+<p>Valery turned to his son, and in his eyes was that quiet conviction from which Viktor couldn’t defend himself. “The main thing—they’re doing it, Vitya. A dream becomes reality. Here, in this shop without windows, someone assembles by hand what will fly to a star. This is more important than process perfection.”</p>
+<p>Pavel smiled, but without malice. “A dream won’t fly on defects, Valery Petrovich. But if two percent is the truth, I don’t mind the dream.”</p>
+<p>Viktor stood between them—between his father’s faith and Pavel’s calculation—and understood both were right. And both wrong. The DPRK chose “cheap and fast,” but “cheap” here meant not shoddy work but a different path: labor instead of automation, discipline instead of technology. Not worse. Just different.</p>
+<p><strong>Moscow. Vector office. December 2027.</strong></p>
+<p>The snowball rolled—and with it grew an avalanche of numbers. New partners meant new contracts, new budgets, new reporting. Pavel spent November and early December on the documents of the expanded consortium: consolidated tables, checked forecasts, distributed costs by categories. Routine he loved—in it was the honesty of numbers that don’t know how to lie. That’s precisely why, when the numbers began lying, he noticed—and stayed in the office alone.</p>
+<p>Third night without sleep. On the desk—tea, two monitors, printouts. Account entries went cleanly, as if by a ruler—salaries, purchases, services, business trips—and he looked not at the numbers but at the rhythm. The rhythm was even. Too even. The anomaly was found on the third pass: 47,000,000 rubles for “international certification consulting services.” Payer—a district directorate, recipient—Apex Advisory, Dubai. A company registered two months ago, website—one landing page, a purchased template, text with clichés. The money through an Emirates bank went further—to Singapore. Pavel stretched. “Beautiful,” he pronounced aloud. And thought: what if this is legal? What if I destroy the project because of my paranoia? He took out his phone, scrolled contacts—“Sergei A., Sber (internal audit)”—didn’t like looking at surnames long, made him uneasy. Called.</p>
+<p>“Sleeping?” When they picked up on the other end. “Not anymore. What do you need?” “Need a look at one entry. Through Emirates and Singapore. I’ll send traces. Unofficially.” On the other end they sighed. “They’ll fire you, Pasha.” “First let them hire me.” He hung up.</p>
+<p>Twenty minutes later a message came: “Nexus Energy Partners. Venture fund. Government contracts. Industry connections.” The money structure was the kind made by smart people who have too much time and too little conscience.</p>
+<p>An hour later Sergei called back. “Golden Gate Holdings. Singapore. Inside—Nexus Energy Partners, American fund. Your money—not clean.” And hung up.</p>
+<p>Igor Semenovich from internal audit listened silently, then nodded: “I’ll file a control marker. Seven days. If you find it—we go upstairs together. If not—a flash drive with the recording and a resignation letter.” “Understood.” “Then go.”</p>
+<p>“Someone’s receiving money,” he pronounced to the silence. “Not for ‘certification.’ For access. For an ‘internal option’ on the future. And this someone is ours.” He didn’t write the name—wrote “ours” and circled it. Somewhere inside something compressed—not fear but something worse: recognition. He’d seen such schemes in others’ reports, in cases ending with resignations and sentences, but never—from inside, never—about his own. His hands trembled harder. He placed them on the desk and watched his fingers vibrate finely. His body knew before his brain: this is dangerous. This can cost a career. Or a life.</p>
+<p>He thought: what if he stopped now? Deleted the markers, forgot he saw these numbers? Returned to normal work, to normal life? But he knew he couldn’t. Because if he’s right—someone’s selling the project. And Viktor doesn’t know about it. Pavel sat in the chair and closed his eyes; fatigue fell immediately—he allowed himself to feel it only now.</p>
+<p>In a week Pavel stopped four suspicious contracts—somewhere a call to lawyers sufficed, somewhere he had to write service memos. The marker ticked. Money went along established routes, no one checked along the way. This wasn’t improvisation—this was a system.</p>
+<p>At lunch he met Viktor by the elevator—he looked like a person who’d long learned not to sleep and not complain: sand in his eyes, a folder with colored bookmarks in hand. “How are you?” “Fine. You—how?”</p>
+<p>“Working. Found something. A financial anomaly.” Pavel lowered his voice. “Money going out—I see that. But if someone’s selling information—they should be paid. And I don’t see that yet. Two flows. I only see one.” Viktor paused for a second. “Maybe the second is better hidden.” “Maybe,” Pavel nodded. “And be careful. With what’s most polite.” “With what?” “With trust.” Viktor nodded as people nod when they don’t fully understand but are ready to understand later.</p>
+<p>By week’s end he’d assembled a folder. Not with names. With rhythm. Short notes, tables, printed contractor cards, Dubai and Singapore registry extracts, a printout of the “Apex Advisory” website with a checkmark over the typo “certfication.” On top—a service memo in two paragraphs as Igor Semenovich had requested: “Control marker justification.”</p>
+<p>He put the folder in the drawer, locked it—not because he feared but because that’s correct. The city beyond the window was still black, but the black was already shallow—as if someone had turned on a light far, far away and you saw that darkness isn’t material, it’s absence. He went home, and the office door closed quietly, as happens only with doors that have a conscience.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/DmitryNasikanov\.github\.io\/infinite-energy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

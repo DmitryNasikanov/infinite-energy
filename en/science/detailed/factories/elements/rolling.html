@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Rolling Mill – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Rolling Mill – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1115,6 +1165,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><strong>Process:</strong> - 5 mm strip passes through a series of rolls with decreasing gap - Each pass reduces thickness by 30-40% - Final thickness: 50 μm (0.05 mm)</p>
 <p><strong>Quality Control:</strong> - Thickness: laser profilometer (±2 μm) - Flatness: IR camera (deviation &lt;0.1 mm/m) - Cleanliness: optical inspection (no scratches)</p>
+<blockquote class="blockquote">
+<p><strong>Note: 50 μm is an intermediate semi-finished product.</strong> Swarm mirrors require <strong>4 μm</strong> foil (see <a href="../../../../../en/science/summaries/mirrors.html">Mirrors</a>). Finish rolling from 50 → 4 μm is performed on a dedicated foil mill (~8-10 additional passes at 30-40% reduction each). Industrial reference: Novelis/UACJ produce 4.5 μm foil commercially.</p>
+</blockquote>
 <p><strong>Application:</strong> <a href="../../../../../en/science/summaries/mirrors.html">Swarm Mirrors</a></p>
 <hr>
 </section>
@@ -1172,7 +1225,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Number of Passes</td>
-<td>5-7</td>
+<td>11-15</td>
 </tr>
 <tr class="even">
 <td>Drawing Speed</td>
@@ -1180,11 +1233,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Dies</td>
-<td>Tungsten (from Earth)</td>
+<td>W (Bootstrap import) → Si₃N₄ (standard local, 3× lifespan)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Process:</strong> - Ø20 mm profile is pushed through dies with decreasing diameter - Each die reduces diameter by 15-20% - Final wire: Ø1.6-2.0 mm</p>
+<p><strong>Process:</strong> - Ø20 mm profile is pushed through dies with decreasing diameter - Each die reduces diameter by 15-20% - At 15-20% reduction per pass: Ø20 → Ø1.6 mm requires 11-15 dies - Final wire: Ø1.6-2.0 mm</p>
 <p><strong>Lubricant:</strong> MoS₂ (molybdenum disulfide) — works in vacuum</p>
 <p><strong>Winding:</strong> Wire is wound onto spools of 50-100 kg</p>
 <p><strong>Application:</strong> <a href="../../../../../en/science/detailed/factories/elements/waam.html">WAAM 3D Printing</a></p>
@@ -1248,7 +1301,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Number of Passes</td>
-<td>5-7</td>
+<td>11-15</td>
 </tr>
 <tr class="even">
 <td>Drawing Speed</td>
@@ -1256,11 +1309,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Dies</td>
-<td>Tungsten (from Earth)</td>
+<td>W (Bootstrap import) → Si₃N₄ (standard local, 3× lifespan)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Process:</strong> - Similar to aluminum wire drawing - Higher drawing force (steel is harder than Al) - Intermediate annealing after 2-3 passes (strain relief)</p>
+<p><strong>Process:</strong> - Similar to aluminum wire drawing - Higher drawing force (steel is harder than Al) - Intermediate annealing after 4-5 passes (strain relief)</p>
 <p><strong>Lubricant:</strong> MoS₂ (molybdenum disulfide)</p>
 <p><strong>Winding:</strong> Spools of 50-100 kg</p>
 <p><strong>Application:</strong> <a href="../../../../../en/science/detailed/factories/elements/waam.html">WAAM 3D Printing</a> of steel parts</p>

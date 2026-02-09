@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Factory Self-Replication – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Factory Self-Replication – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -837,7 +887,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#phase-1-exponential-factory-growth-months-2-6" id="toc-phase-1-exponential-factory-growth-months-2-6" class="nav-link" data-scroll-target="#phase-1-exponential-factory-growth-months-2-6">Phase 1: Exponential Factory Growth (Months 2-6)</a>
   <ul class="collapse">
-  <li><a href="#replication-timeline" id="toc-replication-timeline" class="nav-link" data-scroll-target="#replication-timeline">Replication Timeline</a></li>
+  <li><a href="#replication-timeline-theoretical" id="toc-replication-timeline-theoretical" class="nav-link" data-scroll-target="#replication-timeline-theoretical">Replication Timeline (theoretical)</a></li>
   <li><a href="#what-does-a-ground-zero-factory-produce-for-a-new-factory" id="toc-what-does-a-ground-zero-factory-produce-for-a-new-factory" class="nav-link" data-scroll-target="#what-does-a-ground-zero-factory-produce-for-a-new-factory">What Does a Ground Zero Factory Produce for a New Factory?</a></li>
   </ul></li>
   <li><a href="#phase-2-infrastructure-deployment-months-6-7" id="toc-phase-2-infrastructure-deployment-months-6-7" class="nav-link" data-scroll-target="#phase-2-infrastructure-deployment-months-6-7">Phase 2: Infrastructure Deployment (Months 6-7)</a>
@@ -847,7 +897,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#phase-3-mirror-production-months-7-114" id="toc-phase-3-mirror-production-months-7-114" class="nav-link" data-scroll-target="#phase-3-mirror-production-months-7-114">Phase 3: Mirror Production (Months 7-114)</a>
   <ul class="collapse">
-  <li><a href="#timeline-for-1-billion-mirrors" id="toc-timeline-for-1-billion-mirrors" class="nav-link" data-scroll-target="#timeline-for-1-billion-mirrors">Timeline for 1 Billion Mirrors</a></li>
+  <li><a href="#timeline-for-1.1-billion-mirrors" id="toc-timeline-for-1.1-billion-mirrors" class="nav-link" data-scroll-target="#timeline-for-1.1-billion-mirrors">Timeline for 1.1 Billion Mirrors</a></li>
   </ul></li>
   <li><a href="#resource-allocation-by-phase" id="toc-resource-allocation-by-phase" class="nav-link" data-scroll-target="#resource-allocation-by-phase">Resource Allocation by Phase</a></li>
   <li><a href="#phase-0-critical-path-1-km-baseline" id="toc-phase-0-critical-path-1-km-baseline" class="nav-link" data-scroll-target="#phase-0-critical-path-1-km-baseline">Phase 0 Critical Path (1 km baseline)</a></li>
@@ -895,7 +945,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Concept:</strong> Each factory builds new factories from local materials</li>
 <li><strong>Rate:</strong> Self-replication in ~3 weeks/factory, but practical growth 1 → 1000 takes ~4 years (bottleneck: <a href="../../../../../en/science/reference/glossary.html#vitamins">“Vitamins”</a> delivery from Earth)</li>
-<li><strong>Key:</strong> Energy independence (168 MW from day one)</li>
+<li><strong>Key:</strong> Energy independence (~151 MW from CPV from day one)</li>
 <li><strong>Phases:</strong> <a href="../../../../../en/science/reference/glossary.html#bootstrap-blitz-assembly">Bootstrap</a> (2 months) → Factory Growth (4 months) → Infrastructure (1 month) → Mirrors (9 years)</li>
 </ul>
 </blockquote>
@@ -908,7 +958,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="energy-bootstrap-phase-0" class="level2">
 <h2 class="anchored" data-anchor-id="energy-bootstrap-phase-0">Energy <a href="../../../../../en/science/reference/glossary.html#bootstrap-blitz-assembly">Bootstrap</a> (Phase 0)</h2>
 <p><strong>Problem:</strong> How to start production without energy from the Dyson Swarm?</p>
-<p><strong>Solution:</strong> 3 cargo runs of GaAs panels provide <strong>168 MW</strong> — a <strong>113 MW</strong> surplus above the first factory’s consumption (55 MW).</p>
+<p><strong>Solution:</strong> CPV system (~10.5 t: Kapton+Al concentrators + GaAs cells) provides <strong>~151 MW</strong> — a <strong>~27 MW</strong> surplus above the first factory’s consumption (~124 MW). Mass Driver (~39 MW) requires additional local Si panels.</p>
 <section id="energy-reserve-calculation" class="level3">
 <h3 class="anchored" data-anchor-id="energy-reserve-calculation">Energy Reserve Calculation</h3>
 <table class="caption-top table">
@@ -921,19 +971,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>1 factory consumption</td>
-<td>55 MW</td>
+<td>~124 MW</td>
 </tr>
 <tr class="even">
-<td>Available (3 GaAs runs)</td>
-<td>168 MW</td>
+<td>Available (CPV system ~10.5 t)</td>
+<td>~151 MW</td>
 </tr>
 <tr class="odd">
 <td><strong>Reserve</strong></td>
-<td><strong>113 MW</strong></td>
+<td><strong>~27 MW</strong></td>
 </tr>
 <tr class="even">
 <td>Supports</td>
-<td>2-3 additional factories</td>
+<td>Factory covered; MD requires additional local Si panels</td>
 </tr>
 </tbody>
 </table>
@@ -957,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Mass Driver mass</td>
-<td><strong>450 tons</strong>*</td>
+<td><strong>500 tons</strong>*</td>
 </tr>
 <tr class="even">
 <td>Al production</td>
@@ -965,11 +1015,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Fe production</td>
-<td>18 t/day</td>
+<td>18 t/day**</td>
 </tr>
 <tr class="even">
-<td>Time for Al (~170 t)</td>
-<td><strong>4 days</strong></td>
+<td>Time for Al (~220 t)</td>
+<td><strong>5 days</strong></td>
 </tr>
 <tr class="odd">
 <td>Time for Fe (~270 t)</td>
@@ -986,6 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p>*Baseline 1 km variant. For extended 2-3 km tracks: mass 875-1,300 t, time 40-60 days.</p>
+<p>**Peak mode. Nominal Fe production is 11 t/day; peak for Mass Driver construction is 18 t/day via parallel melting.</p>
 <p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/overview.html">Mass Driver Production</a></p>
 <hr>
 </section>
@@ -1002,74 +1053,96 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>1 mirror intercepts</td>
-<td>103 MW</td>
+<td>93 MW</td>
 </tr>
 <tr class="even">
-<td>Needed for 10 factories</td>
-<td>550 MW</td>
+<td>After reflection (90%) and losses (15%)</td>
+<td>~80 MW at receiver</td>
 </tr>
 <tr class="odd">
-<td>Energy transmission efficiency</td>
-<td>~10%</td>
+<td>GaAs panels (30%)</td>
+<td><strong>~24 MW electricity</strong></td>
 </tr>
 <tr class="even">
-<td>Required solar power</td>
-<td>~6 GW = 60 mirrors</td>
+<td>Efficiency (mirror → electricity)</td>
+<td><strong>~23%</strong></td>
 </tr>
 <tr class="odd">
+<td>Needed for 10 factories (550 MW)</td>
+<td>550 ÷ 24 = <strong>23 mirrors</strong></td>
+</tr>
+<tr class="even">
 <td>With 10x margin</td>
-<td><strong>600 mirrors</strong></td>
+<td><strong>~230 mirrors</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Producing 600 mirrors:</strong> The first Ground Zero Factory can produce mirrors on the rolling mill (foil) with manual assembly, though not optimized for this. Estimate: ~50 mirrors/day → <strong>~12 days</strong> for 600 units.</p>
-<p><strong>Logic:</strong> 600 mirrors power 10 factories. This is sufficient for Phase 1 (growth to 1,000 factories over 4 months).</p>
+<p><strong>Producing 230 mirrors:</strong> The first Ground Zero Factory can produce mirrors on the rolling mill (foil) with manual assembly. At ~392 mirrors/day — <strong>less than 1 day</strong>.</p>
+<p><strong>Logic:</strong> 230 mirrors power 10 factories with 10x margin. This is sufficient to start Phase 1.</p>
 <hr>
 </section>
 </section>
 <section id="phase-1-exponential-factory-growth-months-2-6" class="level2">
 <h2 class="anchored" data-anchor-id="phase-1-exponential-factory-growth-months-2-6">Phase 1: Exponential Factory Growth (Months 2-6)</h2>
 <p><a href="../../../../../en/science/detailed/factories/overview.html#ground-zero-factory">Replicator factories (Ground Zero Factory)</a> build new factories. First — new Ground Zero Factories (for exponential growth), then — <a href="../../../../../en/science/detailed/factories/overview.html#mirror-factory">mirror factories</a> (for mirror production). At 100% Ground Zero Factory allocation to replication:</p>
-<section id="replication-timeline" class="level3">
-<h3 class="anchored" data-anchor-id="replication-timeline">Replication Timeline</h3>
+<section id="replication-timeline-theoretical" class="level3">
+<h3 class="anchored" data-anchor-id="replication-timeline-theoretical">Replication Timeline (theoretical)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Week</th>
 <th>Factories</th>
-<th>Growth</th>
+<th>Note</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>0</td>
 <td>1</td>
-<td>—</td>
+<td>Bootstrap</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td>3</td>
 <td>2</td>
-<td>+1</td>
+<td>Doubling</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td>6</td>
 <td>4</td>
-<td>+2</td>
+<td></td>
 </tr>
 <tr class="even">
+<td>9</td>
+<td>8</td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>12</td>
 <td>16</td>
-<td>+12</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>32</td>
+<td></td>
 </tr>
 <tr class="odd">
-<td>16</td>
+<td>21</td>
+<td>128</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>30</td>
 <td>~1,000</td>
-<td>+984</td>
+<td>~7.5 months</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Doubling time:</strong> ~3 weeks (at 50% allocation to replication)</p>
-<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/scaling.html">Production Scaling</a></p>
+<p><strong>Doubling time:</strong> ~3 weeks (at 100% allocation to replication)</p>
+<blockquote class="blockquote">
+<p><strong>Important:</strong> This is the theoretical rate with all materials available. Practically, growth from 1 → 1,000 takes <strong>~4 years</strong> due to the bottleneck — <a href="../../../../../en/science/reference/glossary.html#vitamins">“Vitamins”</a> delivery from Earth.</p>
+</blockquote>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/overview.html">Production Scaling</a></p>
 <hr>
 </section>
 <section id="what-does-a-ground-zero-factory-produce-for-a-new-factory" class="level3">
@@ -1116,6 +1189,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Parallel Work:</strong> Critical path is equipment (10-15 days). Dome, robots, and energy system are produced in parallel, so total time = equipment time + final assembly (3-5 days) ≈ <strong>~3 weeks</strong>.</p>
+</blockquote>
 <p><strong>Growth Strategy:</strong></p>
 <ol type="1">
 <li><strong>Exponential growth phase:</strong> All Ground Zero Factories at 100% build new Ground Zero Factories (doubling every 3 weeks)</li>
@@ -1148,15 +1224,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Fe production</td>
-<td>18 t/day x 1,000 = 18,000 t/day</td>
+<td>11 t/day x 1,000 = 11,000 t/day</td>
 </tr>
 <tr class="even">
 <td>Mass of 1 Mass Driver (1 km)</td>
-<td><strong>450 t</strong> (170 t Al + 270 t Fe)</td>
+<td><strong>500 t</strong> (220 t Al + 270 t Fe)</td>
 </tr>
 <tr class="odd">
 <td>Materials for 1,000 Mass Drivers</td>
-<td>450,000 t</td>
+<td>500,000 t</td>
 </tr>
 <tr class="even">
 <td>Time for 1,000 Mass Drivers</td>
@@ -1207,8 +1283,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="phase-3-mirror-production-months-7-114" class="level2">
 <h2 class="anchored" data-anchor-id="phase-3-mirror-production-months-7-114">Phase 3: Mirror Production (Months 7-114)</h2>
 <p>After infrastructure deployment, all 1,000 factories switch to mirror production.</p>
-<section id="timeline-for-1-billion-mirrors" class="level3">
-<h3 class="anchored" data-anchor-id="timeline-for-1-billion-mirrors">Timeline for 1 Billion Mirrors</h3>
+<section id="timeline-for-1.1-billion-mirrors" class="level3">
+<h3 class="anchored" data-anchor-id="timeline-for-1.1-billion-mirrors">Timeline for 1.1 Billion Mirrors</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1223,19 +1299,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Mirrors/day per factory</td>
-<td>~392</td>
+<td>~350</td>
 </tr>
 <tr class="odd">
 <td><strong>TOTAL mirrors/day</strong></td>
-<td><strong>~392,000</strong></td>
+<td><strong>~350,000</strong></td>
 </tr>
 <tr class="even">
 <td>Target</td>
-<td>1 billion mirrors</td>
+<td>1.1 billion mirrors</td>
 </tr>
 <tr class="odd">
 <td>Time</td>
-<td><strong>~2,555 days (~7 years)</strong></td>
+<td><strong>~2,860 days (~8 years)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1255,14 +1331,14 @@ document.addEventListener('DOMContentLoaded', function() {
     dateFormat  YYYY-MM
     section Phase 0: Bootstrap
     First Mass Driver (~25 days)      :2025-01, 25d
-    600 mirrors (2 days)              :2025-02, 2d
+    230 mirrors (~1 day)              :2025-02, 1d
     section Phase 1: Factory Growth
     Replication 1→1000                :2025-02, 120d
     section Phase 2: Infrastructure
     1000 Mass Drivers                 :2025-06, 15d
     60,000 robots                     :2025-06, 12d
     section Phase 3: Mirrors
-    Production of 1 billion mirrors   :2025-07, 2555d
+    Production of 1.1 billion mirrors  :2025-07, 2555d
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -1293,14 +1369,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Fe 15 days, Al 4 days, assembly 5-7 days</td>
 </tr>
 <tr class="odd">
-<td>26-27</td>
-<td>600 mirrors production</td>
-<td>392 mirrors/day x 1.5 days</td>
+<td>26</td>
+<td>230 mirrors production</td>
+<td>350 mirrors/day → less than 1 day</td>
 </tr>
 <tr class="even">
-<td>28+</td>
+<td>27+</td>
 <td>Mini-Swarm launch</td>
-<td>Energy to Mercury (550 MW)</td>
+<td>Energy to Mercury (550+ MW)</td>
 </tr>
 </tbody>
 </table>
@@ -1322,7 +1398,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Energy for first factories</td>
 <td>Energy shortage during replication</td>
-<td>Mini-Swarm of 600 mirrors powers 10 factories</td>
+<td>Mini-Swarm of 230 mirrors powers 10 factories</td>
 </tr>
 <tr class="even">
 <td><a href="../../../../../en/science/reference/glossary.html#vitamins">“Vitamins”</a> import</td>
@@ -1389,7 +1465,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="optimization-strategies" class="level3">
 <h3 class="anchored" data-anchor-id="optimization-strategies">Optimization Strategies</h3>
 <p><strong>Option 1: Pre-staging “Vitamins”</strong> - Send 3,000 t of “Vitamins” BEFORE growth begins - Requires ~100 launches in the year before replication starts - Enables theoretical 4-month pace - <strong>Problem:</strong> Too large an upfront investment</p>
-<p><strong>Option 2: Parallel Delivery (baseline scenario)</strong> - Factory growth synchronized with “Vitamins” delivery - ~4 years from 1 to 1,000 factories - ~2,400 t total cargo (thanks to 96% localization) - <strong>Advantage:</strong> Investment distributed over time</p>
+<p><strong>Option 2: Parallel Delivery (baseline scenario)</strong> - Factory growth synchronized with “Vitamins” delivery - ~4 years from 1 to 1,000 factories - ~2,400 t total cargo (thanks to 99.998% localization) - <strong>Advantage:</strong> Investment distributed over time</p>
 <p><strong>Option 3: Hybrid</strong> - First 100 factories: rapid growth (pre-stage “Vitamins”) - Then: synchronize with delivery - <strong>Compromise:</strong> 1 → 100 in ~1 year, 100 → 1,000 in 3 years</p>
 <hr>
 </section>
@@ -1449,11 +1525,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Fe production</td>
-<td>18,000 t/day</td>
+<td>~11,000 t/day</td>
 </tr>
 <tr class="odd">
 <td>Mirror production</td>
-<td>~392,000 units/day</td>
+<td>~350,000 units/day</td>
 </tr>
 <tr class="even">
 <td>Robot production</td>
@@ -1461,11 +1537,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Energy consumption</td>
-<td>55 GW (55 MW x 1,000)</td>
+<td>~165 GW (~165 MW × 1,000)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Energy supply:</strong> 600 mini-Swarm mirrors are insufficient. Continuous Swarm expansion is required in parallel with factory growth.</p>
+<p><strong>Energy supply:</strong> 230 mini-Swarm mirrors cover the first 10 factories. Continuous Swarm expansion is required in parallel with factory growth.</p>
 <hr>
 </section>
 </section>
@@ -1491,13 +1567,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>Phase 0</strong></td>
 <td>2 months</td>
 <td>1 factory + 1 Mass Driver</td>
-<td><strong>600 mirrors</strong> (energy for growth)</td>
+<td><strong>230 mirrors</strong> (mini-Swarm for energy)</td>
 </tr>
 <tr class="even">
 <td><strong>Phase 1</strong></td>
 <td><strong>~4 years</strong></td>
 <td>1 → 1,000 factories</td>
-<td><strong>~30M mirrors</strong> (50% capacity on replication, 50% on mirrors)</td>
+<td><strong>~143M mirrors</strong> (50% capacity on replication, 50% on mirrors)</td>
 </tr>
 <tr class="odd">
 <td><strong>Phase 2</strong></td>
@@ -1509,19 +1585,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>Phase 3</strong></td>
 <td>~7 years</td>
 <td>Infrastructure ready</td>
-<td><strong>~945M mirrors</strong> (100% capacity on mirrors)</td>
+<td><strong>~832M mirrors</strong> (100% capacity on mirrors)</td>
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
 <td><strong>~11 years</strong></td>
 <td>Full infrastructure</td>
-<td><strong>~1 billion mirrors in Dyson Swarm</strong></td>
+<td><strong>~1.1 billion mirrors in Dyson Swarm</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Key point:</strong> Mirrors are the MAIN GOAL of the project. They are produced <strong>from the very beginning</strong>, not just in Phase 3: - <strong>Phase 1:</strong> Factories grow AND produce mirrors (50/50 allocation) - <strong>Phase 2:</strong> Build Mass Drivers AND continue producing mirrors - <strong>Phase 3:</strong> ALL capacity (100%) on mirror production</p>
 <p><strong>Note:</strong> Phase 1 stretches from 4 months (theoretical) to 4 years (practical) due to the bottleneck — “Vitamins” delivery (electronics, rare materials) from Earth. The self-replication rate (~3 weeks per factory) is limited not by local materials, but by import logistics.</p>
-<p><strong>Phase 1 mirror calculation:</strong> - Average factories during growth: ~500 (from 1 to 1,000) - Output: 500 factories x 210 mirrors/day x 50% = ~52,500 mirrors/day - Over 4 years (1,460 days): ~52,500 x 1,460 = <strong>~76M mirrors</strong> (more precise calculation)</p>
+<p><strong>Phase 1 mirror calculation:</strong> - Average factories during growth: ~500 (from 1 to 1,000) - Output: 500 factories × 350 mirrors/day × 50% = ~88,000 mirrors/day - Over 4 years (1,460 days): ~88,000 × 1,460 = ~128M mirrors (calculated) - With reserve for defects and losses (+12%): <strong>~143M mirrors</strong></p>
 <hr>
 </section>
 <section id="see-also" class="level2">
@@ -1530,7 +1606,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../../../en/science/detailed/factories/overview.html">Factory Production</a> — production overview</li>
 <li><a href="../../../../../en/science/detailed/factories/assembly/equipment.html">Equipment Production</a> — kit for a new factory</li>
 <li><a href="../../../../../en/science/detailed/factories/assembly/domes.html">Dome Assembly</a> — factory shells</li>
-<li><a href="../../../../../en/science/detailed/railguns/scaling.html">Scaling</a> — detailed growth calculations</li>
+<li><a href="../../../../../en/science/detailed/railguns/overview.html">Scaling</a> — detailed growth calculations</li>
 <li><a href="../../../../../en/science/summaries/roadmap.html">Roadmap</a> — project phases</li>
 </ul>
 

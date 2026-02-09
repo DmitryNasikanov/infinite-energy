@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Factory Equipment Production – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Factory Equipment Production – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/factories/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -830,7 +880,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#production-process" id="toc-production-process" class="nav-link" data-scroll-target="#production-process">Production Process</a></li>
   <li><a href="#key-equipment" id="toc-key-equipment" class="nav-link" data-scroll-target="#key-equipment">Key Equipment</a>
   <ul class="collapse">
-  <li><a href="#continuous-caster-mнлз" id="toc-continuous-caster-mнлз" class="nav-link" data-scroll-target="#continuous-caster-mнлз">Continuous Caster (MНЛЗ)</a></li>
+  <li><a href="#continuous-caster-mnlz" id="toc-continuous-caster-mnlz" class="nav-link" data-scroll-target="#continuous-caster-mnlz">Continuous Caster (MNLZ)</a></li>
   <li><a href="#rolling-mill-6-stands" id="toc-rolling-mill-6-stands" class="nav-link" data-scroll-target="#rolling-mill-6-stands">Rolling Mill (6 stands)</a></li>
   <li><a href="#waam-cells-3-units" id="toc-waam-cells-3-units" class="nav-link" data-scroll-target="#waam-cells-3-units">WAAM Cells (3 units)</a></li>
   <li><a href="#grinding-cells-2-units" id="toc-grinding-cells-2-units" class="nav-link" data-scroll-target="#grinding-cells-2-units">Grinding Cells (2 units)</a></li>
@@ -951,12 +1001,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>~46 t</strong></td>
+<td><strong>~46 t</strong>*</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<p>*~51 t when packaged for transport (includes fixtures and crates).</p>
 <hr>
 </section>
 <section id="production-process" class="level2">
@@ -1016,8 +1067,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="key-equipment" class="level2">
 <h2 class="anchored" data-anchor-id="key-equipment">Key Equipment</h2>
-<section id="continuous-caster-mнлз" class="level3">
-<h3 class="anchored" data-anchor-id="continuous-caster-mнлз">Continuous Caster (MНЛЗ)</h3>
+<section id="continuous-caster-mnlz" class="level3">
+<h3 class="anchored" data-anchor-id="continuous-caster-mnlz">Continuous Caster (MNLZ)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 28%">
@@ -1116,8 +1167,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Drive motors (6 pcs)</td>
 <td>~1 t</td>
-<td>Al + Cu windings</td>
-<td>Assembly (Cu import)</td>
+<td>Al windings</td>
+<td>Assembly (local)</td>
 </tr>
 <tr class="even">
 <td>Inter-stand conveyors</td>
@@ -1258,14 +1309,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Hoist</td>
 <td>~0.3 t</td>
-<td>Fe + steel cable</td>
-<td>Cable import</td>
+<td>Fe + Fe-Mn cable</td>
+<td>Wire drawing + stranding (local)</td>
 </tr>
 <tr class="even">
 <td>Electric drive</td>
 <td>~0.2 t</td>
-<td>Al + Cu windings</td>
-<td>Assembly</td>
+<td>Al windings</td>
+<td>Assembly (local)</td>
 </tr>
 </tbody>
 </table>

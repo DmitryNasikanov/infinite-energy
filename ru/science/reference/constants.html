@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Физические константы – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/reference/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Физические константы – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/reference/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -890,8 +940,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Меркурий (среднее по орбите)</td>
-<td><strong>10 343 Вт/м²</strong></td>
-<td>Арифметическое среднее перигелия и афелия</td>
+<td><strong>9 287 Вт/м²</strong></td>
+<td>Временно́е среднее: S₀/(a²√(1-e²))</td>
 </tr>
 <tr class="odd">
 <td>Меркурий (перигелий)</td>
@@ -916,7 +966,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Примечание:</strong> Значение 9 087 Вт/м² — это поток при среднем расстоянии (0.387 AU). Для энергетических расчётов используем среднее по орбите: (14 444 + 6 242) / 2 = <strong>10 343 Вт/м²</strong>.</p>
+<p><strong>Примечание:</strong> Значение 9 087 Вт/м² — это поток при среднем расстоянии (0.387 AU): S₀/a² = 1361/0.387². Для энергетических расчётов используем <strong>временно́е среднее</strong> по орбите: ⟨S⟩ = S₀/(a²√(1-e²)) = 1361/(0.387² × √(1-0.2056²)) = <strong>9 287 Вт/м²</strong>. Временно́е среднее выше, чем значение при среднем расстоянии, потому что планета дольше находится ближе к Солнцу (2-й закон Кеплера работает наоборот для ⟨1/r²⟩).</p>
 </blockquote>
 </section>
 <section id="параметры-планет" class="level3">
@@ -1148,8 +1198,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Отражённая мощность</td>
-<td>93 МВт</td>
-<td>10000 × 10343 × 0.90</td>
+<td>84 МВт</td>
+<td>10000 × 9287 × 0.90</td>
 </tr>
 </tbody>
 </table>
@@ -1167,18 +1217,18 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Количество зеркал</td>
-<td><strong>~1 млрд</strong></td>
-<td>100 ПВт / 93 МВт</td>
+<td><strong>~1.1 млрд</strong></td>
+<td>Производственный план (~9.5 лет)</td>
 </tr>
 <tr class="even">
 <td>Общая площадь</td>
-<td>10¹³ м² (~10 млн км²)</td>
-<td>10⁹ × 10⁴ м²</td>
+<td>1.1×10¹³ м² (~11 млн км²)</td>
+<td>1.1×10⁹ × 10⁴ м²</td>
 </tr>
 <tr class="odd">
 <td>Общая масса</td>
-<td>~116 млн тонн</td>
-<td>10⁹ × 116 кг</td>
+<td>~128 млн тонн</td>
+<td>1.1×10⁹ × 116 кг</td>
 </tr>
 <tr class="even">
 <td>Удельная масса</td>
@@ -1197,18 +1247,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Перехватываемая мощность</td>
-<td>~114 петаватт</td>
-<td>1.1×10⁹ × 103 МВт</td>
+<td>~102 петаватт</td>
+<td>1.1×10⁹ × 93 МВт</td>
 </tr>
 <tr class="even">
 <td>Отражённая мощность</td>
-<td>~103 петаватт</td>
-<td>1.1×10⁹ × 93 МВт</td>
+<td>~92 петаватт</td>
+<td>1.1×10⁹ × 84 МВт</td>
 </tr>
 <tr class="odd">
 <td>Мощность на Земле</td>
-<td><strong>~21 петаватт</strong></td>
-<td>114 ПВт × 18% КПД</td>
+<td><strong>~18 петаватт</strong></td>
+<td>102 ПВт × 18% КПД</td>
 </tr>
 </tbody>
 </table>
@@ -1251,7 +1301,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Масса установки</td>
-<td><strong>~450 т</strong></td>
+<td><strong>~500 т</strong></td>
 <td></td>
 </tr>
 <tr class="even">
@@ -1291,7 +1341,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Общая масса</td>
 <td><strong>~1 000 кг</strong></td>
-<td><strong>~370 кг</strong></td>
+<td><strong>~380 кг</strong></td>
 <td><strong>~1 500 кг</strong></td>
 <td><strong>~960 кг</strong></td>
 </tr>
@@ -1304,18 +1354,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Алюминий (рама, корпус)</td>
-<td>~450 кг (45%)</td>
-<td>~230 кг (62%)</td>
-<td>~200 кг (13%)</td>
-<td>~300 кг (31%)</td>
+<td>~470 кг (47%)</td>
+<td>~235 кг (63%)</td>
+<td>~220 кг (15%)</td>
+<td>~310 кг (32%)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Принцип оптимизации:</strong> - Сталь только для критических узлов: колёса/гусеницы, ковш, подшипники - Алюминиевые рамы и корпуса — достаточная прочность при меньшей массе - При 5 роботах/день: ~1.5 т Al + ~2.8 т Fe</p>
+<p><strong>Принцип оптимизации:</strong> - Сталь только для критических узлов: колёса, ковш, подшипники - Алюминиевые рамы и корпуса — достаточная прочность при меньшей массе - При 5 роботах/день: ~1.5 т Al + ~2.8 т Fe</p>
 </section>
 <section id="завод-точка-ноль" class="level3">
 <h3 class="anchored" data-anchor-id="завод-точка-ноль">Завод «Точка Ноль»</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Параметр</th>
@@ -1325,23 +1379,31 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Энергопотребление (пиковое)</td>
-<td>55 МВт</td>
+<td>~165 МВт</td>
 </tr>
 <tr class="even">
-<td>Площадь солнечных панелей (3 рейса)</td>
+<td>Площадь концентраторов (6 рейсов)</td>
 <td>105 000 м²</td>
 </tr>
 <tr class="odd">
-<td>Доступная энергия</td>
-<td><strong>168 МВт</strong></td>
+<td>Масса CPV-системы</td>
+<td>~10,5 т (5,25 т фольга + 2 т GaAs + 3,25 т конструкция)</td>
 </tr>
 <tr class="even">
-<td>Запас над потреблением</td>
-<td>113 МВт</td>
+<td>Удельная мощность</td>
+<td>~14,4 кВт/кг (на орбите Меркурия)</td>
+</tr>
+<tr class="odd">
+<td>Доступная энергия</td>
+<td><strong>~151 МВт</strong></td>
+</tr>
+<tr class="even">
+<td>Запас над заводом (без МД)</td>
+<td>~27 МВт</td>
 </tr>
 <tr class="odd">
 <td>Выход кремниевых панелей</td>
-<td>1.6 кВт/м²</td>
+<td>~1,4 кВт/м²</td>
 </tr>
 <tr class="even">
 <td>Площадь купола</td>
@@ -1357,8 +1419,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Эти значения используются в расчётах:</p>
 <ul>
 <li><a href="../../../ru/science/summaries/mirrors.html">Зеркала Роя</a> — энергетика зеркал и энергомост</li>
-<li><a href="../../../ru/science/detailed/railguns/theory.html">Масс-драйвер</a> — физика запуска</li>
-<li><a href="../../../ru/science/detailed/railguns/scaling.html">Масштабирование</a> — экспоненциальный рост</li>
+<li><a href="../../../ru/science/detailed/railguns/overview.html">Масс-драйвер</a> — физика запуска и масштабирование</li>
 <li><a href="../../../ru/science/executive-summary.html">Физика проекта</a> — основные технологии</li>
 <li><a href="../../../ru/science/reference/technology-readiness.html">Технологии и источники</a> — TRL и библиография</li>
 </ul>

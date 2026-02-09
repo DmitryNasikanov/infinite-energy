@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="3.1.7 Керамика MgO – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/materials/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="3.1.7 Керамика MgO – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/materials/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -884,9 +934,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Назначение:</strong> Производство огнеупорной керамики из магния</li>
-<li><strong>Вход:</strong> 48 т/день жидкого Mg из дистилляции + 32 т/день O₂ из MRE</li>
-<li><strong>Выход:</strong> ~70 т/день MgO-керамики (88% выход)</li>
+<li><strong>Вход:</strong> ~44 т/день жидкого Mg из дистилляции + ~29 т/день O₂ из MRE</li>
+<li><strong>Выход:</strong> ~66 т/день MgO-керамики (88% выход)</li>
 <li><strong>Применение:</strong> Тигли, футеровка печей, теплоизоляция</li>
+<li><strong>Примечание:</strong> Остальные ~4 т/день Mg → Al-Mg сплавы (см. <a href="../../../../ru/science/detailed/materials/distillation.html">Дистилляция</a>)</li>
 </ul>
 </blockquote>
 <hr>
@@ -902,16 +953,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Вход</td>
-<td>Жидкий Mg из дистилляции (48 т/день, 8% реголита)</td>
+<td>Вход Mg</td>
+<td>~44 т/день из дистилляции (остальные ~4 т → Al-Mg сплавы)</td>
 </tr>
 <tr class="even">
-<td>Вход</td>
-<td>O₂ из MRE-электролиза (32 т/день)</td>
+<td>Вход O₂</td>
+<td>~29 т/день из MRE-электролиза</td>
 </tr>
 <tr class="odd">
 <td>Выход</td>
-<td>MgO керамические блоки/порошок (~70 т/день)</td>
+<td>MgO керамические блоки/порошок (~66 т/день)</td>
 </tr>
 <tr class="even">
 <td>Выход реакции</td>
@@ -935,7 +986,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
     subgraph INPUT["ВХОД"]
-        MG["Жидкий Mg&lt;br/&gt;1091°C&lt;br/&gt;48 т/день"]
+        MG["Жидкий Mg&lt;br/&gt;1091°C&lt;br/&gt;~44 т/день"]
         O2["O₂ из MRE&lt;br/&gt;32 т/день"]
     end
 
@@ -996,15 +1047,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Входящий Mg</td>
-<td>48 т/день = 1,975 кмоль/день</td>
+<td>~44 т/день = 1,811 кмоль/день</td>
 </tr>
 <tr class="odd">
 <td>Требуемый O₂</td>
-<td>32 т/день = 987.5 кмоль/день</td>
+<td>~29 т/день = 906 кмоль/день</td>
 </tr>
 <tr class="even">
 <td>Выходящий MgO (теоретически)</td>
-<td>79.6 т/день</td>
+<td>~73 т/день</td>
 </tr>
 <tr class="odd">
 <td>Характер реакции</td>
@@ -1045,7 +1096,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Источник кислорода:</strong> MRE-электролиз производит ~1500 т O₂/день при разложении оксидов реголита (SiO₂, FeO, Al₂O₃). Для MgO требуется лишь 32 т/день — избыток выбрасывается в атмосферу или хранится для других нужд.</p>
+<p><strong>Источник кислорода:</strong> MRE-электролиз производит ~250 т O₂/день при разложении оксидов реголита (SiO₂, FeO, Al₂O₃). Для MgO требуется ~32 т/день — избыток используется для атмосферы куполов и других нужд.</p>
 <hr>
 </section>
 </section>
@@ -1199,30 +1250,30 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Mg (вход)</td>
 <td>→</td>
-<td>48 т/день</td>
+<td>~44 т/день</td>
 <td>24.3 кг/кмоль</td>
-<td>1,975</td>
+<td>1,811</td>
 </tr>
 <tr class="even">
 <td>O₂ (вход)</td>
 <td>→</td>
-<td>32 т/день</td>
+<td>~29 т/день</td>
 <td>32 кг/кмоль</td>
-<td>987.5</td>
+<td>906</td>
 </tr>
 <tr class="odd">
 <td>MgO (теоретический)</td>
 <td>←</td>
-<td>79.6 т/день</td>
+<td>~73 т/день</td>
 <td>40.3 кг/кмоль</td>
-<td>1,975</td>
+<td>1,811</td>
 </tr>
 <tr class="even">
 <td><strong>MgO (реальный)</strong></td>
 <td><strong>←</strong></td>
-<td><strong>~70 т/день</strong></td>
+<td><strong>~66 т/день</strong></td>
 <td><strong>88% выход</strong></td>
-<td><strong>1,738</strong></td>
+<td><strong>1,594</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1418,7 +1469,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Теплопроводность</td>
 <td>40-60 Вт/(м·К)</td>
-<td>Высокая → хорошая теплоизоляция</td>
+<td>Высокая → хороший отвод тепла от зоны расплава; в войлочной форме — теплоизоляция</td>
 </tr>
 <tr class="even">
 <td>Коэффициент термического расширения</td>
@@ -1486,9 +1537,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="преимущества">Преимущества</h3>
 <ol type="1">
 <li><strong>Природный вакуум</strong> — нет окисления примесей, не требуется защитная атмосфера</li>
-<li><strong>Избыток кислорода</strong> — MRE производит ~1500 т O₂/день, используем лишь 32 т</li>
+<li><strong>Избыток кислорода</strong> — MRE производит ~250 т O₂/день, используем ~29 т на MgO</li>
 <li><strong>Бесплатное тепло</strong> — солнечная печь работает на концентрированном свете (1 млн Вт/м² у поверхности)</li>
-<li><strong>Магний в реголите</strong> — 8% содержание, дистилляция даёт 48 т/день чистого Mg</li>
+<li><strong>Магний в реголите</strong> — 8% содержание, дистилляция даёт 48 т/день чистого Mg (из них ~44 т → MgO, ~4 т → Al-Mg сплавы)</li>
 </ol>
 </section>
 <section id="вызовы" class="level3">

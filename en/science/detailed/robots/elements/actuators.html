@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Actuators and Hydraulics – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/elements/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Actuators and Hydraulics – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/elements/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -829,28 +879,36 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#types-of-actuators" id="toc-types-of-actuators" class="nav-link" data-scroll-target="#types-of-actuators">Types of Actuators</a>
   <ul class="collapse">
   <li><a href="#hydraulic-actuators-primary" id="toc-hydraulic-actuators-primary" class="nav-link" data-scroll-target="#hydraulic-actuators-primary">Hydraulic Actuators (Primary)</a></li>
-  <li><a href="#electric-actuators-secondary" id="toc-electric-actuators-secondary" class="nav-link" data-scroll-target="#electric-actuators-secondary">Electric Actuators (Secondary)</a></li>
+  <li><a href="#electric-actuators" id="toc-electric-actuators" class="nav-link" data-scroll-target="#electric-actuators">Electric Actuators</a></li>
   </ul></li>
   <li><a href="#hydraulic-system" id="toc-hydraulic-system" class="nav-link" data-scroll-target="#hydraulic-system">Hydraulic System</a>
   <ul class="collapse">
   <li><a href="#nak-circuit-design" id="toc-nak-circuit-design" class="nav-link" data-scroll-target="#nak-circuit-design">NaK Circuit Design</a></li>
+  <li><a href="#hydraulic-seals" id="toc-hydraulic-seals" class="nav-link" data-scroll-target="#hydraulic-seals">Hydraulic Seals</a></li>
   </ul></li>
   <li><a href="#working-fluids" id="toc-working-fluids" class="nav-link" data-scroll-target="#working-fluids">Working Fluids</a>
   <ul class="collapse">
   <li><a href="#sodium-potassium-nak" id="toc-sodium-potassium-nak" class="nav-link" data-scroll-target="#sodium-potassium-nak">Sodium-Potassium (NaK)</a></li>
   <li><a href="#coolant" id="toc-coolant" class="nav-link" data-scroll-target="#coolant">Coolant</a></li>
+  <li><a href="#nak-thermal-management" id="toc-nak-thermal-management" class="nav-link" data-scroll-target="#nak-thermal-management">NaK Thermal Management</a></li>
+  </ul></li>
+  <li><a href="#bearings" id="toc-bearings" class="nav-link" data-scroll-target="#bearings">Bearings</a>
+  <ul class="collapse">
+  <li><a href="#mos₂-journal-bushings-low-speed-applications" id="toc-mos₂-journal-bushings-low-speed-applications" class="nav-link" data-scroll-target="#mos₂-journal-bushings-low-speed-applications">MoS₂ Journal Bushings (Low-Speed Applications)</a></li>
+  <li><a href="#ball-bearings-high-speed-shafts" id="toc-ball-bearings-high-speed-shafts" class="nav-link" data-scroll-target="#ball-bearings-high-speed-shafts">Ball Bearings (High-Speed Shafts)</a></li>
   </ul></li>
   <li><a href="#lubrication-tribology" id="toc-lubrication-tribology" class="nav-link" data-scroll-target="#lubrication-tribology">Lubrication (Tribology)</a>
   <ul class="collapse">
   <li><a href="#lubricant-types-by-environment" id="toc-lubricant-types-by-environment" class="nav-link" data-scroll-target="#lubricant-types-by-environment">Lubricant Types by Environment</a></li>
-  <li><a href="#molybdenum-disulfide-mos2" id="toc-molybdenum-disulfide-mos2" class="nav-link" data-scroll-target="#molybdenum-disulfide-mos2">Molybdenum Disulfide (MoS2)</a></li>
-  <li><a href="#soft-metals-pb-au" id="toc-soft-metals-pb-au" class="nav-link" data-scroll-target="#soft-metals-pb-au">Soft Metals (Pb, Au)</a></li>
+  <li><a href="#molybdenum-disulfide-mos₂" id="toc-molybdenum-disulfide-mos₂" class="nav-link" data-scroll-target="#molybdenum-disulfide-mos₂">Molybdenum Disulfide (MoS₂)</a></li>
+  <li><a href="#soft-metals-pb-al" id="toc-soft-metals-pb-al" class="nav-link" data-scroll-target="#soft-metals-pb-al">Soft Metals (Pb, Al)</a></li>
   <li><a href="#vacuum-oils-pfpe" id="toc-vacuum-oils-pfpe" class="nav-link" data-scroll-target="#vacuum-oils-pfpe">Vacuum Oils (PFPE)</a></li>
   </ul></li>
   <li><a href="#actuator-manufacturing" id="toc-actuator-manufacturing" class="nav-link" data-scroll-target="#actuator-manufacturing">Actuator Manufacturing</a>
   <ul class="collapse">
   <li><a href="#process" id="toc-process" class="nav-link" data-scroll-target="#process">Process</a></li>
   </ul></li>
+  <li><a href="#critical-component-equipment" id="toc-critical-component-equipment" class="nav-link" data-scroll-target="#critical-component-equipment">Critical Component Equipment</a></li>
   <li><a href="#material-balance" id="toc-material-balance" class="nav-link" data-scroll-target="#material-balance">Material Balance</a></li>
   <li><a href="#typical-actuators-by-robot" id="toc-typical-actuators-by-robot" class="nav-link" data-scroll-target="#typical-actuators-by-robot">Typical Actuators by Robot</a>
   <ul class="collapse">
@@ -860,6 +918,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#maintenance" id="toc-maintenance" class="nav-link" data-scroll-target="#maintenance">Maintenance</a></li>
   <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality Control</a></li>
+  <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   </ul>
 </nav>
@@ -891,8 +950,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Purpose:</strong> Drives and mechanisms for <a href="../../reference/glossary.qmd#generation-2-gen-2">Gen-2</a> robots</li>
 <li><strong>Heat transfer fluid:</strong> Sodium-Potassium (NaK) instead of water</li>
-<li><strong>Lubrication:</strong> Molybdenum disulfide (MoS2) for vacuum</li>
-<li><strong>Localization:</strong> 90% local (NaK, MoS2 import)</li>
+<li><strong>Drives:</strong> Cycloidal, direct-drive, tendon, NaK hydraulics</li>
+<li><strong>Bearings:</strong> MoS₂ journal bushings (local) + imported ball bearings for motors</li>
+<li><strong>Localization:</strong> ~90% local</li>
 </ul>
 </blockquote>
 <hr>
@@ -923,7 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Temperature</td>
-<td>-12C … +400C</td>
+<td>−12°C … +400°C</td>
 </tr>
 <tr class="even">
 <td>NaK source</td>
@@ -931,13 +991,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Advantages of NaK:</strong> - Liquid across a wide temperature range (-12C to +785C) - Does not boil in vacuum at operating temperatures - Produced from local regolith (electrolysis)</p>
+<p><strong>Advantages of NaK:</strong> - Liquid across a wide temperature range (−12°C to +785°C) - Does not boil in vacuum at operating temperatures - Produced from local regolith (electrolysis)</p>
 <p><strong>Disadvantages:</strong> - High chemical reactivity (reacts with water) - Requires hermetic circuits</p>
 <hr>
 </section>
-<section id="electric-actuators-secondary" class="level3">
-<h3 class="anchored" data-anchor-id="electric-actuators-secondary">Electric Actuators (Secondary)</h3>
+<section id="electric-actuators" class="level3">
+<h3 class="anchored" data-anchor-id="electric-actuators">Electric Actuators</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 61%">
+<col style="width: 38%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Parameter</th>
@@ -946,24 +1010,87 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Type</td>
-<td>Stepper motors + gearboxes</td>
+<td>Drive types</td>
+<td>Cycloidal, direct-drive, tendon</td>
 </tr>
 <tr class="even">
 <td>Power</td>
 <td>100-500 W</td>
 </tr>
 <tr class="odd">
-<td>Gearbox</td>
-<td>Planetary 1:100-1:500</td>
-</tr>
-<tr class="even">
 <td>Localization</td>
-<td>30% (Al windings local, magnets import)</td>
+<td>~70% (Al windings, Fe housings — local; NdFeB magnets — import)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Applications:</strong> - Precision movements (Centaur-M manipulators) - Backup drives - Rotary mechanisms</p>
+<p><strong>Cycloidal drives</strong> (Mole-M, Crab-M, and Centaur-M wheels, WAAM robots):</p>
+<ul>
+<li>Eccentric + cycloidal disk + roller pins</li>
+<li>All parts: WAAM + grinding ±0.1 mm</li>
+<li>Gear ratio up to 87:1 (single-stage), efficiency 75-90%</li>
+<li>100% local production</li>
+<li>Precedent: <a href="https://www.nabtesco.com/">Nabtesco</a> — largest manufacturer of cycloidal drives for robots</li>
+</ul>
+<p><strong>Direct-drive</strong> (Centaur-M joints 1-4):</p>
+<ul>
+<li>High-torque motor directly on shaft — no gearbox</li>
+<li>Zero backlash, zero gearbox maintenance</li>
+<li>Import NdFeB magnets ~1-2 kg/motor</li>
+<li>Precedent: <a href="https://www.kuka.com/en-de/products/robotics-systems/industrial-robots/lbr-iiwa">KUKA iiwa</a>, <a href="https://www.kollmorgen.com/en-us/blogs/motors-robotics-do-you-really-need-compromise">Kollmorgen</a></li>
+</ul>
+<p><strong>Tendon drives</strong> (Centaur-M wrist, joints 5-6):</p>
+<ul>
+<li>Motor on robot body, wire through pulleys to remote joint</li>
+<li>100% local production (Fe/Al wire)</li>
+<li>No backlash with proper tensioning</li>
+</ul>
+<p><strong>Drive summary table:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Robot</th>
+<th>Task</th>
+<th>Drive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mole-M wheels</td>
+<td>1:20, high torque</td>
+<td>Cycloidal</td>
+</tr>
+<tr class="even">
+<td>Mole-M bucket</td>
+<td>Linear, 50 kN</td>
+<td>NaK hydraulic cylinder</td>
+</tr>
+<tr class="odd">
+<td>Crab-M wheels</td>
+<td>1:20, medium torque</td>
+<td>Cycloidal</td>
+</tr>
+<tr class="even">
+<td>Crab-M platform</td>
+<td>5 t lift</td>
+<td>NaK hydraulic cylinder</td>
+</tr>
+<tr class="odd">
+<td>Centaur-M wheels</td>
+<td>1:20, light</td>
+<td>Cycloidal</td>
+</tr>
+<tr class="even">
+<td>Centaur-M joints 1-4</td>
+<td>Precision, 1:1</td>
+<td>Direct-drive (NdFeB)</td>
+</tr>
+<tr class="odd">
+<td>Centaur-M wrist 5-6</td>
+<td>Light, precise</td>
+<td>Tendon drive</td>
+</tr>
+</tbody>
+</table>
 <blockquote class="blockquote">
 <p><strong>Earth analog:</strong> Serial integrated servo drives for humanoids are already being manufactured in automated production: <a href="https://www.yicaiglobal.com/news/worlds-first-automated-production-line-for-humanoid-robot-joints-kicks-off-operation-in-shanghai">EYOU</a> (100K joints/year, Shanghai, 2026). The basic kinematics of Centaur-M are analogous to a 6-axis humanoid manipulator. See <a href="../../../../../en/science/reference/technology-readiness.html#integrated-servo-drives-robot-joints">TRL assessment</a>.</p>
 </blockquote>
@@ -1039,6 +1166,48 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+</section>
+<section id="hydraulic-seals" class="level3">
+<h3 class="anchored" data-anchor-id="hydraulic-seals">Hydraulic Seals</h3>
+<p>NaK destroys PTFE (Teflon) and all organic polymers — standard hydraulic seals are not applicable.</p>
+<p><strong>O-FLEX metal seals (<a href="https://technetics.com/products/o-flex-metal-seal/">Technetics Group</a>):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 61%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pressure</td>
+<td>vacuum … 500+ bar</td>
+</tr>
+<tr class="even">
+<td>Temperature</td>
+<td>−273°C … +980°C</td>
+</tr>
+<tr class="odd">
+<td>Material</td>
+<td>Stainless steel / alloy 718, silver coating</td>
+</tr>
+<tr class="even">
+<td>Leakage</td>
+<td>10⁻⁴ … 10⁻⁹ std·cm³/s (He)</td>
+</tr>
+<tr class="odd">
+<td>Principle</td>
+<td>Self-energizing — medium pressure increases seating force</td>
+</tr>
+</tbody>
+</table>
+<p>NaK compatibility: stainless steel 316 — 32,600 hours continuous operation (<a href="https://apps.dtic.mil/sti/tr/pdf/ADA321740.pdf">DTIC</a>).</p>
+<p><strong>EM pumps</strong> for cooling circulation — no moving parts or seals. Precedent: SNAP-10A reactor (1965), NaK circulation via EM pump (<a href="https://ntrs.nasa.gov/api/citations/20070022272/downloads/20070022272.pdf">NASA NTRS</a>).</p>
+<p><strong>Manufacturing:</strong> WAAM body + grinding of seating surfaces. Metal O-rings: forming press (2 m², 5 kW). Silver coating — Ag import (grams per seal).</p>
 <hr>
 </section>
 </section>
@@ -1056,19 +1225,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Composition</td>
-<td>Na78K22 (78% Na, 22% K)</td>
+<td>Na₂₂K₇₈ (22% Na, 78% K) — eutectic</td>
 </tr>
 <tr class="even">
 <td>Liquid range</td>
-<td>-12C … +785C</td>
+<td>−12°C … +785°C</td>
 </tr>
 <tr class="odd">
 <td>Density</td>
-<td>0.87 g/cm3</td>
+<td>0.87 g/cm³</td>
 </tr>
 <tr class="even">
 <td>Viscosity</td>
-<td>0.7 cP (at 100C)</td>
+<td>0.7 cP (at 100°C)</td>
 </tr>
 <tr class="odd">
 <td>Application</td>
@@ -1083,7 +1252,117 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="coolant" class="level3">
 <h3 class="anchored" data-anchor-id="coolant">Coolant</h3>
 <p>NaK is used not only for hydraulics but also for cooling: - Robot solar panels (Crab-M, Centaur-M) - Electric motors - Power electronics</p>
-<p><strong>Cooling circuit:</strong> - NaK flows through radiators facing away from the Sun - Heat is radiated into space - Temperature maintained at +50-100C</p>
+<p><strong>Cooling circuit:</strong> - NaK flows through radiators facing away from the Sun - Heat is radiated into space - Temperature maintained at +50-100°C</p>
+<hr>
+</section>
+<section id="nak-thermal-management" class="level3">
+<h3 class="anchored" data-anchor-id="nak-thermal-management">NaK Thermal Management</h3>
+<p><strong>Problem:</strong> NaK freezes at −12°C, but Mercury’s shadow reaches −180°C.</p>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Robots operate in the <a href="../../../../../en/science/detailed/bootstrap.html">terminator zone</a> (+50…+150°C) — NaK always liquid</li>
+<li>During operation: waste heat from motors keeps NaK above −12°C</li>
+<li>In sleep mode: electric heating 0.5 kW (from cable or battery) — autonomy: Crab-M 100 h (~4 days), Centaur-M 40 h (~1.7 days), Mole-M unlimited (cable)</li>
+<li>Emergency (total power loss in shadow): NaK freezes but recovers upon heating without circuit damage</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="bearings" class="level2">
+<h2 class="anchored" data-anchor-id="bearings">Bearings</h2>
+<section id="mos₂-journal-bushings-low-speed-applications" class="level3">
+<h3 class="anchored" data-anchor-id="mos₂-journal-bushings-low-speed-applications">MoS₂ Journal Bushings (Low-Speed Applications)</h3>
+<p>Molybdenum disulfide (MoS₂) is the standard vacuum lubricant for space mechanisms. Applied via magnetron sputtering, coating thickness 0.5-5 µm.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Friction coefficient in vacuum</td>
+<td>0.03–0.06</td>
+</tr>
+<tr class="even">
+<td>Temperature range</td>
+<td>−200°C … +1200°C</td>
+</tr>
+<tr class="odd">
+<td>Allowable PV (pressure × velocity)</td>
+<td>0.5–2.0 MPa·m/s</td>
+</tr>
+<tr class="even">
+<td>Coating life</td>
+<td>3-40 million cycles</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Application by robot:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>RPM</th>
+<th>PV, MPa·m/s</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Crab/Mole wheel</td>
+<td>60 RPM</td>
+<td>0.05</td>
+<td>40× margin</td>
+</tr>
+<tr class="even">
+<td>Centaur joint</td>
+<td>oscillation ±45°</td>
+<td>&lt;0.01</td>
+<td>100× margin</td>
+</tr>
+<tr class="odd">
+<td>Rollers, guides</td>
+<td>&lt;30 RPM</td>
+<td>&lt;0.01</td>
+<td>100× margin</td>
+</tr>
+</tbody>
+</table>
+<p>Precedent: Mars Perseverance — <a href="https://www.ggbearings.com/en/news/ggb-goes-mars-perseverance-rover">GGB</a> bushings in the drill system.</p>
+</section>
+<section id="ball-bearings-high-speed-shafts" class="level3">
+<h3 class="anchored" data-anchor-id="ball-bearings-high-speed-shafts">Ball Bearings (High-Speed Shafts)</h3>
+<p>For electric motors &gt;1000 RPM, imported ball bearings from 440C stainless steel are used:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sizes</td>
+<td>6205/6207</td>
+</tr>
+<tr class="even">
+<td>Mass</td>
+<td>~200 g each</td>
+</tr>
+<tr class="odd">
+<td>Service life</td>
+<td>20,000-100,000 hours (replacement every 5-10 years)</td>
+</tr>
+<tr class="even">
+<td>Import for entire fleet (60,000 robots)</td>
+<td>0.8-1.6 t</td>
+</tr>
+</tbody>
+</table>
+<p>Part of <a href="../../reference/glossary.qmd#vitamins">“vitamins”</a>.</p>
+<p>Precedent: Mars Perseverance — <a href="https://www.timken.com/timken-world/failure-not-option-timken-engineers-design-bearings-next-mars-rover/">Timken</a> ball bearings in wheel drives.</p>
 <hr>
 </section>
 </section>
@@ -1111,14 +1390,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>External (vacuum)</strong></td>
 <td>Dry solid</td>
-<td>Molybdenum disulfide (MoS2)</td>
-<td><strong>Import from Earth</strong></td>
+<td>Molybdenum disulfide (MoS₂)</td>
+<td><strong>Import Mo from Earth</strong></td>
 </tr>
 <tr class="even">
 <td><strong>External (vacuum)</strong></td>
 <td>Soft metals</td>
-<td>Lead (Pb), gold (Au)</td>
-<td>Local (Pb), import (Au)</td>
+<td>Lead (Pb), aluminum (Al)</td>
+<td>Local</td>
 </tr>
 <tr class="odd">
 <td><strong>Internal (dome)</strong></td>
@@ -1130,23 +1409,61 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <hr>
 </section>
-<section id="molybdenum-disulfide-mos2" class="level3">
-<h3 class="anchored" data-anchor-id="molybdenum-disulfide-mos2">Molybdenum Disulfide (MoS2)</h3>
-<p><strong>Why ideal for vacuum:</strong> - Does not evaporate (sublimation temperature &gt;1100C) - Low friction coefficient (0.03-0.1) - Works across wide temperature range (-200C … +400C)</p>
-<p><strong>Applications:</strong> - External manipulator bearings - Robot joints - Mole-M tracks</p>
-<p><strong>Problem:</strong> Imported from Earth (no MoS2 deposits found on Mercury)</p>
+<section id="molybdenum-disulfide-mos₂" class="level3">
+<h3 class="anchored" data-anchor-id="molybdenum-disulfide-mos₂">Molybdenum Disulfide (MoS₂)</h3>
+<p>Applied via magnetron sputtering (DC sputtering) at a magnetron station.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 61%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Coating thickness</td>
+<td>0.5–5 µm</td>
+</tr>
+<tr class="even">
+<td>Mo per bearing</td>
+<td>~0.01–0.1 g</td>
+</tr>
+<tr class="odd">
+<td>Mo per fleet/recoating</td>
+<td>~10-100 g</td>
+</tr>
+<tr class="even">
+<td>Mo import</td>
+<td><strong>&lt;1 kg/year</strong></td>
+</tr>
+<tr class="odd">
+<td>Coating life (60 RPM)</td>
+<td>~38 days</td>
+</tr>
+<tr class="even">
+<td>Recoating interval</td>
+<td>3-6 months (heavy duty), 6-12 months (light duty)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Maintenance at scale (1000 robots):</strong> ~25,000 bearing points, ~70 recoating operations/day, 10-13 Centaur-Ms (~1% of fleet) on maintenance duty.</p>
+<p><strong>TiS₂ alternative (local):</strong> Titanium disulfide — layered structure analogous to MoS₂. Ti (0.3% of regolith) + S (up to 4% of regolith). Synthesis: Ti + 2S → TiS₂ at 400-800°C. Status: TRL 2, requires experimental verification of lubricating properties.</p>
 <hr>
 </section>
-<section id="soft-metals-pb-au" class="level3">
-<h3 class="anchored" data-anchor-id="soft-metals-pb-au">Soft Metals (Pb, Au)</h3>
-<p><strong>Applications:</strong> - Lead bushings in joints (Pb melts at +327C — sufficiently soft) - Gold coatings for critical components (Au does not oxidize)</p>
-<p><strong>Source:</strong> - Lead (Pb) — local (trace amounts in regolith) - Gold (Au) — import (too rare on Mercury)</p>
+<section id="soft-metals-pb-al" class="level3">
+<h3 class="anchored" data-anchor-id="soft-metals-pb-al">Soft Metals (Pb, Al)</h3>
+<p><strong>Applications:</strong> - Lead bushings in joints (Pb melts at +327°C — sufficiently soft) - Aluminum coatings for non-critical components (µ = 0.3-0.5)</p>
+<p><strong>Source:</strong> Local (Pb — trace amounts in regolith, Al — primary material).</p>
 <hr>
 </section>
 <section id="vacuum-oils-pfpe" class="level3">
 <h3 class="anchored" data-anchor-id="vacuum-oils-pfpe">Vacuum Oils (PFPE)</h3>
-<p><strong>Application:</strong> Internal mechanisms under dome (low pressure 0.1 atm O2)</p>
-<p><strong>Characteristics:</strong> - Low vapor pressure (&lt;10^-9 mbar) - Recirculation in closed crankcases (no losses)</p>
+<p><strong>Application:</strong> Internal mechanisms under dome (low pressure 0.1 atm O₂)</p>
+<p><strong>Characteristics:</strong> - Low vapor pressure (&lt;10⁻⁹ mbar) - Recirculation in closed crankcases (no losses)</p>
 <p><strong>Problem:</strong> Import from Earth (complex synthesis)</p>
 <hr>
 </section>
@@ -1171,31 +1488,41 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>1. Cylinder fabrication</td>
-<td>Lathe machining of steel tube D50 mm</td>
-<td>CNC lathe</td>
+<td>WAAM printing of steel tube Ø50 mm</td>
+<td>WAAM cell</td>
 </tr>
 <tr class="even">
-<td>2. Piston fabrication</td>
-<td>Milling from Al stock</td>
-<td>CNC milling machine</td>
+<td>2. Cylinder grinding</td>
+<td>Abrasive processing of inner surface</td>
+<td>Grinding cell</td>
 </tr>
 <tr class="odd">
-<td>3. Actuator assembly</td>
-<td>Piston and seal installation</td>
+<td>3. Piston fabrication</td>
+<td>WAAM printing from Al</td>
+<td>WAAM cell</td>
+</tr>
+<tr class="even">
+<td>4. Piston grinding</td>
+<td>Abrasive finishing to ±0.1 mm</td>
+<td>Grinding cell</td>
+</tr>
+<tr class="odd">
+<td>5. Actuator assembly</td>
+<td>Piston and O-FLEX seal installation</td>
 <td>Centaur-M</td>
 </tr>
 <tr class="even">
-<td>4. NaK filling</td>
+<td>6. NaK filling</td>
 <td>Vacuum filling of NaK into circuit</td>
 <td>Vacuum chamber</td>
 </tr>
 <tr class="odd">
-<td>5. Sealing</td>
+<td>7. Sealing</td>
 <td>Laser welding</td>
 <td>Laser welder</td>
 </tr>
 <tr class="even">
-<td>6. Testing</td>
+<td>8. Testing</td>
 <td>Hydraulic testing at 500 bar</td>
 <td>Test stand</td>
 </tr>
@@ -1204,6 +1531,59 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Production time:</strong> 4 hours per actuator</p>
 <hr>
 </section>
+</section>
+<section id="critical-component-equipment" class="level2">
+<h2 class="anchored" data-anchor-id="critical-component-equipment">Critical Component Equipment</h2>
+<p>In addition to existing WAAM + grinding, bearing and seal production requires additional equipment:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 28%">
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Equipment</th>
+<th>Area</th>
+<th>Power</th>
+<th>Mass</th>
+<th>Zone</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Magnetron station (MoS₂ sputtering)</td>
+<td>4 m²</td>
+<td>10 kW</td>
+<td>200 kg</td>
+<td>Forming</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>O-ring forming press + dies</td>
+<td>2 m²</td>
+<td>5 kW</td>
+<td>100 kg</td>
+<td>Forming</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>6 m²</strong></td>
+<td><strong>15 kW</strong></td>
+<td><strong>300 kg</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Cycloidal drives, bushings, and hydraulic cylinders are produced on existing WAAM + grinding equipment (Forming zone, 200 m²).</p>
+<p><strong>Share of <a href="../factories/overview.qmd">F-R dome</a>:</strong> 6 m² = 0.4% of area, 15 kW = 0.013% of power.</p>
+<hr>
 </section>
 <section id="material-balance" class="level2">
 <h2 class="anchored" data-anchor-id="material-balance">Material Balance</h2>
@@ -1233,9 +1613,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../en/science/detailed/materials/distillation.html">Aluminum</a></td>
 </tr>
 <tr class="even">
-<td>MoS2 lubricant</td>
-<td>5 kg</td>
-<td><strong>Import from Earth</strong></td>
+<td>MoS₂ lubricant</td>
+<td>0.5 kg</td>
+<td><strong>Import Mo from Earth</strong></td>
 </tr>
 <tr class="odd">
 <td>PFPE oil</td>
@@ -1243,13 +1623,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>Import from Earth</strong></td>
 </tr>
 <tr class="even">
+<td>NdFeB magnets (Centaur-M)</td>
+<td>~3 kg</td>
+<td><strong>Import from Earth</strong></td>
+</tr>
+<tr class="odd">
+<td>Ag for O-rings</td>
+<td>~0.05 kg</td>
+<td><strong>Import from Earth</strong></td>
+</tr>
+<tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~177 kg</strong></td>
+<td><strong>~176 kg</strong></td>
 <td><strong>~96% local</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Consumption from daily production:</strong> - NaK: 100 kg from 200 kg/day = <strong>50%</strong> - Fe: 50 kg from 18 t/day = <strong>0.3%</strong> - Al: 20 kg from 42 t/day = <strong>0.05%</strong></p>
+<p><strong>Consumption from daily production:</strong> - NaK: 100 kg from ~5 t/day = <strong>~2%</strong> - Fe: 50 kg from 18 t/day = <strong>0.3%</strong> - Al: 20 kg from 42 t/day = <strong>0.05%</strong></p>
 <hr>
 </section>
 <section id="typical-actuators-by-robot" class="level2">
@@ -1267,16 +1657,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Wheel drive</td>
+<td>6</td>
+<td>Electric + cycloidal</td>
+<td>5 kW</td>
+</tr>
+<tr class="even">
 <td>Bucket drive</td>
 <td>2</td>
 <td>Hydraulic</td>
 <td>50 kN</td>
-</tr>
-<tr class="even">
-<td>Track drive</td>
-<td>2</td>
-<td>Electric</td>
-<td>10 kW</td>
 </tr>
 <tr class="odd">
 <td>Manipulator</td>
@@ -1286,7 +1676,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>TOTAL:</strong> 8 actuators, ~60 kg</p>
+<p><strong>TOTAL:</strong> 12 actuators, ~65 kg</p>
 <hr>
 </section>
 <section id="crab-m-logistics" class="level3">
@@ -1304,7 +1694,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Wheel drive</td>
 <td>6</td>
-<td>Electric</td>
+<td>Electric + cycloidal</td>
 <td>5 kW</td>
 </tr>
 <tr class="even">
@@ -1343,20 +1733,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>2 kW</td>
 </tr>
 <tr class="even">
-<td>Main manipulator</td>
-<td>6</td>
-<td>Electric</td>
+<td>Main manipulator (joints 1-4)</td>
+<td>8</td>
+<td>Direct-drive (NdFeB)</td>
 <td>1 kN</td>
 </tr>
 <tr class="odd">
-<td>Precision manipulator</td>
-<td>2</td>
-<td>Electric</td>
+<td>Precision manipulator (joints 5-6)</td>
+<td>4</td>
+<td>Tendon</td>
 <td>0.1 kN</td>
 </tr>
 </tbody>
 </table>
-<p><strong>TOTAL:</strong> 12 actuators, ~25 kg</p>
+<p><strong>TOTAL:</strong> 16 actuators, ~25 kg</p>
 <hr>
 </section>
 </section>
@@ -1372,9 +1762,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>MoS2 lubricant replacement</td>
-<td>1 month</td>
-<td>Centaur-M</td>
+<td>MoS₂ bearing recoating</td>
+<td>3-6 months</td>
+<td>Magnetron station + Centaur-M</td>
 </tr>
 <tr class="even">
 <td>NaK seal check</td>
@@ -1382,7 +1772,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Automation</td>
 </tr>
 <tr class="odd">
-<td>Seal replacement</td>
+<td>O-FLEX seal replacement</td>
 <td>1 year</td>
 <td>Centaur-M</td>
 </tr>
@@ -1393,7 +1783,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Service life:</strong> - Hydraulic actuators: 3-5 years - Electric actuators: 5-10 years - NaK (fluid): indefinite (recirculation)</p>
+<p><strong>Service life:</strong> - Hydraulic actuators: 3-5 years - Electric actuators: 5-10 years - Motor ball bearings: 5-10 years - NaK (fluid): indefinite (recirculation)</p>
 <hr>
 </section>
 <section id="quality-control" class="level2">
@@ -1411,29 +1801,44 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Seal integrity</td>
 <td>Vacuum test</td>
-<td>&lt;10^-6 mbar·l/s</td>
+<td>&lt;10⁻⁶ mbar·l/s</td>
 <td>Rebuild</td>
 </tr>
 <tr class="even">
 <td>Pressure</td>
 <td>Hydraulic testing</td>
-<td>500 bar (2x working)</td>
+<td>500 bar (2× working)</td>
 <td>Reject</td>
 </tr>
 <tr class="odd">
 <td>Force</td>
 <td>Bench testing</td>
-<td>+/-5% of nominal</td>
+<td>±5% of nominal</td>
 <td>Adjustment</td>
 </tr>
 <tr class="even">
 <td>Temperature</td>
 <td>Thermocouples</td>
-<td>-12C … +400C</td>
+<td>−12°C … +400°C</td>
 <td>Check NaK</td>
 </tr>
 </tbody>
 </table>
+<hr>
+</section>
+<section id="sources" class="level2">
+<h2 class="anchored" data-anchor-id="sources">Sources</h2>
+<ul>
+<li><a href="https://technetics.com/products/o-flex-metal-seal/">Technetics — O-FLEX Metal Seals</a></li>
+<li><a href="https://apps.dtic.mil/sti/tr/pdf/ADA321740.pdf">DTIC — NaK Material Compatibility</a></li>
+<li><a href="https://ntrs.nasa.gov/api/citations/20070022272/downloads/20070022272.pdf">NASA NTRS — Liquid-Metal Pump Technologies (SNAP-10A)</a></li>
+<li><a href="https://www.nabtesco.com/">Nabtesco — Cycloidal Drives for Robotics</a></li>
+<li><a href="https://www.kollmorgen.com/en-us/blogs/motors-robotics-do-you-really-need-compromise">Kollmorgen — Direct Drive for Robotics</a></li>
+<li><a href="https://www.ggbearings.com/en/news/ggb-goes-mars-perseverance-rover">GGB — Mars Perseverance Bearings</a></li>
+<li><a href="https://www.timken.com/timken-world/failure-not-option-timken-engineers-design-bearings-next-mars-rover/">Timken — Mars Rover Bearings</a></li>
+<li><a href="https://www.astbearings.com/blog/bearings-space-considerations-vacuum-environments.html">AST Bearings — Bearings in Space</a></li>
+<li><a href="https://esmats.eu/amspapers/pastpapers/pdfs/2018/paul.pdf">ESMATS — Improved Solid Lubricants</a></li>
+</ul>
 <hr>
 </section>
 <section id="see-also" class="level2">

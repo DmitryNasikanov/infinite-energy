@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Robot Production – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Robot Production – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -848,7 +898,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
   <li><a href="#assembly-process" id="toc-assembly-process" class="nav-link" data-scroll-target="#assembly-process">Assembly Process</a></li>
   </ul></li>
-  <li><a href="#material-balance" id="toc-material-balance" class="nav-link" data-scroll-target="#material-balance">Material Balance</a></li>
+  <li><a href="#material-balance" id="toc-material-balance" class="nav-link" data-scroll-target="#material-balance">Material Balance</a>
+  <ul class="collapse">
+  <li><a href="#import-components-vitamins" id="toc-import-components-vitamins" class="nav-link" data-scroll-target="#import-components-vitamins">Import Components (“vitamins”)</a></li>
+  </ul></li>
   <li><a href="#system-productivity" id="toc-system-productivity" class="nav-link" data-scroll-target="#system-productivity">System Productivity</a>
   <ul class="collapse">
   <li><a href="#single-factory" id="toc-single-factory" class="nav-link" data-scroll-target="#single-factory">Single Factory</a></li>
@@ -899,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Purpose:</strong> Autonomous robots for mining, logistics, and assembly</li>
 <li><strong>Types:</strong> Crab-M (logistics), Centaur-M (manipulation), Mole-M (mining)</li>
 <li><strong>Productivity:</strong> 5 robots/day per assembly bay</li>
-<li><strong>Materials:</strong> 95% local (Fe, Al, NaS batteries), 5% import (electronics)</li>
+<li><strong>Materials:</strong> &gt;99% local (Fe, Al, NaS batteries), &lt;1% import (electronics chips)</li>
 </ul>
 </blockquote>
 <hr>
@@ -927,7 +980,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Mole-M</strong></td>
 <td>~1500 kg</td>
-<td>Fe 83% + Al 13%</td>
+<td>Fe 83% + Al 15%</td>
 <td>10 kV Cable</td>
 <td>30 kW</td>
 <td>Regolith mining</td>
@@ -935,29 +988,30 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Crab-M</strong></td>
 <td>~1000 kg</td>
-<td>Fe 35% + Al 45%</td>
-<td><a href="../reference/technology-readiness.qmd#nas-batteries">NaS</a> 50 kWh</td>
+<td>Fe 35% + Al 47%</td>
+<td><a href="../reference/technology-readiness.qmd#nas-batteries">NaS</a> 20 kWh</td>
 <td>10 kW</td>
 <td>Logistics, MD buffer</td>
 </tr>
 <tr class="odd">
 <td><strong>Centaur-M</strong></td>
-<td>~370 kg</td>
-<td>Fe 22% + Al 62%</td>
-<td>NaS 20 kWh + cable</td>
+<td>~380 kg</td>
+<td>Fe 22% + Al 63%</td>
+<td>NaS 5 kWh + cable</td>
 <td>5 kW</td>
 <td>Assembly, maintenance</td>
 </tr>
 <tr class="even">
 <td><strong>Average</strong></td>
 <td>~960 kg</td>
-<td>Fe 58% + Al 31%</td>
+<td>Fe 58% + Al 32%</td>
 <td>—</td>
 <td>—</td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
+<p><em>Crab-M (~1000 kg): frame ~800 kg + NaS battery ~150 kg + actuators ~40 kg + sensor housings ~20 kg + electronics (chips) ~0.5 kg ≈ 1010 kg. Mole-M: cable reel 50 m, cross-section 50 mm² Al, 10 kV → 400 V (transformer). Details: <a href="../../../../en/science/detailed/robots/assembly/moles.html">Mole-M Assembly</a></em></p>
 <hr>
 </section>
 </section>
@@ -980,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Mass</td>
 <td>120-950 kg</td>
-<td>370-1500 kg</td>
+<td>380-1500 kg</td>
 </tr>
 <tr class="odd">
 <td>Battery</td>
@@ -1266,7 +1320,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
     subgraph INPUT["COMPONENTS"]
-        FRAME["Frame (WAAM + CNC)"]
+        FRAME["Frame (WAAM + grinding)"]
         BATTERY["NaS Battery"]
         ACTUATORS["Actuators"]
         ELECTRONICS["Electronics (import)"]
@@ -1339,19 +1393,58 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../en/science/detailed/materials/titanium.html">Titanium line</a></td>
 </tr>
 <tr class="odd">
-<td>Electronics</td>
-<td>~100 kg</td>
+<td>Electronics (chips)</td>
+<td>~2.5 kg</td>
 <td><strong>Import from Earth</strong></td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~4.9 t</strong></td>
-<td><strong>~98% local</strong></td>
+<td><strong>~4.8 t</strong></td>
+<td><strong>&gt;99% local</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Localization:</strong> 98% by mass</p>
+<p><strong>Localization:</strong> &gt;99% by mass</p>
+<p><em>Electronics ~15 kg/robot (total mass): chips ~0.5 kg import, sensor housings/cables ~14.5 kg — local Al</em></p>
+<p><em>Na and S — for the full battery shop production program (500 kWh/day: for robots + reserve + replacement)</em></p>
+<section id="import-components-vitamins" class="level3">
+<h3 class="anchored" data-anchor-id="import-components-vitamins">Import Components (“<a href="../reference/glossary.qmd#vitamins">vitamins</a>”)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Per fleet (60,000)</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ball bearings (440C)</td>
+<td>0.8-1.6 t</td>
+<td>One-time</td>
+</tr>
+<tr class="even">
+<td>NdFeB magnets (Centaur-M)</td>
+<td>20-40 t</td>
+<td>One-time</td>
+</tr>
+<tr class="odd">
+<td>Mo for MoS₂</td>
+<td>&lt;1 kg/year</td>
+<td>Annual</td>
+</tr>
+<tr class="even">
+<td>Ag for O-ring seals</td>
+<td>60-300 kg</td>
+<td>One-time</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>99% by mass — local production; import components are part of “vitamins”. Details: <a href="../../../../en/science/detailed/robots/elements/actuators.html#ball-bearings-high-speed-shafts">Actuators</a>.</p>
+</blockquote>
 <hr>
+</section>
 </section>
 <section id="system-productivity" class="level2">
 <h2 class="anchored" data-anchor-id="system-productivity">System Productivity</h2>
@@ -1422,8 +1515,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>30 kW</td>
 </tr>
 <tr class="even">
-<td>CNC machines (processing)</td>
-<td>40 kW</td>
+<td>Grinding cells (processing)</td>
+<td>10 kW</td>
 </tr>
 <tr class="odd">
 <td>NaS battery production</td>
@@ -1500,9 +1593,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>MoS₂ lubrication replacement</td>
-<td>1 month</td>
-<td>Service station</td>
+<td>MoS₂ bearing recoating</td>
+<td>3-6 months</td>
+<td><a href="../../../../en/science/detailed/robots/elements/actuators.html#critical-component-equipment">Magnetron station</a> + Centaur-M</td>
 </tr>
 <tr class="even">
 <td>Sensor calibration</td>

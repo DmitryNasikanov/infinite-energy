@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Тестирование МД – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Тестирование МД – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/railguns/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1084,7 +1134,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Сенсоры</td>
-<td>Калибровка всех 6150 датчиков</td>
+<td>Калибровка всех 2 150 датчиков</td>
 </tr>
 <tr class="even">
 <td>Связь</td>
@@ -1211,7 +1261,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Ускорение</td>
 <td>Акселерометры в снаряде</td>
-<td>15g ± 2g</td>
+<td>115g ± 10g</td>
 </tr>
 <tr class="even">
 <td>Скорость на выходе</td>
@@ -1331,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Запусков</td>
-<td>100 (каждые ~15 мин)</td>
+<td>100 (каждые ~15 мин)*</td>
 </tr>
 <tr class="odd">
 <td>Режим</td>
@@ -1339,6 +1389,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
+<p>*Пониженный тестовый темп. Штатный рабочий режим: 600 запусков/день (каждые 2.4 мин).</p>
 <p><strong>Цель:</strong> Проверить надёжность МД при длительной эксплуатации.</p>
 </section>
 <section id="контролируемые-параметры-1" class="level3">
@@ -1370,7 +1421,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Энергопотребление</td>
 <td>Счётчик</td>
-<td>3.6 ГДж ± 0.2 ГДж на выстрел</td>
+<td>4.7 ГДж ± 0.3 ГДж на выстрел</td>
 </tr>
 </tbody>
 </table>
@@ -1499,30 +1550,30 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Холостые выстрелы</td>
 <td>10</td>
-<td>0.03 ГДж × 10</td>
-<td>0.3 ГДж</td>
+<td>0.04 ГДж × 10</td>
+<td>0.4 ГДж</td>
 </tr>
 <tr class="even">
 <td>Боевые выстрелы</td>
 <td>20</td>
-<td>3.6 ГДж × 20</td>
-<td>72 ГДж</td>
+<td>4.7 ГДж × 20</td>
+<td>94 ГДж</td>
 </tr>
 <tr class="odd">
 <td>Непрерывный режим</td>
 <td>100</td>
-<td>3.6 ГДж × 100</td>
-<td>360 ГДж</td>
+<td>4.7 ГДж × 100</td>
+<td>470 ГДж</td>
 </tr>
 <tr class="even">
 <td><strong>ИТОГО</strong></td>
 <td><strong>130</strong></td>
 <td></td>
-<td><strong>~432 ГДж</strong></td>
+<td><strong>~564 ГДж</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>В мощности:</strong> 432 ГДж / (14 дней × 86400 сек) = ~0.36 МВт средняя мощность на тестирование.</p>
+<p><strong>В мощности:</strong> 564 ГДж / (14 дней × 86400 сек) = ~0.47 МВт средняя мощность на тестирование.</p>
 <hr>
 </section>
 <section id="см.-также" class="level2">
@@ -1531,7 +1582,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../../../ru/science/detailed/railguns/assembly/track.html">Сборка трека</a> — предыдущий этап</li>
 <li><a href="../../../../../ru/science/detailed/railguns/assembly/electronics.html">Электроника управления</a> — системы контроля</li>
 <li><a href="../../../../../ru/science/summaries/mirrors.html">Производство зеркал</a> — что запускает МД</li>
-<li><a href="../../../../../ru/science/detailed/railguns/theory.html">Теория МД</a> — физика и энергетика МД</li>
+<li><a href="../../../../../ru/science/detailed/railguns/overview.html">Теория МД</a> — физика и энергетика МД</li>
 </ul>
 
 

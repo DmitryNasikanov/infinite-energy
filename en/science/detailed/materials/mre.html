@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -340,11 +341,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="3.1.2 MRE Electrolysis – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/materials/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="3.1.2 MRE Electrolysis – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/materials/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -377,6 +440,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -470,12 +538,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -659,19 +721,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -955,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Energy consumption</td>
-<td>~10 MW thermal (furnace) + ~500 kW electrical (electrolysis)</td>
+<td>~10 MW thermal (furnace) + ~108 MW electrical (electrolysis)</td>
 </tr>
 </tbody>
 </table>
@@ -1018,7 +1068,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="solar-furnace" class="level2">
 <h2 class="anchored" data-anchor-id="solar-furnace">Solar Furnace</h2>
-<p><strong>Principle:</strong> Concentration of sunlight by mirrors into a single point. On Mercury, solar flux is ~10 kW/m² — 7 times greater than on Earth.</p>
+<p><strong>Principle:</strong> Concentration of sunlight by mirrors into a single point. On Mercury, solar flux is ~9.3 kW/m² — ~7 times greater than on Earth.</p>
 <p><strong>Why not an electric furnace?</strong></p>
 <p>Electricity on Mercury is precious — it’s needed for electrolysis, motors, electronics. Sunlight is free and abundant. Mirrors focus 10 MW of thermal energy directly into the crucible, bypassing the light→electricity→heat conversion.</p>
 <table class="caption-top table">
@@ -1109,23 +1159,34 @@ document.addEventListener('DOMContentLoaded', function() {
 <td style="text-align: left;">1500°C (maintained by solar furnace)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Number of cells</td>
+<td style="text-align: left;">60</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Voltage</td>
 <td style="text-align: left;">2–4 V</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">Current per cell</td>
+<td style="text-align: left;">~600,000 A (600 kA)</td>
+</tr>
 <tr class="odd">
-<td style="text-align: left;">Current</td>
-<td style="text-align: left;">10,000–50,000 A</td>
+<td style="text-align: left;">Power per cell</td>
+<td style="text-align: left;">~1.8 MW</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Power</td>
-<td style="text-align: left;">~500 kW (electrical)</td>
+<td style="text-align: left;"><strong>Power (total)</strong></td>
+<td style="text-align: left;"><strong>~108 MW (electrical)</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">O₂ yield</td>
-<td style="text-align: left;">~40% of regolith mass</td>
+<td style="text-align: left;">~40% of regolith mass (~250 t/day)</td>
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Power justification (Faraday’s law):</strong> 250 t O₂/day = 7.8M mol O₂/day. Each O₂ requires 4 electrons → 31.3M mol e⁻/day. Total current: 31.3M × 96,485 C / 86,400 s ≈ 35 MA. At average voltage 3 V: 35 MA × 3 V = <strong>~105 MW</strong>. Actual ~108 MW including electrode thermal losses. For comparison: Hall-Héroult aluminum electrolysis cells operate at 100–600 kA per cell — MRE cells are comparable in scale.</p>
+</blockquote>
 </section>
 <section id="mre-cell-construction" class="level3">
 <h3 class="anchored" data-anchor-id="mre-cell-construction">MRE Cell Construction</h3>
@@ -1167,7 +1228,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="148" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 147;"><span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"EQU-002"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="152" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 151;"><span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"EQU-002"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">

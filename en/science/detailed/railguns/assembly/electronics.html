@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Control Electronics – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Control Electronics – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/railguns/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -874,9 +924,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>Purpose:</strong> Launch control and monitoring systems for Mass Drivers</li>
-<li><strong>Mass:</strong> ~7 t (96% local, 4% import)</li>
-<li><strong>Import:</strong> ~275 kg (controller boards, MOSFET chips, sensors)</li>
-<li><strong>Local:</strong> ~6.85 t (<a href="../../reference/technology-readiness.qmd#nas-batteries">NaS</a> capacitors, Al heatsinks, housings)</li>
+<li><strong>Mass:</strong> ~6 t (97.5% local, 2.5% import)</li>
+<li><strong>Import:</strong> ~142 kg (controller boards, MOSFET chips, sensors)</li>
+<li><strong>Local:</strong> ~5.6 t (<a href="../../reference/technology-readiness.qmd#nas-batteries">NaS</a> capacitors, Al heatsinks, housings)</li>
 </ul>
 </blockquote>
 <hr>
@@ -898,13 +948,13 @@ document.addEventListener('DOMContentLoaded', function() {
     end
 
     subgraph TRACK MONITORING
-        SENSORS["600 sensors&lt;br/&gt;(current, T, position)"]
+        SENSORS["2,150 sensors&lt;br/&gt;(current, T, position)"]
         CAMERAS["50 cameras&lt;br/&gt;(optical monitoring)"]
     end
 
     subgraph POWER ELECTRONICS
-        MOSFET["3000 MOSFET switches&lt;br/&gt;(coil activation)"]
-        CAPS["Capacitor banks&lt;br/&gt;(4 GJ)"]
+        MOSFET["1,000 MOSFET switches&lt;br/&gt;(coil activation)"]
+        CAPS["Capacitor banks&lt;br/&gt;(4.7 GJ)"]
     end
 
     subgraph COMMUNICATIONS
@@ -990,11 +1040,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Quantity</td>
-<td>100 units (every 30 m)</td>
+<td>34 units (every ~30 m)</td>
 </tr>
 <tr class="even">
 <td>Function</td>
-<td>Control of 30 coils</td>
+<td>Control of ~30 coils</td>
 </tr>
 <tr class="odd">
 <td>Processor</td>
@@ -1014,11 +1064,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL board mass</strong></td>
-<td><strong>45 kg</strong></td>
+<td><strong>~15 kg</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Board source</strong></td>
-<td><strong>Imported from Earth</strong> (~45 kg)</td>
+<td><strong>Imported from Earth</strong> (~15 kg)</td>
 </tr>
 <tr class="odd">
 <td><strong>Housing source</strong></td>
@@ -1048,15 +1098,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Hall effect current sensors</td>
-<td>3000 (1 per coil)</td>
+<td>1000 (1 per coil)</td>
 <td>Coil current monitoring</td>
-<td>3 kg</td>
+<td>1 kg</td>
 </tr>
 <tr class="even">
 <td>Thermocouples</td>
-<td>3000</td>
+<td>1000</td>
 <td>Coil temperature monitoring</td>
-<td>3 kg</td>
+<td>1 kg</td>
 </tr>
 <tr class="odd">
 <td>Position sensors</td>
@@ -1072,9 +1122,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>TOTAL</strong></td>
-<td><strong>6150</strong></td>
+<td><strong>2,150</strong></td>
 <td></td>
-<td><strong>~20 kg</strong></td>
+<td><strong>~17 kg</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1095,7 +1145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Quantity</td>
-<td>3000 (1 per coil)</td>
+<td>1000 (1 per coil)</td>
 </tr>
 <tr class="even">
 <td>Voltage</td>
@@ -1123,7 +1173,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>Chip source</strong></td>
-<td><strong>Imported from Earth</strong> (~150 kg per MD)</td>
+<td><strong>Imported from Earth</strong> (~50 kg per MD)</td>
 </tr>
 <tr class="odd">
 <td><strong>Heatsink source</strong></td>
@@ -1150,8 +1200,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Sodium-sulfur (NaS)</td>
 </tr>
 <tr class="even">
-<td>Capacitance</td>
-<td>10,000 F (farads)</td>
+<td>Capacity</td>
+<td>~1,300 kWh</td>
 </tr>
 <tr class="odd">
 <td>Voltage</td>
@@ -1159,7 +1209,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Energy</td>
-<td>4 GJ (per shot)</td>
+<td>4.7 GJ (per shot)</td>
 </tr>
 <tr class="odd">
 <td>Mass</td>
@@ -1173,7 +1223,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><strong>Materials:</strong> Na (anode) + S (cathode) + Al₂O₃ beta-alumina (separator) — all from <a href="../../../../../en/science/detailed/materials/overview.html">regolith</a>.</p>
 <p><strong>Function:</strong> Energy storage between shots (2-3 minutes charging).</p>
-<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/theory.html#capacitor-banks">MD Theory</a>, <a href="../../../../../en/science/reference/technology-readiness.html#nas-batteries">NaS TRL 9</a></p>
+<p><strong>Details:</strong> <a href="../../../../../en/science/detailed/railguns/overview.html#capacitor-banks">MD Theory</a>, <a href="../../../../../en/science/reference/technology-readiness.html#nas-batteries">NaS TRL 9</a></p>
 <hr>
 </section>
 </section>
@@ -1223,11 +1273,11 @@ document.addEventListener('DOMContentLoaded', function() {
    - Cooling active (T &lt; -140C)
    - Track clear (cameras)
 
-2. Acceleration (12 sec):
+2. Acceleration (0.4 sec):
    - T=0: Activate coil #1
-   - T=4 ms: Activate coil #2
+   - T=0.4 ms: Activate coil #2 (average)
    - ...
-   - T=12 sec: Activate coil #3000 -&gt; launch
+   - T=0.4 sec: Activate coil #1000 -&gt; launch
 
 3. Trajectory control:
    - Actual velocity vs calculated
@@ -1255,21 +1305,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Controller boards</td>
-<td>55 kg</td>
-<td>495 kg (Al housings)</td>
-<td>550 kg</td>
+<td>~25 kg</td>
+<td>~193 kg (Al housings)</td>
+<td>~218 kg</td>
 </tr>
 <tr class="even">
 <td>Sensors</td>
-<td>20 kg</td>
+<td>~17 kg</td>
 <td>—</td>
-<td>20 kg</td>
+<td>~17 kg</td>
 </tr>
 <tr class="odd">
 <td>MOSFET chips</td>
-<td>150 kg</td>
-<td>1.35 t (Al heatsinks)</td>
-<td>1.5 t</td>
+<td>~50 kg</td>
+<td>~400 kg (Al heatsinks)</td>
+<td>~450 kg</td>
 </tr>
 <tr class="even">
 <td><strong>NaS Capacitors</strong></td>
@@ -1285,14 +1335,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~275 kg</strong></td>
-<td><strong>~6.85 t</strong></td>
-<td><strong>~7.1 t</strong></td>
+<td><strong>~142 kg</strong></td>
+<td><strong>~5.6 t</strong></td>
+<td><strong>~5.7 t</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Localization: 96%</strong> by mass (NaS capacitors + heatsinks + housings).</p>
-<p><strong>Conclusion:</strong> Only boards and chips imported (~275 kg/MD). NaS capacitors and housings — local production.</p>
+<p><strong>Localization: ~97.5%</strong> by mass (NaS capacitors + heatsinks + housings).</p>
+<p><strong>Conclusion:</strong> Only boards and chips imported (~142 kg/MD). NaS capacitors and housings — local production.</p>
 <hr>
 </section>
 <section id="electronics-installation" class="level2">
@@ -1312,12 +1362,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>5 Centaur-M</td>
 </tr>
 <tr class="even">
-<td>Control unit installation (100 units)</td>
-<td>1 week</td>
+<td>Control unit installation (34 units)</td>
+<td>3 days</td>
 <td>10 Centaur-M</td>
 </tr>
 <tr class="odd">
-<td>Sensor connection (6150 units)</td>
+<td>Sensor connection (2,150 units)</td>
 <td>1 week</td>
 <td>15 Centaur-M</td>
 </tr>
@@ -1355,16 +1405,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>200 W</td>
 </tr>
 <tr class="even">
-<td>Control units (100 units)</td>
-<td>10 kW</td>
+<td>Control units (34 units)</td>
+<td>3.4 kW</td>
 </tr>
 <tr class="odd">
-<td>Sensors (6150 units)</td>
-<td>6 kW</td>
+<td>Sensors (2,150 units)</td>
+<td>2 kW</td>
 </tr>
 <tr class="even">
 <td>MOSFET switches (standby)</td>
-<td>3 kW</td>
+<td>1 kW</td>
 </tr>
 <tr class="odd">
 <td>Cameras and communications</td>
@@ -1372,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~20 kW</strong> (continuous)</td>
+<td><strong>~8 kW</strong> (continuous)</td>
 </tr>
 </tbody>
 </table>
@@ -1466,7 +1516,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><a href="../../../../../en/science/detailed/railguns/assembly/track.html">Track Assembly</a> — electronics installation on Mass Driver</li>
 <li><a href="../../../../../en/science/detailed/railguns/assembly/testing.html">Testing</a> — electronics verification</li>
-<li><a href="../../../../../en/science/detailed/railguns/theory.html">MD Theory</a> — physics and energy of Mass Driver</li>
+<li><a href="../../../../../en/science/detailed/railguns/overview.html">MD Theory</a> — physics and energy of Mass Driver</li>
 <li><a href="../../../../../en/science/detailed/railguns/elements/coils.html">Coil Winding</a> — connected to MOSFET switches</li>
 </ul>
 

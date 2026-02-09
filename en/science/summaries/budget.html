@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Project Budget – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Project Budget – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -821,14 +871,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#project-helios-budget" id="toc-project-helios-budget" class="nav-link active" data-scroll-target="#project-helios-budget">Project Helios Budget</a>
-  <ul class="collapse">
-  <li><a href="#currency-and-inflation" id="toc-currency-and-inflation" class="nav-link" data-scroll-target="#currency-and-inflation">Currency and Inflation</a></li>
+  <li><a href="#currency-and-inflation" id="toc-currency-and-inflation" class="nav-link active" data-scroll-target="#currency-and-inflation">Currency and Inflation</a></li>
   <li><a href="#international-references-2026" id="toc-international-references-2026" class="nav-link" data-scroll-target="#international-references-2026">International References (2026)</a>
   <ul class="collapse">
   <li><a href="#launch-costs-kg-to-leo" id="toc-launch-costs-kg-to-leo" class="nav-link" data-scroll-target="#launch-costs-kg-to-leo">Launch Costs ($/kg to LEO)</a></li>
-  <li><a href="#industrial-robot-costs" id="toc-industrial-robot-costs" class="nav-link" data-scroll-target="#industrial-robot-costs">Industrial Robot Costs</a></li>
-  <li><a href="#factory-costs" id="toc-factory-costs" class="nav-link" data-scroll-target="#factory-costs">Factory Costs</a></li>
   <li><a href="#rocket-production-costs" id="toc-rocket-production-costs" class="nav-link" data-scroll-target="#rocket-production-costs">Rocket Production Costs</a></li>
   <li><a href="#ai-development-2026-references" id="toc-ai-development-2026-references" class="nav-link" data-scroll-target="#ai-development-2026-references">AI Development (2026 references)</a></li>
   <li><a href="#construction-in-china-references" id="toc-construction-in-china-references" class="nav-link" data-scroll-target="#construction-in-china-references">Construction in China (references)</a></li>
@@ -844,7 +890,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#launches-and-delivery" id="toc-launches-and-delivery" class="nav-link" data-scroll-target="#launches-and-delivery">7. Launches and Delivery</a></li>
   <li><a href="#energy-reception-system-microwave-rectenna" id="toc-energy-reception-system-microwave-rectenna" class="nav-link" data-scroll-target="#energy-reception-system-microwave-rectenna">8. Energy Reception System (Microwave + Rectenna)</a></li>
   <li><a href="#additional-items" id="toc-additional-items" class="nav-link" data-scroll-target="#additional-items">9. Additional Items</a></li>
-  <li><a href="#lsp-stations-on-moon" id="toc-lsp-stations-on-moon" class="nav-link" data-scroll-target="#lsp-stations-on-moon">9. LSP Stations on Moon</a></li>
+  <li><a href="#lsp-stations-on-moon" id="toc-lsp-stations-on-moon" class="nav-link" data-scroll-target="#lsp-stations-on-moon">10. LSP Stations on Moon</a></li>
   </ul></li>
   <li><a href="#summary-base-estimates" id="toc-summary-base-estimates" class="nav-link" data-scroll-target="#summary-base-estimates">Summary: Base Estimates</a></li>
   <li><a href="#structure-by-location" id="toc-structure-by-location" class="nav-link" data-scroll-target="#structure-by-location">Structure by Location</a>
@@ -862,9 +908,9 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul></li>
   <li><a href="#three-scenarios-revised" id="toc-three-scenarios-revised" class="nav-link" data-scroll-target="#three-scenarios-revised">Three Scenarios (revised)</a>
   <ul class="collapse">
-  <li><a href="#optimistic-scenario-190-billion" id="toc-optimistic-scenario-190-billion" class="nav-link" data-scroll-target="#optimistic-scenario-190-billion">Optimistic Scenario (~$190 billion)</a></li>
-  <li><a href="#baseline-scenario-340-billion-or-425-billion-with-inflation" id="toc-baseline-scenario-340-billion-or-425-billion-with-inflation" class="nav-link" data-scroll-target="#baseline-scenario-340-billion-or-425-billion-with-inflation">Baseline Scenario (~$340 billion, or ~$425 billion with inflation)</a></li>
-  <li><a href="#conservative-scenario-470-billion-or-590-billion-with-inflation" id="toc-conservative-scenario-470-billion-or-590-billion-with-inflation" class="nav-link" data-scroll-target="#conservative-scenario-470-billion-or-590-billion-with-inflation">Conservative Scenario (~$470 billion, or ~$590 billion with inflation)</a></li>
+  <li><a href="#optimistic-scenario-200-billion" id="toc-optimistic-scenario-200-billion" class="nav-link" data-scroll-target="#optimistic-scenario-200-billion">Optimistic Scenario (~$200 billion)</a></li>
+  <li><a href="#baseline-scenario-355-billion-or-445-billion-with-inflation" id="toc-baseline-scenario-355-billion-or-445-billion-with-inflation" class="nav-link" data-scroll-target="#baseline-scenario-355-billion-or-445-billion-with-inflation">Baseline Scenario (~$355 billion, or ~$445 billion with inflation)</a></li>
+  <li><a href="#conservative-scenario-490-billion-or-610-billion-with-inflation" id="toc-conservative-scenario-490-billion-or-610-billion-with-inflation" class="nav-link" data-scroll-target="#conservative-scenario-490-billion-or-610-billion-with-inflation">Conservative Scenario (~$490 billion, or ~$610 billion with inflation)</a></li>
   </ul></li>
   <li><a href="#why-not-a-trillion" id="toc-why-not-a-trillion" class="nav-link" data-scroll-target="#why-not-a-trillion">Why Not a Trillion?</a>
   <ul class="collapse">
@@ -873,21 +919,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#why-helios-is-different" id="toc-why-helios-is-different" class="nav-link" data-scroll-target="#why-helios-is-different">Why Helios is different:</a></li>
   <li><a href="#comparison-with-real-projects" id="toc-comparison-with-real-projects" class="nav-link" data-scroll-target="#comparison-with-real-projects">Comparison with Real Projects</a></li>
   </ul></li>
-  <li><a href="#final-estimate" id="toc-final-estimate" class="nav-link" data-scroll-target="#final-estimate">Final Estimate</a>
-  <ul class="collapse">
-  <li><a href="#without-inflation-usd-2026" id="toc-without-inflation-usd-2026" class="nav-link" data-scroll-target="#without-inflation-usd-2026">Without Inflation (USD 2026)</a></li>
-  <li><a href="#with-inflation-25-over-10-years" id="toc-with-inflation-25-over-10-years" class="nav-link" data-scroll-target="#with-inflation-25-over-10-years">With Inflation (+25% over 10 years)</a></li>
-  </ul></li>
   <li><a href="#year-by-year-distribution-baseline-scenario" id="toc-year-by-year-distribution-baseline-scenario" class="nav-link" data-scroll-target="#year-by-year-distribution-baseline-scenario">Year-by-Year Distribution (baseline scenario)</a></li>
   <li><a href="#known-limitations" id="toc-known-limitations" class="nav-link" data-scroll-target="#known-limitations">Known Limitations</a>
   <ul class="collapse">
-  <li><a href="#critical-issues" id="toc-critical-issues" class="nav-link" data-scroll-target="#critical-issues">Critical Issues</a></li>
   <li><a href="#high-priority-issues" id="toc-high-priority-issues" class="nav-link" data-scroll-target="#high-priority-issues">High-Priority Issues</a></li>
   <li><a href="#require-research" id="toc-require-research" class="nav-link" data-scroll-target="#require-research">Require Research</a></li>
-  <li><a href="#final-adjustment" id="toc-final-adjustment" class="nav-link" data-scroll-target="#final-adjustment">Final Adjustment</a></li>
   </ul></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -913,19 +951,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </header>
 
 
-<section id="project-helios-budget" class="level1">
-<h1>Project Helios Budget</h1>
 <blockquote class="blockquote">
 <p><strong>TL;DR</strong></p>
 <ul>
-<li><strong>Total budget:</strong> $190–470 billion (with inflation $240–590 billion over 10 years)</li>
-<li><strong>Self-replication savings:</strong> ~$47 billion (factories and robots built on Mercury)</li>
-<li><strong>Import from Earth:</strong> ~2,400 t electronics over ~11 years</li>
-<li><strong>Launches needed:</strong> ~50-100 (instead of ~900 with full import)</li>
-<li><strong>References:</strong> SpaceX, TSMC, OpenAI, Boston Dynamics — real market prices</li>
+<li><strong>Total budget:</strong> $200–490 billion (with inflation $250–610 billion over 10 years)</li>
+<li><strong>Import from Earth:</strong> ~2,550 t electronics (~100 launches)</li>
 </ul>
 </blockquote>
-<p>International project — calculated using average global prices.</p>
 <hr>
 <section id="currency-and-inflation" class="level2">
 <h2 class="anchored" data-anchor-id="currency-and-inflation">Currency and Inflation</h2>
@@ -947,18 +979,18 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Optimistic</td>
-<td>~$190 billion</td>
-<td><strong>~$240 billion</strong></td>
+<td>~$200 billion</td>
+<td><strong>~$250 billion</strong></td>
 </tr>
 <tr class="even">
 <td>Baseline</td>
-<td>~$340 billion</td>
-<td><strong>~$425 billion</strong></td>
+<td>~$355 billion</td>
+<td><strong>~$445 billion</strong></td>
 </tr>
 <tr class="odd">
 <td>Conservative</td>
-<td>~$470 billion</td>
-<td><strong>~$590 billion</strong></td>
+<td>~$490 billion</td>
+<td><strong>~$610 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1010,88 +1042,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>Future</strong></td>
-<td>Starship, Long March 9</td>
+<td>Starship, Long March 9, Yenisei</td>
 <td>$1,000-1,500</td>
 <td>2030+ projections</td>
 </tr>
 </tbody>
 </table>
 <p><strong>For calculations:</strong> $2,500/kg (mix of current and future technologies)</p>
-</section>
-<section id="industrial-robot-costs" class="level3">
-<h3 class="anchored" data-anchor-id="industrial-robot-costs">Industrial Robot Costs</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Price</th>
-<th>Source</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Chinese basic</td>
-<td>$6,000-12,000</td>
-<td><a href="https://www.made-in-china.com/">Made-in-China</a></td>
-</tr>
-<tr class="even">
-<td>Chinese advanced</td>
-<td>$20,000-50,000</td>
-<td><a href="https://www.indexbox.io/">IndexBox</a></td>
-</tr>
-<tr class="odd">
-<td>Collaborative (UR)</td>
-<td>$25,000-45,000</td>
-<td><a href="https://standardbots.com/blog/how-much-do-robots-cost">StandardBots</a></td>
-</tr>
-<tr class="even">
-<td>Industrial (ABB, KUKA)</td>
-<td>$50,000-200,000</td>
-<td>StandardBots</td>
-</tr>
-<tr class="odd">
-<td>Boston Dynamics Spot</td>
-<td>$75,000</td>
-<td><a href="https://venturebeat.com/ai/boston-dynamics-buy-spot-robot-74500">VentureBeat</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>For calculations:</strong> $200,000/robot (space-grade, autonomous, mass-produced)</p>
-</section>
-<section id="factory-costs" class="level3">
-<h3 class="anchored" data-anchor-id="factory-costs">Factory Costs</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Price</th>
-<th>Source</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Semiconductor fab (USA)</td>
-<td>$20-40 billion</td>
-<td><a href="https://semiwiki.com/">SemiWiki</a></td>
-</tr>
-<tr class="even">
-<td>Semiconductor fab (Taiwan)</td>
-<td>$12-20 billion</td>
-<td>TSMC</td>
-</tr>
-<tr class="odd">
-<td>Semiconductor fab (China)</td>
-<td>$10-15 billion</td>
-<td>GlobalTimes</td>
-</tr>
-<tr class="even">
-<td>Tesla Gigafactory Shanghai</td>
-<td>~$2 billion</td>
-<td>Public data</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Project factory is not a semiconductor fab!</strong> It’s metallurgy + assembly (<a href="../../../en/science/reference/technology-readiness.html#lights-out-manufacturing">lights-out factories TRL 9</a>). <strong>For calculations:</strong> $30M/factory (at 1000-unit series)</p>
 </section>
 <section id="rocket-production-costs" class="level3">
 <h3 class="anchored" data-anchor-id="rocket-production-costs">Rocket Production Costs</h3>
@@ -1251,7 +1208,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="ai-development-for-robots" class="level3">
 <h3 class="anchored" data-anchor-id="ai-development-for-robots">2. AI Development for Robots</h3>
-<p><strong>Why a separate line item:</strong> - Autonomous robots in extreme conditions (vacuum, radiation, +430°C/-180°C) - Harder than Waymo: no GPS, 5-20 minute communication delay to Earth - Unpredictable timelines — this is frontier AI research</p>
+<p><strong>Why easier than Waymo/Tesla:</strong> - No pedestrians, cyclists, unpredictable people - No traffic rules, signs, intersections — only factory tasks - Fixed operations (mining, assembly) vs infinite driving scenarios - Can fail and retry — not real-time safety-critical</p>
+<p><strong>Characteristics:</strong> - Autonomy due to 5-20 min communication delay - Extreme conditions require reliable hardware</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
@@ -1273,8 +1231,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Compute (GPU, data centers)</td>
-<td>$1.5 billion/year × 6 years</td>
-<td>9 billion</td>
+<td>$0.75 billion/year × 6 years</td>
+<td>4.5 billion</td>
 </tr>
 <tr class="odd">
 <td>Robot prototypes for training</td>
@@ -1289,11 +1247,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Total AI</strong></td>
 <td></td>
-<td><strong>15-20 billion</strong></td>
+<td><strong>10-12 billion</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Risks:</strong> Timelines are unpredictable. Waymo spent 15 years and $11 billion and still hasn’t achieved full autonomy.</p>
+<p><strong>Risks:</strong> With scaling (more data, complex models) budget may grow to $15-20 billion.</p>
 </section>
 <section id="earth-test-site-china" class="level3">
 <h3 class="anchored" data-anchor-id="earth-test-site-china">3. Earth Test Site (China)</h3>
@@ -1415,24 +1373,24 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../../../en/science/reference/glossary.html#bootstrap-blitz-assembly">Bootstrap</a> factory (E1)</td>
-<td>Full import 140 t</td>
-<td>1.4 billion</td>
+<td><a href="../../../en/science/reference/glossary.html#bootstrap-blitz-assembly">Bootstrap</a> factories (E1 × 2)</td>
+<td>Full import 280 t</td>
+<td>2.8 billion</td>
 </tr>
 <tr class="even">
 <td>Electronics for 1649 factories</td>
-<td>~90 t × $10K/kg</td>
-<td>0.9 billion</td>
+<td>~90 t × $3K/kg</td>
+<td>0.27 billion</td>
 </tr>
 <tr class="odd">
 <td>Electronics for 60K robots</td>
-<td>~765 t × $10K/kg</td>
-<td>7.7 billion</td>
+<td>~765 t × $3K/kg</td>
+<td>2.3 billion</td>
 </tr>
 <tr class="even">
 <td>Electronics for 1000 MDs</td>
-<td>~275 t × $10K/kg</td>
-<td>2.8 billion</td>
+<td>~275 t × $5K/kg</td>
+<td>1.4 billion</td>
 </tr>
 <tr class="odd">
 <td>Chips for 1.1B mirrors</td>
@@ -1446,8 +1404,82 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><strong>Total production</strong></td>
-<td>~2,834 t electronics</td>
-<td><strong>~28.5 billion</strong></td>
+<td>~2,974 t electronics</td>
+<td><strong>~22.4 billion</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Price justification (international sources 2026):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Price</th>
+<th>Rationale</th>
+<th>Sources</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Robots, factories</td>
+<td>$3K/kg</td>
+<td>ARM + LiDAR</td>
+<td>🇬🇧 <a href="https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/">Raspberry Pi</a>, 🇨🇳 <a href="https://www.livoxtech.com/mid-360">Livox Mid-360</a> ($2.3K/kg), 🇺🇸 <a href="https://www.geoweeknews.com/news/velodyne-cuts-vlp-16-lidar-price-4k">Velodyne</a> ($4.8K/kg)</td>
+</tr>
+<tr class="even">
+<td>Mass Drivers</td>
+<td>$5K/kg</td>
+<td>IGBT power electronics</td>
+<td>🇩🇪 <a href="https://www.infineon.com/products/power/igbt/igbt-modules">Infineon</a>, <a href="https://www.semikron-danfoss.com/products/power-modules">Semikron</a>, 🇰🇷 <a href="https://www.semihow.com/">SemiHow</a></td>
+</tr>
+<tr class="odd">
+<td>Mirrors</td>
+<td>$10K/kg</td>
+<td>Space-grade rad-hard</td>
+<td>🇺🇸 <a href="https://nepp.nasa.gov/nepag/info/parts_costs/part_cost_paper.pdf">NASA</a>, 🇪🇺 <a href="https://www.esa.int/">ESA</a></td>
+</tr>
+<tr class="even">
+<td>Vitamins</td>
+<td>$10K/kg</td>
+<td>Iridium ($200K/kg) + rare earths</td>
+<td><a href="https://strategicmetalsinvest.com/iridium-prices/">Strategic Metals</a>, 🇧🇪 <a href="https://pmm.umicore.com/en/prices/iridium/">Umicore</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Robot references (international):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Country</th>
+<th>Manufacturer</th>
+<th>Price</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>🇺🇸 USA</td>
+<td>Boston Dynamics Spot</td>
+<td>$2.3K/kg</td>
+<td><a href="https://spectrum.ieee.org/boston-dynamics-spot-robot-dog-now-available">IEEE Spectrum</a></td>
+</tr>
+<tr class="even">
+<td>🇨🇳 China</td>
+<td>SIASUN, ESTUN</td>
+<td>20-35% cheaper than Western</td>
+<td><a href="https://tadviser.com/index.php/Article:Robotics_(Russian_market)">TAdviser</a></td>
+</tr>
+<tr class="odd">
+<td>🇷🇺 Russia</td>
+<td>Promobot</td>
+<td>&lt;$30K service robot</td>
+<td><a href="https://promo-bot.ai/">Promobot</a></td>
+</tr>
+<tr class="even">
+<td>🇮🇳 India</td>
+<td>Tata/Mahindra</td>
+<td>market +8.8% CAGR</td>
+<td><a href="https://www.imarcgroup.com/india-industrial-automation-sensors-market">IMARC</a></td>
 </tr>
 </tbody>
 </table>
@@ -1499,9 +1531,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>~2,400 tons (total)</td>
-<td>2,400 t × $2,500/kg</td>
-<td>6 billion</td>
+<td>~2,550 tons (total)</td>
+<td>2,550 t × $2,500/kg</td>
+<td>6.4 billion</td>
 </tr>
 <tr class="even">
 <td>Mission control</td>
@@ -1515,7 +1547,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><em>Includes: Moon (80 t) + factories (~230 t) + MD boards (~275 t) + mirrors (1,055 t) + vitamins (765 t). <a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS</a> capacitors — local production. See <a href="../../../en/science/summaries/delivery.html#project-summary">Import Summary</a>.</em></p>
+<p><em>Includes: Moon (80 t) + factories (~370 t) + MD boards (~275 t) + mirrors (1,055 t) + vitamins (765 t). <a href="../../../en/science/reference/technology-readiness.html#nas-batteries">NaS</a> capacitors — local production. See <a href="../../../en/science/summaries/delivery.html#project-summary">Import Summary</a>.</em></p>
 </section>
 <section id="energy-reception-system-microwave-rectenna" class="level3">
 <h3 class="anchored" data-anchor-id="energy-reception-system-microwave-rectenna">8. Energy Reception System (Microwave + Rectenna)</h3>
@@ -1573,6 +1605,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="ground-infrastructure" class="level4">
 <h4 class="anchored" data-anchor-id="ground-infrastructure">8.2 Ground Infrastructure</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 44%">
+<col style="width: 34%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Item</th>
@@ -1588,8 +1625,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Station construction</td>
-<td>Site preparation (deserts)</td>
-<td>5-10 billion</td>
+<td>Site preparation, foundations</td>
+<td>10-20 billion</td>
+</tr>
+<tr class="odd">
+<td>Land rights and approvals</td>
+<td>Lease/purchase, frequency regulation</td>
+<td>2-5 billion</td>
+</tr>
+<tr class="even">
+<td>Environmental reviews</td>
+<td>EIA, compensations</td>
+<td>1-3 billion</td>
 </tr>
 <tr class="odd">
 <td>Control system</td>
@@ -1609,7 +1656,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Total ground infrastructure</strong></td>
 <td></td>
-<td><strong>20-40 billion</strong></td>
+<td><strong>28-58 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1632,13 +1679,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Ground infrastructure</td>
-<td>20</td>
-<td>40</td>
+<td>28</td>
+<td>58</td>
 </tr>
 <tr class="odd">
 <td><strong>TOTAL energy reception</strong></td>
-<td><strong>25</strong></td>
-<td><strong>49</strong></td>
+<td><strong>33</strong></td>
+<td><strong>67</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1695,7 +1742,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <hr>
 </section>
 <section id="lsp-stations-on-moon" class="level3">
-<h3 class="anchored" data-anchor-id="lsp-stations-on-moon">9. LSP Stations on Moon</h3>
+<h3 class="anchored" data-anchor-id="lsp-stations-on-moon">10. LSP Stations on Moon</h3>
 <p>Instead of an orbital Hub at L1, <strong>LSP (Lunar Solar Power) stations</strong> on the Moon’s surface are used. Details: <a href="../../../en/science/detailed/hub.html">Energy Reception Hub</a>.</p>
 <section id="why-lsp-not-hub" class="level4">
 <h4 class="anchored" data-anchor-id="why-lsp-not-hub">Why LSP, not Hub?</h4>
@@ -1743,19 +1790,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <tbody>
 <tr class="odd">
 <td>Stations</td>
-<td>20-40 on lunar limbs</td>
+<td>40 on lunar limbs</td>
 </tr>
 <tr class="even">
+<td>PV area per station</td>
+<td>~160 km² (6,400 km² total)</td>
+</tr>
+<tr class="odd">
 <td>Total mass</td>
 <td>~178,000 t (per data.json HUB-001)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Materials</td>
 <td>Al 60%, Cu 28%, Si 9%, Fe 0.3% — local</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Electronics from Earth</td>
-<td>~100-200 t (1-2 launches)</td>
+<td>~200-300 t (2-3 launches)</td>
 </tr>
 </tbody>
 </table>
@@ -1783,18 +1834,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Electronics from Earth</td>
-<td>~150 t × $10,000/kg</td>
-<td>1-2 billion</td>
+<td>~250 t × $10,000/kg</td>
+<td>2-3 billion</td>
 </tr>
 <tr class="odd">
 <td>Management and logistics</td>
-<td>Construction coordination</td>
-<td>1-3 billion</td>
+<td>Construction coordination of 40 stations</td>
+<td>2-4 billion</td>
 </tr>
 <tr class="even">
 <td><strong>Total LSP</strong></td>
 <td></td>
-<td><strong>2-5 billion</strong></td>
+<td><strong>4-7 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1823,8 +1874,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>2. <strong>AI Development</strong></td>
-<td>15</td>
-<td>20</td>
+<td>10</td>
+<td>12</td>
 </tr>
 <tr class="odd">
 <td>3. <strong>Earth Test Site (China)</strong></td>
@@ -1858,8 +1909,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>9. <strong>LSP stations on Moon</strong></td>
-<td>2</td>
-<td>5</td>
+<td>4</td>
+<td>7</td>
 </tr>
 <tr class="even">
 <td>10. Additional items</td>
@@ -1881,6 +1932,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="summary-level-1" class="level3">
 <h3 class="anchored" data-anchor-id="summary-level-1">Summary (Level 1)</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 38%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 11%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>#</th>
@@ -1894,43 +1952,47 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>1</td>
 <td>Earth (R&amp;D, AI, test site)</td>
-<td>39</td>
-<td>52</td>
-<td>32%</td>
+<td>34</td>
+<td>44</td>
+<td>24%</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>Moon (test site + LSP)</td>
-<td>11</td>
-<td>20</td>
-<td>13%</td>
+<td>13</td>
+<td>22</td>
+<td>11%</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Mercury (electronics, rockets, launches)</td>
-<td>35</td>
-<td>46</td>
-<td>30%</td>
+<td>38</td>
+<td>43</td>
+<td>26%</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Energy receiver (rectenna)</td>
-<td>25</td>
-<td>49</td>
-<td>25%</td>
+<td>33</td>
+<td>67</td>
+<td>32%</td>
 </tr>
 <tr class="odd">
+<td>5</td>
+<td>Additional items (communications, propellant, training)</td>
+<td>22</td>
+<td>33</td>
+<td>~8%</td>
+</tr>
+<tr class="even">
 <td></td>
 <td><strong>TOTAL</strong></td>
-<td><strong>~110</strong></td>
-<td><strong>~167</strong></td>
-<td><strong>~90%</strong></td>
+<td><strong>~140</strong></td>
+<td><strong>~209</strong></td>
+<td><strong>100%</strong></td>
 </tr>
 </tbody>
 </table>
-<blockquote class="blockquote">
-<p><strong>Note:</strong> ~10% of base budget — additional items (communications, propellant, training, insurance).</p>
-</blockquote>
 </section>
 <section id="breakdown-level-2" class="level3">
 <h3 class="anchored" data-anchor-id="breakdown-level-2">Breakdown (Level 2)</h3>
@@ -1974,7 +2036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>AI Development</strong></td>
 <td></td>
-<td><strong>15-20 billion</strong></td>
+<td><strong>10-12 billion</strong></td>
 </tr>
 <tr class="even">
 <td>— AI team</td>
@@ -1983,8 +2045,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>— Compute</td>
-<td>$1.5 billion/year × 6 years</td>
-<td>9 billion</td>
+<td>$0.75 billion/year × 6 years</td>
+<td>4.5 billion</td>
 </tr>
 <tr class="even">
 <td>— Robot prototypes</td>
@@ -2049,7 +2111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Total Earth</strong></td>
 <td></td>
-<td><strong>39-52 billion</strong></td>
+<td><strong>34-44 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2089,22 +2151,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>LSP Stations</strong></td>
 <td></td>
-<td><strong>2-5 billion</strong></td>
+<td><strong>4-7 billion</strong></td>
 </tr>
 <tr class="even">
 <td>— Electronics from Earth</td>
-<td>~150 t × $10,000/kg</td>
-<td>1-2 billion</td>
+<td>~250 t × $10,000/kg</td>
+<td>2-3 billion</td>
 </tr>
 <tr class="odd">
 <td>— Management and logistics</td>
-<td></td>
-<td>1-3 billion</td>
+<td>40 stations</td>
+<td>2-4 billion</td>
 </tr>
 <tr class="even">
 <td><strong>Total Moon</strong></td>
 <td></td>
-<td><strong>11-20 billion</strong></td>
+<td><strong>13-22 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2113,7 +2175,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h4 class="anchored" data-anchor-id="mercury-30">3. Mercury (~30%)</h4>
 <p>Electronics for self-replication, rocket program, launches.</p>
 <blockquote class="blockquote">
-<p><strong>Self-replication principle:</strong> Factories and robots are built on Mercury from local materials. Only electronics (chips, boards, sensors) are imported from Earth — ~2,400 t over 11 years.</p>
+<p><strong>Self-replication principle:</strong> Factories and robots are built on Mercury from local materials. Only electronics (chips, boards, sensors) are imported from Earth — ~2,550 t over 11 years.</p>
 </blockquote>
 <table class="caption-top table">
 <thead>
@@ -2127,27 +2189,27 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td><strong>Electronics (import)</strong></td>
 <td></td>
-<td><strong>~28.5 billion</strong></td>
+<td><strong>~21 billion</strong></td>
 </tr>
 <tr class="even">
-<td>— Bootstrap factory (E1)</td>
-<td>Full import 140 t</td>
-<td>1.4 billion</td>
+<td>— Bootstrap factories (E1 × 2)</td>
+<td>Full import 280 t</td>
+<td>2.8 billion</td>
 </tr>
 <tr class="odd">
 <td>— Electronics for 1649 factories</td>
-<td>~90 t × $10K/kg</td>
-<td>0.9 billion</td>
+<td>~90 t × $3K/kg</td>
+<td>0.27 billion</td>
 </tr>
 <tr class="even">
 <td>— Electronics for 60K robots</td>
-<td>~765 t × $10K/kg</td>
-<td>7.7 billion</td>
+<td>~765 t × $3K/kg</td>
+<td>2.3 billion</td>
 </tr>
 <tr class="odd">
 <td>— Electronics for 1000 MDs</td>
-<td>~275 t × $10K/kg</td>
-<td>2.8 billion</td>
+<td>~275 t × $5K/kg</td>
+<td>1.4 billion</td>
 </tr>
 <tr class="even">
 <td>— Chips for 1.1B mirrors</td>
@@ -2180,9 +2242,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><strong>6-8 billion</strong></td>
 </tr>
 <tr class="even">
-<td>— ~2,400 t to Moon + Mercury</td>
-<td>2,400 t × $2,500/kg</td>
-<td>6 billion</td>
+<td>— ~2,550 t to Moon + Mercury</td>
+<td>2,550 t × $2,500/kg</td>
+<td>6.4 billion</td>
 </tr>
 <tr class="odd">
 <td>— Mission control</td>
@@ -2198,8 +2260,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><em>Support (propellant, communications, insurance) — in “Additional Items” section.</em></p>
 </section>
-<section id="energy-receiver-12" class="level4">
-<h4 class="anchored" data-anchor-id="energy-receiver-12">4. Energy Receiver (~12%)</h4>
+<section id="energy-receiver-32" class="level4">
+<h4 class="anchored" data-anchor-id="energy-receiver-32">4. Energy Receiver (~32%)</h4>
 <p>Ground infrastructure for energy reception.</p>
 <table class="caption-top table">
 <colgroup>
@@ -2243,7 +2305,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Ground Infrastructure (rectenna)</strong></td>
 <td></td>
-<td><strong>20-40 billion</strong></td>
+<td><strong>28-58 billion</strong></td>
 </tr>
 <tr class="odd">
 <td>— Rectenna (~100 stations × 100 km²)</td>
@@ -2252,8 +2314,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>— Station construction</td>
-<td>Site preparation</td>
-<td>5-10 billion</td>
+<td>Site preparation, foundations</td>
+<td>10-20 billion</td>
+</tr>
+<tr class="odd">
+<td>— Land rights and approvals</td>
+<td>Lease/purchase, frequency regulation</td>
+<td>2-5 billion</td>
+</tr>
+<tr class="even">
+<td>— Environmental reviews</td>
+<td>EIA, compensations</td>
+<td>1-3 billion</td>
 </tr>
 <tr class="odd">
 <td>— Energy storage</td>
@@ -2273,7 +2345,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Total Receiver</strong></td>
 <td></td>
-<td><strong>25-49 billion</strong></td>
+<td><strong>33-67 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2355,7 +2427,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Thanks to 96% localization:</strong> Only ~100 rockets needed (not 900). $50M/rocket × 100 = $5 billion — realistic.</p>
+<p><strong>Thanks to 99.998% localization:</strong> Only ~100 rockets needed (not ~54,000). $50M/rocket × 100 = $5 billion — realistic.</p>
 <p><strong>If a new rocket is needed (Russia+China):</strong> +$5-8 billion for contribution to joint launcher development.</p>
 <p><strong>Adjustment for baseline scenario:</strong> $55 → $75 billion (+$20 billion)</p>
 </section>
@@ -2437,8 +2509,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="three-scenarios-revised" class="level2">
 <h2 class="anchored" data-anchor-id="three-scenarios-revised">Three Scenarios (revised)</h2>
-<section id="optimistic-scenario-190-billion" class="level3">
-<h3 class="anchored" data-anchor-id="optimistic-scenario-190-billion">Optimistic Scenario (~$190 billion)</h3>
+<section id="optimistic-scenario-200-billion" class="level3">
+<h3 class="anchored" data-anchor-id="optimistic-scenario-200-billion">Optimistic Scenario (~$200 billion)</h3>
 <p><strong>Conditions:</strong> - Heavy rockets operational by 2028, price $1,000/kg - China and Russia take on 50% of production - AI reaches required level in 4-5 years (not 6-7) - Series effect reduces prices by 30% - Self-replication works — only electronics imported</p>
 <table class="caption-top table">
 <thead>
@@ -2454,7 +2526,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>AI Development</strong></td>
-<td>12</td>
+<td>8</td>
 </tr>
 <tr class="odd">
 <td><strong>Earth Test Site</strong></td>
@@ -2478,11 +2550,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Energy reception (rectenna)</td>
-<td>18</td>
+<td>25</td>
 </tr>
 <tr class="odd">
 <td><strong>LSP stations on Moon</strong></td>
-<td>2</td>
+<td>4</td>
 </tr>
 <tr class="even">
 <td>Additional</td>
@@ -2490,21 +2562,21 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Reserve (+20%)</td>
-<td>20</td>
+<td>21</td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
-<td><strong>~120 billion</strong></td>
+<td><strong>~126 billion</strong></td>
 </tr>
 <tr class="odd">
-<td><strong>With ×1.5 margin</strong></td>
-<td><strong>~190 billion</strong></td>
+<td><strong>With ×1.6 margin</strong></td>
+<td><strong>~202 billion</strong></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="baseline-scenario-340-billion-or-425-billion-with-inflation" class="level3">
-<h3 class="anchored" data-anchor-id="baseline-scenario-340-billion-or-425-billion-with-inflation">Baseline Scenario (~$340 billion, or ~$425 billion with inflation)</h3>
+<section id="baseline-scenario-355-billion-or-445-billion-with-inflation" class="level3">
+<h3 class="anchored" data-anchor-id="baseline-scenario-355-billion-or-445-billion-with-inflation">Baseline Scenario (~$355 billion, or ~$445 billion with inflation)</h3>
 <p><strong>Conditions:</strong> - Launcher mix (Starship + Long March + Soyuz) - International cooperation works - AI requires 6-7 years of development - Moderate delays and overruns - Self-replication works — only electronics imported</p>
 <table class="caption-top table">
 <thead>
@@ -2520,7 +2592,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>AI Development</strong></td>
-<td>30</td>
+<td>11</td>
 </tr>
 <tr class="odd">
 <td><strong>Earth Test Site (China)</strong></td>
@@ -2544,11 +2616,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Energy reception (rectenna)</td>
-<td>30</td>
+<td>40</td>
 </tr>
 <tr class="odd">
 <td><strong>LSP stations on Moon</strong></td>
-<td>3</td>
+<td>5</td>
 </tr>
 <tr class="even">
 <td>Additional</td>
@@ -2556,25 +2628,25 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Reserve (+30%)</td>
-<td>50</td>
+<td>53</td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL (USD 2026)</strong></td>
-<td><strong>~209 billion</strong></td>
+<td><strong>~224 billion</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>With ×1.6 margin</strong></td>
-<td><strong>~$340 billion</strong></td>
+<td><strong>~$358 billion</strong></td>
 </tr>
 <tr class="even">
 <td><strong>With +25% inflation</strong></td>
-<td><strong>~$425 billion</strong></td>
+<td><strong>~$448 billion</strong></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="conservative-scenario-470-billion-or-590-billion-with-inflation" class="level3">
-<h3 class="anchored" data-anchor-id="conservative-scenario-470-billion-or-590-billion-with-inflation">Conservative Scenario (~$470 billion, or ~$590 billion with inflation)</h3>
+<section id="conservative-scenario-490-billion-or-610-billion-with-inflation" class="level3">
+<h3 class="anchored" data-anchor-id="conservative-scenario-490-billion-or-610-billion-with-inflation">Conservative Scenario (~$490 billion, or ~$610 billion with inflation)</h3>
 <p><strong>Conditions:</strong> - Heavy rockets delayed until 2032 - AI requires 8-10 years and additional iterations - Political complications increase costs - Technical problems require rework - Need to develop own super-heavy launcher</p>
 <table class="caption-top table">
 <thead>
@@ -2590,7 +2662,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td><strong>AI Development</strong></td>
-<td>50</td>
+<td>20</td>
 </tr>
 <tr class="odd">
 <td><strong>Earth Test Site</strong></td>
@@ -2614,11 +2686,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Energy reception (rectenna)</td>
-<td>45</td>
+<td>58</td>
 </tr>
 <tr class="odd">
 <td><strong>LSP stations on Moon</strong></td>
-<td>5</td>
+<td>7</td>
 </tr>
 <tr class="even">
 <td>Additional</td>
@@ -2626,19 +2698,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td>Reserve (+50%)</td>
-<td>120</td>
+<td>128</td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL (USD 2026)</strong></td>
-<td><strong>~360 billion</strong></td>
+<td><strong>~380 billion</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>With ×1.3 margin</strong></td>
-<td><strong>~$470 billion</strong></td>
+<td><strong>~$494 billion</strong></td>
 </tr>
 <tr class="even">
 <td><strong>With +25% inflation</strong></td>
-<td><strong>~$590 billion</strong></td>
+<td><strong>~$617 billion</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2804,7 +2876,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td><strong>Helios (baseline)</strong></td>
 <td>—</td>
-<td><strong>~$340-425 billion</strong></td>
+<td><strong>~$355-445 billion</strong></td>
 <td><strong>10-20 years</strong></td>
 <td><strong>10,000 TW</strong></td>
 <td>Our estimate</td>
@@ -2812,79 +2884,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Conclusion:</strong> Helios costs approximately 1.5× Apollo but delivers 4000 times more energy than current planetary consumption. In terms of cost/benefit ratio — the most efficient project in history.</p>
-<hr>
-</section>
-</section>
-<section id="final-estimate" class="level2">
-<h2 class="anchored" data-anchor-id="final-estimate">Final Estimate</h2>
-<section id="without-inflation-usd-2026" class="level3">
-<h3 class="anchored" data-anchor-id="without-inflation-usd-2026">Without Inflation (USD 2026)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Scenario</th>
-<th>Amount</th>
-<th>Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Optimistic</td>
-<td><strong>~$190 billion</strong></td>
-<td>Heavy rockets work, AI in 5 years</td>
-</tr>
-<tr class="even">
-<td><strong>Baseline</strong></td>
-<td><strong>~$340 billion</strong></td>
-<td>Realistic mix, AI in 6-7 years</td>
-</tr>
-<tr class="odd">
-<td>Conservative</td>
-<td><strong>~$470 billion</strong></td>
-<td>Delays, AI in 8-10 years</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="with-inflation-25-over-10-years" class="level3">
-<h3 class="anchored" data-anchor-id="with-inflation-25-over-10-years">With Inflation (+25% over 10 years)</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 28%">
-<col style="width: 32%">
-<col style="width: 18%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Scenario</th>
-<th>2026 Nominal</th>
-<th>With inflation</th>
-<th>Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Optimistic</td>
-<td>~$190 billion</td>
-<td><strong>~$240 billion</strong></td>
-<td>Everything goes as planned</td>
-</tr>
-<tr class="even">
-<td><strong>Baseline</strong></td>
-<td><strong>~$340 billion</strong></td>
-<td><strong>~$425 billion</strong></td>
-<td>Moderate delays</td>
-</tr>
-<tr class="odd">
-<td>Conservative</td>
-<td>~$470 billion</td>
-<td><strong>~$590 billion</strong></td>
-<td>Serious problems</td>
-</tr>
-</tbody>
-</table>
-<p><strong>For comparison:</strong> - Apollo: ~$280 billion (USD 2026) — 12 people on Moon - Helios (baseline): ~$425 billion — <strong>energy for the entire planet forever</strong> (<a href="../../../en/science/reference/glossary.html#dyson-swarm">Dyson Swarm</a>) - This is ~1.5× Apollo for a result millions of times greater</p>
 <hr>
 </section>
 </section>
@@ -2957,118 +2956,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <blockquote class="blockquote">
 <p><strong>Attention:</strong> This section describes problems requiring solutions.</p>
 </blockquote>
-<section id="critical-issues" class="level3">
-<h3 class="anchored" data-anchor-id="critical-issues">Critical Issues</h3>
-<section id="ai-budget-underestimated" class="level4">
-<h4 class="anchored" data-anchor-id="ai-budget-underestimated">1. AI Budget Underestimated</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>In calculations</th>
-<th>Realistic estimate</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>AI Development</td>
-<td>$15–30 billion</td>
-<td><strong>$50–100 billion</strong></td>
-</tr>
-<tr class="even">
-<td>Development time</td>
-<td>5–7 years</td>
-<td><strong>8–12 years</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Reasons:</strong> - Waymo spent $11 billion over 15 years and hasn’t achieved full autonomy - Tesla FSD: $15+ billion over 8 years — level 2 (not full autonomy) - Mercury conditions are harder: vacuum, radiation, no GPS, 670 sec delay</p>
-<p><strong>Reference:</strong> OpenAI spent $20+ billion and hasn’t achieved AGI. Autonomous robots in extreme conditions are harder than language models.</p>
-</section>
-<section id="launch-costs-depend-on-launcher-development-pace" class="level4">
-<h4 class="anchored" data-anchor-id="launch-costs-depend-on-launcher-development-pace">2. Launch Costs Depend on Launcher Development Pace</h4>
-<p>By 2030, next-generation super-heavy launchers are expected:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Launcher</th>
-<th>Country</th>
-<th>Payload</th>
-<th>Status (2025)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Starship</td>
-<td>USA</td>
-<td>150–200 t</td>
-<td>Testing</td>
-</tr>
-<tr class="even">
-<td>Long March 9</td>
-<td>China</td>
-<td>150 t</td>
-<td>Development</td>
-</tr>
-<tr class="odd">
-<td>Yenisei</td>
-<td>Russia</td>
-<td>100 t</td>
-<td>Development</td>
-</tr>
-<tr class="even">
-<td>New Glenn</td>
-<td>USA</td>
-<td>45 t</td>
-<td>Testing</td>
-</tr>
-<tr class="odd">
-<td>SHLV</td>
-<td>India</td>
-<td>~100 t</td>
-<td>Concept</td>
-</tr>
-<tr class="even">
-<td>Ariane Next</td>
-<td>EU</td>
-<td>~100 t</td>
-<td>Concept</td>
-</tr>
-</tbody>
-</table>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 26%">
-<col style="width: 34%">
-<col style="width: 39%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Scenario</th>
-<th>Launch cost</th>
-<th>Budget impact</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Launchers reach $1,000–1,500/kg by 2030</td>
-<td>Baseline scenario</td>
-<td>—</td>
-</tr>
-<tr class="even">
-<td>Delay to $2,500–3,500/kg</td>
-<td>Launchers 2–3 years late</td>
-<td><strong>+$30–50 billion</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Risk:</strong> Baseline scenario assumes $2,500/kg. Delays in super-heavy launcher development increase budget by 10–15%.</p>
-</section>
-</section>
 <section id="high-priority-issues" class="level3">
 <h3 class="anchored" data-anchor-id="high-priority-issues">High-Priority Issues</h3>
 <section id="testing-and-debugging-underestimated" class="level4">
-<h4 class="anchored" data-anchor-id="testing-and-debugging-underestimated">3. Testing and Debugging Underestimated</h4>
+<h4 class="anchored" data-anchor-id="testing-and-debugging-underestimated">1. Testing and Debugging Underestimated</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
@@ -3108,41 +2999,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Reason:</strong> The ground test site (Gansu) allows completing major iterations before going to the Moon (TRL 4→6). The Moon validates in the real environment (TRL 6→7-8). Lunar iteration cycle with dedicated launches: ~2-4 months (3-day flight; main time is analysis and fix manufacturing).</p>
 <p><strong>Detailed methodology:</strong> <a href="../../../en/science/reference/risks.html#testing-estimation-methodology">Risks → Testing Estimation Methodology</a></p>
 </section>
-<section id="ground-reception-infrastructure" class="level4">
-<h4 class="anchored" data-anchor-id="ground-reception-infrastructure">4. Ground Reception Infrastructure</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Current estimate</th>
-<th>Realistic estimate</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Station construction</td>
-<td>$3–5 billion</td>
-<td><strong>$10–20 billion</strong></td>
-</tr>
-<tr class="even">
-<td>Approvals (land, frequencies)</td>
-<td>Not counted</td>
-<td><strong>$2–5 billion</strong></td>
-</tr>
-<tr class="odd">
-<td>Environmental reviews</td>
-<td>Not counted</td>
-<td><strong>$0.5–2 billion</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Reason:</strong> Placing hundreds of receiving stations requires international agreements, land rights, frequency regulation.</p>
-</section>
 </section>
 <section id="require-research" class="level3">
 <h3 class="anchored" data-anchor-id="require-research">Require Research</h3>
 <section id="mission-insurance" class="level4">
-<h4 class="anchored" data-anchor-id="mission-insurance">5. Mission Insurance</h4>
+<h4 class="anchored" data-anchor-id="mission-insurance">2. Mission Insurance</h4>
 <ul>
 <li>$2–4 billion — optimistic for 10,000 tons of cargo</li>
 <li>At real risk rates, may be 5–10% of cargo value</li>
@@ -3150,45 +3011,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </section>
 <section id="political-risks" class="level4">
-<h4 class="anchored" data-anchor-id="political-risks">6. Political Risks</h4>
+<h4 class="anchored" data-anchor-id="political-risks">3. Political Risks</h4>
 <ul>
 <li>Sanctions between countries → cooperation breakdown</li>
 <li>Government changes → priority shifts</li>
 <li>Competition instead of cooperation → cost duplication</li>
 </ul>
 <p><strong>Cannot be estimated, but potentially +50–100% to budget.</strong></p>
-</section>
-</section>
-<section id="final-adjustment" class="level3">
-<h3 class="anchored" data-anchor-id="final-adjustment">Final Adjustment</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Scenario</th>
-<th>Current estimate</th>
-<th>With limitations</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Optimistic</td>
-<td>$320 billion</td>
-<td><strong>$400–450 billion</strong></td>
-</tr>
-<tr class="even">
-<td>Baseline</td>
-<td>$500 billion</td>
-<td><strong>$700–800 billion</strong></td>
-</tr>
-<tr class="odd">
-<td>Conservative</td>
-<td>$700 billion</td>
-<td><strong>$1,000–1,200 billion</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Conclusion:</strong> Realistic budget is closer to $700–800 billion (not $500 billion), and conservative may reach a trillion.</p>
 <hr>
+</section>
 </section>
 </section>
 <section id="see-also" class="level2">
@@ -3197,13 +3028,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="../../../en/science/reference/technology-readiness.html">Technologies and Sources</a> — TRL and bibliography</li>
 <li><a href="../../../en/science/executive-summary.html">Project in 5 Minutes</a> — what we’re funding</li>
 <li><a href="../../../en/science/summaries/roadmap.html">Roadmap</a> — spending timeline</li>
-<li><a href="../../../en/science/detailed/railguns/theory.html">Mass Driver</a> — infrastructure costs</li>
-<li><a href="../../../en/science/detailed/railguns/scaling.html">Scaling</a> — production growth</li>
+<li><a href="../../../en/science/detailed/railguns/overview.html">Mass Driver</a> — infrastructure and scaling</li>
 <li><a href="../../../en/science/reference/risks.html">Risks</a> — financial risks</li>
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

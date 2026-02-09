@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Глоссарий терминов – Проект Гелиос">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/reference/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Глоссарий терминов – Проект Гелиос">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/reference/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +397,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +495,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -974,7 +1022,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="г">Г</h2>
 <section id="gaas-панели-арсенид-галлиевые" class="level3">
 <h3 class="anchored" data-anchor-id="gaas-панели-арсенид-галлиевые">GaAs панели (арсенид-галлиевые)</h3>
-<p>Высокоэффективные солнечные панели (КПД 30%+) для начальной фазы bootstrap. Импортируются с Земли, обеспечивают 168 МВт для первого завода до появления энергии от Роя.</p>
+<p>Высокоэффективные фотоэлементы (КПД 30%+), используемые в CPV-системе (концентраторной фотовольтаике) для начальной фазы bootstrap. Полная CPV-система (~10,5 т: концентраторы Kapton+Al + GaAs ячейки + конструкция, ~14,4 кВт/кг на Меркурии) импортируется с Земли, обеспечивая ~151 МВт для первого завода до появления энергии от Роя.</p>
 <p><strong>См.:</strong> <a href="../../../ru/science/detailed/bootstrap.html">Сборка первого завода</a></p>
 </section>
 <section id="гелиоцентрическая-орбита" class="level3">
@@ -996,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="з">З</h2>
 <section id="зеркала-роя" class="level3">
 <h3 class="anchored" data-anchor-id="зеркала-роя">Зеркала Роя</h3>
-<p>Ультралёгкие отражающие диски 100×100 м из алюминиевой фольги (4 мкм). Управляются давлением света через электрохромное покрытие. Масса ~116 кг, мощность на Земле ~19 МВт (при КПД 18%).</p>
+<p>Ультралёгкие отражающие диски 100×100 м из алюминиевой фольги (4 мкм). Управляются давлением света через электрохромное покрытие. Масса ~116 кг, мощность на Земле ~17 МВт (при КПД 18%).</p>
 <p><strong>Референс:</strong> IKAROS (JAXA, 2010) — первый межпланетный солнечный парус.</p>
 <p><strong>См.:</strong> <a href="../../../ru/science/summaries/mirrors.html">Зеркала Роя</a></p>
 <hr>
@@ -1018,7 +1066,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="масс-драйвер-mass-driver">Масс-драйвер (Mass Driver)</h3>
 <p>Электромагнитная катапульта для запуска грузов в космос. На Меркурии нет атмосферы → нет сопротивления воздуха → можно разгонять до орбитальной скорости на поверхности.</p>
 <p><strong>Параметры:</strong> длина 2–3 км, скорость 5 км/с, масса установки ~1300 т.</p>
-<p><strong>См.:</strong> <a href="../../../ru/science/detailed/railguns/theory.html">Теория и КПД масс-драйвера</a></p>
+<p><strong>См.:</strong> <a href="../../../ru/science/detailed/railguns/overview.html">Теория и КПД масс-драйвера</a></p>
 </section>
 <section id="мнлз-непрерывная-разливка" class="level3">
 <h3 class="anchored" data-anchor-id="мнлз-непрерывная-разливка">МНЛЗ (непрерывная разливка)</h3>
@@ -1084,7 +1132,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Мощность солнечного излучения на единицу площади:</p>
 <ul>
 <li>Земля: 1 361 Вт/м²</li>
-<li>Меркурий (среднее по орбите): 10 343 Вт/м² (в 7.6× больше)</li>
+<li>Меркурий (среднее по орбите): 9 287 Вт/м² (в 6.8× больше)</li>
 </ul>
 <p><strong>См.:</strong> <a href="../../../ru/science/reference/constants.html">Физические константы</a></p>
 <hr>
@@ -1101,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <section id="точка-ноль-ground-zero" class="level3">
 <h3 class="anchored" data-anchor-id="точка-ноль-ground-zero">Точка Ноль (Ground Zero)</h3>
 <p>Первый завод на Меркурии. 100% компонентов доставлено с Земли. Задача — запустить саморепликацию и построить следующие заводы из местных ресурсов.</p>
-<p><strong>Энергопотребление:</strong> 55 МВт.</p>
+<p><strong>Энергопотребление:</strong> ~165 МВт (завод ~124 МВт + масс-драйвер ~39 МВт).</p>
 <p><strong>См.:</strong> <a href="../../../ru/science/detailed/factories/overview.html">Завод «Точка Ноль»</a> | <strong>См. также:</strong> <a href="#bootstrap-блиц-монтаж">Bootstrap</a> — процесс сборки первого завода</p>
 </section>
 <section id="trl-technology-readiness-level" class="level3">
@@ -1122,7 +1170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 class="anchored" data-anchor-id="ф-з-ф-р-типы-заводов">Ф-З / Ф-Р (типы заводов)</h3>
 <p>Два типа заводов на Меркурии:</p>
 <ul>
-<li><strong>Ф-З (Фабрика-Зеркальная)</strong> — производит алюминиевые зеркала для Роя. ~400 зеркал/день. Всего ~1500.</li>
+<li><strong>Ф-З (Фабрика-Зеркальная)</strong> — производит алюминиевые зеркала для Роя. ~350 зеркал/день. Всего ~1500.</li>
 <li><strong>Ф-Р (Фабрика-Репликатор)</strong> — производит роботов, купола, оборудование, новые заводы. Всего ~150.</li>
 </ul>
 <p><strong>См.:</strong> <a href="../../../ru/science/summaries/production.html">Производство</a></p>
@@ -1173,7 +1221,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="l">L</h2>
 <section id="lsp-станция-lunar-solar-power" class="level3">
 <h3 class="anchored" data-anchor-id="lsp-станция-lunar-solar-power">LSP-станция (Lunar Solar Power)</h3>
-<p>Наземная солнечная электростанция на поверхности Луны. Принимает концентрированный свет от Роя, преобразует в микроволны 2.45 ГГц и передаёт на rectenna на Земле. Сеть из 20-40 станций на лимбах Луны.</p>
+<p>Наземная солнечная электростанция на поверхности Луны. Принимает концентрированный свет от Роя, преобразует в микроволны 2.45 ГГц и передаёт на rectenna на Земле. Сеть из 40 станций на лимбах Луны.</p>
 <p><strong>Преимущество:</strong> Тепло уходит в грунт (не нужны космические радиаторы), КПД 18%.</p>
 <p><strong>См.:</strong> <a href="../../../ru/science/detailed/hub.html">LSP-станции</a></p>
 <hr>

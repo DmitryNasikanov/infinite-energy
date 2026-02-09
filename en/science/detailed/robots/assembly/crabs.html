@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Crab-M Assembly – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/assembly/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Crab-M Assembly – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/detailed/robots/assembly/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -880,7 +930,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><strong>Purpose:</strong> Logistics robot, material transport</li>
 <li><strong>Mass:</strong> ~1000 kg</li>
-<li><strong>Battery:</strong> NaS 50 kWh</li>
+<li><strong>Battery:</strong> NaS 20 kWh</li>
 <li><strong>Power:</strong> 10 kW</li>
 <li><strong>Assembly time:</strong> 48 hours per station</li>
 </ul>
@@ -910,9 +960,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <td><a href="../../../../../en/science/detailed/robots/elements/frames.html">Frame Manufacturing</a></td>
 </tr>
 <tr class="even">
-<td>Body, radiators</td>
+<td>Body, radiators, sensor housings</td>
 <td>Aluminum</td>
-<td>450 kg</td>
+<td>470 kg</td>
 <td><a href="../../../../../en/science/detailed/materials/distillation.html">Aluminum</a></td>
 </tr>
 <tr class="odd">
@@ -924,24 +974,25 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="even">
 <td>Actuators (6 wheels + manipulator)</td>
 <td>Fe + Al + NaK</td>
-<td>30 kg</td>
+<td>40 kg</td>
 <td><a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a></td>
 </tr>
 <tr class="odd">
-<td>Electronics</td>
+<td>Electronics (chips)</td>
 <td>-</td>
-<td>20 kg</td>
+<td>0.5 kg</td>
 <td><strong>Import from Earth</strong></td>
 </tr>
 <tr class="even">
 <td><strong>TOTAL</strong></td>
 <td>-</td>
 <td><strong>~1000 kg</strong></td>
-<td><strong>~98% local</strong></td>
+<td><strong>&gt;99% local</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Material distribution:</strong> - Iron (Fe): 350 kg = <strong>35%</strong> - Aluminum (Al): 450 kg = <strong>45%</strong> - Sodium + Sulfur: 150 kg = <strong>15%</strong> - Import: 20 kg = <strong>2%</strong></p>
+<p><strong>Material distribution:</strong> - Iron (Fe): 350 kg = <strong>35%</strong> - Aluminum (Al): 470 kg = <strong>47%</strong> - Sodium + Sulfur: 150 kg = <strong>15%</strong> - Actuators: 40 kg = <strong>4%</strong> - Import (chips): 0.5 kg = <strong>&lt;0.1%</strong></p>
+<p><em>Electronics 20 kg = chips 0.5 kg (import) + camera/lidar housings, cables ~19.5 kg (Al, local)</em></p>
 <hr>
 </section>
 <section id="design" class="level2">
@@ -1009,7 +1060,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <p><strong>6 wheels:</strong> 3 on each side, independent suspension on each wheel.</p>
-<p><strong>Wheel diameter:</strong> 1.2 m (to traverse regolith up to 0.5 m deep)</p>
+<p><strong>Wheel diameter:</strong> Ø1.2 m (to traverse regolith up to 0.5 m deep)</p>
 <hr>
 </section>
 </section>
@@ -1053,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>4</td>
-<td>NaS battery installation (50 kWh)</td>
+<td>NaS battery installation (20 kWh)</td>
 <td>4 hours</td>
 <td>2 Centaur-M</td>
 </tr>
@@ -1112,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="stage-2-chassis-mounting" class="level2">
 <h2 class="anchored" data-anchor-id="stage-2-chassis-mounting">Stage 2: Chassis Mounting</h2>
-<p><strong>6 wheels:</strong> - Diameter: 1.2 m - Material: Aluminum (rim) + rubber (tread, imported) - Drive: Electric motors 5 kW x 6 = 30 kW total</p>
+<p><strong>6 wheels:</strong> - Diameter: Ø1.2 m - Material: Al rim + Fe-6%Mn band (local) - Drive: Electric motors 5 kW × 6 = 30 kW + <a href="../../../../../en/science/detailed/robots/elements/actuators.html#electric-actuators">cycloidal gearbox</a> 1:20 (100% local)</p>
 <p><strong>Suspension:</strong> - Independent on each wheel - Hydraulic dampers (NaK) - Suspension travel: +/-200 mm</p>
 <p><strong>Process:</strong> 1. Install 6 hubs on frame (M20 bolts) 2. Mount wheel drive motors 3. Install wheels 4. Alignment adjustment</p>
 <hr>
@@ -1126,7 +1177,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="stage-4-nas-battery-installation" class="level2">
 <h2 class="anchored" data-anchor-id="stage-4-nas-battery-installation">Stage 4: NaS Battery Installation</h2>
-<p><strong>NaS Battery 50 kWh:</strong> - Mass: 150 kg (active materials Na + S + beta-Al2O3) - Voltage: 400 V (200 cells x 2 V) - Placement: Center of gravity (under platform)</p>
+<p><strong>NaS Battery 20 kWh:</strong> - Mass: 150 kg (active materials Na + S + β-Al₂O₃ + case + insulation) - Voltage: 400 V (200 cells x 2 V) - Placement: Center of gravity (under platform)</p>
 <p><strong>Process:</strong> 1. Lift battery with crane 2. Install in battery compartment 3. Connect power cables (M10 bolts) 4. Connect battery management system (BMS)</p>
 <p><strong>Details:</strong> <a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a></p>
 <hr>
@@ -1181,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Battery</td>
 <td>Full charge/discharge cycle</td>
-<td>Capacity &gt;45 kWh</td>
+<td>Capacity &gt;18 kWh</td>
 </tr>
 <tr class="even">
 <td>Cooling</td>
@@ -1200,8 +1251,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="stage-10-initial-charging" class="level2">
 <h2 class="anchored" data-anchor-id="stage-10-initial-charging">Stage 10: Initial Charging</h2>
-<p><strong>Charging Station:</strong> - Voltage: 400 V - Current: 25 A (gentle initial charge mode) - Full charge time: 5 hours (50 kWh / 10 kW)</p>
-<p><strong>Process:</strong> 1. Connect to charging station 2. Battery activation (first cycle at 350C) 3. Full charge 4. Capacity check (must be &gt;45 kWh)</p>
+<p><strong>Charging Station:</strong> - Voltage: 400 V - Current: 25 A (gentle initial charge mode) - Full charge time: 2 hours (20 kWh / 10 kW)</p>
+<p><strong>Process:</strong> 1. Connect to charging station 2. Battery activation (first cycle at 350°C) 3. Full charge 4. Capacity check (must be &gt;18 kWh)</p>
 <hr>
 </section>
 <section id="power-consumption" class="level2">
@@ -1218,31 +1269,36 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Empty travel</td>
 <td>5 kW</td>
-<td>10 hours (50 km)</td>
+<td>4 hours (20 km)</td>
 </tr>
 <tr class="even">
 <td>Loaded travel (5 t)</td>
 <td>10 kW</td>
-<td>5 hours (25 km)</td>
+<td>2 hours (10 km)</td>
 </tr>
 <tr class="odd">
 <td>Loading/unloading</td>
 <td>3 kW</td>
-<td>16 hours</td>
+<td>6 hours</td>
 </tr>
 <tr class="even">
 <td>Idle</td>
 <td>0.5 kW</td>
-<td>100 hours</td>
+<td>40 hours</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Range:</strong> - Empty: 50 km - With 5 t load: 25 km</p>
+<p><strong>Range:</strong> - Empty: 20 km - With 5 t load: 10 km</p>
 <hr>
 </section>
 <section id="maintenance" class="level2">
 <h2 class="anchored" data-anchor-id="maintenance">Maintenance</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 38%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Operation</th>
@@ -1252,9 +1308,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>MoS2 grease replacement in bearings</td>
-<td>1 month</td>
-<td>Centaur-M</td>
+<td>MoS₂ wheel bearing recoating</td>
+<td>3-6 months</td>
+<td>Magnetron station + Centaur-M</td>
 </tr>
 <tr class="even">
 <td>Sensor calibration</td>
@@ -1328,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><a href="../../../../../en/science/detailed/robots/overview.html">Robot Production</a> - production overview</li>
 <li><a href="../../../../../en/science/detailed/robots/elements/frames.html">Frame Manufacturing</a> - Crab-M frame</li>
-<li><a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a> - NaS 50 kWh</li>
+<li><a href="../../../../../en/science/detailed/robots/elements/batteries.html">Battery Production</a> — NaS 20 kWh</li>
 <li><a href="../../../../../en/science/detailed/robots/elements/actuators.html">Actuators</a> - wheel drives</li>
 <li><a href="../../../../../en/science/detailed/robots/assembly/centaurs.html">Centaur-M Assembly</a> - manipulator robot</li>
 <li><a href="../../../../../en/science/detailed/robots/assembly/moles.html">Mole-M Assembly</a> - excavator robot</li>

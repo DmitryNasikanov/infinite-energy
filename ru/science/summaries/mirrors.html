@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -340,6 +341,59 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
@@ -374,6 +428,15 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Зеркала Роя – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/summaries/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Зеркала Роя – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/summaries/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -406,6 +469,11 @@ window.Quarto = {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -499,12 +567,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -688,19 +750,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -896,7 +946,7 @@ window.Quarto = {
   <li><a href="#физические-параметры" id="toc-физические-параметры" class="nav-link" data-scroll-target="#физические-параметры">Физические параметры</a></li>
   <li><a href="#состав-материалов" id="toc-состав-материалов" class="nav-link" data-scroll-target="#состав-материалов">Состав материалов</a></li>
   <li><a href="#бескаркасная-конструкция-по-принципу-ikaros" id="toc-бескаркасная-конструкция-по-принципу-ikaros" class="nav-link" data-scroll-target="#бескаркасная-конструкция-по-принципу-ikaros">Бескаркасная конструкция (по принципу IKAROS)</a></li>
-  <li><a href="#электроника" id="toc-электроника" class="nav-link" data-scroll-target="#электроника">Электроника</a></li>
+  <li><a href="#два-типа-зеркал-мать-и-дети" id="toc-два-типа-зеркал-мать-и-дети" class="nav-link" data-scroll-target="#два-типа-зеркал-мать-и-дети">Два типа зеркал: Мать и Дети</a></li>
   </ul></li>
   <li><a href="#управление-ориентацией" id="toc-управление-ориентацией" class="nav-link" data-scroll-target="#управление-ориентацией">Управление ориентацией</a>
   <ul class="collapse">
@@ -915,7 +965,6 @@ window.Quarto = {
   <li><a href="#архитектура-передачи" id="toc-архитектура-передачи" class="nav-link" data-scroll-target="#архитектура-передачи">Архитектура передачи</a></li>
   <li><a href="#распределение-энергии-роя" id="toc-распределение-энергии-роя" class="nav-link" data-scroll-target="#распределение-энергии-роя">Распределение энергии Роя</a></li>
   <li><a href="#кластеры-зеркал" id="toc-кластеры-зеркал" class="nav-link" data-scroll-target="#кластеры-зеркал">Кластеры зеркал</a></li>
-  <li><a href="#optical-cluster-control" id="toc-optical-cluster-control" class="nav-link" data-scroll-target="#optical-cluster-control">Кластерное оптическое управление</a></li>
   </ul></li>
   <li><a href="#график-производства" id="toc-график-производства" class="nav-link" data-scroll-target="#график-производства">График производства</a>
   <ul class="collapse">
@@ -1058,22 +1107,36 @@ window.Quarto = {
 <li><strong>Тросы</strong> — соединяют углы с центральным узлом, передают натяжение</li>
 </ul>
 </section>
-<section id="электроника" class="level3">
-<h3 class="anchored" data-anchor-id="электроника">Электроника</h3>
-<p>В центре зеркала — <strong>один интегрированный чип</strong> размером с монету (~50 г), доставляемый с Земли. Все функции объединены на одном кристалле:</p>
+<section id="два-типа-зеркал-мать-и-дети" class="level3">
+<h3 class="anchored" data-anchor-id="два-типа-зеркал-мать-и-дети">Два типа зеркал: Мать и Дети</h3>
+<p>Рой организован в <strong>кластеры по ~1 000 зеркал</strong>. Внутри кластера — два типа зеркал с разной электроникой:</p>
+<section id="мать-зеркало-1-на-1-000-детей" class="level4">
+<h4 class="anchored" data-anchor-id="мать-зеркало-1-на-1-000-детей">Мать-зеркало (1 на ~1 000 Детей)</h4>
+<p><strong>Полный чип управления</strong> (~50 г), доставляемый с Земли:</p>
 <ul>
-<li><strong>Звёздный датчик</strong> — определение собственной ориентации</li>
-<li><strong>Радиомаяки</strong> — позиционирование относительно других зеркал</li>
-<li><strong>Бортовой процессор</strong> — расчёт требуемого угла наведения</li>
-<li><strong>Фотодиод питания</strong> — несколько см² кремния, обеспечивает микроватты для работы</li>
+<li><strong>Звёздный датчик</strong> — определение ориентации кластера</li>
+<li><strong>Бортовой процессор</strong> — расчёт команд для всех Детей</li>
+<li><strong>Лазерный передатчик</strong> — оптическая связь с Детьми</li>
+<li><strong>Радиомодуль</strong> — связь с Землёй и другими Матерями</li>
+<li><strong>Фотодиод питания</strong> — несколько см² кремния</li>
+</ul>
+</section>
+<section id="дети-зеркала-999-из-1-000" class="level4">
+<h4 class="anchored" data-anchor-id="дети-зеркала-999-из-1-000">Дети-зеркала (~999 из 1 000)</h4>
+<p><strong>Только фотоприёмник</strong> (~2 г) — никакого процессора:</p>
+<ul>
+<li><strong>Фотодиод-приёмник</strong> — принимает оптические команды от Матери</li>
+<li><strong>Простой декодер</strong> — преобразует световые импульсы в сигналы электрохромики</li>
+<li><strong>Без радио, без процессора</strong> — чистая аналоговая/цифровая логика</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Почему с Земли?</strong> Производство высокоинтегрированных чипов требует сложнейших литографических процессов. Это единственный компонент, который нецелесообразно производить в космосе.</p>
+<p><strong>Почему такая архитектура?</strong> При индивидуальном чипе на каждом зеркале импорт = 55 000 т. С архитектурой Мать-Дети: <strong>~1 055 т</strong> — экономия <strong>98%</strong>. Подробнее: <a href="#импорт-с-земли">Импорт с Земли</a>.</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>Технологическая база (2025):</strong> Рынок радиационно-стойкой электроники — <a href="https://www.marketsandmarkets.com/Market-Reports/radiation-hardened-electronics-market-44047967.html">$1.6 млрд</a>. Современные звёздные датчики весят <a href="https://pressbooks-dev.oer.hawaii.edu/epet302/chapter/7-5/">десятки грамм</a>, солнечные датчики — менее 5 г. <a href="https://spectrum.ieee.org/exploring-space-with-chipsized-satellites">Chip-scale спутники</a> (Sprites) весят всего 10 г целиком. К 2030-м годам SoC-решения объединят процессор, память и датчики в одном чипе массой ~10-20 г.</p>
+<p><strong>Технологическая база (2025):</strong> <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">Laser inter-satellite links</a> (Китай, 2024-2025) — оптическая связь между спутниками. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a> — управление роем через оптическую навигацию. IKAROS (2010) — электрохромика на солнечных парусах.</p>
 </blockquote>
 <hr>
+</section>
 </section>
 </section>
 <section id="управление-ориентацией" class="level2">
@@ -1100,6 +1163,44 @@ window.Quarto = {
 </ul>
 <blockquote class="blockquote">
 <p><strong>Почему TiO₂, а не WO₃?</strong> Оксид вольфрама (WO₃) эффективнее, но вольфрам не измерялся MESSENGER и его доступность неизвестна. Титан подтверждён (~0.5%), и при миллиарде зеркал надёжность источника критична. TiO₂ менее эффективен (17% vs 60%), но производство 100% местное.</p>
+</blockquote>
+<p><strong>Поток команд (Мать → Дети):</strong></p>
+<p>Дети-зеркала не имеют собственного процессора. Команды на электрохромику приходят от Матери через оптический канал:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Несущая частота</td>
+<td>1-10 кГц (отфильтровывает солнечный шум)</td>
+</tr>
+<tr class="even">
+<td>Кодирование</td>
+<td>Manchester или FSK (помехоустойчивость)</td>
+</tr>
+<tr class="odd">
+<td>Скорость</td>
+<td>100-1000 бит/с</td>
+</tr>
+<tr class="even">
+<td>Команды</td>
+<td>4-8 бит (16-256 состояний электрохромики)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Декодер на Ребёнке (~2 г):</strong></p>
+<ul>
+<li>Фотодиод + полосовой фильтр</li>
+<li>Компаратор + простая цифровая логика</li>
+<li>Драйверы электрохромных полосок</li>
+<li><strong>Без процессора</strong> — аппаратный декодер</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Технологическая база:</strong> <a href="https://www.nasa.gov/mission/deep-space-optical-communications-dsoc/">NASA DSOC</a> (2024) — оптическая связь на 140 млн миль. <a href="https://spectrum.ieee.org/exploring-space-with-chipsized-satellites">Sprites</a> (Cornell) — 4г спутник за $50.</p>
 </blockquote>
 <p><strong>Точность наведения:</strong></p>
 <table class="caption-top table">
@@ -1182,7 +1283,7 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Солнечный поток (орбита Меркурия)</td>
-<td>10 343 Вт/м²</td>
+<td>9 287 Вт/м²</td>
 </tr>
 <tr class="even">
 <td>Площадь зеркала</td>
@@ -1190,7 +1291,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Падающая энергия</td>
-<td>103 МВт</td>
+<td>93 МВт</td>
 </tr>
 <tr class="even">
 <td>КПД передачи на Землю</td>
@@ -1198,7 +1299,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td><strong>Мощность на Земле</strong></td>
-<td><strong>~19 МВт</strong></td>
+<td><strong>~17 МВт</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1214,9 +1315,9 @@ P_{солн} = \frac{20 \text{ ПВт}}{0.18} \approx 111 \text{ ПВт}
 <section id="сколько-зеркал-нужно" class="level3">
 <h3 class="anchored" data-anchor-id="сколько-зеркал-нужно">Сколько зеркал нужно?</h3>
 <p><span class="math display">\[
-N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1.05 \times 10^{9} \approx \textbf{~1.1 миллиарда}
+N = \frac{20 \times 10^{15} \text{ Вт}}{17 \times 10^6 \text{ Вт}} \approx 1.18 \times 10^{9} \approx \textbf{~1.1 миллиарда}
 \]</span></p>
-<p><strong>Проверка по степеням:</strong> - 1 зеркало = 19 МВт на Землю (103 МВт × 18%) - 1 000 зеркал = 19 ГВт - 1 000 000 зеркал = 19 ТВт (≈ мировое потребление) - 1 100 000 000 зеркал = <strong>~21 ПВт</strong> (~1000× мирового)</p>
+<p><strong>Проверка по степеням:</strong> - 1 зеркало = 17 МВт на Землю (93 МВт × 18%) - 1 000 зеркал = 17 ГВт - 1 000 000 зеркал = 17 ТВт (≈ мировое потребление) - 1 100 000 000 зеркал = <strong>~18 ПВт</strong> (~1000× мирового)</p>
 </section>
 <section id="параметры-роя" class="level3">
 <h3 class="anchored" data-anchor-id="параметры-роя">Параметры Роя</h3>
@@ -1250,11 +1351,11 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </tr>
 <tr class="even">
 <td>Отражённая мощность</td>
-<td>~100 петаватт</td>
+<td>~92 петаватт</td>
 </tr>
 <tr class="odd">
 <td>Мощность на Земле</td>
-<td><strong>~21 петаватт (~1000×)</strong></td>
+<td><strong>~18 петаватт (~1000×)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1268,10 +1369,10 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-    SUN["☀️ Солнце"] --&gt;|"~114 ПВт"| SWARM["Рой зеркал"]
+    SUN["☀️ Солнце"] --&gt;|"~102 ПВт"| SWARM["Рой зеркал"]
     SWARM --&gt;|"свет"| LSP["LSP станции&lt;br/&gt;(Луна, лимбы)"]
     LSP --&gt;|"микроволны&lt;br/&gt;2.45 ГГц"| RECT["[Rectenna](../reference/glossary.qmd#rectenna)&lt;br/&gt;(Земля)"]
-    RECT --&gt;|"~21 ПВт"| GRID["Электросеть"]
+    RECT --&gt;|"~18 ПВт"| GRID["Электросеть"]
 
     style SUN fill:#fff3cd
     style SWARM fill:#e8e8a8
@@ -1348,75 +1449,47 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <h3 class="anchored" data-anchor-id="архитектура-передачи">Архитектура передачи</h3>
 <p>Рой направляет энергию на <strong><a href="../../../ru/science/reference/technology-readiness.html#lsp-станция">Лунные Solar Power станции (LSP)</a></strong>.</p>
 <pre><code>Рой зеркал (Меркурий) → Свет на Луну → PV → Микроволны → Земля</code></pre>
-<p><strong>Почему Луна, а не орбитальный Хаб?</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Параметр</th>
-<th>Орбитальный Хаб (L1)</th>
-<th>Луна (LSP)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>КПД</td>
-<td>10%</td>
-<td><strong>18%</strong></td>
-</tr>
-<tr class="even">
-<td>Радиаторы</td>
-<td>7 900 км² в космосе</td>
-<td>0 (тепло в грунт)</td>
-</tr>
-<tr class="odd">
-<td>Масса конструкций</td>
-<td>15 млн т на орбите</td>
-<td>На поверхности</td>
-</tr>
-<tr class="even">
-<td>Строительство</td>
-<td>Невесомость</td>
-<td>Гравитация</td>
-</tr>
-</tbody>
-</table>
 <blockquote class="blockquote">
-<p><strong>Вывод:</strong> Орбитальный Хаб <a href="../../../ru/science/detailed/hub.html">экономически нецелесообразен</a> — вдвое хуже КПД и огромные радиаторы в космосе.</p>
+<p><strong>Почему Луна, а не орбитальный хаб?</strong> См. <a href="../../../ru/science/detailed/hub.html#почему-на-луне-а-не-на-орбите">подробный анализ</a> — КПД 18% vs 10%, нет радиаторов в космосе.</p>
 </blockquote>
 </section>
 <section id="распределение-энергии-роя" class="level3">
 <h3 class="anchored" data-anchor-id="распределение-энергии-роя">Распределение энергии Роя</h3>
-<p>Не все зеркала направляют энергию на Луну. Распределение:</p>
+<p>Рой из 1,1 млрд зеркал — <strong>ёмкость</strong> ~18 ПВт на Земле. LSP Phase 1 задействует <strong>5% Роя</strong> (~55 млн зеркал) для доставки 1 ПВт:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 29%">
+<col style="width: 35%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Назначение</th>
-<th>Зеркал</th>
-<th>Метод</th>
-<th>КПД</th>
+<th>Мощность</th>
+<th>Примечание</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Луна → Земля</strong></td>
-<td>~99.5%</td>
-<td>Свет → PV → микроволны</td>
-<td>18%</td>
+<td><strong>Земля (Phase 1)</strong></td>
+<td><strong>1 ПВт</strong></td>
+<td><strong>50× текущего потребления</strong> (20 ТВт)</td>
 </tr>
 <tr class="even">
-<td><strong>Меркурий (печи)</strong></td>
-<td>~0.3%</td>
-<td>Прямой нагрев</td>
-<td><strong>~85%</strong></td>
+<td><strong>Луна (Phase 1)</strong></td>
+<td>~0,3 ПВт</td>
+<td>Локальное производство, инфраструктура</td>
 </tr>
 <tr class="odd">
-<td><strong>Меркурий (PV)</strong></td>
-<td>~0.2%</td>
-<td>Свет → электричество</td>
-<td>~45%</td>
+<td><strong>Резерв</strong></td>
+<td>~18-20 ПВт</td>
+<td>Масштабирование LSP, Марс, космическая экспансия</td>
 </tr>
 </tbody>
 </table>
+<blockquote class="blockquote">
+<p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/hub.html#распределение-энергии">Распределение энергии</a></p>
+</blockquote>
 <section id="прямой-солнечный-нагрев" class="level4">
 <h4 class="anchored" data-anchor-id="прямой-солнечный-нагрев">Прямой солнечный нагрев</h4>
 <p>Для плавки металлов на Меркурии и Луне используется <strong>прямой солнечный свет</strong>, не электричество:</p>
@@ -1488,99 +1561,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <blockquote class="blockquote">
 <p><strong>Почему не единая решётка?</strong> Глобальная синхронизация миллиарда зеркал невозможна — задержка сигнала Меркурий-Земля ~670 секунд. Подробности: <a href="../../../ru/science/reference/risks.html#синхронизация-фазированной-решётки">Риски</a>.</p>
 </blockquote>
-</section>
-<section id="optical-cluster-control" class="level3">
-<h3 class="anchored" data-anchor-id="optical-cluster-control">Кластерное оптическое управление</h3>
-<p>Архитектура «Мать-Дети» позволяет <strong>сократить импорт электроники на 98%</strong>.</p>
-<section id="проблема-1" class="level4">
-<h4 class="anchored" data-anchor-id="проблема-1">Проблема</h4>
-<p>При индивидуальном управлении каждое зеркало требует полный чип 50 г: - 1.1 млрд зеркал × 50 г = <strong>55 000 тонн</strong> электроники с Земли - ~6 250 тонн/год = ~125 запусков Starship/год</p>
-</section>
-<section id="решение-мать-зеркала-дети-зеркала" class="level4">
-<h4 class="anchored" data-anchor-id="решение-мать-зеркала-дети-зеркала">Решение: Мать-зеркала + Дети-зеркала</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Роль</th>
-<th>Электроника</th>
-<th>Количество</th>
-<th>Масса/шт</th>
-<th>Импорт</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Мать</strong> (лидер)</td>
-<td>Полный чип</td>
-<td>1.1 млн</td>
-<td>50 г</td>
-<td><strong>55 т</strong></td>
-</tr>
-<tr class="even">
-<td><strong>Дети</strong> (ведомые)</td>
-<td>Простой декодер</td>
-<td>1.1 млрд</td>
-<td>2 г</td>
-<td><strong>2 200 т</strong></td>
-</tr>
-<tr class="odd">
-<td><strong>ИТОГО</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td><strong>2 255 т</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Экономия: 55 000 т → 2 255 т = 96%</strong> (24× меньше)</p>
-</section>
-<section id="как-это-работает" class="level4">
-<h4 class="anchored" data-anchor-id="как-это-работает">Как это работает</h4>
-<p><strong>Мать-зеркало</strong> (1 на ~1 000 Детей): - Star tracker — определяет ориентацию кластера - Процессор — рассчитывает команды для Детей - Лазерный передатчик — модулированный луч на Детей - Радио — связь с Землёй/другими Матерями</p>
-<p><strong>Дети-зеркала</strong> (пассивные): - Фотодиод (~2 г) — принимает оптический сигнал от Матери - Простой декодер — преобразует сигнал в команды электрохромики - Без процессора — только аналоговая/цифровая логика</p>
-<pre><code>Протокол управления:
-
-Мать → [модулированный свет] → Дети
-
-Команды (пример):
-├─ Импульс 1 мс: "край A включить"
-├─ Импульс 2 мс: "край B включить"
-├─ Импульс 3 мс: "всё выключить"
-└─ Серия импульсов: кодирует угол/скорость</code></pre>
-</section>
-<section id="гибридная-реализация" class="level4">
-<h4 class="anchored" data-anchor-id="гибридная-реализация">Гибридная реализация</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Фаза</th>
-<th>Годы</th>
-<th>Технология</th>
-<th>Импорт</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>7-10</td>
-<td>Импорт 2 г декодеров</td>
-<td>~1 000 т</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>10+</td>
-<td>Местные аналоговые приёмники</td>
-<td><strong>0 т</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Фаза 2:</strong> Технология <a href="../../../ru/science/reference/technology-readiness.html#in-situ-кремниевые-ячейки">Blue Alchemist</a> (TRL 5-6) позволяет производить кремниевые фотодиоды из лунного/меркурианского реголита. Резонансные LC-контуры (катушки + конденсаторы) изготавливаются из местного алюминия и керамики Al₂O₃.</p>
-<p><strong>Итого импорт:</strong> ~1 055 т (вместо 55 000 т) = <strong>98% экономия</strong></p>
-<blockquote class="blockquote">
-<p><strong>Технологическая база:</strong> <a href="https://ts2.tech/en/laser-wars-in-orbit-the-2024-2030-boom-in-optical-inter-satellite-links/">Laser inter-satellite links</a> (Китай, 2024-2025) — 400 Gbps оптическая связь между спутниками. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0094576520301430">Leader-follower formation</a> — управление роем через оптическую навигацию. IKAROS (2010) — электрохромика на солнечных парусах.</p>
-</blockquote>
 <hr>
-</section>
 </section>
 </section>
 <section id="график-производства" class="level2">
@@ -1595,7 +1576,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Экспоненциальный рост заводов (1→~1 650) и масс-драйверов (1→1 000) за 4 года, затем полная мощность 219 млн зеркал/год. Подробный расчёт: <a href="../../../ru/science/detailed/railguns/scaling.html">Масштабирование</a>, <a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a>.</p>
+<p>Экспоненциальный рост заводов (1→~1 650) и масс-драйверов (1→1 000) за 4 года, затем полная мощность 219 млн зеркал/год. Подробный расчёт: <a href="../../../ru/science/detailed/railguns/overview.html">Масштабирование</a>, <a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a>.</p>
 </div>
 </div>
 <section id="рост-производственных-мощностей" class="level3">
@@ -1639,7 +1620,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <p><strong>При 1 000 масс-драйверах (полная мощность):</strong></p>
 <pre><code>1 МД = 600 зеркал/день = 219 000 зеркал/год
 1 000 МД = 219 млн зеркал/год
-Каждый МД обслуживают ~1.5 Ф-З (400 зеркал/день × 1.5 = 600)</code></pre>
+Каждый МД обслуживают ~1.7 Ф-З (350 зеркал/день × 1.7 ≈ 600)</code></pre>
 </section>
 <section id="накопление-зеркал" class="level3">
 <h3 class="anchored" data-anchor-id="накопление-зеркал">Накопление зеркал</h3>
@@ -1781,14 +1762,14 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 <p>В первый год проект отражает 0.24 ПВт — на Земле это 0.04 ПВт (2× мирового потребления).</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>Примечание:</strong> «Отражённая» = зеркал × 93 МВт. «На Земле» = × 0.18 (КПД цепочки LSP). «Заменено» = зеркала, вышедшие из строя через 10 лет. Всего = предыдущий итог + произведено − заменено.</p>
+<p><strong>Примечание:</strong> «Отражённая» = зеркал × 84 МВт. «На Земле» = × 0.18 (КПД цепочки LSP). «Заменено» = зеркала, вышедшие из строя через 10 лет. Всего = предыдущий итог + произведено − заменено.</p>
 </blockquote>
 </section>
 <section id="ключевые-вехи" class="level3">
 <h3 class="anchored" data-anchor-id="ключевые-вехи">Ключевые вехи</h3>
 <ul>
 <li><strong>Год 1:</strong> 0.27 ПВт солнечной (0.04 на Земле) — 2× мирового потребления</li>
-<li><strong>Год 8:</strong> ~114 ПВт солнечной (~20 на Земле) — 1000× мирового потребления, ~1.1 млрд активных зеркал</li>
+<li><strong>Год 8:</strong> ~102 ПВт солнечной (~18 на Земле) — 1000× мирового потребления, ~1.1 млрд активных зеркал</li>
 <li><strong>Год 11+:</strong> рост замедляется из-за замены</li>
 </ul>
 </section>
@@ -1824,7 +1805,7 @@ N = \frac{20 \times 10^{15} \text{ Вт}}{19 \times 10^6 \text{ Вт}} \approx 1
 </tr>
 <tr class="odd">
 <td>Конфигурация</td>
-<td>Плотное облако ~1 млрд зеркал</td>
+<td>Плотное облако ~1.1 млрд зеркал</td>
 </tr>
 </tbody>
 </table>
@@ -2230,7 +2211,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="605" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 604;"><span id="cb8-605"><a href="#cb8-605" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="573" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 572;"><span id="cb7-573"><a href="#cb7-573" aria-hidden="true" tabindex="-1"></a><span class="fu">unitWidget</span>(<span class="st">"PRD-001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">
@@ -2307,7 +2288,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <li><strong>Прокат фольги</strong> — сжатие до толщины 4 мкм</li>
 <li><strong>Производство грузиков</strong> — литьё железа или прессование реголита</li>
 <li><strong>Производство тросов</strong> — волочение стальной проволоки</li>
-<li><strong>Монтаж электроники</strong> — установка импортного чипа и электрохромных полосок</li>
+<li><strong>Монтаж электроники</strong> — установка фотоприёмника (Дети) или полного чипа (Мать) + электрохромные полоски</li>
 <li><strong>Складывание + упаковка</strong> — Z-fold мембраны, жёсткий контейнер для запуска</li>
 </ol>
 <p><strong>Подробнее:</strong> <a href="../../../ru/science/detailed/factories/overview.html">Завод “Точка Ноль”</a></p>
@@ -2353,7 +2334,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 </tbody>
 </table>
-<p>*При снижении нагрузки: 2-3 км (425-637g). См. <a href="../../../ru/science/detailed/railguns/theory.html">Теория МД</a>.</p>
+<p>*При снижении нагрузки: 2-3 км (425-637g). См. <a href="../../../ru/science/detailed/railguns/overview.html">Теория МД</a>.</p>
 </section>
 <section id="производительность" class="level3">
 <h3 class="anchored" data-anchor-id="производительность">Производительность</h3>
@@ -2402,7 +2383,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <tbody>
 <tr class="odd">
 <td>Солнечный поток</td>
-<td>10 343 Вт/м²</td>
+<td>9 287 Вт/м²</td>
 </tr>
 <tr class="even">
 <td>Отражательность</td>
@@ -2414,7 +2395,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 <tr class="even">
 <td>Поглощённая мощность</td>
-<td>~520 Вт/м²</td>
+<td>~464 Вт/м²</td>
 </tr>
 </tbody>
 </table>
@@ -2437,7 +2418,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 </tbody>
 </table>
-<p><strong>Равновесная температура:</strong> +38°C</p>
+<p><strong>Равновесная температура:</strong> +40°C (расчёт: σT⁴(ε_front + ε_back) = 464 → T ≈ 313 K)</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2452,11 +2433,11 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 </tr>
 <tr class="even">
 <td>Расчётная температура зеркала</td>
-<td>+38°C</td>
+<td>+40°C</td>
 </tr>
 <tr class="odd">
 <td><strong>Запас</strong></td>
-<td><strong>622°C</strong></td>
+<td><strong>620°C</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2547,7 +2528,7 @@ ME = \sqrt{r_M^2 + r_E^2 - 2 \cdot r_M \cdot r_E \cdot \cos(\phi)}
 <li><a href="../../../ru/science/executive-summary.html">Проект за 5 минут</a> — общая схема проекта</li>
 <li><a href="../../../ru/science/summaries/production.html">Производство</a> — завод и саморепликация</li>
 <li><a href="../../../ru/science/detailed/hub.html">Хаб приёма энергии</a> — LSP станции и передача на Землю</li>
-<li><a href="../../../ru/science/detailed/railguns/theory.html">Масс-драйвер: теория</a> — детальные расчёты запуска</li>
+<li><a href="../../../ru/science/detailed/railguns/overview.html">Масс-драйвер: теория</a> — детальные расчёты запуска</li>
 <li><a href="../../../ru/science/summaries/roadmap.html">Дорожная карта</a> — хронология проекта</li>
 </ul>
 

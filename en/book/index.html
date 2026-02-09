@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Table of Contents – Проект Гелиос</title>
+<title>Book – Проект Гелиос</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,14 +300,76 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../ru/science/data/widgets.css">
+<meta property="og:title" content="Book – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/book/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Book – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/book/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -323,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <span class="menu-text">Проект Гелиос</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../ru/book/index.html"> 
+    <a class="nav-link active" href="../../ru/book/index.html" aria-current="page"> 
 <span class="menu-text">Книга</span></a>
   </li>  
   <li class="nav-item">
@@ -336,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -357,17 +425,165 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Book</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Оглавление</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Пролог</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/00-prologue/00-prologue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ПРОЛОГ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть I: Манифест в тишине</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/01-kabinety/01-kabinety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Высокие кабинеты</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/02-shest-dney/02-shest-dney.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Шесть дней</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/03-zvyozdy/03-zvyozdy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Мальчик, который считал звёзды</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть II: Резонанс</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/04-rubilnik/04-rubilnik.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Рубильник</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/05-instruktazh/05-instruktazh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Инструктаж</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/06-soyuzniki/06-soyuzniki.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Союзники</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/07-vashingtonskaya-stena/07-vashingtonskaya-stena.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Вашингтонская стена</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/08-snezhnyj-kom/08-snezhnyj-kom.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Снежный ком</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Часть III: Восхождение</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/09-poligon/09-poligon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Полигон</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/10-luna/10-luna.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Луна</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ru/book/11-merkury/11-merkury.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Меркурий</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#work-in-progress" id="toc-work-in-progress" class="nav-link active" data-scroll-target="#work-in-progress">Work in Progress</a></li>
+  <li><a href="#project-helios" id="toc-project-helios" class="nav-link active" data-scroll-target="#project-helios">Project Helios</a>
+  <ul class="collapse">
+  <li><a href="#table-of-contents" id="toc-table-of-contents" class="nav-link" data-scroll-target="#table-of-contents">Table of Contents</a>
+  <ul class="collapse">
+  <li><a href="#prologue" id="toc-prologue" class="nav-link" data-scroll-target="#prologue">Prologue</a></li>
+  <li><a href="#part-i-manifesto-in-silence" id="toc-part-i-manifesto-in-silence" class="nav-link" data-scroll-target="#part-i-manifesto-in-silence">Part I: Manifesto in Silence</a></li>
+  <li><a href="#part-ii-resonance" id="toc-part-ii-resonance" class="nav-link" data-scroll-target="#part-ii-resonance">Part II: Resonance</a></li>
+  <li><a href="#part-iii-ascension" id="toc-part-iii-ascension" class="nav-link" data-scroll-target="#part-iii-ascension">Part III: Ascension</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -376,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Table of Contents</h1>
+<h1 class="title">Book</h1>
 </div>
 
 
@@ -393,13 +609,48 @@ document.addEventListener('DOMContentLoaded', function() {
 </header>
 
 
-<section id="work-in-progress" class="level2">
-<h2 class="anchored" data-anchor-id="work-in-progress">Work in Progress</h2>
-<p>The English translation of the book is currently in progress.</p>
-<p>Please check back later or switch to the <a href="../../ru/book/index.html">Russian version</a> to read the complete story.</p>
-<p><a href="../../ru/index.html" class="btn btn-primary">Switch to Russian 🇷🇺</a></p>
+<section id="project-helios" class="level1">
+<h1>Project Helios</h1>
+<p>A historical hard science fiction epic about the creation of the first artificial sun.</p>
+<section id="table-of-contents" class="level2">
+<h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
+<section id="prologue" class="level3">
+<h3 class="anchored" data-anchor-id="prologue">Prologue</h3>
+<ul>
+<li><a href="../../en/book/00-prologue/00-prologue.html">Prologue</a></li>
+</ul>
+</section>
+<section id="part-i-manifesto-in-silence" class="level3">
+<h3 class="anchored" data-anchor-id="part-i-manifesto-in-silence">Part I: Manifesto in Silence</h3>
+<ul>
+<li><a href="../../en/book/01-high-offices/01-high-offices.html">Chapter 1: High Offices</a></li>
+<li><a href="../../en/book/02-six-days/02-six-days.html">Chapter 2: Six Days</a></li>
+<li><a href="../../en/book/03-stars/03-stars.html">Chapter 3: The Boy Who Counted Stars</a></li>
+</ul>
+</section>
+<section id="part-ii-resonance" class="level3">
+<h3 class="anchored" data-anchor-id="part-ii-resonance">Part II: Resonance</h3>
+<ul>
+<li><a href="../../en/book/04-the-switch/04-the-switch.html">Chapter 4: The Switch</a></li>
+<li><a href="../../en/book/05-briefing/05-briefing.html">Chapter 5: Briefing</a></li>
+<li><a href="../../en/book/06-allies/06-allies.html">Chapter 6: Allies</a></li>
+<li><a href="../../en/book/07-washington-wall/07-washington-wall.html">Chapter 7: The Washington Wall</a></li>
+<li><a href="../../en/book/08-snowball/08-snowball.html">Chapter 8: The Snowball</a></li>
+</ul>
+</section>
+<section id="part-iii-ascension" class="level3">
+<h3 class="anchored" data-anchor-id="part-iii-ascension">Part III: Ascension</h3>
+<ul>
+<li><a href="../../en/book/09-proving-ground/09-proving-ground.html">Chapter 9: The Proving Ground</a></li>
+<li><a href="../../en/book/10-moon/10-moon.html">Chapter 10: The Moon</a></li>
+<li><a href="../../en/book/11-mercury/11-mercury.html">Chapter 11: Mercury</a></li>
+</ul>
+<hr>
+<p><a href="../../en/book/00-prologue/00-prologue.html" class="btn btn-primary">Start reading from the Prologue</a></p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

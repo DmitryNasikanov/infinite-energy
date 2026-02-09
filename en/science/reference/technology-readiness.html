@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -299,11 +300,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Technologies and Sources – Проект Гелиос">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/reference/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Technologies and Sources – Проект Гелиос">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/en/science/reference/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -336,6 +397,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -429,12 +495,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,19 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -857,6 +905,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <li><a href="#economic-data" id="toc-economic-data" class="nav-link" data-scroll-target="#economic-data">Economic Data</a></li>
   <li><a href="#space-agencies-and-programs-extended-list" id="toc-space-agencies-and-programs-extended-list" class="nav-link" data-scroll-target="#space-agencies-and-programs-extended-list">Space Agencies and Programs (Extended List)</a></li>
   </ul></li>
+  <li><a href="#electronics-international-pricing-2026" id="toc-electronics-international-pricing-2026" class="nav-link" data-scroll-target="#electronics-international-pricing-2026">Electronics: International Pricing (2026)</a>
+  <ul class="collapse">
+  <li><a href="#lidar-sensors" id="toc-lidar-sensors" class="nav-link" data-scroll-target="#lidar-sensors">LiDAR Sensors</a></li>
+  <li><a href="#industrial-robots" id="toc-industrial-robots" class="nav-link" data-scroll-target="#industrial-robots">Industrial Robots</a></li>
+  <li><a href="#power-electronics-igbtmosfet" id="toc-power-electronics-igbtmosfet" class="nav-link" data-scroll-target="#power-electronics-igbtmosfet">Power Electronics (IGBT/MOSFET)</a></li>
+  <li><a href="#rare-materials" id="toc-rare-materials" class="nav-link" data-scroll-target="#rare-materials">Rare Materials</a></li>
+  </ul></li>
   <li><a href="#mars-terraforming-for-reference" id="toc-mars-terraforming-for-reference" class="nav-link" data-scroll-target="#mars-terraforming-for-reference">Mars Terraforming (For Reference)</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
@@ -892,7 +947,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>TL;DR</strong></p>
 <ul>
 <li><strong>All 25</strong> technologies have TRL 4+ (laboratory or higher)</li>
-<li><strong>18 technologies</strong> have TRL 7-9 (industrial maturity): electromagnetic launch, dark factories, autonomous mining, WAAM, NaS, foil, solar sails, continuous casting, rolling, CNC, servo actuators, etc.</li>
+<li><strong>18 technologies</strong> have TRL 7-9 (industrial maturity): electromagnetic launch, dark factories, autonomous mining, WAAM, NaS, foil, solar sails, continuous casting, rolling, grinding, servo actuators, etc.</li>
 <li><strong>2 technologies</strong> TRL 4-5 (self-replication, cryogenic Al cable) — subsystems proven, integration in progress</li>
 <li><strong>None</strong> of the technologies are fundamentally new — all are based on existing physical principles and industrial processes</li>
 <li><strong>Sources:</strong> USA, China, Japan, Europe (ESA, UK, Netherlands, Germany), Australia, Korea, India, Russia</li>
@@ -1026,10 +1081,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>16</td>
-<td>Si₃N₄ Ceramic Cutters</td>
-<td>8-9</td>
+<td>Al₂O₃ Corundum Abrasives</td>
+<td>9</td>
 <td>Industrial standard</td>
-<td>🇸🇪 Sandvik, 🇺🇸 3M, 🇩🇪 CeramTec</td>
+<td>🇩🇪 3M, 🇺🇸 Norton, 🇨🇳 Saint-Gobain</td>
 </tr>
 </tbody>
 </table>
@@ -1055,16 +1110,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://en.wikipedia.org/wiki/Lights_out_(manufacturing)">FANUC</a></td>
+<td><a href="https://www.fanucamerica.com/solutions/applications/assembly-robots">FANUC</a></td>
 <td>Japan</td>
 <td>2001</td>
-<td>Robots build robots, 50 units/day, <strong>30 days without humans</strong></td>
+<td>Robots build robots, 50 units/day, <strong>30 days without humans</strong> (Oshino Complex)</td>
 </tr>
 <tr class="even">
-<td><a href="https://newatlas.com/robotics/xiaomi-dark-robotic-factory/">Xiaomi</a></td>
+<td><a href="https://www.mi.com/global/discover/article?id=5166">Xiaomi Smart Factory</a></td>
 <td>China</td>
-<td>2023</td>
-<td>81,000 m², 10M smartphones/year, <a href="https://www.trendforce.com/news/2024/07/09/news-featuring-mix-fold-4-xiaomis-smart-factory-opens-with-10-million-annual-flagship-smartphone-capacity/">1 unit/sec</a></td>
+<td>2024</td>
+<td>Beijing Changping: 860k ft², 10M smartphones/year, <a href="https://www.mi.com/global/discover/article?id=5166">Xiaomi HyperIMP</a> AI platform</td>
 </tr>
 <tr class="odd">
 <td>Foxconn</td>
@@ -1185,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tbody>
 </table>
 <p><strong>Characteristics:</strong> Operating temperature 300-350°C, <a href="https://www.basf.com/global/en/media/news-releases/2024/06/p-24-216"><strong>7,300 cycles</strong></a>, 20-year lifespan, &lt;1% degradation/year.</p>
-<p><strong>Ideal for Mercury:</strong> NaS requires heating to 300°C. On Mercury’s day side +400°C — <strong>free heating</strong>. In shadow (-180°C) heat from NaS helps robots operate. This is not a bug, it’s a feature.</p>
+<p><strong>Ideal for Mercury:</strong> NaS operates at 300-350°C. At Mercury’s pole (<a href="detailed/bootstrap.qmd">terminator zone</a>) the ambient is +50…+150°C — vacuum insulation and a built-in heater (~50 W) easily maintain operating temperature. Energy costs are lower than terrestrial equivalents (-20°C). During discharge, NaS self-heats (exothermic reaction).</p>
 <hr>
 </section>
 <section id="waam-wire-arc-additive-manufacturing" class="level3">
@@ -1252,9 +1307,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://news.cgtn.com/news/2025-12-25/China-sets-world-record-in-maglev-tech-with-700-km-h-in-2-seconds-1JoGe1RA7T2/p.html">China NUDT (Dec 2025)</a></td>
+<td><a href="https://www.nudt.edu.cn/english/News/b2d567c9c070440fb552277053077799.htm">China NUDT (Dec 2025)</a></td>
 <td><strong>700 km/h in 2 sec</strong></td>
-<td>400 m track, ton-class, <a href="https://www.scmp.com/news/china/science/article/3337735/chinas-record-smashing-maglev-achieves-0-700km/h-acceleration-less-2-seconds">superconducting</a></td>
+<td>400 m track, ton-class, official university release</td>
 </tr>
 <tr class="even">
 <td><a href="https://www.navair.navy.mil/product/Electromagnetic-Aircraft-Launch-System-EMALS">EMALS (US Navy)</a></td>
@@ -1419,7 +1474,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<p><strong>Conclusion:</strong> Mass automated production of servo actuators — TRL 9. Mercury adaptation requires vacuum modifications (MoS₂ lubrication, NaK hydraulics), but base kinematics are fully ready. Details: <a href="../../../en/science/detailed/robots/elements/actuators.html">Actuators and Hydraulics</a>.</p>
+<p><strong>Conclusion:</strong> Mass automated production of servo actuators — TRL 9. Mercury adaptation uses specialized drive types: cycloidal (Nabtesco-type, 100% local production) for power applications (wheels), direct-drive (NdFeB, magnet import) for precision joints, tendon drives for wrists. MoS₂ journal bushings instead of standard bearings, NaK hydraulics with O-FLEX metal seals. Details: <a href="../../../en/science/detailed/robots/elements/actuators.html">Actuators and Hydraulics</a>.</p>
 <hr>
 </section>
 </section>
@@ -1460,6 +1515,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="odd">
 <td><a href="https://ntrs.nasa.gov/citations/20240013999">NASA System Model</a></td>
+<td><strong>System Modeling of a Lunar MRE Plant</strong></td>
+<td>Nov 2024 Technical Report</td>
+</tr>
+<tr class="even">
+<td><a href="https://ntrs.nasa.gov/citations/20240013999">NASA System Model</a></td>
 <td>~1 ton unit → 10 tons O₂/year</td>
 <td>Nov 2024</td>
 </tr>
@@ -1467,8 +1527,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </table>
 <p><strong>TRL:</strong> <em>“Both Carbothermal Reduction and Molten Regolith Electrolysis have demonstrated operation under simulated lunar environmental conditions to <strong>TRL 5/6</strong>.”</em> — <a href="https://ntrs.nasa.gov/citations/20250003730">NASA ISRU Progress Review 2025</a></p>
 <p><strong>Note:</strong> NASA’s TRL 5/6 rating covers MRE as a category, including early-stage projects (Lunar Resources — TRL 4→5). Blue Origin passed <a href="https://www.blueorigin.com/news/blue-alchemist-hits-major-milestone-toward-permanent-sustainable-lunar-infrastructure">CDR in September 2025</a> — per <a href="https://ntrs.nasa.gov/api/citations/20205003605/downloads/%20SP-20205003605%20TRA%20BP%20Guide%20FINAL.pdf">NASA standards</a>, CDR corresponds to ≥TRL 6. The summary table reflects the most mature implementation.</p>
-<p><strong>Principle:</strong> Regolith melts at ~1600°C, electric current separates oxides into oxygen (anode) and metals (cathode): Fe, Si, Al, Ti. Requires no reagents or additives from Earth.</p>
-<hr>
+<p><strong>Principle:</strong> Regolith melts at ~1600°C, electric current separates oxides into oxygen (anode) and metals (cathode): Fe, Si, Al, Ti. Requires no reagents or additives from Earth. ***</p>
 </section>
 <section id="microwave-power-transmission" class="level3">
 <h3 class="anchored" data-anchor-id="microwave-power-transmission">Microwave Power Transmission</h3>
@@ -1484,9 +1543,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://www.caltech.edu/about/news/in-a-first-caltechs-space-solar-power-demonstrator-wirelessly-transmits-power-in-space">Caltech SSPP/MAPLE</a></td>
-<td><strong>First ever</strong> <a href="https://spectrum.ieee.org/space-based-solar-power">power transmission from space to Earth</a></td>
-<td>May 2023</td>
+<td><a href="https://arxiv.org/abs/2402.10839">Caltech SSPP/MAPLE</a></td>
+<td><strong>Wireless Power Transfer in Space</strong> (arXiv:2402.10839)</td>
+<td>Feb 2024 Paper</td>
 </tr>
 <tr class="even">
 <td>NTT + MHI (Japan)</td>
@@ -1610,7 +1669,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Nearest Analogues:</strong> - FANUC: robots build robots (50 units/day, 30 days without humans) - Semiconductor fabs produce lithographic equipment for new fabs - Tesla Gigafactory: contains equipment for producing equipment</p>
 <p><strong>Key Clarification:</strong> This is NOT replication in the Von Neumann sense. This is serial automated construction of standard modules. Dome, furnaces, rolling mill — all standard metallurgical equipment.</p>
 <p><strong>Critical Question:</strong> What % of factory equipment is produced on-site? Answer: ~99.95% by mass. “Vitamins” (chips, sensors, iridium) — &lt;0.05%.</p>
-<p><strong>TRL 4-5 Justification:</strong> All subsystems (dark factories, CNC, WAAM, induction furnaces, robots) are at TRL 9. In 2025-2026, industry is shifting to agentic autonomy — factories as integrated systems (Xiaomi: 100% automation, FANUC: 6,000+ robots/month without humans). Self-replication is an integration task of proven subsystems into one cycle, not creation of new technologies.</p>
+<p><strong>TRL 4-5 Justification:</strong> All subsystems (dark factories, grinding, WAAM, induction furnaces, robots) are at TRL 9. In 2025-2026, industry is shifting to agentic autonomy — factories as integrated systems (Xiaomi: 100% automation, FANUC: 6,000+ robots/month without humans). Self-replication is an integration task of proven subsystems into one cycle, not creation of new technologies.</p>
 <hr>
 </section>
 <section id="coordination-of-1-billion-mirror-swarm" class="level3">
@@ -2098,6 +2157,154 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>KARI</td>
 <td>Korea</td>
 <td>Lunar program, satellites</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="electronics-international-pricing-2026" class="level2">
+<h2 class="anchored" data-anchor-id="electronics-international-pricing-2026">Electronics: International Pricing (2026)</h2>
+<section id="lidar-sensors" class="level3">
+<h3 class="anchored" data-anchor-id="lidar-sensors">LiDAR Sensors</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Product</th>
+<th>Country</th>
+<th>Price</th>
+<th>Weight</th>
+<th>$/kg</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Livox Mid-360</td>
+<td>🇨🇳 China</td>
+<td>$599</td>
+<td>265g</td>
+<td><strong>$2,260/kg</strong></td>
+<td><a href="https://www.livoxtech.com/mid-360">Livox</a></td>
+</tr>
+<tr class="even">
+<td>Velodyne VLP-16</td>
+<td>🇺🇸 USA</td>
+<td>$4,000</td>
+<td>830g</td>
+<td>$4,800/kg</td>
+<td><a href="https://www.geoweeknews.com/news/velodyne-cuts-vlp-16-lidar-price-4k">GeoWeekNews</a></td>
+</tr>
+<tr class="odd">
+<td>Ouster OS1-128</td>
+<td>🇺🇸 USA</td>
+<td>$18,000</td>
+<td>482g</td>
+<td>$37,000/kg</td>
+<td><a href="https://ouster.com/products/hardware/os1-lidar-sensor">Ouster</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> Chinese LiDAR (Livox) is <strong>2x cheaper</strong> than American (Velodyne).</p>
+</section>
+<section id="industrial-robots" class="level3">
+<h3 class="anchored" data-anchor-id="industrial-robots">Industrial Robots</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Manufacturer</th>
+<th>Country</th>
+<th>Price</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SIASUN, ESTUN</td>
+<td>🇨🇳 China</td>
+<td><strong>20-35% cheaper</strong> than Western</td>
+<td><a href="https://tadviser.com/index.php/Article:Robotics_(Russian_market)">TAdviser</a>, <a href="https://www.made-in-china.com/products-search/hot-china-products/Industrial_Robot_Price.html">Made-in-China</a></td>
+</tr>
+<tr class="even">
+<td>Boston Dynamics Spot</td>
+<td>🇺🇸 USA</td>
+<td>$74.5K / 32.7kg = $2,280/kg</td>
+<td><a href="https://spectrum.ieee.org/boston-dynamics-spot-robot-dog-now-available">IEEE Spectrum</a></td>
+</tr>
+<tr class="odd">
+<td>Promobot</td>
+<td>🇷🇺 Russia</td>
+<td>&lt;$30K service robot</td>
+<td><a href="https://promo-bot.ai/">Promobot</a>, <a href="https://realnoevremya.com/articles/2782-interview-with-head-of-promobot-oleg-kivokurtsev">RealnoevRemya</a></td>
+</tr>
+<tr class="even">
+<td>Tata/Mahindra</td>
+<td>🇮🇳 India</td>
+<td>market +8.8% CAGR</td>
+<td><a href="https://www.imarcgroup.com/india-industrial-automation-sensors-market">IMARC</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="power-electronics-igbtmosfet" class="level3">
+<h3 class="anchored" data-anchor-id="power-electronics-igbtmosfet">Power Electronics (IGBT/MOSFET)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Manufacturer</th>
+<th>Country</th>
+<th>Specialization</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Infineon</td>
+<td>🇩🇪 Germany</td>
+<td>IGBT modules</td>
+<td><a href="https://www.infineon.com/products/power/igbt/igbt-modules">Infineon</a></td>
+</tr>
+<tr class="even">
+<td>Semikron Danfoss</td>
+<td>🇩🇪 Germany</td>
+<td>Power modules</td>
+<td><a href="https://www.semikron-danfoss.com/products/power-modules">Semikron</a></td>
+</tr>
+<tr class="odd">
+<td>SemiHow</td>
+<td>🇰🇷 Korea</td>
+<td>Samsung partner</td>
+<td><a href="https://www.semihow.com/">SemiHow</a></td>
+</tr>
+<tr class="even">
+<td>StarPower</td>
+<td>🇨🇳 China</td>
+<td>IGBT/MOSFET</td>
+<td>Industry standard</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rare-materials" class="level3">
+<h3 class="anchored" data-anchor-id="rare-materials">Rare Materials</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Material</th>
+<th>Price 2026</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Iridium</td>
+<td>$150-250K/kg</td>
+<td><a href="https://strategicmetalsinvest.com/iridium-prices/">Strategic Metals</a>, 🇧🇪 <a href="https://pmm.umicore.com/en/prices/iridium/">Umicore</a></td>
+</tr>
+<tr class="even">
+<td>Rad-hard FPGA</td>
+<td>$5-15K/kg</td>
+<td>🇺🇸 <a href="https://nepp.nasa.gov/nepag/info/parts_costs/part_cost_paper.pdf">NASA NEPAG</a></td>
 </tr>
 </tbody>
 </table>

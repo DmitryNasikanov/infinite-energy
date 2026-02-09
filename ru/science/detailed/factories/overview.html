@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -303,11 +304,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Fix sidebar active state for EN pages (after link rewriting)
+  if (currentLang === 'en') {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll(
+      '#quarto-sidebar .sidebar-item-text.sidebar-link[href]'
+    );
+    let activeLink = null;
+    for (const link of sidebarLinks) {
+      if (new URL(link.href).pathname === currentPath) {
+        activeLink = link;
+        break;
+      }
+    }
+    if (activeLink) {
+      activeLink.classList.add('active');
+      let section = activeLink.closest('ul.sidebar-section');
+      while (section) {
+        section.classList.add('show');
+        const item = section.closest('li.sidebar-item-section');
+        if (item) {
+          item.querySelectorAll(
+            ':scope > .sidebar-item-container > [data-bs-toggle="collapse"]'
+          ).forEach(t => {
+            t.classList.remove('collapsed');
+            t.setAttribute('aria-expanded', 'true');
+          });
+        }
+        section = item ? item.parentElement.closest('ul.sidebar-section') : null;
+      }
+    }
+  }
+
+  // Add hreflang alternate links for SEO
+  const basePath = getBasePath();
+  const path = window.location.pathname;
+  const otherLang = currentLang === 'ru' ? 'en' : 'ru';
+  const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
+  const altPath = path.replace(langPattern, `$1/${otherLang}/`);
+  const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+
+  const linkRu = document.createElement('link');
+  linkRu.rel = 'alternate';
+  linkRu.hreflang = 'ru';
+  linkRu.href = siteUrl + (currentLang === 'ru' ? path : altPath);
+  document.head.appendChild(linkRu);
+
+  const linkEn = document.createElement('link');
+  linkEn.rel = 'alternate';
+  linkEn.hreflang = 'en';
+  linkEn.href = siteUrl + (currentLang === 'en' ? path : altPath);
+  document.head.appendChild(linkEn);
+
 });
 </script>
 
 
 <link rel="stylesheet" href="../../../../ru/science/data/widgets.css">
+<meta property="og:title" content="Производство заводов – Проект Гелиос">
+<meta property="og:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta property="og:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/images/og-preview.png">
+<meta property="og:site_name" content="Проект Гелиос">
+<meta name="twitter:title" content="Производство заводов – Проект Гелиос">
+<meta name="twitter:description" content="Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix.">
+<meta name="twitter:image" content="https://DmitryNasikanov.github.io/infinite-energy/ru/science/detailed/factories/images/og-preview.png">
+<meta name="twitter:creator" content="@DmitryNas">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -340,6 +403,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DmitryNasikanov/infinite-energy"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">🌐</span>
@@ -433,12 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/summaries/delivery.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Доставка</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/summaries/moon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Луна</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,19 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../ru/science/detailed/railguns/overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Производство МД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Теория и КПД</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../ru/science/detailed/railguns/scaling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Масштабирование</span></a>
+ <span class="menu-text">Масс-драйвер</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -876,7 +926,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Бережливое производство:</strong> Склад снаружи (вакуум), внутри только JIT-буфер</li>
 <li><strong>Производительность:</strong> Саморепликация 1 → ~1650 заводов за ~4 года (узкое место: доставка <a href="../../../../ru/science/reference/glossary.html#витамины">витаминов</a>)</li>
 <li><strong>Размер:</strong> Купол ~1500 м² (~50×30 м), высота 6-8 м, атмосфера 0.1 атм O₂</li>
-<li><strong>Материалы:</strong> 600 т реголита/день → 42 т Al + 18 т Fe + 25 т Si</li>
+<li><strong>Материалы:</strong> 600 т реголита/день → 42 т Al + ~11 т Fe-Mn сталь + 25 т Si</li>
 </ul>
 </blockquote>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -898,6 +948,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="концепция-саморепликации">Концепция саморепликации</h2>
 <p>Завод «Точка Ноль» — первый саморепликирующийся завод на Меркурии. Его задача — строить новые заводы из местных материалов, используя роботов и энергию от Солнца.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Параметр</th>
@@ -927,11 +981,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 <tr class="even">
 <td>Потребляемая мощность (завод)</td>
-<td>5 МВт (пиковая)</td>
+<td>~124 МВт (114 МВт электр. + 10 МВт тепл.)</td>
 </tr>
 <tr class="odd">
-<td>Доступная энергия (3 рейса GaAs)</td>
-<td>168 МВт (запас 113 МВт)</td>
+<td>Доступная энергия (CPV-система ~10,5 т)</td>
+<td>~151 МВт (запас ~27 МВт без масс-драйвера)</td>
 </tr>
 </tbody>
 </table>
@@ -941,7 +995,7 @@ document.addEventListener('DOMContentLoaded', function() {
 Заводы №0-3 → строят Заводы №4-7
 ...
 → 1 завод → ~1650 заводов за ~4 года (практически, из-за доставки витаминов)</code></pre>
-<p><strong>Первая экспедиция:</strong> ~67 тонн с Земли (включая 5.25 т панелей GaAs), сборка за 7 дней.</p>
+<p><strong>Первая экспедиция:</strong> ~72 тонны с Земли (включая ~10,5 т CPV-системы), сборка за 7 дней.</p>
 <p><strong>Подробнее:</strong> <a href="../../../../ru/science/detailed/bootstrap.html">Сборка первого завода (Bootstrap)</a> | <a href="../../../../ru/science/summaries/roadmap.html">Дорожная карта</a></p>
 <hr>
 </section>
@@ -1026,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         subgraph FORMING["Формовка (200 м²)"]
             WAAM["WAAM 3D-печать"]
-            CNC["CNC 5-осевой"]
+            GRIND["Шлифовальная ячейка"]
         end
 
         subgraph ROBOTS["Сборка роботов (250 м²)"]
@@ -1049,8 +1103,8 @@ document.addEventListener('DOMContentLoaded', function() {
     MHD --&gt; TUNDISH
     TUNDISH --&gt; MNLZ_AL &amp; MNLZ_FE
     MNLZ_FE --&gt; FURNACE --&gt; MILL
-    MILL --&gt; WIRE --&gt; WAAM --&gt; CNC
-    CNC --&gt; STAP_R &amp; STAP_E
+    MILL --&gt; WIRE --&gt; WAAM --&gt; GRIND
+    GRIND --&gt; STAP_R &amp; STAP_E
     LOCK --&gt; BUFFER
     BUFFER --&gt; CUT --&gt; WELD
     STAP_R --&gt; TEST_R --&gt; LOCK
@@ -1094,7 +1148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Проволока Ø1.6 мм для WAAM</td>
 </tr>
 <tr class="even">
-<td>Формовка (WAAM + CNC)</td>
+<td>Формовка (WAAM + шлифовка)</td>
 <td>~200 м²</td>
 <td>Детали роботов, оборудования, МД</td>
 </tr>
@@ -1216,7 +1270,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr class="odd">
 <td>Сборка зеркал</td>
 <td>~600 м²</td>
-<td>Z-fold конвейер, ~400 шт/день</td>
+<td>Z-fold конвейер, ~350 шт/день</td>
 </tr>
 <tr class="even">
 <td>Контроль + упаковка</td>
@@ -1316,8 +1370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Зеркала, корпуса роботов, проводники</td>
 </tr>
 <tr class="even">
-<td>Железо (Fe)</td>
-<td>18 т/день</td>
+<td>Железо (Fe-Mn сталь)</td>
+<td>~11 т/день</td>
 <td>Рамы роботов, рельсы МД, каркас купола</td>
 </tr>
 <tr class="odd">
@@ -1326,7 +1380,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>Солнечные панели, стекловолокно</td>
 </tr>
 <tr class="even">
-<td>Титан (Ti)</td>
+<td>Диоксид титана (TiO₂)</td>
 <td>3 т/день</td>
 <td>Электрохромика зеркал</td>
 </tr>
@@ -1450,8 +1504,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><strong>Саморепликация</strong> — координация постройки нового завода → <a href="../../../../ru/science/detailed/factories/assembly/replication.html">Подробнее</a></li>
 </ul>
 </section>
-<section id="ф-з-зеркала-400день" class="level4">
-<h4 class="anchored" data-anchor-id="ф-з-зеркала-400день">Ф-З: Зеркала (~400/день)</h4>
+<section id="ф-з-зеркала-350день" class="level4">
+<h4 class="anchored" data-anchor-id="ф-з-зеркала-350день">Ф-З: Зеркала (~350/день)</h4>
 <ul>
 <li><strong>Зеркала</strong> — Z-fold солнечные отражатели для масс-драйвера</li>
 </ul>
@@ -1511,6 +1565,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <section id="энергопотребление" class="level2">
 <h2 class="anchored" data-anchor-id="энергопотребление">Энергопотребление</h2>
+<p>Энергия делится на <strong>тепловую</strong> (солнечные концентраторы) и <strong>электрическую</strong> (фотоэлектрические панели):</p>
+<p><strong>Тепловая энергия (солнечные концентраторы):</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1521,9 +1577,26 @@ document.addEventListener('DOMContentLoaded', function() {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Плавка и литьё (солнечные печи)</td>
-<td>10 МВт</td>
-<td>10 МВт</td>
+<td>Солнечные печи (плавка реголита, MRE)</td>
+<td>10 МВт(т)</td>
+<td>10 МВт(т)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Электрическая энергия (GaAs панели):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Потребитель</th>
+<th>Ф-Р</th>
+<th>Ф-З</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MRE-электролиз (60 ячеек × 1,8 МВт)</strong></td>
+<td><strong>108 МВт</strong></td>
+<td><strong>108 МВт</strong></td>
 </tr>
 <tr class="even">
 <td>Прокатный стан / фольга</td>
@@ -1531,8 +1604,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>3 МВт</td>
 </tr>
 <tr class="odd">
-<td>WAAM + CNC</td>
-<td>1 МВт</td>
+<td>WAAM + шлифовка</td>
+<td>0.05 МВт</td>
 <td>—</td>
 </tr>
 <tr class="even">
@@ -1561,14 +1634,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>2 МВт</td>
 </tr>
 <tr class="odd">
-<td><strong>ИТОГО</strong></td>
-<td><strong>~16 МВт</strong></td>
-<td><strong>~16 МВт</strong></td>
+<td><strong>Электрическое ИТОГО</strong></td>
+<td><strong>~114 МВт(э)</strong></td>
+<td><strong>~114 МВт(э)</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Доступная энергия:</strong> 168 МВт (3 рейса GaAs панелей с Земли)</p>
-<p><strong>Запас:</strong> 152 МВт — резерв для параллельной работы нескольких заводов</p>
+<blockquote class="blockquote">
+<p><strong>Примечание:</strong> Солнечные печи используют концентрированный солнечный свет напрямую (без преобразования в электричество). При солнечном потоке ~9,3 кВт/м² на Меркурии концентратор ~1000 м² обеспечивает ~10 МВт тепловой энергии. MRE-электролиз — главный потребитель электричества (~108 МВт, <a href="../../../../ru/science/detailed/materials/mre.html">обоснование по закону Фарадея</a>). Электрические потребители питаются от GaAs фотопанелей.</p>
+</blockquote>
+<p><strong>Доступная электроэнергия:</strong> ~151 МВт (CPV-система ~10,5 т: концентраторы Kapton+Al + GaAs ячейки)</p>
+<p><strong>Запас над заводом (без масс-драйвера):</strong> ~27 МВт. Масс-драйвер (~39 МВт) запускается после развёртывания первых Si-панелей местного производства.</p>
 <p><strong>Подробнее:</strong> <a href="../../../../ru/science/summaries/production.html#энергетика">Производство</a></p>
 <hr>
 </section>
