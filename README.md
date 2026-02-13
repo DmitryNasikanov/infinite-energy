@@ -4,7 +4,7 @@
 
 Not a Dyson sphere. Not fusion. Just mirrors, robots, and a lot of aluminum.
 
-**[Read online](https://DmitryNasikanov.github.io/infinite-energy/)** (novel + full technical documentation)
+**[Read online](https://infinite-energy.space)** (novel + full technical documentation)
 
 ## Key Numbers
 
@@ -15,7 +15,7 @@ Not a Dyson sphere. Not fusion. Just mirrors, robots, and a lot of aluminum.
 | Power delivered to Earth | 1 PW (50x world consumption) |
 | Factories on Mercury | 1,650 |
 | Mass drivers | 1,000 |
-| Import from Earth | ~100,000 tonnes (total) |
+| Import from Earth | ~2,660 tonnes (total) |
 | Construction time | ~10 years |
 | Budget estimate | $350-930B (depending on scenario) |
 
@@ -49,4 +49,4 @@ Dmitry Nasikanov — father of three, writer, believer in progress.
 
 ## License
 
-All rights reserved.
+[CC BY-SA 4.0](LICENSE) — Creative Commons Attribution-ShareAlike 4.0 International
