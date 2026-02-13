@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: _output
+  resources: ["CNAME"]
   pre-render: scripts/ensure-data-symlinks.sh
   post-render: scripts/copy-data-to-output.sh
   render:
@@ -293,7 +294,7 @@ format:
           const escaped = basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
           const langPattern = new RegExp(`^(${escaped})/(ru|en)/`);
           const altPath = path.replace(langPattern, `$1/${otherLang}/`);
-          const siteUrl = 'https://DmitryNasikanov.github.io/infinite-energy';
+          const siteUrl = 'https://infinite-energy.space';
 
           const linkRu = document.createElement('link');
           linkRu.rel = 'alternate';
@@ -311,7 +312,7 @@ format:
         </script>
 
 website:
-  site-url: "https://DmitryNasikanov.github.io/infinite-energy"
+  site-url: "https://infinite-energy.space"
   title: "Проект Гелиос"
   description: "Engineering roadmap for a Dyson Swarm built from Mercury — 1.1 billion mirrors, 21 petawatts to Earth. Hard sci-fi novel + complete engineering appendix."
   image: "images/og-preview.png"
